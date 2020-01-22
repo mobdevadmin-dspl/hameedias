@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+
+        <com.datamation.swdsfa.utils.CustomizeFont
+            android:id="@+id/row_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="3"
+            android:gravity="left"
+            android:paddingLeft="20dp"
+            android:textAllCaps="true"
+            android:textColor="@color/blue_c"
+            android:textSize="14sp"
+            android:text="item"/>
+
+        <com.datamation.swdsfa.utils.CustomizeFont
+            android:id="@+id/row_qty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/blue_c"
+            android:textSize="14sp"
+            android:text="qty"/>
+
+        <com.datamation.swdsfa.utils.CustomizeFont
+            android:id="@+id/row_reason"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.5"
+            android:gravity="right"
+            android:paddingRight="20dp"
+            android:text="Reason"
+            android:textAllCaps="true"
+            android:textColor="@color/blue_c"
+            android:textSize="14sp" />
+
+</LinearLayout>

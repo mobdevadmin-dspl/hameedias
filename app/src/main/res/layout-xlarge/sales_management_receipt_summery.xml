@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+
+    <LinearLayout
+        android:id="@+id/Relative_layer_heading_recept_sumary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/unselected"
+        android:gravity="top|center">
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:shadowColor="@android:color/darker_gray"
+            android:text="SUMMARY"
+            android:textColor="@color/greenColor"
+            android:textAllCaps="true"
+            android:textSize="28sp"
+            />
+    </LinearLayout>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/Relative_layer_heading_recept_sumary"
+        android:padding="15dp"
+        app:cardBackgroundColor="@color/btn_colour"
+        app:cardCornerRadius="10dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center"
+                android:padding="5dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_textbox"
+                    android:padding="15dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="RECEIPT AMT (Rs) : "
+                        android:textColor="@color/greenColor"
+                        android:textSize="14sp"
+                        />
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:id="@+id/lblRecAmt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="5dp"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_textbox"
+                    android:padding="15dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="PAY MODE : "
+                        android:textColor="@color/greenColor"
+                        android:textSize="14sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/lblPayMode"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="5dp"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_textbox"
+                    android:padding="15dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:id="@+id/textNo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="CHEQUE NO : "
+                        android:textColor="@color/greenColor"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lblCHQNo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="5dp"
+                        android:text="N/A"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_textbox"
+                    android:padding="15dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:id="@+id/textBank"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="BANK - BRANCH: "
+                        android:textColor="@color/greenColor"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lblBank"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="5dp"
+                        android:text="N/A"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="11">
+
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="REF NO"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="14sp"
+            />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="TXN DATE"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="14sp" />
+
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/repName"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="REP"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="14sp" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="DD"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="14sp" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2.5"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="DUE AMT"
+            android:textColor="@color/unselected"
+            android:textSize="14sp" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dp"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="PAID"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="14sp"/>
+
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/days"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="DAYS"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_fddbnote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_menu"
+        fab:fab_shadowColor="#66000000"
+        fab:fab_showShadow="true"
+        fab:menu_backgroundColor="#ccffffff"
+        fab:menu_fab_label="Choose an action"
+        fab:menu_icon="@android:drawable/ic_dialog_dialer"
+        fab:menu_labels_colorNormal="#333333"
+        fab:menu_labels_colorPressed="#444444"
+        fab:menu_labels_colorRipple="#66FFFFFF"
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_maxLines="-1"
+        fab:menu_labels_position="left"
+        fab:menu_labels_showShadow="true"
+        fab:menu_labels_singleLine="true"
+        fab:menu_openDirection="up"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab1"
+            fab:fab_label="Save"
+            fab:fab_size="mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_save" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab2"
+            fab:fab_label="Pause"
+            fab:fab_size="mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_set_as" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab3"
+            fab:fab_label="Discard"
+            fab:fab_size="mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_delete" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</LinearLayout>

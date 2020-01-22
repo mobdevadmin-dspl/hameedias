@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/row_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:weightSum="11"
+        android:orientation="horizontal" >
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/row_refno"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="RefNo"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/blueColor"
+            android:textSize="@dimen/customer_listview_text_size2" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/row_txndate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2.0"
+            android:gravity="center"
+            android:text="Date"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/customer_listview_text_size2" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/row_dueAmt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2.0"
+            android:gravity="right"
+            android:text="Due amt"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/customer_listview_text_size2" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/row_Amt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2.0"
+            android:gravity="right"
+            android:text="0.00"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/customer_listview_text_size2" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/days"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2.0"
+            android:gravity="center"
+            android:text="Days"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/customer_listview_text_size2" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:padding="2dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginTop="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="REF NO      "
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/et_RefNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:text="N/A"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@android:color/black"
+                        />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="DATE                "
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all"
+                        android:textAllCaps="true"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/et_fdDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:editable="false"
+                        android:text="0"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/black"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    >
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="DUE AMT  "
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all" />
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/et_dueAmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:text="0.00"
+                        android:textColor="@android:color/black"></EditText>
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingRight="10dp"
+                        android:text="ENTER AMT   "
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/et_enterAmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:ems="10"
+                        android:inputType="numberDecimal"
+                        android:layout_weight="1"
+                        android:selectAllOnFocus="true"
+                        android:text="0.00">
+
+                    </EditText>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    >
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="BAL AMT   "
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/et_BalAmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:text="0.00"
+                        android:textColor="@android:color/black"></EditText>
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingRight="10dp"
+                        android:text="REMNANT      "
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/et_Remnant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:ems="10"
+                        android:inputType="numberDecimal"
+                        android:layout_weight="1"
+                        android:selectAllOnFocus="true"
+                        android:text="0.00">
+
+                    </TextView>
+                </LinearLayout>
+
+                <!-- <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp" >
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="DISCOUNT"
+                        android:textColor="@color/greenColor"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/lblTotalDisc"
+                        android:layout_width="500dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_label"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:gravity="right"
+                        android:text="0.00"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" >
+                    </TextView>
+                </TableRow> -->
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:padding="2dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="REMARK    "
+                        android:layout_marginLeft="10dp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/et_Remark"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        ></EditText>
+                </LinearLayout>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:paddingBottom="5dp" >
+
+                    <Button
+                        android:id="@+id/btn_add"
+                        android:layout_width="270dp"
+                        android:layout_height="45dp"
+                        android:enabled="false"
+                        android:text="UPDATE"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:theme="@style/AppTheme.Button" />
+
+                    <Button
+                        android:id="@+id/btnCancel"
+                        android:layout_width="270dp"
+                        android:layout_height="45dp"
+                        android:enabled="false"
+                        android:text="CANCEL"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:theme="@style/AppTheme.Button" />
+
+                </TableRow>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:weightSum="11"
+        android:orientation="horizontal" >
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="REF NO"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="14sp"
+            />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="TXN DATE"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="14sp" />
+
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/repName"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="REP"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="14sp" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="DD"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="14sp" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2.5"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="DUE AMT"
+            android:textColor="@color/unselected"
+            android:textSize="14sp" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dp"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="PAID"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="14sp"/>
+
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/days"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="DAYS"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_order_det"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+</LinearLayout>

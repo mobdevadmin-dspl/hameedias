@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TableRow
+                    android:layout_marginTop="15dp"
+                    android:padding="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="RETURN TYPE"
+                        android:layout_marginLeft="10dp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_size_intermed"
+                        android:visibility="visible" />
+
+                    <Spinner
+                        android:id="@+id/spinner_return_Type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_textbox"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"></Spinner>
+
+
+                </TableRow>
+
+                <TableRow
+
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="REASON"
+                        android:layout_marginLeft="10dp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/et_reason"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:editable="false"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"></EditText>
+
+                    <Button
+                        android:id="@+id/btn_reason_search"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="3dp"
+                        android:background="@drawable/search_button" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="PRODUCT"
+                        android:layout_marginLeft="10dp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/et_item"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:editable="false"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"></EditText>
+
+                    <Button
+                        android:id="@+id/btn_item_search"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="3dp"
+                        android:background="@drawable/search_button" />
+                </TableRow>
+
+                <TableRow
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="QTY        "
+                        android:layout_marginLeft="10dp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/tv_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:gravity="right"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/black"
+                        android:inputType="number"
+                        />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="PRICE   "
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tv_price"
+                        android:layout_width="210dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:layout_marginRight="25dp"
+                        android:gravity="right"
+                        android:text="0.00"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/black" />
+                </TableRow>
+
+                <TableRow
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="5dp"
+                    android:paddingTop="5dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="QTY           "
+                        android:layout_marginLeft="10dp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/et_pieces"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:gravity="right"
+                        android:inputType="number"
+                        android:selectAllOnFocus="true"
+                        android:layout_weight="1"
+                        android:text="0">
+
+                    </EditText>
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+                        android:text="DISC   "
+                        android:layout_marginLeft="10dp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greenColor"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/et_TotalDisc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:ems="10"
+                        android:gravity="right"
+                        android:layout_weight="1"
+                        android:inputType="numberDecimal"
+                        android:selectAllOnFocus="true"
+                        android:text="0"></EditText>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:visibility="visible">
+
+                    <Button
+                        android:id="@+id/btn_add"
+                        android:theme="@style/AppTheme.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:text="ADD"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/btn_free"
+                        style="@style/btnStyleBeige"
+                        android:layout_width="140dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="FREE / DISC"
+                        android:visibility="gone" />
+                </TableRow>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:background="@color/unselected"
+        android:orientation="horizontal">
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="3"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="PRODUCT"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/unselected"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="QTY"
+            android:textColor="@color/unselected"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.5"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="REASON"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/unselected"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_pre_return_det"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/list_view_diveder"
+        android:dividerHeight="2dp"></ListView>
+
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/cancel"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Cancel" />
+
+    <item
+        android:id="@+id/print"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="Print" />
+
+    <item
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Re Order"
+        />
+
+</menu>

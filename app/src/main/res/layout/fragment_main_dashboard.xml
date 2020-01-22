@@ -1,0 +1,218 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.datamation.swdsfa.fragment.FragmentHome">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="2">
+        <LinearLayout
+            android:id="@+id/dashboard_ll_cards_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_weight="1"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="2dp"
+                card_view:cardPreventCornerOverlap="false"
+                card_view:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/dashboard_tv_card_this_month_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@color/theme_color"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="Today Target vs Achievement"/>
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/piechart"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="40dp"/>
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="2dp"
+                card_view:cardPreventCornerOverlap="false"
+                card_view:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/dashboard_tv_card_prev_month_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@color/theme_color"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="Today Visit Details" />
+
+
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:id="@+id/dashboard_hBarChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="40dp"/>
+
+
+
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/dashboard_l2_cards_container"
+            android:layout_below="@+id/dashboard_l1_cards_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+        <android.support.v7.widget.CardView
+            android:id="@+id/dashboard_header_card_today"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="2dp"
+            card_view:cardPreventCornerOverlap="false"
+            card_view:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_today_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@color/theme_color"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="Current Month Target vs Achievement" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_today_sync_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="10dp"
+                    android:gravity="center"/>
+
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barChart"
+                    android:layout_below="@+id/dashboard_tv_card_today_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="300dp" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+            <!--<android.support.v7.widget.CardView-->
+                <!--android:id="@+id/dashboard_header_card_today_invoice"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="16dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_marginRight="16dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--card_view:cardCornerRadius="4dp"-->
+                <!--card_view:cardElevation="2dp"-->
+                <!--card_view:cardPreventCornerOverlap="false"-->
+                <!--card_view:cardUseCompatPadding="true">-->
+
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingBottom="10dp">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_today_header_invoice"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="35dp"-->
+                        <!--android:background="@color/theme_color"-->
+                        <!--android:gravity="center_vertical"-->
+                        <!--android:paddingLeft="16dp"-->
+                        <!--android:textStyle="bold"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:text="Current Month Target vs Achievement(INVOICES)" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_today_sync_time_invoice"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="35dp"-->
+                        <!--android:text=""-->
+                        <!--android:textSize="12sp"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:gravity="center"/>-->
+
+
+                    <!--<com.github.mikephil.charting.charts.BarChart-->
+                        <!--android:id="@+id/barChart_invoice"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_today_header_invoice"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="300dp" />-->
+
+                <!--</RelativeLayout>-->
+
+            <!--</android.support.v7.widget.CardView>-->
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

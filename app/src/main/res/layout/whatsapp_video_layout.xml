@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/rounded_bg"
+    android:orientation="vertical">
+
+
+    <com.datamation.swdsfa.utils.CustomFont
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="15dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:text="Video List" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#dcdcdc"></View>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/video_layout"
+            android:layout_marginLeft="@dimen/fragment_tool_top_margin">
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.datamation.swdsfa.utils.CustomBtn
+        android:layout_width="match_parent"
+        android:id="@+id/got_it"
+        android:background="@drawable/bottom_button_bg"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:text="GOT IT"
+        android:layout_marginTop="10dp"/>
+
+
+</LinearLayout>

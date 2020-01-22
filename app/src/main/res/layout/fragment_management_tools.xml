@@ -1,0 +1,346 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/layoutTool"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/finac_dashboard_single_line_outer_height"
+                android:layout_marginLeft="@dimen/tour_spinner_top_margin"
+                android:layout_marginRight="@dimen/tour_spinner_top_margin"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_marginTop="@dimen/fragment_tool_top_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imgTourInfo"
+                        android:layout_width="@dimen/finac_dashboard_image_height"
+                        android:layout_height="@dimen/finac_dashboard_image_height"
+                        android:src="@drawable/circle_ic_tour" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TOUR INFO"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="@dimen/finac_dashboard_icon_text_size"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imgDayExp"
+                        android:layout_width="@dimen/finac_dashboard_image_height"
+                        android:layout_height="@dimen/finac_dashboard_image_height"
+                        android:src="@drawable/circle_ic_market_share"/>
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DAY EXPENSE"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="@dimen/finac_dashboard_icon_text_size"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imgSalrep"
+                        android:layout_width="@dimen/finac_dashboard_image_height"
+                        android:layout_height="@dimen/finac_dashboard_image_height"
+                        android:src="@drawable/circle_ic_salesman" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SALES EXEC"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="@dimen/finac_dashboard_icon_text_size"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/tour_spinner_top_margin"
+                android:layout_marginRight="@dimen/tour_spinner_top_margin"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/fragment_tool_top_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/finac_dashboard_single_line_outer_height"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imgStockInquiry"
+                            android:layout_width="@dimen/finac_dashboard_image_height"
+                            android:layout_height="@dimen/finac_dashboard_image_height"
+                            android:src="@drawable/circle_ic_stock"/>
+
+                        <com.datamation.swdsfa.utils.CustomFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="STOCK INQUIRY"
+                            android:textAlignment="center"
+                            android:textColor="#000"
+                            android:textSize="@dimen/finac_dashboard_icon_text_size"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imgDownload"
+                            android:layout_width="@dimen/finac_dashboard_image_height"
+                            android:layout_height="@dimen/finac_dashboard_image_height"
+                            android:src="@drawable/circle_ic_download_new"/>
+
+                        <com.datamation.swdsfa.utils.CustomFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="CATEGORY WISE DOWNLOAD"
+                            android:textAlignment="center"
+                            android:textColor="#000"
+                            android:textSize="@dimen/finac_dashboard_icon_text_size"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imgSqlite"
+                            android:layout_width="@dimen/finac_dashboard_image_height"
+                            android:layout_height="@dimen/finac_dashboard_image_height"
+                            android:src="@drawable/circle_ic_database"/>
+
+                        <com.datamation.swdsfa.utils.CustomFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DATABASE"
+                            android:textAlignment="center"
+                            android:textColor="#000"
+                            android:textSize="@dimen/finac_dashboard_icon_text_size"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/finac_dashboard_single_line_outer_height"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:layout_marginTop="@dimen/fragment_tool_top_margin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/imgPrinter"
+                            android:layout_width="@dimen/finac_dashboard_image_height"
+                            android:layout_height="@dimen/finac_dashboard_image_height"
+                            android:src="@drawable/circle_ic_printer"/>
+
+                        <com.datamation.swdsfa.utils.CustomFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PRINTER"
+                            android:textAlignment="center"
+                            android:textColor="#000"
+                            android:textSize="@dimen/finac_dashboard_icon_text_size"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
+                        android:layout_weight="1.5"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="@dimen/fragment_tool_left_margin">
+
+                        <ImageView
+                            android:id="@+id/imgSync"
+                            android:layout_width="@dimen/finac_dashboard_image_height"
+                            android:layout_height="@dimen/finac_dashboard_image_height"
+                            android:src="@drawable/cirle_ic_sync_new" />
+
+
+                        <com.datamation.swdsfa.utils.CustomFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SYNCHRONIZE"
+                            android:textAlignment="center"
+                            android:textColor="#000"
+                            android:textSize="@dimen/finac_dashboard_icon_text_size"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
+                        android:layout_weight="1.5"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical"
+                        android:layout_marginRight="@dimen/fragment_tool_left_margin">
+
+                        <ImageView
+                            android:id="@+id/imgUpload"
+                            android:layout_width="@dimen/finac_dashboard_image_height"
+                            android:layout_height="@dimen/finac_dashboard_image_height"
+                            android:src="@drawable/circle_ic_upload_new" />
+
+                        <com.datamation.swdsfa.utils.CustomFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="UPLOAD"
+                            android:textAlignment="center"
+                            android:textColor="#000"
+                            android:textSize="@dimen/finac_dashboard_icon_text_size"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/finac_dashboard_single_line_outer_height"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:layout_marginTop="@dimen/toolbar_height"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
+                        android:layout_weight="1.5"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="@dimen/fragment_tool_left_margin">
+
+                        <ImageView
+                            android:id="@+id/imgImage"
+                            android:layout_width="@dimen/finac_dashboard_image_height"
+                            android:layout_height="@dimen/finac_dashboard_image_height"
+                            android:src="@drawable/circle_ic_image"/>
+
+                        <com.datamation.swdsfa.utils.CustomFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PROMO IMAGE"
+                            android:textAlignment="center"
+                            android:textColor="#000"
+                            android:textSize="@dimen/finac_dashboard_icon_text_size"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
+                        android:layout_weight="1.5"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical"
+                        android:layout_marginRight="@dimen/fragment_tool_left_margin">
+
+                        <ImageView
+                            android:id="@+id/imgVideo"
+                            android:layout_width="@dimen/finac_dashboard_image_height"
+                            android:layout_height="@dimen/finac_dashboard_image_height"
+                            android:src="@drawable/circle_ic_video" />
+
+                        <com.datamation.swdsfa.utils.CustomFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PROMO VIDEO"
+                            android:textAlignment="center"
+                            android:textColor="#000"
+                            android:textSize="@dimen/finac_dashboard_icon_text_size"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

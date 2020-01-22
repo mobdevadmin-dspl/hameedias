@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Ref No"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/editTextCustomer_Code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextstyle"
+                        android:enabled="false"
+                        android:padding="5dp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Customer Name "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/editText2"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
+                        android:background="@drawable/edittextstyle"
+                        android:hint="@string/compulsory"
+                        android:padding="5dp"
+                        android:textColorHint="@color/menucolor">
+
+                    </com.datamation.swdsfa.utils.CustomText>
+
+
+                    <ImageButton
+                        android:id="@+id/btn_C6"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ic_search" />
+
+                    <Switch
+                        android:id="@+id/switch1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="New Mode" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Customer NIC "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/editTextCNic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextstyle"
+                        android:maxLength="12"
+                        android:padding="5dp"
+                        android:textColorHint="@color/colorAccent" />
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:singleLine="false"
+                        android:text="RegNo "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/editText3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextstyle"
+                        android:hint="*"
+                        android:padding="5dp"
+                        android:textColorHint="@color/colorPrimary" />
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="District "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/spinner5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextstyle"
+                        android:clickable="false"
+                        android:editable="false"
+                        android:hint="@string/compulsory"
+                        android:padding="5dp"
+                        android:textColorHint="@color/menucolor" />
+
+
+                    <ImageButton
+                        android:id="@+id/btn_D"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ic_search" />
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Town "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/spinner3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextstyle"
+                        android:clickable="false"
+                        android:editable="false"
+                        android:hint="@string/compulsory"
+                        android:padding="5dp"
+                        android:textColorHint="@color/menucolor" />
+
+                    <ImageButton
+                        android:id="@+id/btn_T"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ic_search" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Route "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/spinner4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextstyle"
+                        android:clickable="false"
+                        android:editable="false"
+                        android:hint="@string/compulsory"
+                        android:padding="5dp"
+                        android:textColorHint="@color/menucolor" />
+
+                    <ImageButton
+                        android:id="@+id/btn_R"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ic_search" />
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Address Line 1 "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/editText7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edittextstyle"
+                        android:hint="@string/compulsory"
+                        android:padding="5dp"
+                        android:textColorHint="@color/menucolor" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Address Line 2 "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/editText8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextstyle"
+                        android:hint="@string/compulsory"
+                        android:padding="5dp"
+                        android:textColorHint="@color/menucolor" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="City "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    //
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/editText9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextstyle"
+                        android:hint="@string/compulsory"
+                        android:padding="5dp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Mobile "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/editText10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextstyle"
+                        android:gravity="fill_horizontal"
+                        android:hint="@string/compulsory"
+                        android:maxLength="14"
+                        android:inputType="phone"
+                        android:padding="5dp"
+                        android:textColorHint="@color/menucolor" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Phone "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/editText11"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextstyle"
+                        android:gravity="fill_horizontal"
+                        android:hint="*"
+                        android:maxLength="14"
+                        android:inputType="phone"
+                        android:padding="5dp"
+                        android:textColorHint="@color/colorPrimary" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Fax "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/editText12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextstyle"
+                        android:gravity="fill_horizontal"
+                        android:hint="*"
+                        android:maxLength="14"
+                        android:inputType="phone"
+                        android:padding="5dp"
+                        android:textColorHint="@color/colorPrimary" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Email "
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=":-"
+                        android:textSize="@dimen/font_for_all" />
+
+                    <com.datamation.swdsfa.utils.CustomText
+                        android:id="@+id/editText20"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextstyle"
+                        android:ems="10"
+                        android:gravity="fill_horizontal"
+                        android:hint="*"
+                        android:inputType="textEmailAddress"
+                        android:padding="5dp"
+                        android:textColorHint="@color/colorPrimary" />
+
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#dcdcdc"></View>
+
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:visibility="gone"
+                    android:background="@color/colorPrimary"
+                    android:src="@drawable/ic_save"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/icon_plus" />
+</RelativeLayout>

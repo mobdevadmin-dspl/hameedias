@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.datamation.swdsfa.utils.CustomFont
+                android:id="@+id/customerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:text="-No customer selected-"
+                android:textColor="@color/greenColor"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_label"
+                android:gravity="center">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Total Outstanding (Rs.)"
+                    android:textColor="@color/unselected"
+                    android:textSize="@dimen/font_for_all"
+                    />
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:id="@+id/rec_outstanding_amt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:ems="10"
+                    android:gravity="right"
+                    android:text="0.00"
+                    android:textColor="@color/unselected"
+                    android:textSize="@dimen/font_for_all"
+                 />
+
+            </TableRow>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:divider="@color/blueColor"
+            android:dividerPadding="10dp"
+            android:layout_gravity="center_horizontal">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/blueColor" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp">
+
+                <com.datamation.swdsfa.utils.CustomFont
+
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="RECEIPT NO"
+                    android:textColor="@color/greenColor"
+                    android:textSize="@dimen/font_for_all"
+                    />
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/txtRecNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:editable="false"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"></EditText>
+            </LinearLayout>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="DATE"
+                    android:textColor="@color/greenColor"
+                    android:textSize="@dimen/font_for_all" />
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/txtRecDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ems="10"
+                    android:editable="false"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"></EditText>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="MANUAL NO"
+                    android:textColor="@color/greenColor"
+                    android:textSize="@dimen/font_for_all" />
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/txtRecManualNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"></EditText>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="REMARKS"
+                    android:textColor="@color/greenColor"
+                    android:textSize="@dimen/font_for_all" />
+
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/txtRecRemarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:textSize="14sp">
+
+                </EditText>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
+                    android:text="Route"
+                    android:textColor="@color/greenColor"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:enabled="false"
+                    android:textColor="@android:color/black"></EditText>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="PAY MODE"
+                    android:textColor="@color/greenColor"
+                    android:textSize="@dimen/font_for_all"/>
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+
+                <Spinner
+                    android:id="@+id/spnRecPayMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="10dp"
+                    android:textAlignment="center" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/chequeNoRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="CHEQUE NO"
+                    android:textColor="@color/greenColor"
+                    android:textSize="14sp"
+
+                  />
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/txtRecCheque"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="14sp"
+                    android:maxLength="12"
+                 >
+
+                </EditText>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/chequeRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="CHEQUE DATE"
+                    android:textColor="@color/greenColor"
+                    android:textSize="14sp"
+
+                 />
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+                <TextView
+                    android:id="@+id/txtRecChequeDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:text="-SELECT DATE-"
+                    android:textSize="14sp"
+                >
+
+                </TextView>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/bankRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="BANK NAME"
+                    android:textColor="@color/greenColor"
+                    android:textSize="14sp"
+
+             />
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+                <!--<Spinner
+                    android:id="@+id/spnRecBank"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="left"
+              />-->
+
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/spnRecBank"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="left" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/cardRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="CARD NO"
+                    android:textColor="@color/greenColor"
+                    android:textSize="14sp"
+
+                  />
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/txtCardNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:selectAllOnFocus="true"
+                    android:text="0"
+                    android:textSize="14sp"
+                    android:maxLength="20"
+          ></EditText>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/cardTypeRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="CARD TYPE"
+                    android:textColor="@color/greenColor"
+                    android:textSize="14sp"
+
+              />
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+                <Spinner
+                    android:id="@+id/spnCardType"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                   />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/exDateRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="EXPIRE DATE"
+                    android:textColor="@color/greenColor"
+                    android:textSize="14sp"
+
+                    />
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+                <TextView
+                    android:id="@+id/txtRecExpireDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="-SELECT DATE-"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:textSize="14sp"
+            >
+
+                </TextView>
+            </TableRow>
+            <TableRow
+                android:id="@+id/depositRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="SLIP NO"
+                    android:textColor="@color/greenColor"
+                    android:textSize="14sp"
+
+                    />
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+                <EditText
+                    android:id="@+id/txtSlipNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:selectAllOnFocus="true"
+                    android:text="0"
+                    android:textSize="14sp"
+                    android:maxLength="20"
+                    ></EditText>
+            </TableRow>
+            <TableRow
+                android:id="@+id/draftRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <com.datamation.swdsfa.utils.CustomFont
+
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="DRAFT NO"
+                    android:textColor="@color/greenColor"
+                    android:textSize="14sp"
+
+                    />
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+                <EditText
+                    android:id="@+id/txtDraftNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:selectAllOnFocus="true"
+                    android:text="0"
+                    android:textSize="14sp"
+                    android:maxLength="20"
+                    ></EditText>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="RECEIVED AMT"
+                    android:textColor="@color/greenColor"
+                    android:textSize="@dimen/font_for_all" />
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text=":-"
+                    android:textSize="@dimen/font_for_all"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/txtRecAmt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:selectAllOnFocus="true"
+                    android:text="0"
+                    android:textSize="14sp">
+                </EditText>
+            </TableRow>
+        </LinearLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|right"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_weight="1"
+                android:clickable="true"
+                app:fabSize="normal"
+                app:srcCompat="@android:drawable/ic_input_add" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

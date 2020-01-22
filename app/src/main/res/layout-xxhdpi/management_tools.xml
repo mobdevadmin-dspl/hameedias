@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp">
+
+        <com.datamation.swdsfa.utils.CustomBtn
+            android:id="@+id/Sync"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:drawableLeft="@drawable/ic_syncs"
+            android:padding="5dp"
+            android:gravity="center"
+            android:text="Sync"
+            android:textAllCaps="false" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:elevation="4dp">
+
+
+        <com.datamation.swdsfa.utils.CustomBtn
+            android:id="@+id/Upload"
+            android:layout_width="300dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:padding="5dp"
+            android:drawableLeft="@drawable/ic_action_upload"
+            android:text="Upload"
+            android:textAllCaps="false" />
+    </android.support.v7.widget.CardView>
+</LinearLayout>

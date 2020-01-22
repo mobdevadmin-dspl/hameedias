@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_margin="8dp">
+
+    <RelativeLayout
+        android:id="@+id/fragment_order_details_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/refno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/debcode"
+                android:gravity="center"
+                android:maxLines="3"
+                android:text="RefNo"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/debcode"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <TextView
+                android:id="@+id/debcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/date"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="DebCode"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toStartOf="@+id/date"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/refno"
+                tools:layout_editor_absoluteY="32dp" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/total"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:text="Date"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toStartOf="@+id/total"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/debcode"
+                tools:layout_editor_absoluteY="32dp" />
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/status"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:text="TotalAmt"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toStartOf="@+id/status"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/date"
+                tools:layout_editor_absoluteY="32dp" />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/type"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:text="IsSynced"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toStartOf="@+id/type"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/total"
+                tools:layout_editor_absoluteY="32dp" />
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/icon_minus"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/status"
+                tools:layout_editor_absoluteY="32dp" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

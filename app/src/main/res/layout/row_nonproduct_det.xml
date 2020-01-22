@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/row_nonprd_refno"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="Item Name"
+            android:textSize="@dimen/font_size_intermed"
+            android:textColor="@color/greenColor" />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/row_nonprd_reason"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="Itemcode"
+            android:textSize="@dimen/font_size_intermed"
+            android:textColor="@color/greenColor"/>
+
+        <TextView
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.25"
+            android:gravity="left"
+            android:text=""
+            android:textColor="@color/greenColor"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</LinearLayout>

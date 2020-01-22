@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/gradient_toolbar"-->
+        <!--android:minHeight="?attr/actionBarSize"-->
+        <!--app:titleTextColor="@android:color/white" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="0dp"
+            android:gravity="center_vertical">
+
+            <com.datamation.swdsfa.utils.CustomFont
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="right"
+                android:paddingRight="10dp"
+                android:text="Ref No"
+                android:textSize="@dimen/font_for_all"/>
+
+            <com.datamation.swdsfa.utils.CustomizeFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text=":-"
+                android:textSize="@dimen/font_for_all"
+                android:visibility="visible" />
+
+            <EditText
+                android:id="@+id/_refNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="@android:color/black">
+
+            </EditText>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical">
+
+            <com.datamation.swdsfa.utils.CustomFont
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="right"
+                android:paddingRight="10dp"
+                android:text="Date"
+
+                android:textSize="@dimen/font_for_all" />
+
+            <com.datamation.swdsfa.utils.CustomizeFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text=":-"
+                android:textSize="@dimen/font_for_all"
+                android:visibility="visible" />
+
+            <EditText
+                android:id="@+id/_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textSize="14sp"
+                android:ems="10"
+                android:editable="false"
+                android:gravity="center"
+                android:textColor="@android:color/black">
+
+            </EditText>
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical">
+
+            <com.datamation.swdsfa.utils.CustomFont
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="right"
+                android:paddingRight="10dp"
+                android:text="Remark"
+                android:textSize="@dimen/font_for_all"/>
+            <com.datamation.swdsfa.utils.CustomizeFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text=":-"
+                android:textSize="@dimen/font_for_all"
+                android:visibility="visible" />
+            <EditText
+                android:id="@+id/_remrk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textSize="14sp"
+                android:ems="10"
+                android:gravity="center"
+                android:textColor="@android:color/black">
+
+            </EditText>
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical">
+
+            <com.datamation.swdsfa.utils.CustomFont
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="right"
+                android:paddingRight="10dp"
+                android:text="Retailer"
+                android:textSize="@dimen/font_for_all" />
+
+            <com.datamation.swdsfa.utils.CustomFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text=":-"
+                android:textSize="@dimen/font_for_all"
+                android:visibility="visible" />
+
+            <EditText
+                android:id="@+id/_retailer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:textSize="14sp"
+                android:ems="10"
+                android:layout_weight="1"
+                android:editable="false"
+                android:gravity="center"
+                android:textColor="@android:color/black">
+
+            </EditText>
+
+            <Button
+                android:visibility="gone"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="3dp"
+                android:background="@drawable/search_button" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <com.datamation.swdsfa.utils.CustomFont
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="right"
+                android:paddingRight="10dp"
+                android:text="Reason"
+                android:textSize="@dimen/font_for_all" />
+
+            <com.datamation.swdsfa.utils.CustomFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text=":-"
+                android:textSize="@dimen/font_for_all"
+                android:visibility="visible" />
+
+            <EditText
+                android:id="@+id/_reason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:textSize="14sp"
+                android:ems="10"
+                android:editable="false"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textColor="@android:color/black">
+
+            </EditText>
+
+            <Button
+                android:id="@+id/reason_search"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="3dp"
+                android:background="@drawable/search_button" />
+
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <Button
+                android:id="@+id/btn_add"
+                android:theme="@style/AppTheme.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+
+                android:text="ADD" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <com.datamation.swdsfa.utils.CustomFont
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dip"
+                android:layout_marginRight="1dip"
+                android:layout_weight="1.5"
+                android:background="@drawable/custom_label"
+                android:gravity="center"
+                android:text="REASON CODE"
+                android:textColor="@color/unselected"
+                android:textSize="@dimen/font_size_intermed" />
+
+            <com.datamation.swdsfa.utils.CustomFont
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dip"
+                android:layout_marginRight="1dip"
+                android:layout_weight="1.5"
+                android:background="@drawable/custom_label"
+                android:gravity="center"
+                android:text="REASON"
+                android:textColor="@color/unselected"
+                android:textSize="@dimen/font_size_intermed" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lv_loading_sum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/list_view_diveder"
+            android:dividerHeight="1dp"
+            android:layout_gravity="center_horizontal"></ListView>
+
+
+    </LinearLayout>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_menu"
+        fab:fab_shadowColor="#66000000"
+        fab:fab_showShadow="true"
+        fab:menu_backgroundColor="#ccffffff"
+        fab:menu_fab_label=""
+        fab:menu_icon="@android:drawable/ic_input_add"
+        fab:menu_labels_colorNormal="#333333"
+        fab:menu_labels_colorPressed="#444444"
+        fab:menu_labels_colorRipple="#66FFFFFF"
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_maxLines="-1"
+        fab:menu_labels_position="left"
+        fab:menu_labels_showShadow="true"
+        fab:menu_labels_singleLine="true"
+        fab:menu_openDirection="up"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab1"
+            fab:fab_label="Save"
+            fab:fab_size="mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_save" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab2"
+            fab:fab_label="Pause"
+            fab:fab_size="mini"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_set_as" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab3"
+            fab:fab_label="Discard"
+            fab:fab_size="mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_delete" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</LinearLayout>

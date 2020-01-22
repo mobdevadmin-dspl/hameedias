@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_payment_invoice_layout"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="false">
+
+    <TextView
+        android:id="@+id/item_payment_invoice_id"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="13sp"
+        android:layout_centerVertical="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:gravity="center"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/item_payment_invoice_date"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:layout_toRightOf="@+id/item_payment_invoice_id"
+        android:layout_toEndOf="@+id/item_payment_invoice_id"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/item_payment_invoice_gross"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:gravity="end"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/item_payment_invoice_date"
+        android:layout_toEndOf="@+id/item_payment_invoice_date"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/item_payment_invoice_net"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:gravity="end"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/item_payment_invoice_gross"
+        android:layout_toEndOf="@+id/item_payment_invoice_gross"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/item_payment_invoice_outstanding"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text=""
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:layout_toRightOf="@+id/item_payment_invoice_net"
+        android:layout_toEndOf="@+id/item_payment_invoice_net"
+        android:textSize="13sp"
+        android:gravity="end" />
+
+    <TextView
+        android:id="@+id/item_payment_invoice_days"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="13sp"
+        android:gravity="end"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:singleLine="true"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/item_payment_invoice_outstanding"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/item_payment_txt_invoice_id"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Invoice ID"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="13sp"
+            android:layout_centerVertical="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="false"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_payment_txt_invoice_date"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="false"
+            android:layout_toRightOf="@+id/item_payment_txt_invoice_id"
+            android:layout_toEndOf="@+id/item_payment_txt_invoice_id"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/item_payment_txt_invoice_gross"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="Gross"
+            android:gravity="right"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="false"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/item_payment_txt_invoice_date"
+            android:layout_toEndOf="@+id/item_payment_txt_invoice_date"
+            android:textSize="13sp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/item_payment_txt_invoice_net"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="Amount"
+            android:gravity="right"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="false"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/item_payment_txt_invoice_gross"
+            android:layout_toEndOf="@+id/item_payment_txt_invoice_gross"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/item_payment_txt_invoice_outstanding"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Due Amt"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="false"
+            android:layout_toRightOf="@+id/item_payment_txt_invoice_net"
+            android:layout_toEndOf="@+id/item_payment_txt_invoice_net"
+            android:textSize="13sp"
+            android:gravity="right" />
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="Days"
+            android:textSize="13sp"
+            android:gravity="right"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="false"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/item_payment_txt_invoice_outstanding"
+            android:layout_toEndOf="@+id/item_payment_txt_invoice_outstanding"
+            android:textStyle="bold" />
+
+        </RelativeLayout>
+
+</RelativeLayout>

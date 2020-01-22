@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignTop="@+id/view0"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/half_black" />
+    <View
+        android:id="@+id/view0"
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/half_black" />
+    <TextView
+        android:id="@+id/target_date"
+        android:layout_toRightOf="@+id/view0"
+        android:layout_marginLeft="10dp"
+        android:textSize="16dp"
+        android:layout_marginTop="5dp"
+        android:text="Date"
+        android:textColor="#000"
+        android:layout_width="100dp"
+        android:layout_height="40dp" />
+    <View
+        android:id="@+id/view1"
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/target_date"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/half_black" />
+    <TextView
+        android:id="@+id/target_amount"
+        android:textColor="@color/material_alert_negative_button"
+        android:layout_toRightOf="@+id/target_date"
+        android:text="Target Amount"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/target_date"
+        android:textSize="16dp"
+        android:gravity="end"
+        android:layout_gravity ="right"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="25dp"
+        android:layout_width="120dp"
+        android:layout_height="40dp" />
+    <View
+        android:id="@+id/view2"
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/target_amount"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/half_black" />
+    <TextView
+        android:id="@+id/actual_amount"
+        android:textColor="#000"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBaseline="@+id/target_amount"
+        android:text="Actual amount"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/view5"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp" />
+    <View
+        android:id="@+id/view5"
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:background="@color/half_black" />
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignEnd="@+id/view5"
+        android:layout_below="@+id/view0"
+        android:background="@color/half_black" />
+</RelativeLayout>

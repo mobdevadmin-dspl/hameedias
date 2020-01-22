@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+    <!--<android.support.v7.widget.CardView
+        android:id="@+id/fragment_payment_details_card_filter_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="2dp"
+        card_view:cardPreventCornerOverlap="false"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:id="@+id/fragment_payment_details_rl_filter_header"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="16dp"
+            android:clickable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Filtering Parameters"
+                android:textSize="16sp"
+                android:gravity="center_vertical"/>
+
+            <ImageView
+                android:id="@+id/fragment_payment_details_imageview_arrow"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/arrow_down"
+                android:padding="12dp"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <RelativeLayout
+        android:id="@+id/fragment_payment_details_rl_filter_params"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_below="@+id/fragment_payment_details_card_filter_header"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/fragment_payment_details_tv_filter_params_header"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Showing"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:paddingRight="5dp"/>
+
+        <TextView
+            android:id="@+id/fragment_payment_details_spinner_filter_params"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@+id/fragment_payment_details_tv_filter_params_header"
+            android:text="all payments"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
+
+        <TextView
+            android:id="@+id/fragment_payment_details_tv_filter_params_header2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="from"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_toRightOf="@+id/fragment_payment_details_spinner_filter_params"/>
+
+        <TextView
+            android:id="@+id/fragment_payment_details_tv_filter_params_date_from"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="2015-06-10"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:layout_toRightOf="@+id/fragment_payment_details_tv_filter_params_header2"/>
+
+        <TextView
+            android:id="@+id/fragment_payment_details_tv_filter_params_date_to_label"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="to"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_toRightOf="@+id/fragment_payment_details_tv_filter_params_date_from"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
+
+        <TextView
+            android:id="@+id/fragment_payment_details_tv_filter_params_date_to"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="2015-06-10"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_toRightOf="@+id/fragment_payment_details_tv_filter_params_date_to_label"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"/>
+
+        <Button
+            android:id="@+id/fragment_payment_details_btn_filter_params_execute"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/fragment_payment_details_tv_filter_params_date_to"
+            android:background="@drawable/selectable_button"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:text="Search"
+            android:textColor="@android:color/white" />
+
+        &lt;!&ndash;<TextView
+            android:id="@+id/fragment_payment_details_tv_filter_params_filter_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/fragment_payment_details_spinner_filter_params"
+            android:layout_alignTop="@+id/fragment_payment_details_spinner_filter_params"
+            android:gravity="center_vertical"
+            android:paddingBottom="5dp"
+            android:textSize="16sp"
+            android:text="Show"
+            android:layout_toLeftOf="@+id/fragment_payment_details_spinner_filter_params"/>&ndash;&gt;
+
+
+    </RelativeLayout>-->
+
+    <View
+        android:id="@+id/fragment_payment_details_center_view"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/fragment_payment_details_center_view"
+        android:text="Selected Date :"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/fragment_payment_details_select_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_toRightOf="@+id/fragment_payment_details_center_view"
+        android:text="2015.02.02"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/fragment_payment_details_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/fragment_payment_details_select_date"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_invoice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/item_payment_details_tv_gross_amount"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:maxLines="3"
+            android:gravity="center"
+            android:text="Collection Ref"/>
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_gross_amount"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/item_payment_details_tv_net_amount"
+            android:textSize="14sp"
+            android:gravity="center"
+
+            android:singleLine="true"
+            android:text="Invoice Ref"/>
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_net_amount"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/item_payment_details_tv_outstanding_amount"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:text="Invoice Date"/>
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_outstanding_amount"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/item_payment_details_tv_cash_amount"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:text="Outstanding"/>
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_cash_amount"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/item_payment_details_tv_cheque_amount"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:text="Cash"/>
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_cheque_amount"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:text="Cheque"
+            android:paddingRight="16dp"/>
+
+        </RelativeLayout>
+
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+        android:id="@+id/fragment_payment_details_pslv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/fragment_payment_details_header_container"
+        android:clipToPadding="false"
+        android:paddingBottom="60dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/item_payment_details_tv_gross_amount_total"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:maxLines="3"
+            android:gravity="center"
+            android:text="Invoice"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_gross_amount_total"
+            android:visibility="gone"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/item_payment_details_tv_net_amount_total"
+            android:textSize="12sp"
+            android:gravity="center_vertical|end"
+            android:singleLine="true"
+            android:text="0.00"/>
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_net_amount_total"
+            android:visibility="gone"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/item_payment_details_tv_outstanding_amount_total"
+            android:textSize="12sp"
+            android:gravity="center_vertical|end"
+            android:singleLine="true"
+            android:text="0.00"/>
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_outstanding_amount_total"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/item_payment_details_tv_cash_amount_total"
+            android:textSize="12sp"
+            android:gravity="center_vertical|end"
+            android:singleLine="true"
+            android:text="0.00"/>
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_cash_amount_total"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/item_payment_details_tv_cheque_amount_total"
+            android:textSize="12sp"
+            android:gravity="center_vertical|end"
+            android:singleLine="true"
+            android:text="0.00"/>
+
+        <TextView
+            android:id="@+id/item_payment_details_tv_cheque_amount_total"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="12sp"
+            android:gravity="center_vertical|end"
+            android:singleLine="true"
+            android:text="0.00"
+            android:paddingRight="16dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

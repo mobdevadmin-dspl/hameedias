@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/rounded_bg"
+    android:orientation="vertical">
+
+
+    <com.datamation.swdsfa.utils.CustomFont
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="15dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:text="Sales Representative Details" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#dcdcdc"></View>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:weightSum="2">
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Username" />
+
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/repname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:maxLines="2"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:weightSum="2">
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Rep Code" />
+
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/repcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:weightSum="2">
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Prefix" />
+
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/repPrefix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:weightSum="2">
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Loc Code "/>
+
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/loccode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:weightSum="2">
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Route" />
+
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/areaCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:weightSum="2"
+        android:visibility="gone">
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Deal Code" />
+
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/dealclode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:weightSum="2">
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Email" />
+
+
+        <com.datamation.swdsfa.utils.CustomText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="EditText" />
+
+    </TableRow>
+
+    <com.datamation.swdsfa.utils.CustomBtn
+        android:layout_width="match_parent"
+        android:id="@+id/close"
+        android:background="@drawable/bottom_button_bg"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:text="OK" />
+
+
+</LinearLayout>

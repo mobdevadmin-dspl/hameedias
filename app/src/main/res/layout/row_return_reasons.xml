@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/row_return_reasonName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Itemcode"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/font_for_all"
+           />
+
+
+    </LinearLayout>
+
+</LinearLayout>

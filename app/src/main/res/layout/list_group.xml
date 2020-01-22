@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_margin="8dp"
+   >
+
+    <RelativeLayout
+        android:id="@+id/fragment_order_details_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/refno"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/debcode"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:maxLines="3"
+            android:gravity="center"
+            android:text="RefNo"/>
+
+        <TextView
+            android:id="@+id/debcode"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/date"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="DebCode"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/total"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:text="Date"/>
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/status"
+            android:layout_centerVertical="true"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:text="TotalAmt"/>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/type"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:text="IsSynced"/>
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:background="@drawable/icon_minus"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="25dp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

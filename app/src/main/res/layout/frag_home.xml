@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    tools:context="com.datamation.swdsfa.view.ActivityHome">
+
+
+    <!--<ImageButton-->
+        <!--android:id="@+id/dashboard_toolbar_icon_sync"-->
+        <!--android:layout_width="?attr/actionBarSize"-->
+        <!--android:layout_height="?attr/actionBarSize"-->
+        <!--android:layout_toLeftOf="@+id/dashboard_toolbar_icon_calendar"-->
+        <!--android:background="?android:attr/selectableItemBackground"-->
+        <!--android:contentDescription="Sync Imagebutton"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:src="@drawable/ic_perm_group_sync_settings" />-->
+
+    <!--<ImageButton-->
+        <!--android:id="@+id/dashboard_toolbar_icon_calendar"-->
+        <!--android:layout_width="?attr/actionBarSize"-->
+        <!--android:layout_height="?attr/actionBarSize"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:background="?android:attr/selectableItemBackground"-->
+        <!--android:contentDescription="Calendar ImageButton"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:src="@drawable/calendar" />-->
+
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/dashboard_tab_strip"
+        android:layout_width="match_parent"
+        android:layout_height="48dip"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/dashboard_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/dashboard_tab_strip" />
+</RelativeLayout>

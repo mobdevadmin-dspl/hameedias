@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">SwadeshiSFA</string>
+    <string name="app_name_new">SwadeshiSFA</string>
+    <string name="connection_string">/SWDWebServices/SWDWebServicesRest.svc/</string>
+    <string name="developed_by_rashmi">Developed by Datamation.</string>
+    <string name="txt_msg">Your Network is Unavailable.Check Your data or Wi-Fi Connection.</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_home">Home</string>
+    <string name="title_sa">Sales Management</string>
+    <string name="title_tools">Tools</string>
+    <string name="title_logout">Logout</string>
+    <string name="login_et_password_hint">P A S S W O R D</string>
+    <string name="login_et_username_hint">U S E R N A M E</string>
+    <string name="login_btn_sign_in_txt">SIGN IN</string>
+    <!--  Num Value -->
+    <string name="NumVal">SFAORDER</string>
+    <string name="VanNumVal">SFAINVOICE</string>
+    <string name="ExpenseNumVal">EXPENCE</string>
+    <string name="newCusVal">NEWCUS</string>
+    <string name="nonprdVal">NONPRD</string>
+    <string name="salRet">SFARTN</string>
+    <string name="ReceiptNumVal">PDAREG</string>
+    <string name="DispVal">DISPATCH</string>
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+
+
+    <array name="listView_icons_for_settingd">
+        <item>@drawable/sync</item>
+        <item>@drawable/printer</item>
+        <item>@drawable/reschedule</item>
+        <item>@drawable/database</item>
+        <item>@drawable/salesreps</item>
+        <item>@drawable/route</item>
+    </array>
+
+    <!-- Content Description -->
+
+    <!-- Print Preview Descrption -->
+    <string name="head_comp_name">Company Name</string>
+    <string name="head_address1">Company Address1,</string>
+    <string name="head_address2">Company Address2</string>
+    <string name="head_comp_tele">Telephone</string>
+    <string name="head_comp_website">web site</string>
+    <string name="head_comp_email">email</string>
+    <string name="printheadingline">-------------------------------------------------------------------------------------------------</string>
+    <string name="head_repname">Rep Name</string>
+    <string name="head_cusname">Customer Name</string>
+    <string name="head_sal_remarks">Remarks</string>
+    <string name="compulsory">Compulsory</string>
+    <string name="trans_summary_total_qty">Total Quantity</string>
+    <string name="trans_summary_net_value">Net Total</string>
+    <string name="trans_summary_previewvalue">0000</string>
+    <!-- Print Preview Descrption -->
+    <string name="head_dist_address1">Address1</string>
+    <string name="head_dist_address2">Address2</string>
+    <string name="head_dist_phone">Phone #</string>
+
+
+    <!-- Print Preview Loading Descrption -->
+
+    <!-- Print Preview Van Sale Invoice -->
+    <string name="head_van_sal_date">Invoice Date</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="imageview_no_image_string">NO IMAGE AVAILABLE</string>
+
+    <string name="DATABASE_NAME">swdsfa_database.db</string>
+    <string name="DATABASE">LHD_PDA_TEST</string>
+</resources>

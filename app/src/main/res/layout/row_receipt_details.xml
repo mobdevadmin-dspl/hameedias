@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:weightSum="9.5"
+        android:orientation="horizontal" >
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/row_refno"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2"
+            android:gravity="left"
+            android:text="RefNo"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/blueColor"
+            android:textSize="@dimen/font_size_small"
+             />
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/row_txndate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.5"
+            android:gravity="left"
+            android:text="Date"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/font_size_small"
+            />
+        <com.datamation.swdsfa.utils.CustomFont
+            android:visibility="gone"
+            android:id="@+id/repName"
+         android:layout_width="0dp"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="1dp"
+         android:layout_marginRight="1dip"
+         android:layout_weight="1.0"
+          android:gravity="center"
+            android:text="Rep"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/font_size_small"
+            />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/dateDiff"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.5"
+            android:gravity="right"
+            android:text="DD"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/font_size_small"
+            android:visibility="gone"
+            />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/row_dueAmt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="Due amt"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/font_size_small"
+            />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/row_Amt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="Amt"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/font_size_small"
+            />
+        <com.datamation.swdsfa.utils.CustomFont
+            android:id="@+id/days"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Days"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/font_size_small"
+            />
+        
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+
+    <View
+        android:id="@+id/fragment_payment_details_center_view"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"/>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:weightSum="2"
+       android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/fragment_invoice_details_tv_filter_params_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Report Type"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textColor="@color/btn_colour"/>
+
+        <Spinner
+            android:id="@+id/spnOtherTrans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            />
+
+    </TableRow>
+
+    <RelativeLayout
+        android:id="@+id/fragment_invoice_details_rl_filter_params"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:id="@+id/image_view_date_select_from"
+                android:layout_width="41dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_invoice_details_tv_filter_params_date_from"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/fragment_invoice_details_tv_filter_params_header2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/calendar_report" />
+
+            <TextView
+                android:id="@+id/fragment_invoice_details_tv_filter_params_header2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="From"
+                android:textAllCaps="true"
+                android:textColor="@color/btn_colour"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/image_view_date_select_from"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fragment_invoice_details_tv_filter_params_date_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="0000-00-00"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_invoice_details_tv_filter_params_date_to_label"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/image_view_date_select_from"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fragment_invoice_details_tv_filter_params_date_to_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="To"
+                android:textAllCaps="true"
+                android:textColor="@color/btn_colour"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/image_view_date_select_to"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/fragment_invoice_details_tv_filter_params_date_from"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/image_view_date_select_to"
+                android:layout_width="49dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_invoice_details_tv_filter_params_date_to"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/fragment_invoice_details_tv_filter_params_date_to_label"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/calendar_report" />
+
+            <TextView
+                android:id="@+id/fragment_invoice_details_tv_filter_params_date_to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="0000-00-00"
+                app:layout_constraintEnd_toEndOf="@+id/fragment_report_search_btn"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/fragment_report_search_btn"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/selectable_button"
+                android:text="Search"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fragment_listview_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_invoice_details_rl_filter_params"
+        android:visibility="gone">
+
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/target_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Target Date"
+        android:textAllCaps="true"
+        android:textColor="@color/btn_colour"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/target_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Target Amount(Rs.)"
+        android:textAllCaps="true"
+        android:textColor="@color/btn_colour"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/actual_amount"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/target_date"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/actual_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Amount(Rs.)"
+        android:textAllCaps="true"
+        android:textColor="@color/btn_colour"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/target_amount"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/presale_headers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_invoice_details_rl_filter_params"
+        android:visibility="visible">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/Item_Name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Item"
+                        android:textAllCaps="true"
+                        android:textColor="@color/btn_colour"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/reach"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reach"
+                        android:textAllCaps="true"
+                        android:textColor="@color/btn_colour"
+                        android:textStyle="bold"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/Case_Qty"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/guideline2"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/Case_Qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cases"
+                        android:textAllCaps="true"
+                        android:textColor="@color/btn_colour"
+                        android:textStyle="bold"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/pice_qty"
+                        app:layout_constraintEnd_toStartOf="@+id/pice_qty"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/reach" />
+
+                    <TextView
+                        android:id="@+id/pice_qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pieces"
+                        android:textAllCaps="true"
+                        android:textColor="@color/btn_colour"
+                        android:textStyle="bold"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/Pre_amount"
+                        app:layout_constraintEnd_toStartOf="@+id/Pre_amount"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Case_Qty" />
+
+                    <TextView
+                        android:id="@+id/Pre_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Amount"
+                        android:textAllCaps="true"
+                        android:textColor="@color/btn_colour"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/pice_qty"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guideline2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toStartOf="@+id/reach"
+                        app:layout_constraintGuide_begin="167dp"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Item_Name"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/expense_headers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_below="@+id/fragment_invoice_details_rl_filter_params"
+        android:visibility="gone">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/expense_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Expense Code"
+                android:textAllCaps="true"
+                android:textColor="@color/btn_colour"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/expense_name"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/expense_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Description"
+                android:textAllCaps="true"
+                android:textColor="@color/btn_colour"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/expense_code"
+                app:layout_constraintHorizontal_bias="0.473"
+                app:layout_constraintStart_toEndOf="@+id/expence_date"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/expence_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Amount"
+                android:textAllCaps="true"
+                android:textColor="@color/btn_colour"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.847"
+                app:layout_constraintStart_toEndOf="@+id/expense_name"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fragment_expense_np_details_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+            <TextView
+                android:id="@+id/textView37"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="RefNo"
+                android:textAllCaps="true"
+                android:textColor="@color/btn_colour"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/textView38"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView38"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:text="Debcode"
+                android:textAllCaps="true"
+                android:textColor="@color/btn_colour"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/textView39"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView37"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView39"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:text="Date"
+                android:textAllCaps="true"
+                android:textColor="@color/btn_colour"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/textView40"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView38"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView40"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:text="Sync Status"
+                android:textAllCaps="true"
+                android:textColor="@color/btn_colour"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView39"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
+
+
+    <ExpandableListView
+        android:id="@+id/lvExp"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <ListView
+        android:id="@+id/report_listview"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+

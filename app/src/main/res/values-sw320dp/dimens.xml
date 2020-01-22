@@ -1,0 +1,40 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <dimen name="font_size_small">15sp</dimen>
+    <dimen name="font_size_intermed">12sp</dimen>
+    <dimen name="font_size_medium">20sp</dimen>
+    <dimen name="body_size">15sp</dimen>
+    <dimen name="font_for_all">16sp</dimen>
+
+    <dimen name="font_for_all_sizes">14dip</dimen>
+
+    <dimen name="tour_spinner_height">40dp</dimen>
+    <dimen name="tour_spinner_text_size">13sp</dimen>
+    <dimen name="customer_spinner_text_size">18sp</dimen>
+    <dimen name="customer_listview_text_size2">15sp</dimen>
+    <dimen name="tour_spinner_top_margin">10dp</dimen>
+    <dimen name="toolbar_height">65dp</dimen>
+    <dimen name="toolbar_text_size">20sp</dimen>
+    <dimen name="finac_medium_text_size">16sp</dimen>
+    <dimen name="finac_medium_edit_text_size">14sp</dimen>
+    <dimen name="finac_medium_top_margin">20dp</dimen>
+    <dimen name="finac_medium_image_width">35dp</dimen>
+    <dimen name="finac_large_image_height">43dp</dimen>
+    <dimen name="finac_medium_edit_text_top_margin">10dp</dimen>
+    <dimen name="finac_medium_textview_height">32dp</dimen>
+    <dimen name="finac_extra_medium_text_size">14sp</dimen>
+    <dimen name="finac_medium_margin">5dp</dimen>
+    <dimen name="finac_small_margin">2dp</dimen>
+    <dimen name="finac_medium_dialog_width">450dp</dimen>
+    <dimen name="finac_extra_large_text_size">28sp</dimen>
+    <dimen name="finac_large_padding">10dp</dimen>
+    <dimen name="finac_dashboard_single_line_outer_height">120dp</dimen>
+    <dimen name="finac_dashboard_double_line_inner_height">100dp</dimen>
+    <dimen name="finac_dashboard_image_height">75dp</dimen>
+    <dimen name="finac_dashboard_icon_text_size">12sp</dimen>
+
+    <dimen name="fragment_tool_top_margin">50dp</dimen>
+    <dimen name="fragment_tool_left_margin">75dp</dimen>
+
+</resources>

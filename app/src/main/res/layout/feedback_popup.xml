@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/rounded_bg"
+    android:orientation="vertical">
+
+
+    <com.datamation.swdsfa.utils.CustomFont
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="15dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:text="Give Your Feedback" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#dcdcdc"></View>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:weightSum="1.5">
+
+        <ImageView
+            android:id="@+id/emoji_happy"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_below="@+id/dashboard_l5_cards_container"
+            android:layout_alignParentLeft="true"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:src = "@drawable/happiness_bw"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
+        <ImageView
+            android:id="@+id/emoji_bad"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_below="@+id/dashboard_l5_cards_container"
+            android:layout_toRightOf="@+id/emoji_happy"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:src = "@drawable/sad_bw"
+            android:clickable="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
+        <ImageView
+            android:id="@+id/emoji_neutral"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_below="@+id/dashboard_l5_cards_container"
+            android:layout_toRightOf="@+id/emoji_bad"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:clickable="true"
+            android:src = "@drawable/confused_bw"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
+
+        <!--<ImageView-->
+            <!--android:id="@+id/emoji_angry"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="0.5"-->
+            <!--android:layout_toRightOf="@+id/emoji_neutral"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:src = "@drawable/angry_bw"-->
+            <!--android:clickable="true"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:layout_marginRight="15dp"/>-->
+
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="3dp"
+        android:weightSum="1.5">
+        <TextView
+            android:id="@+id/lbl_emoji_happy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="Happy"
+            android:textSize="20sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"/>
+        <TextView
+            android:id="@+id/lbl_emoji_sad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="Sad"
+            android:textSize="20sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"/>
+        <TextView
+            android:id="@+id/lbl_emoji_normal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="Neutrial"
+            android:textSize="20sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"/>
+        <!--<TextView-->
+            <!--android:id="@+id/lbl_emoji_angry"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="0.5"-->
+            <!--android:gravity="center"-->
+            <!--android:text="Angry"-->
+            <!--android:textSize="20sp"-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:layout_marginRight="15dp"-->
+            <!--android:layout_marginBottom="15dp"/>-->
+
+    </TableRow>
+
+    <com.datamation.swdsfa.utils.CustomBtn
+        android:layout_width="match_parent"
+        android:id="@+id/close"
+        android:background="@drawable/bottom_button_bg"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:text="OK" />
+
+
+</LinearLayout>

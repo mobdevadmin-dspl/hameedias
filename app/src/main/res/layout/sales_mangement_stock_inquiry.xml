@@ -1,0 +1,148 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"
+        android:background="@drawable/custom_label"
+        android:orientation="vertical">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="5">
+
+            <com.datamation.swdsfa.utils.CustomFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="2dp"
+                android:background="@drawable/custom_label"
+                android:gravity="center"
+                android:text="TOTAL QUANTITY"
+                android:layout_weight="3"/>
+
+            <com.datamation.swdsfa.utils.CustomFont
+                android:id="@+id/txtTotQty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/custom_label"
+                android:gravity="center"
+                android:layout_weight="2"/>
+
+        </TableRow>
+
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="430dp"-->
+                <!--android:layout_height="45dp"-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_margin="5dp">-->
+
+                <!--<Spinner-->
+                    <!--android:id="@+id/spnTourCode"-->
+                    <!--android:layout_width="430dp"-->
+                    <!--android:layout_height="35dp"-->
+                    <!--android:background="@drawable/custom_textbox"/>-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="45dp"-->
+                <!--android:orientation="vertical"-->
+                <!--android:gravity="end"-->
+                <!--android:layout_margin="2dp">-->
+
+                <!--<com.datamation.swdsfa.utils.CustomFont-->
+                    <!--android:id="@+id/txtTotQty"-->
+                    <!--android:layout_width="100dp"-->
+                    <!--android:layout_height="35dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:background="@drawable/custom_label"-->
+                    <!--android:gravity="center" />-->
+
+            <!--</LinearLayout>-->
+
+        <!--</TableRow>-->
+
+    </LinearLayout>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/custom_textbox"
+        android:weightSum="3">
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="CODE"
+            android:textColor="@color/unselected"
+            />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1.5"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="PRODUCT"
+            android:textColor="@color/unselected"
+            />
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="QOH"
+            android:textColor="@color/unselected"/>
+
+        <com.datamation.swdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="PRICE"
+            android:textColor="@color/unselected"/>
+
+    </TableRow>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/stock_progress"
+        android:visibility="gone"/>
+
+    <ListView
+        android:id="@+id/listviewStockData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/list_view_diveder"
+        android:dividerHeight="1dp"
+        android:background="@android:color/white"
+        android:layout_marginTop="10dp">
+
+    </ListView>
+
+
+</LinearLayout>

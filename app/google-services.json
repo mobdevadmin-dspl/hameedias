@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "357021485186",
+    "firebase_url": "https://swdlaravel-cfa17.firebaseio.com",
+    "project_id": "swdlaravel-cfa17",
+    "storage_bucket": "swdlaravel-cfa17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357021485186:android:8f11c2c9d98b13c6278c9b",
+        "android_client_info": {
+          "package_name": "com.datamation.swdsfa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "357021485186-bpg3bbrqnd5lrdgdrrm836ngo0ukfe54.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3yC9INGKzvHeKHtrTXgLz-YiHhmyKV3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "357021485186-bpg3bbrqnd5lrdgdrrm836ngo0ukfe54.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

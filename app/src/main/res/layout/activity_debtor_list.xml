@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include android:id="@+id/debtor_list_toolbar"
+        layout="@layout/debtor_toolbar"/>
+
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/debtor_list_tab_strip"
+        android:layout_width="match_parent"
+        android:layout_height="48dip"
+        android:layout_below="@+id/debtor_list_toolbar"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/debtor_list_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/debtor_list_tab_strip"/>
+
+    <View
+        android:id="@+id/outlet_details_view_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/drawer_semi_trans_bg"
+        android:clickable="true"
+        android:visibility="gone"/>
+
+
+    <at.markushi.ui.CircleButton
+        android:id="@+id/outlet_details_fab_add_new_cus"
+        android:layout_below="@+id/debtor_list_tab_strip"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="170dp"/>
+
+</RelativeLayout>

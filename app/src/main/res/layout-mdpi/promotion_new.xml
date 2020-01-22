@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <View
+        android:id="@+id/fragment_payment_details_center_view"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"/>
+    <RelativeLayout
+        android:id="@+id/fragment_order_details_header_container0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/viewDebtors"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/theme_color_dark"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittextstyle"
+            android:textSize="16sp"
+            android:maxLines="3"
+            android:gravity="center"
+            android:text="CLICK HERE TO VIEW DEBTOR PROMOTIONS"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/fragment_order_details_header_container"
+        android:layout_below="@+id/fragment_order_details_header_container0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/refno"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/debcode"
+            android:textColor="@color/material_alert_neutral_button"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:maxLines="3"
+            android:gravity="center"
+            android:text="PROMOTION"/>
+        <TextView
+            android:id="@+id/debcode"
+            android:textColor="@color/material_alert_neutral_button"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/date"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:text="FROM DATE"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:textColor="@color/material_alert_neutral_button"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:text="TO DATE"/>
+
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeToRefresh"
+        android:layout_below="@+id/fragment_order_details_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ExpandableListView
+            android:id="@+id/lvExp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="50dp"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

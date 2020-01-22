@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_pre_sale_undo"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="Undo"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_pre_sales_save"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="Save"
+        app:showAsAction="always" />
+
+</menu>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0091EA</color>
+    <color name="colorPrimaryDark">#0064b7</color>
+    <color name="colorAccent">#64c1ff</color>
+    <color name="textColor">#4682B4</color>
+    <color name="theme_color">#2196F3</color>
+    <color name="theme_color_dark">#e1ba04</color>
+    <color name="theme_color_accent">#ffe984</color>
+
+    <color name="greenColor">#4682B4</color> <!-- 006e17 -->
+    <color name="blueColor">#336699</color>
+    <color name="unselected">#ffffff</color>
+
+    <color name="blue_c">#303f9f</color>
+    <color name="topic_color">#d6a800</color>
+    <!--<color name="cardviews_colors2">#8a93a0</color>-->
+    <color name="list_view_diveder">#b5b5b5</color>
+    <color name="menucolor">#F32104</color>
+    <color name="achievecolor">#00c853</color>
+    <color name="blue_semi_transparent_pressed">#80738ffe</color>
+    <color name="material_alert_positive_button">#ff4caf50</color>
+    <color name="material_alert_negative_button">#ffff5252</color>
+    <color name="material_alert_neutral_button">#ff070a08</color>
+    <color name="half_black">#808080</color>
+    <color name="rd_invoice">#9c27b0</color>
+    <color name="white">#fafafa</color>
+    <color name="gray">#BBC9C8</color>
+    <!--<color name="accent">#f6c300</color>-->
+    <color name="hard_green">#198a1e</color>
+
+    <color name="visit_not_visited">#948787</color>
+
+    <!--<color name="flavour_milk">#FF3299C8</color>
+    <color name="flavour_coffee">#FF450505</color>
+    <color name="flavour_rnr">#ffff040c</color>
+    <color name="flavour_crispy">#FFF1DF02</color>
+    <color name="flavour_orange">#ffff8700</color>
+    <color name="flavour_other">#00000000</color>
+    <color name="flavour_vanilla">#FFFFBB33</color>
+    <color name="flavour_strawberry">#FFFF4444</color>
+    <color name="flavour_mango">#FF669900</color>
+    <color name="flavour_fruit">#FF9933CC</color>
+    <color name="flavour_banana">#FFFBFF00</color>
+    <color name="flavour_faluda">#FFFF4444</color>
+    <color name="flavour_cho_mol">#ffa22f05</color>-->
+
+
+    <color name="invoice_has_free_indicator">#0370ae</color>
+
+    <color name="lightgray">#AFFFFFFF</color>
+    <color name="btn_colour">#336699</color>
+    <color name="red_error">#ffff5252</color>
+    <color name="day_achieve">#ff8a80</color>
+
+</resources>

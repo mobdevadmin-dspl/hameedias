@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_bg"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <com.datamation.swdsfa.utils.CustomBtn
+        android:id="@+id/b_backups"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:drawableLeft="@drawable/ic_backup"
+        android:layout_marginTop="14dp"
+      android:padding="5dp"
+        android:textSize="25sp"
+        android:background="@color/colorPrimaryDark"
+        android:text="Backup Data" />
+
+    <com.datamation.swdsfa.utils.CustomBtn
+        android:id="@+id/b_restore"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignLeft="@+id/b_backups"
+        android:layout_below="@+id/b_backups"
+        android:drawableLeft="@drawable/ic_restore"
+        android:background="@color/colorPrimaryDark"
+        android:textSize="25sp"
+        android:padding="5dp"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="17dp"
+        android:text="Restore Data" />
+
+</RelativeLayout>

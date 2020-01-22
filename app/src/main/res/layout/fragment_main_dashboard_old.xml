@@ -1,0 +1,626 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.datamation.swdsfa.fragment.FragmentHome">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--<ImageButton
+            android:id="@+id/dashboard_toolbar_icon_sync"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_toLeftOf="@+id/dashboard_toolbar_icon_calendar"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_perm_group_sync_settings" />
+
+        <ImageButton
+            android:id="@+id/dashboard_toolbar_icon_calendar"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentRight="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
+            android:src="@drawable/calendar" />-->
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/dashboard_header_card_today"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="2dp"
+            card_view:cardPreventCornerOverlap="false"
+            card_view:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_today_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@color/theme_color"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:text="Today Visit Details" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_today_sync_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="10dp"
+                    android:gravity="center"/>
+
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/piechart"
+                    android:layout_below="@+id/dashboard_tv_card_today_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="300dp" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/dashboard_ll_cards_container"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/dashboard_header_card_today"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<android.support.v7.widget.CardView-->
+                <!--android:id="@+id/dashboard_header_card_this_month"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginEnd="6dp"-->
+                <!--android:layout_marginRight="6dp"-->
+                <!--android:layout_weight="1"-->
+                <!--card_view:cardCornerRadius="4dp"-->
+                <!--card_view:cardElevation="2dp"-->
+                <!--card_view:cardPreventCornerOverlap="false"-->
+                <!--card_view:cardUseCompatPadding="true">-->
+
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingBottom="10dp">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_header"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="35dp"-->
+                        <!--android:background="@color/theme_color"-->
+                        <!--android:gravity="center_vertical"-->
+                        <!--android:paddingLeft="16dp"-->
+                        <!--android:text="This Month"/>-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_gross_sale_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_header"-->
+                        <!--android:layout_marginTop="16dp"-->
+                        <!--android:gravity="bottom"-->
+                        <!--android:paddingLeft="15dp"-->
+                        <!--android:text="Gross Sale"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_gross_sale"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_gross_sale_label"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:gravity="bottom|start"-->
+                        <!--android:text="0.00"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_gross_sale_percentage"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_gross_sale"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:gravity="bottom|end"-->
+                        <!--android:text="(0.00%)"-->
+                        <!--android:layout_alignRight="@+id/dashboard_tv_card_this_month_gross_sale"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_net_sale_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_toRightOf="@+id/dashboard_view_card_this_month_center"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_header"-->
+                        <!--android:layout_marginTop="16dp"-->
+                        <!--android:gravity="bottom"-->
+                        <!--android:paddingLeft="5dp"-->
+                        <!--android:text="Net Sale"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_net_sale"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_net_sale_label"-->
+                        <!--android:layout_toRightOf="@+id/dashboard_view_card_this_month_center"-->
+                        <!--android:layout_marginLeft="5dp"-->
+                        <!--android:gravity="bottom|start"-->
+                        <!--android:text="0.00"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<View-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--android:layout_toLeftOf="@+id/dashboard_tv_card_this_month_net_sale_label"-->
+                        <!--android:background="@color/half_black"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_header"-->
+                        <!--android:layout_marginTop="15dp"-->
+                        <!--android:layout_marginRight="5dp"/>-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_market_return_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_gross_sale_percentage"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:gravity="bottom"-->
+                        <!--android:paddingLeft="15dp"-->
+                        <!--android:text="Return"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_market_return"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_market_return_label"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:gravity="bottom|start"-->
+                        <!--android:text="0.00"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_discount_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_toRightOf="@+id/dashboard_view_card_this_month_center"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_gross_sale_percentage"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:gravity="bottom"-->
+                        <!--android:paddingLeft="5dp"-->
+                        <!--android:text="Discount"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_discount"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_discount_label"-->
+                        <!--android:layout_toRightOf="@+id/dashboard_view_card_this_month_center"-->
+                        <!--android:layout_marginLeft="5dp"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:gravity="bottom|start"-->
+                        <!--android:text="0.00"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_discount_percentage"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_discount"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:gravity="bottom|end"-->
+                        <!--android:text="(0.00%)"-->
+                        <!--android:layout_alignRight="@+id/dashboard_tv_card_this_month_discount"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<View-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--android:layout_toLeftOf="@+id/dashboard_tv_card_this_month_discount_label"-->
+                        <!--android:background="@color/half_black"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_gross_sale_percentage"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:layout_marginRight="5dp"/>-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_target_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_market_return"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:gravity="bottom"-->
+                        <!--android:paddingLeft="15dp"-->
+                        <!--android:text="Target"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_target"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_target_label"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:gravity="bottom|start"-->
+                        <!--android:text="0.00"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<View-->
+                        <!--android:id="@+id/dashboard_view_card_this_month_center"-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="1dp"-->
+                        <!--android:layout_centerInParent="true"/>-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_productive_calls_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_target"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:text="Productive Calls"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_productive_calls"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_productive_calls_label"-->
+                        <!--android:layout_marginLeft="16dp"-->
+                        <!--android:layout_marginRight="8dp"-->
+                        <!--android:text="0"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<View-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--android:layout_toLeftOf="@+id/dashboard_tv_card_this_month_unproductive_calls_label"-->
+                        <!--android:background="@color/half_black"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_target"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:layout_marginRight="5dp"/>-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_unproductive_calls_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_toRightOf="@+id/dashboard_view_card_this_month_center"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_target"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:paddingLeft="5dp"-->
+                        <!--android:text="Unproductive Calls"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_this_month_unproductive_calls"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_this_month_unproductive_calls_label"-->
+                        <!--android:layout_toRightOf="@+id/dashboard_view_card_this_month_center"-->
+                        <!--android:layout_marginLeft="5dp"-->
+                        <!--android:layout_marginRight="8dp"-->
+                        <!--android:gravity="bottom|start"-->
+                        <!--android:text="0"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                <!--</RelativeLayout>-->
+
+
+            <!--</android.support.v7.widget.CardView>-->
+
+            <!--<android.support.v7.widget.CardView-->
+                <!--android:id="@+id/dashboard_header_card_prev_month"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--card_view:cardCornerRadius="4dp"-->
+                <!--card_view:cardElevation="2dp"-->
+                <!--card_view:cardPreventCornerOverlap="false"-->
+                <!--card_view:cardUseCompatPadding="true">-->
+
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingBottom="10dp">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_header"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="35dp"-->
+                        <!--android:background="@color/theme_color"-->
+                        <!--android:gravity="center_vertical"-->
+                        <!--android:paddingLeft="16dp"-->
+                        <!--android:text="Previous Month" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_gross_sale_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_header"-->
+                        <!--android:layout_marginTop="16dp"-->
+                        <!--android:gravity="bottom"-->
+                        <!--android:paddingLeft="15dp"-->
+                        <!--android:text="Gross Sale"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_gross_sale"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_gross_sale_label"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:gravity="bottom|start"-->
+                        <!--android:text="0.00"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_gross_sale_percentage"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_gross_sale"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:gravity="bottom|end"-->
+                        <!--android:text="(0.00%)"-->
+                        <!--android:layout_alignRight="@+id/dashboard_tv_card_prev_month_gross_sale"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_net_sale_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_toRightOf="@+id/dashboard_view_card_prev_month_center"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_header"-->
+                        <!--android:layout_marginTop="16dp"-->
+                        <!--android:gravity="bottom"-->
+                        <!--android:paddingLeft="5dp"-->
+                        <!--android:text="Net Sale"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_net_sale"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_net_sale_label"-->
+                        <!--android:layout_toRightOf="@+id/dashboard_view_card_prev_month_center"-->
+                        <!--android:layout_marginLeft="5dp"-->
+                        <!--android:gravity="bottom|start"-->
+                        <!--android:text="0.00"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<View-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--android:layout_toLeftOf="@+id/dashboard_tv_card_prev_month_net_sale_label"-->
+                        <!--android:background="@color/half_black"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_header"-->
+                        <!--android:layout_marginTop="15dp"-->
+                        <!--android:layout_marginRight="5dp"/>-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_market_return_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_gross_sale_percentage"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:gravity="bottom"-->
+                        <!--android:paddingLeft="15dp"-->
+                        <!--android:text="Return"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_market_return"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_market_return_label"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:gravity="bottom|start"-->
+                        <!--android:text="0.00"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_discount_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_toRightOf="@+id/dashboard_view_card_prev_month_center"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_gross_sale_percentage"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:gravity="bottom"-->
+                        <!--android:paddingLeft="5dp"-->
+                        <!--android:text="Discount"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_discount"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_discount_label"-->
+                        <!--android:layout_toRightOf="@+id/dashboard_view_card_prev_month_center"-->
+                        <!--android:layout_marginLeft="5dp"-->
+                        <!--android:gravity="bottom|start"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:text="0.00"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_discount_percentage"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_discount"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:gravity="bottom|end"-->
+                        <!--android:text="(0.00%)"-->
+                        <!--android:layout_alignRight="@+id/dashboard_tv_card_prev_month_discount"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<View-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--android:layout_toLeftOf="@+id/dashboard_tv_card_prev_month_discount_label"-->
+                        <!--android:background="@color/half_black"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_gross_sale_percentage"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:layout_marginRight="5dp"/>-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_target_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_market_return"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:gravity="bottom"-->
+                        <!--android:paddingLeft="15dp"-->
+                        <!--android:text="Target"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_target"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_target_label"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:gravity="bottom|start"-->
+                        <!--android:text="0.00"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<View-->
+                        <!--android:id="@+id/dashboard_view_card_prev_month_center"-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="1dp"-->
+                        <!--android:layout_centerInParent="true"/>-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_productive_calls_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_target"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:text="Productive Calls"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_productive_calls"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_productive_calls_label"-->
+                        <!--android:layout_marginLeft="16dp"-->
+                        <!--android:layout_marginRight="8dp"-->
+                        <!--android:text="0"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<View-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--android:layout_toLeftOf="@+id/dashboard_tv_card_prev_month_unproductive_calls_label"-->
+                        <!--android:background="@color/half_black"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_target"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:layout_marginRight="5dp"/>-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_unproductive_calls_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_toRightOf="@+id/dashboard_view_card_prev_month_center"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_target"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:paddingLeft="5dp"-->
+                        <!--android:text="Unproductive Calls"-->
+                        <!--android:textSize="12sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/dashboard_tv_card_prev_month_unproductive_calls"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/dashboard_tv_card_prev_month_unproductive_calls_label"-->
+                        <!--android:layout_toRightOf="@+id/dashboard_view_card_prev_month_center"-->
+                        <!--android:layout_marginLeft="5dp"-->
+                        <!--android:layout_marginRight="8dp"-->
+                        <!--android:gravity="bottom|start"-->
+                        <!--android:text="0"-->
+                        <!--android:textColor="@android:color/primary_text_light"-->
+                        <!--android:textSize="16sp" />-->
+
+                <!--</RelativeLayout>-->
+
+            <!--</android.support.v7.widget.CardView>-->
+
+        <!--</LinearLayout>-->
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_below="@+id/dashboard_header_card_today"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@color/theme_color"
+                android:text="Target v Achievement"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"/>
+
+            <CheckBox
+                android:id="@+id/dashboard_checkbox_cumulative_switcher"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="Cumulative"
+                android:layout_gravity="end"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:checked="true"
+                android:padding="5dp"
+                android:enabled="false"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/dashboard_linechart_accumulated"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_below="@+id/dashboard_ll_cards_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="40dp"/>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+</FrameLayout>

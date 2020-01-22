@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/et_search"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/custom_textbox"
+        app:iconifiedByDefault="true"
+        app:queryHint="Type you keyword here..." />
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:orientation="horizontal">-->
+
+
+        <!--<com.datamation.swdsfa.utils.CustomizeFont-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="1dp"-->
+            <!--android:layout_marginRight="1dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/custom_label"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:text="PRODUCT"-->
+            <!--android:textColor="@color/unselected"-->
+            <!--android:textSize="16sp"-->
+            <!--android:textStyle="bold" />-->
+
+        <!--<com.datamation.swdsfa.utils.CustomizeFont-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="1dp"-->
+            <!--android:layout_weight="0.2"-->
+            <!--android:background="@drawable/custom_label"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:text="PRICE"-->
+            <!--android:textColor="@color/unselected"-->
+            <!--android:textSize="16sp"-->
+            <!--android:textStyle="bold" />-->
+
+        <!--<com.datamation.swdsfa.utils.CustomizeFont-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="0.2"-->
+            <!--android:background="@drawable/custom_label"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:text="QOH"-->
+            <!--android:textColor="@color/unselected"-->
+            <!--android:textSize="16sp"-->
+            <!--android:textStyle="bold" />-->
+
+        <!--<com.datamation.swdsfa.utils.CustomizeFont-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="1dp"-->
+            <!--android:layout_marginRight="1dp"-->
+            <!--android:layout_weight="1.2"-->
+            <!--android:background="@drawable/custom_label"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:text="QUANTITY"-->
+            <!--android:textColor="@color/unselected"-->
+            <!--android:textSize="16sp"-->
+            <!--android:textStyle="bold" />-->
+    <!--</LinearLayout>-->
+    <LinearLayout
+        android:id="@+id/lnProductStripe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:background="#2f6699"
+        android:bottomLeftRadius="10dp"
+        android:bottomRightRadius="10dp"
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:longClickable="true"
+                android:layout_margin="3dp"
+                android:weightSum="4"
+                android:orientation="horizontal">
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:id="@+id/row_itemcode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="1dip"
+                    android:layout_marginRight="1dip"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:text="PRODUCT"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/unselected"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:id="@+id/row_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="1dip"
+                    android:layout_marginRight="1dip"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="PRICE"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/unselected"
+                    android:textSize="14sp"
+                    />
+
+
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:id="@+id/row_qoh"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="1dip"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="QOH"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/unselected"
+                    android:textSize="14sp"
+                    />
+                <com.datamation.swdsfa.utils.CustomFont
+                    android:id="@+id/row_qty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="1dip"
+                    android:layout_marginRight="1dip"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="CASES | PIECES"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/unselected"
+                    android:textSize="14sp"
+                    />
+
+            </TableRow>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <ListView
+        android:id="@+id/lv_product_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/list_view_diveder"
+        android:dividerHeight="1dp"
+        android:layout_margin="5dp"></ListView>
+
+</LinearLayout>

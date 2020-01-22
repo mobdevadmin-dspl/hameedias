@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include android:id="@+id/de_toolbar"
+        layout="@layout/toolbar"/>
+
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/de_tab_strip"
+        android:layout_width="match_parent"
+        android:layout_height="48dip"
+        android:layout_below="@+id/de_toolbar"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/de_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/de_tab_strip"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/drawer_semi_trans_bg"
+        android:clickable="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

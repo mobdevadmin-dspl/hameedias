@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right" >
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="All"
+            android:textColor="@android:color/white"
+            android:textStyle="italic" />
+<!-- <com.kandanafd.kfd_medi.DefView.FinacBtn
+            android:id="@+id/route_wise_cust"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="Route"
+            android:textColor="@android:color/white"
+            android:textStyle="italic" />-->
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="Route"
+            android:textColor="@android:color/white"
+            android:textStyle="italic" />
+    </TableRow>
+
+    <ListView
+        android:id="@+id/cus_lv"
+        android:layout_margin="5dp"
+        android:dividerHeight="5dp"
+        android:divider="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+    <ViewStub
+        android:id="@android:id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout="@layout/empty_view" />
+
+</LinearLayout>

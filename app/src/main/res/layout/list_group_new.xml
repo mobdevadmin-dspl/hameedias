@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+   >
+
+
+    <RelativeLayout
+        android:id="@+id/fragment_order_details_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/free_refno"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/from_date"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/btn_colour"
+            android:textSize="13sp"
+            android:maxLines="3"
+            android:gravity="center"
+            android:text="Free RefNo"/>
+
+        <TextView
+            android:id="@+id/from_date"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/to_date"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="From Date"/>
+
+        <TextView
+            android:id="@+id/to_date"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:text="To Date"/>
+
+        <!--<TextView-->
+            <!--android:id="@+id/sale_item"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_below="@+id/free_refno"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight = "0.5"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_toLeftOf="@+id/from_date"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textSize="13sp"-->
+            <!--android:maxLines="3"-->
+            <!--android:gravity="left"-->
+            <!--android:text="Sale Item"/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/free_item"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight = "0.5"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_toLeftOf="@+id/from_qty"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textSize="13sp"-->
+            <!--android:maxLines="3"-->
+            <!--android:gravity="left"-->
+            <!--android:text="Free Item"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/from_qty"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_weight = "0.25"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_toLeftOf="@+id/to_qty"-->
+            <!--android:textSize="14sp"-->
+            <!--android:gravity="center"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="From Qty"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/to_qty"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_weight = "0.25"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_toLeftOf="@+id/item_qty"-->
+            <!--android:textSize="14sp"-->
+            <!--android:gravity="center"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="To Qty"/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/item_qty"-->
+            <!--android:layout_weight = "0.25"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_toLeftOf="@+id/free_qty"-->
+            <!--android:textSize="14sp"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="Item Qty"/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/free_qty"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_weight = "0.25"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toLeftOf="@+id/status"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:textSize="14sp"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="Free Qty"/>-->
+
+    </RelativeLayout>
+</LinearLayout>

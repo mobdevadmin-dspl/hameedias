@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight ="1"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:weightSum="1">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:padding="5dp">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/_nRefNo"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:hint="Ref No"
+                        android:layout_marginTop="5dp"
+                        android:editable="false">
+
+                    </android.support.design.widget.TextInputEditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </TableRow>
+
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:weightSum="1"
+                android:layout_marginTop="5dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:padding="5dp">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/_ndate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Date"
+                        android:layout_marginTop="5dp"
+                        android:editable="false">
+
+                    </android.support.design.widget.TextInputEditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:weightSum="1"
+                android:layout_marginTop="5dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:padding="5dp">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/_nremrk"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Remark"
+                        android:layout_marginTop="5dp">
+
+                    </android.support.design.widget.TextInputEditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:weightSum="1"
+                android:layout_marginTop="5dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:padding="5dp">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/_nRetailer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Retailer"
+                        android:layout_marginTop="5dp"
+                        android:editable="false">
+
+                    </android.support.design.widget.TextInputEditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:weightSum="1"
+                android:layout_marginTop="5dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="525dp"
+                    android:layout_height="60dp"
+                    android:padding="5dp">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/_nReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Reason"
+                        android:layout_marginTop="5dp"
+                        android:editable="false">
+
+                    </android.support.design.widget.TextInputEditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/reason_search"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/search_button"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="bottom"/>
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical|center_horizontal">
+
+                <Button
+                    android:id="@+id/btn_add"
+                    android:theme="@style/AppTheme.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="ADD" />
+
+            </TableRow>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="horizontal">
+
+                <com.datamation.swdsfa.utils.CustomizeFont
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dip"
+                    android:layout_marginRight="1dip"
+                    android:layout_weight="2"
+                    android:background="@drawable/custom_label"
+                    android:gravity="center"
+                    android:text="REASON CODE"
+                    android:textColor="@color/unselected"
+                    android:textSize="@dimen/font_size_intermed"
+                    />
+
+                <com.datamation.swdsfa.utils.CustomizeFont
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dip"
+                    android:layout_marginRight="1dip"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_label"
+                    android:gravity="center"
+                    android:text="REASON"
+                    android:textColor="@color/unselected"
+                    android:textSize="@dimen/font_size_intermed"
+                    />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/lv_loading_sum"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:divider="@color/list_view_diveder"
+                android:dividerHeight="1dp"
+                android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        fab:fab_shadowColor="#66000000"
+        fab:fab_showShadow="true"
+        fab:menu_fab_label="Choose an action"
+        fab:menu_icon="@android:drawable/ic_dialog_dialer"
+        fab:menu_labels_colorNormal="#333333"
+        fab:menu_labels_colorPressed="#444444"
+        fab:menu_labels_colorRipple="#66FFFFFF"
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_maxLines="-1"
+        fab:menu_labels_position="left"
+        fab:menu_labels_showShadow="true"
+        fab:menu_labels_singleLine="true"
+        fab:menu_openDirection="up">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_save"
+            fab:fab_label="Save"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_delete"
+            fab:fab_label="Discard"
+            fab:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</RelativeLayout>

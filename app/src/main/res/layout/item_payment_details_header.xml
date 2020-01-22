@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/item_payment_details_view_empty"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="?android:colorBackground"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/item_payment_details_tv_pin_txt"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/item_payment_details_view_empty"
+        android:layout_height="35dp"
+        android:text=""
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:gravity="center_vertical"
+        android:background="@color/theme_color_accent"
+        android:paddingLeft="16dp"/>
+
+</RelativeLayout>

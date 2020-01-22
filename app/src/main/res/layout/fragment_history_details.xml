@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/outlet_details_history_header_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="2dp"
+        card_view:cardPreventCornerOverlap="false"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingLeft="@dimen/finac_extra_medium_text_size"
+            android:paddingRight="@dimen/finac_extra_medium_text_size">
+
+            <TextView
+                android:id="@+id/outlet_details_historyt_invoice_id"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Invoice ID"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textSize="13sp"
+                android:layout_centerVertical="true"
+                android:focusableInTouchMode="false"
+                android:clickable="false"
+                android:gravity="center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/outlet_details_historyt_invoice_date"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:focusableInTouchMode="false"
+                android:clickable="false"
+                android:layout_toRightOf="@+id/outlet_details_historyt_invoice_id"
+                android:layout_toEndOf="@+id/outlet_details_historyt_invoice_id"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/outlet_details_historyt_invoice_gross"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:text="Gross"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/outlet_details_historyt_invoice_date"
+                android:layout_toEndOf="@+id/outlet_details_historyt_invoice_date"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/outlet_details_historyt_invoice_net"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:text="Net"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/outlet_details_historyt_invoice_gross"
+                android:layout_toEndOf="@+id/outlet_details_historyt_invoice_gross"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/outlet_details_historyt_invoice_outstanding"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Balance"
+                android:layout_toRightOf="@+id/outlet_details_historyt_invoice_net"
+                android:layout_toEndOf="@+id/outlet_details_historyt_invoice_net"
+                android:textSize="13sp"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:text="Days"
+                android:textSize="13sp"
+                android:gravity="end"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/outlet_details_historyt_invoice_outstanding"
+                android:layout_toEndOf="@+id/outlet_details_historyt_invoice_outstanding"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/outlet_details_history_header_card"/>
+
+</RelativeLayout>

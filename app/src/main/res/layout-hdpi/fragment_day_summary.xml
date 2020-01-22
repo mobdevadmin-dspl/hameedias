@@ -1,0 +1,1481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true" />
+
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/dashboard_ll_cards_container"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-109dp"
+        android:layout_marginTop="-3dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="7dp"
+        android:clipToPadding="false"
+        android:paddingBottom="50dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/fragment_day_summary_card_header"
+        android:background="?android:colorBackground"/>
+
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/fragment_day_summary_card_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="2dp"
+        card_view:cardPreventCornerOverlap="false"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp">
+
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_header"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/textView"
+                android:background="@color/theme_color"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="Today Sales"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_select_date"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="15dp"
+                android:text="2015.02.02"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/fragment_day_summary_card_tv_header"
+                android:layout_alignEnd="@+id/fragment_day_summary_card_tv_net_sale"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/half_black" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_target_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/view2"
+                android:layout_marginTop="5dp"
+                android:gravity="bottom"
+                android:paddingLeft="15dp"
+                android:text="RD Day Target"
+                android:textColor="@color/md_material_blue_800"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_today_target"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_target_label"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="bottom|start"
+                android:text="0.00"
+                android:textColor="@color/md_material_blue_800"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_gross_sale_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_today_target"
+                android:layout_alignTop="@+id/view2"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="10dp"
+                android:gravity="bottom"
+                android:paddingLeft="100dp"
+                android:text="Gross Sale"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_gross_sale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_gross_sale_label"
+                android:layout_alignLeft="@+id/dashboard_tv_card_today_target"
+                android:layout_marginLeft="135dp"
+                android:gravity="bottom|start"
+                android:text="0 "
+                android:textColor="@android:color/primary_text_light" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_gross_sale"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_gross_sale"
+                android:layout_marginLeft="15dp"
+                android:gravity="bottom|end"
+                android:text="(0.00%)"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_market_return_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_today_target"
+                android:layout_marginLeft="80dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_tv_gross_sale"
+                android:gravity="start"
+                android:text="Return"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/fragment_day_summary_card_tv_market_return"-->
+            <!--                android:layout_width="100dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_alignStart="@+id/fragment_day_summary_card_tv_market_return_label"-->
+            <!--                android:layout_below="@+id/fragment_day_summary_card_tv_market_return_label"-->
+            <!--                android:gravity="bottom|start"-->
+            <!--                android:text="0.00"-->
+            <!--                android:textColor="@android:color/primary_text_light" />-->
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_discount_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/fragment_day_summary_card_tv_gross_sale_label"
+                android:layout_alignTop="@+id/view2"
+                android:layout_marginLeft="236dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_tv_market_return"
+                android:gravity="bottom"
+                android:text="Discount"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_discount_label"
+                android:layout_alignStart="@+id/fragment_day_summary_card_tv_discount_label"
+                android:gravity="bottom|start"
+                android:text="0 "
+                android:textColor="@android:color/primary_text_light" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_discount"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_discount"
+                android:layout_marginLeft="15dp"
+                android:gravity="bottom|end"
+                android:text="(100%)"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_net_sale_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/dashboard_tv_card_total_free_mannual_lable"
+                android:layout_alignTop="@+id/fragment_day_summary_card_tv_discount_label"
+                android:gravity="bottom"
+                android:text="Net Sale"
+                android:textColor="@color/material_alert_positive_button"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_net_sale"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_net_sale_label"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="25dp"
+                android:gravity="bottom|start"
+                android:text="0.00"
+                android:textColor="@color/material_alert_positive_button"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_today_market_return_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_gross_sale"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/fragment_day_usable_return_lable"
+                android:gravity="bottom"
+                android:text="Market Return"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_today_market_return_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_today_market_return_label"
+                android:layout_alignLeft="@+id/fragment_day_usable_return_value"
+                android:layout_marginLeft="135dp"
+                android:layout_marginTop="5dp"
+                android:gravity="bottom|start"
+                android:text="0"
+                android:textColor="@android:color/primary_text_light" />
+
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_today_free_company_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_discount"
+                android:layout_alignLeft="@+id/dashboard_tv_card_today_market_return_label"
+                android:layout_marginLeft="136dp"
+                android:layout_marginTop="15dp"
+                android:gravity="bottom"
+                android:text="Free (Company)"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_today_free_company_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_today_free_company_label"
+                android:layout_marginLeft="126dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/dashboard_tv_card_today_market_return_value"
+                android:gravity="bottom|start"
+                android:text="0"
+                android:textColor="@android:color/primary_text_light" />
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_total_free_mannual_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_net_sale"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="35dp"
+                android:gravity="bottom"
+                android:text="Free (Distributor)"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_total_free_mannual_value"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_total_free_mannual_lable"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="23dp"
+                android:gravity="bottom|start"
+                android:text="0"
+                android:textColor="@android:color/primary_text_light" />
+
+            <TextView
+                android:id="@+id/fragment_day_usable_return_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_today_target"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="5dp"
+                android:gravity="bottom"
+                android:paddingLeft="15dp"
+                android:text="Usable Return"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/fragment_day_usable_return_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_usable_return_lable"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:gravity="bottom|start"
+                android:text="0"
+                android:textColor="@android:color/primary_text_light" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_tonnage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_usable_return_value"
+                android:layout_marginTop="10dp"
+                android:gravity="bottom"
+                android:paddingLeft="15dp"
+                android:text="Tonnage(Pre Sale)"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_tonnage_value"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_tonnage"
+                android:layout_marginLeft="15dp"
+                android:gravity="bottom|start"
+                android:text="0.00"
+                android:textColor="@android:color/primary_text_light"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_today_productive_calls_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_today_market_return_value"
+                android:layout_alignLeft="@+id/fragment_day_summary_card_tv_linePerInvoice_label"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="10dp"
+                android:gravity="bottom"
+                android:text="Productive Calls"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_today_productive_calls"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/dashboard_tv_card_today_unproductive_calls"
+                android:layout_alignStart="@+id/dashboard_tv_card_today_productive_calls_label"
+                android:layout_alignBottom="@+id/dashboard_tv_card_today_unproductive_calls"
+                android:layout_marginTop="5dp"
+                android:gravity="bottom|start"
+                android:text="0"
+                android:textColor="@android:color/primary_text_light" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_linePerInvoice_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_tonnage_value"
+                android:layout_marginTop="10dp"
+                android:gravity="bottom"
+                android:paddingLeft="15dp"
+                android:text="Lines Per Call"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_linePerInvoice_value"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_linePerInvoice_label"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:gravity="bottom|start"
+                android:text="0"
+                android:textColor="@android:color/primary_text_light" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_np_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_today_productive_calls"
+                android:layout_alignRight="@+id/dashboard_tv_card_today_productive_calls"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="15dp"
+                android:gravity="bottom|end"
+                android:text="(0.00%)"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_np_percentage_PC_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_today_productive_calls"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_np_percentage"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="48dp"
+                android:gravity="bottom|end"
+                android:text="PC :"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_today_unproductive_calls_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_today_free_company_value"
+                android:layout_marginLeft="127dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/dashboard_tv_card_today_market_return_value"
+                android:text="Non-Productive Calls"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_today_unproductive_calls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_today_unproductive_calls_label"
+                android:layout_marginLeft="128dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/dashboard_tv_card_today_market_return_value"
+                android:gravity="bottom|start"
+                android:text="0"
+                android:textColor="@android:color/primary_text_light" />
+
+            <!--<TextView-->
+            <!--android:id="@+id/fragment_day_summary_card_tv_np_percentage"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignRight="@+id/dashboard_tv_card_today_unproductive_calls"-->
+            <!--android:layout_below="@+id/dashboard_tv_card_today_unproductive_calls"-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:gravity="bottom|end"-->
+            <!--android:text="(0.00%)"-->
+            <!--android:textColor="@android:color/primary_text_light"-->
+            <!--android:textSize="12sp" />-->
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_total_calls_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_total_free_mannual_value"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="68dp"
+                android:text="Total Calls"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/dashboard_tv_card_total_calls_value"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dashboard_tv_card_total_calls_lable"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="22dp"
+                android:gravity="bottom|start"
+                android:text="0"
+                android:textColor="@android:color/primary_text_light" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_collections_header"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/fragment_day_summary_card_tv_linePerInvoice_value"
+                android:layout_marginTop="25dp"
+                android:background="@color/theme_color"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="Collections"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/fragment_day_summary_card_tv_collections_header"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/half_black"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_collections_header"
+                android:layout_marginTop="5dp"
+                android:layout_toLeftOf="@+id/fragment_day_summary_card_center_view"
+                android:gravity="center"
+                android:text="Credit"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_cash_header"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/textView3"
+                android:layout_alignStart="@+id/fragment_day_summary_card_tv_day_cash"
+                android:layout_alignBottom="@+id/textView3"
+                android:text="Cash Count"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/credit_value"
+                android:layout_alignStart="@+id/dashboard_tv_card_total_calls_lable"
+                android:text="Cheque Count"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/fragment_day_summary_card_center_view"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:id="@+id/cash_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_collections_header"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="Cash"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/cash_value"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cash_lable"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="0.00"
+                android:textColor="#000"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/credit_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_collections_header"
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/cash_lable"
+                android:text="Credit"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/credit_value"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/credit_lable"
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/cash_lable"
+                android:text="0.00"
+                android:textColor="#000"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_day_credit"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_cash_header"
+                android:layout_toLeftOf="@+id/fragment_day_summary_card_center_view"
+                android:gravity="center_vertical|end"
+                android:paddingRight="5dp"
+                android:text="0.00"
+                android:textColor="@android:color/primary_text_light"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_day_credit_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_day_credit"
+                android:layout_alignRight="@+id/fragment_day_summary_card_center_view"
+                android:layout_marginLeft="15dp"
+                android:gravity="bottom|end"
+                android:paddingRight="5dp"
+                android:text="(0.00%)"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_day_cash"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_cash_header"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_center_view"
+                android:paddingRight="5dp"
+                android:text="0.00"
+                android:textColor="@android:color/primary_text_light"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_day_cash_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_day_credit"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_day_cash"
+                android:layout_marginLeft="15dp"
+                android:gravity="bottom|end"
+                android:paddingRight="5dp"
+                android:text="(0.00%)"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_day_cheque"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_cash_header"
+                android:layout_marginLeft="65dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_tv_cash_header"
+                android:text="0.00"
+                android:textColor="@android:color/primary_text_light"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_day_cheque_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_day_credit"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_day_cheque"
+                android:layout_marginLeft="15dp"
+                android:gravity="bottom|end"
+                android:paddingRight="5dp"
+                android:text="(0.00%)"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_previous_credit"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_day_label"
+                android:layout_toLeftOf="@+id/fragment_day_summary_card_center_view"
+                android:gravity="center_vertical|end"
+                android:paddingRight="5dp"
+                android:text="0.00"
+                android:textColor="@android:color/primary_text_light"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_previous_credit_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_previous_credit"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_previous_credit"
+                android:layout_marginLeft="15dp"
+                android:gravity="bottom|end"
+                android:paddingRight="5dp"
+                android:text="(0.00%)"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_previous_cash"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_day_label"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_center_view"
+                android:gravity="center_vertical|end"
+                android:paddingRight="5dp"
+                android:text="0.00"
+                android:textColor="@android:color/primary_text_light"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_previous_credit"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_previous_cash"
+                android:layout_marginLeft="15dp"
+                android:gravity="bottom|end"
+                android:paddingRight="5dp"
+                android:text="(0.00%)"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_previous_cheque"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_day_label"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_tv_previous_cash"
+                android:gravity="center_vertical|end"
+                android:paddingRight="5dp"
+                android:text="0.00"
+                android:textColor="@android:color/primary_text_light"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_previous_credit"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_previous_cheque"
+                android:layout_marginLeft="15dp"
+                android:gravity="bottom|end"
+                android:paddingRight="5dp"
+                android:text="(0.00%)"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/fragment_day_summary_card_tv_previous_credit_percentage"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_total_cheque"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_tv_previous_cash"
+                android:background="@color/half_black"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_total_cheque"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_previous_credit_percentage"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_tv_previous_cash"
+                android:gravity="center_vertical|end"
+                android:paddingRight="5dp"
+                android:text="0.00"
+                android:textColor="@android:color/primary_text_light"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/fragment_day_summary_card_tv_total_cheque"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_total_cheque"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_tv_previous_cash"
+                android:background="@color/half_black"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/fragment_day_summary_card_tv_total_cheque"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_total_cheque"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_tv_previous_cash"
+                android:background="@color/half_black"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/fragment_day_summary_card_tv_previous_credit_percentage"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/fragment_day_summary_card_tv_total_cheque"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_center_view"
+                android:background="@color/half_black"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/fragment_day_summary_card_tv_total_cash"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_day_summary_card_tv_previous_credit_percentage"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_center_view"
+                android:gravity="center_vertical|end"
+                android:paddingRight="5dp"
+                android:text="0.00"
+                android:textColor="@android:color/primary_text_light"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/fragment_day_summary_card_tv_total_cash"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_total_cash"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_center_view"
+                android:background="@color/half_black"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/fragment_day_summary_card_tv_total_cash"
+                android:layout_alignRight="@+id/fragment_day_summary_card_tv_total_cash"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/fragment_day_summary_card_center_view"
+                android:background="@color/half_black"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <LinearLayout
+        android:id="@+id/dashboard_ll_cards_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_day_summary_card_header"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_weight="1"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="2dp"
+            card_view:cardPreventCornerOverlap="false"
+            card_view:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@color/theme_color"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:text="This Month"
+                    android:textStyle="bold"
+                    android:textColor="#fff"/>
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_gross_sale_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_header"
+                    android:layout_marginTop="16dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="15dp"
+                    android:text="Booking Value"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_gross_sale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_gross_sale_label"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="bottom|start"
+                    android:text="0 "
+                    android:textColor="@android:color/primary_text_light"
+                    android:paddingRight="10dp"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_gross_sale_percentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_gross_sale"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="bottom|end"
+                    android:visibility="gone"
+                    android:text="(0.00%)"
+                    android:layout_alignRight="@+id/dashboard_tv_card_this_month_gross_sale"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_net_sale_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/dashboard_view_card_this_month_center"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_header"
+                    android:layout_marginTop="16dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="5dp"
+                    android:text="RD Value"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_net_sale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_net_sale_label"
+                    android:layout_toRightOf="@+id/dashboard_view_card_this_month_center"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="bottom|start"
+                    android:text="0 "
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_target_Achivement_precentage_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_net_sale"
+                    android:layout_alignLeft="@+id/dashboard_tv_card_this_month_target_label"
+                    android:layout_marginLeft="130dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="15dp"
+                    android:text="Tar. vs Ach."
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_target_Achivement_precentage_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_target_Achivement_precentage_label"
+                    android:layout_marginLeft="145dp"
+                    android:gravity="bottom|start"
+                    android:text="0.00% "
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@+id/dashboard_tv_card_this_month_invoice_sale_label"
+                    android:layout_marginLeft="46dp"
+                    android:background="@color/half_black"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_gross_sale_label"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginRight="5dp"/>
+
+
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:layout_toLeftOf="@+id/dashboard_tv_card_this_month_net_sale_label"
+                    android:background="@color/half_black"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_header"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_invoice_sale_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_gross_sale_percentage"
+                    android:layout_marginTop="10dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="15dp"
+                    android:text="Invoice Value"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_invoice_sale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_invoice_sale_label"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="bottom|start"
+                    android:text="0 "
+                    android:textColor="@android:color/primary_text_light"
+                    android:paddingRight="10dp"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_market_return_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_invoice_sale"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="5dp"
+                    android:text="Cancelled Value"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_market_return"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_market_return_label"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="bottom|start"
+                    android:text="0 "
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_discount_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_invoice_sale"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/dashboard_view_card_this_month_center"
+                    android:gravity="bottom"
+                    android:paddingLeft="5dp"
+                    android:text="Discount"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_discount_label"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/dashboard_view_card_this_month_center"
+                    android:gravity="bottom|start"
+                    android:paddingRight="10dp"
+                    android:text="0 "
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_discount_percentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_discount"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="bottom|end"
+                    android:text="(0.00%)"
+                    android:visibility="gone"
+                    android:layout_alignRight="@+id/dashboard_tv_card_this_month_discount"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:layout_toLeftOf="@+id/dashboard_tv_card_this_month_discount_label"
+                    android:background="@color/half_black"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_invoice_sale"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_target_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_market_return"
+                    android:layout_marginTop="15dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="15dp"
+                    android:text="RD Target"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_target"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_target_label"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="bottom|start"
+                    android:text="0 "
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/dashboard_view_card_this_month_center"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_productive_calls_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_target"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Productive Calls"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_productive_calls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_productive_calls_label"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="8dp"
+                    android:text="0"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_target"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_toLeftOf="@+id/dashboard_tv_card_this_month_unproductive_calls_label"
+                    android:background="@color/half_black" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_unproductive_calls_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/dashboard_view_card_this_month_center"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_target"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="5dp"
+                    android:text="Non-Productive Calls"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_this_month_unproductive_calls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_this_month_unproductive_calls_label"
+                    android:layout_toRightOf="@+id/dashboard_view_card_this_month_center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="8dp"
+                    android:gravity="bottom|start"
+                    android:text="0"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="2dp"
+            card_view:cardPreventCornerOverlap="false"
+            card_view:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@color/theme_color"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:text="Previous Month"
+                    android:textColor="#fff"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_gross_sale_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_header"
+                    android:layout_marginTop="16dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="15dp"
+                    android:text="Booking Value"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_gross_sale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_gross_sale_label"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="bottom|start"
+                    android:text="0 "
+                    android:paddingRight="10dp"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_gross_sale_percentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_gross_sale"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="bottom|end"
+                    android:text="(0.00%)"
+                    android:visibility="gone"
+                    android:layout_alignRight="@+id/dashboard_tv_card_prev_month_gross_sale"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_net_sale_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/dashboard_view_card_prev_month_center"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_header"
+                    android:layout_marginTop="16dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="5dp"
+                    android:text="RD Value"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_invoice_sale_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_gross_sale_percentage"
+                    android:layout_marginTop="16dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="15dp"
+                    android:text="Invoice Value"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_invoice_gross_sale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_invoice_sale_label"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="bottom|start"
+                    android:text="0 "
+                    android:paddingRight="10dp"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_net_sale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_net_sale_label"
+                    android:layout_toRightOf="@+id/dashboard_view_card_prev_month_center"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="bottom|start"
+                    android:text="0 "
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:layout_toLeftOf="@+id/dashboard_tv_card_prev_month_net_sale_label"
+                    android:background="@color/half_black"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_header"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_target_Achivement_precentage_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_net_sale"
+                    android:layout_marginLeft="140dp"
+                    android:layout_marginTop="11dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="5dp"
+                    android:text="Tar. vs Ach."
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_target_Achivement_precentage_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_target_Achivement_precentage_label"
+                    android:layout_marginLeft="150dp"
+                    android:gravity="bottom|start"
+                    android:text="0.00% "
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@+id/dashboard_tv_card_prev_month_target_label"
+                    android:layout_marginLeft="66dp"
+                    android:background="@color/half_black"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_gross_sale_label"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_market_return_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_invoice_gross_sale"
+                    android:layout_marginTop="15dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="15dp"
+                    android:text="Cancelled Value"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_market_return"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_market_return_label"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="bottom|start"
+                    android:text="0 "
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_discount_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_invoice_gross_sale"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@+id/dashboard_view_card_prev_month_center"
+                    android:gravity="bottom"
+                    android:paddingLeft="5dp"
+                    android:text="Discount"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_discount_label"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/dashboard_view_card_prev_month_center"
+                    android:gravity="bottom|start"
+                    android:paddingRight="10dp"
+                    android:text="0 "
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_discount_percentage"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_discount"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="bottom|end"
+                    android:text="(0.00%)"
+                    android:layout_alignRight="@+id/dashboard_tv_card_prev_month_discount"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:layout_toLeftOf="@+id/dashboard_tv_card_prev_month_discount_label"
+                    android:background="@color/half_black"
+                    android:layout_below="@+id/dashboard_tv_card_prev_invoice_gross_sale"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_target_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_market_return"
+                    android:layout_marginTop="10dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="15dp"
+                    android:text="RD Target"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_target"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_target_label"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="bottom|start"
+                    android:text="0 "
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/dashboard_view_card_prev_month_center"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_productive_calls_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_target"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Productive Calls"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_productive_calls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_productive_calls_label"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="8dp"
+                    android:text="0"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:layout_toLeftOf="@+id/dashboard_tv_card_prev_month_unproductive_calls_label"
+                    android:background="@color/half_black"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_target"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_unproductive_calls_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/dashboard_view_card_prev_month_center"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_target"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="5dp"
+                    android:text="Non-Productive Calls"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dashboard_tv_card_prev_month_unproductive_calls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dashboard_tv_card_prev_month_unproductive_calls_label"
+                    android:layout_toRightOf="@+id/dashboard_view_card_prev_month_center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="8dp"
+                    android:gravity="bottom|start"
+                    android:text="0"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+</RelativeLayout>
