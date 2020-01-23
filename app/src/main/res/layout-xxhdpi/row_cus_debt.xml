@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:weightSum="8">
 
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:id="@+id/txtRefno"
         android:layout_width="0dp"
         android:layout_height="30dp"
@@ -15,7 +15,7 @@
         android:text="Invoice no"
         android:textSize="14sp" />
 
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:id="@+id/txtDate"
         android:layout_width="0dp"
         android:layout_height="30dp"
@@ -25,7 +25,7 @@
         android:text="Date"
         android:textSize="14sp" />
 
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:id="@+id/txtAge"
         android:layout_width="0dp"
         android:layout_height="30dp"
@@ -35,7 +35,7 @@
         android:text="Age"
         android:textSize="14sp" />
 
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:id="@+id/txtAmount"
         android:layout_width="0dp"
         android:layout_height="30dp"

@@ -29,7 +29,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true">
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -40,7 +40,7 @@
                         android:textColor="@color/greenColor"
                         android:textSize="@dimen/font_for_all" />
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="left"
@@ -72,7 +72,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true">
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -83,7 +83,7 @@
                         android:textColor="@color/greenColor"
                         android:textSize="@dimen/font_for_all" />
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="left"
@@ -118,7 +118,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true">
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -129,7 +129,7 @@
                         android:textColor="@color/greenColor"
                         android:textSize="@dimen/font_for_all" />
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="left"
@@ -162,7 +162,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true">
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -173,7 +173,7 @@
                         android:textColor="@color/greenColor"
                         android:textSize="@dimen/font_for_all" />
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="left"
@@ -192,7 +192,7 @@
                         android:inputType="number"
                         />
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -203,7 +203,7 @@
                         android:textColor="@color/greenColor"
                         android:textSize="@dimen/font_for_all" />
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="left"
@@ -234,7 +234,7 @@
                     android:layout_marginTop="5dp"
                     android:paddingTop="5dp">
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -246,7 +246,7 @@
                         android:textColor="@color/greenColor"
                         android:textSize="@dimen/font_for_all" />
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="left"
@@ -267,7 +267,7 @@
 
                     </EditText>
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -280,7 +280,7 @@
                         android:textColor="@color/greenColor"
                         android:textSize="@dimen/font_for_all" />
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
@@ -375,7 +375,7 @@
         android:background="@color/unselected"
         android:orientation="horizontal">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dip"
@@ -389,7 +389,7 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
 
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -403,7 +403,7 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dip"

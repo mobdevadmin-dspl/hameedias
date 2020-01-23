@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="5dp">
 
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:id="@+id/TextView01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:textSize="@dimen/font_size_intermed"
         android:textStyle="bold" />
 
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:id="@+id/tv_item_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         android:textSize="@dimen/font_size_intermed"
         android:textStyle="bold" />
 
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:id="@+id/tv_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

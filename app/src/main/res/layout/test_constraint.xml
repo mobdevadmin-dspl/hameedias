@@ -48,7 +48,7 @@
             android:orientation="vertical" />
     </ScrollView>
 
-    <com.datamation.swdsfa.utils.CustomBtn
+    <com.datamation.hmdsfa.utils.CustomBtn
         android:id="@+id/got_it"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

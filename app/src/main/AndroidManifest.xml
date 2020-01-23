@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.datamation.swdsfa">
+    package="com.datamation.hmdsfa">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CONNECTIVITY_SERVICE" />
@@ -29,7 +29,7 @@
         android:required="true" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.datamation.hmdsfa.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/dm_logo"
         android:label="@string/app_name"
@@ -41,7 +41,7 @@
             tools:replace="name,icon">
 
         <activity
-            android:name=".view.ActivitySplash"
+            android:name="com.datamation.hmdsfa.view.ActivitySplash"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -52,49 +52,49 @@
         </activity>
 
         <activity
-            android:name=".view.ActivityHome"
+            android:name="com.datamation.hmdsfa.view.ActivityHome"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeWithTitle" />
         <activity
-            android:name=".view.SettingsActivity"
+            android:name="com.datamation.hmdsfa.view.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".settings.ImportActivity"
+            android:name="com.datamation.hmdsfa.settings.ImportActivity"
             android:theme="@style/AppThemeWithTitle" />
         <activity
-            android:name=".view.ActivityLogin"
+            android:name="com.datamation.hmdsfa.view.ActivityLogin"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.DebtorDetailsActivity"
+            android:name="com.datamation.hmdsfa.view.DebtorDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.DebtorListActivity"
+            android:name="com.datamation.hmdsfa.view.DebtorListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".customer.NewCustomerActivity"
+            android:name="com.datamation.hmdsfa.customer.NewCustomerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.PreSalesActivity"
+            android:name="com.datamation.hmdsfa.view.PreSalesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.VanSalesActivity"
+            android:name="com.datamation.hmdsfa.view.VanSalesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.SalesReturnActivity"
+            android:name="com.datamation.hmdsfa.view.SalesReturnActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.ReceiptActivity"
+            android:name="com.datamation.hmdsfa.view.ReceiptActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.NonProductiveActivity"
+            android:name="com.datamation.hmdsfa.view.NonProductiveActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.DayExpenseActivity"
+            android:name="com.datamation.hmdsfa.view.DayExpenseActivity"
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".Service.MyMessagingService"
+            android:name="com.datamation.hmdsfa.Service.MyMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -102,7 +102,7 @@
         </service>
 
         <service
-            android:name=".Service.MyInstance">
+            android:name="com.datamation.hmdsfa.Service.MyInstance">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

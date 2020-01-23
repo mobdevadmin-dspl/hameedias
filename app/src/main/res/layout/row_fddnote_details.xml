@@ -12,7 +12,7 @@
         android:weightSum="11"
         android:orientation="horizontal" >
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_refno"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:textColor="@color/blueColor"
             android:textSize="@dimen/customer_listview_text_size2" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_txndate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             android:textColor="@color/greenColor"
             android:textSize="@dimen/customer_listview_text_size2" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_dueAmt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             android:textColor="@color/greenColor"
             android:textSize="@dimen/customer_listview_text_size2" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_Amt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             android:textColor="@color/greenColor"
             android:textSize="@dimen/customer_listview_text_size2" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/days"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

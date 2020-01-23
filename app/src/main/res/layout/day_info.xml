@@ -25,7 +25,7 @@
             android:padding="5dp"
             android:weightSum="1">
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="100dp"
@@ -33,7 +33,7 @@
                 android:text="Date"
                 android:textSize="18sp" />
 
-            <com.datamation.swdsfa.utils.CustomText
+            <com.datamation.hmdsfa.utils.CustomText
                 android:id="@+id/editTextDate"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -50,7 +50,7 @@
             android:padding="5dp"
             android:weightSum="1">
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="60dp"
@@ -58,7 +58,7 @@
                 android:text="Start Time"
                 android:textSize="18sp" />
 
-            <com.datamation.swdsfa.utils.CustomText
+            <com.datamation.hmdsfa.utils.CustomText
                 android:id="@+id/editTextStime"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -75,7 +75,7 @@
             android:padding="5dp"
             android:weightSum="1">
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="82dp"
@@ -83,7 +83,7 @@
                 android:text="Vehicle"
                 android:textSize="18sp" />
 
-            <com.datamation.swdsfa.utils.CustomText
+            <com.datamation.hmdsfa.utils.CustomText
                 android:id="@+id/editTextVehicle"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -99,7 +99,7 @@
             android:padding="5dp"
             android:weightSum="1">
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="90dp"
@@ -107,7 +107,7 @@
                 android:text="Driver"
                 android:textSize="18sp" />
 
-            <com.datamation.swdsfa.utils.CustomText
+            <com.datamation.hmdsfa.utils.CustomText
                 android:id="@+id/editTextDriver"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -123,7 +123,7 @@
             android:padding="5dp"
             android:weightSum="1">
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="68dp"
@@ -131,7 +131,7 @@
                 android:text="Assistant"
                 android:textSize="18sp" />
 
-            <com.datamation.swdsfa.utils.CustomText
+            <com.datamation.hmdsfa.utils.CustomText
                 android:id="@+id/editTextAsst"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -147,7 +147,7 @@
             android:padding="5dp"
             android:weightSum="1">
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="70dp"
@@ -155,7 +155,7 @@
                 android:text="Start Km"
                 android:textSize="18sp" />
 
-            <com.datamation.swdsfa.utils.CustomText
+            <com.datamation.hmdsfa.utils.CustomText
                 android:id="@+id/editTextSkm"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -171,7 +171,7 @@
             android:padding="5dp"
             android:weightSum="1">
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="90dp"
@@ -179,7 +179,7 @@
                 android:text="Route"
                 android:textSize="18sp" />
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:id="@+id/editTextRoute"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -216,7 +216,7 @@
             android:padding="5dp"
             android:weightSum="1">
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="68dp"
@@ -224,7 +224,7 @@
                 android:text="End Time"
                 android:textSize="18sp" />
 
-            <com.datamation.swdsfa.utils.CustomText
+            <com.datamation.hmdsfa.utils.CustomText
                 android:id="@+id/editTextEtime"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -240,7 +240,7 @@
             android:padding="5dp"
             android:weightSum="1">
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="79dp"
@@ -248,7 +248,7 @@
                 android:text="End Km"
                 android:textSize="18sp" />
 
-            <com.datamation.swdsfa.utils.CustomText
+            <com.datamation.hmdsfa.utils.CustomText
                 android:id="@+id/editTextEkm"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -264,7 +264,7 @@
             android:padding="5dp"
             android:weightSum="1">
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="72dp"
@@ -272,7 +272,7 @@
                 android:text="Distance"
                 android:textSize="18sp" />
 
-            <com.datamation.swdsfa.utils.CustomText
+            <com.datamation.hmdsfa.utils.CustomText
                 android:id="@+id/editTextDistance"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"

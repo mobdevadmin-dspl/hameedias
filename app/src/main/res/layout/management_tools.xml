@@ -10,7 +10,7 @@
         android:layout_marginTop="10dp"
         android:elevation="4dp">
 
-        <com.datamation.swdsfa.utils.CustomBtn
+        <com.datamation.hmdsfa.utils.CustomBtn
             android:id="@+id/btn_deposit_entry"
             android:layout_width="300dp"
             android:gravity="center"
@@ -29,7 +29,7 @@
         android:layout_marginTop="10dp"
         android:elevation="4dp">
 
-        <com.datamation.swdsfa.utils.CustomBtn
+        <com.datamation.hmdsfa.utils.CustomBtn
             android:id="@+id/btn_sales_exec"
             android:layout_width="300dp"
             android:gravity="center"
@@ -48,7 +48,7 @@
         android:layout_marginTop="10dp"
         android:elevation="4dp">
 
-        <com.datamation.swdsfa.utils.CustomBtn
+        <com.datamation.hmdsfa.utils.CustomBtn
             android:id="@+id/btn_stock_inquery"
             android:layout_width="300dp"
             android:gravity="center"
@@ -67,7 +67,7 @@
         android:elevation="4dp"
         android:layout_marginTop="10dp">
 
-        <com.datamation.swdsfa.utils.CustomBtn
+        <com.datamation.hmdsfa.utils.CustomBtn
             android:id="@+id/Sync"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
         android:elevation="4dp">
 
 
-        <com.datamation.swdsfa.utils.CustomBtn
+        <com.datamation.hmdsfa.utils.CustomBtn
             android:id="@+id/Upload"
             android:layout_width="300dp"
             android:gravity="center"

@@ -17,7 +17,7 @@
         android:layout_marginTop="20dp"
         android:background="@color/unselected"
         android:id="@+id/Relative_layer_heading1">
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/summary_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

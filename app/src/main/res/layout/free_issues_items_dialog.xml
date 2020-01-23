@@ -5,7 +5,7 @@
     android:layout_marginTop="5dp"
     android:orientation="vertical">
 
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:id="@+id/tv_free_qty"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -15,7 +15,7 @@
         android:layout_marginTop="5dp"
         android:textSize="18dp" />
 
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:visibility="gone"
         android:id="@+id/tv_free_issue_item_name"
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
         android:layout_weight=".2">
 
     </ListView>
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:id="@+id/tv_free_issued_item_name"
         android:layout_width="match_parent"
         android:layout_height="60dp"

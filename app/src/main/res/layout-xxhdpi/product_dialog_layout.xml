@@ -23,7 +23,7 @@
         android:orientation="horizontal">
 
 
-        <com.datamation.swdsfa.utils.CustomizeFont
+        <com.datamation.hmdsfa.utils.CustomizeFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
@@ -36,7 +36,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.datamation.swdsfa.utils.CustomizeFont
+        <com.datamation.hmdsfa.utils.CustomizeFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="1dp"
@@ -49,7 +49,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.datamation.swdsfa.utils.CustomizeFont
+        <com.datamation.hmdsfa.utils.CustomizeFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -61,7 +61,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.datamation.swdsfa.utils.CustomizeFont
+        <com.datamation.hmdsfa.utils.CustomizeFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"

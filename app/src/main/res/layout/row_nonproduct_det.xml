@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_nonprd_refno"
             android:layout_width="0dp"
             android:layout_height="25dp"
@@ -23,7 +23,7 @@
             android:textSize="@dimen/font_size_intermed"
             android:textColor="@color/greenColor" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_nonprd_reason"
             android:layout_width="0dp"
             android:layout_height="25dp"

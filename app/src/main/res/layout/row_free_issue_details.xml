@@ -10,7 +10,7 @@
         android:orientation="horizontal"
         android:padding="3dp">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:textColor="@color/greenColor"
             android:textSize="14sp" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_piece"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             android:textColor="@color/greenColor"
             android:textSize="14sp" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_cases"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

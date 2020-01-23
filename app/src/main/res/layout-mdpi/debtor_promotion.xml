@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
 
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -31,7 +31,7 @@
             android:layout_margin="5dp"/>
 
 
-    <com.datamation.swdsfa.utils.CustomBtn
+    <com.datamation.hmdsfa.utils.CustomBtn
         android:layout_width="match_parent"
         android:id="@+id/close"
         android:background="@drawable/bottom_button_bg"

@@ -11,7 +11,7 @@
         android:background="@drawable/custom_label"
         android:layout_marginTop="10dp">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="User Name "
@@ -19,7 +19,7 @@
             android:textColor="@color/unselected"
             android:textSize="@dimen/font_for_all"
             />
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
@@ -50,7 +50,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/custom_label">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Rep Code"
@@ -58,7 +58,7 @@
             android:textColor="@color/unselected"
             android:textSize="@dimen/font_for_all" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
@@ -87,7 +87,7 @@
         android:background="@drawable/custom_label"
         android:layout_marginTop="10dp">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/TextView03"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
             android:textColor="@color/unselected"
             android:textSize="@dimen/font_for_all" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
@@ -125,7 +125,7 @@
         android:background="@drawable/custom_label"
         android:layout_marginTop="10dp">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/TextView04"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
             android:textColor="@color/unselected"
             android:textSize="@dimen/font_for_all"/>
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
@@ -163,7 +163,7 @@
         android:background="@drawable/custom_label"
         android:layout_marginTop="10dp">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/TextView01"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
             android:textColor="@color/unselected"
             android:textSize="@dimen/font_for_all" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
@@ -202,7 +202,7 @@
         android:background="@drawable/custom_label"
         android:layout_marginTop="10dp">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Deal Code"
@@ -210,7 +210,7 @@
             android:textColor="@color/unselected"
             android:textSize="@dimen/font_for_all" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"

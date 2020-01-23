@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <com.datamation.swdsfa.utils.CustomFont
+                <com.datamation.hmdsfa.utils.CustomFont
                     android:id="@+id/row_itemname"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 android:longClickable="true"
                 android:orientation="horizontal">
 
-                <com.datamation.swdsfa.utils.CustomFont
+                <com.datamation.hmdsfa.utils.CustomFont
                     android:id="@+id/row_itemcode"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                     android:textStyle="bold" />
 
 
-                <com.datamation.swdsfa.utils.CustomFont
+                <com.datamation.hmdsfa.utils.CustomFont
                     android:id="@+id/row_unit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
-                <com.datamation.swdsfa.utils.CustomFont
+                <com.datamation.hmdsfa.utils.CustomFont
                     android:id="@+id/row_price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                     android:textSize="14sp"
                     />
 
-                <com.datamation.swdsfa.utils.CustomFont
+                <com.datamation.hmdsfa.utils.CustomFont
                     android:id="@+id/row_qoh"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

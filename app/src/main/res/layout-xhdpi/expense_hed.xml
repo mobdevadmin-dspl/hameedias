@@ -181,7 +181,7 @@
                 android:padding="10dp"
                 android:orientation="horizontal">
 
-                <com.datamation.swdsfa.utils.CustomizeFont
+                <com.datamation.hmdsfa.utils.CustomizeFont
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dip"
@@ -194,7 +194,7 @@
                     android:textSize="@dimen/font_size_intermed"
                     />
 
-                <com.datamation.swdsfa.utils.CustomizeFont
+                <com.datamation.hmdsfa.utils.CustomizeFont
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dip"

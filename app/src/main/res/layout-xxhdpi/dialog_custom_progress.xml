@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="340dp" android:layout_height="90dp">
 
-    <com.datamation.swdsfa.libs.progress.ProgressWheel
+    <com.datamation.hmdsfa.libs.progress.ProgressWheel
         android:id="@+id/progress_dialog_progress_wheel"
         android:layout_width="50dp"
         android:layout_height="50dp"

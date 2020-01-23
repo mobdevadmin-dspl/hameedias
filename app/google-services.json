@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "357021485186",
-    "firebase_url": "https://swdlaravel-cfa17.firebaseio.com",
-    "project_id": "swdlaravel-cfa17",
-    "storage_bucket": "swdlaravel-cfa17.appspot.com"
+    "project_number": "949034331180",
+    "firebase_url": "https://hameedia-5f0ad.firebaseio.com",
+    "project_id": "hameedia-5f0ad",
+    "storage_bucket": "hameedia-5f0ad.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:357021485186:android:8f11c2c9d98b13c6278c9b",
+        "mobilesdk_app_id": "1:949034331180:android:2f7b3a4e3f488206543589",
         "android_client_info": {
-          "package_name": "com.datamation.swdsfa"
+          "package_name": "com.datamation.hmdsfa"
         }
       },
       "oauth_client": [
         {
-          "client_id": "357021485186-bpg3bbrqnd5lrdgdrrm836ngo0ukfe54.apps.googleusercontent.com",
+          "client_id": "949034331180-3f5c33imbr22e6pqldt7bmiu87hloe93.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA3yC9INGKzvHeKHtrTXgLz-YiHhmyKV3I"
+          "current_key": "AIzaSyCHRBwgBOlfkK9jBCZe5Y-_OqPo2gCwdzs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "357021485186-bpg3bbrqnd5lrdgdrrm836ngo0ukfe54.apps.googleusercontent.com",
+              "client_id": "949034331180-3f5c33imbr22e6pqldt7bmiu87hloe93.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

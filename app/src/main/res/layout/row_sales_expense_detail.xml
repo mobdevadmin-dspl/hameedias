@@ -10,7 +10,7 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <com.datamation.swdsfa.utils.CustomizeFont
+        <com.datamation.hmdsfa.utils.CustomizeFont
             android:id="@+id/row_sales_expensename"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
             android:textColor="@color/greenColor"
             />
 
-        <com.datamation.swdsfa.utils.CustomizeFont
+        <com.datamation.hmdsfa.utils.CustomizeFont
             android:id="@+id/row_sales_expensecode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

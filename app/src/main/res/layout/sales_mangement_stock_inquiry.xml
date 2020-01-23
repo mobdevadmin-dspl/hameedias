@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:weightSum="5">
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -27,7 +27,7 @@
                 android:text="TOTAL QUANTITY"
                 android:layout_weight="3"/>
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:id="@+id/txtTotQty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
         android:background="@drawable/custom_textbox"
         android:weightSum="3">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
@@ -94,7 +94,7 @@
             android:textColor="@color/unselected"
             />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
@@ -106,7 +106,7 @@
             android:textColor="@color/unselected"
             />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
@@ -115,7 +115,7 @@
             android:text="QOH"
             android:textColor="@color/unselected"/>
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
