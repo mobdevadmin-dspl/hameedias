@@ -11,4 +11,6 @@ import retrofit2.http.Path;
 public interface ApiInterface {
     //@GET("RepLastThreeInvDet/mobile123/{dbname}/{repcode}")
     //Call<LastThreeInvoiceDetails> getInvoiceDetails(@Path("dbname") String dbname, @Path("repcode") String repcode);
+
+    //@GET("")
 }
