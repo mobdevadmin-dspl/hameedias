@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     // buildToolsVersion "26.0.2"
     defaultConfig {
-        applicationId "com.datamation.swdsfa"
+        applicationId "com.datamation.hmdsfa"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 29

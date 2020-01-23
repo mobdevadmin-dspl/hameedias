@@ -5,7 +5,7 @@
     android:orientation="horizontal">
 
 
-        <com.datamation.swdsfa.utils.CustomizeFont
+        <com.datamation.hmdsfa.utils.CustomizeFont
             android:id="@+id/row_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
             android:textSize="14sp"
             android:text="item"/>
 
-        <com.datamation.swdsfa.utils.CustomizeFont
+        <com.datamation.hmdsfa.utils.CustomizeFont
             android:id="@+id/row_qty"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             android:textSize="14sp"
             android:text="qty"/>
 
-        <com.datamation.swdsfa.utils.CustomizeFont
+        <com.datamation.hmdsfa.utils.CustomizeFont
             android:id="@+id/row_reason"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -16,7 +16,7 @@
         android:layout_marginTop="15dp"
         android:background="@color/unselected"
         android:gravity="top|center">
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
         android:paddingBottom="5dp"
         android:paddingTop="10dp">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -73,7 +73,7 @@
             android:textColor="@color/greenColor"
             android:textSize="14sp"
             />
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/lblRecAmt"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -92,7 +92,7 @@
         android:paddingBottom="5dp"
         android:paddingTop="10dp">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -122,7 +122,7 @@
         android:paddingBottom="5dp"
         android:paddingTop="10dp">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/textNo"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -153,7 +153,7 @@
         android:paddingBottom="5dp"
         android:paddingTop="10dp">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/textBank"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -187,7 +187,7 @@
         android:weightSum="11">
 
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
@@ -200,7 +200,7 @@
             android:textSize="14sp"
             />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -214,7 +214,7 @@
             android:textSize="14sp" />
 
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/repName"
             android:visibility="gone"
             android:layout_width="0dp"
@@ -228,7 +228,7 @@
             android:textColor="@color/unselected"
             android:textSize="14sp" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
@@ -240,7 +240,7 @@
             android:textColor="@color/unselected"
             android:textSize="14sp" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dip"
@@ -252,7 +252,7 @@
             android:textColor="@color/unselected"
             android:textSize="14sp" />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dip"
@@ -265,7 +265,7 @@
             android:textSize="14sp"/>
 
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/days"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

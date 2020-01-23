@@ -11,7 +11,7 @@
         android:weightSum="9.5"
         android:orientation="horizontal" >
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_refno"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:textColor="@color/blueColor"
             android:textSize="@dimen/font_size_small"
              />
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_txndate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:textColor="@color/greenColor"
             android:textSize="@dimen/font_size_small"
             />
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:visibility="gone"
             android:id="@+id/repName"
          android:layout_width="0dp"
@@ -52,7 +52,7 @@
             android:textSize="@dimen/font_size_small"
             />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/dateDiff"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
             android:visibility="gone"
             />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_dueAmt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
             android:textSize="@dimen/font_size_small"
             />
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_Amt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
             android:textColor="@color/greenColor"
             android:textSize="@dimen/font_size_small"
             />
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/days"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

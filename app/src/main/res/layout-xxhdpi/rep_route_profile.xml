@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
 
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -28,14 +28,14 @@
         android:padding="15dp"
         android:weightSum="2">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Routename" />
 
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/routeName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,14 +53,14 @@
         android:padding="15dp"
         android:weightSum="2">
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Route Code" />
 
 
-        <com.datamation.swdsfa.utils.CustomFont
+        <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/routeCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
 
     </TableRow>
 
-    <com.datamation.swdsfa.utils.CustomBtn
+    <com.datamation.hmdsfa.utils.CustomBtn
         android:layout_width="match_parent"
         android:id="@+id/close"
         android:background="@drawable/bottom_button_bg"

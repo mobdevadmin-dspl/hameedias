@@ -141,7 +141,7 @@
                 fab:layout_constraintStart_toStartOf="@+id/btn_add"
                 fab:layout_constraintTop_toTopOf="parent">
 
-                <com.datamation.swdsfa.utils.CustomizeFont
+                <com.datamation.hmdsfa.utils.CustomizeFont
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dip"
@@ -153,7 +153,7 @@
                     android:textColor="@color/unselected"
                     android:textSize="@dimen/font_size_intermed" />
 
-                <com.datamation.swdsfa.utils.CustomizeFont
+                <com.datamation.hmdsfa.utils.CustomizeFont
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dip"

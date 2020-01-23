@@ -31,7 +31,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <com.datamation.swdsfa.utils.CustomFont
+                <com.datamation.hmdsfa.utils.CustomFont
                     android:id="@+id/tvName"
                     android:layout_width="match_parent"
                     android:singleLine="true"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:text="TextView" />
 
-                <com.datamation.swdsfa.utils.CustomFont
+                <com.datamation.hmdsfa.utils.CustomFont
                     android:id="@+id/tvDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

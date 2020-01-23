@@ -47,13 +47,13 @@
                     android:padding="5dp">
 
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:id="@+id/row_refno"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="refno text" />
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:id="@+id/row_cus_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                         android:textColor="@android:color/holo_blue_dark"
                         android:textStyle="italic" />
 
-                    <com.datamation.swdsfa.utils.CustomFont
+                    <com.datamation.hmdsfa.utils.CustomFont
                         android:id="@+id/addeddate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

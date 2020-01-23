@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:elevation="4dp">
 
-        <com.datamation.swdsfa.utils.CustomBtn
+        <com.datamation.hmdsfa.utils.CustomBtn
             android:id="@+id/Sync"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         android:elevation="4dp">
 
 
-        <com.datamation.swdsfa.utils.CustomBtn
+        <com.datamation.hmdsfa.utils.CustomBtn
             android:id="@+id/Upload"
             android:layout_width="300dp"
             android:gravity="center"

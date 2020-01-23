@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:weightSum="1">
 
-    <com.datamation.swdsfa.utils.CustomFont
+    <com.datamation.hmdsfa.utils.CustomFont
         android:id="@+id/txtItem"
         android:layout_width="0dp"
         android:layout_height="30dp"

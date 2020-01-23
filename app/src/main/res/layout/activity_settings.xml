@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.datamation.swdsfa.view.SettingsActivity">
+    tools:context="com.datamation.hmdsfa.view.SettingsActivity">
 
     <ListView
         android:id="@+id/settings_list_view"
@@ -16,7 +16,7 @@
 
     </ListView>
 
-    <com.datamation.swdsfa.utils.CustomBtn
+    <com.datamation.hmdsfa.utils.CustomBtn
         android:id="@+id/btncont"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

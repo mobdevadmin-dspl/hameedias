@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:id="@+id/debCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:id="@+id/debName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
-            <com.datamation.swdsfa.utils.CustomFont
+            <com.datamation.hmdsfa.utils.CustomFont
                 android:id="@+id/debAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
