@@ -11,11 +11,12 @@ import retrofit2.http.Path;
  */
 
 public interface ApiInterface {
-
+    
     @GET("fSalRep/mobile123/{dbname}/{macid}")
     Call<ReadJsonList> getSalRepResult(@Path("dbname") String dbname,@Path("macid") String macid);
 
     @GET("Fdebtor/mobile123/{dbname}/{repcode}")
     Call<ReadJsonList> getDebtorResult(@Path("macid") String dbname,@Path("repcode") String repcode);
+
 
 }
