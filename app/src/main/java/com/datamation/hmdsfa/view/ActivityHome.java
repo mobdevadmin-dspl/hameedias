@@ -87,7 +87,7 @@ public class ActivityHome extends AppCompatActivity {
                     Log.d("Current Date>>>>", dateFormat.format(new Date(timeInMillis)));
                     Log.d("Last Sync Date>>>>", sharedPref.getGlobalVal("SyncDate"));
                     tours = new AttendanceController(context).getIncompleteRecord();
-                    if (sharedPref.getGlobalVal("SyncDate").equalsIgnoreCase(dateFormat.format(new Date(timeInMillis)))) {
+                   // if (sharedPref.getGlobalVal("SyncDate").equalsIgnoreCase(dateFormat.format(new Date(timeInMillis)))) {
                         Log.d("Test SecondarySync", "Secondary sync done");
                         if(tours.size()>0 && !(sharedPref.getGlobalVal("DayStartDate").equalsIgnoreCase(dateFormat.format(new Date(timeInMillis))))){
                             UtilityContainer.mLoadFragment(new FragmentMarkAttendance(), ActivityHome.this);
@@ -114,10 +114,10 @@ public class ActivityHome extends AppCompatActivity {
                         }
 
 
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Please do the secondary sync", Toast.LENGTH_LONG).show();
-                        //UtilityContainer.mLoadFragment(new FragmentMarkAttendance(), ActivityHome.this);
-                    }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Please do the secondary sync", Toast.LENGTH_LONG).show();
+//                        //UtilityContainer.mLoadFragment(new FragmentMarkAttendance(), ActivityHome.this);
+//                    }
 
                     return true;
                 case R.id.navigation_tools:

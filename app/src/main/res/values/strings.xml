@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">SwadeshiSFA</string>
-    <string name="app_name_new">SwadeshiSFA</string>
-    <string name="connection_string">/SWDWebServices/SWDWebServicesRest.svc/</string>
+    <string name="app_name">HameediaSFA</string>
+    <string name="app_name_new">HameediaSFA</string>
+    <string name="connection_string">/HMDWebServices/HMDWebServicesRest.svc/</string>
     <string name="developed_by_rashmi">Developed by Datamation.</string>
     <string name="txt_msg">Your Network is Unavailable.Check Your data or Wi-Fi Connection.</string>
     <string name="title_activity_home">Home</string>
@@ -64,7 +64,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="imageview_no_image_string">NO IMAGE AVAILABLE</string>
-
     <string name="DATABASE_NAME">swdsfa_database.db</string>
-    <string name="DATABASE">LHD_PDA_TEST</string>
 </resources>
