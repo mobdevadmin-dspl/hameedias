@@ -1,17 +1,25 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SalRep {
 
+    @SerializedName("AddMach")
+    private String ADDMACH;
+    @SerializedName("AddUser")
+    private String ADDUSER;
+    @SerializedName("CONSOLE_DB")
     private String CONSOLE_DB;
+
     private String DIST_DB;
     private String RepCode;
     private String NAME;
     private String REPID;
-    private String ADDMACH;
-    private String ADDUSER;
+
+
     private String MOBILE;
     private String STATUS;
     private String PREFIX;

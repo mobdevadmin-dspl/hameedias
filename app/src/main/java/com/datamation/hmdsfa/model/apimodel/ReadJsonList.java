@@ -40,6 +40,12 @@ public class ReadJsonList {
     }
 
     @SerializedName("fItemPriResult")
-    private List<>
+    private List<ItemLoc> itemPriResult = null ;
+
+    public List<ItemLoc> getItemPriResult() {
+        return itemPriResult;
+    }
+
+    
 }
 
