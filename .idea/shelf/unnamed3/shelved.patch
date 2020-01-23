@@ -1,0 +1,18 @@
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectModuleManager\">\r\n    <modules>\r\n      <module fileurl=\"file://$PROJECT_DIR$/app/app.iml\" filepath=\"$PROJECT_DIR$/app/app.iml\" />\r\n      <module fileurl=\"file://$PROJECT_DIR$/hameedias.iml\" filepath=\"$PROJECT_DIR$/hameedias.iml\" />\r\n    </modules>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules.xml	(revision f35e72a0e5b0db1f90f105c4983a0424c1cfbb32)
++++ .idea/modules.xml	(date 1579772074879)
+@@ -4,6 +4,7 @@
+     <modules>
+       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+       <module fileurl="file://$PROJECT_DIR$/hameedias.iml" filepath="$PROJECT_DIR$/hameedias.iml" />
++      <module fileurl="file://$PROJECT_DIR$/app/hameedias-app.iml" filepath="$PROJECT_DIR$/app/hameedias-app.iml" />
+     </modules>
+   </component>
+ </project>
+\ No newline at end of file
