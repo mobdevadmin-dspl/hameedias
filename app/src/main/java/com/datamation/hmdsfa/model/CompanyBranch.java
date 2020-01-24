@@ -1,17 +1,26 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CompanyBranch {
 
-    private String FCOMPANYBRANCH_ID;
+    @SerializedName("BranchCode")
     private String FCOMPANYBRANCH_BRANCH_CODE;
-    private String FCOMPANYBRANCH_RECORD_ID;
+    @SerializedName("cSettingsCode")
     private String FCOMPANYBRANCH_CSETTINGS_CODE;
+    @SerializedName("nNumVal")
     private String FCOMPANYBRANCH_NNUM_VAL;
+    @SerializedName("nYear")
     private String NYEAR;
+    @SerializedName("nMonth")
     private String NMONTH;
+
+    private String FCOMPANYBRANCH_ID;
+    private String FCOMPANYBRANCH_RECORD_ID;
+
     // rashmi - 2019-12-17 move from database_helper , because of reduce coding in database helper*******************************************************************************
 
     // table

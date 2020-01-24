@@ -1,17 +1,27 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class NearDebtor
 {
+    @SerializedName("Area")
     private String FNEARDEBTOR_AREA;
+    @SerializedName("Territory")
     private String FNEARDEBTOR_TERRITORY;
+    @SerializedName("Description")
     private String FNEARDEBTOR_DESCRIPTION;
+    @SerializedName("Retailer")
     private String FNEARDEBTOR_RETAILER;
+    @SerializedName("RetCategory")
     private String FNEARDEBTOR_RETCATEGORY;
+    @SerializedName("Address1")
     private String FNEARDEBTOR_ADDRESS;
+    @SerializedName("Longitude")
     private String FNEARDEBTOR_LONGI;
+    @SerializedName("Latitude")
     private String FNEARDEBTOR_LATI;
 
     public String getFNEARDEBTOR_AREA() {
