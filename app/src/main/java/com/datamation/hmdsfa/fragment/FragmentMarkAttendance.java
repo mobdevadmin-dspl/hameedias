@@ -254,7 +254,7 @@ public class FragmentMarkAttendance extends Fragment implements View.OnClickList
 
                             tour.setFTOUR_IS_SYNCED("0");
                             tour.setFTOUR_MAC(SharedPref.getInstance(getActivity()).getGlobalVal("MAC_Address").toString());
-                            tour.setFTOUR_REPCODE(SharedPref.getInstance(getActivity()).getLoginUser().getCode());
+                            tour.setFTOUR_REPCODE(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode());
                             tour.setFTOUR_ENDLATITIUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Longitude").equals("") ? "0.00" : sharedPref.getGlobalVal("Longitude"));
                             tour.setFTOUR_ENDLONGTITIUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Latitude").equals("") ? "0.00" : sharedPref.getGlobalVal("Latitude"));
 

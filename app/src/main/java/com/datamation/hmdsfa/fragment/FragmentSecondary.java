@@ -146,7 +146,7 @@ public class FragmentSecondary extends Fragment {
                 if (connectionStatus == true)
                 {
                         try {
-                            new getAllCustomer(mSharedPref.getLoginUser().getCode()).execute();
+                            new getAllCustomer(mSharedPref.getLoginUser().getRepCode()).execute();
 
                         } catch (Exception e) {
                             Log.e("## ErrorIn2ndSync ##", e.toString());

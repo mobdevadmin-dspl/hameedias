@@ -39,6 +39,7 @@ import com.datamation.hmdsfa.model.Control;
 import com.datamation.hmdsfa.model.Customer;
 import com.datamation.hmdsfa.model.FInvRDet;
 import com.datamation.hmdsfa.model.FInvRHed;
+import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.StkIss;
 import com.datamation.hmdsfa.model.User;
 import com.datamation.hmdsfa.settings.GPSTracker;
@@ -571,7 +572,7 @@ public class SalesReturnSummary extends Fragment {
         ArrayList<Control> controlList;
         controlList = new CompanyDetailsController(getActivity()).getAllControl();
 
-        User salrep = SharedPref.getInstance(getActivity()).getLoginUser();
+        SalRep salrep = SharedPref.getInstance(getActivity()).getLoginUser();
 
         int lengthDealACom = controlList.get(0).getFCONTROL_COM_NAME().length();
         int lengthDealABCom = (LINECHAR - lengthDealACom) / 2;
@@ -620,7 +621,7 @@ public class SalesReturnSummary extends Fragment {
 
         String printGapAdjust = "                        ";
 
-        String SalesRepNamestr = "Sales Rep: " + salrep.getCode() + "/ " + salrep.getName().trim();// +
+        String SalesRepNamestr = "Sales Rep: " + salrep.getRepCode() + "/ " + salrep.getNAME().trim();// +
         // "/
         // "
         // +
@@ -631,7 +632,7 @@ public class SalesReturnSummary extends Fragment {
         String printGapAdjustE = printGapAdjust.substring(0, Math.min(lengthDealEB, printGapAdjust.length()));
         String subTitleheadF = printGapAdjustE + SalesRepNamestr;
 
-        String SalesRepPhonestr = "Tele: " + salrep.getMobile().trim();
+        String SalesRepPhonestr = "Tele: " + salrep.getMOBILE().trim();
         int lengthDealF = SalesRepPhonestr.length();
         int lengthDealFB = (LINECHAR - lengthDealF) / 2;
         String printGapAdjustF = printGapAdjust.substring(0, Math.min(lengthDealFB, printGapAdjust.length()));

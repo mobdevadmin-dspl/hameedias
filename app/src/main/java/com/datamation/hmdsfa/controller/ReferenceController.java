@@ -214,7 +214,7 @@ public class ReferenceController {
 			if (cursor.getCount() > 0) {
 				count = (int) dB.update(CompanyBranch.TABLE_FCOMPANYBRANCH, values,  CompanyBranch.CSETTINGS_CODE + "='" + code + "' AND nYear='" + String.valueOf(c.get(Calendar.YEAR)) + "' AND nMonth='" + String.valueOf(c.get(Calendar.MONTH) + 1) + "'", null);
 			} else {
-				values.put(CompanyBranch.BRANCH_CODE, SharedPref.getInstance(context).getLoginUser().getCode());
+				values.put(CompanyBranch.BRANCH_CODE, SharedPref.getInstance(context).getLoginUser().getRepCode());
 				values.put(CompanyBranch.CSETTINGS_CODE, code);
 				values.put(CompanyBranch.FCOMPANYBRANCH_YEAR, String.valueOf(c.get(Calendar.YEAR)));
 				values.put(CompanyBranch.FCOMPANYBRANCH_MONTH, String.valueOf(c.get(Calendar.MONTH) + 1));

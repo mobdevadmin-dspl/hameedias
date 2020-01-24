@@ -239,33 +239,6 @@ public class SalRep {
         this.firebaseTokenID = firebaseTokenID;
     }
 
-    public static SalRep parseUser(JSONObject instance) throws JSONException, NumberFormatException {
-
-        if (instance != null) {
-            SalRep user = new SalRep();
-            user.setRepCode(instance.getString("RepCode"));
-            user.setNAME(instance.getString("RepName"));
-            user.setREPID(instance.getString("RepIdNo"));
-            user.setADDMACH(instance.getString("AddMach"));
-            user.setADDUSER(instance.getString("AddUser"));
-            user.setMOBILE(instance.getString("RepMobil"));
-            user.setLOCCODE(instance.getString("LocCode").trim());
-            user.setDEALCODE(instance.getString("DealCode").trim());
-            user.setSTATUS(instance.getString("Status"));
-            user.setPREFIX(instance.getString("RepPrefix"));
-            user.setTELE(instance.getString("RepTele"));
-            user.setEMAIL(instance.getString("EMAIL"));
-            user.setMACID(instance.getString("macid"));
-            user.setREPTCODE(instance.getString("RepTCode"));
-            user.setIS_ZERO_QOH_ALLOW(instance.getString("isZeroQOHAllow"));
-            user.setFirebaseTokenID(instance.getString("firebaseTokenID"));
-            user.setIsApplyQOHexdVldtn(instance.getString("IsApplyQOHexdVldtn"));
-
-            return user;
-        }
-
-        return null;
-    }
 
     @Override
     public String toString() {

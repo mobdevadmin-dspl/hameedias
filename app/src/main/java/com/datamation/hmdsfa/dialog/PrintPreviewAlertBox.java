@@ -256,7 +256,7 @@ public class PrintPreviewAlertBox {
         final int LINECHAR = 44;
         String printGapAdjustCom = "                      ";
 
-        User salrep = SharedPref.getInstance(context).getLoginUser();
+        SalRep salrep = SharedPref.getInstance(context).getLoginUser();
         int lengthDealACom = 10;
         int lengthDealABCom = (LINECHAR - lengthDealACom) / 2;
         String printGapAdjustACom = printGapAdjustCom.substring(0, Math.min(lengthDealABCom, printGapAdjustCom.length()));
@@ -304,7 +304,7 @@ public class PrintPreviewAlertBox {
 
         String printGapAdjust = "                        ";
 
-        String SalesRepNamestr = "Sales Rep: " + salrep.getCode() + "/ " + salrep.getName();// +
+        String SalesRepNamestr = "Sales Rep: " + salrep.getRepCode() + "/ " + salrep.getNAME();// +
         // "/
         // "
         // +
@@ -315,7 +315,7 @@ public class PrintPreviewAlertBox {
         String printGapAdjustE = printGapAdjust.substring(0, Math.min(lengthDealEB, printGapAdjust.length()));
         String subTitleheadF = printGapAdjustE + SalesRepNamestr;
 
-        String SalesRepPhonestr = "Tele: " + salrep.getMobile();
+        String SalesRepPhonestr = "Tele: " + salrep.getMOBILE();
         int lengthDealF = SalesRepPhonestr.length();
         int lengthDealFB = (LINECHAR - lengthDealF) / 2;
         String printGapAdjustF = printGapAdjust.substring(0, Math.min(lengthDealFB, printGapAdjust.length()));

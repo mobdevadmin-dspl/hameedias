@@ -6,6 +6,7 @@ import android.util.Log;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.controller.DashboardController;
 import com.datamation.hmdsfa.model.CustomNameValuePair;
+import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.User;
 
 import org.apache.http.HttpEntity;
@@ -53,7 +54,7 @@ public class NetworkFunctions {
      */
     private String baseURL, restOfURL;
 
-    private User user;
+    private SalRep user;
     private String dbname;
 
     public NetworkFunctions(Context contextt) {
@@ -70,7 +71,7 @@ public class NetworkFunctions {
     }
 
 
-    public void setUser(User user) {
+    public void setUser(SalRep user) {
         this.user = user;
     }
 

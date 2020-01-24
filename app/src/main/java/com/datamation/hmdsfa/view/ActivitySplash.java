@@ -28,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.api.ApiCllient;
+import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.helpers.NetworkFunctions;
@@ -35,6 +37,7 @@ import com.datamation.hmdsfa.helpers.SharedPref;
 
 import com.datamation.hmdsfa.model.DbNames;
 import com.datamation.hmdsfa.model.SalRep;
+import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.model.User;
@@ -54,6 +57,9 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import dmax.dialog.SpotsDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivitySplash extends AppCompatActivity{
 
@@ -307,37 +313,35 @@ public class ActivitySplash extends AppCompatActivity{
         protected Boolean doInBackground(String... arg0) {
 
            try {
-                int recordCount = 0;
-                int totalBytes  = 0;
-                String validateResponse = null;
-                JSONObject validateJSON;
+
                 try {
-          //          Toast.makeText(ActivitySplash.this, "Before get response"+url+""+macId.toString()+""+ db, Toast.LENGTH_LONG).show();
-                    Log.d(">>>>>>>>",">>Before get response"+url+""+macId.toString()+""+ db);
-                    validateResponse = networkFunctions.validate(ActivitySplash.this,macId,url,db);
-                    Log.d("validateResponse",validateResponse);
-
-                    validateJSON = new JSONObject(validateResponse);
 
 
-                if (validateJSON != null) {
+                    ApiInterface apiInterface = ApiCllient.getClient(ActivitySplash.this).create(ApiInterface.class);
+                    Call<ReadJsonList> resultCall = apiInterface.getSalRepResult(pref.getDistDB(),macId);
+                    resultCall.enqueue(new Callback<ReadJsonList>() {
+                        @Override
+                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                            System.out.println("test responce 01 " + response.body().getSalRepResult().size());
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            ArrayList<SalRep> repList = new ArrayList<SalRep>();
+                            for (int i = 0; i < response.body().getSalRepResult().size(); i++) {
+                                repList.add(response.body().getSalRepResult().get(i));
+                            }
+                            new SalRepController(ActivitySplash.this).createOrUpdateSalRep(repList);
+                            networkFunctions.setUser(repList.get(0));
+                            pref.storeLoginUser(repList.get(0));
+                            System.out.println("Rep List " + repList.toString());
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
 
                     pref = SharedPref.getInstance(ActivitySplash.this);
-                   // Toast.makeText(ActivitySplash.this, "validateJSON for Test. "+validateJSON.toString() , Toast.LENGTH_LONG).show();
-                    Log.d(">>validateJSON for Test",validateJSON.toString()+"");
-                    //dbHandler.clearTables();
-                    // Login successful. Proceed to download other items
-
-                    JSONArray repArray = validateJSON.getJSONArray("fSalRepResult");
-                    ArrayList<SalRep> salRepList = new ArrayList<>();
-                    for (int i = 0; i<repArray.length(); i++){
-                        JSONObject expenseJSON = repArray.getJSONObject(i);
-                        salRepList.add(SalRep.parseUser(expenseJSON));
-                    }
-                    new SalRepController(getApplicationContext()).createOrUpdateSalRep(salRepList);
-                    User user = User.parseUser(repArray.getJSONObject(0));
-                    networkFunctions.setUser(user);
-                    pref.storeLoginUser(user);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -346,24 +350,13 @@ public class ActivitySplash extends AppCompatActivity{
                     });
 
                     return true;
-                }else{
-                   // Toast.makeText(ActivitySplash.this,"Invalid response from server when getting sales rep data",Toast.LENGTH_SHORT).show();
 
-                    return false;
-                }
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Log.d("networkFunctions ->","IOException -> "+e.toString());
                     Log.e("networkFunctions ->","IOException -> "+e.toString());
                     throw e;
-                } catch (JSONException e) {
-                   // Toast.makeText(ActivitySplash.this, "networkFunctions ->JSONException -> "+e.toString(), Toast.LENGTH_LONG).show();
-
-                    Log.e("networkFunctions ->","JSONException -> "+e.toString());
-                    Log.d("networkFunctions ->","JSONException -> "+e.toString());
-                    throw e;
                 }
-
 
            } catch (Exception e) {
                 e.printStackTrace();

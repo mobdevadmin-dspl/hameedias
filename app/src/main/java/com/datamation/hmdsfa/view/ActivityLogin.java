@@ -26,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.api.ApiCllient;
+import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.controller.BankController;
 import com.datamation.hmdsfa.controller.CompanyDetailsController;
 import com.datamation.hmdsfa.controller.CustomerController;
@@ -78,6 +80,7 @@ import com.datamation.hmdsfa.model.RouteDet;
 import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.Town;
 import com.datamation.hmdsfa.model.User;
+import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -93,12 +96,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ActivityLogin extends AppCompatActivity implements View.OnClickListener {
 
     EditText username, password;
     TextView txtver;
     SharedPref pref;
-    User loggedUser;
+    SalRep loggedUser;
     NetworkFunctions networkFunctions;
     private static String spURL = "";
     int tap;
@@ -288,7 +295,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                         startActivity(intent);
                         finish();
                     } else {
-                        new Authenticate(SharedPref.getInstance(this).getLoginUser().getCode()).execute();
+                        new Authenticate(SharedPref.getInstance(this).getLoginUser().getRepCode()).execute();
                     }
 //                    Intent intent = new Intent(ActivityLogin
 //                            .this, ActivityHome
@@ -1426,31 +1433,34 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         protected Boolean doInBackground(String... arg0) {
 
             try {
-                int recordCount = 0;
-                int totalBytes = 0;
-                String validateResponse = null;
-                JSONObject validateJSON;
+
                 try {
-                    validateResponse = networkFunctions.validate(ActivityLogin.this, macId, pref.getBaseURL(), pref.getDistDB());
-                    Log.d("validateResponse", validateResponse);
-                    validateJSON = new JSONObject(validateResponse);
 
+                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+                    Call<ReadJsonList> resultCall = apiInterface.getSalRepResult(pref.getDistDB(),macId);
+                    resultCall.enqueue(new Callback<ReadJsonList>() {
+                        @Override
+                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                            System.out.println("test responce 01 " + response.body().getSalRepResult().size());
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            ArrayList<SalRep> repList = new ArrayList<SalRep>();
+                            for (int i = 0; i < response.body().getSalRepResult().size(); i++) {
+                                repList.add(response.body().getSalRepResult().get(i));
+                            }
+                            new SalRepController(ActivityLogin.this).createOrUpdateSalRep(repList);
+                            networkFunctions.setUser(repList.get(0));
+                            pref.storeLoginUser(repList.get(0));
+                            System.out.println("Rep List " + repList.toString());
 
-                    if (validateJSON != null) {
-                        pref = SharedPref.getInstance(ActivityLogin.this);
-                        //dbHandler.clearTables();
-                        // Login successful. Proceed to download other items
-
-                        JSONArray repArray = validateJSON.getJSONArray("fSalRepResult");
-                        ArrayList<SalRep> salRepList = new ArrayList<>();
-                        for (int i = 0; i < repArray.length(); i++) {
-                            JSONObject expenseJSON = repArray.getJSONObject(i);
-                            salRepList.add(SalRep.parseUser(expenseJSON));
                         }
-                        new SalRepController(getApplicationContext()).createOrUpdateSalRep(salRepList);
-                        User user = User.parseUser(repArray.getJSONObject(0));
-                        networkFunctions.setUser(user);
-                        pref.storeLoginUser(user);
+
+                        @Override
+                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+
+                    pref = SharedPref.getInstance(ActivityLogin.this);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -1459,16 +1469,9 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                         });
 
                         return true;
-                    } else {
-                        Toast.makeText(ActivityLogin.this, "Invalid response from server when getting sales rep data", Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Log.e("networkFunctions ->", "IOException -> " + e.toString());
-                    throw e;
-                } catch (JSONException e) {
-                    Log.e("networkFunctions ->", "JSONException -> " + e.toString());
                     throw e;
                 }
 

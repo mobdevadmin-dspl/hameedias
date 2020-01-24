@@ -32,6 +32,7 @@ import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.Attendance;
 import com.datamation.hmdsfa.model.Customer;
 import com.datamation.hmdsfa.controller.RouteController;
+import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.User;
 //import com.datamation.sfa.presale.OrderMainFragment;
 import com.datamation.hmdsfa.R;
@@ -66,7 +67,7 @@ public class ActivityHome extends AppCompatActivity {
     NetworkFunctions networkFunctions;
     List<String> resultList;
     SharedPref pref;
-    User loggedUser;
+    SalRep loggedUser;
     private long timeInMillis;
     ArrayList<Attendance> tours;
     String currentVersion = null;
