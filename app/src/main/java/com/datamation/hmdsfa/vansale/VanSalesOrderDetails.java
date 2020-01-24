@@ -185,7 +185,7 @@ public class VanSalesOrderDetails extends Fragment {
               //  String loc = new SalRepController(getActivity()).getCurrentLocCode().trim();
              //   String pril = new SalRepController(getActivity()).getCurrentPriLCode().trim();
               //  new ProductController(getActivity()).insertIntoProductAsBulk("NEG01", "WSP001");
-                new ProductController(getActivity()).insertIntoProductAsBulk(new SalRepController(getActivity()).getCurrentLocCode().trim(), mSharedPref.getSelectedDebtorPrilCode());
+                new ProductController(getActivity()).insertIntoProductAsBulk("MS","WSP001");
 
                 if(selectedInvHed!=null) {
 

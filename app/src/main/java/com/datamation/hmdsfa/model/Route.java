@@ -1,27 +1,47 @@
 package com.datamation.hmdsfa.model;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Route {
-    private String FROUTE_REPCODE;
-    private String FROUTE_ROUTECODE;
-    private String FROUTE_ROUTE_NAME;
-    private String FROUTE_RECORDID;
+
+    @SerializedName("AddDate")
     private String FROUTE_ADDDATE;
+    @SerializedName("AddMach")
     private String FROUTE_ADD_MACH;
+    @SerializedName("AddUser")
     private String FROUTE_ADD_USER;
+    @SerializedName("AreaCode")
     private String FROUTE_AREACODE;
+    @SerializedName("DealCode")
     private String FROUTE_DEALCODE;
+    @SerializedName("FreqNo")
     private String FROUTE_FREQNO;
+    @SerializedName("Km")
     private String FROUTE_KM;
+    @SerializedName("MinProcall")
     private String FROUTE_MINPROCALL;
+    @SerializedName("RDAloRate")
     private String FROUTE_RDALORATE;
+    @SerializedName("RDTarget")
     private String FROUTE_RDTARGET;
+    @SerializedName("Remarks")
     private String FROUTE_REMARKS;
+    @SerializedName("RepCode")
+    private String FROUTE_REPCODE;
+    @SerializedName("RouteCode")
+    private String FROUTE_ROUTECODE;
+    @SerializedName("RouteName")
+    private String FROUTE_ROUTE_NAME;
+    @SerializedName("Status")
     private String FROUTE_STATUS;
+    @SerializedName("Tonnage")
     private String FROUTE_TONNAGE;
+
+    private String FROUTE_RECORDID;
 
     public String getFROUTE_REPCODE() {
         return FROUTE_REPCODE;

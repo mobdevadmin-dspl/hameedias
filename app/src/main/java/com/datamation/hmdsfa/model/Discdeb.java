@@ -1,13 +1,19 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Discdeb {
 
-    private String FDISCDEB_ID;
+
+    @SerializedName("Refno")
     private String FDISCDEB_REF_NO;
+    @SerializedName("Debcode")
     private String FDISCDEB_DEB_CODE;
+
+    private String FDISCDEB_ID;
     private String FDISCDEB_RECORD_ID;
     private String FDISCDEB_TIEMSTAMP_COLUMN;
 

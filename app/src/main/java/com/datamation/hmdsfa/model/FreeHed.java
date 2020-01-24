@@ -1,24 +1,38 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FreeHed {
 
-    private String FFREEHED_ID;
+    @SerializedName("Refno")
     private String FFREEHED_REFNO;
+    @SerializedName("Txndate")
     private String FFREEHED_TXNDATE;
+    @SerializedName("DiscDesc")
     private String FFREEHED_DISC_DESC;
+    @SerializedName("Priority")
     private String FFREEHED_PRIORITY;
+    @SerializedName("Vdatef")
     private String FFREEHED_VDATEF;
+    @SerializedName("Vdatet")
     private String FFREEHED_VDATET;
+    @SerializedName("Remarks")
     private String FFREEHED_REMARKS;
+    @SerializedName("ItemQty")
+    private String ITEMQTY;
+    @SerializedName("FreeItQty")
+    private String FFREEHED_FREE_IT_QTY;
+    @SerializedName("Ftype")
+    private String FFREEHED_FTYPE;
+    @SerializedName("CostCode")
+    private String FFREEHED_COSTCODE;
+
+    private String FFREEHED_ID;
     private String FFREEHED_RECORD_ID;
     private String FFREEHED_ITEM_QTY;
-    private String FFREEHED_FREE_IT_QTY;
-    private String FFREEHED_FTYPE;
-    private String FFREEHED_COSTCODE;
-    private String ITEMQTY;
 
     public String getITEMQTY() {
         return ITEMQTY;

@@ -19,6 +19,7 @@ import com.datamation.hmdsfa.controller.InvDetController;
 
 import com.datamation.hmdsfa.helpers.VanSalesResponseListener;
 
+import com.datamation.hmdsfa.model.Debtor;
 import com.datamation.hmdsfa.vansale.InnerReturnDetails;
 import com.datamation.hmdsfa.vansale.VanSalesHeader;
 import com.datamation.hmdsfa.vansale.VanSalesOrderDetails;
@@ -29,6 +30,7 @@ public class VanSalesActivity extends AppCompatActivity implements VanSalesRespo
     private VanSalesOrderDetails detailFragment;
     private VanSalesSummary salesManagementFragment;
     private InnerReturnDetails orderMainFragment;
+    Debtor selectedDebtor = null;
     private ViewPager viewPager;
     Context context;
     boolean status = false;

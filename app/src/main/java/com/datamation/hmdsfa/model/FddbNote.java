@@ -1,9 +1,58 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FddbNote {
+
+    @SerializedName("AddDate")
+    private String FDDBNOTE_ADD_DATE;
+    @SerializedName("AddMach")
+    private String FDDBNOTE_ADD_MACH;
+    @SerializedName("AddUser")
+    private String FDDBNOTE_ADD_USER;
+    @SerializedName("Amt")
+    private String FDDBNOTE_AMT;
+    @SerializedName("BAmt")
+    private String FDDBNOTE_B_AMT;
+    @SerializedName("BTaxAmt")
+    private String FDDBNOTE_B_TAX_AMT;
+    @SerializedName("CurCode")
+    private String FDDBNOTE_CUR_CODE;
+    @SerializedName("CurRate")
+    private String FDDBNOTE_CUR_RATE;
+    @SerializedName("DebCode")
+    private String FDDBNOTE_DEB_CODE;
+    @SerializedName("ManuRef")
+    private String FDDBNOTE_MANU_REF;
+    @SerializedName("OvPayAmt")
+    private String FDDBNOTE_OV_PAY_AMT;
+    @SerializedName("RefInv")
+    private String FDDBNOTE_REF_INV;
+    @SerializedName("RefNo")
+    private String FDDBNOTE_REFNO;
+    @SerializedName("RefNo1")
+    private String FDDBNOTE_REFNO1;
+    @SerializedName("Remarks")
+    private String FDDBNOTE_REMARKS;
+    @SerializedName("RepCode")
+    private String FDDBNOTE_REP_CODE;
+    @SerializedName("SaleRefNo")
+    private String FDDBNOTE_SALE_REF_NO;
+    @SerializedName("TaxAmt")
+    private String FDDBNOTE_TAX_AMT;
+    @SerializedName("TaxComCode")
+    private String FDDBNOTE_TAX_COM_CODE;
+    @SerializedName("TotBal")
+    private String FDDBNOTE_TOT_BAL;
+    @SerializedName("TotBal1")
+    private String FDDBNOTE_TOT_BAL1;
+    @SerializedName("TxnDate")
+    private String FDDBNOTE_TXN_DATE;
+    @SerializedName("TxnType")
+    private String FDDBNOTE_TXN_TYPE;
 
     private String refNo;
     private String refNo1;
@@ -14,33 +63,10 @@ public class FddbNote {
     private long id;
     private String FDDBNOTE_ID;
     private String FDDBNOTE_RECORD_ID;
-    private String FDDBNOTE_REFNO;
-    private String FDDBNOTE_REF_INV;
-    private String FDDBNOTE_SALE_REF_NO;
-    private String FDDBNOTE_MANU_REF;
-    private String FDDBNOTE_TXN_TYPE;
-    private String FDDBNOTE_TXN_DATE;
-    private String FDDBNOTE_CUR_CODE;
-    private String FDDBNOTE_CUR_RATE;
-    private String FDDBNOTE_DEB_CODE;
-    private String FDDBNOTE_REP_CODE;
-    private String FDDBNOTE_TAX_COM_CODE;
-    private String FDDBNOTE_TAX_AMT;
-    private String FDDBNOTE_B_TAX_AMT;
-    private String FDDBNOTE_AMT;
-    private String FDDBNOTE_B_AMT;
-    private String FDDBNOTE_TOT_BAL;
-    private String FDDBNOTE_TOT_BAL1;
-    private String FDDBNOTE_OV_PAY_AMT;
-    private String FDDBNOTE_REMARKS;
     private String FDDBNOTE_CR_ACC;
     private String FDDBNOTE_PRT_COPY;
     private String FDDBNOTE_GL_POST;
     private String FDDBNOTE_GL_BATCH;
-    private String FDDBNOTE_ADD_USER;
-    private String FDDBNOTE_ADD_DATE;
-    private String FDDBNOTE_ADD_MACH;
-    private String FDDBNOTE_REFNO1;
     private String FDDBNOTE_REPNAME;
     private String  FDDBNOTE_ENTER_AMT;
 

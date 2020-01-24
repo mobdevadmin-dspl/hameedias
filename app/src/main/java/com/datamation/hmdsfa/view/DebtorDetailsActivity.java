@@ -274,13 +274,13 @@ public class DebtorDetailsActivity extends AppCompatActivity {
             fabSalesOrder.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_sales));
         }
 
-//        if (isAnyActiveReturns)
-//        {
-//            fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.returns_active));
-//        }
-//        else {
-//            fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_return));
-//        }
+        if (isAnyActiveReturns)
+        {
+            fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.returns_active));
+        }
+        else {
+            fabReturnNote.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_return));
+        }
 
 //        if (isAnyActiveNonProds)
 //        {
@@ -292,15 +292,15 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         //}
         fabendcall.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this,R.drawable.endtnsc));
         //commented by rashmi 2019-09-25 because no need for swadeshi
-//        if(isAnyActiveReceipt)
-//            fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.receipt_active));
-//        else
-//            fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_receipt));
-//
-//        if(isAnyActiveInvoices)
-//            fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.vansale_active));
-//        else
-//            fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_vansales));
+        if(isAnyActiveReceipt)
+            fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.receipt_active));
+        else
+            fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_receipt));
+
+        if(isAnyActiveInvoices)
+            fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.vansale_active));
+        else
+            fabVansale.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_vansales));
 
         // The overlay when showing expanding the menu
         overlay = findViewById(R.id.outlet_details_view_overlay);
@@ -666,18 +666,18 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 }
 
                 fabSalesOrder.setVisibility(View.VISIBLE);
-               // fabInvoice.setVisibility(View.VISIBLE);
-               // fabReturnNote.setVisibility(View.VISIBLE);
+                fabInvoice.setVisibility(View.VISIBLE);
+                fabReturnNote.setVisibility(View.VISIBLE);
                 fabUnproductive.setVisibility(View.VISIBLE);
-              //  fabVansale.setVisibility(View.VISIBLE);
+                fabVansale.setVisibility(View.VISIBLE);
                 floatingActionsMenu.setVisibility(View.VISIBLE);
                 fabendcall.setVisibility(View.VISIBLE);
 
                 labelUnproductive.setVisibility(View.VISIBLE);
                 labelSalesOrder.setVisibility(View.VISIBLE);
-              //  labelInvoice.setVisibility(View.VISIBLE);
-             //   labelReturnNote.setVisibility(View.VISIBLE);
-           //     labelVanSale.setVisibility(View.VISIBLE);
+                labelInvoice.setVisibility(View.VISIBLE);
+                labelReturnNote.setVisibility(View.VISIBLE);
+                labelVanSale.setVisibility(View.VISIBLE);
                 labelMenu.setVisibility(View.VISIBLE);
                 lblend.setVisibility(View.VISIBLE);
 

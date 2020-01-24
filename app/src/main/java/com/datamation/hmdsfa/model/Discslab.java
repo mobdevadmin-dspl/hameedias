@@ -1,17 +1,25 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Discslab {
 
-    private String FDISCSLAB_ID;
+    @SerializedName("Refno")
     private String FDISCSLAB_REF_NO;
-    private String FDISCSLAB_SEQ_NO;
+    @SerializedName("Qtyf")
     private String FDISCSLAB_QTY_F;
+    @SerializedName("Qtyt")
     private String FDISCSLAB_QTY_T;
+    @SerializedName("Disper")
     private String FDISCSLAB_DIS_PER;
+    @SerializedName("Disamt")
     private String FDISCSLAB_DIS_AMUT;
+
+    private String FDISCSLAB_ID;
+    private String FDISCSLAB_SEQ_NO;
     private String FDISCSLAB_RECORD_ID;
     private String FDISCSLAB_TIMESTAMP_COLUMN;
 
