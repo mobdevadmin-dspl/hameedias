@@ -1,19 +1,29 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ItemPri {
 
-	private String FITEMPRI_ID;
+	@SerializedName("AddMach")
 	private String FITEMPRI_ADD_MACH;
+	@SerializedName("AddUser")
 	private String FITEMPRI_ADD_USER;
+	@SerializedName("ItemCode")
 	private String FITEMPRI_ITEM_CODE;
+	@SerializedName("Price")
 	private String FITEMPRI_PRICE;
+	@SerializedName("PrilCode")
 	private String FITEMPRI_PRIL_CODE;
-	private String FITEMPRI_SKU_CODE;
+	@SerializedName("TxnMach")
 	private String FITEMPRI_TXN_MACH;
+	@SerializedName("Txnuser")
 	private String FITEMPRI_TXN_USER;
+
+	private String FITEMPRI_ID;
+	private String FITEMPRI_SKU_CODE;
 	private String FITEMPRI_MIN_PRICE;
 	private String FITEMPRI_MAX_PRICE;
 	public String getFITEMPRI_ID() {

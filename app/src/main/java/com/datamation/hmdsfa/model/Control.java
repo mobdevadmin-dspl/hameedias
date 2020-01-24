@@ -1,23 +1,67 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Control {
 
-    private String FCONTROL_ID;
-    private String FCONTROL_COM_NAME;
+    @SerializedName("ComAdd1")
     private String FCONTROL_COM_ADD1;
+    @SerializedName("ComAdd2")
     private String FCONTROL_COM_ADD2;
+    @SerializedName("ComAdd3")
     private String FCONTROL_COM_ADD3;
-    private String FCONTROL_COM_TEL1;
-    private String FCONTROL_COM_TEL2;
-    private String FCONTROL_COM_FAX;
+    @SerializedName("ComName")
+    private String FCONTROL_COM_NAME;
+    @SerializedName("basecur")
+    private String FCONTROL_BASECUR;
+    @SerializedName("comemail")
     private String FCONTROL_COM_EMAIL;
+    @SerializedName("comtel1")
+    private String FCONTROL_COM_TEL1;
+    @SerializedName("comtel2")
+    private String FCONTROL_COM_TEL2;
+    @SerializedName("comfax1")
+    private String FCONTROL_COM_FAX;
+    @SerializedName("comweb")
     private String FCONTROL_COM_WEB;
+    @SerializedName("conage1")
+    private String FCONTROL_CONAGE1;
+    @SerializedName("conage2")
+    private String FCONTROL_CONAGE2;
+    @SerializedName("conage3")
+    private String FCONTROL_CONAGE3;
+    @SerializedName("conage4")
+    private String FCONTROL_CONAGE4;
+    @SerializedName("conage5")
+    private String FCONTROL_CONAGE5;
+    @SerializedName("conage6")
+    private String FCONTROL_CONAGE6;
+    @SerializedName("conage7")
+    private String FCONTROL_CONAGE7;
+    @SerializedName("conage8")
+    private String FCONTROL_CONAGE8;
+    @SerializedName("conage9")
+    private String FCONTROL_CONAGE9;
+    @SerializedName("conage10")
+    private String FCONTROL_CONAGE10;
+    @SerializedName("conage11")
+    private String FCONTROL_CONAGE11;
+    @SerializedName("conage12")
+    private String FCONTROL_CONAGE12;
+    @SerializedName("conage13")
+    private String FCONTROL_CONAGE13;
+    @SerializedName("conage14")
+    private String FCONTROL_CONAGE14;
+    @SerializedName("comRegNo")
+    private String FCONTROL_COM_REGNO;
+    @SerializedName("")
+
+    private String FCONTROL_ID;
     private String FCONTROL_FYEAR;
     private String FCONTROL_TYEAR;
-    private String FCONTROL_COM_REGNO;
     private String FCONTROL_FTXN;
     private String FCONTROL_TTXN;
     private String FCONTROL_CRYSTALPATH;
@@ -25,22 +69,7 @@ public class Control {
     private String FCONTROL_NBTCMTAXNO;
     private String FCONTROL_SYSTYPE;
     private String FCONTROL_DEALCODE;
-    private String FCONTROL_BASECUR;
     private String FCONTROL_BALGCRLM;
-    private String FCONTROL_CONAGE1;
-    private String FCONTROL_CONAGE2;
-    private String FCONTROL_CONAGE3;
-    private String FCONTROL_CONAGE4;
-    private String FCONTROL_CONAGE5;
-    private String FCONTROL_CONAGE6;
-    private String FCONTROL_CONAGE7;
-    private String FCONTROL_CONAGE8;
-    private String FCONTROL_CONAGE9;
-    private String FCONTROL_CONAGE10;
-    private String FCONTROL_CONAGE11;
-    private String FCONTROL_CONAGE12;
-    private String FCONTROL_CONAGE13;
-    private String FCONTROL_CONAGE14;
     private String FCONTROL_SALESACC;
     private String FCONTROL_COMDISPER;
 

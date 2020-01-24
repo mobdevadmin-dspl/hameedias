@@ -19,13 +19,6 @@ public class ReadJsonList {
         return salRepResult;
     }
 
-    @SerializedName("FdebtorResult")
-    private List<Debtor> debtorResult = null;
-
-    public List<Debtor> getDebtorResult() {
-        return debtorResult;
-    }
-
     @SerializedName("fControlResult")
     private List<Control> controlResult = null;
 

@@ -1,15 +1,22 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ItemLoc
 {
-    private String FITEMLOC_ID;
+    @SerializedName("ItemCode")
     private String FITEMLOC_ITEM_CODE;
+    @SerializedName("LocCode")
     private String FITEMLOC_LOC_CODE;
+    @SerializedName("QOH")
     private String FITEMLOC_QOH;
+    @SerializedName("RecordId")
     private String FITEMLOC_RECORD_ID;
+
+    private String FITEMLOC_ID;
 
     public String getFITEMLOC_ID() {
         return FITEMLOC_ID;

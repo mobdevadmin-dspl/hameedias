@@ -1,14 +1,21 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class TaxHed {
 
-    private String ID;
+    @SerializedName("Active")
     private String ACTIVE;
+    @SerializedName("TaxComCode")
     private String TAXCOMCODE;
+    @SerializedName("TaxComName")
     private String TAXCOMNAME;
+
+
+    private String ID;
 
     public String getID() {
         return ID;

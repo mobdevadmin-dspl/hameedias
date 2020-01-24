@@ -7,26 +7,18 @@ import org.json.JSONObject;
 
 public class Debtor {
 
-    @SerializedName("AddMach")
-    private String FDEBTOR_ADD_MACH;
-    @SerializedName("AddUser")
-    private String FDEBTOR_ADD_USER;
+
+
     @SerializedName("AreaCode")
     private String FDEBTOR_AREA_CODE;
-    @SerializedName("CONSOLE_DB")
-    public String CONSOLE_DB;
     @SerializedName("ChkCrdLmt")
     private String FDEBTOR_CHK_CRD_LIMIT;
     @SerializedName("ChkCrdPrd")
     private String FDEBTOR_CHK_CRD_PRD;
-    @SerializedName("CostCode")
-    private  String  FDEBTOR_COSTCODE;
     @SerializedName("CrdLimit")
     private String FDEBTOR_CRD_LIMIT;
     @SerializedName("CrdPeriod")
     private String FDEBTOR_CRD_PERIOD;
-    @SerializedName("DISTRIBUTE_DB")
-    public String DISTRIBUTE_DB;
     @SerializedName("DbGrCode")
     private String FDEBTOR_DBGR_CODE;
     @SerializedName("DebAdd1")
@@ -64,6 +56,11 @@ public class Debtor {
     @SerializedName("ImgURL")
     private String FDEBTOR_IMG_URL;
 
+    public String DISTRIBUTE_DB;
+    public String CONSOLE_DB;
+    private  String  FDEBTOR_COSTCODE;
+    private String FDEBTOR_ADD_MACH;
+    private String FDEBTOR_ADD_USER;
     private String FDEBTOR_ID;
     private String FDEBTOR_CREATEDATE;
     private String FDEBTOR_REM_DIS;
