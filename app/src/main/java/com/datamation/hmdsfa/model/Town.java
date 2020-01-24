@@ -1,11 +1,16 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Town {
 //    private String townID;
+
+    @SerializedName("TownCode")
     private String townCode;
+    @SerializedName("TownName")
     private String townName;
 
     public Town() {

@@ -1,13 +1,18 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Discdet {
 
-    private String FDISCDET_ID;
+    @SerializedName("Refno")
     private String FDISCDET_REF_NO;
+    @SerializedName("Itemcode")
     private String FDISCDET_ITEM_CODE;
+
+    private String FDISCDET_ID;
     private String FDISCDET_RECORD_ID;
     private String FDISCHED_TIEMSTAMP_COLUMN;
 

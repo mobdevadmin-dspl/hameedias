@@ -1,18 +1,28 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Disched {
 
-    private String FDISCHED_ID;
+    @SerializedName("Refno")
     private String FDISCHED_REF_NO;
+    @SerializedName("Txndate")
     private String FDISCHED_TXN_DATE;
+    @SerializedName("DiscDesc")
     private String FDISCHED_DISC_DESC;
+    @SerializedName("Priority")
     private String FDISCHED_PRIORITY;
+    @SerializedName("DisType")
     private String FDISCHED_DIS_TYPE;
+    @SerializedName("Vdatef")
     private String FDISCHED_V_DATE_F;
+    @SerializedName("Vdatet")
     private String FDISCHED_V_DATE_T;
+
+    private String FDISCHED_ID;
     private String FDISCHED_REMARK;
     private String FDISCHED_ADD_USER;
     private String FDISCHED_ADD_DATE;

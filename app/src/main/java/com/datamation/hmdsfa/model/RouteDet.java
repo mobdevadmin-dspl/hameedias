@@ -1,13 +1,18 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RouteDet {
 
-    private String FROUTEDET_ID;
+    @SerializedName("DebCode")
     private String FROUTEDET_DEB_CODE;
+    @SerializedName("RouteCode")
     private String FROUTEDET_ROUTE_CODE;
+
+    private String FROUTEDET_ID;
 
     public String getFROUTEDET_ID() {
         return FROUTEDET_ID;

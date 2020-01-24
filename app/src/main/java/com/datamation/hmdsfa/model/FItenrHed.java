@@ -1,19 +1,29 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FItenrHed {
-	
-	private String FITENRHED_ID;
+
+	@SerializedName("CostCode")
 	private String FITENRHED_COST_CODE;
+	@SerializedName("DealCode")
 	private String FITENRHED_DEAL_CODE;
+	@SerializedName("Month")
 	private String FITENRHED_MONTH;
+	@SerializedName("RefNo")
 	private String FITENRHED_REF_NO;
+	@SerializedName("Remarks1")
 	private String FITENRHED_REMARKS1;
+	@SerializedName("RepCode")
 	private String FITENRHED_REP_CODE;
+	@SerializedName("Year")
 	private String FITENRHED_YEAR;
-	
+
+	private String FITENRHED_ID;
+
 	public String getFITENRHED_ID() {
 		return FITENRHED_ID;
 	}

@@ -1,5 +1,7 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,14 +10,22 @@ import org.json.JSONObject;
  */
 
 public class FItenrDet {
-    private String FITENRDET_ID;
+
+    @SerializedName("NoOutlet")
     private String FITENRDET_NO_OUTLET;
+    @SerializedName("NoShcuCal")
     private String FITENRDET_NO_SHCUCAL;
-    private String FITENRDET_RD_TARGET;
+    @SerializedName("RefNo")
     private String FITENRDET_REF_NO;
+    @SerializedName("Remarks")
     private String FITENRDET_REMARKS;
+    @SerializedName("RouteCode")
     private String FITENRDET_ROUTE_CODE;
+    @SerializedName("TxnDate")
     private String FITENRDET_TXN_DATE;
+
+    private String FITENRDET_ID;
+    private String FITENRDET_RD_TARGET;
 
     public String getFITENRDET_ID() {
         return FITENRDET_ID;

@@ -1,20 +1,33 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Bank {
+
+    @SerializedName("Bankcode")
+    private String FBANK_BANK_CODE;
+    @SerializedName("Bankname")
+    private String FBANK_BANK_NAME;
+    @SerializedName("Bankaccno")
+    private String FBANK_BANK_ACC_NO;
+    @SerializedName("Branch")
+    private String FBANK_BRANCH;
+    @SerializedName("Bankadd1")
+    private String FBANK_ADD1;
+    @SerializedName("Bankadd2")
+    private String FBANK_ADD2;
+    @SerializedName("AddDate")
+    private String FBANK_ADD_DATE;
+    @SerializedName("AddMach")
+    private String FBANK_ADD_MACH;
+    @SerializedName("AddUser")
+    private String FBANK_ADD_USER;
+
     private String FBANK_ID;
     private String FBANK_RECORD_ID;
-    private String FBANK_BANK_CODE;
-    private String FBANK_BANK_NAME;
-    private String FBANK_BANK_ACC_NO;
-    private String FBANK_BRANCH;
-    private String FBANK_ADD1;
-    private String FBANK_ADD2;
-    private String FBANK_ADD_DATE;
-    private String FBANK_ADD_MACH;
-    private String FBANK_ADD_USER;
 
     public String getFBANK_ADD_MACH() {
         return FBANK_ADD_MACH;

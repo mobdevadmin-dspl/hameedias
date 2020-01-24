@@ -1,22 +1,35 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FreeMslab {
 
-    private String FFREEMSLAB_ID;
+    @SerializedName("Refno")
     private String FFREEMSLAB_REFNO;
+    @SerializedName("Qtyf")
     private String FFREEMSLAB_QTY_F;
+    @SerializedName("Qtyt")
     private String FFREEMSLAB_QTY_T;
+    @SerializedName("ItemQty")
     private String FFREEMSLAB_ITEM_QTY;
+    @SerializedName("FreeItQty")
     private String FFREEMSLAB_FREE_IT_QTY;
+    @SerializedName("AddUser")
     private String FFREEMSLAB_ADD_USER;
+    @SerializedName("AddDate")
     private String FFREEMSLAB_ADD_DATE;
+    @SerializedName("AddMach")
     private String FFREEMSLAB_ADD_MACH;
+    @SerializedName("Seqno")
+    private String FFREEMSLAB_SEQ_NO;
+
+    private String FFREEMSLAB_ID;
     private String FFREEMSLAB_RECORD_ID;
     private String FFREEMSLAB_TIMESTAMP_COLUMN;
-    private String FFREEMSLAB_SEQ_NO;
+
 
     public String getFFREEMSLAB_ID() {
         return FFREEMSLAB_ID;
