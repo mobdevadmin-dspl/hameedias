@@ -1,20 +1,29 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Expense {
 
-    private String FEXPENSE_ID;
-    private String FEXPENSE_CODE;
-    private String FEXPENSE_GRP_CODE;
-    private String FEXPENSE_NAME;
-    private String FEXPENSE_RECORDID;
-    private String FEXPENSE_STATUS;
-    private String FEXPENSE_ADD_MACH;
-    private String FEXPENSE_ADD_USER;
+    @SerializedName("AddDate")
     private String FEXPENSE_ADD_DATE;
+    @SerializedName("AddMach")
+    private String FEXPENSE_ADD_MACH;
+    @SerializedName("AddUser")
+    private String FEXPENSE_ADD_USER;
+    @SerializedName("ExpCode")
+    private String FEXPENSE_CODE;
+    @SerializedName("ExpGrpCode")
+    private String FEXPENSE_GRP_CODE;
+    @SerializedName("ExpName")
+    private String FEXPENSE_NAME;
+    @SerializedName("Status")
+    private String FEXPENSE_STATUS;
 
+    private String FEXPENSE_ID;
+    private String FEXPENSE_RECORDID;
 
     public String getFEXPENSE_ADD_DATE() {
         return FEXPENSE_ADD_DATE;

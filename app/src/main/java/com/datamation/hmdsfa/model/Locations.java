@@ -1,17 +1,26 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Locations {
 
-    private String FLOCATIONS_ID;
+    @SerializedName("AddMach")
     private String FLOCATIONS_ADD_MACH;
+    @SerializedName("AddUser")
     private String FLOCATIONS_ADD_USER;
+    @SerializedName("LocCode")
     private String FLOCATIONS_LOC_CODE;
+    @SerializedName("LocName")
     private String FLOCATIONS_LOC_NAME;
+    @SerializedName("LoctCode")
     private String FLOCATIONS_LOC_T_CODE;
+    @SerializedName("RepCode")
     private String FLOCATIONS_REP_CODE;
+
+    private String FLOCATIONS_ID;
 
     public String getFLOCATIONS_ID() {
         return FLOCATIONS_ID;

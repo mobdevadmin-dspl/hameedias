@@ -1,19 +1,32 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CompanySetting {
 
-    private String FCOMPANYSETTING_ID;
-    private String FCOMPANYSETTING_SETTINGS_CODE;
-    private String FCOMPANYSETTING_GRP;
-    private String FCOMPANYSETTING_LOCATION_CHAR;
+    @SerializedName("cCharVal")
     private String FCOMPANYSETTING_CHAR_VAL;
-    private String FCOMPANYSETTING_NUM_VAL;
-    private String FCOMPANYSETTING_REMARKS;
-    private String FCOMPANYSETTING_TYPE;
+    @SerializedName("cCompanyCode")
     private String FCOMPANYSETTING_COMPANY_CODE;
+    @SerializedName("cLocationChar")
+    private String FCOMPANYSETTING_LOCATION_CHAR;
+    @SerializedName("cRemarks")
+    private String FCOMPANYSETTING_REMARKS;
+    @SerializedName("cSettingGrp")
+    private String FCOMPANYSETTING_GRP;
+    @SerializedName("cSettingsCode")
+    private String FCOMPANYSETTING_SETTINGS_CODE;
+    @SerializedName("nNumVal")
+    private String FCOMPANYSETTING_NUM_VAL;
+    @SerializedName("nType")
+    private String FCOMPANYSETTING_TYPE;
+
+    private String FCOMPANYSETTING_ID;
+
+
     // rashmi - 2019-12-17 move from database_helper , because of reduce coding in database helper*******************************************************************************
 
     public static final String TABLE_FCOMPANYSETTING = "fCompanySetting";

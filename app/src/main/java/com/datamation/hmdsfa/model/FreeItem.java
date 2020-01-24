@@ -1,13 +1,18 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FreeItem {
 
-    private String FFREEITEM_ID;
-    private String FFREEITEM_REFNO;
+    @SerializedName("Itemcode")
     private String FFREEITEM_ITEMCODE;
+    @SerializedName("Refno")
+    private String FFREEITEM_REFNO;
+
+    private String FFREEITEM_ID;
     private String FFREEITEM_RECORD_ID;
 
     public String getFFREEITEM_ID() {

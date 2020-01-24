@@ -1,19 +1,29 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Reason {
 
-	private String FREASON_ID;
+	@SerializedName("AddDate")
 	private String FREASON_ADD_DATE;
+	@SerializedName("AddMach")
 	private String FREASON_ADD_MACH;
+	@SerializedName("AddUser")
 	private String FREASON_ADD_USER;
+	@SerializedName("ReaCode")
 	private String FREASON_CODE;
+	@SerializedName("ReaName")
 	private String FREASON_NAME;
+	@SerializedName("ReaTcode")
 	private String FREASON_REATCODE;
-	private String FREASON_RECORD_ID;
+	@SerializedName("Type")
 	private String FREASON_TYPE;
+
+	private String FREASON_ID;
+	private String FREASON_RECORD_ID;
 
 	public String getFREASON_ID() {
 		return FREASON_ID;

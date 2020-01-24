@@ -1,13 +1,18 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FreeDeb {
 
-    private String FFREEDEB_ID;
+    @SerializedName("Refno")
     private String FFREEDEB_REFNO;
+    @SerializedName("Debcode")
     private String FFREEDEB_DEB_CODE;
+
+    private String FFREEDEB_ID;
     private String FFREEDEB_ADD_USER;
     private String FFREEDEB_ADD_DATE;
     private String FFREEDEB_ADD_MACH;
