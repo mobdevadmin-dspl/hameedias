@@ -53,5 +53,6 @@ public class ReadJsonList {
     public List<Item> getItemsResult() {
         return itemsResult;
     }
+
 }
 

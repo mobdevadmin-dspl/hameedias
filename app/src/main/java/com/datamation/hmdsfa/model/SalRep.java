@@ -13,27 +13,61 @@ public class SalRep {
     private String ADDUSER;
     @SerializedName("CONSOLE_DB")
     private String CONSOLE_DB;
-
+    @SerializedName("DIST_DB")
     private String DIST_DB;
-    private String RepCode;
-    private String NAME;
-    private String REPID;
-
-
-    private String MOBILE;
-    private String STATUS;
-    private String PREFIX;
-    private String TELE;
-    private String LOCCODE;
-    private String EMAIL;
-    private String AREACODE;
+    @SerializedName("DealCode")
     private String DEALCODE;
-    private String MACID;
-    private String ISSYNC;
-    private String REPTCODE;
-    private String IS_ZERO_QOH_ALLOW;
-    private String firebaseTokenID;
+    @SerializedName("EMAIL")
+    private String EMAIL;
+    @SerializedName("IsApplyQOHexdVldtn")
     private String IsApplyQOHexdVldtn;
+    @SerializedName("LocCode")
+    private String LOCCODE;
+    @SerializedName("Password")
+    private String PASSWORD;
+    @SerializedName("RecordId")
+    private String REPID;
+    @SerializedName("RepCode")
+    private String RepCode;
+    @SerializedName("RepIdNo")
+    private String REPIDNO;
+    @SerializedName("RepMobil")
+    private String MOBILE;
+    @SerializedName("RepName")
+    private String NAME;
+    @SerializedName("RepPrefix")
+    private String PREFIX;
+    @SerializedName("RepTCode")
+    private String REPTCODE;
+    @SerializedName("RepTele")
+    private String TELE;
+    @SerializedName("Status")
+    private String STATUS;
+    @SerializedName("firebaseTokenID")
+    private String firebaseTokenID;
+    @SerializedName("macid")
+    private String MACID;
+    @SerializedName("isZeroQOHAllow")
+    private String IS_ZERO_QOH_ALLOW;
+
+    private String AREACODE;
+    private String ISSYNC;
+
+    public String getREPIDNO() {
+        return REPIDNO;
+    }
+
+    public void setREPIDNO(String REPIDNO) {
+        this.REPIDNO = REPIDNO;
+    }
+
+    public String getPASSWORD() {
+        return PASSWORD;
+    }
+
+    public void setPASSWORD(String PASSWORD) {
+        this.PASSWORD = PASSWORD;
+    }
 
     public String getIsApplyQOHexdVldtn() {
         return IsApplyQOHexdVldtn;
