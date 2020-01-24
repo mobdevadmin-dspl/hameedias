@@ -132,6 +132,7 @@ public class OutstandingController {
                 stmt.bindString(18, fdDbNote.getFDDBNOTE_TOT_BAL1());
                 stmt.bindString(19, fdDbNote.getFDDBNOTE_OV_PAY_AMT());
                 stmt.bindString(20, fdDbNote.getFDDBNOTE_REMARKS());
+                //stmt.bindString(20, fdDbNote.getFDDBNOTE_REMARKS());
 //                stmt.bindString(21, fdDbNote.getFDDBNOTE_CR_ACC());
 //                stmt.bindString(22, fdDbNote.getFDDBNOTE_PRT_COPY());
 //                stmt.bindString(23, fdDbNote.getFDDBNOTE_GL_POST());

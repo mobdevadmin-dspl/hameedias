@@ -30,7 +30,6 @@ public class VanSalesActivity extends AppCompatActivity implements VanSalesRespo
     private VanSalesOrderDetails detailFragment;
     private VanSalesSummary salesManagementFragment;
     private InnerReturnDetails orderMainFragment;
-    Debtor selectedDebtor = null;
     private ViewPager viewPager;
     Context context;
     boolean status = false;

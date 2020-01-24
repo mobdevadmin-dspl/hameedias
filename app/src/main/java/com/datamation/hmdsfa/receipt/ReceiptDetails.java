@@ -225,6 +225,7 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
                             fdDbNote.setFDDBNOTE_TOT_BAL1(selectedItem.getFDDBNOTE_TOT_BAL1());
                             fdDbNote.setFDDBNOTE_TXN_DATE(selectedItem.getFDDBNOTE_TXN_DATE());
                             fdDbNote.setFDDBNOTE_TXN_TYPE(selectedItem.getFDDBNOTE_TXN_TYPE());
+                            fdDbNote.setFDDBNOTE_REMARKS(selectedItem.getFDDBNOTE_REMARKS());
                             list.add(fdDbNote);
 
                             new OutstandingController(getActivity()).createOrUpdateFDDbNote(list);
