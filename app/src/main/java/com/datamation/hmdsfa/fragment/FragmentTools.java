@@ -2408,14 +2408,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
     private void showErrorText(String s) {
         Toast.makeText(getActivity(), "" + s, Toast.LENGTH_LONG).show();
-//        Snackbar snackbar = Snackbar.make(layoutTool, s, Snackbar.LENGTH_LONG);
-//        View snackbarLayout = snackbar.getView();
-//        snackbarLayout.setBackgroundColor(Color.RED);
-//        TextView textView = (TextView) snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
-//        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.sync, 0, 0, 0);
-//        textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.body_size));
-//        textView.setTextColor(Color.WHITE);
-//        snackbar.show();
+
     }
 
     /////////////***********************secondory sync finish***********************************/
@@ -2462,9 +2455,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         protected Boolean doInBackground(String... arg0) {
 
             try {
-
-                int recordCount = 0;
-                int totalBytes = 0;
 
                 try {
                     ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);

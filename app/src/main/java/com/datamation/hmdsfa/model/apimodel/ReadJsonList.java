@@ -25,6 +25,7 @@ import com.datamation.hmdsfa.model.FreeMslab;
 import com.datamation.hmdsfa.model.FreeSlab;
 import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemLoc;
+import com.datamation.hmdsfa.model.ItemPri;
 import com.datamation.hmdsfa.model.Locations;
 import com.datamation.hmdsfa.model.NearDebtor;
 import com.datamation.hmdsfa.model.Reason;
@@ -48,7 +49,7 @@ public class ReadJsonList {
     @SerializedName("fItemLocResult")//03
     private List<ItemLoc> itemLocResult = null;
     @SerializedName("fItemPriResult")//05
-    private List<ItemLoc> itemPriResult = null ;
+    private List<ItemPri> itemPriResult = null ;
     @SerializedName("fItemsResult")//06
     private List<Item> itemsResult = null ;
     @SerializedName("fLocationsResult")//07
@@ -107,6 +108,8 @@ public class ReadJsonList {
     private List<FInvhedL3> lastThreeInvHedResult = null ;
     @SerializedName("fDdbNoteWithConditionResult")//34
     private List<FddbNote> outstandingResult = null ;
+    @SerializedName("FdebtorResult")//35
+    private List<Debtor> debtorResult = null ;
 
     public List<SalRep> getSalRepResult() {
         return salRepResult;
@@ -120,7 +123,7 @@ public class ReadJsonList {
         return itemLocResult;
     }
 
-    public List<ItemLoc> getItemPriResult() {
+    public List<ItemPri> getItemPriResult() {
         return itemPriResult;
     }
 
@@ -238,6 +241,10 @@ public class ReadJsonList {
 
     public List<FddbNote> getOutstandingResult() {
         return outstandingResult;
+    }
+
+    public List<Debtor> getDebtorResult() {
+        return debtorResult;
     }
 }
 
