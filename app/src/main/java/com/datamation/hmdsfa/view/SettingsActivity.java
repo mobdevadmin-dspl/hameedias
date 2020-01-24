@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.settings.ContentItem;
 import com.datamation.hmdsfa.settings.ImportActivity;
 import com.datamation.hmdsfa.adapter.ListViewDataAdapter;
@@ -559,11 +560,11 @@ public class SettingsActivity extends AppCompatActivity {
         alertDialogBuilder.setView(promptView);
 
 
-        User salRep = SharedPref.getInstance(this).getLoginUser();
+        SalRep salRep = SharedPref.getInstance(this).getLoginUser();
 
 
-            etUserName.setText(salRep.getCode());
-            etRepCode.setText(salRep.getName());
+            etUserName.setText(salRep.getRepCode());
+            etRepCode.setText(salRep.getNAME());
           //  etPreFix.setText(salRep.getRoute());
 
 

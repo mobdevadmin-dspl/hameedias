@@ -35,6 +35,8 @@ import com.datamation.hmdsfa.OtherUploads.UploadDebtorImges;
 import com.datamation.hmdsfa.OtherUploads.UploadFirebaseTokenKey;
 import com.datamation.hmdsfa.OtherUploads.UploadSalRef;
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.api.ApiCllient;
+import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.controller.AttendanceController;
 import com.datamation.hmdsfa.controller.BankController;
 import com.datamation.hmdsfa.controller.CompanyDetailsController;
@@ -120,6 +122,7 @@ import com.datamation.hmdsfa.model.RouteDet;
 import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.Town;
 import com.datamation.hmdsfa.model.User;
+import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
 import com.datamation.hmdsfa.nonproductive.UploadNonProd;
 import com.datamation.hmdsfa.presale.UploadPreSales;
 import com.datamation.hmdsfa.utils.NetworkUtil;
@@ -143,6 +146,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /***@Auther - rashmi**/
 
@@ -266,13 +273,13 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         List<Object> repCodeList = (List<Object>) ds.child("REPCODE").getValue();
                         String url = ds.child("URL").getValue(String.class);
                         if(repCodeList.size()>0)
-                            if (repCodeList.contains(pref.getLoginUser().getCode()) && (flag == 0)) {
+                            if (repCodeList.contains(pref.getLoginUser().getRepCode()) && (flag == 0)) {
                                 FirebaseData fd = new FirebaseData();
                                 fd.setMEDIA_FLAG(flag + "");
                                 fd.setMEDIA_URL(url);
                                 fd.setMEDIA_TYPE(mType);
                                 vdoList.add(fd);
-                                Log.d("*TAG", url + "," + flag + "," + repCodeList + "" + pref.getLoginUser().getCode() + ", " + mType);
+                                Log.d("*TAG", url + "," + flag + "," + repCodeList + "" + pref.getLoginUser().getRepCode() + ", " + mType);
                             }
                     }
                     catch (Exception ex)
@@ -591,7 +598,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                                 SalRep salRep = new SalRep();
                                 salRep.setCONSOLE_DB(SharedPref.getInstance(context).getConsoleDB().trim());
                                 salRep.setDIST_DB(SharedPref.getInstance(context).getDistDB().trim());
-                                salRep.setRepCode(SharedPref.getInstance(context).getLoginUser().getCode());
+                                salRep.setRepCode(SharedPref.getInstance(context).getLoginUser().getRepCode());
                                 salRep.setFirebaseTokenID(SharedPref.getInstance(context).getFirebaseTokenKey());
 
                                 fblist.add(salRep);
@@ -803,7 +810,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             if (isAllUploaded()) {
                                 dialog.dismiss();
                                 try {
-                                    new secondarySync(SharedPref.getInstance(getActivity()).getLoginUser().getCode()).execute();
+                                    new secondarySync(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
                                     SharedPref.getInstance(getActivity()).setGlobalVal("SyncDate", dateFormat.format(new Date(timeInMillis)));
                                 } catch (Exception e) {
                                     Log.e("## ErrorIn2ndSync ##", e.toString());
@@ -866,14 +873,14 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         List<String> repCodeList = (List<String>) ds.child("REPCODE").getValue();
                         String url = ds.child("URL").getValue(String.class);
                         if(repCodeList.size()>0)
-                            if (repCodeList.contains(pref.getLoginUser().getCode()) && (flag == 0)) {
+                            if (repCodeList.contains(pref.getLoginUser().getRepCode()) && (flag == 0)) {
                                 fd = new FirebaseData();
                                 fd.setMEDIA_FLAG(flag + "");
                                 fd.setMEDIA_URL(url);
                                 fd.setMEDIA_TYPE(mType);
                                 imgList.add(fd);
 
-                                Log.d("*TAG", url + "," + flag + "," + repCodeList + "" + pref.getLoginUser().getCode() + " " + mType);
+                                Log.d("*TAG", url + "," + flag + "," + repCodeList + "" + pref.getLoginUser().getRepCode() + " " + mType);
                             }
                     }
                     catch (Exception ex)
@@ -2455,31 +2462,37 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         protected Boolean doInBackground(String... arg0) {
 
             try {
+
                 int recordCount = 0;
                 int totalBytes = 0;
-                String validateResponse = null;
-                JSONObject validateJSON;
+
                 try {
-                    validateResponse = networkFunctions.validate(getActivity(), macId, url, db);
-                    Log.d("validateResponse", validateResponse);
-                    validateJSON = new JSONObject(validateResponse);
+                    ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                    Call<ReadJsonList> resultCall = apiInterface.getSalRepResult(pref.getDistDB(),macId);
+                    resultCall.enqueue(new Callback<ReadJsonList>() {
+                        @Override
+                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                            System.out.println("test responce 01 " + response.body().getSalRepResult().size());
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            ArrayList<SalRep> repList = new ArrayList<SalRep>();
+                            for (int i = 0; i < response.body().getSalRepResult().size(); i++) {
+                                repList.add(response.body().getSalRepResult().get(i));
+                            }
+                            new SalRepController(getActivity()).createOrUpdateSalRep(repList);
+                            networkFunctions.setUser(repList.get(0));
+                            pref.storeLoginUser(repList.get(0));
+                            System.out.println("Rep List " + repList.toString());
 
-
-                    if (validateJSON != null) {
-                        pref = SharedPref.getInstance(getActivity());
-                        //dbHandler.clearTables();
-                        // Login successful. Proceed to download other items
-
-                        JSONArray repArray = validateJSON.getJSONArray("fSalRepResult");
-                        ArrayList<SalRep> salRepList = new ArrayList<>();
-                        for (int i = 0; i < repArray.length(); i++) {
-                            JSONObject expenseJSON = repArray.getJSONObject(i);
-                            salRepList.add(SalRep.parseUser(expenseJSON));
                         }
-                        new SalRepController(getActivity()).createOrUpdateSalRep(salRepList);
-                        User user = User.parseUser(repArray.getJSONObject(0));
-                        networkFunctions.setUser(user);
-                        pref.storeLoginUser(user);
+
+                        @Override
+                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+
+                        pref = SharedPref.getInstance(getActivity());
+
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -2488,18 +2501,12 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         });
 
                         return true;
-                    } else {
-                        Toast.makeText(getActivity(), "Invalid response from server when getting sales rep data", Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Log.e("networkFunctions ->", "IOException -> " + e.toString());
                     throw e;
-                } catch (JSONException e) {
-                    Log.e("networkFunctions ->", "JSONException -> " + e.toString());
-                    throw e;
                 }
+
 
 
             } catch (Exception e) {

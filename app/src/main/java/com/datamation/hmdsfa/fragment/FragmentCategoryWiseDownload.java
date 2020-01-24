@@ -87,7 +87,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
             if (isAllUploaded(getActivity())) {
 
                 try {
-                    new itemsDownload(SharedPref.getInstance(getActivity()).getLoginUser().getCode()).execute();
+                    new itemsDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
                 } catch (Exception e) {
                     Log.e("## ErrorInItemDown ##", e.toString());
                 }
@@ -110,7 +110,7 @@ public void onClick(View v) {
         if (isAllUploaded(getActivity())) {
 
         try {
-            new freeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getCode()).execute();
+            new freeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
         } catch (Exception e) {
             Log.e("## ErrorInItemDown ##", e.toString());
         }
@@ -132,7 +132,7 @@ public void onClick(View v) {
                 if (isAllUploaded(getActivity())) {
 
                     try {
-                        new routeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getCode()).execute();
+                        new routeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
                     } catch (Exception e) {
                         Log.e("## ErrorInItemDown ##", e.toString());
                     }
@@ -154,7 +154,7 @@ public void onClick(View v) {
                 if (isAllUploaded(getActivity())) {
 
                     try {
-                        new outstandingDownload(SharedPref.getInstance(getActivity()).getLoginUser().getCode()).execute();
+                        new outstandingDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
                     } catch (Exception e) {
                         Log.e("## ErrorInItemDown ##", e.toString());
                     }

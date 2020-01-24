@@ -38,7 +38,7 @@ public class ReferenceNum {
         String nextNumVal = referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim());
         //String nextNumVal = referenceDS.getNextNumVal(cSettingsCode,pref.getLoginUser().getCode());
         //ArrayList<Reference> list = referenceDS.getCurrentPreFix(cSettingsCode,"AA");
-        ArrayList<Reference> list = referenceDS.getCurrentPreFix(cSettingsCode,pref.getLoginUser().getPrefix());
+        ArrayList<Reference> list = referenceDS.getCurrentPreFix(cSettingsCode,pref.getLoginUser().getPREFIX());
 
         if (!nextNumVal.equals("")) {
 

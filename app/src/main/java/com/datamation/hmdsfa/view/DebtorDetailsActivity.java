@@ -42,6 +42,7 @@ import com.datamation.hmdsfa.fragment.debtordetails.CompetitorDetailsFragment;
 import com.datamation.hmdsfa.fragment.debtordetails.OutstandingDetailsFragment;
 import com.datamation.hmdsfa.fragment.debtordetails.PersonalDetailsFragment;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.User;
 import com.datamation.hmdsfa.settings.ReferenceNum;
 import com.datamation.hmdsfa.utils.GPSTracker;
@@ -76,7 +77,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
     private int[] famDisplayIntervals = {0, 100, 200, 300, 400, 500, 600, 700, 800, 900};
 
-    private User user;
+    private SalRep user;
     boolean isAnyActiveOrders = false;
     boolean isAnyActiveReturns = false;
     boolean isAnyActiveNonProds = false;

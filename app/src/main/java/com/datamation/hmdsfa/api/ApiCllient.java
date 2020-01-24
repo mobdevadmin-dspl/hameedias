@@ -16,19 +16,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiCllient {
     private final String LOG_TAG = ApiCllient.class.getSimpleName();
     private static String baseURL;
-    private final SharedPref pref;
-    private Context context;
+    private static SharedPref pref;
     private static Retrofit retrofit = null;
 
-    public ApiCllient(Context contextt) {
-        this.context = contextt;
-        pref = SharedPref.getInstance(context);
+//    public ApiCllient(Context contextt) {
+//        this.context = contextt;
+//        pref = SharedPref.getInstance(context);
+//        String domain = pref.getBaseURL();
+//        Log.d("baseURL>>>>>>>>>", domain);
+//        baseURL = domain + context.getResources().getString(R.string.connection_string);
+//    }
+
+    public static Retrofit getClient(Context contextt) {
+        pref = SharedPref.getInstance(contextt);
         String domain = pref.getBaseURL();
         Log.d("baseURL>>>>>>>>>", domain);
-        baseURL = domain + context.getResources().getString(R.string.connection_string);
-    }
-
-    public static Retrofit getClient() {
+        baseURL = domain + contextt.getResources().getString(R.string.connection_string);
         if (retrofit==null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseURL)

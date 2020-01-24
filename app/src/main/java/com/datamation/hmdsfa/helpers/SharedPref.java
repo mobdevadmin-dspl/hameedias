@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.User;
 
 /**
@@ -135,35 +136,29 @@ public class SharedPref {
     }
 
 
-    public void storeLoginUser(User user) {
+    public void storeLoginUser(SalRep user) {
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("user_id", user.getCode());
-        editor.putString("user_name", user.getName());
-        editor.putString("user_username", user.getUserName());
-        editor.putString("user_password", user.getPassword());
-        editor.putString("user_target", user.getTarget());
-        editor.putString("user_status", user.getStatus());
-        editor.putString("user_mobile", user.getMobile());
-        editor.putString("user_address", user.getAddress());
-        editor.putString("user_prefix", user.getPrefix());
+        editor.putString("user_id", user.getRepCode());
+        editor.putString("user_name", user.getNAME());
+        editor.putString("user_password", user.getPASSWORD());
+        editor.putString("user_status", user.getSTATUS());
+        editor.putString("user_mobile", user.getMOBILE());
+        editor.putString("user_prefix", user.getPREFIX());
 
         editor.apply();
     }
 
-    public User getLoginUser() {
+    public SalRep getLoginUser() {
 
-        User user = new User();
-        user.setCode(sharedPref.getString("user_id", ""));
-        user.setName(sharedPref.getString("user_name", ""));
-        user.setUserName(sharedPref.getString("user_username", ""));
-        user.setPassword(sharedPref.getString("user_password", ""));
-        user.setTarget(sharedPref.getString("user_target", ""));
-        user.setStatus(sharedPref.getString("user_status", ""));
-        user.setMobile(sharedPref.getString("user_mobile", ""));
-        user.setAddress(sharedPref.getString("user_address", ""));
-        user.setPrefix(sharedPref.getString("user_prefix", ""));
+        SalRep user = new SalRep();
+        user.setRepCode(sharedPref.getString("user_id", ""));
+        user.setNAME(sharedPref.getString("user_name", ""));
+        user.setPASSWORD(sharedPref.getString("user_password", ""));
+        user.setSTATUS(sharedPref.getString("user_status", ""));
+        user.setMOBILE(sharedPref.getString("user_mobile", ""));
+        user.setPREFIX(sharedPref.getString("user_prefix", ""));
 
-        if (user.getCode().equals("")) {
+        if (user.getRepCode().equals("")) {
             return null;
         } else {
             return user;
