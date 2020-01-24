@@ -1,33 +1,49 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Item {
 
-	private String FITEM_ID;
-	private String FITEM_ITEM_CODE;
-	private String FITEM_ITEM_NAME;
-	private String FITEM_VENPCODE;
-	private String FITEM_GROUPCODE;
-	private String FITEM_TYPECODE;
-	private String FITEM_TAXCOMCODE;
-	private String FITEM_UNITCODE;
-	private String FITEM_ITEMSTATUS;
+	@SerializedName("AvgPrice")
 	private String FITEM_AVGPRICE;
+	@SerializedName("BrandCode")
+	private String FITEM_BRANDCODE;
+	@SerializedName("GroupCode")
+	private String FITEM_GROUPCODE;
+	@SerializedName("ItemCode")
+	private String FITEM_ITEM_CODE;
+	@SerializedName("ItemName")
+	private String FITEM_ITEM_NAME;
+	@SerializedName("ItemStatus")
+	private String FITEM_ITEMSTATUS;
+	@SerializedName("PrilCode")
 	private String FITEM_PRILCODE;
+	@SerializedName("TypeCode")
+	private String FITEM_TYPECODE;
+	@SerializedName("UnitCode")
+	private String FITEM_UNITCODE;
+	@SerializedName("VenPcode")
+	private String FITEM_VENPCODE;
+	@SerializedName("NOUCase")
+	private String FITEM_NOUCASE;
+	@SerializedName("ReOrderLvl")
+	private String FITEM_REORDER_LVL;
+	@SerializedName("ReOrderQty")
+	private String FITEM_REORDER_QTY;
+	@SerializedName("TaxComCode")
+	private String FITEM_TAXCOMCODE;
+
+	private String FITEM_ID;
 	private String FITEM_SCATCODE;
 	private String FITEM_SUBCATCODE;
-	private String FITEM_BRANDCODE;
 	private String FITEM_COLORCODE;
 	private String FITEM_DISCOUNT;
 	private String FITEM_CLASSCODE;
 	private String FITEM_ISSIZE;
 	private String FITEM_ISDISCOUNT;
-	private String FITEM_NOUCASE;
-	private String FITEM_REORDER_QTY;
-	private String FITEM_REORDER_LVL;
-
 	private String FITEM_QOH;
 	private String FITEM_CASEQTY;
 	private String FITEM_PICEQTY;

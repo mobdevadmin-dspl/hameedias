@@ -1,41 +1,76 @@
 package com.datamation.hmdsfa.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Debtor {
-    public String CONSOLE_DB;
-    public String DISTRIBUTE_DB;
 
-    private String FDEBTOR_ID;
-    private String FDEBTOR_DEBCODE;
-    private String FDEBTOR_NAME;
+
+
+    @SerializedName("AreaCode")
+    private String FDEBTOR_AREA_CODE;
+    @SerializedName("ChkCrdLmt")
+    private String FDEBTOR_CHK_CRD_LIMIT;
+    @SerializedName("ChkCrdPrd")
+    private String FDEBTOR_CHK_CRD_PRD;
+    @SerializedName("CrdLimit")
+    private String FDEBTOR_CRD_LIMIT;
+    @SerializedName("CrdPeriod")
+    private String FDEBTOR_CRD_PERIOD;
+    @SerializedName("DbGrCode")
+    private String FDEBTOR_DBGR_CODE;
+    @SerializedName("DebAdd1")
     private String FDEBTOR_ADD1;
+    @SerializedName("DebAdd2")
     private String FDEBTOR_ADD2;
+    @SerializedName("DebAdd3")
     private String FDEBTOR_ADD3;
-    private String FDEBTOR_TELE;
-    private String FDEBTOR_MOB;
+    @SerializedName("DebCode")
+    private String FDEBTOR_DEBCODE;
+    @SerializedName("DebEMail")
     private String FDEBTOR_EMAIL;
+    @SerializedName("DebMob")
+    private String FDEBTOR_MOB;
+    @SerializedName("DebName")
+    private String FDEBTOR_NAME;
+    @SerializedName("DebTele")
+    private String FDEBTOR_TELE;
+    @SerializedName("PrilCode")
+    private String FDEBTOR_PRILLCODE;
+    @SerializedName("RankCode")
+    private String FDEBTOR_RANK_CODE;
+    @SerializedName("Status")
+    private String FDEBTOR_STATUS;
+    @SerializedName("TaxReg")
+    private String FDEBTOR_TAX_REG;
+    @SerializedName("TownCode")
+    private String FDEBTOR_TOWN_CODE;
+    @SerializedName("RepCode")
+    private String FDEBTOR_REPCODE;
+    @SerializedName("Latitude")
+    private String FDEBTOR_LATITUDE;
+    @SerializedName("Longitude")
+    private String FDEBTOR_LONGITUDE;
+    @SerializedName("ImgURL")
+    private String FDEBTOR_IMG_URL;
+
+    public String DISTRIBUTE_DB;
+    public String CONSOLE_DB;
+    private  String  FDEBTOR_COSTCODE;
+    private String FDEBTOR_ADD_MACH;
+    private String FDEBTOR_ADD_USER;
+    private String FDEBTOR_ID;
     private String FDEBTOR_CREATEDATE;
     private String FDEBTOR_REM_DIS;
-    private String FDEBTOR_TOWN_CODE;
-    private String FDEBTOR_AREA_CODE;
     private String FDEBTOR_DEB_CAT_CODE;
-    private String FDEBTOR_DBGR_CODE;
     private String FDEBTOR_DEB_CLS_CODE;
-    private String FDEBTOR_STATUS;
     private String FDEBTOR_LYLTY;
     private String FDEBTOR_DEAL_CODE;
-    private String FDEBTOR_ADD_USER;
     private String FDEBTOR_ADD_DATE_DEB;
-    private String FDEBTOR_ADD_MACH;
     private String FDEBTOR_RECORD_ID;
     private String FDEBTOR_TIME_STAMP;
-    private String FDEBTOR_CRD_PERIOD;
-    private String FDEBTOR_CHK_CRD_PRD;
-    private String FDEBTOR_CRD_LIMIT;
-    private String FDEBTOR_CHK_CRD_LIMIT;
-    private String FDEBTOR_RANK_CODE;
     private String FDEBTOR_TRAN_DATE;
     private String FDEBTOR_TRAN_BATCH;
     private String FDEBTOR_SUMMARY;
@@ -57,9 +92,7 @@ public class Debtor {
     private String FDEBTOR_DEL_FAX;
     private String FDEBTOR_DEL_EMAIL;
     private String FDEBTOR_DATE_OFB;
-    private String FDEBTOR_TAX_REG;
     private String FDEBTOR_CUSDISPER;
-    private String FDEBTOR_PRILLCODE;
     private String FDEBTOR_CUSDISSTAT;
     private String FDEBTOR_BUS_RGNO;
     private String FDEBTOR_POSTCODE;
@@ -69,17 +102,18 @@ public class Debtor {
     private String FDEBTOR_BRANCH;
     private String FDEBTOR_ACCTNO;
     private String FDEBTOR_CUS_VATNO;
-
-    private String FDEBTOR_LATITUDE;
-    private String FDEBTOR_LONGITUDE;
-    private String FDEBTOR_IMG_URL;
-    private String FDEBTOR_REPCODE;
     private String FDEBTOR_NIC;
     private String FDEBTOR_BIS_REG;
-
     private String FDEBTOR_IS_SYNC;
     private String FDEBTOR_IS_CORDINATE_UPDATE;
 
+    public String getFDEBTOR_COSTCODE() {
+        return FDEBTOR_COSTCODE;
+    }
+
+    public void setFDEBTOR_COSTCODE(String FDEBTOR_COSTCODE) {
+        this.FDEBTOR_COSTCODE = FDEBTOR_COSTCODE;
+    }
 
     public String getCONSOLE_DB() {
         return CONSOLE_DB;
