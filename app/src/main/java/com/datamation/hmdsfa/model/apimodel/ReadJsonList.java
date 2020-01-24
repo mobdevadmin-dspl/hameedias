@@ -3,6 +3,7 @@ package com.datamation.hmdsfa.model.apimodel;
 import com.datamation.hmdsfa.helpers.ListExpandHelper;
 import com.datamation.hmdsfa.model.Control;
 import com.datamation.hmdsfa.model.Debtor;
+import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemLoc;
 import com.datamation.hmdsfa.model.SalRep;
 import com.google.gson.annotations.SerializedName;
@@ -46,6 +47,11 @@ public class ReadJsonList {
         return itemPriResult;
     }
 
-    
+    @SerializedName("fItemsResult")
+    private List<Item> itemsResult = null ;
+
+    public List<Item> getItemsResult() {
+        return itemsResult;
+    }
 }
 
