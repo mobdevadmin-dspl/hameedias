@@ -171,23 +171,12 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 String URL = "http://" + input.getText().toString().trim();
                 pref.setBaseURL(URL);
                 if (URL.length() != 0) {
-                    //   pref.setDBNAME(DBNAME);
-//                    if (Patterns.WEB_URL.matcher(URL).matches()&& URL.length()== 26)
                     if (Patterns.WEB_URL.matcher(URL).matches()) {
                         if (NetworkUtil.isNetworkAvailable(ActivityLogin.this)) {
                             pref.setBaseURL(URL);
                             pref.setDistDB(inputDistributor.getText().toString().trim());
                             Log.d("myapp", inputDistributor.getText().toString().trim());
-                            //pref.setConsoleDB(inputConsole.getText().toString().trim());
                             new Validate(pref.getMacAddress().trim(), URL).execute();
-                            //TODO: validate uname pwd with server details
-//                            String debtorURL = getResources().getString(R.string.ConnURL) + "/fSalrep/mobile123/"+pref.getDBNAME() +"/"+ pref.getMacAddress().replace(":", "");
-//                            // String URL = getResources().getString(R.string.ConnectionURL) + "/femployee/mobile123/" + databaseName + "/" + UIdStr.toString() + "/" + UserNameStr.toString();
-//                            new Downloader(SplashActivity.this, SplashActivity.this, FSALREP, URL, debtorURL).execute();
-                            //me tika wenna one username pwd server yawala validate unata passe..
-
-                            //pref.setFirstTimeLaunch(true);
-
 
                         } else {
                             Snackbar snackbar = Snackbar.make(promptView, R.string.txt_msg, Snackbar.LENGTH_LONG);
@@ -297,23 +286,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     } else {
                         new Authenticate(SharedPref.getInstance(this).getLoginUser().getRepCode()).execute();
                     }
-//                    Intent intent = new Intent(ActivityLogin
-//                            .this, ActivityHome
-//                            .class);
-//                    startActivity(intent);
-//                    finish();
-
-
-//                    String decrepted = getMD5HashVal(password.getText().toString());
-//                    String logged = loggedUser.getPassword();
-//                   if(!(username.getText().toString().equals(loggedUser.getUserName())) || !(decrepted.equals(loggedUser.getPassword()))){
-//                       Toast.makeText(this,"Invalid Username or Password",Toast.LENGTH_LONG).show();
-//
-//                    }else{
-//                       Toast.makeText(this,"Username and Password are correct",Toast.LENGTH_LONG).show();
-//
-//                       new Authenticate(username.getText().toString(), password.getText().toString(), loggedUser.getCode()).execute();
-//                    }
 
                 } else {
                     Log.d(">>>", "Validation :: " + username.getText().toString());
@@ -334,20 +306,12 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
-
     private class Authenticate extends AsyncTask<String, Integer, Boolean> {
         int totalRecords = 0;
         CustomProgressDialog pdialog;
         private String uname, pwd, repcode;
         private List<String> errors = new ArrayList<>();
 
-        //        public Authenticate(String uname, String pwd, String repCode){
-//            this.uname = uname;
-//            this.pwd = pwd;
-//            this.repcode = repCode;
-//            this.pdialog = new CustomProgressDialog(ActivityLogin.this);
-//        }
         public Authenticate(String repCode) {
             this.repcode = repCode;
             this.pdialog = new CustomProgressDialog(ActivityLogin.this);
@@ -368,27 +332,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             int totalBytes = 0;
 
             try {
-//                if ((username.getText().toString().equals(uname)) && (password.getText().toString().equals(pwd))
-//                        ) {
 
-
-
-/*****************Customers**********************************************************************/
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        pdialog.setMessage("Authenticated\nDownloading company control data...");
-                    }
-                });
-
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        pdialog.setMessage("Processing downloaded data (Company details)...");
-                    }
-                });
 
                 // Processing Company details
                 try {
@@ -599,17 +543,11 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                         }
                     });
                 } catch (Exception e) {
-                    errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
                     throw e;
                 }
 
                 /*****************end Settings**********************************************************************/
                 /*****************Item Loc*****************************************************************************/
-
-
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -909,8 +847,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     });
                 } catch (Exception e) {
                     errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                     throw e;
                 }
@@ -925,14 +861,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
-                String town = "";
-                try {
-                    town = networkFunctions.getTowns(repcode);
-                } catch (IOException e) {
-                    errors.add(e.toString());
-                    e.printStackTrace();
-                    throw e;
-                }
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -943,33 +871,36 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
                 // Processing towns
                 try {
-                    JSONObject townJSON = new JSONObject(town);
-                    JSONArray townJSONArray = townJSON.getJSONArray("fTownResult");
-                    ArrayList<Town> townList = new ArrayList<Town>();
-                    TownController townController = new TownController(ActivityLogin.this);
-                    for (int i = 0; i < townJSONArray.length(); i++) {
-                        townList.add(Town.parseTown(townJSONArray.getJSONObject(i)));
-                    }
-                    townController.createOrUpdateFTown(townList);
-                } catch (JSONException | NumberFormatException e) {
-                    errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
+                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+                    Call<ReadJsonList> resultCall = apiInterface.getTownResult(pref.getDistDB());
+                    resultCall.enqueue(new Callback<ReadJsonList>() {
+                        @Override
+                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                            System.out.println("test responce 01 " + response.body().getTownResult().size());
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            ArrayList<Town> townList = new ArrayList<Town>();
+                            for (int i = 0; i < response.body().getTownResult().size(); i++) {
+                                townList.add(response.body().getTownResult().get(i));
+                            }
+                            TownController townController = new TownController(ActivityLogin.this);
+                            townController.createOrUpdateFTown(townList);
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
+                    errors.add(e.toString());
                     throw e;
                 }
                 /*****************end towns**********************************************************************/
 
 
                 /*****************FreeHed**********************************************************************/
-                String freehed = "";
-                try {
-                    freehed = networkFunctions.getFreeHed(repcode);
-                } catch (IOException e) {
-                    errors.add(e.toString());
-                    e.printStackTrace();
-                    throw e;
-                }
+
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -977,36 +908,40 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                         pdialog.setMessage("Processing downloaded data (free)...");
                     }
                 });
-                FreeHedController freeHedController = new FreeHedController(ActivityLogin.this);
-                freeHedController.deleteAll();
+
                 // Processing freehed
                 try {
-                    JSONObject freeHedJSON = new JSONObject(freehed);
-                    JSONArray freeHedJSONArray = freeHedJSON.getJSONArray("FfreehedResult");
-                    ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
-                    for (int i = 0; i < freeHedJSONArray.length(); i++) {
-                        freeHedList.add(FreeHed.parseFreeHed(freeHedJSONArray.getJSONObject(i)));
-                    }
-                    freeHedController.createOrUpdateFreeHed(freeHedList);
-                } catch (JSONException | NumberFormatException e) {
-                    errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
+                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+                    Call<ReadJsonList> resultCall = apiInterface.getFreehedResult(pref.getDistDB(),repcode);
+                    resultCall.enqueue(new Callback<ReadJsonList>() {
+                        @Override
+                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                            FreeHedController freeHedController = new FreeHedController(ActivityLogin.this);
+                            freeHedController.deleteAll();
+                            System.out.println("test responce 01 " + response.body().getFreeHedResult().size());
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
+                            for (int i = 0; i < response.body().getFreeHedResult().size(); i++) {
+                                freeHedList.add(response.body().getFreeHedResult().get(i));
+                            }
+
+                            freeHedController.createOrUpdateFreeHed(freeHedList);
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
+                    errors.add(e.toString());
                     throw e;
                 }
                 /*****************end freeHed**********************************************************************/
 
 
                 /*****************Banks**********************************************************************/
-                String banks = "";
-                try {
-                    banks = networkFunctions.getBanks();
-                } catch (IOException e) {
-                    errors.add(e.toString());
-                    e.printStackTrace();
-                    throw e;
-                }
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -1017,33 +952,35 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
                 // Processing route
                 try {
-                    JSONObject bankJSON = new JSONObject(banks);
-                    JSONArray bankJSONArray = bankJSON.getJSONArray("fbankResult");
-                    ArrayList<Bank> bankList = new ArrayList<Bank>();
-                    BankController bankController = new BankController(ActivityLogin.this);
-                    for (int i = 0; i < bankJSONArray.length(); i++) {
-                        bankList.add(Bank.parseBank(bankJSONArray.getJSONObject(i)));
-                    }
-                    bankController.createOrUpdateBank(bankList);
-                } catch (JSONException | NumberFormatException e) {
+                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+                    Call<ReadJsonList> resultCall = apiInterface.getBankResult(pref.getDistDB());
+                    resultCall.enqueue(new Callback<ReadJsonList>() {
+                        @Override
+                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                            BankController bankController = new BankController(ActivityLogin.this);
+                            System.out.println("test responce 01 " + response.body().getBankResult().size());
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            ArrayList<Bank> bankList = new ArrayList<Bank>();
+                            for (int i = 0; i < response.body().getBankResult().size(); i++) {
+                                bankList.add(response.body().getBankResult().get(i));
+                            }
+
+                            bankController.createOrUpdateBank(bankList);
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
                     errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                     throw e;
                 }
                 /*****************end banks**********************************************************************/
 
                 /*****************discdeb**********************************************************************/
-                String debdisc = "";
-                try {
-                    debdisc = networkFunctions.getDiscDeb(repcode);
-                } catch (IOException e) {
-                    errors.add(e.toString());
-                    e.printStackTrace();
-                    throw e;
-                }
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -1052,18 +989,32 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 });
 
                 // Processing discdeb
-                DiscdebController discdebController = new DiscdebController(ActivityLogin.this);
-                discdebController.deleteAll();
-                try {
-                    JSONObject discdebPriJSON = new JSONObject(debdisc);
-                    JSONArray discdebJSONArray = discdebPriJSON.getJSONArray("FdiscdebResult");
-                    ArrayList<Discdeb> discdebList = new ArrayList<Discdeb>();
 
-                    for (int i = 0; i < discdebJSONArray.length(); i++) {
-                        discdebList.add(Discdeb.parseDiscDeb(discdebJSONArray.getJSONObject(i)));
-                    }
-                    discdebController.createOrUpdateDiscdeb(discdebList);
-                } catch (JSONException | NumberFormatException e) {
+                try {
+
+                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+                    Call<ReadJsonList> resultCall = apiInterface.getDiscDebResult(pref.getDistDB(),repcode);
+                    resultCall.enqueue(new Callback<ReadJsonList>() {
+                        @Override
+                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                            DiscdebController discdebController = new DiscdebController(ActivityLogin.this);
+                            discdebController.deleteAll();
+                            System.out.println("test responce 01 " + response.body().getDiscDebResult().size());
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            ArrayList<Discdeb> discdebList = new ArrayList<Discdeb>();
+                            for (int i = 0; i < response.body().getDiscDebResult().size(); i++) {
+                                discdebList.add(response.body().getDiscDebResult().get(i));
+                            }
+
+                            discdebController.createOrUpdateDiscdeb(discdebList);
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
                     errors.add(e.toString());
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
 //                                e, routes, BugReport.SEVERITY_HIGH);
@@ -1072,14 +1023,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 }
                 /*****************end discdeb**********************************************************************/
                 /*****************discdet**********************************************************************/
-                String discdet = "";
-                try {
-                    discdet = networkFunctions.getDiscDet();
-                } catch (IOException e) {
-                    errors.add(e.toString());
-                    e.printStackTrace();
-                    throw e;
-                }
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -1088,36 +1031,38 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
-
-                DiscdetController discdetController = new DiscdetController(ActivityLogin.this);
-                discdetController.deleteAll();
                 // Processing discdeb
                 try {
-                    JSONObject discdetJSON = new JSONObject(discdet);
-                    JSONArray discdetJSONArray = discdetJSON.getJSONArray("FdiscdetResult");
-                    ArrayList<Discdet> discdetList = new ArrayList<Discdet>();
-                    for (int i = 0; i < discdetJSONArray.length(); i++) {
-                        discdetList.add(Discdet.parseDiscDet(discdetJSONArray.getJSONObject(i)));
-                    }
-                    discdetController.createOrUpdateDiscdet(discdetList);
-                } catch (JSONException | NumberFormatException e) {
+
+                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+                    Call<ReadJsonList> resultCall = apiInterface.getDiscDetResult(pref.getDistDB());
+                    resultCall.enqueue(new Callback<ReadJsonList>() {
+                        @Override
+                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                            DiscdetController discdetController = new DiscdetController(ActivityLogin.this);
+                            discdetController.deleteAll();
+                            System.out.println("test responce 01 " + response.body().getDiscDetResult().size());
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            ArrayList<Discdet> discdetList = new ArrayList<Discdet>();
+                            for (int i = 0; i < response.body().getDiscDetResult().size(); i++) {
+                                discdetList.add(response.body().getDiscDetResult().get(i));
+                            }
+
+                            discdetController.createOrUpdateDiscdet(discdetList);
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
                     errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                     throw e;
                 }
                 /*****************end discdet**********************************************************************/
                 /*****************discshed**********************************************************************/
-                String disched = "";
-                try {
-                    disched = networkFunctions.getDiscHed(repcode);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    errors.add(e.toString());
-                    throw e;
-                }
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -1127,33 +1072,36 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
                 // Processing discdeb
 
-                DischedController dischedController = new DischedController(ActivityLogin.this);
-                dischedController.deleteAll();
-                try {
-                    JSONObject dischedJSON = new JSONObject(disched);
-                    JSONArray dischedJSONArray = dischedJSON.getJSONArray("FDischedResult");
-                    ArrayList<Disched> dischedList = new ArrayList<Disched>();
-                    for (int i = 0; i < dischedJSONArray.length(); i++) {
-                        dischedList.add(Disched.parseDisched(dischedJSONArray.getJSONObject(i)));
-                    }
-                    dischedController.createOrUpdateDisched(dischedList);
-                } catch (JSONException | NumberFormatException e) {
-                    errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
+                try {
+
+                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+                    Call<ReadJsonList> resultCall = apiInterface.getDiscHedResult(pref.getDistDB(),repcode);
+                    resultCall.enqueue(new Callback<ReadJsonList>() {
+                        @Override
+                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                            DischedController dischedController = new DischedController(ActivityLogin.this);
+                            dischedController.deleteAll();
+                            System.out.println("test responce 01 " + response.body().getDiscHedResult().size());
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            ArrayList<Disched> dischedList = new ArrayList<Disched>();
+                            for (int i = 0; i < response.body().getDiscHedResult().size(); i++) {
+                                dischedList.add(response.body().getDiscHedResult().get(i));
+                            }
+                            dischedController.createOrUpdateDisched(dischedList);
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
+                    errors.add(e.toString());
                     throw e;
                 }
                 /*****************end discdet**********************************************************************/
                 /*****************discslab*************************************************************************/
-                String discslab = "";
-                try {
-                    discslab = networkFunctions.getDiscSlab();
-                } catch (IOException e) {
-                    errors.add(e.toString());
-                    e.printStackTrace();
-                    throw e;
-                }
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -1163,22 +1111,32 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 });
 
                 // Processing discslab
-                DiscslabController discslabController = new DiscslabController(ActivityLogin.this);
-                discslabController.deleteAll();
+
                 try {
-                    JSONObject discslabJSON = new JSONObject(discslab);
-                    JSONArray discslabJSONArray = discslabJSON.getJSONArray("FdiscslabResult");
-                    ArrayList<Discslab> discslabList = new ArrayList<Discslab>();
 
-                    for (int i = 0; i < discslabJSONArray.length(); i++) {
-                        discslabList.add(Discslab.parseDiscslab(discslabJSONArray.getJSONObject(i)));
-                    }
-                    discslabController.createOrUpdateDiscslab(discslabList);
-                } catch (JSONException | NumberFormatException e) {
+                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+                    Call<ReadJsonList> resultCall = apiInterface.getDiscSlabResult(pref.getDistDB());
+                    resultCall.enqueue(new Callback<ReadJsonList>() {
+                        @Override
+                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                            DiscslabController discslabController = new DiscslabController(ActivityLogin.this);
+                            discslabController.deleteAll();
+                            System.out.println("test responce 01 " + response.body().getDiscSlabResult().size());
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            ArrayList<Discslab> discslabList = new ArrayList<Discslab>();
+                            for (int i = 0; i < response.body().getDiscSlabResult().size(); i++) {
+                                discslabList.add(response.body().getDiscSlabResult().get(i));
+                            }
+                            discslabController.createOrUpdateDiscslab(discslabList);
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
                     errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
                     throw e;
                 }
                 /*****************end discslab**********************************************************************/
@@ -1191,14 +1149,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
-                String itenarydet = "";
-                try {
-                    itenarydet = networkFunctions.getItenaryDet(repcode);
-                } catch (IOException e) {
-                    errors.add(e.toString());
-                    e.printStackTrace();
-                    throw e;
-                }
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -1209,19 +1159,28 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
                 // Processing itenarydet
                 try {
-                    FItenrDetController itenaryDetController = new FItenrDetController(ActivityLogin.this);
-                    itenaryDetController.deleteAll();
-                    JSONObject itenaryDetJSON = new JSONObject(itenarydet);
-                    JSONArray itenaryDetJSONArray = itenaryDetJSON.getJSONArray("fItenrDetResult");
-                    ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
-                    for (int i = 0; i < itenaryDetJSONArray.length(); i++) {
-                        itenaryDetList.add(FItenrDet.parseIteanaryDet(itenaryDetJSONArray.getJSONObject(i)));
-                    }
-                    itenaryDetController.createOrUpdateFItenrDet(itenaryDetList);
-                } catch (JSONException | NumberFormatException e) {
+                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+                    Call<ReadJsonList> resultCall = apiInterface.getItenrDetResult(pref.getDistDB(),repcode);
+                    resultCall.enqueue(new Callback<ReadJsonList>() {
+                        @Override
+                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                            FItenrDetController itenaryDetController = new FItenrDetController(ActivityLogin.this);
+                            itenaryDetController.deleteAll();
+                            System.out.println("test responce 01 " + response.body().getItenrDetResult().size());
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
+                            for (int i = 0; i < response.body().getItenrDetResult().size(); i++) {
+                                itenaryDetList.add(response.body().getItenrDetResult().get(i));
+                            }
+                            itenaryDetController.createOrUpdateFItenrDet(itenaryDetList);
+                        }
 
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
+                        @Override
+                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
                     errors.add(e.toString());
                     throw e;
                 }
@@ -1235,15 +1194,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
-                String itenaryhed = "";
-                try {
-                    itenaryhed = networkFunctions.getItenaryHed(repcode);
-                } catch (IOException e) {
-                    errors.add(e.toString());
-                    e.printStackTrace();
-                    throw e;
-                }
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -1253,52 +1203,37 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
                 // Processing itenaryhed
                 try {
-                    JSONObject itenaryHedJSON = new JSONObject(itenaryhed);
-                    JSONArray itenaryHedJSONArray = itenaryHedJSON.getJSONArray("fItenrHedResult");
-                    ArrayList<FItenrHed> itenaryHedList = new ArrayList<FItenrHed>();
-                    FItenrHedController itenaryHedController = new FItenrHedController(ActivityLogin.this);
-                    for (int i = 0; i < itenaryHedJSONArray.length(); i++) {
-                        itenaryHedList.add(FItenrHed.parseIteanaryHed(itenaryHedJSONArray.getJSONObject(i)));
-                    }
-                    itenaryHedController.createOrUpdateFItenrHed(itenaryHedList);
-                } catch (JSONException | NumberFormatException e) {
-                    errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
+                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+                    Call<ReadJsonList> resultCall = apiInterface.getItenrHedResult(pref.getDistDB(),repcode);
+                    resultCall.enqueue(new Callback<ReadJsonList>() {
+                        @Override
+                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                            FItenrHedController itenaryHedController = new FItenrHedController(ActivityLogin.this);
+                            System.out.println("test responce 01 " + response.body().getItenrHedResult().size());
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            ArrayList<FItenrHed> itenaryHedList = new ArrayList<FItenrHed>();
+                            for (int i = 0; i < response.body().getItenrHedResult().size(); i++) {
+                                itenaryHedList.add(response.body().getItenrHedResult().get(i));
+                            }
+                            itenaryHedController.createOrUpdateFItenrHed(itenaryHedList);
+                        }
 
+                        @Override
+                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
+                    errors.add(e.toString());
                     throw e;
                 }
                 /*****************end itenaryhed**********************************************************************/
 
-
-
-
                 return true;
-//        } else {
-//            //errors.add("Please enter correct username and password");
-//            return false;
-//        }
-            } catch (IOException e) {
+
+            } catch (Exception e) {
                 e.printStackTrace();
                 errors.add(e.toString());
-                // errors.add("Unable to reach the server.");
-
-//                ErrorUtil.logException(LoginActivity.this, "LoginActivity -> Authenticate -> doInBackground # Login",
-//                        e, null, BugReport.SEVERITY_LOW);
-
-                return false;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                errors.add(e.toString());
-                // errors.add("Received an invalid response from the server.");
-
-//                ErrorUtil.logException(LoginActivity.this, "LoginActivity -> Authenticate -> doInBackground # Login",
-//                        e, loginResponse, BugReport.SEVERITY_HIGH);
-
-                return false;
-            } catch (NumberFormatException e) {
-                errors.add(e.toString());
-                e.printStackTrace();
                 return false;
             }
         }
@@ -1426,43 +1361,19 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             return false;
         }
 
-//        protected void onProgressUpdate(Integer... progress) {
-//            super.onProgressUpdate(progress);
-//            pDialog.setMessage("Prefetching data..." + progress[0] + "/" + totalRecords);
-//
-//        }
-
-
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if (pdialog.isShowing())
                 pdialog.cancel();
-            // pdialog.cancel();
             if (result) {
                 Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                 pref.setValidateStatus(true);
-                //tryAgain.setVisibility(View.INVISIBLE);
-                //set user details to shared prefferences
-                //Intent mainActivity = new Intent(ActivitySplash.this, SettingsActivity.class);
-                // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
                 Intent loginActivity = new Intent(ActivityLogin.this, ActivityLogin.class);
-                //  Intent loginActivity = new Intent(ActivitySplash.this, ActivityHome.class);
-                // ..............................................................................................
-//
                 startActivity(loginActivity);
                 finish();
             } else {
                 Toast.makeText(getApplicationContext(), "Invalid response from server", Toast.LENGTH_LONG).show();
-                //tryAgain.setVisibility(View.VISIBLE);
-//temerary set for new SFA
-                // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
-                //Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
-//                Intent loginActivity = new Intent(ActivitySplash.this, ActivityHome.class);
-//                // ..............................................................................................
-//                startActivity(loginActivity);
-//                finish();
-
             }
         }
     }
