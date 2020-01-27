@@ -148,20 +148,20 @@
                     android:textColor="@color/unselected"
                     android:textSize="14sp"
                     />
+
                 <com.datamation.hmdsfa.utils.CustomFont
                     android:id="@+id/row_qty"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="33dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="1dip"
                     android:layout_marginRight="1dip"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="CASES | PIECES"
+                    android:text="QUANTITY"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/unselected"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
 
             </TableRow>
 

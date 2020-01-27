@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.SearchView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -31,6 +34,7 @@ import android.widget.Toast;
 
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.adapter.FreeIssueAdapter;
+import com.datamation.hmdsfa.adapter.OrderDetailsAdapter;
 import com.datamation.hmdsfa.adapter.OrderDetailsAdapterNew;
 import com.datamation.hmdsfa.adapter.OrderFreeItemAdapter;
 import com.datamation.hmdsfa.adapter.PreOrderAdapter;
@@ -44,6 +48,7 @@ import com.datamation.hmdsfa.controller.PreProductController;
 import com.datamation.hmdsfa.controller.ProductController;
 import com.datamation.hmdsfa.controller.ReasonController;
 import com.datamation.hmdsfa.controller.SalRepController;
+import com.datamation.hmdsfa.controller.TaxDetController;
 import com.datamation.hmdsfa.discount.Discount;
 import com.datamation.hmdsfa.freeissue.FreeIssueModified;
 import com.datamation.hmdsfa.helpers.PreSalesResponseListener;
@@ -60,6 +65,7 @@ import com.datamation.hmdsfa.settings.ReferenceNum;
 import com.datamation.hmdsfa.utils.GPSTracker;
 import com.datamation.hmdsfa.view.PreSalesActivity;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,14 +73,12 @@ import java.util.Date;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class OrderDetailFragment extends Fragment{
-
     int totPieces = 0;
     int seqno = 0;
     ListView lv_order_det, lvFree;
     ArrayList<PreProduct> productList = null, selectedItemList = null;
     ImageButton ibtProduct;
     Button ibtDiscount;
-    LinearLayout reasonLayout;
     SweetAlertDialog pDialog;
     private static final String TAG = "OrderDetailFragment";
     public View view;
@@ -83,20 +87,14 @@ public class OrderDetailFragment extends Fragment{
     private  MyReceiver r;
     private Order tmpsoHed=null;  //from re oder creation
     PreSalesResponseListener preSalesResponseListener;
+    int count = 0;
     int clickCount = 0;
     private double totAmt = 0.0;
     private Customer debtor;
     PreSalesActivity mainActivity;
     ArrayList<OrderDetail> orderList;
-    private Spinner spnTxn,spnReason,spnQOH;
-    String address = "No Address";
-    double latitude = 0.0;
-    double longitude = 0.0;
-    GPSTracker gpsTracker;
     ArrayList<OrderDetail> exOrderDet;
-    String isQohZeroAllow = "0", qohStatus = "0";//qohStatus = 1 (show qoh > 0) else  all items check only isQohZeroAllow = 1 (2019-12-20 rashmi)
 
-    //PreSalesResponseListener preSalesResponseListener;
     public OrderDetailFragment() {
         // Required empty public constructor
     }
@@ -104,137 +102,32 @@ public class OrderDetailFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.pre_sale_details_new_responsive_layout, container, false);
-        //view = inflater.inflate(R.layout.sales_management_pre_sales_details_new, container, false);
+        view = inflater.inflate(R.layout.sales_management_pre_sales_details_new, container, false);
         seqno = 0;
         totPieces = 0;
         mSharedPref =SharedPref.getInstance(getActivity());
         lv_order_det = (ListView) view.findViewById(R.id.lvProducts_pre);
         lvFree = (ListView) view.findViewById(R.id.lvFreeIssue_Inv);
-        ibtDiscount = (Button) view.findViewById(R.id.ibtDisc);
+        ibtDiscount =  (Button) view.findViewById(R.id.ibtDisc);
         ibtProduct = (ImageButton) view.findViewById(R.id.ibtProduct);
         mainActivity = (PreSalesActivity)getActivity();
-        reasonLayout = (LinearLayout) view.findViewById(R.id.reason_layout);
+//        if(mainActivity.selectedDebtor != null)
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
-        spnTxn = (Spinner) view.findViewById(R.id.spnTxn);
-        spnQOH= (Spinner) view.findViewById(R.id.spnQOH);
-        spnReason = (Spinner) view.findViewById(R.id.spnReason);
+
 //        RefNo = mainActivity.selectedPreHed.getORDER_REFNO();
         tmpsoHed = new Order();
-        ArrayList<Reason> mrReasons;
         showData();
-        gpsTracker = new GPSTracker(getActivity());
-        Log.v("Latitude>>>>>",mSharedPref.getGlobalVal("Latitude"));
-        Log.v("Longi>>>>>",mSharedPref.getGlobalVal("Longitude"));
-        mSharedPref.setGlobalVal("preKeyIsFreeClicked", "0");
-        ArrayList<String> strList = new ArrayList<String>();
-        strList.add("SA-PRE SALE");
-        strList.add("FI-FREE ISSUE");
-        strList.add("UR-USABLE RETURN");
-        strList.add("MR-MARKET RETURN");
 
-        ArrayList<String> qohSttsList = new ArrayList<String>();
-
-        qohSttsList.add("VIEW ALL ");
-        qohSttsList.add("VIEW QOH ITEMS");
-
-        mSharedPref.setDiscountClicked("0");
-        clickCount = 0;
-
-        Log.d("order_detail", "clicked_count" + clickCount);
-
-        isQohZeroAllow = new SalRepController(getActivity()).isQohZeroAllow();
-
-        final ArrayAdapter<String> txnTypeAdapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.return_spinner_item, strList);
-        txnTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnTxn.setAdapter(txnTypeAdapter);
-        final ArrayAdapter<String> qohAdapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.return_spinner_item, qohSttsList);
-        qohAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnQOH.setAdapter(qohAdapter);
-        spnTxn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 3){//if market return selected
-                    reasonLayout.setVisibility(View.VISIBLE);
-                    ArrayList<String> mrReasons  = new ReasonController(getActivity()).getAllReasonsByType("RT01");
-                    final ArrayAdapter<String> reasonAdapter = new ArrayAdapter<String>(getActivity(),
-                            R.layout.return_spinner_item, mrReasons);
-                    reasonAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spnReason.setAdapter(reasonAdapter);
-                }else{
-                    reasonLayout.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position == 0){
-            qohStatus = "0";
-        }else{
-            qohStatus = "1";
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-});
-        spnReason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                SharedPref.getInstance(getActivity()).setGlobalVal("reason",spnReason.getSelectedItem().toString().split("-")[0]);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         ibtProduct.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
                 if(new OrderController(getActivity()).IsSavedHeader(RefNo)>0){
-                    mSharedPref.setGlobalVal("preKeyIsFreeClicked", "0");
-                    mSharedPref.setDiscountClicked("0");
-                    clickCount = 0;
-
-                    int position = spnTxn.getSelectedItemPosition();
-                    Toast.makeText(getActivity(),
-                            spnTxn.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-                    if(position == 0){
-                        new LoardingProductFromDB("SA").execute();
-                    }else if(position == 1){
-                    //show separate dialog to enter free issues
-                        new LoardingProductFromDB("FI").execute();
-                    }else if(position == 2){
-                        new LoardingProductFromDB("UR").execute();
-                    }else{
-                        if(spnReason.getSelectedItem().toString().equals("")){
-                            Toast.makeText(getActivity(),
-                                    "Please select reason to continue..", Toast.LENGTH_SHORT).show();
-                        }else {
-                            new LoardingProductFromDB("MR").execute();
-                        }
-                    }
-
+                    new LoardingProductFromDB().execute();
                 }else{
                     preSalesResponseListener.moveBackToCustomer_pre(0);
                     Toast.makeText(getActivity(), "Cannot proceed,Please click arrow button to save header details...", Toast.LENGTH_LONG).show();
                 }
-
             }
         });
 
@@ -270,77 +163,105 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             }
         });
 
-//        lv_order_det.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view2, final int position, long id)
-//            {
-//                final OrderDetail orderDet=orderList.get(position);
-//                mSharedPref.setGlobalVal("preKeyIsFreeClicked", "0");
-//                if(orderDet.getFORDERDET_TYPE().equals("MR")){
-//                     CustomKeypadDialogReturnAmt keypadPrice = new CustomKeypadDialogReturnAmt(getActivity(), true, new CustomKeypadDialogReturnAmt.IOnOkClickListener() {
-//                        @Override
-//                        public void okClicked(double value) {
-//                            //price cannot be changed less than gross profit
-//                            if((Double.parseDouble(orderDet.getFORDERDET_AMT())*(-1)) > value) {
-//                                Log.d("EDIT>>>","EDIT>>>"+orderDet.getFORDERDET_TYPE()+" - "+orderDet.getFORDERDET_ITEMCODE()+"-"+orderDet.getFORDERDET_QTY());
-//                                new ProductController(getActivity()).updateProductPrice(orderDet.getFORDERDET_ITEMCODE(), String.valueOf((-value/Double.parseDouble(orderDet.getFORDERDET_QTY()))),orderDet.getFORDERDET_TYPE());
-//                                //new OrderDetailController(getActivity()).updateProductPrice(orderDet.getFORDERDET_ITEMCODE(), String.valueOf((-value/Double.parseDouble(orderDet.getFORDERDET_QTY()))),String.valueOf(value),orderDet.getFORDERDET_TYPE());
-//                                //new OrderDetailController(getActivity()).updateProductPrice(orderDet.getFORDERDET_ITEMCODE(), String.valueOf((-value/Double.parseDouble(orderDet.getFORDERDET_QTY()))),orderDet.getFORDERDET_AMT(),orderDet.getFORDERDET_TYPE());
-//                                showData();
-//                            }else{
-//                                Toast.makeText(getActivity(),"Amount cannot be change..",Toast.LENGTH_LONG).show();
-//                            }
-//
-//                        }
-//                    });
-//                    keypadPrice.show();
-//
-//                    keypadPrice.setHeader("CHANGE AMOUNT");
-////                if(preProduct.getPREPRODUCT_CHANGED_PRICE().equals("0")){
-//                    keypadPrice.loadValue(Double.parseDouble(orderDet.getFORDERDET_AMT()));
-//
-//                }else {
-//                    Log.d("EDIT>>>", "EDIT>>>" + orderDet.getFORDERDET_TYPE() + " - " + orderDet.getFORDERDET_ITEMCODE() + "-" + orderDet.getFORDERDET_QTY());
-//                }
-//            }
-//        });
-
         return view;
     }
 
+    public void popEditDialogBox(final OrderDetail tranSODet, ArrayList<FreeItemDetails>itemDetailsArrayList) {
 
-    public void calculateFreeIssue(String debCode) {
-        /* GET CURRENT ORDER DETAILS FROM TABLE */
-        ArrayList<OrderDetail> dets = new OrderDetailController(getActivity()).getSAForFreeIssueCalc(RefNo);
-        /* CLEAR ORDERDET TABLE RECORD IF FREE ITEMS ARE ALREADY ADDED. */
-        new OrderDetailController(getActivity()).restFreeIssueData(RefNo);
-        /* Clear free issues in OrdFreeIss */
-        new OrdFreeIssueController(getActivity()).ClearFreeIssuesForPreSale(RefNo);
-       // // Menaka on 09-12-2019
-        FreeIssueModified freeIssue = new FreeIssueModified(getActivity());
-        // GET ARRAY OF FREE ITEMS BY PASSING IN ORDER DETAILS
-        //ArrayList<FreeItemDetails> list = issue.getFreeItemsBySalesItem(dets);
-        ArrayList<FreeItemDetails> list = freeIssue.getFreeItemsBySalesItem(dets);
-        //ArrayList<FreeItemDetails> list = issue.getFreeItemsBySalesItem(dets, new SharedPref(getActivity()).getGlobalVal("preKeyCostCode"));
-        // PASS EACH ITEM IN TO DIALOG BOX FOR USER SELECTION
-        //       if(count == 1) {
-        // Log.v("Click count before loop", ">>>"+count);
-        for (FreeItemDetails freeItemDetails : list) {
-            if(freeItemDetails.getFreeQty()>0) {
-                freeIssueDialogBox(freeItemDetails);
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View promptView = layoutInflater.inflate(R.layout.input_dialog_layout, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setTitle("Enter Quantity");
+        alertDialogBuilder.setView(promptView);
+
+        final EditText txtInputBox = (EditText) promptView.findViewById(R.id.txtInputBox);
+        final TextView lblQoh = (TextView) promptView.findViewById(R.id.lblQOH);
+
+        final TextView itemName = (TextView) promptView.findViewById(R.id.tv_free_issue_item_name);
+        final TextView freeQty = (TextView) promptView.findViewById(R.id.tv_free_qty);
+
+        lblQoh.setText(tranSODet.getFORDERDET_QOH());
+        txtInputBox.setText(tranSODet.getFORDERDET_QTY());
+        txtInputBox.selectAll();
+
+        if(itemDetailsArrayList==null){
+            freeQty.setVisibility(View.GONE);
+            itemName.setVisibility(View.GONE);
+        }else{
+            for(FreeItemDetails itemDetails :itemDetailsArrayList){
+                freeQty.setText("Free Quantity : " + itemDetails.getFreeQty());
+                itemName.setText("Product : " + new ItemController(getActivity()).getItemNameByCode(itemDetails.getFreeIssueSelectedItem()));
             }
         }
-//        NewFreeIssue free = new NewFreeIssue(getActivity());
-//
-//        ArrayList<FreeItemDetails> newlist = free.New_FreeIssue();
-//                for (FreeItemDetails freeItemDetails : newlist) {
-//            freeIssueDialogBox(freeItemDetails);
-//
-//        }
 
-            Log.v("Click count after loop", ">>>"+clickCount);
-//        }
+
+        txtInputBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (txtInputBox.length() > 0) {
+                    int enteredQty = Integer.parseInt(txtInputBox.getText().toString());
+                    if (tranSODet.getFORDERDET_QOH()!=null)
+                    {
+                        int newQty = enteredQty - (Integer.parseInt(tranSODet.getFORDERDET_QOH()));
+                        lblQoh.setText(String.valueOf(newQty));
+                    }
+                    else
+                    {
+                        lblQoh.setText(String.valueOf(enteredQty));
+                    }
+
+
+                    // commented due to error set text
+                    //lblQoh.setText((int) Double.parseDouble(tranSODet.getFORDERDET_QOH()) - enteredQty + "");
+
+
+                 /*   int enteredQty = Integer.parseInt(txtInputBox.getText().toString());
+
+                    if (enteredQty > Double.parseDouble(tranSODet.getFTRANSODET_QOH())) {
+                        Toast.makeText(getActivity(), "Quantity exceeds QOH !", Toast.LENGTH_SHORT).show();
+                        txtInputBox.setText("0");
+                        txtInputBox.selectAll();
+                    } else
+                        ;*/
+                } else {
+                    txtInputBox.setText("0");
+                    txtInputBox.selectAll();
+                }
+            }
+        });
+
+        alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int id) {
+
+                if (Integer.parseInt(txtInputBox.getText().toString()) > 0) {
+                    new PreProductController(getActivity()).updateProductQty(tranSODet.getFORDERDET_ITEMCODE(), txtInputBox.getText().toString());
+                    new OrderDetailController(getActivity()).deleteOrdDetByItemCode(tranSODet.getFORDERDET_ITEMCODE(), RefNo);
+                    mUpdatePrsSales(tranSODet.getFORDERDET_ID(), tranSODet.getFORDERDET_ITEMCODE(), txtInputBox.getText().toString(), tranSODet.getFORDERDET_PRICE(), tranSODet.getFORDERDET_SEQNO(), tranSODet.getFORDERDET_QOH());
+
+                } else
+                    Toast.makeText(getActivity(), "Enter Qty above Zero !", Toast.LENGTH_SHORT).show();
+
+                showData();
+            }
+
+        }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
 
     }
 
@@ -421,6 +342,40 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         //amount is update , after the tap free issue button
         showData();
     }
+
+    public void calculateFreeIssue(String debCode) {
+        /* GET CURRENT ORDER DETAILS FROM TABLE */
+        ArrayList<OrderDetail> dets = new OrderDetailController(getActivity()).getSAForFreeIssueCalc(RefNo);
+        /* CLEAR ORDERDET TABLE RECORD IF FREE ITEMS ARE ALREADY ADDED. */
+        new OrderDetailController(getActivity()).restFreeIssueData(RefNo);
+        /* Clear free issues in OrdFreeIss */
+        new OrdFreeIssueController(getActivity()).ClearFreeIssuesForPreSale(RefNo);
+        // // Menaka on 09-12-2019
+        FreeIssueModified freeIssue = new FreeIssueModified(getActivity());
+        // GET ARRAY OF FREE ITEMS BY PASSING IN ORDER DETAILS
+        //ArrayList<FreeItemDetails> list = issue.getFreeItemsBySalesItem(dets);
+        ArrayList<FreeItemDetails> list = freeIssue.getFreeItemsBySalesItem(dets);
+        //ArrayList<FreeItemDetails> list = issue.getFreeItemsBySalesItem(dets, new SharedPref(getActivity()).getGlobalVal("preKeyCostCode"));
+        // PASS EACH ITEM IN TO DIALOG BOX FOR USER SELECTION
+        //       if(count == 1) {
+        // Log.v("Click count before loop", ">>>"+count);
+        for (FreeItemDetails freeItemDetails : list) {
+            if(freeItemDetails.getFreeQty()>0) {
+                freeIssueDialogBox(freeItemDetails);
+            }
+        }
+//        NewFreeIssue free = new NewFreeIssue(getActivity());
+//
+//        ArrayList<FreeItemDetails> newlist = free.New_FreeIssue();
+//                for (FreeItemDetails freeItemDetails : newlist) {
+//            freeIssueDialogBox(freeItemDetails);
+//
+//        }
+
+        Log.v("Click count after loop", ">>>"+clickCount);
+//        }
+
+    }
     //------------------------------------------------------------show ---------------Free issue Dailog box--------------------------------------------------------------------------
 
     private boolean freeIssueDialogBox(final FreeItemDetails itemDetails) {
@@ -442,7 +397,7 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
         freeQty.setText("Free Quantity : " + itemDetails.getFreeQty());
         //itemName.setText("Products : " + new ItemController(getActivity()).getItemNameByCode(itemDetails.getFreeIssueSelectedItem()));
-       // itemName.setText("Products : ");
+        // itemName.setText("Products : ");
         //itemNamefree.setText("Free Products : " + new ItemController(getActivity()).getItemNameByCode(itemDetails.getFreeIssueSelectedItem()));
         itemNamefree.setText("Free Products : ");
 
@@ -552,13 +507,6 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
     }
 
     public class LoardingProductFromDB extends AsyncTask<Object, Object, ArrayList<PreProduct>> {
-
-        private String type;
-
-        public LoardingProductFromDB(String type) {
-            this.type = type;
-        }
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -572,11 +520,11 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override
         protected ArrayList<PreProduct> doInBackground(Object... objects) {
 
-            if (new PreProductController(getActivity()).tableHasRecords(type)) {
-                productList = new PreProductController(getActivity()).getAllItems("",type,isQohZeroAllow,qohStatus);
-                } else {
+            if (new PreProductController(getActivity()).tableHasRecords()) {
+                productList = new PreProductController(getActivity()).getAllItems("");
+            } else {
                 //productList =new ItemController(getActivity()).getAllItemForPreSales("","",RefNo, mSharedPref.getSelectedDebtorPrilCode());
-                new PreProductController(getActivity()).insertIntoProductAsBulkForPre("MS", "WSP001", type);//prilcode, loccode hardcode for swadeshi
+                new PreProductController(getActivity()).insertIntoProductAsBulkForPre("MS","WSP001");
                 //productList = new PreProductController(getActivity()).getAllItems("");
 
                 if(tmpsoHed!=null) {
@@ -584,18 +532,12 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     ArrayList<OrderDetail> orderDetailArrayList = tmpsoHed.getOrdDet();
                     if (orderDetailArrayList != null) {
                         for (int i = 0; i < orderDetailArrayList.size(); i++) {
-                            String tmpItemcode = orderDetailArrayList.get(i).getFORDERDET_ITEMCODE();
-                            String tmpItemname = orderDetailArrayList.get(i).getFORDERDET_ITEMNAME();
-                            String tmpprice = orderDetailArrayList.get(i).getFORDERDET_PRICE();
-                            String tmpqoh = orderDetailArrayList.get(i).getFORDERDET_QOH();
+                            String tmpItemCode = orderDetailArrayList.get(i).getFORDERDET_ITEMCODE();
                             String tmpQty = orderDetailArrayList.get(i).getFORDERDET_QTY();
-                            String tmpcase = orderDetailArrayList.get(i).getFORDERDET_CASES();
-                            String tmprefno = orderDetailArrayList.get(i).getFORDERDET_REFNO();
-                            String tmpunits = new ItemController(getActivity()).getUnits(tmpItemcode);
-
                             //Update Qty in  fProducts_pre table
-                            int count = new PreProductController(getActivity()).updateQuantities(tmpItemcode,tmpItemname,tmpprice,tmpqoh, tmpQty, tmpcase,tmprefno, tmpunits,type);
+                            int count = new PreProductController(getActivity()).updateProductQtyFor(tmpItemCode, tmpQty);
                             if (count > 0) {
+
                                 Log.d("InsertOrUpdate", "success");
                             } else {
                                 Log.d("InsertOrUpdate", "Failed");
@@ -606,7 +548,7 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 }
                 //----------------------------------------------------------------------------
             }
-            productList = new PreProductController(getActivity()).getAllItems("",type,isQohZeroAllow,qohStatus);//rashmi -2018-10-26
+            productList = new PreProductController(getActivity()).getAllItems("");//rashmi -2018-10-26
             return productList;
         }
 
@@ -618,26 +560,18 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             if(pDialog.isShowing()){
                 pDialog.dismiss();
             }
-            ProductDialogBox(type);
+            ProductDialogBox();
         }
     }
 
     public void mToggleTextbox()
     {
-        gpsTracker = new GPSTracker(getActivity());
-        Log.v("Latitude>>>>>",mSharedPref.getGlobalVal("Latitude"));
-        Log.v("Longi>>>>>",mSharedPref.getGlobalVal("Longitude"));
         showData();
-
-
     }
 
     public void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
-
-        Log.d("order_detail", "clicked_count" + clickCount);
-
     }
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
@@ -646,40 +580,35 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         super.onResume();
         r = new MyReceiver();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_DETAILS"));
-        Log.d("order_detail", "clicked_count" + clickCount);
     }
 
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             OrderDetailFragment.this.mToggleTextbox();
-
-            Log.d("order_detail", "clicked_count" + clickCount);
         }
     }
 
     public void showData() {
+
         try
         {
             lv_order_det.setAdapter(null);
             orderList = new OrderDetailController(getActivity()).getAllOrderDetails(RefNo);
-            lv_order_det.setAdapter(new OrderDetailsAdapterNew(getActivity(), orderList, mSharedPref.getSelectedDebCode()));//2019-07-07 till error free
+            lv_order_det.setAdapter(new OrderDetailsAdapter(getActivity(), orderList, mSharedPref.getSelectedDebCode()));//2019-07-07 till error free
 
             lvFree.setAdapter(null);
             ArrayList<OrderDetail> freeList=new OrderDetailController(getActivity()).getAllFreeIssue(RefNo);
             lvFree.setAdapter(new OrderFreeItemAdapter(getActivity(), freeList));
-
-            Log.d("order_detail", "clicked_count" + clickCount);
-
 
         } catch (NullPointerException e) {
             Log.v("SA Error", e.toString());
         }
     }
 
-    public void ProductDialogBox(final String typeInProductDialog) {
+    public void ProductDialogBox() {
 
-        final LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         View promptView = layoutInflater.inflate(R.layout.product_dialog_layout, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptView);
@@ -687,19 +616,16 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         final ListView lvProducts = (ListView) promptView.findViewById(R.id.lv_product_list);
         final SearchView search = (SearchView) promptView.findViewById(R.id.et_search);
 
-
         lvProducts.clearTextFilter();
         productList.clear();
-        productList = new PreProductController(getActivity()).getAllItems("",typeInProductDialog,isQohZeroAllow,qohStatus);
-        lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList, typeInProductDialog, SharedPref.getInstance(getActivity()).getGlobalVal("reason")));
+        productList = new PreProductController(getActivity()).getAllItems("");
+        lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList));
 
         alertDialogBuilder.setCancelable(false).setNegativeButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                selectedItemList = new PreProductController(getActivity()).getSelectedItems(typeInProductDialog);
-//2019-10-18 rashmi
-                    updateOrderDet(selectedItemList,typeInProductDialog);
-
+                selectedItemList = new PreProductController(getActivity()).getSelectedItems();
+                updateOrderDet(selectedItemList);
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 dialog.cancel();
             }
@@ -713,8 +639,8 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                productList = new PreProductController(getActivity()).getAllItems(query,typeInProductDialog,isQohZeroAllow,qohStatus);//Rashmi 2018-10-26
-                lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList,typeInProductDialog,SharedPref.getInstance(getActivity()).getGlobalVal("reason")));
+                productList = new PreProductController(getActivity()).getAllItems(query);//Rashmi 2018-10-26
+                lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList));
                 return true;
             }
 
@@ -722,14 +648,15 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public boolean onQueryTextChange(String newText) {
 
                 productList.clear();
-                productList = new PreProductController(getActivity()).getAllItems(newText,typeInProductDialog,isQohZeroAllow,qohStatus);//rashmi-2018-10-26
-                lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList,typeInProductDialog,SharedPref.getInstance(getActivity()).getGlobalVal("reason")));
+                productList = new PreProductController(getActivity()).getAllItems(newText);//rashmi-2018-10-26
+                lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList));
                 return true;
             }
         });
     }
 
-    public void updateOrderDet(final ArrayList<PreProduct> list, final String updateOrderDetType) {
+    public void updateOrderDet(final ArrayList<PreProduct> list) {
+
 
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -747,18 +674,12 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                 int i = 0;
                 RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
-                new OrderDetailController(getActivity()).deleteRecords(RefNo,updateOrderDetType);//commented by rashmi because check duplicate issue
-                ArrayList<OrderDetail> toSaveOrderDetails = new OrderDetailController(getActivity()).mUpdatePrsSales(list,RefNo);
+                new OrderDetailController(getActivity()).deleteRecords(RefNo);
 
-                if (new OrderDetailController(getActivity()).createOrUpdateOrdDet(toSaveOrderDetails)>0)
-                {
-                    Log.d("ORDER_DETAILS", "Order det saved successfully...");
+                for (PreProduct product : list) {
+                    i++;
+                    mUpdatePrsSales("0",product.getPREPRODUCT_ITEMCODE(), product.getPREPRODUCT_QTY(), product.getPREPRODUCT_PRICE(), i + "", product.getPREPRODUCT_QOH());
                 }
-                else
-                {
-                    Log.d("ORDER_DETAILS", "Order det saved unsuccess...");
-                }
-
                 return null;
             }
 
@@ -775,8 +696,7 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         }.execute();
     }
 
-
-    public void newDeleteOrderDialog(final int dltPosition) {
+    public void newDeleteOrderDialog(final int position) {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setTitle("Confirm Deletion !");
@@ -784,17 +704,9 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                new PreProductController(getActivity()).updateProductQty(orderList.get(dltPosition).getFORDERDET_ITEMCODE(), "0",orderList.get(dltPosition).getFORDERDET_TYPE());
-                new PreProductController(getActivity()).updateProductCase(orderList.get(dltPosition).getFORDERDET_ITEMCODE(), "0",orderList.get(dltPosition).getFORDERDET_TYPE());
-               // new PreProductController(getActivity()).updateProductp(orderList.get(dltPosition).getFORDERDET_ITEMCODE(), "0",orderList.get(dltPosition).getFORDERDET_TYPE());
-             //   new PreProductController(getActivity()).updateBalQty(orderList.get(position).getFORDERDET_ITEMCODE(), "0");
-              //  new PreProductController(getActivity()).updateRefNo(RefNo, "0",orderList.get(dltPosition).getFORDERDET_TYPE());
-                if(orderList.get(dltPosition).getFORDERDET_TYPE().equals("MR")) {
-                    new PreProductController(getActivity()).updateReason(orderList.get(dltPosition).getFORDERDET_ITEMCODE(), "", orderList.get(dltPosition).getFORDERDET_TYPE());
-                    new ProductController(getActivity()).updateProductPrice(orderList.get(dltPosition).getFORDERDET_ITEMCODE(), "0", orderList.get(dltPosition).getFORDERDET_TYPE());
-                }
-                new OrderDetailController(getActivity()).mDeleteRecords(RefNo, orderList.get(dltPosition).getFORDERDET_ITEMCODE(),orderList.get(dltPosition).getFORDERDET_TYPE());
-                Toast.makeText(getActivity(), "Deleted successfully!", Toast.LENGTH_SHORT).show();
+                new PreProductController(getActivity()).updateProductQty(orderList.get(position).getFORDERDET_ITEMCODE(), "0");
+                new OrderDetailController(getActivity()).mDeleteRecords(RefNo, orderList.get(position).getFORDERDET_ITEMCODE());
+                android.widget.Toast.makeText(getActivity(), "Deleted successfully!", android.widget.Toast.LENGTH_SHORT).show();
                 showData();
 
             }
@@ -808,8 +720,68 @@ spnQOH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         alertD.show();
     }
 
+    public void mUpdatePrsSales(String id, String itemCode, String Qty, String price, String seqno, String qoh)
+    {
+        OrderDetail SODet = new OrderDetail();
+        ArrayList<OrderDetail> SOList = new ArrayList<OrderDetail>();
 
+        String reverseUnitPrice = "";
+        double amt = 0.0;
+        reverseUnitPrice = new TaxDetController(getActivity()).calculateReverseTaxFromDebTax(mSharedPref.getSelectedDebCode(),itemCode, new BigDecimal(price));
+        amt = Double.parseDouble(reverseUnitPrice) * Double.parseDouble(Qty);
+        String TaxedAmt = "0.00";
 
+        SODet.setFORDERDET_AMT(String.valueOf(amt));
+        SODet.setFORDERDET_ITEMCODE(itemCode);
+        SODet.setFORDERDET_PRILCODE(mSharedPref.getSelectedDebtorPrilCode());
+        SODet.setFORDERDET_QTY(Qty);
+        SODet.setFORDERDET_REFNO(RefNo);
+        SODet.setFORDERDET_PRICE("0.00");
+        SODet.setFORDERDET_IS_ACTIVE("1");
+        SODet.setFORDERDET_BALQTY(Qty);
+        SODet.setFORDERDET_BAMT(String.valueOf(amt));
+        SODet.setFORDERDET_BDISAMT("0");
+        SODet.setFORDERDET_BPDISAMT("0");
+        SODet.setFORDERDET_BTAXAMT(TaxedAmt);
+        SODet.setFORDERDET_TAXAMT(TaxedAmt);
+        SODet.setFORDERDET_DISAMT("0");
+        SODet.setFORDERDET_SCHDISPER("0");
+        //SODet.setFORDERDET_COMP_DISPER(new ControlDS(getActivity()).getCompanyDisc() + "");
+        SODet.setFORDERDET_BRAND_DISPER("0");
+        SODet.setFORDERDET_BRAND_DISC("0");
+        SODet.setFORDERDET_COMP_DISC("0");
+        SODet.setFORDERDET_COSTPRICE(new ItemController(getActivity()).getCostPriceItemCode(itemCode));
+        SODet.setFORDERDET_PICE_QTY(Qty);
+        SODet.setFORDERDET_SELLPRICE(String.valueOf((amt ) / Double.parseDouble(SODet.getFORDERDET_QTY())));
+        SODet.setFORDERDET_BSELLPRICE(String.valueOf((amt ) / Double.parseDouble(SODet.getFORDERDET_QTY())));
+        SODet.setFORDERDET_SEQNO(new OrderDetailController(getActivity()).getLastSequnenceNo(RefNo));
+        SODet.setFORDERDET_TAXCOMCODE(new ItemController(getActivity()).getTaxComCodeByItemCodeBeforeDebTax(itemCode, mSharedPref.getSelectedDebCode()));
+        SODet.setFORDERDET_BTSELLPRICE(String.valueOf((amt + Double.parseDouble(TaxedAmt)) / Double.parseDouble(SODet.getFORDERDET_QTY())));
+        SODet.setFORDERDET_TSELLPRICE(String.valueOf((amt + Double.parseDouble(TaxedAmt)) / Double.parseDouble(SODet.getFORDERDET_QTY())));
+        SODet.setFORDERDET_TXNTYPE("21");
+        SODet.setFORDERDET_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
+        SODet.setFORDERDET_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        SODet.setFORDERDET_RECORDID("");
+        SODet.setFORDERDET_PDISAMT("0");
+        SODet.setFORDERDET_IS_SYNCED("0");
+        SODet.setFORDERDET_QOH(qoh);
+        SODet.setFORDERDET_TYPE("SA");
+        SODet.setFORDERDET_SCHDISC("0");
+        SODet.setFORDERDET_DISCTYPE("");
+        SODet.setFORDERDET_QTY_SLAB_DISC("0");
+        SODet.setFORDERDET_ORG_PRICE(price);
+        SODet.setFORDERDET_DISFLAG("0");
+        SOList.add(SODet);
+
+        if (new OrderDetailController(getActivity()).createOrUpdateOrdDet(SOList)>0)
+        {
+            Log.d("ORDER_DETAILS", "Order det saved successfully...");
+        }
+        else
+        {
+            Log.d("ORDER_DETAILS", "Order det saved unsuccess...");
+        }
+    }
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

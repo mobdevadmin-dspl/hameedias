@@ -40,9 +40,13 @@ import com.datamation.hmdsfa.controller.PreProductController;
 import com.datamation.hmdsfa.controller.PreSaleTaxDTController;
 import com.datamation.hmdsfa.controller.PreSaleTaxRGController;
 import com.datamation.hmdsfa.controller.SalRepController;
+import com.datamation.hmdsfa.controller.SalesReturnController;
+import com.datamation.hmdsfa.controller.SalesReturnDetController;
+import com.datamation.hmdsfa.controller.TaxDetController;
 import com.datamation.hmdsfa.helpers.PreSalesResponseListener;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.Customer;
+import com.datamation.hmdsfa.model.FInvRDet;
 import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.OrderDisc;
@@ -64,8 +68,9 @@ public class OrderSummaryFragment extends Fragment {
     View view;
     TextView lblGross, lblReturnQty, lblReturn, lblNetVal, lblReplacements, lblQty,lblSummaryHeader;
     SharedPref mSharedPref;
-    String RefNo = null, customerName = "";
+    String RefNo = null, customerName = "" , ReturnRefNo = null;
     ArrayList<OrderDetail> list;
+    ArrayList<FInvRDet> returnList;
     ArrayList<OrderDisc> discList;
     String locCode;
     FloatingActionButton fabPause, fabDiscard, fabSave;
@@ -181,11 +186,24 @@ public class OrderSummaryFragment extends Fragment {
 
     public void undoEditingData() {
 
+        String orRefNo = new OrderController(getActivity()).getActiveRefNoFromOrders();
+        String activeRetRefNo = new SalesReturnController(getActivity()).getActiveInnerReturnRefNoByOrderRefNo(orRefNo);
+
+        if (activeRetRefNo.equals(""))
+        {
+            ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            ReturnRefNo = activeRetRefNo;
+        }
+
         Order hed = new OrderController(getActivity()).getAllActiveOrdHed();
         outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(hed.getORDER_DEBCODE());
 
+
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
-                .content("Do you want to discard the order?")
+                .content("Do you want to discard the order with return ?")
                 .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
                 .positiveText("Yes")
                 .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
@@ -197,17 +215,26 @@ public class OrderSummaryFragment extends Fragment {
                         super.onPositive(dialog);
 
                         int result = new OrderController(getActivity()).restData(RefNo);
+                        int resultReturn = new SalesReturnController(getActivity()).restDataForOrders(ReturnRefNo);
 
-                        if (result > 0) {
+                        if (result>0) {
                             new OrderDetailController(getActivity()).restData(RefNo);
                             new PreProductController(getActivity()).mClearTables();
-                            mSharedPref.setDiscountClicked("0");
-
+                        }
+                        if(resultReturn != 0){
+                            new SalesReturnDetController(getActivity()).restData(ReturnRefNo);
                         }
 
-                        Toast.makeText(getActivity(), "Order discarded successfully..!", Toast.LENGTH_SHORT).show();
+                        //    activity.cusPosition = 0;
+//                mainActivity.selectedDebtor = null;
+//                mainActivity.selectedRetDebtor = null;
+//                mainActivity.selectedPreHed = null;
+//                mainActivity.selectedReturnHed = null;
+                        Toast.makeText(getActivity(), "Order and return details discarded successfully..!", Toast.LENGTH_SHORT).show();
+                        // UtilityContainer.ClearVanSharedPref(getActivity());
+                        UtilityContainer.ClearReturnSharedPref(getActivity());
 
-                        Intent intnt = new Intent(getActivity(), DebtorDetailsActivity.class);
+                        Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
                         intnt.putExtra("outlet", outlet);
                         startActivity(intnt);
                         getActivity().finish();
@@ -233,62 +260,49 @@ public class OrderSummaryFragment extends Fragment {
 
     public void mRefreshData() {
 
-        if (mSharedPref.getDiscountClicked().equals("0")) {
-            responseListener.moveBackToCustomer_pre(1);
-            Toast.makeText(getActivity(), "Please tap on Free Issue Button", Toast.LENGTH_LONG).show();
-        }
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
-        customerName = new CustomerController(getActivity()).getCusNameByCode(SharedPref.getInstance(getActivity()).getSelectedDebCode());
-
-        lblSummaryHeader.setText("ORDER SUMMARY - ("+customerName+")");
-        gpsTracker = new GPSTracker(getActivity());
 
         String orRefNo = new OrderController(getActivity()).getActiveRefNoFromOrders();
+        String activeRetRefNo = new SalesReturnController(getActivity()).getActiveInnerReturnRefNoByOrderRefNo(orRefNo);
+
+        if (activeRetRefNo.equals(""))
+        {
+            ReturnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
+        }
+        else
+        {
+            ReturnRefNo = activeRetRefNo;
+        }
 
         int ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
         String itemCode = "";
 
-        locCode = "MS";//hardcode for swadeshi 2019-11-18
+        locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
 
         list = new OrderDetailController(getActivity()).getAllOrderDetails(RefNo);
-        discList = new OrderDiscController(getActivity()).getAllOrderDiscs(RefNo);
+        returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForOrders(ReturnRefNo);
 
         for (OrderDetail ordDet : list) {
-            if (ordDet.getFORDERDET_TYPE().equals("SA"))
-                ftotAmt += Double.parseDouble(ordDet.getFORDERDET_AMT());
+            ftotAmt += Double.parseDouble(ordDet.getFORDERDET_AMT());
+            itemCode = ordDet.getFORDERDET_ITEMCODE();
 
-            //itemCode = ordDet.getFORDERDET_ITEMCODE();
-
-            if (ordDet.getFORDERDET_TYPE().equals("SA"))
-                ftotQty += Integer.parseInt(ordDet.getFORDERDET_QTY());
-
-            if (ordDet.getFORDERDET_TYPE().equals("MR"))
-                totalMKReturn += Double.parseDouble(ordDet.getFORDERDET_AMT());
-
-            if (ordDet.getFORDERDET_TYPE().equals("MR") || ordDet.getFORDERDET_TYPE().equals("UR")) {
-                totalReturn += Double.parseDouble(ordDet.getFORDERDET_AMT());
-                returnQty += Double.parseDouble(ordDet.getFORDERDET_QTY());
-            }
-
-            if (ordDet.getFORDERDET_TYPE().equals("FD") || ordDet.getFORDERDET_TYPE().equals("FI"))
-                fTotFree += Integer.parseInt(ordDet.getFORDERDET_QTY());
+//            if (ordDet.getFORDERDET_TYPE().equals("SA"))
+            ftotQty += Integer.parseInt(ordDet.getFORDERDET_QTY());
             //else
             //fTotFree += Integer.parseInt(ordDet.getFORDERDET_QTY());
 
-            //fTotLineDisc += Double.parseDouble(ordDet.getFORDERDET_DISAMT());
-            //fTotSchDisc += Double.parseDouble(ordDet.getFORDERDET_DIS_VAL_AMT());
+            //    fTotLineDisc += Double.parseDouble(ordDet.getFINVDET_DIS_AMT());
+            //    fTotSchDisc += Double.parseDouble(ordDet.getFINVDET_DISVALAMT());
         }
-
-        for (OrderDisc disc : discList) {
-            fTotSchDisc += Double.parseDouble(disc.getDisAmt());
+        for (FInvRDet returnDet : returnList){
+            if(!returnDet.getFINVRDET_RETURN_TYPE().equals("RP")) {
+                totalReturn += Double.parseDouble(returnDet.getFINVRDET_AMT());
+                returnQty += Double.parseDouble(returnDet.getFINVRDET_QTY());
+            }else{
+                replacements += Double.parseDouble(returnDet.getFINVRDET_QTY());
+            }
         }
-
-        Double gross = 0.0;
-        Double net = 0.0;
-
-        gross = ftotAmt + fTotSchDisc;
-        net = gross + totalReturn - fTotSchDisc;
 
         iTotFreeQty = fTotFree;
         lblQty.setText(String.valueOf(ftotQty + fTotFree));
@@ -296,17 +310,16 @@ public class OrderSummaryFragment extends Fragment {
 //        lblReturn.setText(String.format("%.2f", totalReturn));
 //        lblNetVal.setText(String.format("%.2f", ftotAmt-totalReturn));
 
-        //String sArray[] = new TaxDetController(getActivity()).calculateTaxForwardFromDebTax(mSharedPref.getSelectedDebCode(), itemCode, ftotAmt);
-        //String amt = String.format("%.2f",Double.parseDouble(sArray[0]));
+        String sArray[] = new TaxDetController(getActivity()).calculateTaxForwardFromDebTax(mSharedPref.getSelectedDebCode(), itemCode, ftotAmt);
+        String amt = String.format("%.2f",Double.parseDouble(sArray[0]));
 
 
-        lblGross.setText(String.format("%.2f", gross)); // SA type total amt + discount
-        lblReturn.setText(String.format("%.2f", totalReturn)); // MR/UR type total amt
-        lblNetVal.setText(String.format("%.2f", net)); // total - discount - return
+        lblGross.setText(String.format("%.2f", Double.parseDouble(amt)));
+        lblReturn.setText(String.format("%.2f", totalReturn));
+        lblNetVal.setText(String.format("%.2f", (Double.parseDouble(amt)-totalReturn)));
 
         lblReturnQty.setText(String.valueOf(returnQty));
-        lblReplacements.setText(String.format("%.2f" , fTotSchDisc));
-
+        lblReplacements.setText(String.valueOf(replacements));
 
 
     }

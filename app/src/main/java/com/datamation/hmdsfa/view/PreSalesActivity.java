@@ -76,13 +76,14 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
             public void onPageSelected(int position) {
 
                 if (position == 2)
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_SUMMARY"));
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_RETURN"));
                 else if (position == 0)
                     LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_HEADER"));
                 else if (position == 1)
                     LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_DETAILS"));
-//                else if (position == 3)
-//                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_SUMMARY"));
+                else if (position == 3)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_SUMMARY"));
+
             }
 
             @Override
@@ -102,8 +103,8 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
 
     private class PreSalesPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] titles = {"HEADER", "ORDER DETAILS", "ORDER SUMMARY"};
-       // private final String[] titles = {"HEADER", "ORDER DETAILS", "ORDER RETURN", "ORDER SUMMARY"};
+        //private final String[] titles = {"HEADER", "ORDER DETAILS", "ORDER SUMMARY"};
+        private final String[] titles = {"HEADER", "ORDER DETAILS", "ORDER RETURN", "ORDER SUMMARY"};
 
         public PreSalesPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -123,10 +124,10 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
                 case 1:
                     if(orderDetailFragment == null) orderDetailFragment = new OrderDetailFragment();
                     return orderDetailFragment;
-//                case 2:
-//                    if(orderReturnFragment == null) orderReturnFragment = new OrderReturnFragment();
-//                    return orderReturnFragment;
                 case 2:
+                    if(orderReturnFragment == null) orderReturnFragment = new OrderReturnFragment();
+                    return orderReturnFragment;
+                case 3:
                     if(orderSummaryFragment == null) orderSummaryFragment = new OrderSummaryFragment();
                     return orderSummaryFragment;
                 default:
@@ -158,10 +159,10 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
             viewPager.setCurrentItem(2);
         }
 
-//        if (index == 3)
-//        {
-//            viewPager.setCurrentItem(3);
-//        }
+        if (index == 3)
+        {
+            viewPager.setCurrentItem(3);
+        }
     }
 
     @Override
@@ -182,10 +183,10 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
             viewPager.setCurrentItem(2);
         }
 
-//        if (index == 3)
-//        {
-//            viewPager.setCurrentItem(3);
-//        }
+        if (index == 3)
+        {
+            viewPager.setCurrentItem(3);
+        }
     }
 
     @Override
