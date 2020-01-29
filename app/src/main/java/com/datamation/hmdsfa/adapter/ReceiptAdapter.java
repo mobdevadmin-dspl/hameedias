@@ -24,7 +24,7 @@ public class ReceiptAdapter extends ArrayAdapter<FddbNote> {
 	boolean isSummery;
 	String refno;
 	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	
+
 	public ReceiptAdapter(Context context, ArrayList<FddbNote> list, boolean isSummery, String RefNo) {
 
 		super(context, R.layout.row_receipt_details, list);
@@ -32,7 +32,7 @@ public class ReceiptAdapter extends ArrayAdapter<FddbNote> {
 		this.list = list;
 		this.isSummery = isSummery;
 		this.refno = RefNo;
-		
+
 	}
 
 	@SuppressLint("ViewHolder")
@@ -42,54 +42,54 @@ public class ReceiptAdapter extends ArrayAdapter<FddbNote> {
 		LayoutInflater inflater = null;
 		View row = null;
 		long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-		
-	
+
+
 		ReceiptController reched = new ReceiptController(context);
-		
+
 		Date date,cDate;
 		long txn = 0;
 		long current =0;
 		try {
 			date = (Date)formatter.parse(list.get(position).getFDDBNOTE_TXN_DATE());
 			System.out.println("receipt date is " +date.getTime());
-			 txn = date.getTime();
-			
+			txn = date.getTime();
+
 		} catch (ParseException e) {
 			e.printStackTrace();
-		} 
+		}
 
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date currentDate = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date currentDate = new Date();
 
-			//String curDate =	dateFormat.format(reched.getChequeDate(refno));
+		//String curDate =	dateFormat.format(reched.getChequeDate(refno));
 
 		try {
 			cDate =(Date)formatter.parse(reched.getChequeDate(refno));
-			  current = cDate.getTime();
+			current = cDate.getTime();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		 
-		
+
+
+
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		row = inflater.inflate(R.layout.row_receipt_details, parent, false);
 
 
-	
+
 		int numOfDays =   (int) ((System.currentTimeMillis()  - txn) / DAY_IN_MILLIS);
-		
+
 		int datediff = 0;
-		
+
 		if (reched.getChequeDate(refno).length()>0){
 			datediff = (int) ((current  - txn) / DAY_IN_MILLIS);
 		}else{
 			datediff = numOfDays;
 		}
-		
 
-		
+
+
 		TextView lblRefNo = (TextView) row.findViewById(R.id.row_refno);
 		TextView lblTxnDate = (TextView) row.findViewById(R.id.row_txndate);
 		TextView lblDueAmt = (TextView) row.findViewById(R.id.row_dueAmt);
@@ -104,7 +104,7 @@ public class ReceiptAdapter extends ArrayAdapter<FddbNote> {
 
 		lblDays.setText(""+numOfDays);
 		lblDatediff.setText(""+datediff);
-		
+
 //		if(rep.getSaleRep(list.get(position).getFDDBNOTE_REP_CODE()).equals(null)){
 //			lblRepName.setText("Not Set");
 //		}else{
@@ -115,9 +115,9 @@ public class ReceiptAdapter extends ArrayAdapter<FddbNote> {
 		// else
 
 		lblRepName.setText(""+list.get(position).getFDDBNOTE_REPNAME());
-		
+
 		if (isSummery) {
-			
+
 			if (list.get(position).getFDDBNOTE_ENTER_AMT() != null) {
 				lblDueAmt.setText(String.format("%,.2f", Double.parseDouble(list.get(position).getFDDBNOTE_TOT_BAL())
 						- Double.parseDouble(list.get(position).getFDDBNOTE_ENTER_AMT())));
@@ -125,7 +125,7 @@ public class ReceiptAdapter extends ArrayAdapter<FddbNote> {
 			}
 
 		} else {
-			
+
 			lblDueAmt.setText(String.format("%,.2f", Double.parseDouble(list.get(position).getFDDBNOTE_TOT_BAL())));
 			if (list.get(position).getFDDBNOTE_ENTER_AMT() != null) {
 				if (list.get(position).getFDDBNOTE_ENTER_AMT().length() > 0)

@@ -28,12 +28,12 @@ public class OutstandingController {
     // table attributes
     public static final String FDDBNOTE_ID = "recinv_id";
     public static final String FDDBNOTE_RECORD_ID = "RecordId";
-
+    public static final String REFNO = "RefNo";
     public static final String FDDBNOTE_REF_INV = "RefInv";
     public static final String FDDBNOTE_SALE_REF_NO = "SaleRefNo";
     public static final String FDDBNOTE_MANU_REF = "ManuRef";
     public static final String FDDBNOTE_TXN_TYPE = "TxnType";
-
+    public static final String FDDBNOTE_DEB_CODE = "DebCode";
     public static final String FDDBNOTE_CUR_CODE = "CurCode";
     public static final String FDDBNOTE_CUR_RATE = "CurRate";
     public static final String FDDBNOTE_TAX_COM_CODE = "TaxComCode";
@@ -60,6 +60,7 @@ public class OutstandingController {
     public static final String FDDBNOTE_ENT_REMARK = "EntRemark";
     public static final String FDDBNOTE_PDAAMT = "PdaAmt";
     public static final String FDDBNOTE_RECEIPT_TYPE = "ReceiptType";
+    public static final String FDDBNOTE_REP_CODE = "RepCode";
 
 
     // create String
@@ -77,83 +78,149 @@ public class OutstandingController {
     public void open() throws SQLException {
         dB = dbHelper.getWritableDatabase();
     }
-    public void createOrUpdateFDDbNote(ArrayList<FddbNote> list) {
-        Log.d("InsertOrReplaceDebtor", "" + list.size());
+//    public void createOrUpdateFDDbNote(ArrayList<FddbNote> list) {
+////        Log.d("InsertOrReplaceDebtor", "" + list.size());
+////        if (dB == null) {
+////            open();
+////        } else if (!dB.isOpen()) {
+////            open();
+////        }
+////
+////        try {
+////            dB.beginTransactionNonExclusive();
+////            String sql = "INSERT OR REPLACE INTO " + TABLE_FDDBNOTE + " (RefNo,RefInv,AddMach," +
+////                    "SaleRefNo," +
+////                    "ManuRef," +
+////                    "TxnType," +
+////                    "TxnDate," +
+////                    "CurCode," +
+////                    "CurRate," +
+////                    "DebCode," +
+////                    "RepCode," +
+////                    "TaxComCode," +
+////                    "TaxAmt," +
+////                    "BTaxAmt," +
+////                    "Amt," +
+////                    "BAmt," +
+////                    "TotBal," +
+////                    "TotBal1," +
+////                    "OvPayAmt," +
+////                    "Remarks," +
+////                    "AddUser,AddDate,EnterAmt) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?.?)";
+////
+////            SQLiteStatement stmt = dB.compileStatement(sql);
+////
+////            for (FddbNote fdDbNote : list) {
+////
+////
+////                stmt.bindString(1, fdDbNote.getFDDBNOTE_REFNO());
+////                stmt.bindString(2, fdDbNote.getFDDBNOTE_REF_INV());
+////                stmt.bindString(3, fdDbNote.getFDDBNOTE_ADD_MACH());
+////                stmt.bindString(4, fdDbNote.getFDDBNOTE_SALE_REF_NO());
+////                stmt.bindString(5, fdDbNote.getFDDBNOTE_MANU_REF());
+////                stmt.bindString(6, fdDbNote.getFDDBNOTE_TXN_TYPE());
+////                stmt.bindString(7, fdDbNote.getFDDBNOTE_TXN_DATE());
+////                stmt.bindString(8, fdDbNote.getFDDBNOTE_CUR_CODE());
+////                stmt.bindString(9, fdDbNote.getFDDBNOTE_CUR_RATE());
+////                stmt.bindString(10, fdDbNote.getFDDBNOTE_DEB_CODE());
+////                stmt.bindString(11, fdDbNote.getFDDBNOTE_REP_CODE());
+////                stmt.bindString(12, fdDbNote.getFDDBNOTE_TAX_COM_CODE());
+////                stmt.bindString(13, fdDbNote.getFDDBNOTE_TAX_AMT());
+////                stmt.bindString(14, fdDbNote.getFDDBNOTE_B_TAX_AMT());
+////                stmt.bindString(15, fdDbNote.getFDDBNOTE_AMT());
+////                stmt.bindString(16, fdDbNote.getFDDBNOTE_B_AMT());
+////                stmt.bindString(17, fdDbNote.getFDDBNOTE_TOT_BAL());
+////                stmt.bindString(18, fdDbNote.getFDDBNOTE_TOT_BAL1());
+////                stmt.bindString(19, fdDbNote.getFDDBNOTE_OV_PAY_AMT());
+////                stmt.bindString(20, fdDbNote.getFDDBNOTE_REMARKS());
+////                //stmt.bindString(20, fdDbNote.getFDDBNOTE_REMARKS());
+//////                stmt.bindString(21, fdDbNote.getFDDBNOTE_CR_ACC());
+//////                stmt.bindString(22, fdDbNote.getFDDBNOTE_PRT_COPY());
+//////                stmt.bindString(23, fdDbNote.getFDDBNOTE_GL_POST());
+//////                stmt.bindString(24, fdDbNote.getFDDBNOTE_GL_BATCH());
+////                stmt.bindString(21, fdDbNote.getFDDBNOTE_ADD_USER());
+////                stmt.bindString(22, fdDbNote.getFDDBNOTE_ADD_DATE());
+////                stmt.bindString(23, fdDbNote.getFDDBNOTE_ENTER_AMT());
+////
+////
+////                stmt.execute();
+////                stmt.clearBindings();
+////            }
+////
+////
+////        } catch (SQLException e) {
+////            e.printStackTrace();
+////        } finally {
+////            dB.setTransactionSuccessful();
+////            dB.endTransaction();
+////            dB.close();
+////        }
+////
+////    }
+
+    public int createOrUpdateFDDbNote(ArrayList<FddbNote> list) {
+        int count = 0;
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
             open();
         }
+        Cursor cursor = null;
 
         try {
-            dB.beginTransactionNonExclusive();
-            String sql = "INSERT OR REPLACE INTO " + TABLE_FDDBNOTE + " (RefNo,RefInv,AddMach," +
-                    "SaleRefNo," +
-                    "ManuRef," +
-                    "TxnType," +
-                    "TxnDate," +
-                    "CurCode," +
-                    "CurRate," +
-                    "DebCode," +
-                    "RepCode," +
-                    "TaxComCode," +
-                    "TaxAmt," +
-                    "BTaxAmt," +
-                    "Amt," +
-                    "BAmt," +
-                    "TotBal," +
-                    "TotBal1," +
-                    "OvPayAmt," +
-                    "Remarks," +
-                    "AddUser,AddDate) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
-            SQLiteStatement stmt = dB.compileStatement(sql);
-
             for (FddbNote fdDbNote : list) {
 
+                cursor = dB.rawQuery("SELECT * FROM " + TABLE_FDDBNOTE + " WHERE " + REFNO + "='" + fdDbNote.getFDDBNOTE_REFNO() + "'", null);
 
-                stmt.bindString(1, fdDbNote.getFDDBNOTE_REFNO());
-                stmt.bindString(2, fdDbNote.getFDDBNOTE_REF_INV());
-                stmt.bindString(3, fdDbNote.getFDDBNOTE_ADD_MACH());
-                stmt.bindString(4, fdDbNote.getFDDBNOTE_SALE_REF_NO());
-                stmt.bindString(5, fdDbNote.getFDDBNOTE_MANU_REF());
-                stmt.bindString(6, fdDbNote.getFDDBNOTE_TXN_TYPE());
-                stmt.bindString(7, fdDbNote.getFDDBNOTE_TXN_DATE());
-                stmt.bindString(8, fdDbNote.getFDDBNOTE_CUR_CODE());
-                stmt.bindString(9, fdDbNote.getFDDBNOTE_CUR_RATE());
-                stmt.bindString(10, fdDbNote.getFDDBNOTE_DEB_CODE());
-                stmt.bindString(11, fdDbNote.getFDDBNOTE_REP_CODE());
-                stmt.bindString(12, fdDbNote.getFDDBNOTE_TAX_COM_CODE());
-                stmt.bindString(13, fdDbNote.getFDDBNOTE_TAX_AMT());
-                stmt.bindString(14, fdDbNote.getFDDBNOTE_B_TAX_AMT());
-                stmt.bindString(15, fdDbNote.getFDDBNOTE_AMT());
-                stmt.bindString(16, fdDbNote.getFDDBNOTE_B_AMT());
-                stmt.bindString(17, fdDbNote.getFDDBNOTE_TOT_BAL());
-                stmt.bindString(18, fdDbNote.getFDDBNOTE_TOT_BAL1());
-                stmt.bindString(19, fdDbNote.getFDDBNOTE_OV_PAY_AMT());
-                stmt.bindString(20, fdDbNote.getFDDBNOTE_REMARKS());
-                //stmt.bindString(20, fdDbNote.getFDDBNOTE_REMARKS());
-//                stmt.bindString(21, fdDbNote.getFDDBNOTE_CR_ACC());
-//                stmt.bindString(22, fdDbNote.getFDDBNOTE_PRT_COPY());
-//                stmt.bindString(23, fdDbNote.getFDDBNOTE_GL_POST());
-//                stmt.bindString(24, fdDbNote.getFDDBNOTE_GL_BATCH());
-                stmt.bindString(21, fdDbNote.getFDDBNOTE_ADD_USER());
-                stmt.bindString(22, fdDbNote.getFDDBNOTE_ADD_DATE());
+                ContentValues values = new ContentValues();
 
+                values.put(FDDBNOTE_RECORD_ID, fdDbNote.getFDDBNOTE_RECORD_ID());
+                values.put(REFNO, fdDbNote.getFDDBNOTE_REFNO());
+                values.put(FDDBNOTE_REF_INV, fdDbNote.getFDDBNOTE_REF_INV());
+                values.put(FDDBNOTE_SALE_REF_NO, fdDbNote.getFDDBNOTE_SALE_REF_NO());
+                values.put(FDDBNOTE_MANU_REF, fdDbNote.getFDDBNOTE_MANU_REF());
+                values.put(FDDBNOTE_TXN_TYPE, fdDbNote.getFDDBNOTE_TXN_TYPE());
+                values.put(DatabaseHelper.TXNDATE, fdDbNote.getFDDBNOTE_TXN_DATE());
+                values.put(FDDBNOTE_CUR_CODE, fdDbNote.getFDDBNOTE_CUR_CODE());
+                values.put(FDDBNOTE_CUR_RATE, fdDbNote.getFDDBNOTE_CUR_RATE());
+                values.put(FDDBNOTE_DEB_CODE, fdDbNote.getFDDBNOTE_DEB_CODE());
+                values.put(FDDBNOTE_REP_CODE, fdDbNote.getFDDBNOTE_REP_CODE());
+                values.put(FDDBNOTE_TAX_COM_CODE, fdDbNote.getFDDBNOTE_TAX_COM_CODE());
+                values.put(FDDBNOTE_TAX_AMT, fdDbNote.getFDDBNOTE_TAX_AMT());
+                values.put(FDDBNOTE_B_TAX_AMT, fdDbNote.getFDDBNOTE_B_TAX_AMT());
+                values.put(FDDBNOTE_AMT, fdDbNote.getFDDBNOTE_AMT());
+                values.put(FDDBNOTE_B_AMT, fdDbNote.getFDDBNOTE_B_AMT());
+                values.put(FDDBNOTE_TOT_BAL, fdDbNote.getFDDBNOTE_TOT_BAL());
+                values.put(FDDBNOTE_TOT_BAL1, fdDbNote.getFDDBNOTE_TOT_BAL1());
+                values.put(FDDBNOTE_OV_PAY_AMT, fdDbNote.getFDDBNOTE_OV_PAY_AMT());
+                values.put(FDDBNOTE_REMARKS, fdDbNote.getFDDBNOTE_REMARKS());
+                values.put(FDDBNOTE_CR_ACC, fdDbNote.getFDDBNOTE_CR_ACC());
+                values.put(FDDBNOTE_PRT_COPY, fdDbNote.getFDDBNOTE_PRT_COPY());
+                values.put(FDDBNOTE_GL_POST, fdDbNote.getFDDBNOTE_GL_POST());
+                values.put(FDDBNOTE_GL_BATCH, fdDbNote.getFDDBNOTE_GL_BATCH());
+                values.put(FDDBNOTE_ADD_USER, fdDbNote.getFDDBNOTE_ADD_USER());
+                values.put(FDDBNOTE_ADD_DATE, fdDbNote.getFDDBNOTE_ADD_DATE());
+                values.put(FDDBNOTE_ADD_MACH, fdDbNote.getFDDBNOTE_ADD_MACH());
+                values.put(FDDBNOTE_REFNO1, fdDbNote.getFDDBNOTE_REFNO1());
+                values.put(FDDBNOTE_ENTER_AMT, fdDbNote.getFDDBNOTE_ENTER_AMT());
 
-                stmt.execute();
-                stmt.clearBindings();
+                if (cursor.getCount() > 0) {
+                    dB.update(TABLE_FDDBNOTE, values, REFNO + "=?", new String[]{fdDbNote.getFDDBNOTE_REFNO().toString()});
+                } else {
+                    count = (int) dB.insert(TABLE_FDDBNOTE, null, values);
+                }
+
             }
 
+        } catch (Exception e) {
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
-            dB.setTransactionSuccessful();
-            dB.endTransaction();
+            if (cursor != null) {
+                cursor.close();
+            }
             dB.close();
         }
-
+        return count;
     }
     /*-*-**-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
