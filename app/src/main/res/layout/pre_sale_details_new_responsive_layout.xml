@@ -19,95 +19,95 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:orientation="horizontal">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="1dp"-->
+<!--                android:layout_marginRight="1dp"-->
+<!--                android:orientation="horizontal">-->
 
-                <com.datamation.hmdsfa.utils.CustomFont
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="QOH STATUS"
-                    android:textColor="@color/greenColor"
-                    android:textSize="18sp"
-                    />
+<!--                <com.datamation.hmdsfa.utils.CustomFont-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:layout_marginRight="1dp"-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="QOH STATUS"-->
+<!--                    android:textColor="@color/greenColor"-->
+<!--                    android:textSize="18sp"-->
+<!--                    />-->
 
-                <Spinner
-                    android:id="@+id/spnQOH"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" />
+<!--                <Spinner-->
+<!--                    android:id="@+id/spnQOH"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="15dp"-->
+<!--                    android:layout_marginRight="1dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:orientation="horizontal" />-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="1dp"-->
+<!--                android:layout_marginRight="1dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="horizontal">-->
 
-                <com.datamation.hmdsfa.utils.CustomFont
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="TRANSACTION TYPE"
-                    android:textColor="@color/greenColor"
-                    android:textSize="18sp"
-                    />
-                <Spinner
-                    android:id="@+id/spnTxn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="1dp"
-                    android:orientation="horizontal"/>
+<!--                <com.datamation.hmdsfa.utils.CustomFont-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:layout_marginRight="1dp"-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="TRANSACTION TYPE"-->
+<!--                    android:textColor="@color/greenColor"-->
+<!--                    android:textSize="18sp"-->
+<!--                    />-->
+<!--                <Spinner-->
+<!--                    android:id="@+id/spnTxn"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_marginLeft="15dp"-->
+<!--                    android:layout_marginRight="1dp"-->
+<!--                    android:orientation="horizontal"/>-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
-            <LinearLayout
-                android:id="@+id/reason_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:orientation="horizontal">
-                <com.datamation.hmdsfa.utils.CustomFont
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="REASON"
-                    android:textColor="@color/greenColor"
-                    android:textSize="18sp"
-                    />
-                <Spinner
-                    android:id="@+id/spnReason"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="1dp"
-                    android:orientation="horizontal"/>
+<!--            <LinearLayout-->
+<!--                android:id="@+id/reason_layout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginLeft="1dp"-->
+<!--                android:layout_marginRight="1dp"-->
+<!--                android:orientation="horizontal">-->
+<!--                <com.datamation.hmdsfa.utils.CustomFont-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:layout_marginRight="1dp"-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="REASON"-->
+<!--                    android:textColor="@color/greenColor"-->
+<!--                    android:textSize="18sp"-->
+<!--                    />-->
+<!--                <Spinner-->
+<!--                    android:id="@+id/spnReason"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_marginLeft="15dp"-->
+<!--                    android:layout_marginRight="1dp"-->
+<!--                    android:orientation="horizontal"/>-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"

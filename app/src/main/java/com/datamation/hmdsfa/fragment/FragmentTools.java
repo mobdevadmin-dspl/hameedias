@@ -1,5 +1,6 @@
 package com.datamation.hmdsfa.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -60,6 +61,7 @@ import com.datamation.hmdsfa.controller.FreeItemController;
 import com.datamation.hmdsfa.controller.FreeMslabController;
 import com.datamation.hmdsfa.controller.FreeSlabController;
 import com.datamation.hmdsfa.controller.InvDetController;
+import com.datamation.hmdsfa.controller.InvHedController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.ItemPriceController;
@@ -75,6 +77,7 @@ import com.datamation.hmdsfa.controller.ReferenceSettingController;
 import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalRepController;
+import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.TownController;
 import com.datamation.hmdsfa.customer.UploadEditedDebtors;
 import com.datamation.hmdsfa.customer.UploadNewCustomer;
@@ -97,6 +100,7 @@ import com.datamation.hmdsfa.model.Discdet;
 import com.datamation.hmdsfa.model.Disched;
 import com.datamation.hmdsfa.model.Discslab;
 import com.datamation.hmdsfa.model.Expense;
+import com.datamation.hmdsfa.model.FInvRHed;
 import com.datamation.hmdsfa.model.FInvhedL3;
 import com.datamation.hmdsfa.model.FItenrDet;
 import com.datamation.hmdsfa.model.FItenrHed;
@@ -109,6 +113,8 @@ import com.datamation.hmdsfa.model.FreeHed;
 import com.datamation.hmdsfa.model.FreeItem;
 import com.datamation.hmdsfa.model.FreeMslab;
 import com.datamation.hmdsfa.model.FreeSlab;
+import com.datamation.hmdsfa.model.InvDet;
+import com.datamation.hmdsfa.model.InvHed;
 import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemLoc;
 import com.datamation.hmdsfa.model.ItemPri;
@@ -125,9 +131,10 @@ import com.datamation.hmdsfa.model.User;
 import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
 import com.datamation.hmdsfa.nonproductive.UploadNonProd;
 import com.datamation.hmdsfa.presale.UploadPreSales;
+import com.datamation.hmdsfa.salesreturn.UploadSalesReturn;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.utils.UtilityContainer;
-import com.datamation.hmdsfa.view.ActivityLogin;
+import com.datamation.hmdsfa.vansale.UploadVanSales;
 import com.datamation.hmdsfa.view.DayExpenseActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -585,6 +592,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 .negativeText("No, Exit")
                 .callback(new MaterialDialog.ButtonCallback() {
 
+                    @SuppressLint("LongLogTag")
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
@@ -719,6 +727,48 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             } catch (Exception e) {
                                 Log.v("Exception in sync order", e.toString());
                             }
+
+                            try {//Van sale upload - 2020-01-28-kaveesha
+
+                                InvHedController hedDS = new InvHedController(getActivity());
+
+                                ArrayList<InvHed> invHedList = hedDS.getAllUnsynced();
+//                    /* If records available for upload then */
+                                if (invHedList.size() <= 0)
+                                    Toast.makeText(getActivity(), "No Van Sale Records to upload !", Toast.LENGTH_LONG).show();
+                                else{
+
+                                    new UploadVanSales(getActivity(), FragmentTools.this).execute(invHedList);
+
+                                    Log.v(">>8>>","UploadPreSales execute finish");
+                                    //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
+//
+                                }
+
+                            }catch(Exception e){
+                                Log.v("Exception in sync order",e.toString());
+                            }
+
+                            try//Sales return upload -  2020-01-28-kaveesha
+                            {
+                                SalesReturnController retHed = new SalesReturnController(getActivity());
+                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
+
+                                if(retHedList.size() <= 0)
+                                {
+                                    Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
+                                }else
+                                {
+                                    new UploadSalesReturn(getActivity(),FragmentTools.this,"insertReturns").execute(retHedList);
+                                    Log.v(">>8>>","Upload sales return execute finish");
+                                }
+
+                            }
+                            catch (Exception e)
+                            {
+                                Log.v("Exception in sync return" , e.toString());
+                            }
+
 
                             try { // upload Non productive 2019-10-23MMS
                                 DayNPrdHedController npHed = new DayNPrdHedController(getActivity());

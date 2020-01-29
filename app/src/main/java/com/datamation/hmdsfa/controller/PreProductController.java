@@ -56,7 +56,7 @@ public class PreProductController {
         dB = dbHelper.getWritableDatabase();
     }
 
-    public boolean tableHasRecords(String type) {
+    public boolean tableHasRecords() {
 
         if (dB == null) {
             open();
@@ -67,8 +67,8 @@ public class PreProductController {
         Cursor cursor = null;
 
         try {
-            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FPRODUCT_PRE+ " where type = '"+type+"'", null);
-            Log.d("1017 - Table has "+type,">>>>>>"+cursor.getCount());
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FPRODUCT_PRE, null);
+
             if (cursor.getCount() > 0)
                 result = true;
             else
@@ -86,7 +86,7 @@ public class PreProductController {
 
     }
 
-    public ArrayList<PreProduct> getAllItems(String newText, String type, String isAllowQohZero, String qohstatus) {
+    public ArrayList<PreProduct> getAllItems(String newText) {
 
         if (dB == null) {
             open();
@@ -96,29 +96,9 @@ public class PreProductController {
         Cursor cursor = null;
         ArrayList<PreProduct> list = new ArrayList<>();
         try {
-           // if(isAllowQohZero.equals("1")) {
-                //cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FPRODUCT_PRE + " WHERE itemcode || itemname LIKE '%" + newText + "%' and TxnType = '"+txntype+"' ORDER BY QOH DESC", null);
-               // cursor = dB.rawQuery("SELECT * FROM " + TABLE_FPRODUCT_PRE + " WHERE itemcode_pre || itemname_pre LIKE '%" + newText + "%' and type = '" + type + "' group by itemcode_pre order by CAST(qoh_pre AS FLOAT) desc", null);
-                if(qohstatus.equals("0")){
-                    cursor = dB.rawQuery("SELECT * FROM " + TABLE_FPRODUCT_PRE + " WHERE itemcode_pre || itemname_pre LIKE '%" + newText + "%' and type = '" + type + "'  " +
-                            " group by itemcode_pre order by CAST(qoh_pre AS FLOAT) desc", null);
+            //cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FPRODUCT_PRE + " WHERE itemcode || itemname LIKE '%" + newText + "%' and TxnType = '"+txntype+"' ORDER BY QOH DESC", null);
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FPRODUCT_PRE + " WHERE itemcode_pre || itemname_pre LIKE '%" + newText + "%' group by itemcode_pre", null);
 
-                }else{
-                    cursor = dB.rawQuery("SELECT * FROM " + TABLE_FPRODUCT_PRE + " WHERE itemcode_pre || itemname_pre LIKE '%" + newText + "%' and type = '" + type + "' and CAST(qoh_pre AS FLOAT) > 0 group by itemcode_pre order by CAST(qoh_pre AS FLOAT) desc", null);
-
-                }
-
-       //     }
-//            else{
-//                if(qohstatus.equals("0")){
-//                    cursor = dB.rawQuery("SELECT * FROM " + TABLE_FPRODUCT_PRE + " WHERE itemcode_pre || itemname_pre LIKE '%" + newText + "%' and type = '" + type + "'  group by itemcode_pre order by CAST(qoh_pre AS FLOAT) desc", null);
-//
-//                }else{
-//                    cursor = dB.rawQuery("SELECT * FROM " + TABLE_FPRODUCT_PRE + " WHERE itemcode_pre || itemname_pre LIKE '%" + newText + "%' and type = '" + type + "' and CAST(qoh_pre AS FLOAT) > 0 group by itemcode_pre order by CAST(qoh_pre AS FLOAT) desc", null);
-//
-//                }
-//
-//            }
             while (cursor.moveToNext()) {
                 PreProduct product = new PreProduct();
                 product.setPREPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID_PRE)));
@@ -127,11 +107,7 @@ public class PreProductController {
                 product.setPREPRODUCT_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_PRICE_PRE)));
                 product.setPREPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH_PRE)));
                 product.setPREPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_QTY_PRE)));
-                product.setPREPRODUCT_CASE(cursor.getString(cursor.getColumnIndex(FPRODUCT_CASE_PRE)));
-                product.setPREPRODUCT_REACODE(cursor.getString(cursor.getColumnIndex(FPRODUCT_REACODE)));
-                product.setPREPRODUCT_UNIT(cursor.getString(cursor.getColumnIndex(FPRODUCT_UNITS)));
-                product.setPREPRODUCT_TXN_TYPE(cursor.getString(cursor.getColumnIndex(FPRODUCT_TYPE)));
-                product.setPREPRODUCT_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(ProductController.FPRODUCT_CHANGED_PRICE)));
+//                product.setPREPRODUCT_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_TXNTYPE)));
                 list.add(product);
             }
         } catch (Exception e) {
@@ -144,7 +120,7 @@ public class PreProductController {
         return list;
     }
 
-    public void updateProductQty(String itemCode, String qty, String type) {
+    public void updateProductQty(String itemCode, String qty) {
 
         if (dB == null) {
             open();
@@ -156,8 +132,7 @@ public class PreProductController {
 
             ContentValues values = new ContentValues();
             values.put(FPRODUCT_QTY_PRE, qty);
-            dB.update(TABLE_FPRODUCT_PRE, values,  FPRODUCT_ITEMCODE_PRE
-                    + " = '" + itemCode + "' and "+FPRODUCT_TYPE + " = '" + type + "' ", null);
+            dB.update(TABLE_FPRODUCT_PRE, values, FPRODUCT_ITEMCODE_PRE + " =?", new String[]{String.valueOf(itemCode)});
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -207,7 +182,7 @@ public class PreProductController {
             dB.close();
         }
     }
-    public int updateQuantities(String itemCode,String itemname, String price, String qoh, String qty, String cases, String refno, String units, String type) {
+    public int updateQuantities(String itemCode,String qty) {
         int count = 0;
         if (dB == null) {
             open();
@@ -216,31 +191,37 @@ public class PreProductController {
         }
         Cursor cursor = null;
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_FPRODUCT_PRE + " WHERE " + FPRODUCT_ITEMCODE_PRE
-                    + " = '" + itemCode + "' and "+FPRODUCT_TYPE + " = '" + type + "' ";
-
-            cursor = dB.rawQuery(selectQuery, null);
 
             ContentValues values = new ContentValues();
-            values.put(FPRODUCT_ITEMCODE_PRE, itemCode);
-            values.put(FPRODUCT_ITEMNAME_PRE, itemname);
-            values.put(FPRODUCT_PRICE_PRE, price);
-            values.put(FPRODUCT_QOH_PRE, qoh);
             values.put(FPRODUCT_QTY_PRE, qty);
-            values.put(FPRODUCT_CASE_PRE, cases);
-            values.put(DatabaseHelper.REFNO, refno);
-            values.put(FPRODUCT_UNITS, units);
-            values.put(FPRODUCT_TYPE, type);
+            count=(int)dB.update(TABLE_FPRODUCT_PRE, values,FPRODUCT_ITEMCODE_PRE + " =?", new String[]{String.valueOf(itemCode)});
 
 
-            int cn = cursor.getCount();
-            if (cn > 0) {
-                count = dB.update(TABLE_FPRODUCT_PRE, values, FPRODUCT_ITEMCODE_PRE
-                        + " = '" + itemCode + "' and "+FPRODUCT_TYPE + " = '" + type + "'",
-                        null);
-            } else {
-                count = (int) dB.insert(TABLE_FPRODUCT_PRE, null, values);
-            }
+//            String selectQuery = "SELECT * FROM " + TABLE_FPRODUCT_PRE + " WHERE " + FPRODUCT_ITEMCODE_PRE
+//                    + " = '" + itemCode + "' and "+FPRODUCT_TYPE + " = '" + type + "' ";
+//
+//            cursor = dB.rawQuery(selectQuery, null);
+//
+//            ContentValues values = new ContentValues();
+//            values.put(FPRODUCT_ITEMCODE_PRE, itemCode);
+//            values.put(FPRODUCT_ITEMNAME_PRE, itemname);
+//            values.put(FPRODUCT_PRICE_PRE, price);
+//            values.put(FPRODUCT_QOH_PRE, qoh);
+//            values.put(FPRODUCT_QTY_PRE, qty);
+//            values.put(FPRODUCT_CASE_PRE, cases);
+//            values.put(DatabaseHelper.REFNO, refno);
+//            values.put(FPRODUCT_UNITS, units);
+//            values.put(FPRODUCT_TYPE, type);
+//
+//
+//            int cn = cursor.getCount();
+//            if (cn > 0) {
+//                count = dB.update(TABLE_FPRODUCT_PRE, values, FPRODUCT_ITEMCODE_PRE
+//                        + " = '" + itemCode + "' and "+FPRODUCT_TYPE + " = '" + type + "'",
+//                        null);
+//            } else {
+//                count = (int) dB.insert(TABLE_FPRODUCT_PRE, null, values);
+//            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -293,7 +274,30 @@ public class PreProductController {
         }
         return count;
     }
-    public ArrayList<PreProduct> getSelectedItems(String type) {
+
+    public int updateProductQtyFor(String itemCode, String qty) {
+        int count = 0;
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try {
+
+            ContentValues values = new ContentValues();
+            values.put(FPRODUCT_QTY_PRE, qty);
+            count=(int)  dB.update(TABLE_FPRODUCT_PRE, values, FPRODUCT_ITEMCODE_PRE + " =?", new String[]{String.valueOf(itemCode)});
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+        return count;
+    }
+
+    public ArrayList<PreProduct> getSelectedItems() {
 
         if (dB == null) {
             open();
@@ -303,7 +307,7 @@ public class PreProductController {
         Cursor cursor = null;
         ArrayList<PreProduct> list = new ArrayList<>();
         try {
-            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FPRODUCT_PRE + " WHERE  type = '"+type+"' and qty_pre<>'0' or case_pre<>'0' ", null);
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FPRODUCT_PRE + " WHERE  qty_pre<>'0'", null);
 
             while (cursor.moveToNext()) {
                 PreProduct product = new PreProduct();
@@ -313,11 +317,6 @@ public class PreProductController {
                 product.setPREPRODUCT_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_PRICE_PRE)));
                 product.setPREPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH_PRE)));
                 product.setPREPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_QTY_PRE)));
-                product.setPREPRODUCT_CASE(cursor.getString(cursor.getColumnIndex(FPRODUCT_CASE_PRE)));
-                product.setPREPRODUCT_REACODE(cursor.getString(cursor.getColumnIndex(FPRODUCT_REACODE)));
-                product.setPREPRODUCT_UNIT(cursor.getString(cursor.getColumnIndex(FPRODUCT_UNITS)));
-                product.setPREPRODUCT_TXN_TYPE(cursor.getString(cursor.getColumnIndex(FPRODUCT_TYPE)));
-                product.setPREPRODUCT_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(ProductController.FPRODUCT_CHANGED_PRICE)));
 
                 list.add(product);
             }
@@ -330,6 +329,7 @@ public class PreProductController {
 
         return list;
     }
+
     public void mClearTables() {
 
         if (dB == null) {
@@ -347,7 +347,7 @@ public class PreProductController {
         }
     }
 
-    public void insertIntoProductAsBulkForPre(String LocCode, String prillcode, String type)
+    public void insertIntoProductAsBulkForPre(String LocCode, String prillcode)
     {
         if (dB == null) {
             open();
@@ -358,19 +358,50 @@ public class PreProductController {
         try
         {
 
+            if(prillcode.equals(null) || prillcode.isEmpty())
+            {
+                String insertQuery1;
+                insertQuery1 = "INSERT INTO fProducts_pre (itemcode_pre,itemname_pre,price_pre,qoh_pre,qty_pre)\n" +
+                        "SELECT \n" +
+                        "itm.ItemCode AS ItemCode , \n" +
+                        "itm.ItemName AS ItemName ,  \n" +
+                        "IFNULL(pri.Price,0.0) AS Price , \n" +
+//                        "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +//commented on 2019-07-08 because price is 0.0
+//                        "IFNULL(pri.MaxPrice,0.0) AS MaxPrice ,\n" +//commented on 2019-07-08 because price is 0.0
+                        "loc.QOH AS QOH , \n" +
+                        "\"0.0\" AS ChangedPrice , \n" +
+                        "\"SA\" AS TxnType , \n" +
+                        "\"0\" AS Qty \n" +
+                        "FROM fItem itm\n" +
+                        "INNER JOIN fItemLoc loc ON loc.ItemCode = itm.ItemCode \n" +
+                        "LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode \n" +
+                        "AND pri.PrilCode = itm.PrilCode\n" +
+                        "WHERE loc.LocCode = '"+LocCode+"'\n" +
+                        //   "AND pri.Price > 0\n" +//commented on 2019-07-08 because price is 0.0
+                        "GROUP BY itm.ItemCode ORDER BY QOH DESC";
+
+                dB.execSQL(insertQuery1);
+            }
+            else
+            {
                 String insertQuery2;
-                insertQuery2 = "INSERT INTO fProducts_pre (itemcode_pre,itemname_pre,price_pre,ChangedPrice,qoh_pre,qty_pre,case_pre,ReaCode,units,type) " +
-                        "SELECT  itm.ItemCode AS ItemCode , itm.ItemName AS ItemName ,  \n" +
-                        "                        IFNULL(pri.Price,0.0) AS Price , \n" +
-                        " '0' AS ChangedPrice , \n" +
-                        "                        loc.QOH AS QOH , '0' AS Qty, '0' AS Cases, '' AS ReaCode, itm.NouCase AS units, '"+type+"' AS type " +
-                        " FROM fItem itm\n" +
-                        "                        INNER JOIN fItemLoc loc ON loc.ItemCode = itm.ItemCode \n" +
-                        "                        LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode  \n" +
-                        "                        WHERE loc.LocCode = '"+LocCode+"' AND pri.PrilCode = '"+prillcode+"'\n" +
-                        "                        Group by  itm.ItemCode ORDER BY CAST(QOH AS FLOAT) DESC ";
+                insertQuery2 = "INSERT INTO fProducts_pre (itemcode_pre,itemname_pre,price_pre,qoh_pre,qty_pre)\n" +
+                        "SELECT \n" +
+                        "itm.ItemCode AS ItemCode , itm.ItemName AS ItemName ,  \n" +
+                        "IFNULL(pri.Price,0.0) AS Price , " +
+//                        "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +//commented on 2019-07-08 because price is 0.0
+//                        "IFNULL(pri.MaxPrice,0.0) AS MaxPrice ,\n" +//commented on 2019-07-08 because price is 0.0
+                        "loc.QOH AS QOH , \"0\" AS Qty FROM fItem itm\n" +
+//                        "loc.QOH AS QOH , \"0.0\" AS ChangedPrice , \"SA\" AS TxnType , \"0\" AS Qty FROM fItem itm\n" +
+                        "INNER JOIN fItemLoc loc ON loc.ItemCode = itm.ItemCode \n" +
+                        "LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode \n" +
+                        "AND pri.PrilCode = '"+prillcode+"'\n" +
+                        "WHERE loc.LocCode = '"+LocCode+"'\n" +
+                        //    "AND pri.Price > 0\n" +//commented on 2019-07-08 because price is 0.0
+                        "GROUP BY itm.ItemCode ORDER BY QOH DESC";
 
                 dB.execSQL(insertQuery2);
+            }
         }
         catch (Exception ex)
         {

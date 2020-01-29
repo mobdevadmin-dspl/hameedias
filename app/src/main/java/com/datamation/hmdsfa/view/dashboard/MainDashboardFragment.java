@@ -10,6 +10,7 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.controller.DashboardController;
 import com.datamation.hmdsfa.controller.FItenrDetController;
 import com.datamation.hmdsfa.controller.RouteDetController;
+import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -27,14 +28,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link } interface//IOnDashboardFragmentInteractionListener
- * to handle interaction events.
- * Use the {@link MainDashboardFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MainDashboardFragment extends Fragment {
 
     private static final String LOG_TAG = MainDashboardFragment.class.getSimpleName();
@@ -49,7 +42,7 @@ public class MainDashboardFragment extends Fragment {
     private ArrayList<Double> targetValues;
     private List<Double> achievementValues;
 
-    BarChart chart,chartInvoice ;
+    BarChart chart ;
 
 //    private IOnDashboardFragmentInteractionListener mListener;
 
@@ -93,12 +86,9 @@ public class MainDashboardFragment extends Fragment {
         numberFormat.setGroupingUsed(true);
 
         chart = rootView.findViewById(R.id.barChart);
-       // chartInvoice = rootView.findViewById(R.id.barChart_invoice);
         ArrayList monthTvA = new ArrayList();
-        //ArrayList monthTvAInv = new ArrayList();
 
         chart.setDescription("");
-        //chartInvoice.setDescription("");
         double dailyAchieve = new DashboardController(getActivity()).getDailyAchievement();
         double monthlyAchieve = new DashboardController(getActivity()).getMonthAchievement();
         double monthlyTarget = new DashboardController(getActivity()).getRepTarget();
@@ -107,71 +97,33 @@ public class MainDashboardFragment extends Fragment {
             monthlyBalance = 0;
         }
         double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
-        double monthlyAchieveInv = 0;
-        if(!SharedPref.getInstance(getActivity()).getTMInvSale().equals("0")) {
-            monthlyAchieveInv = Double.parseDouble(SharedPref.getInstance(getActivity()).getTMInvSale());
-        }else{
-            monthlyAchieveInv = 0;
-        }
-        double monthlyReturn = 0;
-        if(!SharedPref.getInstance(getActivity()).getTMReturn().equals("0")) {
-            monthlyReturn = Double.parseDouble(SharedPref.getInstance(getActivity()).getTMReturn());
-        }else{
-            monthlyReturn = 0;
-        }
-        double monthlyBalanceInv = monthlyTarget - monthlyAchieveInv;
         //chart.set
         monthTvA.add(new BarEntry((float)monthlyTarget, 0));
         monthTvA.add(new BarEntry((float)monthlyAchieve, 1));
-        monthTvA.add(new BarEntry((float)monthlyAchieveInv, 2));
-        monthTvA.add(new BarEntry((float)monthlyReturn, 3));
-        monthTvA.add(new BarEntry((float)monthlyBalanceInv, 4));
-
-//        monthTvAInv.add(new BarEntry((float)monthlyTarget, 0));
-//        monthTvAInv.add(new BarEntry((float)monthlyAchieveInv, 1));
-//        monthTvAInv.add(new BarEntry((float)monthlyBalanceInv, 2));
+        monthTvA.add(new BarEntry((float)monthlyBalance, 2));
 
 
         ArrayList titl = new ArrayList();
-        titl.add("Booking Target");
-        titl.add("Booking");
-        titl.add("RD Invoice");
-        titl.add("Cancellations");
-        titl.add("RD Balance");
-
-
-
+        titl.add("Target");
+        titl.add("Achievement");
+        titl.add("Balance");
 
         BarDataSet bardataset = new BarDataSet(monthTvA, "values");
-      //  bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+        //  bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
         bardataset.setColors(new int[]{ContextCompat.getColor(getActivity(), R.color.red_error),
-                ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button),
-                ContextCompat.getColor(getActivity(), R.color.rd_invoice),
-                ContextCompat.getColor(getActivity(), R.color.half_black),
+                ContextCompat.getColor(getActivity(), R.color.achievecolor),
                 ContextCompat.getColor(getActivity(), R.color.theme_color_dark)});
         chart.animateY(2000);
         chart.setDrawGridBackground(false);
         chart.getXAxis().setDrawGridLines(false);
+        chart.getXAxis().setDrawGridLines(false);
+        // chart.xAxis.isEnabled = false;
+        //chart.getXAxis().setEnabled(false);
 
-//        BarDataSet bardatasetInv = new BarDataSet(monthTvA, "values");
-//        //  bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-//        bardatasetInv.setColors(new int[]{ContextCompat.getColor(getActivity(), R.color.red_error),
-//                ContextCompat.getColor(getActivity(), R.color.achievecolor),
-//                ContextCompat.getColor(getActivity(), R.color.theme_color_dark)});
-//        chartInvoice.animateY(2000);
-//        chartInvoice.setDrawGridBackground(false);
-//        chartInvoice.getXAxis().setDrawGridLines(false);
-       // chart.xAxis.isEnabled = false;
-      //chart.getXAxis().setEnabled(false);
-
-    //chart.getAxisLeft().setDrawAxisLine(false);
+        //chart.getAxisLeft().setDrawAxisLine(false);
         BarData data = new BarData(titl, bardataset);
-        bardataset.setBarSpacePercent(30f);
+        bardataset.setBarSpacePercent(35f);
         chart.setData(data);
-
-//        BarData dataInv = new BarData(titl, bardatasetInv);
-//        bardataset.setBarSpacePercent(35f);
-//        chartInvoice.setData(dataInv);
 
         // horizontal barchart
         BarData data1 = new BarData(getXAxisValues(),getDataSet());
@@ -205,7 +157,7 @@ public class MainDashboardFragment extends Fragment {
 
         PieData dataPie = new PieData(title, dataSet);
         pieChart.setData(dataPie);
-       // dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        // dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         dataSet.setColors(new int[]{ContextCompat.getColor(getActivity(), R.color.day_achieve),
                 ContextCompat.getColor(getActivity(),R.color.achievecolor )});
         //dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -216,6 +168,7 @@ public class MainDashboardFragment extends Fragment {
     private BarDataSet getDataSet() {
         int nonprd = new DashboardController(getActivity()).getNonPrdCount();
         int ordcount = new DashboardController(getActivity()).getProductiveCount();
+
         String route = "";
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
         int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
@@ -227,6 +180,7 @@ public class MainDashboardFragment extends Fragment {
         }else{
             route = new RouteDetController(getActivity()).getRouteCodeByDebCode(SharedPref.getInstance(getActivity()).getSelectedDebCode());
         }
+
         int outlets = new DashboardController(getActivity()).getOutletCount(route);
         int notVisit = outlets - (ordcount+nonprd);
         if(notVisit > 0){
@@ -245,13 +199,14 @@ public class MainDashboardFragment extends Fragment {
         dataset.setColors(new int[]{ContextCompat.getColor(getActivity(), R.color.main_green_stroke_color),
                 ContextCompat.getColor(getActivity(), R.color.theme_color_dark),
                 ContextCompat.getColor(getActivity(), R.color.visit_not_visited)});
-      //  dataset.setColors(ColorTemplate.COLORFUL_COLORS);
+        //  dataset.setColors(ColorTemplate.COLORFUL_COLORS);
         return dataset;
     }
 
     private ArrayList<String> getXAxisValues() {
         int nonprd = new DashboardController(getActivity()).getNonPrdCount();
         int ordcount = new DashboardController(getActivity()).getProductiveCount();
+
         String route = "";
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
         int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
@@ -263,9 +218,10 @@ public class MainDashboardFragment extends Fragment {
         }else{
             route = new RouteDetController(getActivity()).getRouteCodeByDebCode(SharedPref.getInstance(getActivity()).getSelectedDebCode());
         }
+
         int outlets = new DashboardController(getActivity()).getOutletCount(route);
         int notVisit = outlets - (ordcount+nonprd);
-        if(outlets > 0){
+        if(notVisit > 0){
             notVisit = outlets - (ordcount+nonprd);
         }else{
             notVisit = 0;
@@ -279,3 +235,4 @@ public class MainDashboardFragment extends Fragment {
 
 
 }
+

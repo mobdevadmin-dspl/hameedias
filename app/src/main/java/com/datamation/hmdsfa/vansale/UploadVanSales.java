@@ -57,7 +57,7 @@ public class UploadVanSales extends AsyncTask<ArrayList<InvHed>, Integer, ArrayL
                 List<String> List = new ArrayList<String>();
                 String sJsonHed = new Gson().toJson(c);
                 List.add(sJsonHed);
-               // String sURL = URL + context.getResources().getString(R.string.ConnectionURL) + "/insertFInvHed";
+                // String sURL = URL + context.getResources().getString(R.string.ConnectionURL) + "/insertFInvHed";
                 //boolean bStatus = UtilityContainer.mHttpManager(sURL, new Gson().toJson(c));
                 boolean bStatus = NetworkFunctions.mHttpManager(networkFunctions.syncInvoice(),List.toString());
 
