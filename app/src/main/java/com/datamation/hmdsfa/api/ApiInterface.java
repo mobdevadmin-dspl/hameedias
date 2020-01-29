@@ -42,8 +42,8 @@ public interface ApiInterface {
     @GET("Ftaxdet/mobile123/{dbname}")//10
     Call<ReadJsonList> getTaxDetResult(@Path("dbname") String dbname);
 
-    @GET("FnearDebtor/mobile123/{dbname}/{repcode}")//11
-    Call<ReadJsonList> getNearDebtorResult(@Path("dbname") String dbname,@Path("repcode") String repcode);
+    @GET("FnearDebtor/mobile123/{dbname}")//11
+    Call<ReadJsonList> getNearDebtorResult(@Path("dbname") String dbname);
 
     @GET("FCompanyBranch/mobile123/{dbname}/{repcode}")//12
     Call<ReadJsonList> getCompanyBranchResult(@Path("dbname") String dbname,@Path("repcode") String repcode);

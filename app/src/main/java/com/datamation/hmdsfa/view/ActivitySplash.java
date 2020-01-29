@@ -329,8 +329,12 @@ public class ActivitySplash extends AppCompatActivity{
                                 repList.add(response.body().getSalRepResult().get(i));
                             }
                             new SalRepController(ActivitySplash.this).createOrUpdateSalRep(repList);
-                            networkFunctions.setUser(repList.get(0));
-                            pref.storeLoginUser(repList.get(0));
+                            if(repList.size()>0){
+                                pref.setValidateStatus(true);
+                                networkFunctions.setUser(repList.get(0));
+                                pref.storeLoginUser(repList.get(0));
+                            }
+
                             System.out.println("Rep List " + repList.toString());
 
                         }
@@ -380,27 +384,12 @@ public class ActivitySplash extends AppCompatActivity{
                 Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                 pref.setValidateStatus(true);
                 tryAgain.setVisibility(View.INVISIBLE);
-                //set user details to shared prefferences
-                //Intent mainActivity = new Intent(ActivitySplash.this, SettingsActivity.class);
-                // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
                 Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
-              //  Intent loginActivity = new Intent(ActivitySplash.this, ActivityHome.class);
-                // ..............................................................................................
-//
                 startActivity(loginActivity);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(), "Invalid Mac Id", Toast.LENGTH_LONG).show();
-               // tryAgain.setVisibility(View.VISIBLE);
                 reCallActivity();
-//temerary set for new SFA
-                // .................. Nuwan ....... commented due to run home activity .............. 19/06/2019
-                //Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
-//                Intent loginActivity = new Intent(ActivitySplash.this, ActivityHome.class);
-//                // ..............................................................................................
-//                startActivity(loginActivity);
-//                finish();
-
             }
         }
     }

@@ -443,7 +443,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 try {
 
                     ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
-                    Call<ReadJsonList> resultCall = apiInterface.getNearDebtorResult(pref.getDistDB(),repcode);
+                    Call<ReadJsonList> resultCall = apiInterface.getNearDebtorResult(pref.getDistDB());
                     resultCall.enqueue(new Callback<ReadJsonList>() {
                         @Override
                         public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
@@ -847,7 +847,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     });
                 } catch (Exception e) {
                     errors.add(e.toString());
-
                     throw e;
                 }
                 /*****************end route det**********************************************************************/
@@ -1016,8 +1015,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     });
                 } catch (Exception e) {
                     errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                     throw e;
                 }

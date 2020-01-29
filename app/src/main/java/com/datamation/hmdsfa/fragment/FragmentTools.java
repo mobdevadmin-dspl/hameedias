@@ -127,6 +127,7 @@ import com.datamation.hmdsfa.nonproductive.UploadNonProd;
 import com.datamation.hmdsfa.presale.UploadPreSales;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.utils.UtilityContainer;
+import com.datamation.hmdsfa.view.ActivityLogin;
 import com.datamation.hmdsfa.view.DayExpenseActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -1006,15 +1007,31 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing controls
                     try {
-                        JSONObject controlJSON = new JSONObject(controls);
-                        JSONArray controlJSONArray = controlJSON.getJSONArray("fControlResult");
-                        ArrayList<Control> controlList = new ArrayList<Control>();
-                        CompanyDetailsController companyController = new CompanyDetailsController(getActivity());
-                        for (int i = 0; i < controlJSONArray.length(); i++) {
-                            controlList.add(Control.parseControlDetails(controlJSONArray.getJSONObject(i)));
-                        }
-                        companyController.createOrUpdateFControl(controlList);
-                    } catch (JSONException | NumberFormatException e) {
+
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getControlResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getControlResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Control> controlList = new ArrayList<Control>();
+                                for (int i = 0; i < response.body().getControlResult().size(); i++) {
+                                    controlList.add(response.body().getControlResult().get(i));
+                                }
+                                CompanyDetailsController companyController = new CompanyDetailsController(getActivity());
+
+                                companyController.createOrUpdateFControl(controlList);
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+
+                    } catch (Exception e) {
 
                         errors.add(e.toString());
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
@@ -1031,15 +1048,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
 
 
-                    String outlets = "";
-                    try {
-                        outlets = networkFunctions.getCustomer(repcode);
-                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1050,23 +1058,31 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing outlets
                     try {
-                        JSONObject customersJSON = new JSONObject(outlets);
-                        JSONArray customersJSONArray = customersJSON.getJSONArray("FdebtorResult");
-                        ArrayList<Debtor> customerList = new ArrayList<Debtor>();
-                        CustomerController customerController = new CustomerController(getActivity());
-                        customerController.deleteAll();
-                        for (int i = 0; i < customersJSONArray.length(); i++) {
-                            customerList.add(Debtor.parseOutlet(customersJSONArray.getJSONObject(i)));
-                        }
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getDebtorResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getDebtorResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Debtor> debtorList = new ArrayList<Debtor>();
+                                for (int i = 0; i < response.body().getDebtorResult().size(); i++) {
+                                    debtorList.add(response.body().getDebtorResult().get(i));
+                                }
+                                CustomerController customerController = new CustomerController(getActivity());
 
-                        customerController.InsertOrReplaceDebtor(customerList);
-                        Log.d("InsertOrReplaceDebtor", "succes");
+                                customerController.InsertOrReplaceDebtor(debtorList);
 
-                    } catch (JSONException | NumberFormatException e) {
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
 
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
@@ -1087,16 +1103,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    String nearOutlets = "";
-                    try {
-                        nearOutlets = networkFunctions.getNearCustomer();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1106,19 +1112,28 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing outlets
                     try {
-                        JSONObject nCustomersJSON = new JSONObject(nearOutlets);
-                        JSONArray nCustomersJSONArray = nCustomersJSON.getJSONArray("FnearDebtorResult");
-                        ArrayList<NearDebtor> nDebList = new ArrayList<NearDebtor>();
-                        NearCustomerController nCustomerController = new NearCustomerController(getActivity());
-                        for (int i = 0; i < nCustomersJSONArray.length(); i++) {
-                            nDebList.add(NearDebtor.parseNearOutlet(nCustomersJSONArray.getJSONObject(i)));
-                        }
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getNearDebtorResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getNearDebtorResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<NearDebtor> nDebList = new ArrayList<NearDebtor>();
+                                for (int i = 0; i < response.body().getNearDebtorResult().size(); i++) {
+                                    nDebList.add(response.body().getNearDebtorResult().get(i));
+                                }
+                                NearCustomerController nCustomerController = new NearCustomerController(getActivity());
+                                nCustomerController.InsertOrReplaceNearDebtor(nDebList);
 
-                        if (nCustomerController.deleteAll() > 0) {
-                            nCustomerController.InsertOrReplaceNearDebtor(nDebList);
-                        }
+                            }
 
-                    } catch (JSONException | NumberFormatException e) {
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
                     }
@@ -1132,15 +1147,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // --------------------------------------------------------------------------------------------------
                     /*****************Settings*****************************************************************************/
 
-                    String comSettings = "";
-                    try {
-                        comSettings = networkFunctions.getReferenceSettings();
-                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1153,15 +1159,28 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     ReferenceSettingController settingController = new ReferenceSettingController(getActivity());
                     settingController.deleteAll();
                     try {
-                        JSONObject settingJSON = new JSONObject(comSettings);
-                        JSONArray settingsJSONArray = settingJSON.getJSONArray("fCompanySettingResult");
-                        ArrayList<CompanySetting> settingList = new ArrayList<CompanySetting>();
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getCompanySettingResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getCompanySettingResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<CompanySetting> settingList = new ArrayList<CompanySetting>();
+                                for (int i = 0; i < response.body().getCompanySettingResult().size(); i++) {
+                                    settingList.add(response.body().getCompanySettingResult().get(i));
+                                }
+                                ReferenceSettingController settingController = new ReferenceSettingController(getActivity());
+                                settingController.createOrUpdateFCompanySetting(settingList);
 
-                        for (int i = 0; i < settingsJSONArray.length(); i++) {
-                            settingList.add(CompanySetting.parseSettings(settingsJSONArray.getJSONObject(i)));
-                        }
-                        settingController.createOrUpdateFCompanySetting(settingList);
-                    } catch (JSONException | NumberFormatException e) {
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
 //                                e, routes, BugReport.SEVERITY_HIGH);
@@ -1172,15 +1191,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     /*****************end Settings**********************************************************************/
 /*****************Branches*****************************************************************************/
 
-                    String comBranches = "";
-                    try {
-                        comBranches = networkFunctions.getReferences(repcode);
-                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1193,18 +1203,27 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     ReferenceDetailDownloader branchController = new ReferenceDetailDownloader(getActivity());
                     branchController.deleteAll();
                     try {
-                        JSONObject settingJSON = new JSONObject(comBranches);
-                        JSONArray settingsJSONArray = settingJSON.getJSONArray("FCompanyBranchResult");
-                        ArrayList<CompanyBranch> settingList = new ArrayList<CompanyBranch>();
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getCompanyBranchResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getCompanyBranchResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<CompanyBranch> settingList = new ArrayList<CompanyBranch>();
+                                for (int i = 0; i < response.body().getCompanyBranchResult().size(); i++) {
+                                    settingList.add(response.body().getCompanyBranchResult().get(i));
+                                }
+                                ReferenceDetailDownloader settingController = new ReferenceDetailDownloader(getActivity());
+                                settingController.createOrUpdateFCompanyBranch(settingList);
+                            }
 
-                        for (int i = 0; i < settingsJSONArray.length(); i++) {
-                            settingList.add(CompanyBranch.parseSettings(settingsJSONArray.getJSONObject(i)));
-                        }
-                        branchController.createOrUpdateFCompanyBranch(settingList);
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
 
                         throw e;
                     }
@@ -1212,15 +1231,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     /*****************end Branches**********************************************************************/
                     /*****************Item Loc*****************************************************************************/
 
-                    String itemLocs = "";
-                    try {
-                        itemLocs = networkFunctions.getItemLocations(repcode);
-                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1233,33 +1243,34 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     itemlocController.deleteAllItemLoc();
                     // Processing itemLocations
                     try {
-                        JSONObject itemLocJSON = new JSONObject(itemLocs);
-                        JSONArray settingsJSONArray = itemLocJSON.getJSONArray("fItemLocResult");
-                        ArrayList<ItemLoc> itemLocList = new ArrayList<ItemLoc>();
-                        for (int i = 0; i < settingsJSONArray.length(); i++) {
-                            itemLocList.add(ItemLoc.parseItemLocs(settingsJSONArray.getJSONObject(i)));
-                        }
-                        itemlocController.InsertOrReplaceItemLoc(itemLocList);
-                    } catch (JSONException | NumberFormatException e) {
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getItemLocResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getItemLocResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<ItemLoc> itemLocList = new ArrayList<ItemLoc>();
+                                for (int i = 0; i < response.body().getItemLocResult().size(); i++) {
+                                    itemLocList.add(response.body().getItemLocResult().get(i));
+                                }
+                                ItemLocController locController = new ItemLocController(getActivity());
+                                locController.InsertOrReplaceItemLoc(itemLocList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
 
                     /*****************end Item Loc**********************************************************************/
                     /*****************Locations*****************************************************************************/
-
-                    String locations = "";
-                    try {
-                        locations = networkFunctions.getLocations(repcode);
-                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1271,32 +1282,32 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     locController.deleteAll();
                     // Processing itemLocations
                     try {
-                        JSONObject locJSON = new JSONObject(locations);
-                        JSONArray locJSONArray = locJSON.getJSONArray("fLocationsResult");
-                        ArrayList<Locations> locList = new ArrayList<Locations>();
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getLocationsResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getLocationsResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Locations> locList = new ArrayList<Locations>();
+                                for (int i = 0; i < response.body().getLocationsResult().size(); i++) {
+                                    locList.add(response.body().getLocationsResult().get(i));
+                                }
+                                LocationsController locController = new LocationsController(getActivity());
+                                locController.createOrUpdateFLocations(locList);
+                            }
 
-                        for (int i = 0; i < locJSONArray.length(); i++) {
-                            locList.add(Locations.parseLocs(locJSONArray.getJSONObject(i)));
-                        }
-                        locController.createOrUpdateFLocations(locList);
-                    } catch (JSONException | NumberFormatException e) {
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
                     /*****************itemPrices*****************************************************************************/
-
-                    String itemPrices = "";
-                    try {
-                        itemPrices = networkFunctions.getItemPrices(repcode);
-                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1308,33 +1319,34 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     priceController.deleteAllItemPri();
                     // Processing itemPrices
                     try {
-                        JSONObject itemPriceJSON = new JSONObject(itemPrices);
-                        JSONArray itemPriceJSONArray = itemPriceJSON.getJSONArray("fItemPriResult");
-                        ArrayList<ItemPri> itemPriceList = new ArrayList<ItemPri>();
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getItemPriResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getItemPriResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<ItemPri> itemPriceList = new ArrayList<ItemPri>();
+                                for (int i = 0; i < response.body().getItemPriResult().size(); i++) {
+                                    itemPriceList.add(response.body().getItemPriResult().get(i));
+                                }
+                                ItemPriceController priceController = new ItemPriceController(getActivity());
+                                priceController.InsertOrReplaceItemPri(itemPriceList);
+                            }
 
-                        for (int i = 0; i < itemPriceJSONArray.length(); i++) {
-                            itemPriceList.add(ItemPri.parseItemPrices(itemPriceJSONArray.getJSONObject(i)));
-                        }
-                        priceController.InsertOrReplaceItemPri(itemPriceList);
-                    } catch (JSONException | NumberFormatException e) {
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
                     /*****************end item prices**********************************************************************/
                     /*****************Items*****************************************************************************/
 
-                    String item = "";
-                    try {
-                        item = networkFunctions.getItems(repcode);
-                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1347,18 +1359,28 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     itemController.deleteAll();
                     // Processing Items
                     try {
-                        JSONObject itemJSON = new JSONObject(item);
-                        JSONArray itemJSONArray = itemJSON.getJSONArray("fItemsResult");
-                        ArrayList<Item> itemList = new ArrayList<Item>();
-                        for (int i = 0; i < itemJSONArray.length(); i++) {
-                            itemList.add(Item.parseItem(itemJSONArray.getJSONObject(i)));
-                        }
-                        itemController.InsertOrReplaceItems(itemList);
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getItemsResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getItemsResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Item> itemList = new ArrayList<Item>();
+                                for (int i = 0; i < response.body().getItemsResult().size(); i++) {
+                                    itemList.add(response.body().getItemsResult().get(i));
+                                }
+                                ItemController itemController = new ItemController(getActivity());
+                                itemController.InsertOrReplaceItems(itemList);
+                            }
 
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
+                        errors.add(e.toString());
                         throw e;
                     }
                     /*****************end Items **********************************************************************/
@@ -1370,39 +1392,34 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Items downloaded\nDownloading reasons...");
                         }
                     });
-                    String reasons = "";
-                    try {
-                        reasons = networkFunctions.getReasons();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (reasons)...");
-                        }
-                    });
 
                     ReasonController reasonController = new ReasonController(getActivity());
                     reasonController.deleteAll();
                     // Processing reasons
                     try {
-                        JSONObject reasonJSON = new JSONObject(reasons);
-                        JSONArray reasonJSONArray = reasonJSON.getJSONArray("fReasonResult");
-                        ArrayList<Reason> reasonList = new ArrayList<Reason>();
-                        for (int i = 0; i < reasonJSONArray.length(); i++) {
-                            reasonList.add(Reason.parseReason(reasonJSONArray.getJSONObject(i)));
-                        }
-                        Log.d("befor add reason tbl>>>", reasonList.toString());
-                        reasonController.createOrUpdateReason(reasonList);
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getReasonResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getReasonResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Reason> reasonList = new ArrayList<Reason>();
+                                for (int i = 0; i < response.body().getReasonResult().size(); i++) {
+                                    reasonList.add(response.body().getReasonResult().get(i));
+                                }
+                                ReasonController reasonController = new ReasonController(getActivity());
+                                reasonController.createOrUpdateReason(reasonList);
+                            }
 
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
+                        errors.add(e.toString());
                         throw e;
                     }
                     /*****************end reasons**********************************************************************/
@@ -1413,40 +1430,36 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Reason downloaded\nDownloading outstanding details...");
                         }
                     });
-                    String fddbnote = "";
-                    try {
-                        fddbnote = networkFunctions.getFddbNotes(repcode);
-                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (outstanding details)...");
-                        }
-                    });
 
                     // Processing fddbnote
 
-                    OutstandingController outstandingController = new OutstandingController(getActivity());
-                    outstandingController.deleteAll();
-                    try {
-                        JSONObject fddbnoteJSON = new JSONObject(fddbnote);
-                        JSONArray fddbnoteJSONArray = fddbnoteJSON.getJSONArray("fDdbNoteWithConditionResult");
-                        ArrayList<FddbNote> fddbnoteList = new ArrayList<FddbNote>();
-                        for (int i = 0; i < fddbnoteJSONArray.length(); i++) {
-                            fddbnoteList.add(FddbNote.parseFddbnote(fddbnoteJSONArray.getJSONObject(i)));
-                        }
-                        outstandingController.createOrUpdateFDDbNote(fddbnoteList);
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
+                    try {
+
+
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getOutstandingResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getOutstandingResult().size());
+                                OutstandingController outstandingController = new OutstandingController(getActivity());
+                                outstandingController.deleteAll();
+                                ArrayList<FddbNote> fddbnoteList = new ArrayList<FddbNote>();
+                                for (int i = 0; i < response.body().getOutstandingResult().size(); i++) {
+                                    fddbnoteList.add(response.body().getOutstandingResult().get(i));
+                                }
+                                outstandingController.createOrUpdateFDDbNote(fddbnoteList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
+                        errors.add(e.toString());
                         throw e;
                     }
                     getActivity().runOnUiThread(new Runnable() {
@@ -1458,59 +1471,38 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //
 //
 //                    /*****************expenses**********************************************************************/
-//
-//                    getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Reasons downloaded\nDownloading expense details...");
-//                        }
-//                    });
 
-
-                    /*****************Banks**********************************************************************/
-                    String banks = "";
-                    try {
-                        banks = networkFunctions.getBanks();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (banks)...");
-                        }
-                    });
                     BankController bankController = new BankController(getActivity());
                     bankController.deleteAll();
                     // Processing route
                     try {
-                        JSONObject bankJSON = new JSONObject(banks);
-                        JSONArray bankJSONArray = bankJSON.getJSONArray("fbankResult");
-                        ArrayList<Bank> bankList = new ArrayList<Bank>();
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getBankResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                BankController bankController = new BankController(getActivity());
+                                System.out.println("test responce 01 " + response.body().getBankResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Bank> bankList = new ArrayList<Bank>();
+                                for (int i = 0; i < response.body().getBankResult().size(); i++) {
+                                    bankList.add(response.body().getBankResult().get(i));
+                                }
 
-                        for (int i = 0; i < bankJSONArray.length(); i++) {
-                            bankList.add(Bank.parseBank(bankJSONArray.getJSONObject(i)));
-                        }
-                        bankController.createOrUpdateBank(bankList);
-                    } catch (JSONException | NumberFormatException e) {
+                                bankController.createOrUpdateBank(bankList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
                     /*****************end banks**********************************************************************/
-                    String expenses = "";
-                    try {
-                        expenses = networkFunctions.getExpenses();
-                    } catch (IOException e) {
-                        errors.add(e.toString());
-                        e.printStackTrace();
-                        throw e;
-                    }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1523,17 +1515,28 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     expenseController.deleteAll();
                     // Processing expense
                     try {
-                        JSONObject expenseJSON = new JSONObject(expenses);
-                        JSONArray expenseJSONArray = expenseJSON.getJSONArray("fExpenseResult");
-                        ArrayList<Expense> expensesList = new ArrayList<Expense>();
-                        for (int i = 0; i < expenseJSONArray.length(); i++) {
-                            expensesList.add(Expense.parseExpense(expenseJSONArray.getJSONObject(i)));
-                        }
-                        expenseController.createOrUpdateFExpense(expensesList);
-                    } catch (JSONException | NumberFormatException e) {
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getExpenseResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getExpenseResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Expense> expensesList = new ArrayList<Expense>();
+                                for (int i = 0; i < response.body().getExpenseResult().size(); i++) {
+                                    expensesList.add(response.body().getExpenseResult().get(i));
+                                }
+                                ExpenseController expenseController = new ExpenseController(getActivity());
+                                expenseController.createOrUpdateFExpense(expensesList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
@@ -1547,51 +1550,39 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    String route = "";
-                    try {
-                        route = networkFunctions.getRoutes(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (routes)...");
-                        }
-                    });
-
                     // Processing route
 
                     RouteController routeController = new RouteController(getActivity());
                     routeController.deleteAll();
                     try {
-                        JSONObject routeJSON = new JSONObject(route);
-                        JSONArray routeJSONArray = routeJSON.getJSONArray("fRouteResult");
-                        ArrayList<Route> routeList = new ArrayList<Route>();
-                        for (int i = 0; i < routeJSONArray.length(); i++) {
-                            routeList.add(Route.parseRoute(routeJSONArray.getJSONObject(i)));
-                        }
-                        routeController.createOrUpdateFRoute(routeList);
-                    } catch (JSONException | NumberFormatException e) {
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getRouteResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getRouteResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Route> routeList = new ArrayList<Route>();
+                                for (int i = 0; i < response.body().getRouteResult().size(); i++) {
+                                    routeList.add(response.body().getRouteResult().get(i));
+                                }
+                                RouteController routeController = new RouteController(getActivity());
+                                routeController.createOrUpdateFRoute(routeList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
                     /*****************end route**********************************************************************/
                     /*****************last 3 invoice heds**********************************************************************/
-                    String last3InvHeds = "";
-                    try {
-                        last3InvHeds = networkFunctions.getLastThreeInvHed(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1600,34 +1591,36 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
 
                     // Processing lastinvoiceheds
-
-                    FInvhedL3Controller invoiceHedController = new FInvhedL3Controller(getActivity());
-                    invoiceHedController.deleteAll();
                     try {
-                        JSONObject invoiceHedJSON = new JSONObject(last3InvHeds);
-                        JSONArray invoiceHedJSONJSONArray = invoiceHedJSON.getJSONArray("RepLastThreeInvHedResult");
-                        ArrayList<FInvhedL3> invoiceHedList = new ArrayList<FInvhedL3>();
-                        for (int i = 0; i < invoiceHedJSONJSONArray.length(); i++) {
-                            invoiceHedList.add(FInvhedL3.parseInvoiceHeds(invoiceHedJSONJSONArray.getJSONObject(i)));
-                        }
-                        invoiceHedController.createOrUpdateFinvHedL3(invoiceHedList);
-                    } catch (JSONException | NumberFormatException e) {
+
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getLastThreeInvHedResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getLastThreeInvHedResult().size());
+                                FInvhedL3Controller invoiceHedController = new FInvhedL3Controller(getActivity());
+                                invoiceHedController.deleteAll();
+                                ArrayList<FInvhedL3> invoiceHedList = new ArrayList<FInvhedL3>();
+                                for (int i = 0; i < response.body().getLastThreeInvHedResult().size(); i++) {
+                                    invoiceHedList.add(response.body().getLastThreeInvHedResult().get(i));
+                                }
+                                invoiceHedController.createOrUpdateFinvHedL3(invoiceHedList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
                     /*****************end lastinvoiceheds**********************************************************************/
                     /*****************last 3 invoice dets**********************************************************************/
-                    String last3InvDets = "";
-                    try {
-                        last3InvDets = networkFunctions.getLastThreeInvDet(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1635,21 +1628,32 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    FinvDetL3Controller invoiceDetController = new FinvDetL3Controller(getActivity());
-                    invoiceDetController.deleteAll();
+
                     // Processing lastinvoiceheds
                     try {
-                        JSONObject invoiceHedJSON = new JSONObject(last3InvDets);
-                        JSONArray invoiceHedJSONJSONArray = invoiceHedJSON.getJSONArray("RepLastThreeInvDetResult");
-                        ArrayList<FinvDetL3> invoiceDetList = new ArrayList<FinvDetL3>();
-                        for (int i = 0; i < invoiceHedJSONJSONArray.length(); i++) {
-                            invoiceDetList.add(FinvDetL3.parseInvoiceDets(invoiceHedJSONJSONArray.getJSONObject(i)));
-                        }
-                        invoiceDetController.createOrUpdateFinvDetL3(invoiceDetList);
-                    } catch (JSONException | NumberFormatException e) {
+
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getLastThreeInvDetResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getLastThreeInvDetResult().size());
+                                FinvDetL3Controller invoiceDetController = new FinvDetL3Controller(getActivity());
+                                invoiceDetController.deleteAll();
+                                ArrayList<FinvDetL3> invoiceDetList = new ArrayList<FinvDetL3>();
+                                for (int i = 0; i < response.body().getLastThreeInvDetResult().size(); i++) {
+                                    invoiceDetList.add(response.body().getLastThreeInvDetResult().get(i));
+                                }
+                                invoiceDetController.createOrUpdateFinvDetL3(invoiceDetList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
@@ -1665,14 +1669,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    String routedet = "";
-                    try {
-                        routedet = networkFunctions.getRouteDets(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1685,17 +1682,28 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     routeDetController.deleteAll();
                     // Processing route
                     try {
-                        JSONObject routeJSON = new JSONObject(routedet);
-                        JSONArray routeJSONArray = routeJSON.getJSONArray("fRouteDetResult");
-                        ArrayList<RouteDet> routeList = new ArrayList<RouteDet>();
-                        for (int i = 0; i < routeJSONArray.length(); i++) {
-                            routeList.add(RouteDet.parseRoute(routeJSONArray.getJSONObject(i)));
-                        }
-                        routeDetController.InsertOrReplaceRouteDet(routeList);
-                    } catch (JSONException | NumberFormatException e) {
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getRouteDetResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getRouteDetResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<RouteDet> routeList = new ArrayList<RouteDet>();
+                                for (int i = 0; i < response.body().getRouteDetResult().size(); i++) {
+                                    routeList.add(response.body().getRouteDetResult().get(i));
+                                }
+                                RouteDetController routeController = new RouteDetController(getActivity());
+                                routeController.InsertOrReplaceRouteDet(routeList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
@@ -1710,14 +1718,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    String town = "";
-                    try {
-                        town = networkFunctions.getTowns(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1730,31 +1731,34 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     townController.deleteAll();
                     // Processing towns
                     try {
-                        JSONObject townJSON = new JSONObject(town);
-                        JSONArray townJSONArray = townJSON.getJSONArray("fTownResult");
-                        ArrayList<Town> townList = new ArrayList<Town>();
-                        for (int i = 0; i < townJSONArray.length(); i++) {
-                            townList.add(Town.parseTown(townJSONArray.getJSONObject(i)));
-                        }
-                        townController.createOrUpdateFTown(townList);
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getTownResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getTownResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Town> townList = new ArrayList<Town>();
+                                for (int i = 0; i < response.body().getTownResult().size(); i++) {
+                                    townList.add(response.body().getTownResult().get(i));
+                                }
+                                TownController townController = new TownController(getActivity());
+                                townController.createOrUpdateFTown(townList);
+                            }
 
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
+                        errors.add(e.toString());
                         throw e;
                     }
                     /*****************end towns**********************************************************************/
 
                     /*****************Freeslab**********************************************************************/
-                    String freeslab = "";
-                    try {
-                        freeslab = networkFunctions.getFreeSlab();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1763,34 +1767,38 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    FreeSlabController freeslabController = new FreeSlabController(getActivity());
-                    freeslabController.deleteAll();
+
                     // Processing freeslab
                     try {
-                        JSONObject freeslabJSON = new JSONObject(freeslab);
-                        JSONArray freeslabJSONArray = freeslabJSON.getJSONArray("FfreeslabResult");
-                        ArrayList<FreeSlab> freeslabList = new ArrayList<FreeSlab>();
-                        for (int i = 0; i < freeslabJSONArray.length(); i++) {
-                            freeslabList.add(FreeSlab.parseFreeSlab(freeslabJSONArray.getJSONObject(i)));
-                        }
-                        freeslabController.createOrUpdateFreeSlab(freeslabList);
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getFreeSlabResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getFreeSlabResult().size());
+                                FreeSlabController freeslabController = new FreeSlabController(getActivity());
+                                freeslabController.deleteAll();
+                                ArrayList<FreeSlab> freeslabList = new ArrayList<FreeSlab>();
+                                for (int i = 0; i < response.body().getFreeSlabResult().size(); i++) {
+                                    freeslabList.add(response.body().getFreeSlabResult().get(i));
+                                }
+
+                                freeslabController.createOrUpdateFreeSlab(freeslabList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
+                        errors.add(e.toString());
                         throw e;
                     }
                     /*****************end freeSlab**********************************************************************/
                     /*****************freeMslab**********************************************************************/
-                    String freeMslab = "";
-                    try {
-                        freeMslab = networkFunctions.getFreeMslab();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1799,35 +1807,38 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    FreeMslabController freeMslabController = new FreeMslabController(getActivity());
-                    freeMslabController.deleteAll();
+
                     // Processing freeMslab
                     try {
-                        JSONObject freeMslabJSON = new JSONObject(freeMslab);
-                        JSONArray taxJSONArray = freeMslabJSON.getJSONArray("fFreeMslabResult");
-                        ArrayList<FreeMslab> freeMslabList = new ArrayList<FreeMslab>();
-                        for (int i = 0; i < taxJSONArray.length(); i++) {
-                            freeMslabList.add(FreeMslab.parseFreeMslab(taxJSONArray.getJSONObject(i)));
-                        }
-                        freeMslabController.createOrUpdateFreeMslab(freeMslabList);
-                    } catch (JSONException | NumberFormatException e) {
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getFreeMSlabResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getFreeMslabResult().size());
+                                FreeMslabController freeMslabController = new FreeMslabController(getActivity());
+                                freeMslabController.deleteAll();
+                                ArrayList<FreeMslab> freeMslabList = new ArrayList<FreeMslab>();
+                                for (int i = 0; i < response.body().getFreeMslabResult().size(); i++) {
+                                    freeMslabList.add(response.body().getFreeMslabResult().get(i));
+                                }
+                                freeMslabController.createOrUpdateFreeMslab(freeMslabList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
                     /*****************end freeMSlab**********************************************************************/
 
                     /*****************FreeHed**********************************************************************/
-                    String freehed = "";
-                    try {
-                        freehed = networkFunctions.getFreeHed(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1836,34 +1847,37 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    FreeHedController freeHedController = new FreeHedController(getActivity());
-                    freeHedController.deleteAll();
+
                     // Processing freehed
                     try {
-                        JSONObject freeHedJSON = new JSONObject(freehed);
-                        JSONArray freeHedJSONArray = freeHedJSON.getJSONArray("FfreehedResult");
-                        ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
-                        for (int i = 0; i < freeHedJSONArray.length(); i++) {
-                            freeHedList.add(FreeHed.parseFreeHed(freeHedJSONArray.getJSONObject(i)));
-                        }
-                        freeHedController.createOrUpdateFreeHed(freeHedList);
-                    } catch (JSONException | NumberFormatException e) {
+
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getFreehedResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getFreeHedResult().size());
+                                FreeHedController freeHedController = new FreeHedController(getActivity());
+                                freeHedController.deleteAll();
+                                ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
+                                for (int i = 0; i < response.body().getFreeHedResult().size(); i++) {
+                                    freeHedList.add(response.body().getFreeHedResult().get(i));
+                                }
+                                freeHedController.createOrUpdateFreeHed(freeHedList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
                     /*****************end freeHed**********************************************************************/
                     /*****************Freedet**********************************************************************/
-                    String freedet = "";
-                    try {
-                        freedet = networkFunctions.getFreeDet();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1872,34 +1886,38 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    FreeDetController freedetController = new FreeDetController(getActivity());
-                    freedetController.deleteAll();
+
                     // Processing freedet
                     try {
-                        JSONObject freedetJSON = new JSONObject(freedet);
-                        JSONArray freedetJSONArray = freedetJSON.getJSONArray("FfreedetResult");
-                        ArrayList<FreeDet> freedetList = new ArrayList<FreeDet>();
-                        for (int i = 0; i < freedetJSONArray.length(); i++) {
-                            freedetList.add(FreeDet.parseFreeDet(freedetJSONArray.getJSONObject(i)));
-                        }
-                        freedetController.createOrUpdateFreeDet(freedetList);
-                    } catch (JSONException | NumberFormatException e) {
+
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getFreeDetResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getFreeDetResult().size());
+                                FreeDetController freedetController = new FreeDetController(getActivity());
+                                freedetController.deleteAll();
+                                ArrayList<FreeDet> freedetList = new ArrayList<FreeDet>();
+                                for (int i = 0; i < response.body().getFreeDetResult().size(); i++) {
+                                    freedetList.add(response.body().getFreeDetResult().get(i));
+                                }
+                                freedetController.createOrUpdateFreeDet(freedetList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
                     /*****************end freedet**********************************************************************/
                     /*****************freedeb**********************************************************************/
-                    String freedeb = "";
-                    try {
-                        freedeb = networkFunctions.getFreeDebs();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1907,35 +1925,36 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Processing downloaded data (free)...");
                         }
                     });
-                    FreeDebController freedebController = new FreeDebController(getActivity());
-                    freedebController.deleteAll();
+
                     // Processing freedeb
                     try {
-                        JSONObject freedebJSON = new JSONObject(freedeb);
-                        JSONArray freedebJSONArray = freedebJSON.getJSONArray("FfreedebResult");
-                        ArrayList<FreeDeb> freedebList = new ArrayList<FreeDeb>();
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getFreedebResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getFreeDebResult().size());
+                                FreeDebController freedebController = new FreeDebController(getActivity());
+                                freedebController.deleteAll();
+                                ArrayList<FreeDeb> freedebList = new ArrayList<FreeDeb>();
+                                for (int i = 0; i < response.body().getFreeDebResult().size(); i++) {
+                                    freedebList.add(response.body().getFreeDebResult().get(i));
+                                }
+                                freedebController.createOrUpdateFreeDeb(freedebList);
+                            }
 
-                        for (int i = 0; i < freedebJSONArray.length(); i++) {
-                            freedebList.add(FreeDeb.parseFreeDeb(freedebJSONArray.getJSONObject(i)));
-                        }
-                        freedebController.createOrUpdateFreeDeb(freedebList);
-                    } catch (JSONException | NumberFormatException e) {
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
                         throw e;
                     }
                     /*****************end freedeb**********************************************************************/
                     /*****************freeItem**********************************************************************/
-                    String freeitem = "";
-                    try {
-                        freeitem = networkFunctions.getFreeItems();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1944,34 +1963,37 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    FreeItemController freeitemController = new FreeItemController(getActivity());
-                    freeitemController.deleteAll();
+
                     // Processing freeItem
                     try {
-                        JSONObject freeitemJSON = new JSONObject(freeitem);
-                        JSONArray freeitemJSONArray = freeitemJSON.getJSONArray("fFreeItemResult");
-                        ArrayList<FreeItem> freeitemList = new ArrayList<FreeItem>();
-                        for (int i = 0; i < freeitemJSONArray.length(); i++) {
-                            freeitemList.add(FreeItem.parseFreeItem(freeitemJSONArray.getJSONObject(i)));
-                        }
-                        freeitemController.createOrUpdateFreeItem(freeitemList);
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getFreeitemResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                System.out.println("test responce 01 " + response.body().getFreeItemResult().size());
+                                FreeItemController freeitemController = new FreeItemController(getActivity());
+                                freeitemController.deleteAll();
+                                ArrayList<FreeItem> freeitemList = new ArrayList<FreeItem>();
+                                for (int i = 0; i < response.body().getFreeItemResult().size(); i++) {
+                                    freeitemList.add(response.body().getFreeItemResult().get(i));
+                                }
+                                freeitemController.createOrUpdateFreeItem(freeitemList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
+                        errors.add(e.toString());
                         throw e;
                     }
                     /*****************end freeItem**********************************************************************/
                     /*****************discdeb**********************************************************************/
-                    String debdisc = "";
-                    try {
-                        debdisc = networkFunctions.getDiscDeb(repcode);
-                    } catch (IOException e) {
-                        errors.add(e.toString());
-                        e.printStackTrace();
-                        throw e;
-                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1980,34 +2002,37 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    DiscdebController discdebController = new DiscdebController(getActivity());
-                    discdebController.deleteAll();
                     // Processing discdeb
                     try {
-                        JSONObject discdebPriJSON = new JSONObject(debdisc);
-                        JSONArray discdebJSONArray = discdebPriJSON.getJSONArray("FdiscdebResult");
-                        ArrayList<Discdeb> discdebList = new ArrayList<Discdeb>();
-                        for (int i = 0; i < discdebJSONArray.length(); i++) {
-                            discdebList.add(Discdeb.parseDiscDeb(discdebJSONArray.getJSONObject(i)));
-                        }
-                        discdebController.createOrUpdateDiscdeb(discdebList);
-                    } catch (JSONException | NumberFormatException e) {
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getDiscDebResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                DiscdebController discdebController = new DiscdebController(getActivity());
+                                discdebController.deleteAll();
+                                System.out.println("test responce 01 " + response.body().getDiscDebResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Discdeb> discdebList = new ArrayList<Discdeb>();
+                                for (int i = 0; i < response.body().getDiscDebResult().size(); i++) {
+                                    discdebList.add(response.body().getDiscDebResult().get(i));
+                                }
+
+                                discdebController.createOrUpdateDiscdeb(discdebList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
                     /*****************end discdeb**********************************************************************/
                     /*****************discdet**********************************************************************/
-                    String discdet = "";
-                    try {
-                        discdet = networkFunctions.getDiscDet();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -2018,33 +2043,37 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing discdet
 
-                    DiscdetController discdetController = new DiscdetController(getActivity());
-                    discdetController.deleteAll();
                     try {
-                        JSONObject discdetJSON = new JSONObject(discdet);
-                        JSONArray discdetJSONArray = discdetJSON.getJSONArray("FdiscdetResult");
-                        ArrayList<Discdet> discdetList = new ArrayList<Discdet>();
-                        for (int i = 0; i < discdetJSONArray.length(); i++) {
-                            discdetList.add(Discdet.parseDiscDet(discdetJSONArray.getJSONObject(i)));
-                        }
-                        discdetController.createOrUpdateDiscdet(discdetList);
-                    } catch (JSONException | NumberFormatException e) {
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getDiscDetResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                DiscdetController discdetController = new DiscdetController(getActivity());
+                                discdetController.deleteAll();
+                                System.out.println("test responce 01 " + response.body().getDiscDetResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Discdet> discdetList = new ArrayList<Discdet>();
+                                for (int i = 0; i < response.body().getDiscDetResult().size(); i++) {
+                                    discdetList.add(response.body().getDiscDetResult().get(i));
+                                }
+
+                                discdetController.createOrUpdateDiscdet(discdetList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
                     /*****************end discdet**********************************************************************/
                     /*****************discshed**********************************************************************/
-                    String disched = "";
-                    try {
-                        disched = networkFunctions.getDiscHed(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -2053,34 +2082,37 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    DischedController dischedController = new DischedController(getActivity());
-                    dischedController.deleteAll();
                     // Processing disched
                     try {
-                        JSONObject dischedJSON = new JSONObject(disched);
-                        JSONArray dischedJSONArray = dischedJSON.getJSONArray("FDischedResult");
-                        ArrayList<Disched> dischedList = new ArrayList<Disched>();
-                        for (int i = 0; i < dischedJSONArray.length(); i++) {
-                            dischedList.add(Disched.parseDisched(dischedJSONArray.getJSONObject(i)));
-                        }
-                        dischedController.createOrUpdateDisched(dischedList);
-                    } catch (JSONException | NumberFormatException e) {
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getDiscHedResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                DischedController dischedController = new DischedController(getActivity());
+                                dischedController.deleteAll();
+                                System.out.println("test responce 01 " + response.body().getDiscHedResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Disched> dischedList = new ArrayList<Disched>();
+                                for (int i = 0; i < response.body().getDiscHedResult().size(); i++) {
+                                    dischedList.add(response.body().getDiscHedResult().get(i));
+                                }
+                                dischedController.createOrUpdateDisched(dischedList);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
                     /*****************end disched**********************************************************************/
                     /*****************discslab**********************************************************************/
-                    String discslab = "";
-                    try {
-                        discslab = networkFunctions.getDiscSlab();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -2089,22 +2121,31 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    DiscslabController discslabController = new DiscslabController(getActivity());
-                    discslabController.deleteAll();
                     // Processing discslab
                     try {
-                        JSONObject discslabJSON = new JSONObject(discslab);
-                        JSONArray discslabJSONArray = discslabJSON.getJSONArray("FdiscslabResult");
-                        ArrayList<Discslab> discslabList = new ArrayList<Discslab>();
-                        for (int i = 0; i < discslabJSONArray.length(); i++) {
-                            discslabList.add(Discslab.parseDiscslab(discslabJSONArray.getJSONObject(i)));
-                        }
-                        discslabController.createOrUpdateDiscslab(discslabList);
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getDiscSlabResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                DiscslabController discslabController = new DiscslabController(getActivity());
+                                discslabController.deleteAll();
+                                System.out.println("test responce 01 " + response.body().getDiscSlabResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<Discslab> discslabList = new ArrayList<Discslab>();
+                                for (int i = 0; i < response.body().getDiscSlabResult().size(); i++) {
+                                    discslabList.add(response.body().getDiscSlabResult().get(i));
+                                }
+                                discslabController.createOrUpdateDiscslab(discslabList);
+                            }
 
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
+                        errors.add(e.toString());
                         throw e;
                     }
                     /*****************end discslab**********************************************************************/
@@ -2115,14 +2156,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    String itenaryhed = "";
-                    try {
-                        itenaryhed = networkFunctions.getItenaryHed(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -2134,150 +2168,31 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     itenaryHedController.deleteAll();
                     // Processing itenaryhed
                     try {
-                        JSONObject itenaryHedJSON = new JSONObject(itenaryhed);
-                        JSONArray itenaryHedJSONArray = itenaryHedJSON.getJSONArray("fItenrHedResult");
-                        ArrayList<FItenrHed> itenaryHedList = new ArrayList<FItenrHed>();
-                        for (int i = 0; i < itenaryHedJSONArray.length(); i++) {
-                            itenaryHedList.add(FItenrHed.parseIteanaryHed(itenaryHedJSONArray.getJSONObject(i)));
-                        }
-                        itenaryHedController.createOrUpdateFItenrHed(itenaryHedList);
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getItenrHedResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                FItenrHedController itenaryHedController = new FItenrHedController(getActivity());
+                                System.out.println("test responce 01 " + response.body().getItenrHedResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<FItenrHed> itenaryHedList = new ArrayList<FItenrHed>();
+                                for (int i = 0; i < response.body().getItenrHedResult().size(); i++) {
+                                    itenaryHedList.add(response.body().getItenrHedResult().get(i));
+                                }
+                                itenaryHedController.createOrUpdateFItenrHed(itenaryHedList);
+                            }
 
-                        throw e;
-                    }
-
-
-                    /*****************invoice sale**********************************************************************/
-
-                    String tmInvSale = "";
-                    try {
-                        tmInvSale = networkFunctions.getTMInvoiceSale(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
                     }
 
-                    try {
-                        SharedPref.getInstance(getActivity()).setTMInvSale("0");
-
-                        JSONObject invoiceSaleJSON = new JSONObject(tmInvSale);
-                        String tminvoiceSale = invoiceSaleJSON.getString("invoiceSaleResult");
-                        SharedPref.getInstance(getActivity()).setTMInvSale(tminvoiceSale);
-                        /////////////////MMS2019-11-14////////////////
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-                        throw e;
-                    }
-
-                    String pmInvSale = "";
-                    try {
-                        pmInvSale = networkFunctions.getPMInvoiceSale(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
-
-                    try {
-                        SharedPref.getInstance(getActivity()).setPMInvSale("0");
-
-                        JSONObject invoiceSaleJSON = new JSONObject(pmInvSale);
-                        String pminvoiceSale = invoiceSaleJSON.getString("invoiceSaleResult");
-                        SharedPref.getInstance(getActivity()).setPMInvSale(pminvoiceSale);
-                        /////////////////MMS2019-11-14////////////////
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-                        throw e;
-
-                    }
-                    /*****************order sale**********************************************************************/
-
-                    String tmOrdSale = "";
-                    try {
-                        tmOrdSale = networkFunctions.getTMOrderSale(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
-
-                    try {
-                        SharedPref.getInstance(getActivity()).setTMOrdSale("0");
-
-                        JSONObject orderSaleJSON = new JSONObject(tmOrdSale);
-                        String tmorderSale = orderSaleJSON.getString("orderSaleTillTodayResult");
-                        SharedPref.getInstance(getActivity()).setTMOrdSale(tmorderSale);
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-                        throw e;
-                    }
-
-                    String pmOrdSale = "";
-                    try {
-                        pmOrdSale = networkFunctions.getPMOrderSale(repcode);
-                    } catch (IOException e) {
-                        errors.add(e.toString());
-                        e.printStackTrace();
-                        throw e;
-                    }
-
-                    try {
-                        SharedPref.getInstance(getActivity()).setPMOrdSale("0");
-
-                        JSONObject orderSaleJSON = new JSONObject(pmOrdSale);
-                        String pmorderSale = orderSaleJSON.getString("orderSaleResult");
-                        SharedPref.getInstance(getActivity()).setPMOrdSale(pmorderSale);
-                        /////////////////MMS2019-11-14////////////////
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-                        throw e;
-                    }
-
-                    /*****************returns**********************************************************************/
-
-                    String tmReturns = "";
-                    try {
-                        tmReturns = networkFunctions.getTMReturns(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-
-                    try {
-                        SharedPref.getInstance(getActivity()).setTMReturn("0");
-
-                        JSONObject orderSaleJSON = new JSONObject(tmReturns);
-                        String tmreturnSale = orderSaleJSON.getString("getReturnsResult");
-                        SharedPref.getInstance(getActivity()).setTMReturn(tmreturnSale);
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-                        throw e;
-                    }
-
-                    String pmReturn = "";
-                    try {
-                        pmReturn = networkFunctions.getPMReturns(repcode);
-                    } catch (IOException e) {
-                        errors.add(e.toString());
-                        e.printStackTrace();
-                        throw e;
-                    }
-
-                    try {
-                        SharedPref.getInstance(getActivity()).setPMReturn("0");
-
-                        JSONObject orderSaleJSON = new JSONObject(pmReturn);
-                        String pmreturn = orderSaleJSON.getString("getReturnsResult");
-                        SharedPref.getInstance(getActivity()).setPMReturn(pmreturn);
-                        /////////////////MMS2019-11-14////////////////
-                    } catch (JSONException | NumberFormatException e) {
-                        errors.add(e.toString());
-                        throw e;
-                    }
                     /*****************itenary det**********************************************************************/
 
                     getActivity().runOnUiThread(new Runnable() {
@@ -2287,14 +2202,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    String itenarydet = "";
-                    try {
-                        itenarydet = networkFunctions.getItenaryDet(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -2305,27 +2213,29 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing itenarydet
                     try {
-                        FItenrDetController itenaryDetController = new FItenrDetController(getActivity());
-                        itenaryDetController.deleteAll();
-                        JSONObject itenaryDetJSON = new JSONObject(itenarydet);
-                        JSONArray itenaryDetJSONArray = itenaryDetJSON.getJSONArray("fItenrDetResult");
-                        //Log.d("ITEANERY det arraycount", ">>>>>>>>>>>>>>>>>>>>>>" + itenaryDetJSONArray.length());
-                        ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
+                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                        Call<ReadJsonList> resultCall = apiInterface.getItenrDetResult(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                FItenrDetController itenaryDetController = new FItenrDetController(getActivity());
+                                itenaryDetController.deleteAll();
+                                System.out.println("test responce 01 " + response.body().getItenrDetResult().size());
+                                //  System.out.println(response.body().getInvDetResult().get(1));
+                                ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
+                                for (int i = 0; i < response.body().getItenrDetResult().size(); i++) {
+                                    itenaryDetList.add(response.body().getItenrDetResult().get(i));
+                                }
+                                itenaryDetController.createOrUpdateFItenrDet(itenaryDetList);
+                            }
 
-                        for (int i = 0; i < itenaryDetJSONArray.length(); i++) {
-                            itenaryDetList.add(FItenrDet.parseIteanaryDet(itenaryDetJSONArray.getJSONObject(i)));
-                        }
-                        // Log.d("ITEANERY det arraylist", ">>>>>>>>>>>>>>>>>>>>>>" + itenaryDetList.size());
-                        int count = itenaryDetController.createOrUpdateFItenrDet(itenaryDetList);
-                        // Log.d("ITEANERY det", ">>>>>>>>>>>>>>>>>>>>>>" + count);
-                        if (count > 0) {
-                            Log.d("ITEANERY det", ">>>>>>>>>>>>>>>>>>>>>>SUCCESS");
-                        }
-
-                    } catch (JSONException | NumberFormatException e) {
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
 
                         throw e;
                     }
@@ -2350,16 +2260,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                        e, null, BugReport.SEVERITY_LOW);
 
                 return false;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                errors.add(e.toString());
-                // errors.add("Received an invalid response from the server.");
-
-//                ErrorUtil.logException(LoginActivity.this, "LoginActivity -> Authenticate -> doInBackground # Login",
-//                        e, loginResponse, BugReport.SEVERITY_HIGH);
-
-                return false;
-            } catch (NumberFormatException e) {
+            }  catch (NumberFormatException e) {
                 errors.add(e.toString());
                 e.printStackTrace();
                 return false;
