@@ -12,6 +12,9 @@ import retrofit2.http.Path;
 
 public interface ApiInterface {
 
+    @GET("GetdatabaseNames/mobile123")//01
+    Call<ReadJsonList> getDatabaseResult();
+
     @GET("fSalRep/mobile123/{dbname}/{macid}")//01
     Call<ReadJsonList> getSalRepResult(@Path("dbname") String dbname,@Path("macid") String macid);
 
@@ -99,11 +102,11 @@ public interface ApiInterface {
     @GET("froutedet/mobile123/{dbname}/{repcode}")//29
     Call<ReadJsonList> getRouteDetResult(@Path("dbname") String dbname,@Path("repcode") String repcode);
 
-    @GET("FItenrHed/mobile123/{dbname}/{repcode}")//30
-    Call<ReadJsonList> getItenrHedResult(@Path("dbname") String dbname,@Path("repcode") String repcode);
+    @GET("FItenrHed/mobile123/{dbname}/{repcode}/{year}/{month}")//30
+    Call<ReadJsonList> getItenrHedResult(@Path("dbname") String dbname,@Path("repcode") String repcode,@Path("year") String year,@Path("month") String month);
 
-    @GET("FItenrDet/mobile123/{dbname}/{repcode}")//31
-    Call<ReadJsonList> getItenrDetResult(@Path("dbname") String dbname,@Path("repcode") String repcode);
+    @GET("FItenrDet/mobile123/{dbname}/{repcode}/{year}/{month}")//31
+    Call<ReadJsonList> getItenrDetResult(@Path("dbname") String dbname,@Path("repcode") String repcode,@Path("year") String year,@Path("month") String month);
 
     @GET("RepLastThreeInvDet/mobile123/{dbname}/{repcode}")//32
     Call<ReadJsonList> getLastThreeInvDetResult(@Path("dbname") String dbname,@Path("repcode") String repcode);

@@ -72,7 +72,7 @@ public class CustomerController {
                 stmt.bindString(15, debtor.getFDEBTOR_CRD_LIMIT());
                 stmt.bindString(16, debtor.getFDEBTOR_CHK_CRD_LIMIT());
                 stmt.bindString(17, debtor.getFDEBTOR_REPCODE());
-                stmt.bindString(18, debtor.getFDEBTOR_PRILLCODE());
+                stmt.bindString(18, "");
                 stmt.bindString(19, debtor.getFDEBTOR_TAX_REG());
                 stmt.bindString(20, debtor.getFDEBTOR_RANK_CODE());
                 stmt.bindString(21, debtor.getFDEBTOR_LATITUDE());

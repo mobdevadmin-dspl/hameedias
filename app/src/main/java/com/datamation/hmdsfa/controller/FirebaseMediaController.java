@@ -107,7 +107,13 @@ public class FirebaseMediaController {
                 urlList.add(fd);
             }
         } catch (Exception e) {
+
             e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
         }
         return urlList;
     }
@@ -117,13 +123,24 @@ public class FirebaseMediaController {
             open();
         else if (!dB.isOpen())
             open();
-
+        Cursor cursor = null;
+        int count = 0;
+        try {
         String selectQuery = "SELECT * FROM " + TABLE_FIREBASE_MEDIA + " WHERE " + MEDIA_TYPE + " = '" + type + "' AND "+MEDIA_FLAG+" = '"+0+"'";
 //        String selectQuery = "SELECT * FROM " + TABLE_FIREBASE_MEDIA + " WHERE " + MEDIA_TYPE + " = '" + fd.getMEDIA_TYPE() + "' AND " + MEDIA_URL + " = '" + fd.getMEDIA_URL() + "' AND "+MEDIA_FLAG+" = '"+0+"'";
 
-        Cursor cursor = dB.rawQuery(selectQuery, null);
+        cursor = dB.rawQuery(selectQuery, null);
 
-        int count = cursor.getCount();
+        count = cursor.getCount();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
         return count;
     }
 
@@ -133,11 +150,19 @@ public class FirebaseMediaController {
         else if (!dB.isOpen())
             open();
         int count = 0;
+        try {
 
-        for(FirebaseData fd : list) {
-            String selectQuery = "SELECT * FROM " + TABLE_FIREBASE_MEDIA + " WHERE " + MEDIA_TYPE + " = '" + fd.getMEDIA_TYPE() + "' AND " + MEDIA_URL + " = '" + fd.getMEDIA_URL() + "'";
-            Cursor cursor = dB.rawQuery(selectQuery, null);
-            count = cursor.getCount();
+            for (FirebaseData fd : list) {
+                String selectQuery = "SELECT * FROM " + TABLE_FIREBASE_MEDIA + " WHERE " + MEDIA_TYPE + " = '" + fd.getMEDIA_TYPE() + "' AND " + MEDIA_URL + " = '" + fd.getMEDIA_URL() + "'";
+                Cursor cursor = dB.rawQuery(selectQuery, null);
+                count = cursor.getCount();
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+
+            dB.close();
         }
         return count;
     }
@@ -147,7 +172,15 @@ public class FirebaseMediaController {
             open();
         else if (!dB.isOpen())
             open();
+        try {
 
-        dB.execSQL("delete from "+ TABLE_FIREBASE_MEDIA + " where "+MEDIA_TYPE+" = '"+type+"'");
+            dB.execSQL("delete from " + TABLE_FIREBASE_MEDIA + " where " + MEDIA_TYPE + " = '" + type + "'");
+        }  catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+
+        dB.close();
+    }
     }
 }

@@ -147,8 +147,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -327,7 +329,16 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                 //new DashboardController(getActivity()).subtractDay(new Date());
                 Log.d("Validate Secondary Sync", ">>Mac>> " + pref.getMacAddress().trim() + " >>URL>> " + pref.getBaseURL() + " >>DB>> " + pref.getDistDB());
-                new Validate(pref.getMacAddress().trim(), pref.getBaseURL(), pref.getDistDB()).execute();
+                try {
+                    if(NetworkUtil.isNetworkAvailable(getActivity())) {
+                        new Validate(pref.getMacAddress().trim(), pref.getBaseURL(), pref.getDistDB()).execute();
+                    }else{
+                        Toast.makeText(getActivity(),"No internet connection",Toast.LENGTH_LONG).show();
+                    }
+                }catch(Exception e){
+                   // Toast.makeText(getActivity(),""+e.toString(),Toast.LENGTH_LONG).show();
+                    Log.e(">>>> Secondary Sync",e.toString());
+                }
                 break;
 
             case R.id.imgUpload:
@@ -1063,8 +1074,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getControlResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<Control> controlList = new ArrayList<Control>();
                                 for (int i = 0; i < response.body().getControlResult().size(); i++) {
                                     controlList.add(response.body().getControlResult().get(i));
@@ -1077,7 +1086,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
 
@@ -1113,8 +1122,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getDebtorResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<Debtor> debtorList = new ArrayList<Debtor>();
                                 for (int i = 0; i < response.body().getDebtorResult().size(); i++) {
                                     debtorList.add(response.body().getDebtorResult().get(i));
@@ -1127,7 +1134,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1167,20 +1174,23 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getNearDebtorResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
-                                ArrayList<NearDebtor> nDebList = new ArrayList<NearDebtor>();
-                                for (int i = 0; i < response.body().getNearDebtorResult().size(); i++) {
-                                    nDebList.add(response.body().getNearDebtorResult().get(i));
+                                if(response.body() != null) {
+                                    ArrayList<NearDebtor> nDebList = new ArrayList<NearDebtor>();
+                                    for (int i = 0; i < response.body().getNearDebtorResult().size(); i++) {
+                                        nDebList.add(response.body().getNearDebtorResult().get(i));
+                                    }
+                                    NearCustomerController nCustomerController = new NearCustomerController(getActivity());
+                                    nCustomerController.InsertOrReplaceNearDebtor(nDebList);
+                                }else{
+                                    errors.add("NearDebtor response is null");
                                 }
-                                NearCustomerController nCustomerController = new NearCustomerController(getActivity());
-                                nCustomerController.InsertOrReplaceNearDebtor(nDebList);
 
                             }
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
+
                             }
                         });
                     } catch (Exception e) {
@@ -1214,8 +1224,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getCompanySettingResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<CompanySetting> settingList = new ArrayList<CompanySetting>();
                                 for (int i = 0; i < response.body().getCompanySettingResult().size(); i++) {
                                     settingList.add(response.body().getCompanySettingResult().get(i));
@@ -1227,7 +1235,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1258,8 +1266,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getCompanyBranchResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<CompanyBranch> settingList = new ArrayList<CompanyBranch>();
                                 for (int i = 0; i < response.body().getCompanyBranchResult().size(); i++) {
                                     settingList.add(response.body().getCompanyBranchResult().get(i));
@@ -1270,7 +1276,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1298,8 +1304,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getItemLocResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<ItemLoc> itemLocList = new ArrayList<ItemLoc>();
                                 for (int i = 0; i < response.body().getItemLocResult().size(); i++) {
                                     itemLocList.add(response.body().getItemLocResult().get(i));
@@ -1310,7 +1314,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1337,8 +1341,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getLocationsResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<Locations> locList = new ArrayList<Locations>();
                                 for (int i = 0; i < response.body().getLocationsResult().size(); i++) {
                                     locList.add(response.body().getLocationsResult().get(i));
@@ -1349,7 +1351,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1374,8 +1376,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getItemPriResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<ItemPri> itemPriceList = new ArrayList<ItemPri>();
                                 for (int i = 0; i < response.body().getItemPriResult().size(); i++) {
                                     itemPriceList.add(response.body().getItemPriResult().get(i));
@@ -1386,7 +1386,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1414,8 +1414,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getItemsResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<Item> itemList = new ArrayList<Item>();
                                 for (int i = 0; i < response.body().getItemsResult().size(); i++) {
                                     itemList.add(response.body().getItemsResult().get(i));
@@ -1426,7 +1424,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1453,8 +1451,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getReasonResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<Reason> reasonList = new ArrayList<Reason>();
                                 for (int i = 0; i < response.body().getReasonResult().size(); i++) {
                                     reasonList.add(response.body().getReasonResult().get(i));
@@ -1465,7 +1461,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1493,7 +1489,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getOutstandingResult().size());
                                 OutstandingController outstandingController = new OutstandingController(getActivity());
                                 outstandingController.deleteAll();
                                 ArrayList<FddbNote> fddbnoteList = new ArrayList<FddbNote>();
@@ -1505,7 +1500,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1532,8 +1527,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                                 BankController bankController = new BankController(getActivity());
-                                System.out.println("test responce 01 " + response.body().getBankResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<Bank> bankList = new ArrayList<Bank>();
                                 for (int i = 0; i < response.body().getBankResult().size(); i++) {
                                     bankList.add(response.body().getBankResult().get(i));
@@ -1544,7 +1537,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1570,8 +1563,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getExpenseResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<Expense> expensesList = new ArrayList<Expense>();
                                 for (int i = 0; i < response.body().getExpenseResult().size(); i++) {
                                     expensesList.add(response.body().getExpenseResult().get(i));
@@ -1582,7 +1573,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1610,8 +1601,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getRouteResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<Route> routeList = new ArrayList<Route>();
                                 for (int i = 0; i < response.body().getRouteResult().size(); i++) {
                                     routeList.add(response.body().getRouteResult().get(i));
@@ -1622,7 +1611,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1648,19 +1637,24 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getLastThreeInvHedResult().size());
                                 FInvhedL3Controller invoiceHedController = new FInvhedL3Controller(getActivity());
                                 invoiceHedController.deleteAll();
                                 ArrayList<FInvhedL3> invoiceHedList = new ArrayList<FInvhedL3>();
-                                for (int i = 0; i < response.body().getLastThreeInvHedResult().size(); i++) {
-                                    invoiceHedList.add(response.body().getLastThreeInvHedResult().get(i));
+                                if(response.body() != null) {
+
+                                    for (int i = 0; i < response.body().getLastThreeInvHedResult().size(); i++) {
+                                        invoiceHedList.add(response.body().getLastThreeInvHedResult().get(i));
+                                    }
+                                    invoiceHedController.createOrUpdateFinvHedL3(invoiceHedList);
+                                }else{
+                                    errors.add("LastThreeInvHed response is null");
                                 }
-                                invoiceHedController.createOrUpdateFinvHedL3(invoiceHedList);
+
                             }
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1687,19 +1681,23 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getLastThreeInvDetResult().size());
                                 FinvDetL3Controller invoiceDetController = new FinvDetL3Controller(getActivity());
                                 invoiceDetController.deleteAll();
                                 ArrayList<FinvDetL3> invoiceDetList = new ArrayList<FinvDetL3>();
-                                for (int i = 0; i < response.body().getLastThreeInvDetResult().size(); i++) {
-                                    invoiceDetList.add(response.body().getLastThreeInvDetResult().get(i));
+                                if(response.body() != null) {
+                                    for (int i = 0; i < response.body().getLastThreeInvDetResult().size(); i++) {
+                                        invoiceDetList.add(response.body().getLastThreeInvDetResult().get(i));
+                                    }
+                                    invoiceDetController.createOrUpdateFinvDetL3(invoiceDetList);
+                                }else{
+                                    errors.add("LastThreeInvDet response is null");
                                 }
-                                invoiceDetController.createOrUpdateFinvDetL3(invoiceDetList);
+
                             }
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1737,8 +1735,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getRouteDetResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<RouteDet> routeList = new ArrayList<RouteDet>();
                                 for (int i = 0; i < response.body().getRouteDetResult().size(); i++) {
                                     routeList.add(response.body().getRouteDetResult().get(i));
@@ -1749,7 +1745,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1786,8 +1782,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getTownResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
+
                                 ArrayList<Town> townList = new ArrayList<Town>();
                                 for (int i = 0; i < response.body().getTownResult().size(); i++) {
                                     townList.add(response.body().getTownResult().get(i));
@@ -1798,7 +1793,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1826,7 +1821,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getFreeSlabResult().size());
                                 FreeSlabController freeslabController = new FreeSlabController(getActivity());
                                 freeslabController.deleteAll();
                                 ArrayList<FreeSlab> freeslabList = new ArrayList<FreeSlab>();
@@ -1839,7 +1833,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1865,7 +1859,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getFreeMslabResult().size());
                                 FreeMslabController freeMslabController = new FreeMslabController(getActivity());
                                 freeMslabController.deleteAll();
                                 ArrayList<FreeMslab> freeMslabList = new ArrayList<FreeMslab>();
@@ -1877,7 +1870,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1906,7 +1899,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getFreeHedResult().size());
                                 FreeHedController freeHedController = new FreeHedController(getActivity());
                                 freeHedController.deleteAll();
                                 ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
@@ -1918,7 +1910,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1945,7 +1937,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getFreeDetResult().size());
                                 FreeDetController freedetController = new FreeDetController(getActivity());
                                 freedetController.deleteAll();
                                 ArrayList<FreeDet> freedetList = new ArrayList<FreeDet>();
@@ -1957,7 +1948,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -1983,7 +1974,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getFreeDebResult().size());
                                 FreeDebController freedebController = new FreeDebController(getActivity());
                                 freedebController.deleteAll();
                                 ArrayList<FreeDeb> freedebList = new ArrayList<FreeDeb>();
@@ -1995,7 +1985,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -2022,7 +2012,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                System.out.println("test responce 01 " + response.body().getFreeItemResult().size());
                                 FreeItemController freeitemController = new FreeItemController(getActivity());
                                 freeitemController.deleteAll();
                                 ArrayList<FreeItem> freeitemList = new ArrayList<FreeItem>();
@@ -2034,7 +2023,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -2061,8 +2050,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                                 DiscdebController discdebController = new DiscdebController(getActivity());
                                 discdebController.deleteAll();
-                                System.out.println("test responce 01 " + response.body().getDiscDebResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<Discdeb> discdebList = new ArrayList<Discdeb>();
                                 for (int i = 0; i < response.body().getDiscDebResult().size(); i++) {
                                     discdebList.add(response.body().getDiscDebResult().get(i));
@@ -2073,7 +2060,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -2101,8 +2088,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                                 DiscdetController discdetController = new DiscdetController(getActivity());
                                 discdetController.deleteAll();
-                                System.out.println("test responce 01 " + response.body().getDiscDetResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<Discdet> discdetList = new ArrayList<Discdet>();
                                 for (int i = 0; i < response.body().getDiscDetResult().size(); i++) {
                                     discdetList.add(response.body().getDiscDetResult().get(i));
@@ -2113,7 +2098,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -2141,8 +2126,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                                 DischedController dischedController = new DischedController(getActivity());
                                 dischedController.deleteAll();
-                                System.out.println("test responce 01 " + response.body().getDiscHedResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<Disched> dischedList = new ArrayList<Disched>();
                                 for (int i = 0; i < response.body().getDiscHedResult().size(); i++) {
                                     dischedList.add(response.body().getDiscHedResult().get(i));
@@ -2152,7 +2135,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -2180,8 +2163,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                                 DiscslabController discslabController = new DiscslabController(getActivity());
                                 discslabController.deleteAll();
-                                System.out.println("test responce 01 " + response.body().getDiscSlabResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<Discslab> discslabList = new ArrayList<Discslab>();
                                 for (int i = 0; i < response.body().getDiscSlabResult().size(); i++) {
                                     discslabList.add(response.body().getDiscSlabResult().get(i));
@@ -2191,7 +2172,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -2219,13 +2200,15 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing itenaryhed
                     try {
                         ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
-                        Call<ReadJsonList> resultCall = apiInterface.getItenrHedResult(pref.getDistDB(),repcode);
+                        Calendar c = Calendar.getInstance();
+                        int cyear = c.get(Calendar.YEAR);
+                        int cmonth = c.get(Calendar.MONTH) + 1;
+                        DecimalFormat df_month = new DecimalFormat("00");
+                        Call<ReadJsonList> resultCall = apiInterface.getItenrHedResult(pref.getDistDB(),repcode,""+cyear,""+df_month.format((double) cmonth));
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                                 FItenrHedController itenaryHedController = new FItenrHedController(getActivity());
-                                System.out.println("test responce 01 " + response.body().getItenrHedResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<FItenrHed> itenaryHedList = new ArrayList<FItenrHed>();
                                 for (int i = 0; i < response.body().getItenrHedResult().size(); i++) {
                                     itenaryHedList.add(response.body().getItenrHedResult().get(i));
@@ -2235,7 +2218,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -2264,14 +2247,17 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing itenarydet
                     try {
                         ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
-                        Call<ReadJsonList> resultCall = apiInterface.getItenrDetResult(pref.getDistDB(),repcode);
+                        Calendar c = Calendar.getInstance();
+                        int cyear = c.get(Calendar.YEAR);
+                        int cmonth = c.get(Calendar.MONTH) + 1;
+                        DecimalFormat df_month = new DecimalFormat("00");
+                        Call<ReadJsonList> resultCall = apiInterface.getItenrDetResult(pref.getDistDB(),repcode,""+cyear,""+df_month.format((double) cmonth));
+
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                                 FItenrDetController itenaryDetController = new FItenrDetController(getActivity());
                                 itenaryDetController.deleteAll();
-                                System.out.println("test responce 01 " + response.body().getItenrDetResult().size());
-                                //  System.out.println(response.body().getInvDetResult().get(1));
                                 ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
                                 for (int i = 0; i < response.body().getItenrDetResult().size(); i++) {
                                     itenaryDetList.add(response.body().getItenrDetResult().get(i));
@@ -2281,7 +2267,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                t.printStackTrace();
+                                errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -2413,22 +2399,22 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     resultCall.enqueue(new Callback<ReadJsonList>() {
                         @Override
                         public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                            System.out.println("test responce 01 " + response.body().getSalRepResult().size());
-                            //  System.out.println(response.body().getInvDetResult().get(1));
                             ArrayList<SalRep> repList = new ArrayList<SalRep>();
                             for (int i = 0; i < response.body().getSalRepResult().size(); i++) {
                                 repList.add(response.body().getSalRepResult().get(i));
                             }
                             new SalRepController(getActivity()).createOrUpdateSalRep(repList);
-                            networkFunctions.setUser(repList.get(0));
-                            pref.storeLoginUser(repList.get(0));
-                            System.out.println("Rep List " + repList.toString());
+
+                            if(repList.size()>0){
+                                networkFunctions.setUser(repList.get(0));
+                                pref.storeLoginUser(repList.get(0));
+                            }
 
                         }
 
                         @Override
                         public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                            t.printStackTrace();
+                            Log.d(">>>Error in failure",t.toString());
                         }
                     });
 

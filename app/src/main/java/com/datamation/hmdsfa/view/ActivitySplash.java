@@ -404,26 +404,26 @@ public class ActivitySplash extends AppCompatActivity{
 
         @Override
         protected ArrayList<DbNames> doInBackground(Object... params) {
-            ArrayList<DbNames> DBArrayList = null;
+            final ArrayList<DbNames> DBArrayList = null;
             try {
-                URL json = new URL(params[0] + getResources().getString(R.string.connection_string) +"/GetdatabaseNames/mobile123");
-                URLConnection jc = json.openConnection();
 
-                BufferedReader readerfdblist = new BufferedReader(new InputStreamReader(jc.getInputStream()));
-                String line = readerfdblist.readLine();
-                JSONObject jsonResponse = new JSONObject(line);
-                JSONArray jsonArray = jsonResponse.getJSONArray("GetdatabaseNamesResult");
-                DBArrayList = new ArrayList<DbNames>();
-                DBArrayList.clear();
-                for (int i = 0; i < jsonArray.length(); i++)
-                {
-                    JSONObject object = (JSONObject) jsonArray.get(i);
-                    DbNames DB_list = new DbNames();
-                    DB_list.setDbName(object.getString("Name"));
-                    DBArrayList.add(DB_list);
-                }
+                ApiInterface apiInterface = ApiCllient.getClient(ActivitySplash.this).create(ApiInterface.class);
+                Call<ReadJsonList> resultCall = apiInterface.getDatabaseResult();
+                resultCall.enqueue(new Callback<ReadJsonList>() {
+                    @Override
+                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                        System.out.println("test responce 01 " + response.body().getDbResult().size());
+                        //  System.out.println(response.body().getInvDetResult().get(1));
+                        for (int i = 0; i < response.body().getDbResult().size(); i++) {
+                            DBArrayList.add(response.body().getDbResult().get(i));
+                        }
+                    }
 
-
+                    @Override
+                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }

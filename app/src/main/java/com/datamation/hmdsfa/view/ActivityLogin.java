@@ -90,8 +90,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -1157,7 +1159,12 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 // Processing itenarydet
                 try {
                     ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
-                    Call<ReadJsonList> resultCall = apiInterface.getItenrDetResult(pref.getDistDB(),repcode);
+                    Calendar c = Calendar.getInstance();
+                    int cyear = c.get(Calendar.YEAR);
+                    int cmonth = c.get(Calendar.MONTH) + 1;
+                    DecimalFormat df_month = new DecimalFormat("00");
+                    Call<ReadJsonList> resultCall = apiInterface.getItenrDetResult(pref.getDistDB(),repcode,""+cyear,""+df_month.format((double) cmonth));
+
                     resultCall.enqueue(new Callback<ReadJsonList>() {
                         @Override
                         public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
@@ -1201,7 +1208,12 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 // Processing itenaryhed
                 try {
                     ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
-                    Call<ReadJsonList> resultCall = apiInterface.getItenrHedResult(pref.getDistDB(),repcode);
+                    Calendar c = Calendar.getInstance();
+                    int cyear = c.get(Calendar.YEAR);
+                    int cmonth = c.get(Calendar.MONTH) + 1;
+                    DecimalFormat df_month = new DecimalFormat("00");
+                    Call<ReadJsonList> resultCall = apiInterface.getItenrHedResult(pref.getDistDB(),repcode,""+cyear,""+df_month.format((double) cmonth));
+
                     resultCall.enqueue(new Callback<ReadJsonList>() {
                         @Override
                         public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {

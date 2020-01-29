@@ -6,6 +6,7 @@ import com.datamation.hmdsfa.model.Bank;
 import com.datamation.hmdsfa.model.CompanyBranch;
 import com.datamation.hmdsfa.model.CompanySetting;
 import com.datamation.hmdsfa.model.Control;
+import com.datamation.hmdsfa.model.DbNames;
 import com.datamation.hmdsfa.model.Debtor;
 import com.datamation.hmdsfa.model.Discdeb;
 import com.datamation.hmdsfa.model.Discdet;
@@ -42,6 +43,8 @@ import java.util.List;
 
 public class ReadJsonList {
 
+    @SerializedName("GetdatabaseNamesResult")//01
+    private List<DbNames> dbResult = null;
     @SerializedName("fSalRepResult")//01
     private List<SalRep> salRepResult = null;
     @SerializedName("fControlResult")//02
@@ -110,6 +113,10 @@ public class ReadJsonList {
     private List<FddbNote> outstandingResult = null ;
     @SerializedName("FdebtorResult")//35
     private List<Debtor> debtorResult = null ;
+
+    public List<DbNames> getDbResult() {
+        return dbResult;
+    }
 
     public List<SalRep> getSalRepResult() {
         return salRepResult;
