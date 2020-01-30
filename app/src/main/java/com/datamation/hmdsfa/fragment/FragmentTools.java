@@ -113,7 +113,6 @@ import com.datamation.hmdsfa.model.FreeHed;
 import com.datamation.hmdsfa.model.FreeItem;
 import com.datamation.hmdsfa.model.FreeMslab;
 import com.datamation.hmdsfa.model.FreeSlab;
-import com.datamation.hmdsfa.model.InvDet;
 import com.datamation.hmdsfa.model.InvHed;
 import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemLoc;
@@ -142,11 +141,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -178,6 +172,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
     private long timeInMillis;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     ArrayList<FirebaseData> imgList, vdoList;
+    ApiInterface apiInterface;
 
     ArrayList<FirebaseData> imgUrlList;
     ArrayList<FirebaseData> vdoUrlList;
@@ -188,7 +183,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
     boolean isAnyActiveImages = false;
     boolean isAnyActiveVideos = false;
-
     boolean isImageFitToScreen;
 
     @Nullable
@@ -275,7 +269,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
                     try
                     {
                         int flag = ds.child("FLAG").getValue(Integer.class);
@@ -296,7 +289,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     {
                         Toast.makeText(getActivity(),"Video Media Problem....",Toast.LENGTH_SHORT).show();
                     }
-
                 }
             }
 
@@ -306,7 +298,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             }
         };
         chatSpaceRef.addListenerForSingleValueEvent(eventListener);
-//        return vdoList;
     }
 
     @Override
@@ -320,14 +311,11 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
             case R.id.imgStockInquiry:
                 imgStockInq.startAnimation(animScale);//
-                //mDevelopingMessage("Still under development", "Stock Inquiry");
                 new StockInquiryDialog(getActivity());
                 break;
 
             case R.id.imgSync:
                 imgSync.startAnimation(animScale);
-
-                //new DashboardController(getActivity()).subtractDay(new Date());
                 Log.d("Validate Secondary Sync", ">>Mac>> " + pref.getMacAddress().trim() + " >>URL>> " + pref.getBaseURL() + " >>DB>> " + pref.getDistDB());
                 try {
                     if(NetworkUtil.isNetworkAvailable(getActivity())) {
@@ -336,22 +324,18 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         Toast.makeText(getActivity(),"No internet connection",Toast.LENGTH_LONG).show();
                     }
                 }catch(Exception e){
-                   // Toast.makeText(getActivity(),""+e.toString(),Toast.LENGTH_LONG).show();
                     Log.e(">>>> Secondary Sync",e.toString());
                 }
                 break;
 
             case R.id.imgUpload:
                 imgUpload.startAnimation(animScale);
-                //removeActives();
                 syncDialog(getActivity());
-                // mUploadDialog();
                 break;
 
             case R.id.imgDownload:
                 imgStockDown.startAnimation(animScale);
                 UtilityContainer.mLoadFragment(new FragmentCategoryWiseDownload(), getActivity());
-                //UtilityContainer.mLoadFragment(new CompetitorDetailsFragment(), getActivity());
                 break;
 
             case R.id.imgPrinter:
@@ -371,7 +355,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
             case R.id.imgDayExp:
                 imgDayExp.startAnimation(animScale);
-//                UtilityContainer.mLoadFragment(new ExpenseDetail(), getActivity());
                 Intent intent = new Intent(getActivity(), DayExpenseActivity.class);
                 startActivity(intent);
                 break;
@@ -399,7 +382,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         imageDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         imageDialog.setCancelable(false);
         imageDialog.setCanceledOnTouchOutside(false);
-        //imageDialog.setContentView(R.layout.test_constraint);
         imageDialog.setContentView(R.layout.whatsapp_image_layout);
 
         LinearLayout parentLayout = (LinearLayout) imageDialog.findViewById(R.id.image_layout);
@@ -472,7 +454,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         videoDialog.setCanceledOnTouchOutside(false);
         //videoDialog.setContentView(R.layout.whatsapp_video_responsive_layout);
         videoDialog.setContentView(R.layout.whatsapp_video_layout);
-
         LinearLayout parentLayout = (LinearLayout) videoDialog.findViewById(R.id.video_layout);
 
         for (FirebaseData fd : vdoUrlList) {
@@ -481,12 +462,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(475, 250);
                 lp.setMargins(20, 20, 20, 20);
                 videoView.setLayoutParams(lp);
-
                 String pathName = "" + fd.getMEDIA_URL();
-
                 videoView.setUp(pathName, "SWADESHI");
                 videoView.ivThumb.setImageDrawable(getResources().getDrawable(R.drawable.video));
-
                 parentLayout.addView(videoView);
             } catch (Exception exception) {
                 exception.printStackTrace();
@@ -500,7 +478,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 if (vdoresult > 0) {
                     Toast.makeText(getActivity(), "Video flag updated", Toast.LENGTH_SHORT).show();
                 }
-
                 if (fmc.getAllMediaforCheckIfIsExist("VDO") > 0) {
                     imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video_notification));
                 } else {
@@ -509,10 +486,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 videoDialog.dismiss();
             }
         });
-
         videoDialog.show();
     }
-
 
     public void ViewRepProfile() {
         final Dialog repDialog = new Dialog(getActivity());
@@ -532,44 +507,32 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         final TextView dealCode = (TextView) repDialog.findViewById(R.id.dealclode);
         //  areaCode.setText(loggedUser.getRoute());
         final SalRep rep = new SalRepController(getActivity()).getSaleRepDet(new SalRepController(getActivity()).getCurrentRepCode());
-
         repname.setText(rep.getNAME());
         repcode.setText(rep.getRepCode());
         repPrefix.setText(rep.getPREFIX());
-        //  locCode.setText("0");
-
         repemail.setText(rep.getEMAIL());
         dealCode.setText(rep.getDEALCODE());
-
 
         //close
         repDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (repemail.length() > 0) {
                     if (isEmailValid(repemail.getText().toString())) {
                         ArrayList<SalRep> salRepslist = new ArrayList<>();
                         rep.setEMAIL(repemail.getText().toString().trim());
                         rep.setISSYNC("0");
                         salRepslist.add(rep);
-
                         new SalRepController(getActivity()).createOrUpdateSalRep(salRepslist);
-
                         repDialog.dismiss();
-
                     } else {
                         Toast.makeText(getActivity(), "Invalid email address, Please Try Again", Toast.LENGTH_SHORT).show();
-
                     }
                 } else {
                     repDialog.dismiss();
                 }
-
             }
         });
-
-
         repDialog.show();
     }
 
@@ -583,10 +546,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
 
         CharSequence inputStr = email;
-
         Pattern pattern = Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(inputStr);
-
         if (matcher.matches())
             return true;
         else
@@ -594,7 +555,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
     }
 
     private void syncDialog(final Context context) {
-
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                 .content("Are you sure, Do you want to Upload Data?")
                 .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
@@ -602,28 +562,20 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
                 .negativeText("No, Exit")
                 .callback(new MaterialDialog.ButtonCallback() {
-
                     @SuppressLint("LongLogTag")
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
-
-
                         boolean connectionStatus = NetworkUtil.isNetworkAvailable(context);
                         if (connectionStatus == true) {
-
                             try { // new customer upload 2019-10-17MMS
                                 ArrayList<SalRep> fblist = new ArrayList<>();
-
                                 SalRep salRep = new SalRep();
                                 salRep.setCONSOLE_DB(SharedPref.getInstance(context).getConsoleDB().trim());
                                 salRep.setDIST_DB(SharedPref.getInstance(context).getDistDB().trim());
                                 salRep.setRepCode(SharedPref.getInstance(context).getLoginUser().getRepCode());
                                 salRep.setFirebaseTokenID(SharedPref.getInstance(context).getFirebaseTokenKey());
-
                                 fblist.add(salRep);
-
-
                                 if (fblist.size() <= 0)
                                     Toast.makeText(getActivity(), "No firebase records to upload !", Toast.LENGTH_LONG).show();
                                 else {
@@ -634,38 +586,31 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             } catch (Exception e) {
                                 Log.v("Excp in sync attendance", e.toString());
                             }
-
-
                             try { // new customer upload 2019-10-17MMS
                                 AttendanceController attendanceController = new AttendanceController(getActivity());
                                 ArrayList<Attendance> attendList = attendanceController.getUnsyncedTourData();
                                 if (attendList.size() <= 0)
                                     Toast.makeText(getActivity(), "No Attendance Records to upload !", Toast.LENGTH_LONG).show();
                                 else {
-
                                     new UploadAttendance(getActivity(), FragmentTools.this, attendList).execute(attendList);
                                     Log.v(">>8>>", "Upload new Attendance execute finish");
                                 }
                             } catch (Exception e) {
                                 Log.v("Excp in sync attendance", e.toString());
                             }
-
                             try { // new customer upload 2019-10-17MMS
                                 NewCustomerController customerDS = new NewCustomerController(getActivity());
                                 ArrayList<NewCustomer> newCustomers = customerDS.getAllNewCustomersForSync();
                                 if (newCustomers.size() <= 0)
                                     Toast.makeText(getActivity(), "No Customer Records to upload !", Toast.LENGTH_LONG).show();
                                 else {
-
                                     new UploadNewCustomer(getActivity(), FragmentTools.this, newCustomers).execute(newCustomers);
                                     Log.v(">>8>>", "Upload new customer execute finish");
                                 }
                             } catch (Exception e) {
                                 Log.v("Exception in sync order", e.toString());
                             }
-
                             try {//upload email kaveesha, modification 2019-10-24MMS
-
                                 SalRepController salRepController = new SalRepController(getActivity());
                                 ArrayList<SalRep> saleRep = salRepController.getAllUnsyncSalrep(new SalRepController(context).getCurrentRepCode());
                                 /* If records available for upload then */
@@ -704,7 +649,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             } catch (Exception e) {
                                 Log.v("Exception business img", e.toString());
                             }
-
                             try {// debtor uploads 2019-10-21MMS
                                 CustomerController customerDS = new CustomerController(getActivity());
                                 ArrayList<Debtor> debtors = customerDS.getAllDebtorsToCordinatesUpdate();
@@ -717,54 +661,37 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             } catch (Exception e) {
                                 Log.v("Exception in sync De", e.toString());
                             }
-
                             try { // upload pre sale order
-
                                 OrderController orderHed = new OrderController(getActivity());
                                 ArrayList<Order> ordHedList = orderHed.getAllUnSyncOrdHed();
 //                    /* If records available for upload then */
                                 if (ordHedList.size() <= 0)
                                     Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
                                 else {
-
                                     new UploadPreSales(getActivity(), FragmentTools.this).execute(ordHedList);
-
-
                                     Log.v(">>8>>", "UploadPreSales execute finish");
                                     // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
-//
                                 }
-
                             } catch (Exception e) {
                                 Log.v("Exception in sync order", e.toString());
                             }
-
                             try {//Van sale upload - 2020-01-28-kaveesha
-
                                 InvHedController hedDS = new InvHedController(getActivity());
-
                                 ArrayList<InvHed> invHedList = hedDS.getAllUnsynced();
 //                    /* If records available for upload then */
                                 if (invHedList.size() <= 0)
                                     Toast.makeText(getActivity(), "No Van Sale Records to upload !", Toast.LENGTH_LONG).show();
                                 else{
-
                                     new UploadVanSales(getActivity(), FragmentTools.this).execute(invHedList);
-
                                     Log.v(">>8>>","UploadPreSales execute finish");
-                                    //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
-//
                                 }
-
                             }catch(Exception e){
                                 Log.v("Exception in sync order",e.toString());
                             }
-
                             try//Sales return upload -  2020-01-28-kaveesha
                             {
                                 SalesReturnController retHed = new SalesReturnController(getActivity());
                                 ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
-
                                 if(retHedList.size() <= 0)
                                 {
                                     Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
@@ -773,30 +700,23 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                                     new UploadSalesReturn(getActivity(),FragmentTools.this,"insertReturns").execute(retHedList);
                                     Log.v(">>8>>","Upload sales return execute finish");
                                 }
-
                             }
                             catch (Exception e)
                             {
                                 Log.v("Exception in sync return" , e.toString());
                             }
-
-
                             try { // upload Non productive 2019-10-23MMS
                                 DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
                                 ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();
                                 if (npHedList.size() <= 0)
                                     Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
                                 else {
-
                                     new UploadNonProd(getActivity(), FragmentTools.this).execute(npHedList);
                                     Log.v(">>8>>", "Upload non productive execute finish");//
                                 }
-
                             } catch (Exception e) {
                                 Log.v("Exception in sync order", e.toString());
                             }
-
-
                             try { // upload dAY eXPENSE
                                 DayExpHedController exHed = new DayExpHedController(getActivity());
                                 ArrayList<DayExpHed> exHedList = exHed.getUnSyncedData();
@@ -804,23 +724,15 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                                 if (exHedList.size() <= 0)
                                     Toast.makeText(getActivity(), "No Expense Records to upload !", Toast.LENGTH_LONG).show();
                                 else {
-
                                     new UploadExpenses(getActivity(), FragmentTools.this).execute(exHedList);
-
                                     Log.v(">>8>>", "Upload expense execute finish");
-                                    // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.ExpenseNumVal));
-//
                                 }
-
                             } catch (Exception e) {
                                 Log.v("Exception in sync order", e.toString());
                             }
-
                         } else
                             Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show();
-
                     }
-
                     @Override
                     public void onNegative(MaterialDialog dialog) {
                         super.onNegative(dialog);
@@ -833,13 +745,10 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
     }
 
     public void mDevelopingMessage(String message, String title) {
-
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setMessage(message);
         alertDialogBuilder.setTitle(title);
         alertDialogBuilder.setIcon(R.drawable.info);
-
-
         alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int id) {
@@ -849,11 +758,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
         alertD.getWindow().setLayout(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-
     }
 
     private void syncMasterDataDialog(final Context context) {
-
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                 .content("Are you sure, Do you want to Sync Master Data?")
                 .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
@@ -861,14 +768,11 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
                 .negativeText("No, Exit")
                 .callback(new MaterialDialog.ButtonCallback() {
-
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
-
                         boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
                         if (connectionStatus == true) {
-
                             if (isAllUploaded()) {
                                 dialog.dismiss();
                                 try {
@@ -883,9 +787,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         } else {
                             Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show();
                         }
-
                     }
-
                     @Override
                     public void onNegative(MaterialDialog dialog) {
                         super.onNegative(dialog);
@@ -949,8 +851,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     {
                         Toast.makeText(getActivity(),"Image Media Problem....",Toast.LENGTH_SHORT).show();
                     }
-
-
                 }
             }
 
@@ -960,7 +860,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             }
         };
         chatSpaceRef.addListenerForSingleValueEvent(eventListener);
-//        return imgList;
     }
 
     @Override
@@ -985,7 +884,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             this.repcode = repCode;
             this.pdialog = new CustomProgressDialog(getActivity());
         }
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -994,16 +892,11 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             pdialog.setMessage("Authenticating...");
             pdialog.show();
         }
-
         @Override
         protected Boolean doInBackground(String... arg0) {
-
-
-            int totalBytes = 0;
-
+            apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
             try {
                 if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1011,7 +904,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
                     Log.d("**$#*", "getImgDataFromFirebase: " + imgList);
-
                     if (imgList.size() > 0) {
                         int existImgRes = fmc.getAllIfIsExist(imgList);
                         if (existImgRes > 0) {
@@ -1022,33 +914,13 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     }
 /*****************controls**********************************************************************/
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Downloading company control data...");
-                        }
-                    });
-
-                    String controls = "";
-                    try {
-                        controls = networkFunctions.getCompanyDetails(repcode);
-                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-
-                        errors.add(e.toString());
-                        throw e;
-                    }
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Downloading firebase media data...");
+                            pdialog.setMessage("Processing firebase media data...");
                         }
                     });
                     Log.d("*newvdoList", "doInBackground: " + vdoList);
-
                     if (vdoList.size() > 0) {
                         int existVdoRes = fmc.getAllIfIsExist(vdoList);
                         if (existVdoRes > 0) {
@@ -1058,44 +930,37 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             fmc.createOrUpdateFirebaseData(vdoList, 0);
                         }
                     }
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Processing downloaded data (Company details)...");
                         }
                     });
-
                     // Processing controls
                     try {
-
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getControlResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                ArrayList<Control> controlList = new ArrayList<Control>();
-                                for (int i = 0; i < response.body().getControlResult().size(); i++) {
-                                    controlList.add(response.body().getControlResult().get(i));
+                                if(response.body() != null) {
+                                    ArrayList<Control> controlList = new ArrayList<Control>();
+                                    for (int i = 0; i < response.body().getControlResult().size(); i++) {
+                                        controlList.add(response.body().getControlResult().get(i));
+                                    }
+                                    CompanyDetailsController companyController = new CompanyDetailsController(getActivity());
+
+                                    companyController.createOrUpdateFControl(controlList);
+                                }else{
+                                    errors.add("Control response is null");
                                 }
-                                CompanyDetailsController companyController = new CompanyDetailsController(getActivity());
-
-                                companyController.createOrUpdateFControl(controlList);
-
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
                             }
                         });
-
                     } catch (Exception e) {
-
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
                         throw e;
                     }
 /*****************outlets**********************************************************************/
@@ -1105,42 +970,30 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Downloading Customers...");
                         }
                     });
-
-
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (customer details)...");
-                        }
-                    });
-
                     // Processing outlets
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getDebtorResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                ArrayList<Debtor> debtorList = new ArrayList<Debtor>();
-                                for (int i = 0; i < response.body().getDebtorResult().size(); i++) {
-                                    debtorList.add(response.body().getDebtorResult().get(i));
+                                if(response.body() != null) {
+                                    ArrayList<Debtor> debtorList = new ArrayList<Debtor>();
+                                    for (int i = 0; i < response.body().getDebtorResult().size(); i++) {
+                                        debtorList.add(response.body().getDebtorResult().get(i));
+                                    }
+                                    CustomerController customerController = new CustomerController(getActivity());
+                                    customerController.InsertOrReplaceDebtor(debtorList);
+                                }else{
+                                    errors.add("Control response is null");
                                 }
-                                CustomerController customerController = new CustomerController(getActivity());
-
-                                customerController.InsertOrReplaceDebtor(debtorList);
-
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
                             }
                         });
                     } catch (Exception e) {
-
                         errors.add(e.toString());
-
                         throw e;
                     }
                     getActivity().runOnUiThread(new Runnable() {
@@ -1150,26 +1003,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
                     /*****************end Customers**********************************************************************/
-
                     // ----------------Near Customer-------------------- Nuwan ------------- 17/10/2019--------------------------
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Downloading Near Customers...");
-                        }
-                    });
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (near customer details)...");
-                        }
-                    });
-
                     // Processing outlets
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getNearDebtorResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
@@ -1184,13 +1020,10 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                                 }else{
                                     errors.add("NearDebtor response is null");
                                 }
-
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
-
                             }
                         });
                     } catch (Exception e) {
@@ -1203,34 +1036,27 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Near Customers downloaded\nDownloading Company Settings...");
                         }
                     });
-
                     // --------------------------------------------------------------------------------------------------
                     /*****************Settings*****************************************************************************/
-
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (setting details)...");
-                        }
-                    });
-
                     // Processing company settings
                     ReferenceSettingController settingController = new ReferenceSettingController(getActivity());
                     settingController.deleteAll();
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getCompanySettingResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                ArrayList<CompanySetting> settingList = new ArrayList<CompanySetting>();
-                                for (int i = 0; i < response.body().getCompanySettingResult().size(); i++) {
-                                    settingList.add(response.body().getCompanySettingResult().get(i));
-                                }
-                                ReferenceSettingController settingController = new ReferenceSettingController(getActivity());
-                                settingController.createOrUpdateFCompanySetting(settingList);
 
+                                if(response.body() != null) {
+                                    ArrayList<CompanySetting> settingList = new ArrayList<CompanySetting>();
+                                    for (int i = 0; i < response.body().getCompanySettingResult().size(); i++) {
+                                        settingList.add(response.body().getCompanySettingResult().get(i));
+                                    }
+                                    ReferenceSettingController settingController = new ReferenceSettingController(getActivity());
+                                    settingController.createOrUpdateFCompanySetting(settingList);
+                                }else {
+                                    errors.add("CompanySetting response is null");
+                                }
                             }
 
                             @Override
@@ -1240,40 +1066,35 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         });
                     } catch (Exception e) {
                         errors.add(e.toString());
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
                         throw e;
                     }
-
                     /*****************end Settings**********************************************************************/
 /*****************Branches*****************************************************************************/
-
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Processing downloaded data (setting details)...");
                         }
                     });
-
                     // Processing Branches
                     ReferenceDetailDownloader branchController = new ReferenceDetailDownloader(getActivity());
                     branchController.deleteAll();
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getCompanyBranchResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                ArrayList<CompanyBranch> settingList = new ArrayList<CompanyBranch>();
-                                for (int i = 0; i < response.body().getCompanyBranchResult().size(); i++) {
-                                    settingList.add(response.body().getCompanyBranchResult().get(i));
+                                if(response.body() != null) {
+                                    ArrayList<CompanyBranch> settingList = new ArrayList<CompanyBranch>();
+                                    for (int i = 0; i < response.body().getCompanyBranchResult().size(); i++) {
+                                        settingList.add(response.body().getCompanyBranchResult().get(i));
+                                    }
+                                    ReferenceDetailDownloader settingController = new ReferenceDetailDownloader(getActivity());
+                                    settingController.createOrUpdateFCompanyBranch(settingList);
+                                }else{
+                                    errors.add("CompanyBranch response is null");
                                 }
-                                ReferenceDetailDownloader settingController = new ReferenceDetailDownloader(getActivity());
-                                settingController.createOrUpdateFCompanyBranch(settingList);
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1283,11 +1104,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                         throw e;
                     }
-
                     /*****************end Branches**********************************************************************/
                     /*****************Item Loc*****************************************************************************/
-
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1295,23 +1113,23 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    ItemLocController itemlocController = new ItemLocController(getActivity());
-                    itemlocController.deleteAllItemLoc();
                     // Processing itemLocations
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getItemLocResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                ArrayList<ItemLoc> itemLocList = new ArrayList<ItemLoc>();
-                                for (int i = 0; i < response.body().getItemLocResult().size(); i++) {
-                                    itemLocList.add(response.body().getItemLocResult().get(i));
+                                if(response.body() != null) {
+                                    ArrayList<ItemLoc> itemLocList = new ArrayList<ItemLoc>();
+                                    for (int i = 0; i < response.body().getItemLocResult().size(); i++) {
+                                        itemLocList.add(response.body().getItemLocResult().get(i));
+                                    }
+                                    ItemLocController locController = new ItemLocController(getActivity());
+                                    locController.InsertOrReplaceItemLoc(itemLocList);
+                                }else{
+                                    errors.add("ItemLocation response is null");
                                 }
-                                ItemLocController locController = new ItemLocController(getActivity());
-                                locController.InsertOrReplaceItemLoc(itemLocList);
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1322,10 +1140,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                         throw e;
                     }
-
                     /*****************end Item Loc**********************************************************************/
                     /*****************Locations*****************************************************************************/
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1336,19 +1152,21 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     locController.deleteAll();
                     // Processing itemLocations
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getLocationsResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                ArrayList<Locations> locList = new ArrayList<Locations>();
-                                for (int i = 0; i < response.body().getLocationsResult().size(); i++) {
-                                    locList.add(response.body().getLocationsResult().get(i));
+                                if(response.body() != null) {
+                                    ArrayList<Locations> locList = new ArrayList<Locations>();
+                                    for (int i = 0; i < response.body().getLocationsResult().size(); i++) {
+                                        locList.add(response.body().getLocationsResult().get(i));
+                                    }
+                                    LocationsController locController = new LocationsController(getActivity());
+                                    locController.createOrUpdateFLocations(locList);
+                                }else{
+                                    errors.add("Locations response is null");
                                 }
-                                LocationsController locController = new LocationsController(getActivity());
-                                locController.createOrUpdateFLocations(locList);
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1360,7 +1178,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         throw e;
                     }
                     /*****************itemPrices*****************************************************************************/
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1371,19 +1188,22 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     priceController.deleteAllItemPri();
                     // Processing itemPrices
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getItemPriResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                ArrayList<ItemPri> itemPriceList = new ArrayList<ItemPri>();
-                                for (int i = 0; i < response.body().getItemPriResult().size(); i++) {
-                                    itemPriceList.add(response.body().getItemPriResult().get(i));
-                                }
-                                ItemPriceController priceController = new ItemPriceController(getActivity());
-                                priceController.InsertOrReplaceItemPri(itemPriceList);
-                            }
 
+                                if(response.body() != null) {
+                                    ArrayList<ItemPri> itemPriceList = new ArrayList<ItemPri>();
+                                    for (int i = 0; i < response.body().getItemPriResult().size(); i++) {
+                                        itemPriceList.add(response.body().getItemPriResult().get(i));
+                                    }
+                                    ItemPriceController priceController = new ItemPriceController(getActivity());
+                                    priceController.InsertOrReplaceItemPri(itemPriceList);
+                                }else{
+                                    errors.add("ItemPrice response is null");
+                                }
+                            }
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1391,37 +1211,35 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         });
                     } catch (Exception e) {
                         errors.add(e.toString());
-
                         throw e;
                     }
                     /*****************end item prices**********************************************************************/
                     /*****************Items*****************************************************************************/
-
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Processing downloaded data (item details)...");
                         }
                     });
-
                     ItemController itemController = new ItemController(getActivity());
                     itemController.deleteAll();
                     // Processing Items
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getItemsResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                ArrayList<Item> itemList = new ArrayList<Item>();
-                                for (int i = 0; i < response.body().getItemsResult().size(); i++) {
-                                    itemList.add(response.body().getItemsResult().get(i));
+                                if(response.body() != null) {
+                                    ArrayList<Item> itemList = new ArrayList<Item>();
+                                    for (int i = 0; i < response.body().getItemsResult().size(); i++) {
+                                        itemList.add(response.body().getItemsResult().get(i));
+                                    }
+                                    ItemController itemController = new ItemController(getActivity());
+                                    itemController.InsertOrReplaceItems(itemList);
+                                }else{
+                                    errors.add("Item response is null");
                                 }
-                                ItemController itemController = new ItemController(getActivity());
-                                itemController.InsertOrReplaceItems(itemList);
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1433,32 +1251,29 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     }
                     /*****************end Items **********************************************************************/
                     //                    /*****************reasons**********************************************************************/
-//
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Items downloaded\nDownloading reasons...");
                         }
                     });
-
-
-                    ReasonController reasonController = new ReasonController(getActivity());
-                    reasonController.deleteAll();
                     // Processing reasons
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getReasonResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                ArrayList<Reason> reasonList = new ArrayList<Reason>();
-                                for (int i = 0; i < response.body().getReasonResult().size(); i++) {
-                                    reasonList.add(response.body().getReasonResult().get(i));
+                                if(response.body() != null) {
+                                    ArrayList<Reason> reasonList = new ArrayList<Reason>();
+                                    for (int i = 0; i < response.body().getReasonResult().size(); i++) {
+                                        reasonList.add(response.body().getReasonResult().get(i));
+                                    }
+                                    ReasonController reasonController = new ReasonController(getActivity());
+                                    reasonController.createOrUpdateReason(reasonList);
+                                }else{
+                                    errors.add("Reason response is null");
                                 }
-                                ReasonController reasonController = new ReasonController(getActivity());
-                                reasonController.createOrUpdateReason(reasonList);
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1476,28 +1291,24 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Reason downloaded\nDownloading outstanding details...");
                         }
                     });
-
-
                     // Processing fddbnote
-
-
                     try {
-
-
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getOutstandingResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                OutstandingController outstandingController = new OutstandingController(getActivity());
-                                outstandingController.deleteAll();
-                                ArrayList<FddbNote> fddbnoteList = new ArrayList<FddbNote>();
-                                for (int i = 0; i < response.body().getOutstandingResult().size(); i++) {
-                                    fddbnoteList.add(response.body().getOutstandingResult().get(i));
+                                if(response.body() != null) {
+                                    OutstandingController outstandingController = new OutstandingController(getActivity());
+                                    outstandingController.deleteAll();
+                                    ArrayList<FddbNote> fddbnoteList = new ArrayList<FddbNote>();
+                                    for (int i = 0; i < response.body().getOutstandingResult().size(); i++) {
+                                        fddbnoteList.add(response.body().getOutstandingResult().get(i));
+                                    }
+                                    outstandingController.createOrUpdateFDDbNote(fddbnoteList);
+                                }else{
+                                    errors.add("Outstanding response is null");
                                 }
-                                outstandingController.createOrUpdateFDDbNote(fddbnoteList);
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1513,28 +1324,26 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("outstanding downloaded\nDownloading banks...");
                         }
                     });
-//
-//
 //                    /*****************expenses**********************************************************************/
 
-                    BankController bankController = new BankController(getActivity());
-                    bankController.deleteAll();
                     // Processing route
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+                       // ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getBankResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                BankController bankController = new BankController(getActivity());
-                                ArrayList<Bank> bankList = new ArrayList<Bank>();
-                                for (int i = 0; i < response.body().getBankResult().size(); i++) {
-                                    bankList.add(response.body().getBankResult().get(i));
+                                if(response.body() != null) {
+                                    BankController bankController = new BankController(getActivity());
+                                    ArrayList<Bank> bankList = new ArrayList<Bank>();
+                                    for (int i = 0; i < response.body().getBankResult().size(); i++) {
+                                        bankList.add(response.body().getBankResult().get(i));
+                                    }
+                                    bankController.createOrUpdateBank(bankList);
+                                }else{
+                                    errors.add("Bank response is null");
                                 }
-
-                                bankController.createOrUpdateBank(bankList);
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1546,31 +1355,29 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         throw e;
                     }
                     /*****************end banks**********************************************************************/
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Processing downloaded data (expenses)...");
                         }
                     });
-
-                    ExpenseController expenseController = new ExpenseController(getActivity());
-                    expenseController.deleteAll();
                     // Processing expense
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getExpenseResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                ArrayList<Expense> expensesList = new ArrayList<Expense>();
-                                for (int i = 0; i < response.body().getExpenseResult().size(); i++) {
-                                    expensesList.add(response.body().getExpenseResult().get(i));
+                                if(response.body() != null) {
+                                    ArrayList<Expense> expensesList = new ArrayList<Expense>();
+                                    for (int i = 0; i < response.body().getExpenseResult().size(); i++) {
+                                        expensesList.add(response.body().getExpenseResult().get(i));
+                                    }
+                                    ExpenseController expenseController = new ExpenseController(getActivity());
+                                    expenseController.createOrUpdateFExpense(expensesList);
+                                }else{
+                                    errors.add("Expense response is null");
                                 }
-                                ExpenseController expenseController = new ExpenseController(getActivity());
-                                expenseController.createOrUpdateFExpense(expensesList);
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1578,37 +1385,35 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         });
                     } catch (Exception e) {
                         errors.add(e.toString());
-
                         throw e;
                     }
                     /*****************end expenses**********************************************************************/
                     /*****************Route**********************************************************************/
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Expenses downloaded\nDownloading route details...");
                         }
                     });
-
                     // Processing route
-
                     RouteController routeController = new RouteController(getActivity());
                     routeController.deleteAll();
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getRouteResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                ArrayList<Route> routeList = new ArrayList<Route>();
-                                for (int i = 0; i < response.body().getRouteResult().size(); i++) {
-                                    routeList.add(response.body().getRouteResult().get(i));
+                                if(response.body() != null) {
+                                    ArrayList<Route> routeList = new ArrayList<Route>();
+                                    for (int i = 0; i < response.body().getRouteResult().size(); i++) {
+                                        routeList.add(response.body().getRouteResult().get(i));
+                                    }
+                                    RouteController routeController = new RouteController(getActivity());
+                                    routeController.createOrUpdateFRoute(routeList);
+                                }else{
+                                    errors.add("Bank response is null");
                                 }
-                                RouteController routeController = new RouteController(getActivity());
-                                routeController.createOrUpdateFRoute(routeList);
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1628,11 +1433,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Processing downloaded data (last invoices)...");
                         }
                     });
-
                     // Processing lastinvoiceheds
                     try {
-
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getLastThreeInvHedResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
@@ -1649,9 +1451,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                                 }else{
                                     errors.add("LastThreeInvHed response is null");
                                 }
-
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1659,24 +1459,18 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         });
                     } catch (Exception e) {
                         errors.add(e.toString());
-
                         throw e;
                     }
                     /*****************end lastinvoiceheds**********************************************************************/
                     /*****************last 3 invoice dets**********************************************************************/
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Processing downloaded data (invoices)...");
                         }
                     });
-
-
                     // Processing lastinvoiceheds
                     try {
-
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getLastThreeInvDetResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
@@ -1692,9 +1486,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                                 }else{
                                     errors.add("LastThreeInvDet response is null");
                                 }
-
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1705,44 +1497,33 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                         throw e;
                     }
-
                     /*****************end lastinvoicedets**********************************************************************/
-
                     /*****************Route det**********************************************************************/
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Last invoices downloaded\nDownloading route details...");
                         }
                     });
-
-
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (routes)...");
-                        }
-                    });
-
                     RouteDetController routeDetController = new RouteDetController(getActivity());
                     routeDetController.deleteAll();
                     // Processing route
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getRouteDetResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                ArrayList<RouteDet> routeList = new ArrayList<RouteDet>();
-                                for (int i = 0; i < response.body().getRouteDetResult().size(); i++) {
-                                    routeList.add(response.body().getRouteDetResult().get(i));
+                                if(response.body() != null) {
+                                    ArrayList<RouteDet> routeList = new ArrayList<RouteDet>();
+                                    for (int i = 0; i < response.body().getRouteDetResult().size(); i++) {
+                                        routeList.add(response.body().getRouteDetResult().get(i));
+                                    }
+                                    RouteDetController routeController = new RouteDetController(getActivity());
+                                    routeController.InsertOrReplaceRouteDet(routeList);
+                                }else{
+                                    errors.add("RouteDetail response is null");
                                 }
-                                RouteDetController routeController = new RouteDetController(getActivity());
-                                routeController.InsertOrReplaceRouteDet(routeList);
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1754,41 +1535,31 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         throw e;
                     }
                     /*****************end route det**********************************************************************/
-
                     /*****************towns**********************************************************************/
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Expenses downloaded\nDownloading town details...");
                         }
                     });
-
-
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (towns)...");
-                        }
-                    });
-
                     TownController townController = new TownController(getActivity());
                     townController.deleteAll();
                     // Processing towns
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getTownResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-
-                                ArrayList<Town> townList = new ArrayList<Town>();
-                                for (int i = 0; i < response.body().getTownResult().size(); i++) {
-                                    townList.add(response.body().getTownResult().get(i));
+                                if(response.body() != null) {
+                                    ArrayList<Town> townList = new ArrayList<Town>();
+                                    for (int i = 0; i < response.body().getTownResult().size(); i++) {
+                                        townList.add(response.body().getTownResult().get(i));
+                                    }
+                                    TownController townController = new TownController(getActivity());
+                                    townController.createOrUpdateFTown(townList);
+                                }else{
+                                    errors.add("Town response is null");
                                 }
-                                TownController townController = new TownController(getActivity());
-                                townController.createOrUpdateFTown(townList);
                             }
 
                             @Override
@@ -1801,36 +1572,31 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         throw e;
                     }
                     /*****************end towns**********************************************************************/
-
                     /*****************Freeslab**********************************************************************/
-
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Processing downloaded data (free)...");
                         }
                     });
-
-
                     // Processing freeslab
                     try {
-
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getFreeSlabResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                FreeSlabController freeslabController = new FreeSlabController(getActivity());
-                                freeslabController.deleteAll();
-                                ArrayList<FreeSlab> freeslabList = new ArrayList<FreeSlab>();
-                                for (int i = 0; i < response.body().getFreeSlabResult().size(); i++) {
-                                    freeslabList.add(response.body().getFreeSlabResult().get(i));
+                                if(response.body() != null) {
+                                    FreeSlabController freeslabController = new FreeSlabController(getActivity());
+                                    freeslabController.deleteAll();
+                                    ArrayList<FreeSlab> freeslabList = new ArrayList<FreeSlab>();
+                                    for (int i = 0; i < response.body().getFreeSlabResult().size(); i++) {
+                                        freeslabList.add(response.body().getFreeSlabResult().get(i));
+                                    }
+                                    freeslabController.createOrUpdateFreeSlab(freeslabList);
+                                }else{
+                                    errors.add("FreeSlab response is null");
                                 }
-
-                                freeslabController.createOrUpdateFreeSlab(freeslabList);
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1842,30 +1608,29 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     }
                     /*****************end freeSlab**********************************************************************/
                     /*****************freeMslab**********************************************************************/
-
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Processing downloaded data (free)...");
                         }
                     });
-
-
                     // Processing freeMslab
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getFreeMSlabResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                FreeMslabController freeMslabController = new FreeMslabController(getActivity());
-                                freeMslabController.deleteAll();
-                                ArrayList<FreeMslab> freeMslabList = new ArrayList<FreeMslab>();
-                                for (int i = 0; i < response.body().getFreeMslabResult().size(); i++) {
-                                    freeMslabList.add(response.body().getFreeMslabResult().get(i));
+                                if(response.body() != null) {
+                                    FreeMslabController freeMslabController = new FreeMslabController(getActivity());
+                                    freeMslabController.deleteAll();
+                                    ArrayList<FreeMslab> freeMslabList = new ArrayList<FreeMslab>();
+                                    for (int i = 0; i < response.body().getFreeMslabResult().size(); i++) {
+                                        freeMslabList.add(response.body().getFreeMslabResult().get(i));
+                                    }
+                                    freeMslabController.createOrUpdateFreeMslab(freeMslabList);
+                                }else{
+                                    errors.add("FreeMslab response is null");
                                 }
-                                freeMslabController.createOrUpdateFreeMslab(freeMslabList);
                             }
 
                             @Override
@@ -1879,35 +1644,31 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         throw e;
                     }
                     /*****************end freeMSlab**********************************************************************/
-
                     /*****************FreeHed**********************************************************************/
-
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Processing downloaded data (free)...");
                         }
                     });
-
-
                     // Processing freehed
                     try {
-
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getFreehedResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                FreeHedController freeHedController = new FreeHedController(getActivity());
-                                freeHedController.deleteAll();
-                                ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
-                                for (int i = 0; i < response.body().getFreeHedResult().size(); i++) {
-                                    freeHedList.add(response.body().getFreeHedResult().get(i));
+                                if(response.body() != null) {
+                                    FreeHedController freeHedController = new FreeHedController(getActivity());
+                                    freeHedController.deleteAll();
+                                    ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
+                                    for (int i = 0; i < response.body().getFreeHedResult().size(); i++) {
+                                        freeHedList.add(response.body().getFreeHedResult().get(i));
+                                    }
+                                    freeHedController.createOrUpdateFreeHed(freeHedList);
+                                }else{
+                                    errors.add("FreeHed response is null");
                                 }
-                                freeHedController.createOrUpdateFreeHed(freeHedList);
                             }
-
                             @Override
                             public void onFailure(Call<ReadJsonList> call, Throwable t) {
                                 errors.add(t.toString());
@@ -1928,22 +1689,24 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-
                     // Processing freedet
                     try {
-
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getFreeDetResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                FreeDetController freedetController = new FreeDetController(getActivity());
-                                freedetController.deleteAll();
-                                ArrayList<FreeDet> freedetList = new ArrayList<FreeDet>();
-                                for (int i = 0; i < response.body().getFreeDetResult().size(); i++) {
-                                    freedetList.add(response.body().getFreeDetResult().get(i));
+
+                                if(response.body() != null) {
+                                    FreeDetController freedetController = new FreeDetController(getActivity());
+                                    freedetController.deleteAll();
+                                    ArrayList<FreeDet> freedetList = new ArrayList<FreeDet>();
+                                    for (int i = 0; i < response.body().getFreeDetResult().size(); i++) {
+                                        freedetList.add(response.body().getFreeDetResult().get(i));
+                                    }
+                                    freedetController.createOrUpdateFreeDet(freedetList);
+                                }else{
+                                    errors.add("FreeDetail response is null");
                                 }
-                                freedetController.createOrUpdateFreeDet(freedetList);
                             }
 
                             @Override
@@ -1959,7 +1722,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     /*****************end freedet**********************************************************************/
                     /*****************freedeb**********************************************************************/
 
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1969,18 +1731,22 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing freedeb
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getFreedebResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                FreeDebController freedebController = new FreeDebController(getActivity());
-                                freedebController.deleteAll();
-                                ArrayList<FreeDeb> freedebList = new ArrayList<FreeDeb>();
-                                for (int i = 0; i < response.body().getFreeDebResult().size(); i++) {
-                                    freedebList.add(response.body().getFreeDebResult().get(i));
+
+                                if(response.body() != null) {
+                                    FreeDebController freedebController = new FreeDebController(getActivity());
+                                    freedebController.deleteAll();
+                                    ArrayList<FreeDeb> freedebList = new ArrayList<FreeDeb>();
+                                    for (int i = 0; i < response.body().getFreeDebResult().size(); i++) {
+                                        freedebList.add(response.body().getFreeDebResult().get(i));
+                                    }
+                                    freedebController.createOrUpdateFreeDeb(freedebList);
+                                }else{
+                                    errors.add("FreeDeb response is null");
                                 }
-                                freedebController.createOrUpdateFreeDeb(freedebList);
                             }
 
                             @Override
@@ -1994,8 +1760,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     }
                     /*****************end freedeb**********************************************************************/
                     /*****************freeItem**********************************************************************/
-
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -2006,19 +1770,21 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing freeItem
                     try {
-
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getFreeitemResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                FreeItemController freeitemController = new FreeItemController(getActivity());
-                                freeitemController.deleteAll();
-                                ArrayList<FreeItem> freeitemList = new ArrayList<FreeItem>();
-                                for (int i = 0; i < response.body().getFreeItemResult().size(); i++) {
-                                    freeitemList.add(response.body().getFreeItemResult().get(i));
+                                if(response.body() != null) {
+                                    FreeItemController freeitemController = new FreeItemController(getActivity());
+                                    freeitemController.deleteAll();
+                                    ArrayList<FreeItem> freeitemList = new ArrayList<FreeItem>();
+                                    for (int i = 0; i < response.body().getFreeItemResult().size(); i++) {
+                                        freeitemList.add(response.body().getFreeItemResult().get(i));
+                                    }
+                                    freeitemController.createOrUpdateFreeItem(freeitemList);
+                                }else{
+                                    errors.add("FreeItem response is null");
                                 }
-                                freeitemController.createOrUpdateFreeItem(freeitemList);
                             }
 
                             @Override
@@ -2043,19 +1809,24 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing discdeb
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getDiscDebResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                DiscdebController discdebController = new DiscdebController(getActivity());
-                                discdebController.deleteAll();
-                                ArrayList<Discdeb> discdebList = new ArrayList<Discdeb>();
-                                for (int i = 0; i < response.body().getDiscDebResult().size(); i++) {
-                                    discdebList.add(response.body().getDiscDebResult().get(i));
-                                }
 
-                                discdebController.createOrUpdateDiscdeb(discdebList);
+
+                                if(response.body() != null) {
+                                    DiscdebController discdebController = new DiscdebController(getActivity());
+                                    discdebController.deleteAll();
+                                    ArrayList<Discdeb> discdebList = new ArrayList<Discdeb>();
+                                    for (int i = 0; i < response.body().getDiscDebResult().size(); i++) {
+                                        discdebList.add(response.body().getDiscDebResult().get(i));
+                                    }
+
+                                    discdebController.createOrUpdateDiscdeb(discdebList);
+                                }else{
+                                    errors.add("Discdeb response is null");
+                                }
                             }
 
                             @Override
@@ -2081,19 +1852,23 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing discdet
 
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getDiscDetResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                DiscdetController discdetController = new DiscdetController(getActivity());
-                                discdetController.deleteAll();
-                                ArrayList<Discdet> discdetList = new ArrayList<Discdet>();
-                                for (int i = 0; i < response.body().getDiscDetResult().size(); i++) {
-                                    discdetList.add(response.body().getDiscDetResult().get(i));
-                                }
 
-                                discdetController.createOrUpdateDiscdet(discdetList);
+                                if(response.body() != null) {
+                                    DiscdetController discdetController = new DiscdetController(getActivity());
+                                    discdetController.deleteAll();
+                                    ArrayList<Discdet> discdetList = new ArrayList<Discdet>();
+                                    for (int i = 0; i < response.body().getDiscDetResult().size(); i++) {
+                                        discdetList.add(response.body().getDiscDetResult().get(i));
+                                    }
+
+                                    discdetController.createOrUpdateDiscdet(discdetList);
+                                }else{
+                                    errors.add("Discdet response is null");
+                                }
                             }
 
                             @Override
@@ -2119,18 +1894,22 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing disched
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getDiscHedResult(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                DischedController dischedController = new DischedController(getActivity());
-                                dischedController.deleteAll();
-                                ArrayList<Disched> dischedList = new ArrayList<Disched>();
-                                for (int i = 0; i < response.body().getDiscHedResult().size(); i++) {
-                                    dischedList.add(response.body().getDiscHedResult().get(i));
+
+                                if(response.body() != null) {
+                                    DischedController dischedController = new DischedController(getActivity());
+                                    dischedController.deleteAll();
+                                    ArrayList<Disched> dischedList = new ArrayList<Disched>();
+                                    for (int i = 0; i < response.body().getDiscHedResult().size(); i++) {
+                                        dischedList.add(response.body().getDiscHedResult().get(i));
+                                    }
+                                    dischedController.createOrUpdateDisched(dischedList);
+                                }else{
+                                    errors.add("Disched response is null");
                                 }
-                                dischedController.createOrUpdateDisched(dischedList);
                             }
 
                             @Override
@@ -2156,18 +1935,22 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing discslab
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Call<ReadJsonList> resultCall = apiInterface.getDiscSlabResult(pref.getDistDB());
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                DiscslabController discslabController = new DiscslabController(getActivity());
-                                discslabController.deleteAll();
-                                ArrayList<Discslab> discslabList = new ArrayList<Discslab>();
-                                for (int i = 0; i < response.body().getDiscSlabResult().size(); i++) {
-                                    discslabList.add(response.body().getDiscSlabResult().get(i));
+
+                                if(response.body() != null) {
+                                    DiscslabController discslabController = new DiscslabController(getActivity());
+                                    discslabController.deleteAll();
+                                    ArrayList<Discslab> discslabList = new ArrayList<Discslab>();
+                                    for (int i = 0; i < response.body().getDiscSlabResult().size(); i++) {
+                                        discslabList.add(response.body().getDiscSlabResult().get(i));
+                                    }
+                                    discslabController.createOrUpdateDiscslab(discslabList);
+                                }else{
+                                    errors.add("Disched response is null");
                                 }
-                                discslabController.createOrUpdateDiscslab(discslabList);
                             }
 
                             @Override
@@ -2187,19 +1970,10 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (Iteanery)...");
-                        }
-                    });
                     FItenrHedController itenaryHedController = new FItenrHedController(getActivity());
                     itenaryHedController.deleteAll();
                     // Processing itenaryhed
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Calendar c = Calendar.getInstance();
                         int cyear = c.get(Calendar.YEAR);
                         int cmonth = c.get(Calendar.MONTH) + 1;
@@ -2208,12 +1982,17 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                FItenrHedController itenaryHedController = new FItenrHedController(getActivity());
-                                ArrayList<FItenrHed> itenaryHedList = new ArrayList<FItenrHed>();
-                                for (int i = 0; i < response.body().getItenrHedResult().size(); i++) {
-                                    itenaryHedList.add(response.body().getItenrHedResult().get(i));
+
+                                if(response.body() != null) {
+                                    FItenrHedController itenaryHedController = new FItenrHedController(getActivity());
+                                    ArrayList<FItenrHed> itenaryHedList = new ArrayList<FItenrHed>();
+                                    for (int i = 0; i < response.body().getItenrHedResult().size(); i++) {
+                                        itenaryHedList.add(response.body().getItenrHedResult().get(i));
+                                    }
+                                    itenaryHedController.createOrUpdateFItenrHed(itenaryHedList);
+                                }else{
+                                    errors.add("ItenrHed response is null");
                                 }
-                                itenaryHedController.createOrUpdateFItenrHed(itenaryHedList);
                             }
 
                             @Override
@@ -2234,19 +2013,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Prices downloaded\nDownloading iteanery details...");
                         }
                     });
-
-
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (Iteanery)...");
-                        }
-                    });
-
                     // Processing itenarydet
                     try {
-                        ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
                         Calendar c = Calendar.getInstance();
                         int cyear = c.get(Calendar.YEAR);
                         int cmonth = c.get(Calendar.MONTH) + 1;
@@ -2256,13 +2024,19 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         resultCall.enqueue(new Callback<ReadJsonList>() {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                FItenrDetController itenaryDetController = new FItenrDetController(getActivity());
-                                itenaryDetController.deleteAll();
-                                ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
-                                for (int i = 0; i < response.body().getItenrDetResult().size(); i++) {
-                                    itenaryDetList.add(response.body().getItenrDetResult().get(i));
+
+
+                                if(response.body() != null) {
+                                    FItenrDetController itenaryDetController = new FItenrDetController(getActivity());
+                                    itenaryDetController.deleteAll();
+                                    ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
+                                    for (int i = 0; i < response.body().getItenrDetResult().size(); i++) {
+                                        itenaryDetList.add(response.body().getItenrDetResult().get(i));
+                                    }
+                                    itenaryDetController.createOrUpdateFItenrDet(itenaryDetList);
+                                }else{
+                                    errors.add("ItenrDet response is null");
                                 }
-                                itenaryDetController.createOrUpdateFItenrDet(itenaryDetList);
                             }
 
                             @Override
@@ -2275,30 +2049,24 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                         throw e;
                     }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Completed...");
+                        }
+                    });
 
                     /*****************end iteanerydet**********************************************************************/
-                    /*****************itenary hed**********************************************************************/
-
-
-                    /*****************end itenaryhed**********************************************************************/
                     return true;
                 } else {
                     errors.add("SharedPref.getInstance(getActivity()).getLoginUser() = null OR !SharedPref.getInstance(getActivity()).isLoggedIn()");
                     Log.d("ERROR>>>>>", "Login USer" + SharedPref.getInstance(getActivity()).getLoginUser().toString() + " IS LoggedIn --> " + SharedPref.getInstance(getActivity()).isLoggedIn());
                     return false;
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 errors.add(e.toString());
-                // errors.add("Unable to reach the server.");
 
-//                ErrorUtil.logException(LoginActivity.this, "LoginActivity -> Authenticate -> doInBackground # Login",
-//                        e, null, BugReport.SEVERITY_LOW);
-
-                return false;
-            }  catch (NumberFormatException e) {
-                errors.add(e.toString());
-                e.printStackTrace();
                 return false;
             }
         }
@@ -2313,7 +2081,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 if (pdialog.isShowing()) {
                     pdialog.dismiss();
                 }
-
+                showErrorText("Successfully Synchronized");
             } else {
                 if (pdialog.isShowing()) {
                     pdialog.dismiss();
@@ -2321,13 +2089,15 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 StringBuilder sb = new StringBuilder();
                 if (errors.size() == 1) {
                     sb.append(errors.get(0));
-                } else {
+                    showErrorText(sb.toString());
+                } else if(errors.size() == 0) {
                     sb.append("Following errors occurred");
                     for (String error : errors) {
                         sb.append("\n - ").append(error);
+                        showErrorText(sb.toString());
                     }
                 }
-                showErrorText(sb.toString());
+                //showErrorText(sb.toString());
             }
             if (fmc.getAllMediaforCheckIfIsExist("IMG") > 0) {
                 imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_img_notification));

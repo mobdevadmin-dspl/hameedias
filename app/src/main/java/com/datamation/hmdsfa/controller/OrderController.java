@@ -450,58 +450,68 @@ public class OrderController {
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
         localSP = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        try {
 
-        while (cursor.moveToNext()) {
+            while (cursor.moveToNext()) {
 
-            Order order = new Order();
-            OrderDetailController detDS = new OrderDetailController(context);
-            ReferenceDetailDownloader branchDS = new ReferenceDetailDownloader(context);
+                Order order = new Order();
+                OrderDetailController detDS = new OrderDetailController(context);
+                ReferenceDetailDownloader branchDS = new ReferenceDetailDownloader(context);
 
-            order.setNextNumVal(new ReferenceController(context).getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
-            order.setDistDB(SharedPref.getInstance(context).getDistDB().trim());
-            order.setConsoleDB(SharedPref.getInstance(context).getConsoleDB().trim());
-            //order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
+                order.setNextNumVal(new ReferenceController(context).getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
+                order.setDistDB(SharedPref.getInstance(context).getDistDB().trim());
+                order.setConsoleDB(SharedPref.getInstance(context).getConsoleDB().trim());
+                //order.setNextNumVal(branchDS.getCurrentNextNumVal(context.getResources().getString(R.string.NumVal)));
 
-            order.setORDER_ID(cursor.getString(cursor.getColumnIndex(FORDHED_ID)));
-            order.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(REFNO)));
-            order.setORDER_LONGITUDE(cursor.getString(cursor.getColumnIndex(FORDHED_LONGITUDE)));
-            order.setORDER_LATITUDE(cursor.getString(cursor.getColumnIndex(FORDHED_LATITUDE)));
-            order.setORDER_MANUREF(cursor.getString(cursor.getColumnIndex(FORDHED_MANU_REF)));
-            order.setORDER_REMARKS(cursor.getString(cursor.getColumnIndex(FORDHED_REMARKS)));
-            order.setORDER_REPCODE(cursor.getString(cursor.getColumnIndex(REPCODE)));
-            order.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(FORDHED_TOTAL_AMT)));
-            order.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(TXNDATE)));
-            order.setORDER_ADDDATE(cursor.getString(cursor.getColumnIndex(FORDHED_ADD_DATE)));
-            order.setORDER_ADDMACH(cursor.getString(cursor.getColumnIndex(FORDHED_ADD_MACH)));
-            order.setORDER_ADDUSER(cursor.getString(cursor.getColumnIndex(FORDHED_ADD_USER)));
-            order.setORDER_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FORDHED_IS_ACTIVE)));
-            order.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DEBCODE)));
-            order.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(FORDHED_ROUTE_CODE)));
-            order.setORDER_DELIVERY_DATE(cursor.getString(cursor.getColumnIndex(FORDHED_DELV_DATE)));
-            order.setORDER_PAYTYPE(cursor.getString(cursor.getColumnIndex(FORDHED_PAYMENT_TYPE)));
-            order.setORDER_LOCCODE(cursor.getString(cursor.getColumnIndex(FORDHED_LOC_CODE)));
-            order.setORDER_AREACODE(cursor.getString(cursor.getColumnIndex(FORDHED_AREA_CODE)));
-            order.setORDER_DEALCODE(cursor.getString(cursor.getColumnIndex(DEALCODE)));
-            order.setORDER_START_TIMESO(cursor.getString(cursor.getColumnIndex(FORDHED_START_TIME_SO)));
-            order.setORDER_END_TIMESO(cursor.getString(cursor.getColumnIndex(FORDHED_END_TIME_SO)));
-            order.setORDER_ADDRESS(cursor.getString(cursor.getColumnIndex(FORDHED_ADDRESS)));
-            order.setORDER_FEEDBACK(cursor.getString(cursor.getColumnIndex(FORDHED_FEEDBACK)));
+                order.setORDER_ID(cursor.getString(cursor.getColumnIndex(FORDHED_ID)));
+                order.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(REFNO)));
+                order.setORDER_LONGITUDE(cursor.getString(cursor.getColumnIndex(FORDHED_LONGITUDE)));
+                order.setORDER_LATITUDE(cursor.getString(cursor.getColumnIndex(FORDHED_LATITUDE)));
+                order.setORDER_MANUREF(cursor.getString(cursor.getColumnIndex(FORDHED_MANU_REF)));
+                order.setORDER_REMARKS(cursor.getString(cursor.getColumnIndex(FORDHED_REMARKS)));
+                order.setORDER_REPCODE(cursor.getString(cursor.getColumnIndex(REPCODE)));
+                order.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(FORDHED_TOTAL_AMT)));
+                order.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(TXNDATE)));
+                order.setORDER_ADDDATE(cursor.getString(cursor.getColumnIndex(FORDHED_ADD_DATE)));
+                order.setORDER_ADDMACH(cursor.getString(cursor.getColumnIndex(FORDHED_ADD_MACH)));
+                order.setORDER_ADDUSER(cursor.getString(cursor.getColumnIndex(FORDHED_ADD_USER)));
+                order.setORDER_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FORDHED_IS_ACTIVE)));
+                order.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DEBCODE)));
+                order.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(FORDHED_ROUTE_CODE)));
+                order.setORDER_DELIVERY_DATE(cursor.getString(cursor.getColumnIndex(FORDHED_DELV_DATE)));
+                order.setORDER_PAYTYPE(cursor.getString(cursor.getColumnIndex(FORDHED_PAYMENT_TYPE)));
+                order.setORDER_LOCCODE(cursor.getString(cursor.getColumnIndex(FORDHED_LOC_CODE)));
+                order.setORDER_AREACODE(cursor.getString(cursor.getColumnIndex(FORDHED_AREA_CODE)));
+                order.setORDER_DEALCODE(cursor.getString(cursor.getColumnIndex(DEALCODE)));
+                order.setORDER_START_TIMESO(cursor.getString(cursor.getColumnIndex(FORDHED_START_TIME_SO)));
+                order.setORDER_END_TIMESO(cursor.getString(cursor.getColumnIndex(FORDHED_END_TIME_SO)));
+                order.setORDER_ADDRESS(cursor.getString(cursor.getColumnIndex(FORDHED_ADDRESS)));
+                order.setORDER_FEEDBACK(cursor.getString(cursor.getColumnIndex(FORDHED_FEEDBACK)));
 
-            order.setOrdDet(detDS.getAllUnSync(cursor.getString(cursor.getColumnIndex(REFNO))));
+                order.setOrdDet(detDS.getAllUnSync(cursor.getString(cursor.getColumnIndex(REFNO))));
 ////            preSalesMapper.setIssuList(
 ////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(ORDER_CUSCODE))));
 
-            String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
 
-            order.setTaxDTs(new PreSaleTaxDTController(context).getAllTaxDT(RefNo));
-            order.setTaxRGs(new PreSaleTaxRGController(context).getAllTaxRG(RefNo));
-            order.setOrdDisc(new OrderDiscController(context).getAllOrderDiscs(RefNo));
-            order.setFreeIssues(new OrdFreeIssueController(context).getAllFreeIssues(RefNo));
+                order.setTaxDTs(new PreSaleTaxDTController(context).getAllTaxDT(RefNo));
+                order.setTaxRGs(new PreSaleTaxRGController(context).getAllTaxRG(RefNo));
+                order.setOrdDisc(new OrderDiscController(context).getAllOrderDiscs(RefNo));
+                order.setFreeIssues(new OrdFreeIssueController(context).getAllFreeIssues(RefNo));
 
-            list.add(order);
+                list.add(order);
 
+            }
+        } catch (Exception e) {
+
+        Log.v(TAG + " Exception", e.toString());
+
+    } finally {
+        if (cursor != null) {
+            cursor.close();
         }
-
+        dB.close();
+    }
         return list;
     }
     public int IsSavedHeader(String refno) {

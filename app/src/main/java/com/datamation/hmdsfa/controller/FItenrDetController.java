@@ -103,12 +103,18 @@ public class FItenrDetController {
         String selectQuery = "SELECT RouteCode from " + TABLE_FITENRDET + " where " + dbHelper.TXNDATE +" ='" + date + "'";
         System.out.println(TAG + selectQuery);
         Cursor cursor = null;
-
-        cursor = dB.rawQuery(selectQuery, null);
-        if (cursor.getCount() > 0)
-            while (cursor.moveToNext()) {
-                Rcode = cursor.getString(cursor.getColumnIndex(FITENRDET_ROUTE_CODE));
+        try {
+            cursor = dB.rawQuery(selectQuery, null);
+            if (cursor.getCount() > 0)
+                while (cursor.moveToNext()) {
+                    Rcode = cursor.getString(cursor.getColumnIndex(FITENRDET_ROUTE_CODE));
+                }
+            }finally {
+            if (cursor != null) {
+                cursor.close();
             }
+            dB.close();
+        }
         return Rcode;
 
 
