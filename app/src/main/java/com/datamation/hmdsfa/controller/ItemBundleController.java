@@ -61,26 +61,29 @@ public class ItemBundleController {
 
         try {
 
-//            for (Tax tax : list) {
-//
-//                ContentValues values = new ContentValues();
-//
-//                String selectQuery = "SELECT * FROM " + TABLE_FTAX + " WHERE " + FTAX_TAXCODE + " = '" + tax.getTAXCODE() + "'";
+            for (ItemBundle itemBndl : list) {
+
+                ContentValues values = new ContentValues();
+
+//                String selectQuery = "SELECT * FROM " + TABLE_ITEMBUNDLE + " WHERE " + FTAX_TAXCODE + " = '" + tax.getTAXCODE() + "'";
 //
 //                cursor = dB.rawQuery(selectQuery, null);
-//
-//                values.put(FTAX_TAXCODE, tax.getTAXCODE());
-//                values.put(FTAX_TAXNAME, tax.getTAXNAME());
-//                values.put(FTAX_TAXPER, tax.getTAXPER());
-//                values.put(FTAX_TAXREGNO, tax.getTAXREGNO());
-//
+
+                values.put(Barcode, itemBndl.getBarcode());
+                values.put(DocumentNo, itemBndl.getDocumentNo());
+                values.put(ItemNo, itemBndl.getItemNo());
+                values.put(VariantCode, itemBndl.getVariantCode());
+                values.put(VariantColour, itemBndl.getVariantColour());
+                values.put(VariantSize, itemBndl.getVariantSize());
+                values.put(Quantity, itemBndl.getQuantity());
+
 //                int cn = cursor.getCount();
 //                if (cn > 0)
-//                    count = dB.update(TABLE_FTAX, values, FTAX_TAXCODE + " =?", new String[]{String.valueOf(tax.getTAXCODE())});
-//                else
-//                    count = (int) dB.insert(TABLE_FTAX, null, values);
-//
-//            }
+               //     count = dB.update(TABLE_FTAX, values, FTAX_TAXCODE + " =?", new String[]{String.valueOf(tax.getTAXCODE())});
+               // else
+                    count = (int) dB.insert(TABLE_ITEMBUNDLE, null, values);
+
+            }
         } catch (Exception e) {
 
             Log.v(TAG + " Exception", e.toString());
@@ -96,6 +99,38 @@ public class ItemBundleController {
     }
 
 
+    public int deleteAll() {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        try {
+
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_ITEMBUNDLE, null);
+            count = cursor.getCount();
+            if (count > 0) {
+                int success = dB.delete(TABLE_ITEMBUNDLE, null, null);
+                Log.v("Success", success + "");
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return count;
+
+    }
 
 
 }

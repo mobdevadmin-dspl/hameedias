@@ -62,6 +62,7 @@ import com.datamation.hmdsfa.controller.FreeMslabController;
 import com.datamation.hmdsfa.controller.FreeSlabController;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
+import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.ItemPriceController;
@@ -1413,7 +1414,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                                     RouteController routeController = new RouteController(getActivity());
                                     routeController.createOrUpdateFRoute(routeList);
                                 }else{
-                                    errors.add("Bank response is null");
+                                    errors.add("Route response is null");
                                 }
                             }
                             @Override
@@ -1431,12 +1432,12 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Expenses downloaded\nDownloading route details...");
+                            pdialog.setMessage("Route downloaded\nDownloading ItemBundle details...");
                         }
                     });
                     // Processing route
-                    //RouteController routeController = new RouteController(getActivity());
-                    routeController.deleteAll();
+                    ItemBundleController itmbndlController = new ItemBundleController(getActivity());
+                    itmbndlController.deleteAll();
                     try {
                         Call<ReadJsonList> resultCall = apiInterface.getItemBundle(pref.getDistDB(),repcode);
                         resultCall.enqueue(new Callback<ReadJsonList>() {
@@ -1447,10 +1448,10 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                                     for (int i = 0; i < response.body().getItemBundleResult().size(); i++) {
                                         itemList.add(response.body().getItemBundleResult().get(i));
                                     }
-                                    RouteController routeController = new RouteController(getActivity());
-                                   // routeController.createOrUpdateFRoute(itemList);
+                                    ItemBundleController itmbndlController = new ItemBundleController(getActivity());
+                                    itmbndlController.createOrUpdateItemBundle(itemList);
                                 }else{
-                                    errors.add("Bank response is null");
+                                    errors.add("ItemBundle response is null");
                                 }
                             }
                             @Override

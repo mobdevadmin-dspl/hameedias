@@ -35,6 +35,7 @@ import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
 import com.datamation.hmdsfa.controller.InvTaxDTController;
 import com.datamation.hmdsfa.controller.InvTaxRGController;
+import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.ItemPriceController;
@@ -175,6 +176,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(SalesReturnTaxDTController.CREATE_FINVRTAXDT_TABLE);
         arg0.execSQL(NearCustomerController.CREATE_FNEARDEBTOR_TABLE);
         arg0.execSQL(FirebaseMediaController.CREATETABLE_FIREBASE_MEDIA);
+        arg0.execSQL(ItemBundleController.CREATE_ITEMBUNDLE_TABLE);
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -217,7 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(PreProductController.CREATE_FPRODUCT_PRE_TABLE);
             arg0.execSQL(NearCustomerController.CREATE_FNEARDEBTOR_TABLE);
             arg0.execSQL(FirebaseMediaController.CREATETABLE_FIREBASE_MEDIA);
-
+            arg0.execSQL(ItemBundleController.CREATE_ITEMBUNDLE_TABLE);
         } catch (SQLiteException e) {
         }
 
