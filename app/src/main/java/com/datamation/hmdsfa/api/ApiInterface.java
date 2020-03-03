@@ -1,9 +1,17 @@
 package com.datamation.hmdsfa.api;
 
+import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.http.Body;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 /**
@@ -116,5 +124,14 @@ public interface ApiInterface {
 
     @GET("fDdbNoteWithCondition/mobile123/{dbname}/{repcode}")//34
     Call<ReadJsonList> getOutstandingResult(@Path("dbname") String dbname,@Path("repcode") String repcode);
+
+    @GET("ItemBundle/mobile123/{dbname}/{repcode}")//34
+    Call<ReadJsonList> getItemBundle(@Path("dbname") String dbname,@Path("repcode") String repcode);
+
+    @FormUrlEncoded
+    @POST("/insertFordh")
+    Call<ReadJsonList> uploadOrder(@Body ArrayList<Order> orderlist);
+
+
 
 }

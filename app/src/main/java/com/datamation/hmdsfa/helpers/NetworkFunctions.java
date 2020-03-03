@@ -74,16 +74,24 @@ public class NetworkFunctions {
     public void setUser(SalRep user) {
         this.user = user;
     }
-
-    public String validate(Context context, String macId, String url, String db) throws IOException {
+//with console database - commented by rashmi - 2020-02-28
+//    public String validate(Context context, String macId, String url, String db) throws IOException {
+//
+//        List<CustomNameValuePair> params = new ArrayList<>();
+//
+//        Log.d(LOG_TAG, "Validating : " + url + context.getResources().getString(R.string.connection_string) + "fSalRep" + restOfURL + "/" + macId);
+//
+//        return getFromServer(url + context.getResources().getString(R.string.connection_string) + "fSalRep/mobile123/" + db + "/" + macId, params);
+//    }
+//without console database -  by rashmi - 2020-02-28
+    public String validate(Context context,String macId, String url) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Validating : " + url + context.getResources().getString(R.string.connection_string) + "fSalRep" + restOfURL + "/" + macId);
+        Log.d(LOG_TAG, "Validating : " + url +context.getResources().getString(R.string.connection_string) + "fSalRep" +restOfURL+"/"+ macId);
 
-        return getFromServer(url + context.getResources().getString(R.string.connection_string) + "fSalRep/mobile123/" + db + "/" + macId, params);
+        return getFromServer(url+context.getResources().getString(R.string.connection_string) + "fSalRep"+restOfURL+"/"+macId, params);
     }
-
     /**
      * This function will POST repCode will return a the response JSON
      * from the server.

@@ -25,6 +25,7 @@ import com.datamation.hmdsfa.model.FreeItem;
 import com.datamation.hmdsfa.model.FreeMslab;
 import com.datamation.hmdsfa.model.FreeSlab;
 import com.datamation.hmdsfa.model.Item;
+import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.ItemLoc;
 import com.datamation.hmdsfa.model.ItemPri;
 import com.datamation.hmdsfa.model.Locations;
@@ -43,7 +44,7 @@ import java.util.List;
 
 public class ReadJsonList {
 
-    @SerializedName("GetdatabaseNamesResult")//01
+    @SerializedName("GetdatabaseNamesResult")//01GetdatabaseNamesResult
     private List<DbNames> dbResult = null;
     @SerializedName("fSalRepResult")//01
     private List<SalRep> salRepResult = null;
@@ -113,6 +114,13 @@ public class ReadJsonList {
     private List<FddbNote> outstandingResult = null ;
     @SerializedName("FdebtorResult")//35
     private List<Debtor> debtorResult = null ;
+
+    @SerializedName("ItemBundleResult")//35
+    private List<ItemBundle> itemBundleResult = null ;
+
+    public List<ItemBundle> getItemBundleResult() {
+        return itemBundleResult;
+    }
 
     public List<DbNames> getDbResult() {
         return dbResult;

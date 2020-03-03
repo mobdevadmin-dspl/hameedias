@@ -60,6 +60,9 @@
             android:name="com.datamation.hmdsfa.view.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.datamation.hmdsfa.view.BarCodeReaderActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.datamation.hmdsfa.settings.ImportActivity"
             android:theme="@style/AppThemeWithTitle" />
         <activity

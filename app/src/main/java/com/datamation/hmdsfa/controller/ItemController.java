@@ -143,6 +143,57 @@ public class ItemController {
 
     }
 
+    public ArrayList<Item> getAllItem(String itemCode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<Item> list = new ArrayList<Item>();
+
+      //  String selectQuery = "SELECT *  FROM fItem WHERE ItemCode LIKE '%"+itemCode+"%'";
+        String selectQuery =  selectQuery = "SELECT itm.*, loc.QOH FROM fitem itm, fitemLoc loc WHERE itm.ItemCode || itm.ItemCode LIKE '%" + itemCode + "%' AND loc.ItemCode=itm.ItemCode ORDER BY CAST(loc.QOH AS FLOAT) DESC";
+
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        while(cursor.moveToNext()){
+
+            Item items=new Item();
+
+            items.setFITEM_ID(cursor.getString(cursor.getColumnIndex(FITEM_ID)));
+            items.setFITEM_ITEM_CODE(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_CODE)));
+            items.setFITEM_ITEM_NAME(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
+            // items.setFITEM_NOUCASE(cursor.getString(cursor.getColumnIndex(FITEM_NOUCASE)));
+            items.setFITEM_QOH(cursor.getString(cursor.getColumnIndex(ItemLocController.FITEMLOC_QOH)));
+            items.setFITEM_BRANDCODE(cursor.getString(cursor.getColumnIndex(FITEM_BRAND_CODE)));
+            items.setFITEM_AVGPRICE(cursor.getString(cursor.getColumnIndex(FITEM_AVG_PRICE)));
+//            items.setFITEM_ADD_MATCH(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_ADD_MATCH)));
+//            items.setFITEM_ADD_USER(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_ADD_USER)));
+//            items.setFITEM_AVG_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_AVG_PRICE)));
+//            items.setFITEM_BRAND_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_BRAND_CODE)));
+//            items.setFITEM_GROUP_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_GROUP_CODE)));
+//            items.setFITEM_ITEM_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_ITEM_CODE)));
+//            items.setFITEM_ITEM_NAME(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_ITEM_NAME)));
+//            items.setFITEM_ITEM_STATUS(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_ITEM_STATUS)));
+//            items.setFITEM_MUST_SALE(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_MUST_SALE)));
+//            items.setFITEM_NOU_CASE(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_NOU_CASE)));
+//            items.setFITEM_ORD_SEQ(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_ORD_SEQ)));
+//            items.setFITEM_PRIL_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_PRIL_CODE)));
+//            items.setFITEM_RE_ORDER_LVL(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_RE_ORDER_LVL)));
+//            items.setFITEM_RE_ORDER_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_RE_ORDER_QTY)));
+//            items.setFITEM_TAX_COM_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_TAX_COM_CODE)));
+//            items.setFITEM_TYPE_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_TYPE_CODE)));
+//            items.setFITEM_UNIT_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_UNIT_CODE)));
+//            items.setFITEM_VEN_P_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.FITEM_VEN_P_CODE)));
+
+
+            list.add(items);
+
+        }
+
+        return list;
+    }
 
     public ArrayList<Product> getAllItems(String LocCode, String prillcode) {
 

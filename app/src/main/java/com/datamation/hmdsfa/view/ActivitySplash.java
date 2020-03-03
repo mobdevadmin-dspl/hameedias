@@ -140,61 +140,149 @@ public class ActivitySplash extends AppCompatActivity{
 //        });
 
     }
+
+    //with console database - commented rashmi 2020-02-28 {this is need for distributor systems like magnes , swadeshi..hide for hameedia}
+//    private void validateDialog() {
+//        LayoutInflater layoutInflater = LayoutInflater.from(this);
+//        final View promptView = layoutInflater.inflate(R.layout.ip_connection_dailog, null);
+//        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
+//        alertDialogBuilder.setView(promptView);
+//        final EditText input = (EditText) promptView.findViewById(R.id.txt_Enter_url);
+//        final NetworkFunctions networkFunctions = new NetworkFunctions(this);
+//        DBList = (SearchableSpinner) promptView.findViewById(R.id.spinner2);
+//        Button btn_validate = (Button)promptView.findViewById(R.id.btn_validate);
+//
+//        DBList.setTitle("Select or search Database");
+//
+//        // to disable alert OK button due to crash on without validate ok button pressed ------------------ Nuwan ------------------- 11/10/2019 ---------------
+////        final AlertDialog alertDialog = alertDialogBuilder.create();
+//
+//        btn_validate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (NetworkUtil.isNetworkAvailable(ActivitySplash.this)){
+//                    spURL = input.getText().toString().trim();
+//                    String URL = "http://" + input.getText().toString().trim();
+//                    if (Patterns.WEB_URL.matcher(URL).matches()) {
+//                        // pref.setBaseURL(spURL);
+//                        new getDatabaseNames().execute(URL);
+//                        //alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+//                        Toast.makeText(ActivitySplash.this, "URL config success." + spURL, Toast.LENGTH_LONG).show();
+//
+//                    } else {
+//                        //alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+//                        Toast.makeText(ActivitySplash.this, "Invalid URL Entered. Please Enter Valid URL.", Toast.LENGTH_LONG).show();
+//                        reCallActivity();
+//                    }
+//                }else{
+//                    //alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+//                    Toast.makeText(ActivitySplash.this, "Please check your internet connection.. !", Toast.LENGTH_LONG).show();
+//
+//                    }
+//                }
+//        });
+//
+//        DBList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                //DBNAME = DBList.getSelectedItem().toString();
+//                UtilityContainer.ClearDBName(ActivitySplash.this);
+//                pref.setDistDB(DBList.getSelectedItem().toString());
+//
+//                Log.d("Inside DB Select" , pref.getDistDB());
+//
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//
+//        alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                String URL = "http://" + input.getText().toString().trim();
+//
+//                if(URL.length()!=0)
+//                {
+//                  //  (DBNAME);
+//
+////                    if (Patterns.WEB_URL.matcher(URL).matches()&& URL.length()== 26)
+//                    if (Patterns.WEB_URL.matcher(URL).matches())
+//                    {
+//                        if (NetworkUtil.isNetworkAvailable(ActivitySplash.this))
+//                        {
+//                            pref.setBaseURL(URL);
+//                           // pref.setDistDB(DBList.getSelectedItem().toString());
+////                            if (DBList.getSelectedItem().toString().trim().equals("") || DBList.getSelectedItem().toString().trim().equals("null")) // to check url validation
+//                            if (isValidate)
+//                            {
+//                                Toast.makeText(ActivitySplash.this, "Mac ID for Test. "+pref.getMacAddress().trim() , Toast.LENGTH_LONG).show();
+//
+//                                new Validate(pref.getMacAddress().trim(),URL,DBList.getSelectedItem().toString().trim()).execute();
+//                                isValidate = false;
+//                                //TODO: validate uname pwd with server details
+//                            }
+//                            else
+//                            {
+//                                Toast.makeText(ActivitySplash.this, "Please Validate the URL or Check Response from Server when getting DB List.", Toast.LENGTH_LONG).show();
+//                                reCallActivity();
+//                            }
+//                        }
+//                        else
+//                        {
+//                            Snackbar snackbar = Snackbar.make(promptView, R.string.txt_msg, Snackbar.LENGTH_LONG);
+//                            View snackbarLayout = snackbar.getView();
+//                            snackbarLayout.setBackgroundColor(Color.RED);
+//                            TextView textView = (TextView) snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
+//                            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signal_wifi_off_black_24dp, 0, 0, 0);
+//                            textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.body_size));
+//                            textView.setTextColor(Color.WHITE);
+//                            snackbar.show();
+//                            reCallActivity();
+//                        }
+//
+//                    } else {
+//                        Toast.makeText(ActivitySplash.this, "Invalid URL Entered. Please Enter Valid URL.", Toast.LENGTH_LONG).show();
+//                        reCallActivity();
+//                    }
+//
+//                }else
+//                {
+//                    Toast.makeText(ActivitySplash.this, "Please fill informations", Toast.LENGTH_LONG).show();
+//                    validateDialog();
+//                }
+//            }
+//        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.cancel();
+//
+//                ActivitySplash.this.finish();
+//            }
+//        });
+//
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
+//
+//
+//        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+//                | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+//                | ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+//    }
+//
+
+
+    //without console database- implement 2020-02-28 by rashmi for hameedia
+
     private void validateDialog() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         final View promptView = layoutInflater.inflate(R.layout.ip_connection_dailog, null);
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
         alertDialogBuilder.setView(promptView);
         final EditText input = (EditText) promptView.findViewById(R.id.txt_Enter_url);
-        final NetworkFunctions networkFunctions = new NetworkFunctions(this);
-        DBList = (SearchableSpinner) promptView.findViewById(R.id.spinner2);
-        Button btn_validate = (Button)promptView.findViewById(R.id.btn_validate);
 
-        DBList.setTitle("Select or search Database");
 
-        // to disable alert OK button due to crash on without validate ok button pressed ------------------ Nuwan ------------------- 11/10/2019 ---------------
-//        final AlertDialog alertDialog = alertDialogBuilder.create();
 
-        btn_validate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (NetworkUtil.isNetworkAvailable(ActivitySplash.this)){
-                    spURL = input.getText().toString().trim();
-                    String URL = "http://" + input.getText().toString().trim();
-                    if (Patterns.WEB_URL.matcher(URL).matches()) {
-                        // pref.setBaseURL(spURL);
-                        new getDatabaseNames().execute(URL);
-                        //alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-                        Toast.makeText(ActivitySplash.this, "URL config success." + spURL, Toast.LENGTH_LONG).show();
-
-                    } else {
-                        //alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-                        Toast.makeText(ActivitySplash.this, "Invalid URL Entered. Please Enter Valid URL.", Toast.LENGTH_LONG).show();
-                        reCallActivity();
-                    }
-                }else{
-                    //alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-                    Toast.makeText(ActivitySplash.this, "Please check your internet connection.. !", Toast.LENGTH_LONG).show();
-
-                    }
-                }
-        });
-
-        DBList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //DBNAME = DBList.getSelectedItem().toString();
-                UtilityContainer.ClearDBName(ActivitySplash.this);
-                pref.setDistDB(DBList.getSelectedItem().toString());
-
-                Log.d("Inside DB Select" , pref.getDistDB());
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -202,29 +290,17 @@ public class ActivitySplash extends AppCompatActivity{
 
                 if(URL.length()!=0)
                 {
-                  //  (DBNAME);
-
+                    //   pref.setDBNAME(DBNAME);
 //                    if (Patterns.WEB_URL.matcher(URL).matches()&& URL.length()== 26)
                     if (Patterns.WEB_URL.matcher(URL).matches())
                     {
                         if (NetworkUtil.isNetworkAvailable(ActivitySplash.this))
                         {
                             pref.setBaseURL(URL);
-                           // pref.setDistDB(DBList.getSelectedItem().toString());
-//                            if (DBList.getSelectedItem().toString().trim().equals("") || DBList.getSelectedItem().toString().trim().equals("null")) // to check url validation
-                            if (isValidate)
-                            {
-                                Toast.makeText(ActivitySplash.this, "Mac ID for Test. "+pref.getMacAddress().trim() , Toast.LENGTH_LONG).show();
+                            new Validate(pref.getMacAddress().trim(),URL).execute();
+                            //TODO: validate uname pwd with server details
 
-                                new Validate(pref.getMacAddress().trim(),URL,DBList.getSelectedItem().toString().trim()).execute();
-                                isValidate = false;
-                                //TODO: validate uname pwd with server details
-                            }
-                            else
-                            {
-                                Toast.makeText(ActivitySplash.this, "Please Validate the URL or Check Response from Server when getting DB List.", Toast.LENGTH_LONG).show();
-                                reCallActivity();
-                            }
+
                         }
                         else
                         {
@@ -260,14 +336,11 @@ public class ActivitySplash extends AppCompatActivity{
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
-
-
         alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                 | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
                 | ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
-//
     public void reCallActivity(){
         Intent mainActivity = new Intent(ActivitySplash.this, ActivitySplash.class);
         startActivity(mainActivity);
@@ -293,12 +366,11 @@ public class ActivitySplash extends AppCompatActivity{
     private class Validate extends AsyncTask<String, Integer, Boolean> {
         int totalRecords=0;
         CustomProgressDialog pdialog;
-        private String macId,url,db;
+        private String macId,url;
 
-        public Validate(String macId,String url,String db){
+        public Validate(String macId,String url){
             this.macId = macId;
             this.url = url;
-            this.db = db;
             this.pdialog = new CustomProgressDialog(ActivitySplash.this);
         }
         @Override
@@ -334,8 +406,7 @@ public class ActivitySplash extends AppCompatActivity{
                                 networkFunctions.setUser(repList.get(0));
                                 pref.storeLoginUser(repList.get(0));
                             }
-
-                            System.out.println("Rep List " + repList.toString());
+                            Log.d(">>>REP","Rep List " + repList.toString());
 
                         }
 
@@ -404,7 +475,7 @@ public class ActivitySplash extends AppCompatActivity{
 
         @Override
         protected ArrayList<DbNames> doInBackground(Object... params) {
-            final ArrayList<DbNames> DBArrayList = null;
+             ArrayList<DbNames> DBArrayList1 = null;
             try {
 
                 ApiInterface apiInterface = ApiCllient.getClient(ActivitySplash.this).create(ApiInterface.class);
@@ -412,11 +483,24 @@ public class ActivitySplash extends AppCompatActivity{
                 resultCall.enqueue(new Callback<ReadJsonList>() {
                     @Override
                     public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        System.out.println("test responce 01 " + response.body().getDbResult().size());
-                        //  System.out.println(response.body().getInvDetResult().get(1));
-                        for (int i = 0; i < response.body().getDbResult().size(); i++) {
-                            DBArrayList.add(response.body().getDbResult().get(i));
+                        ArrayList<DbNames>  DBArrayList = new ArrayList<DbNames>();
+                        if(response.body().getDbResult()!= null) {
+                            System.out.println("test responce 01 " + response.body().getDbResult().size());
+
+                            //  System.out.println(response.body().getInvDetResult().get(1));
+                            if(response.body().getDbResult().size()>0) {
+                                for (int i = 0; i < response.body().getDbResult().size(); i++) {
+                                    DBArrayList.add(response.body().getDbResult().get(i));
+                                }
+
+                                fetchDatabases(DBArrayList);//change after apply retrofit - rashmi -2020-02-24
+                            }else{
+                                Toast.makeText(ActivitySplash.this,"Error response from getting database list",Toast.LENGTH_LONG).show();
+                            }
+                        }else{
+                            Toast.makeText(ActivitySplash.this,"Error response from getting database list",Toast.LENGTH_LONG).show();
                         }
+                     //   DBArrayList1 = DBArrayList;
                     }
 
                     @Override
@@ -425,36 +509,36 @@ public class ActivitySplash extends AppCompatActivity{
                     }
                 });
             } catch (Exception e) {
-                e.printStackTrace();
+                Toast.makeText(ActivitySplash.this,"Error response from getting database list",Toast.LENGTH_LONG).show();
             }
-            return DBArrayList;
+            return DBArrayList1;
         }
 
         protected void onPostExecute(ArrayList<DbNames> result) {
             super.onPostExecute(result);
-
-            ArrayList<String> lst_ =  new ArrayList<String>();
-            lst_.add(0,"Select Server");
-
-            if(result != null) {
-
-
-                for (DbNames lst : result) {
-                    lst_.add(lst.getDbName());
-                    isValidate = true;
-                }
-            }
-            else {
-                Toast.makeText(ActivitySplash.this, "Invalid Response from server when getting DB List.", Toast.LENGTH_LONG).show();
-
-            }
-            dataAdapter = new ArrayAdapter<String>(ActivitySplash.this, android.R.layout.simple_spinner_item, lst_);
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            DBList.setAdapter(dataAdapter);
             dialog.cancel();
 
         }
 
 
+    }
+
+    private void fetchDatabases(ArrayList<DbNames> dbNames){
+        ArrayList<String> lst_ =  new ArrayList<String>();
+        lst_.add(0,"Select Server");
+
+        if(dbNames != null) {
+
+            for (DbNames lst : dbNames) {
+                lst_.add(lst.getDbName());
+                isValidate = true;
+            }
+        }
+        else {
+            Toast.makeText(ActivitySplash.this, "Invalid Response from server when getting DB List.", Toast.LENGTH_LONG).show();
+        }
+        dataAdapter = new ArrayAdapter<String>(ActivitySplash.this, android.R.layout.simple_spinner_item, lst_);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        DBList.setAdapter(dataAdapter);
     }
 }

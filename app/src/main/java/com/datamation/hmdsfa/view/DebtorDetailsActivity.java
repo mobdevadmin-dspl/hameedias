@@ -409,7 +409,8 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 if(locationServiceEnabled())
                 {
                     Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(DebtorDetailsActivity.this, VanSalesActivity.class);
+                    //Intent intent = new Intent(DebtorDetailsActivity.this, VanSalesActivity.class);
+                    Intent intent = new Intent(DebtorDetailsActivity.this, BarCodeReaderActivity.class);
                     intent.putExtra("outlet", outlet);
                     intent.putExtra("sales_order", false);
                     startActivity(intent);

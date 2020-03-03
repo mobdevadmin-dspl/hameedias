@@ -52,5 +52,11 @@
     <color name="btn_colour">#336699</color>
     <color name="red_error">#ffff5252</color>
     <color name="day_achieve">#ff8a80</color>
-
+    <color name="Black">#000</color>
+    <color name="White">#FFF</color>
+    <color name="Gray">#e3e8ef</color>
+    <color name="Red">#ff0000</color>
+    <color name="Green">#22740B</color>
+    <color name="LightGreen">#64F53C</color>
+    <color name="Yellow">#FFF702</color>
 </resources>

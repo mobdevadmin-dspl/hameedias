@@ -115,6 +115,7 @@ import com.datamation.hmdsfa.model.FreeMslab;
 import com.datamation.hmdsfa.model.FreeSlab;
 import com.datamation.hmdsfa.model.InvHed;
 import com.datamation.hmdsfa.model.Item;
+import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.ItemLoc;
 import com.datamation.hmdsfa.model.ItemPri;
 import com.datamation.hmdsfa.model.Locations;
@@ -668,6 +669,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                                 if (ordHedList.size() <= 0)
                                     Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
                                 else {
+
                                     new UploadPreSales(getActivity(), FragmentTools.this).execute(ordHedList);
                                     Log.v(">>8>>", "UploadPreSales execute finish");
                                     // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
@@ -1425,6 +1427,43 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         throw e;
                     }
                     /*****************end route**********************************************************************/
+                    /*****************ItemBundle**********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Expenses downloaded\nDownloading route details...");
+                        }
+                    });
+                    // Processing route
+                    //RouteController routeController = new RouteController(getActivity());
+                    routeController.deleteAll();
+                    try {
+                        Call<ReadJsonList> resultCall = apiInterface.getItemBundle(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                if(response.body() != null) {
+                                    ArrayList<ItemBundle> itemList = new ArrayList<ItemBundle>();
+                                    for (int i = 0; i < response.body().getItemBundleResult().size(); i++) {
+                                        itemList.add(response.body().getItemBundleResult().get(i));
+                                    }
+                                    RouteController routeController = new RouteController(getActivity());
+                                   // routeController.createOrUpdateFRoute(itemList);
+                                }else{
+                                    errors.add("Bank response is null");
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                errors.add(t.toString());
+                            }
+                        });
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+
+                        throw e;
+                    }
+                    /*****************end ItemBundle**********************************************************************/
                     /*****************last 3 invoice heds**********************************************************************/
 
                     getActivity().runOnUiThread(new Runnable() {

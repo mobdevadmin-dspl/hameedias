@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item android:id="@+id/menu_item2"
+        android:icon="@android:drawable/stat_sys_data_bluetooth"
+        app:showAsAction="always"
+        android:title="REFRESH CONNECTION"
+        />
+
+</menu>
