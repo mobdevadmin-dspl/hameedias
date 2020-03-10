@@ -68,17 +68,18 @@ public class NearDebtorFragment extends Fragment {
 
         if (gpsTracker.canGetLocation())
         {
-        //    gpsTracker = new GPSTracker(getActivity());
-//            if(!mSharedPref.getGlobalVal("Latitude").equals("") && mSharedPref.getGlobalVal("Longitude").equals(""))
-//            {
+            gpsTracker = new GPSTracker(getActivity());
+            if(!mSharedPref.getGlobalVal("Latitude").equals("") && mSharedPref.getGlobalVal("Longitude").equals(""))
+            {
                 lati = Double.parseDouble(mSharedPref.getGlobalVal("Latitude"));
                 longi = Double.parseDouble(mSharedPref.getGlobalVal("Longitude"));
                 new getNearGPSCustomers().execute();
-//            }
-//            else
-//            {
-//                //startActivityForResult(new Intent(Settings.ACTION_LOCALE_SETTINGS), 0);
-//            }
+            }
+            else
+            {
+                Toast.makeText(getActivity(),"Cannot get location",Toast.LENGTH_LONG).show();
+                //startActivityForResult(new Intent(Settings.ACTION_LOCALE_SETTINGS), 0);
+            }
         }
         else
         {

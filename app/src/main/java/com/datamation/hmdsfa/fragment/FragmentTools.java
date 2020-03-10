@@ -817,7 +817,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         ArrayList<Debtor> imgUpdDebtors = new CustomerController(getActivity()).getAllImagUpdatedDebtors();
         // ArrayList<ReceiptHed> rcptHedList = receipts.getAllCompletedRecHed();
 
-        if (ordHedList.isEmpty() && npHedList.isEmpty() && exHedList.isEmpty() && imgUpdDebtors.isEmpty()) {
+        if (ordHedList.isEmpty() && npHedList.isEmpty() && exHedList.isEmpty()) {
             allUpload = true;
         } else {
             allUpload = false;

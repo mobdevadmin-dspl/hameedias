@@ -410,7 +410,8 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 {
                     Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
                     //Intent intent = new Intent(DebtorDetailsActivity.this, VanSalesActivity.class);
-                    Intent intent = new Intent(DebtorDetailsActivity.this, BarCodeReaderActivity.class);
+                    //Intent intent = new Intent(DebtorDetailsActivity.this, BarCodeReaderActivity.class);
+                    Intent intent = new Intent(DebtorDetailsActivity.this, ActivityVanSalesBR.class);
                     intent.putExtra("outlet", outlet);
                     intent.putExtra("sales_order", false);
                     startActivity(intent);
@@ -490,6 +491,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                     //if(distance<=50) {
 
                         Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
+                       // Intent intent = new Intent(DebtorDetailsActivity.this, PreSalesActivity.class);
                         Intent intent = new Intent(DebtorDetailsActivity.this, PreSalesActivity.class);
                         intent.putExtra("outlet", outlet);
                         intent.putExtra("sales_order", false);

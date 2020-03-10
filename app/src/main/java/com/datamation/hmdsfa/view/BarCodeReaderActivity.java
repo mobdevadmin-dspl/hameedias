@@ -48,9 +48,6 @@ public class BarCodeReaderActivity extends AppCompatActivity {
        // this.setDisplayHomeAsUpEnabled(true);
 
         textStatus = findViewById(R.id.tvStatus_main);
-        itemCode = findViewById(R.id.itemCode);
-        itemName = findViewById(R.id.itemName);
-        avgPrice = findViewById(R.id.avgPrice);
         back = findViewById(R.id.back);
 
         final EditText etSearchField = findViewById(R.id.etSearchField);
@@ -65,9 +62,6 @@ public class BarCodeReaderActivity extends AppCompatActivity {
                     Log.v("ENTERED CODE","itemcode "+etSearchField.getText().toString());
                     for (Item item: aList ) {
                         Log.v("code :",">> "+item.getFITEM_ITEM_CODE());
-                        itemCode.setText(item.getFITEM_ITEM_CODE());
-                        itemName.setText(item.getFITEM_ITEM_NAME());
-                        avgPrice.setText(item.getFITEM_AVGPRICE());
                         etSearchField.setText("");
                     }
 

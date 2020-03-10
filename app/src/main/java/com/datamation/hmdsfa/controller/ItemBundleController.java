@@ -15,11 +15,11 @@ import java.util.ArrayList;
 
 public class ItemBundleController {
 
+/*rashmi - hameedias barcode scan modification - 2020-03-02*/
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbeHelper;
     private String TAG = "ItemBundleController";
-    // rashmi - 2019-12-19 move from database_helper , because of reduce coding in database helper*******************************************************************************
 
     public static final String TABLE_ITEMBUNDLE = "ItemBundle";
     public static final String Id = "Id";
@@ -98,7 +98,68 @@ public class ItemBundleController {
 
     }
 
+    public ItemBundle getItem(String itemCode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
 
+
+        ItemBundle items=new ItemBundle();
+        //  String selectQuery = "SELECT *  FROM fItem WHERE ItemCode LIKE '%"+itemCode+"%'";
+        String selectQuery =  "SELECT * FROM ItemBundle WHERE  Barcode = '" + itemCode + "' ";
+
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        while(cursor.moveToNext()){
+
+            items.setBarcode(cursor.getString(cursor.getColumnIndex(Barcode)));
+            items.setDocumentNo(cursor.getString(cursor.getColumnIndex(DocumentNo)));
+            items.setItemNo(cursor.getString(cursor.getColumnIndex(ItemNo)));
+            items.setVariantCode(cursor.getString(cursor.getColumnIndex(VariantCode)));
+            items.setVariantColour(cursor.getString(cursor.getColumnIndex(VariantColour)));
+            items.setVariantSize(cursor.getString(cursor.getColumnIndex(VariantSize)));
+            items.setQuantity(cursor.getInt(cursor.getColumnIndex(Quantity)));
+
+        }
+
+        return items;
+    }
+
+    public ArrayList<ItemBundle> getItemsInBundle(String itemCode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<ItemBundle> list = new ArrayList<ItemBundle>();
+
+        //  String selectQuery = "SELECT *  FROM fItem WHERE ItemCode LIKE '%"+itemCode+"%'";
+        String selectQuery =  "SELECT * FROM ItemBundle WHERE  DocumentNo = '" + itemCode + "' ";
+
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        while(cursor.moveToNext()){
+
+            ItemBundle items=new ItemBundle();
+
+            items.setBarcode(cursor.getString(cursor.getColumnIndex(Barcode)));
+            items.setDocumentNo(cursor.getString(cursor.getColumnIndex(DocumentNo)));
+            items.setItemNo(cursor.getString(cursor.getColumnIndex(ItemNo)));
+            items.setVariantCode(cursor.getString(cursor.getColumnIndex(VariantCode)));
+            items.setVariantColour(cursor.getString(cursor.getColumnIndex(VariantColour)));
+            items.setVariantSize(cursor.getString(cursor.getColumnIndex(VariantSize)));
+            items.setQuantity(cursor.getInt(cursor.getColumnIndex(Quantity)));
+
+
+            list.add(items);
+
+        }
+
+        return list;
+    }
     public int deleteAll() {
 
         int count = 0;

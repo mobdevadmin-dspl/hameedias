@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:commons:0.9.0.1'
     implementation 'com.android.support:multidex:1.0.1'
     implementation 'com.android.support:percent:28.0.0'
+   // implementation 'com.afollestad.material-dialogs:core:3.2.1' kotlin version
     compile 'se.emilsjolander:stickylistheaders:2.6.0'
     //2019-10-04-for reports
     implementation 'com.google.firebase:firebase-core:11.0.4'

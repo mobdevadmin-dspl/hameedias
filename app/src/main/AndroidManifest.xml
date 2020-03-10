@@ -81,6 +81,9 @@
             android:name="com.datamation.hmdsfa.view.PreSalesActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.datamation.hmdsfa.view.ActivityVanSalesBR"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.datamation.hmdsfa.view.VanSalesActivity"
             android:screenOrientation="portrait" />
         <activity

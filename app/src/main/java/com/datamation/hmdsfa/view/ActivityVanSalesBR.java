@@ -2,34 +2,37 @@ package com.datamation.hmdsfa.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.barcode.BRInvoiceDetailFragment;
+import com.datamation.hmdsfa.barcode.BRInvoiceHeaderFragment;
+import com.datamation.hmdsfa.barcode.BRInvoiceSummaryFragment;
 import com.datamation.hmdsfa.controller.OrderDetailController;
 import com.datamation.hmdsfa.helpers.PreSalesResponseListener;
+import com.datamation.hmdsfa.helpers.VanSalesResponseListener;
 import com.datamation.hmdsfa.model.Customer;
 import com.datamation.hmdsfa.model.FInvRDet;
 import com.datamation.hmdsfa.model.FInvRHed;
-import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.Order;
-import com.datamation.hmdsfa.presale.OrderDetailFragment;
-import com.datamation.hmdsfa.presale.OrderHeaderFragment;
+import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.presale.OrderReturnFragment;
-import com.datamation.hmdsfa.presale.OrderSummaryFragment;
 
-public class PreSalesActivity extends AppCompatActivity implements PreSalesResponseListener{
-    private OrderHeaderFragment orderHeaderFragment;
-    private OrderDetailFragment orderDetailFragment;
-    private OrderSummaryFragment orderSummaryFragment;
+public class ActivityVanSalesBR extends AppCompatActivity implements VanSalesResponseListener {
+
+    private BRInvoiceHeaderFragment orderHeaderFragment;
+    private BRInvoiceDetailFragment orderDetailFragment;
+    private BRInvoiceSummaryFragment orderSummaryFragment;
     private OrderReturnFragment orderReturnFragment;
     private ViewPager viewPager;
     public Customer selectedDebtor = null;
@@ -49,7 +52,7 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("SALES ORDER");
+        setTitle("INVOICE BARCODE");
         context = this;
 
         PagerSlidingTabStrip slidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.presale_tab_strip);
@@ -75,13 +78,13 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
             public void onPageSelected(int position) {
 
                 if (position == 2)
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_RETURN"));
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_SUMMARY"));
                 else if (position == 0)
                     LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_HEADER"));
                 else if (position == 1)
                     LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_DETAILS"));
-                else if (position == 3)
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_SUMMARY"));
+//                else if (position == 2)
+//                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_SUMMARY"));
 
             }
 
@@ -100,10 +103,11 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
             viewPager.setCurrentItem(1);
     }
 
+
     private class PreSalesPagerAdapter extends FragmentPagerAdapter {
 
         //private final String[] titles = {"HEADER", "ORDER DETAILS", "ORDER SUMMARY"};
-        private final String[] titles = {"HEADER", "ORDER DETAILS", "ORDER RETURN", "ORDER SUMMARY"};
+        private final String[] titles = {"HEADER", "ORDER DETAILS", "ORDER SUMMARY"};
 
         public PreSalesPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -118,16 +122,16 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    if(orderHeaderFragment == null) orderHeaderFragment = new OrderHeaderFragment();
+                    if(orderHeaderFragment == null) orderHeaderFragment = new BRInvoiceHeaderFragment();
                     return orderHeaderFragment;
                 case 1:
-                    if(orderDetailFragment == null) orderDetailFragment = new OrderDetailFragment();
+                    if(orderDetailFragment == null) orderDetailFragment = new BRInvoiceDetailFragment();
                     return orderDetailFragment;
+//                case 2:
+//                    if(orderReturnFragment == null) orderReturnFragment = new OrderReturnFragment();
+//                    return orderReturnFragment;
                 case 2:
-                    if(orderReturnFragment == null) orderReturnFragment = new OrderReturnFragment();
-                    return orderReturnFragment;
-                case 3:
-                    if(orderSummaryFragment == null) orderSummaryFragment = new OrderSummaryFragment();
+                    if(orderSummaryFragment == null) orderSummaryFragment = new BRInvoiceSummaryFragment();
                     return orderSummaryFragment;
                 default:
                     return null;
@@ -139,8 +143,9 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
             return titles.length;
         }
     }
+
     @Override
-    public void moveBackToCustomer_pre(int index) {
+    public void moveBackToCustomer(int index) {
 
         if (index == 0)
         {
@@ -164,7 +169,7 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
     }
 
     @Override
-    public void moveNextToCustomer_pre(int index) {
+    public void moveNextToCustomer(int index) {
 
         if (index == 0)
         {
@@ -186,9 +191,13 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
             viewPager.setCurrentItem(3);
         }
     }
+
+
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
+        // super.onBackPressed();
+        Toast.makeText(this,"Back button disabled until finish transaction",Toast.LENGTH_SHORT).show();
     }
 }

@@ -64,5 +64,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="imageview_no_image_string">NO IMAGE AVAILABLE</string>
-    <string name="DATABASE_NAME">swdsfa_database.db</string>
+    <string name="DATABASE_NAME">hmdsfa_database.db</string>
 </resources>

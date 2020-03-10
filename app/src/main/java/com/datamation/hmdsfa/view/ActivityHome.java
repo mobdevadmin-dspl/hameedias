@@ -160,7 +160,7 @@ public class ActivityHome extends AppCompatActivity {
         pref.setImageFlag("1");
 
         String token = FirebaseInstanceId.getInstance().getToken();
-        if(!token.equals(null) ) {
+        if(token!=null ) {
             pref.setFirebaseTokenKey(token);
             Log.d("**##token", "onCreate: " + pref.getFirebaseTokenKey());
         }
