@@ -185,10 +185,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         this.onCreate(arg0);
         try {
-            arg0.execSQL("ALTER TABLE fSalRep ADD COLUMN IsFireQohExcdValidation TEXT DEFAULT 1");
+            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN Barcode TEXT DEFAULT ''");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
         }
+        try {
+            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN DocumentNo TEXT DEFAULT ''");
+        } catch (SQLiteException e) {
+            Log.v("SQLiteException", e.toString());
+        }  try {
+            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN VariantCode TEXT DEFAULT ''");
+        } catch (SQLiteException e) {
+            Log.v("SQLiteException", e.toString());
+        }
+        try {
+            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN IsScan TEXT DEFAULT '0'");
+        } catch (SQLiteException e) {
+            Log.v("SQLiteException", e.toString());
+        }
+        try {
+            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN Price TEXT DEFAULT '0.0'");
+        } catch (SQLiteException e) {
+            Log.v("SQLiteException", e.toString());
+        }
+        try {
+            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN VariantColour TEXT DEFAULT ''");
+        } catch (SQLiteException e) {
+            Log.v("SQLiteException", e.toString());
+        }
+        try {
+            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN VariantSize TEXT DEFAULT '0.0'");
+        } catch (SQLiteException e) {
+            Log.v("SQLiteException", e.toString());
+        }try {
+            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN Quantity TEXT DEFAULT '0.0'");
+        } catch (SQLiteException e) {
+            Log.v("SQLiteException", e.toString());
+        }
+
+        try {
+            arg0.execSQL("ALTER TABLE ItemBundle ADD COLUMN Description TEXT DEFAULT ''");
+        } catch (SQLiteException e) {
+            Log.v("SQLiteException", e.toString());
+        }
+
         try {
 
             arg0.execSQL(InvTaxDTController.CREATE_FINVTAXDT_TABLE);

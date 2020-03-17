@@ -1,7 +1,6 @@
 package com.datamation.hmdsfa.barcode;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -39,58 +38,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.hmdsfa.R;
-import com.datamation.hmdsfa.adapter.FreeIssueAdapter;
+import com.datamation.hmdsfa.adapter.BundleAdapter;
 import com.datamation.hmdsfa.adapter.FreeIssueAdapterNew;
-import com.datamation.hmdsfa.adapter.FreeItemsAdapter;
 import com.datamation.hmdsfa.adapter.InvDetAdapter;
 import com.datamation.hmdsfa.adapter.InvoiceFreeItemAdapter;
 import com.datamation.hmdsfa.adapter.ItemAdapter;
-import com.datamation.hmdsfa.adapter.ItemBundleAdapter;
 import com.datamation.hmdsfa.adapter.NewProduct_Adapter;
-import com.datamation.hmdsfa.adapter.OrderDetailsAdapter;
-import com.datamation.hmdsfa.adapter.OrderFreeItemAdapter;
-import com.datamation.hmdsfa.adapter.PreOrderAdapter;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemPriController;
 import com.datamation.hmdsfa.controller.OrdFreeIssueController;
-import com.datamation.hmdsfa.controller.OrderController;
-import com.datamation.hmdsfa.controller.OrderDetailController;
-import com.datamation.hmdsfa.controller.OrderDiscController;
-import com.datamation.hmdsfa.controller.PreProductController;
 import com.datamation.hmdsfa.controller.ProductController;
-import com.datamation.hmdsfa.controller.SalRepController;
-import com.datamation.hmdsfa.controller.TaxDetController;
 import com.datamation.hmdsfa.discount.Discount;
 import com.datamation.hmdsfa.freeissue.FreeIssue;
-import com.datamation.hmdsfa.freeissue.FreeIssueModified;
 import com.datamation.hmdsfa.helpers.BluetoothConnectionHelper;
-import com.datamation.hmdsfa.helpers.PreSalesResponseListener;
 import com.datamation.hmdsfa.helpers.SharedPref;
-import com.datamation.hmdsfa.model.Customer;
 import com.datamation.hmdsfa.model.FreeItemDetails;
 import com.datamation.hmdsfa.model.InvDet;
 import com.datamation.hmdsfa.model.InvHed;
-import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.ItemFreeIssue;
 import com.datamation.hmdsfa.model.OrdFreeIssue;
-import com.datamation.hmdsfa.model.Order;
-import com.datamation.hmdsfa.model.OrderDetail;
-import com.datamation.hmdsfa.model.PreProduct;
 import com.datamation.hmdsfa.model.Product;
 import com.datamation.hmdsfa.settings.ReferenceNum;
-import com.datamation.hmdsfa.vansale.VanSalesOrderDetails;
 import com.datamation.hmdsfa.view.ActivityVanSalesBR;
-import com.datamation.hmdsfa.view.BarCodeReaderActivity;
-import com.datamation.hmdsfa.view.VanSalesActivity;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -110,7 +87,7 @@ public class BRInvoiceDetailFragment extends Fragment{
     ActivityVanSalesBR mainActivity;
     MyReceiver r;
     ArrayList<Product> productList = null, selectedItemList = null;
-    ArrayList<ItemBundle> itemArrayList = null;
+    ArrayList<ItemBundle> itemArrayList = null, selectedBundleItemList = null;;
     ImageButton ibtProduct, ibtDiscount;
     private  SweetAlertDialog pDialog;
     private InvHed selectedInvHed;
@@ -171,9 +148,13 @@ public class BRInvoiceDetailFragment extends Fragment{
                         Toast.makeText(getActivity(),"No matching item",Toast.LENGTH_LONG).show();
                     }
 
-                    lv_order_det.setAdapter(new ItemAdapter(getActivity(), itemArrayList));
+                  //  lv_order_det.setAdapter(new ItemAdapter(getActivity(), itemArrayList));
                 }else{
-
+                    if (new ProductController(getActivity()).tableHasRecords()) {
+                        productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
+                    } else {
+                        new ProductController(getActivity()).insertIntoProductAsBulk("MS", "WSP001");
+                    }
                     ArrayList<ItemBundle> itemBundle = new ItemBundleController(getActivity())
                             .getItemsInBundle(etSearchField.getText().toString());
                     if(itemBundle.size()>0) {
@@ -255,117 +236,25 @@ public class BRInvoiceDetailFragment extends Fragment{
     }
     private boolean BundleItemsDialogBox(final ArrayList<ItemBundle> itemDetails) {
 
-        final ArrayList<ItemBundle> itemBundles;
-       // final ArrayList<String> saleItemList;
-        //final String FIRefNo = itemDetails.getRefno();
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-        View promptView = layoutInflater.inflate(R.layout.free_issues_items_dialog, null);
+        View promptView = layoutInflater.inflate(R.layout.bundle_items_popup, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setTitle("Items Inside Bundle");
         alertDialogBuilder.setView(promptView);
-
         final ListView listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
-       // final ListView listViewsale = (ListView) promptView.findViewById(R.id.lv_free_issue_items);
-       // final TextView itemName = (TextView) promptView.findViewById(R.id.tv_free_issue_item_name);
-       // final TextView itemNamefree = (TextView) promptView.findViewById(R.id.tv_free_issued_item_name);
-       // final TextView freeQty = (TextView) promptView.findViewById(R.id.tv_free_qty);
 
-       // freeQty.setText("Free Quantity : " + itemDetails.getFreeQty());
-       //  itemNamefree.setText("Free Products : ");
-
-
-//        saleItemList = itemsDS.getFreeIssueItemDetailsByItem(itemDetails.getSaleItemList());
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, saleItemList);
-//        listViewsale.setAdapter(adapter);
-        listView.setAdapter(new ItemBundleAdapter(getActivity(), itemDetails));
+        listView.setAdapter(new BundleAdapter(getActivity(), itemDetails));
+       // implement checkbox development and update scan flag in bundleadapter
 
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                for(ItemBundle items : itemDetails) {
-                    itemArrayList.add(items);
-                }
-                lv_order_det.setAdapter(new ItemAdapter(getActivity(), itemArrayList));
-//                for (ItemFreeIssue itemFreeIssue : itemFreeIssues) {
-//
-//                    if (Integer.parseInt(itemFreeIssue.getAlloc()) > 0) {
-//
-//                        seqno++;
-//                        OrderDetail ordDet = new OrderDetail();
-//                        OrderDetailController detDS = new OrderDetailController(getActivity());
-//                        ArrayList<OrderDetail> ordList = new ArrayList<OrderDetail>();
-//
-//                        ordDet.setFORDERDET_ID("0");
-//                        ordDet.setFORDERDET_AMT("0");
-//                        ordDet.setFORDERDET_BALQTY(itemFreeIssue.getAlloc());
-//                        ordDet.setFORDERDET_BAMT("0");
-//                        ordDet.setFORDERDET_BDISAMT("0");
-//                        ordDet.setFORDERDET_BPDISAMT("0");
-//                        String unitPrice = new ItemPriController(getActivity()).getProductPriceByCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE(), mSharedPref.getSelectedDebtorPrilCode());
-//                        ordDet.setFORDERDET_BSELLPRICE("0");
-//                        ordDet.setFORDERDET_BTSELLPRICE("0.00");
-//                        ordDet.setFORDERDET_DISAMT("0");
-//                        ordDet.setFORDERDET_SCHDISPER("0");
-//                        ordDet.setFORDERDET_FREEQTY("0");
-//                        ordDet.setFORDERDET_ITEMCODE(itemFreeIssue.getItems().getFITEM_ITEM_CODE());
-//                        ordDet.setFORDERDET_PDISAMT("0");
-//                        ordDet.setFORDERDET_PRILCODE("WSP001");
-//                        ordDet.setFORDERDET_QTY(itemFreeIssue.getAlloc());
-//                        ordDet.setFORDERDET_PICE_QTY(itemFreeIssue.getAlloc());
-//                        ordDet.setFORDERDET_CASES("0");//because free issue not issued cases wise-2019-10-21 menaka said
-//                        ordDet.setFORDERDET_TYPE("FD");
-//                        ordDet.setFORDERDET_RECORDID("");
-//                        ordDet.setFORDERDET_REFNO(RefNo);
-//                        ordDet.setFORDERDET_SELLPRICE("0");
-//                        ordDet.setFORDERDET_SEQNO(seqno + "");
-//                        ordDet.setFORDERDET_TAXAMT("0");
-//                        ordDet.setFORDERDET_TAXCOMCODE(new ItemController(getActivity()).getTaxComCodeByItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE()));
-//                        //ordDet.setFTRANSODET_TAXCOMCODE(new ItemsDS(getActivity()).getTaxComCodeByItemCodeFromDebTax(itemFreeIssue.getItems().getFITEM_ITEM_CODE(), mainActivity.selectedDebtor.getFDEBTOR_CODE()));
-//                        ordDet.setFORDERDET_TIMESTAMP_COLUMN("");
-//                        ordDet.setFORDERDET_TSELLPRICE("0.00");
-//                        ordDet.setFORDERDET_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-//                        ordDet.setFORDERDET_TXNTYPE("27");
-//                        ordDet.setFORDERDET_IS_ACTIVE("1");
-//                        ordDet.setFORDERDET_LOCCODE(mSharedPref.getGlobalVal("PrekeyLocCode").trim());
-//                        ordDet.setFORDERDET_COSTPRICE(new ItemController(getActivity()).getCostPriceItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE()));
-//                        ordDet.setFORDERDET_BTAXAMT("0");
-//                        ordDet.setFORDERDET_IS_SYNCED("0");
-//                        ordDet.setFORDERDET_QOH("0");
-//                        ordDet.setFORDERDET_SCHDISC("0");
-//                        ordDet.setFORDERDET_BRAND_DISC("0");
-//                        ordDet.setFORDERDET_BRAND_DISPER("0");
-//                        ordDet.setFORDERDET_COMP_DISC("0");
-//                        ordDet.setFORDERDET_COMP_DISPER("0");
-//                        ordDet.setFORDERDET_DISCTYPE("");
-//                        ordDet.setFORDERDET_PRICE("0.00");
-//                        ordDet.setFORDERDET_ORG_PRICE("0");
-//                        ordDet.setFORDERDET_DISFLAG("0");
-//                        ordDet.setFORDERDET_REACODE("");
-//
-//                        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*OrdFreeIssue table update*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-//
-//                        OrdFreeIssue ordFreeIssue = new OrdFreeIssue();
-//                        ordFreeIssue.setOrdFreeIssue_ItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE());
-//                        ordFreeIssue.setOrdFreeIssue_Qty(itemFreeIssue.getAlloc());
-//                        ordFreeIssue.setOrdFreeIssue_RefNo(FIRefNo);
-//                        ordFreeIssue.setOrdFreeIssue_RefNo1(RefNo);
-//                        ordFreeIssue.setOrdFreeIssue_TxnDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-//                        new OrdFreeIssueController(getActivity()).UpdateOrderFreeIssue(ordFreeIssue);
-//
-//                        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*/
-//
-//                        ordList.add(ordDet);
-//
-//                        if (detDS.createOrUpdateOrdDet(ordList) > 0) {
-//                            Toast.makeText(getActivity(), "Added successfully", Toast.LENGTH_SHORT).show();
-//                            showData();
-//
-////                            lvFree.setAdapter(null);
-////                            ArrayList<OrderDetail> freeList=new OrderDetailController(getActivity()).getAllFreeIssue(RefNo);
-////                            lvFree.setAdapter(new OrderFreeItemAdapter(getActivity(), freeList));
-//                        }
-//                    }
-//                }
+                selectedItemList = new ProductController(getActivity()).getScannedtems("SA");
+                updateInvoiceDet(selectedItemList);
+//                ArrayList<ItemBundle> scannedItems = new ProductController(getActivity()).getScannedItems();
+//                //added scaned items to lv_ordr_det
+//                lv_order_det.setAdapter(new ItemAdapter(getActivity(), scannedItems));
+
 
                 dialog.cancel();//2020-03-10
             }
@@ -379,6 +268,53 @@ public class BRInvoiceDetailFragment extends Fragment{
 
         alertD.show();
         return true;
+    }
+
+    public void BundleDialogBox(final ArrayList<ItemBundle> itemDetails) {
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View promptView = layoutInflater.inflate(R.layout.product_dialog_layout, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setView(promptView);
+
+        final ListView lvProducts = (ListView) promptView.findViewById(R.id.lv_product_list);
+        final SearchView search = (SearchView) promptView.findViewById(R.id.et_search);
+
+        lvProducts.clearTextFilter();
+        //productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
+        lvProducts.setAdapter(new BundleAdapter(getActivity(), itemDetails));
+
+        alertDialogBuilder.setCancelable(false).setNegativeButton("DONE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                selectedItemList = new ProductController(getActivity()).getSelectedItems("SA");
+                updateInvoiceDet(selectedItemList);
+                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+        alertDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                productList = new ProductController(getActivity()).getAllItems(query,"SA");//Rashmi 2018-10-26
+                lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                productList.clear();
+                productList = new ProductController(getActivity()).getAllItems(newText,"SA");//rashmi-2018-10-26
+                lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
+                return true;
+            }
+        });
     }
     //------------------------------------------------------------------------------------------------------------------------------------
     public class LoardingProductFromDB extends AsyncTask<Object, Object, ArrayList<Product>> {
@@ -688,7 +624,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         try {
             orderList = new InvDetController(getActivity()).getAllInvDet(selectedInvHed.getFINVHED_REFNO());
 //            ArrayList<InvDet> freeList = new InvDetController(getActivity()).getAllFreeIssue(selectedInvHed.getFINVHED_REFNO());
-//            lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));//2019-07-07 till error free
+            lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));//2019-07-07 till error free
            // lvFree.setAdapter(new FreeItemsAdapter(getActivity(), freeList));
         } catch (NullPointerException e) {
             Log.v("SA Error", e.toString());
@@ -832,8 +768,9 @@ public class BRInvoiceDetailFragment extends Fragment{
         alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                new ProductController(getActivity()).updateProductQty(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
-                new InvDetController(getActivity()).mDeleteProduct(selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE());
+                new ProductController(getActivity()).updateBarCode(itemArrayList.get(position).getBarcode(), "0");
+                //new ProductController(getActivity()).updateProductQty(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
+                //new InvDetController(getActivity()).mDeleteProduct(selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE());
                 android.widget.Toast.makeText(getActivity(), "Deleted successfully!", android.widget.Toast.LENGTH_SHORT).show();
                 showData();
 
@@ -879,7 +816,7 @@ public class BRInvoiceDetailFragment extends Fragment{
 
                 for (Product product : list) {
                     i++;
-                    mUpdateInvoice("0", product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_PRICE(), i + "", product.getFPRODUCT_QOH(),product.getFPRODUCT_CHANGED_PRICE());
+                    mUpdateInvoice("0", product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), i + "", product.getFPRODUCT_QOH(),product.getFPRODUCT_Price());
                 }
                 return null;
             }
@@ -955,10 +892,10 @@ public class BRInvoiceDetailFragment extends Fragment{
         invDet.setFINVDET_DIS_AMT("0");
         invDet.setFINVDET_DIS_PER("0");
         invDet.setFINVDET_ITEM_CODE(itemCode);
-        invDet.setFINVDET_PRIL_CODE(SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
+       // invDet.setFINVDET_PRIL_CODE(SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
         invDet.setFINVDET_QTY(Qty);
         invDet.setFINVDET_PICE_QTY(Qty);
-        invDet.setFINVDET_TYPE("SA");
+        invDet.setFINVDET_TYPE("Invoice");
         invDet.setFINVDET_BT_TAX_AMT("0");
         invDet.setFINVDET_RECORD_ID("");
         invDet.setFINVDET_SEQNO(seqno + "");

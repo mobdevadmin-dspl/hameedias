@@ -830,7 +830,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
         for (Product product : list) {
 
             VanSalesActivity activity = (VanSalesActivity) getActivity();
-            double totAmt = Double.parseDouble(product.getFPRODUCT_PRICE()) * Double.parseDouble(product.getFPRODUCT_QTY());
+            double totAmt = Double.parseDouble(product.getFPRODUCT_Price()) * Double.parseDouble(product.getFPRODUCT_QTY());
             String TaxedAmt = new TaxDetController(getActivity()).calculateTax(product.getFPRODUCT_ITEMCODE(), new BigDecimal(totAmt));
 
             double brandDiscPer = new DebItemPriController(getActivity()).getBrandDiscount(new ItemController(getActivity()).getBrandCode(product.getFPRODUCT_ITEMCODE()), SharedPref.getInstance(getActivity()).getSelectedDebCode());
@@ -850,8 +850,8 @@ public class BRInvoiceSummaryFragment extends Fragment {
             invDet.setFINVDET_AMT(String.format("%.2f", totAmt - Double.parseDouble(TaxedAmt)));
             invDet.setFINVDET_BAL_QTY(product.getFPRODUCT_QTY());
             invDet.setFINVDET_B_AMT(invDet.getFINVDET_AMT());
-            invDet.setFINVDET_B_SELL_PRICE(product.getFPRODUCT_PRICE());
-            invDet.setFINVDET_BT_SELL_PRICE(product.getFPRODUCT_PRICE());
+            invDet.setFINVDET_B_SELL_PRICE(product.getFPRODUCT_Price());
+            invDet.setFINVDET_BT_SELL_PRICE(product.getFPRODUCT_Price());
             //    invDet.setFINVDET_DIS_AMT(String.format("%.2f", compDisc + brandDisc));
             invDet.setFINVDET_DIS_PER("0");
             invDet.setFINVDET_ITEM_CODE(product.getFPRODUCT_ITEMCODE());

@@ -30,6 +30,7 @@ public class ItemBundleController {
     public static final String VariantColour = "VariantColour";
     public static final String VariantSize = "VariantSize";
     public static final String Quantity = "Quantity";
+    public static final String Description = "Description";
     public static final String CREATE_ITEMBUNDLE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_ITEMBUNDLE + " (" + Id + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             Barcode + " TEXT, " +
             DocumentNo + " TEXT, " +
@@ -37,6 +38,7 @@ public class ItemBundleController {
             VariantCode + " TEXT, " +
             VariantColour + " TEXT, " +
             VariantSize + " TEXT, " +
+            Description + " TEXT, " +
             Quantity + " TEXT ); ";
 
     public ItemBundleController(Context context) {
@@ -76,6 +78,7 @@ public class ItemBundleController {
                 values.put(VariantColour, itemBndl.getVariantColour());
                 values.put(VariantSize, itemBndl.getVariantSize());
                 values.put(Quantity, itemBndl.getQuantity());
+                values.put(Description, itemBndl.getDescription());
 
 //                int cn = cursor.getCount();
 //                if (cn > 0)
@@ -121,6 +124,7 @@ public class ItemBundleController {
             items.setVariantColour(cursor.getString(cursor.getColumnIndex(VariantColour)));
             items.setVariantSize(cursor.getString(cursor.getColumnIndex(VariantSize)));
             items.setQuantity(cursor.getInt(cursor.getColumnIndex(Quantity)));
+            items.setDescription(cursor.getString(cursor.getColumnIndex(Description)));
 
         }
 
@@ -152,6 +156,7 @@ public class ItemBundleController {
             items.setVariantColour(cursor.getString(cursor.getColumnIndex(VariantColour)));
             items.setVariantSize(cursor.getString(cursor.getColumnIndex(VariantSize)));
             items.setQuantity(cursor.getInt(cursor.getColumnIndex(Quantity)));
+            items.setDescription(cursor.getString(cursor.getColumnIndex(Description)));
 
 
             list.add(items);

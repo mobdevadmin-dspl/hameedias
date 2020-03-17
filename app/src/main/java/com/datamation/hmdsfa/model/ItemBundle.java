@@ -25,6 +25,16 @@ public class ItemBundle {
     @SerializedName("Quantity")
     private int Quantity;
 
+    private int isChecked;
+
+    public int getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(int isChecked) {
+        this.isChecked = isChecked;
+    }
+
     public String getDocumentNo() {
         return DocumentNo;
     }

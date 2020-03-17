@@ -1219,7 +1219,7 @@ public void calculateFreeIssue(String debCode) {
 
                 for (Product product : list) {
                     i++;
-                    mUpdateInvoice("0", product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_PRICE(), i + "", product.getFPRODUCT_QOH(),product.getFPRODUCT_CHANGED_PRICE());
+                    mUpdateInvoice("0", product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), i + "", product.getFPRODUCT_QOH(),product.getFPRODUCT_Price());
                 }
                 return null;
             }

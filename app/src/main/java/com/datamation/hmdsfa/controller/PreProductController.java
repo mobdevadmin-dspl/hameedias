@@ -38,7 +38,7 @@ public class PreProductController {
             + FPRODUCT_ITEMCODE_PRE + " TEXT, "
             + FPRODUCT_ITEMNAME_PRE + " TEXT, "
             + FPRODUCT_PRICE_PRE + " TEXT, "
-            + ProductController.FPRODUCT_CHANGED_PRICE + " TEXT, "
+           // + ProductController.FPRODUCT_CHANGED_PRICE + " TEXT, "
             + FPRODUCT_QOH_PRE + " TEXT, "
             + FPRODUCT_CASE_PRE + " TEXT, "
             + FPRODUCT_UNITS + " TEXT, "

@@ -46,7 +46,7 @@ public class ItemAdapter extends ArrayAdapter<ItemBundle> {
         TextView Qty = (TextView) row.findViewById(R.id.row_cases);
         TextView Amt = (TextView) row.findViewById(R.id.row_piece);
         TextView showStatus=(TextView)row.findViewById(R.id.row_free_status);
-
+       // final CheckBox listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
         ItemController ds = new ItemController(getContext());
         item.setText(list.get(position).getDocumentNo()+" | "+list.get(position).getBarcode());
         //item.setText(ds.getItemNameByCode(list.get(position).getFINVDET_ITEM_CODE()));item.getItemNo()+" | "+item.getVariantCode()+" | "+item.getVariantSize()

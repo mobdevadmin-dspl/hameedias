@@ -11,12 +11,13 @@ import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.model.InvDet;
+import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.Product;
 
 import java.util.ArrayList;
 
 /**
- * Created by Himas on 7/25/2017.
+ * rashmi
  */
 
 public class ProductController {
@@ -38,25 +39,31 @@ public class ProductController {
     public static final String FPRODUCT_ID = "id";
     public static final String FPRODUCT_ITEMCODE = "itemcode";
     public static final String FPRODUCT_ITEMNAME = "itemname";
-    public static final String FPRODUCT_PRICE = "price";
-    public static final String FPRODUCT_QOH = "qoh";
-    public static final String FPRODUCT_MIN_PRICE = "minPrice";
-    public static final String FPRODUCT_MAX_PRICE = "maxPrice";
-    public static final String FPRODUCT_QTY = "qty";
-    public static final String FPRODUCT_CHANGED_PRICE = "ChangedPrice";
-    public static final String FPRODUCT_TXNTYPE= "TxnType";
+    public static final String FPRODUCT_Barcode = "Barcode";
+    public static final String FPRODUCT_DocumentNo = "DocumentNo";
+    public static final String FPRODUCT_VariantCode = "VariantCode";
+    public static final String FPRODUCT_VariantColour = "VariantColour";
+    public static final String FPRODUCT_VariantSize = "VariantSize";
+    public static final String FPRODUCT_Quantity = "Quantity";
+    public static final String FPRODUCT_Price = "Price";
+    public static final String FPRODUCT_IsScan = "IsScan";
+    public static final String FPRODUCT_QOH = "QOH";
+
+
 
     public static final String CREATE_FPRODUCT_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRODUCT + " ("
             + FPRODUCT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + FPRODUCT_ITEMCODE + " TEXT, "
             + FPRODUCT_ITEMNAME + " TEXT, "
-            + FPRODUCT_PRICE + " TEXT, "
-            + FPRODUCT_MIN_PRICE + " TEXT, "
-            + FPRODUCT_MAX_PRICE + " TEXT, "
-            + FPRODUCT_QOH + " TEXT, "
-            + FPRODUCT_CHANGED_PRICE + " TEXT, "
-            + FPRODUCT_TXNTYPE + " TEXT, "
-            + FPRODUCT_QTY + " TEXT); ";
+            + FPRODUCT_Barcode + " TEXT, "
+            + FPRODUCT_DocumentNo + " TEXT, "
+            + FPRODUCT_VariantCode + " TEXT, "
+            + FPRODUCT_VariantColour + " TEXT, "
+            + FPRODUCT_VariantSize + " TEXT, "
+            + FPRODUCT_Quantity + " TEXT, "
+            + FPRODUCT_Price + " TEXT, "
+            + FPRODUCT_QOH+ " TEXT, "
+            + FPRODUCT_IsScan + " TEXT); ";
 
     public void insertOrUpdateProducts(ArrayList<Product> list) {
         if (dB == null) {
@@ -67,7 +74,7 @@ public class ProductController {
 
         try {
             dB.beginTransactionNonExclusive();
-            String sql = "INSERT OR REPLACE INTO " + TABLE_FPRODUCT + " (itemcode,itemname,price,qoh,qty,minPrice,maxPrice,ChangedPrice,TxnType) VALUES (?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT OR REPLACE INTO " + TABLE_FPRODUCT + " (itemcode,itemname,Barcode,DocumentNo,VariantCode,VariantColour,VariantSize,Quantity,Price,QOH,IsScan) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
             SQLiteStatement stmt = dB.compileStatement(sql);
 
@@ -75,13 +82,15 @@ public class ProductController {
 
                 stmt.bindString(1, items.getFPRODUCT_ITEMCODE());
                 stmt.bindString(2, items.getFPRODUCT_ITEMNAME());
-                stmt.bindString(3, items.getFPRODUCT_PRICE());
-                stmt.bindString(4, items.getFPRODUCT_QOH());
-                stmt.bindString(5, items.getFPRODUCT_QTY());
-                stmt.bindString(6, items.getFPRODUCT_MIN_PRICE());
-                stmt.bindString(7, items.getFPRODUCT_MAX_PRICE());
-                stmt.bindString(8, items.getFPRODUCT_CHANGED_PRICE());
-                stmt.bindString(9, items.getFPRODUCT_TXN_TYPE());
+                stmt.bindString(3, items.getFPRODUCT_Barcode());
+                stmt.bindString(4, items.getFPRODUCT_DocumentNo());
+                stmt.bindString(5, items.getFPRODUCT_VariantCode());
+                stmt.bindString(6, items.getFPRODUCT_VariantColour());
+                stmt.bindString(7, items.getFPRODUCT_VariantSize());
+                stmt.bindString(8, items.getFPRODUCT_QTY());
+                stmt.bindString(9, items.getFPRODUCT_Price());
+                stmt.bindString(10, items.getFPRODUCT_QOH());
+                stmt.bindString(11, "0");
 
                 stmt.execute();
                 stmt.clearBindings();
@@ -146,12 +155,14 @@ public class ProductController {
                 product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
                 product.setFPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMCODE)));
                 product.setFPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMNAME)));
-                product.setFPRODUCT_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_PRICE)));
+                product.setFPRODUCT_Barcode(cursor.getString(cursor.getColumnIndex(FPRODUCT_Barcode)));
+                product.setFPRODUCT_DocumentNo(cursor.getString(cursor.getColumnIndex(FPRODUCT_DocumentNo)));
+                product.setFPRODUCT_VariantCode(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantCode)));
+                product.setFPRODUCT_VariantColour(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantColour)));
+                product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_Quantity)));
+                product.setFPRODUCT_Price(cursor.getString(cursor.getColumnIndex(FPRODUCT_Price)));
                 product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
-                product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_QTY)));
-                product.setFPRODUCT_MAX_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_MAX_PRICE)));
-                product.setFPRODUCT_MIN_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_MIN_PRICE)));
-                product.setFPRODUCT_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_CHANGED_PRICE)));
+                product.setFPRODUCT_IsScan(cursor.getString(cursor.getColumnIndex(FPRODUCT_IsScan)));
 
                 list.add(product);
             }
@@ -175,6 +186,7 @@ public class ProductController {
         Cursor cursor = null;
         ArrayList<Product> list = new ArrayList<>();
         try {
+          //  cursor = dB.rawQuery("SELECT * FROM " +TABLE_FPRODUCT + " WHERE itemcode || itemname LIKE '%" + newText + "%' and TxnType = '"+txntype+"' ORDER BY QOH DESC", null);
             cursor = dB.rawQuery("SELECT * FROM " +TABLE_FPRODUCT + " WHERE itemcode || itemname LIKE '%" + newText + "%' and TxnType = '"+txntype+"' ORDER BY QOH DESC", null);
 
             while (cursor.moveToNext()) {
@@ -182,13 +194,15 @@ public class ProductController {
                 product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
                 product.setFPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMCODE)));
                 product.setFPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMNAME)));
-                product.setFPRODUCT_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_PRICE)));
+                product.setFPRODUCT_DocumentNo(cursor.getString(cursor.getColumnIndex(FPRODUCT_DocumentNo)));
+                product.setFPRODUCT_Barcode(cursor.getString(cursor.getColumnIndex(FPRODUCT_Barcode)));
+                product.setFPRODUCT_VariantCode(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantCode)));
+                product.setFPRODUCT_VariantColour(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantColour)));
+                product.setFPRODUCT_VariantSize(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantSize)));
+                product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_Quantity)));
+                product.setFPRODUCT_Price(cursor.getString(cursor.getColumnIndex(FPRODUCT_Price)));
                 product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
-                product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_QTY)));
-//                product.setFPRODUCT_MAX_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_MAX_PRICE)));
-//                product.setFPRODUCT_MIN_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_MIN_PRICE)));
-//                product.setFPRODUCT_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_CHANGED_PRICE)));
-                product.setFPRODUCT_TXN_TYPE(cursor.getString(cursor.getColumnIndex(FPRODUCT_TXNTYPE)));
+                product.setFPRODUCT_IsScan(cursor.getString(cursor.getColumnIndex(FPRODUCT_IsScan)));
 
 
                 list.add(product);
@@ -204,7 +218,7 @@ public class ProductController {
     }
 
 
-    public void updateProductQty(String itemCode, String qty) {
+    public void updateBarCode(String itemCode, String isScan) {
 
         if (dB == null) {
             open();
@@ -215,8 +229,8 @@ public class ProductController {
         try {
 
             ContentValues values = new ContentValues();
-            values.put(FPRODUCT_QTY, qty);
-            dB.update(TABLE_FPRODUCT, values,FPRODUCT_ITEMCODE + " =?", new String[]{String.valueOf(itemCode)});
+            values.put(FPRODUCT_IsScan, isScan);
+            dB.update(TABLE_FPRODUCT, values,FPRODUCT_Barcode + " =?", new String[]{String.valueOf(itemCode)});
 
         } catch (Exception e) {
             Log.v(" Exception", e.toString());
@@ -227,50 +241,6 @@ public class ProductController {
 
 
 
-    public int updateProductQtyfor(String itemCode, String qty) {
-        int count = 0;
-        if (dB == null) {
-            open();
-        } else if (!dB.isOpen()) {
-            open();
-        }
-
-        try {
-
-            ContentValues values = new ContentValues();
-            values.put(FPRODUCT_QTY, qty);
-            count=(int)dB.update(TABLE_FPRODUCT, values,FPRODUCT_ITEMCODE + " =?", new String[]{String.valueOf(itemCode)});
-
-        } catch (Exception e) {
-        e.printStackTrace();
-        } finally {
-            dB.close();
-        }
-        return  count;
-    }
-
-    public int updateProductPrice(String itemCode, String price, String type) {
-        int count = 0;
-        if (dB == null) {
-            open();
-        } else if (!dB.isOpen()) {
-            open();
-        }
-
-        try {
-
-            ContentValues values = new ContentValues();
-            values.put(FPRODUCT_CHANGED_PRICE, price);
-            count=(int)dB.update(PreProductController.TABLE_FPRODUCT_PRE, values, PreProductController.FPRODUCT_ITEMCODE_PRE
-                    + " = '" + itemCode + "' and "+PreProductController.FPRODUCT_TYPE + " = '" + type + "' ", null);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            dB.close();
-        }
-        return  count;
-    }
 
     public ArrayList<Product> getSelectedItems() {
 
@@ -289,13 +259,88 @@ public class ProductController {
                 product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
                 product.setFPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMCODE)));
                 product.setFPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMNAME)));
-                product.setFPRODUCT_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_PRICE)));
+                product.setFPRODUCT_Barcode(cursor.getString(cursor.getColumnIndex(FPRODUCT_Barcode)));
+                product.setFPRODUCT_DocumentNo(cursor.getString(cursor.getColumnIndex(FPRODUCT_DocumentNo)));
+                product.setFPRODUCT_VariantCode(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantCode)));
+                product.setFPRODUCT_VariantColour(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantColour)));
+                product.setFPRODUCT_VariantSize(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantSize)));
+                product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_Quantity)));
+                product.setFPRODUCT_Price(cursor.getString(cursor.getColumnIndex(FPRODUCT_Price)));
                 product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
-                product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_QTY)));
-                product.setFPRODUCT_MAX_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_MAX_PRICE)));
-                product.setFPRODUCT_MIN_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_MIN_PRICE)));
-                product.setFPRODUCT_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_CHANGED_PRICE)));
-                product.setFPRODUCT_TXN_TYPE(cursor.getString(cursor.getColumnIndex(FPRODUCT_TXNTYPE)));
+                product.setFPRODUCT_IsScan(cursor.getString(cursor.getColumnIndex(FPRODUCT_IsScan)));
+
+                list.add(product);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            dB.close();
+        }
+
+        return list;
+    }
+    public ArrayList<ItemBundle> getScannedItems() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<ItemBundle> list = new ArrayList<ItemBundle>();
+        try {
+            cursor = dB.rawQuery("SELECT * FROM " +TABLE_FPRODUCT + " WHERE  IsScan<>'0'", null);
+
+            while (cursor.moveToNext()) {
+                ItemBundle items=new ItemBundle();
+
+                items.setBarcode(cursor.getString(cursor.getColumnIndex(FPRODUCT_Barcode)));
+                items.setDocumentNo(cursor.getString(cursor.getColumnIndex(FPRODUCT_DocumentNo)));
+                items.setItemNo(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMCODE)));
+                items.setVariantCode(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantCode)));
+                items.setVariantColour(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantColour)));
+                items.setVariantSize(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantSize)));
+                items.setQuantity(cursor.getInt(cursor.getColumnIndex(FPRODUCT_Quantity)));
+                items.setDescription(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMNAME)));
+
+                list.add(items);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            dB.close();
+        }
+
+        return list;
+    }
+    public ArrayList<Product> getScannedtems(String txntype) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<Product> list = new ArrayList<>();
+        try {
+            cursor = dB.rawQuery("SELECT * FROM " +TABLE_FPRODUCT + " WHERE  IsScan<>'0' ", null);
+
+            while (cursor.moveToNext()) {
+                Product product = new Product();
+                product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
+                product.setFPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMCODE)));
+                product.setFPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMNAME)));
+                product.setFPRODUCT_Barcode(cursor.getString(cursor.getColumnIndex(FPRODUCT_Barcode)));
+                product.setFPRODUCT_DocumentNo(cursor.getString(cursor.getColumnIndex(FPRODUCT_DocumentNo)));
+                product.setFPRODUCT_VariantCode(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantCode)));
+                product.setFPRODUCT_VariantColour(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantColour)));
+                product.setFPRODUCT_VariantSize(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantSize)));
+                product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_Quantity)));
+                product.setFPRODUCT_Price(cursor.getString(cursor.getColumnIndex(FPRODUCT_Price)));
+                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
+                product.setFPRODUCT_IsScan(cursor.getString(cursor.getColumnIndex(FPRODUCT_IsScan)));
 
                 list.add(product);
             }
@@ -325,13 +370,15 @@ public class ProductController {
                 product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
                 product.setFPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMCODE)));
                 product.setFPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMNAME)));
-                product.setFPRODUCT_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_PRICE)));
+                product.setFPRODUCT_Barcode(cursor.getString(cursor.getColumnIndex(FPRODUCT_Barcode)));
+                product.setFPRODUCT_DocumentNo(cursor.getString(cursor.getColumnIndex(FPRODUCT_DocumentNo)));
+                product.setFPRODUCT_VariantCode(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantCode)));
+                product.setFPRODUCT_VariantColour(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantColour)));
+                product.setFPRODUCT_VariantSize(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantSize)));
+                product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_Quantity)));
+                product.setFPRODUCT_Price(cursor.getString(cursor.getColumnIndex(FPRODUCT_Price)));
                 product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
-                product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_QTY)));
-                product.setFPRODUCT_MAX_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_MAX_PRICE)));
-                product.setFPRODUCT_MIN_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_MIN_PRICE)));
-                product.setFPRODUCT_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_CHANGED_PRICE)));
-                product.setFPRODUCT_TXN_TYPE(cursor.getString(cursor.getColumnIndex(FPRODUCT_TXNTYPE)));
+                product.setFPRODUCT_IsScan(cursor.getString(cursor.getColumnIndex(FPRODUCT_IsScan)));
 
                 list.add(product);
             }
@@ -346,37 +393,6 @@ public class ProductController {
     }
 
 
-    public ArrayList<InvDet> getSelectedItemsForInvoice(String Refno) {
-
-        if (dB == null) {
-            open();
-        } else if (!dB.isOpen()) {
-            open();
-        }
-        Cursor cursor = null;
-        ArrayList<InvDet> list = new ArrayList<>();
-        try {
-            cursor = dB.rawQuery("SELECT * FROM " +TABLE_FPRODUCT + " WHERE  qty<>'0'", null);
-
-            while (cursor.moveToNext()) {
-                InvDet invDet = new InvDet();
-                invDet.setFINVDET_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
-                invDet.setFINVDET_ITEM_CODE(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMCODE)));
-                invDet.setFINVDET_REFNO(Refno);
-                invDet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_PRICE)));
-                invDet.setFINVDET_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
-                invDet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_QTY)));
-                list.add(invDet);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            cursor.close();
-            dB.close();
-        }
-
-        return list;
-    }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*/
 
@@ -396,7 +412,50 @@ public class ProductController {
             dB.close();
         }
     }
+    public void updateProductQty(String itemCode, String qty) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try {
+
+            ContentValues values = new ContentValues();
+            values.put(FPRODUCT_Quantity, qty);
+            dB.update(TABLE_FPRODUCT, values,FPRODUCT_ITEMCODE + " =?", new String[]{String.valueOf(itemCode)});
+
+        } catch (Exception e) {
+            Log.v(" Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+    }
+
+
+
+    public int updateProductQtyfor(String itemCode, String qty) {
+        int count = 0;
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try {
+
+            ContentValues values = new ContentValues();
+            values.put(FPRODUCT_Quantity, qty);
+            count=(int)dB.update(TABLE_FPRODUCT, values,FPRODUCT_ITEMCODE + " =?", new String[]{String.valueOf(itemCode)});
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+        return  count;
+    }
 
     public void insertIntoProductAsBulk(String LocCode, String prillcode)
     {
@@ -409,19 +468,21 @@ public class ProductController {
         try
         {
                 String insertQuery2;
-                insertQuery2 = "INSERT INTO fProducts (itemcode,itemname,price,qoh,ChangedPrice,TxnType,qty)\n" +
+                insertQuery2 = "INSERT INTO fProducts (itemcode,itemname,Barcode,DocumentNo,VariantCode,VariantColour,VariantSize,Quantity,Price,QOH,IsScan)\n" +
                         "SELECT \n" +
-                        "itm.ItemCode AS ItemCode , itm.ItemName AS ItemName ,  \n" +
-                        "IFNULL(pri.Price,0.0) AS Price , " +
-//                        "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +//commented on 2019-07-08 because price is 0.0
-//                        "IFNULL(pri.MaxPrice,0.0) AS MaxPrice ,\n" +//commented on 2019-07-08 because price is 0.0
-                        "loc.QOH AS QOH , \"0.0\" AS ChangedPrice , \"SA\" AS TxnType , \"0\" AS Qty FROM fItem itm\n" +
-                        "INNER JOIN fItemLoc loc ON loc.ItemCode = itm.ItemCode \n" +
-                        "LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode \n" +
-                        "AND pri.PrilCode = '"+prillcode+"'\n" +
-                        "WHERE loc.LocCode = '"+LocCode+"'\n" +
-                    //    "AND pri.Price > 0\n" +//commented on 2019-07-08 because price is 0.0
-                        "GROUP BY itm.ItemCode ORDER BY QOH DESC";
+                        "itm.ItemNo AS ItemCode , itm.Description AS ItemName ,  \n" +
+                        "itm.Barcode AS Barcode , " +
+                        "itm.DocumentNo AS DocumentNo , " +
+                        "itm.VariantCode AS VariantCode , " +
+                        "itm.VariantColour AS VariantColour , " +
+                        "itm.VariantSize AS VariantSize , " +
+                        "itm.Quantity AS Quantity , " +
+                        " \"0.0\" AS Price , " +
+                        " \"0.0\" AS QOH , " +
+                        " \"0\" AS IsScan " +
+                        "FROM ItemBundle itm\n";
+//                        " \"0\" AS IsScan FROM ItemBundle itm\n" +
+//                        "GROUP BY itm.ItemCode";
 
                 dB.execSQL(insertQuery2);
         }
@@ -438,73 +499,6 @@ public class ProductController {
         }
     }
 
-    public void insertIntoProductAsBulkForPre(String LocCode, String prillcode)
-    {
-        if (dB == null) {
-            open();
-        } else if (!dB.isOpen()) {
-            open();
-        }
-
-        try
-        {
-
-            if(prillcode.equals(null) || prillcode.isEmpty())
-            {
-                String insertQuery1;
-                insertQuery1 = "INSERT INTO fProducts (itemcode,itemname,price,qoh,ChangedPrice,TxnType,qty)\n" +
-                        "SELECT \n" +
-                        "itm.ItemCode AS ItemCode , \n" +
-                        "itm.ItemName AS ItemName ,  \n" +
-                        "IFNULL(pri.Price,0.0) AS Price , \n" +
-//                        "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +//commented on 2019-07-08 because price is 0.0
-//                        "IFNULL(pri.MaxPrice,0.0) AS MaxPrice ,\n" +//commented on 2019-07-08 because price is 0.0
-                        "loc.QOH AS QOH , \n" +
-                        "\"0.0\" AS ChangedPrice , \n" +
-                        "\"SA\" AS TxnType , \n" +
-                        "\"0\" AS Qty \n" +
-                        "FROM fItem itm\n" +
-                        "INNER JOIN fItemLoc loc ON loc.ItemCode = itm.ItemCode \n" +
-                        "LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode \n" +
-                        "AND pri.PrilCode = itm.PrilCode\n" +
-                        "WHERE loc.LocCode = '"+LocCode+"'\n" +
-                        //   "AND pri.Price > 0\n" +//commented on 2019-07-08 because price is 0.0
-                        "GROUP BY itm.ItemCode ORDER BY QOH DESC";
-
-                dB.execSQL(insertQuery1);
-            }
-            else
-            {
-                String insertQuery2;
-                insertQuery2 = "INSERT INTO fProducts (itemcode,itemname,price,qoh,ChangedPrice,TxnType,qty)\n" +
-                        "SELECT \n" +
-                        "itm.ItemCode AS ItemCode , itm.ItemName AS ItemName ,  \n" +
-                        "IFNULL(pri.Price,0.0) AS Price , " +
-//                        "IFNULL(pri.MinPrice,0.0) AS MinPrice , \n" +//commented on 2019-07-08 because price is 0.0
-//                        "IFNULL(pri.MaxPrice,0.0) AS MaxPrice ,\n" +//commented on 2019-07-08 because price is 0.0
-                        "loc.QOH AS QOH , \"0.0\" AS ChangedPrice , \"SA\" AS TxnType , \"0\" AS Qty FROM fItem itm\n" +
-                        "INNER JOIN fItemLoc loc ON loc.ItemCode = itm.ItemCode \n" +
-                        "LEFT JOIN fItemPri pri ON pri.ItemCode = itm.ItemCode \n" +
-                        "AND pri.PrilCode = '"+prillcode+"'\n" +
-                        "WHERE loc.LocCode = '"+LocCode+"'\n" +
-                        //    "AND pri.Price > 0\n" +//commented on 2019-07-08 because price is 0.0
-                        "GROUP BY itm.ItemCode ORDER BY QOH DESC";
-
-                dB.execSQL(insertQuery2);
-            }
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        finally
-        {
-            if(dB.isOpen())
-            {
-                dB.close();
-            }
-        }
-    }
 
 
 }

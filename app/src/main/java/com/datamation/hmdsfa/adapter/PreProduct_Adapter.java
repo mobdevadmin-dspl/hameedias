@@ -73,8 +73,8 @@ public class PreProduct_Adapter extends BaseAdapter {
 
         viewHolder.itemCode.setText(product.getFPRODUCT_ITEMCODE());
         viewHolder.ItemName.setText(product.getFPRODUCT_ITEMNAME());
-        viewHolder.Price.setText(product.getFPRODUCT_PRICE());
-        viewHolder.HoQ.setText(product.getFPRODUCT_QOH());
+//        viewHolder.Price.setText(product.getFPRODUCT_PRICE());
+//        viewHolder.HoQ.setText(product.getFPRODUCT_QOH());
         viewHolder.lblQty.setText(product.getFPRODUCT_QTY());
 
         /*Change colors*/
@@ -205,102 +205,102 @@ public class PreProduct_Adapter extends BaseAdapter {
             }
         });*/
         //--------------------------------------------------------------------------------------------------------------------------
-        viewHolder.lblQty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CustomKeypadDialog keypad = new CustomKeypadDialog(context, false, new CustomKeypadDialog.IOnOkClickListener() {
-                    @Override
-                    public void okClicked(double value) {
-                        //String distrStock = product.getFPRODUCT_QOH();
-                        double distrStock = Double.parseDouble(product.getFPRODUCT_QOH());
-                        int enteredQty = (int) value;
-                        Log.d("<>+++++","" + distrStock);
-
-                        if (enteredQty > (int)distrStock) {
-                            viewHolder.lblQty.setText("0");
-                            Toast.makeText(context, "Exceeds available  stock", Toast.LENGTH_SHORT).show();
-                        } else {
-                            new ProductController(context).updateProductQty(product.getFPRODUCT_ITEMCODE(), String.valueOf(enteredQty));
-
-                            product.setFPRODUCT_QTY(String.valueOf(enteredQty));
-                            viewHolder.lblQty.setText(product.getFPRODUCT_QTY());
-                        }
-
-
-
-
-                        //*Change colors*//**//*
-                        if (Integer.parseInt(viewHolder.lblQty.getText().toString()) > 0)
-                            viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
-                        else
-                            viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));
-
-                    }
-                });
-
-                keypad.show();
-
-                keypad.setHeader("SELECT QUANTITY");
-                keypad.loadValue(Double.parseDouble(product.getFPRODUCT_QTY()));
-
-
-            }
-        });
-
-
-        /*-*-*-*-*-*-*--*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-        viewHolder.Price.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Rashmi - 2018-10-22
-                final double minPrice,maxPrice,price;
-                if(!product.getFPRODUCT_PRICE().equals("")) {
-                    price = Double.parseDouble(product.getFPRODUCT_PRICE());
-                }else{
-                    price = 0.0;
-                }
-                if(!product.getFPRODUCT_MIN_PRICE().equals("")) {
-                    minPrice = Double.parseDouble(product.getFPRODUCT_MIN_PRICE());
-                }else{
-                    minPrice = 0.0;
-                }
-                if(!product.getFPRODUCT_MAX_PRICE().equals("")){
-                    maxPrice = Double.parseDouble(product.getFPRODUCT_MAX_PRICE());
-                }else{
-                    maxPrice = 0.0;
-                }
-
-
-//                if(minPrice<=price || price<=maxPrice) {
-                CustomKeypadDialogPrice keypadPrice = new CustomKeypadDialogPrice(context, true, new CustomKeypadDialogPrice.IOnOkClickListener() {
-                    @Override
-                    public void okClicked(double value) {
-                        //price cannot be changed less than gross profit
-                        if(minPrice <=value && value <= maxPrice) {
-                            //  save changed price
-                            new ProductController(context).updateProductPrice(product.getFPRODUCT_ITEMCODE(), String.valueOf(value),product.getFPRODUCT_TXN_TYPE());
-                            //  value should be set for another variable in preProduct
-                            //  preProduct.setPREPRODUCT_PRICE(String.valueOf(value));
-                            product.setFPRODUCT_CHANGED_PRICE(String.valueOf(value));
-                            viewHolder.Price.setText(product.getFPRODUCT_CHANGED_PRICE());
-                        }else{
-                            Toast.makeText(context,"Price cannot be change..",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-                keypadPrice.show();
-
-                keypadPrice.setHeader("CHANGE PRICE");
-//                if(preProduct.getPREPRODUCT_CHANGED_PRICE().equals("0")){
-                keypadPrice.loadValue(Double.parseDouble(product.getFPRODUCT_PRICE()));
-//                }else {
-//                    keypadPrice.loadValue(Double.parseDouble(preProduct.getPREPRODUCT_CHANGED_PRICE()));
-//                }
+//        viewHolder.lblQty.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                CustomKeypadDialog keypad = new CustomKeypadDialog(context, false, new CustomKeypadDialog.IOnOkClickListener() {
+//                    @Override
+//                    public void okClicked(double value) {
+//                        //String distrStock = product.getFPRODUCT_QOH();
+//                        double distrStock = Double.parseDouble(product.getFPRODUCT_QOH());
+//                        int enteredQty = (int) value;
+//                        Log.d("<>+++++","" + distrStock);
+//
+//                        if (enteredQty > (int)distrStock) {
+//                            viewHolder.lblQty.setText("0");
+//                            Toast.makeText(context, "Exceeds available  stock", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            new ProductController(context).updateProductQty(product.getFPRODUCT_ITEMCODE(), String.valueOf(enteredQty));
+//
+//                            product.setFPRODUCT_QTY(String.valueOf(enteredQty));
+//                            viewHolder.lblQty.setText(product.getFPRODUCT_QTY());
+//                        }
+//
+//
+//
+//
+//                        //*Change colors*//**//*
+//                        if (Integer.parseInt(viewHolder.lblQty.getText().toString()) > 0)
+//                            viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
+//                        else
+//                            viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));
+//
+//                    }
+//                });
+//
+//                keypad.show();
+//
+//                keypad.setHeader("SELECT QUANTITY");
+//                keypad.loadValue(Double.parseDouble(product.getFPRODUCT_QTY()));
+//
+//
+//            }
+//        });
+//
+//
+//        /*-*-*-*-*-*-*--*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+//        viewHolder.Price.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //Rashmi - 2018-10-22
+//                final double minPrice,maxPrice,price;
+//                if(!product.getFPRODUCT_PRICE().equals("")) {
+//                    price = Double.parseDouble(product.getFPRODUCT_PRICE());
 //                }else{
-//                    Toast.makeText(context,"Price cannot be change..",Toast.LENGTH_LONG).show();
+//                    price = 0.0;
 //                }
-            }
-        });
+//                if(!product.getFPRODUCT_MIN_PRICE().equals("")) {
+//                    minPrice = Double.parseDouble(product.getFPRODUCT_MIN_PRICE());
+//                }else{
+//                    minPrice = 0.0;
+//                }
+//                if(!product.getFPRODUCT_MAX_PRICE().equals("")){
+//                    maxPrice = Double.parseDouble(product.getFPRODUCT_MAX_PRICE());
+//                }else{
+//                    maxPrice = 0.0;
+//                }
+//
+//
+////                if(minPrice<=price || price<=maxPrice) {
+//                CustomKeypadDialogPrice keypadPrice = new CustomKeypadDialogPrice(context, true, new CustomKeypadDialogPrice.IOnOkClickListener() {
+//                    @Override
+//                    public void okClicked(double value) {
+//                        //price cannot be changed less than gross profit
+//                        if(minPrice <=value && value <= maxPrice) {
+//                            //  save changed price
+//                            new ProductController(context).updateProductPrice(product.getFPRODUCT_ITEMCODE(), String.valueOf(value),product.getFPRODUCT_TXN_TYPE());
+//                            //  value should be set for another variable in preProduct
+//                            //  preProduct.setPREPRODUCT_PRICE(String.valueOf(value));
+//                            product.setFPRODUCT_CHANGED_PRICE(String.valueOf(value));
+//                            viewHolder.Price.setText(product.getFPRODUCT_CHANGED_PRICE());
+//                        }else{
+//                            Toast.makeText(context,"Price cannot be change..",Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
+//                keypadPrice.show();
+//
+//                keypadPrice.setHeader("CHANGE PRICE");
+////                if(preProduct.getPREPRODUCT_CHANGED_PRICE().equals("0")){
+//                keypadPrice.loadValue(Double.parseDouble(product.getFPRODUCT_PRICE()));
+////                }else {
+////                    keypadPrice.loadValue(Double.parseDouble(preProduct.getPREPRODUCT_CHANGED_PRICE()));
+////                }
+////                }else{
+////                    Toast.makeText(context,"Price cannot be change..",Toast.LENGTH_LONG).show();
+////                }
+//            }
+//        });
        /* viewHolder.lblQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

@@ -266,7 +266,7 @@ public class ItemController {
                 if (qoh > 0) {
                     product.setFPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
                     product.setFPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_CODE)));
-                    product.setFPRODUCT_PRICE(new ItemPriceController(context).getProductPriceByCode(product.getFPRODUCT_ITEMCODE(), prillcode));
+                    product.setFPRODUCT_Price(new ItemPriceController(context).getProductPriceByCode(product.getFPRODUCT_ITEMCODE(), prillcode));
                     product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(ItemLocController.FITEMLOC_QOH)));
                     product.setFPRODUCT_QTY("0");
                     list.add(product);
@@ -1033,8 +1033,6 @@ public class ItemController {
                     product.setFPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_CODE)));
                     product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(ItemLocController.FITEMLOC_QOH)));
                     product.setFPRODUCT_QTY("0");
-                    product.setFPRODUCT_CHANGED_PRICE("0.0");
-                    product.setFPRODUCT_TXN_TYPE("SA");
 
 
                     String prillCodeFromItems = cursor.getString(cursor.getColumnIndex(FITEM_PRIL_CODE));
@@ -1044,9 +1042,9 @@ public class ItemController {
                     // String minprice=new ItemPriDS(context).getProductMinPriceByCode(product.getFPRODUCT_ITEMCODE(), prillcode);
                     // String maxprice=new ItemPriDS(context).getProductMaxPriceByCode(product.getFPRODUCT_ITEMCODE(), prillcode);
                     if (price.isEmpty() || price.equalsIgnoreCase("")) {
-                        product.setFPRODUCT_PRICE("0.00");
+                        product.setFPRODUCT_Price("0.00");
                     } else {
-                        product.setFPRODUCT_PRICE(price);
+                        product.setFPRODUCT_Price(price);
                     }
 //                if(minprice.isEmpty()|| minprice.equalsIgnoreCase("")){
 //                    product.setFPRODUCT_MIN_PRICE("0.00");

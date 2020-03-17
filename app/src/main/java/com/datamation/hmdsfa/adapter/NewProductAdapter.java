@@ -42,22 +42,22 @@ public class NewProductAdapter extends ArrayAdapter<Product> {
         TextView ItemName = (TextView) row.findViewById(R.id.row_itemname);
         final TextView Price = (TextView) row.findViewById(R.id.row_price);
         final TextView HoQ = (TextView) row.findViewById(R.id.row_qoh);
-        final EditText lblQty = (EditText) row.findViewById(R.id.et_qty);
+     //   final EditText lblQty = (EditText) row.findViewById(R.id.et_qty);
         final ImageButton btnPlus = (ImageButton) row.findViewById(R.id.btnAddition);
         final ImageButton btnMinus = (ImageButton) row.findViewById(R.id.btnSubtract);
         final LinearLayout lnStripe = (LinearLayout) row.findViewById(R.id.lnProductStripe);
 
         itemCode.setText(list.get(position).getFPRODUCT_ITEMCODE());
         ItemName.setText(list.get(position).getFPRODUCT_ITEMNAME());
-        Price.setText(list.get(position).getFPRODUCT_PRICE());
-        HoQ.setText(list.get(position).getFPRODUCT_QOH());
-        lblQty.setText(list.get(position).getFPRODUCT_QTY());
+        //Price.setText(list.get(position).getFPRODUCT_PRICE());
+      //  HoQ.setText(list.get(position).getFPRODUCT_QOH());
+      //  lblQty.setText(list.get(position).getFPRODUCT_QTY());
 
         /*Change colors*/
-        if (Integer.parseInt(lblQty.getText().toString()) > 0)
-            lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
-        else
-            lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));
+//        if (Integer.parseInt(lblQty.getText().toString()) > 0)
+//            lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
+//        else
+//            lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));
 
         /*-*-*-*-*-*-*--*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -65,17 +65,17 @@ public class NewProductAdapter extends ArrayAdapter<Product> {
             @Override
             public void onClick(View v) {
 
-                int qty = Integer.parseInt(lblQty.getText().toString());
+             //   int qty = Integer.parseInt(lblQty.getText().toString());
 
-                if (--qty >= 0) {
-                    lblQty.setText((Integer.parseInt(lblQty.getText().toString()) - 1) + "");
-                    list.get(position).setFPRODUCT_QTY(lblQty.getText().toString());
-                    new ProductController(context).updateProductQty(list.get(position).getFPRODUCT_ITEMCODE(), lblQty.getText().toString());
-                }
-
-                /*Change colors*/
-                if (qty == 0)
-                    lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));
+//                if (--qty >= 0) {
+//                    lblQty.setText((Integer.parseInt(lblQty.getText().toString()) - 1) + "");
+//                    list.get(position).setFPRODUCT_QTY(lblQty.getText().toString());
+//                    new ProductController(context).updateProductQty(list.get(position).getFPRODUCT_ITEMCODE(), lblQty.getText().toString());
+//                }
+//
+//                /*Change colors*/
+//                if (qty == 0)
+//                    lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));
 
             }
         });
@@ -86,15 +86,15 @@ public class NewProductAdapter extends ArrayAdapter<Product> {
             @Override
             public void onClick(View v) {
 
-                double qty = Double.parseDouble(lblQty.getText().toString());
-
-                lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
-
-                if (qty <= (Double.parseDouble(HoQ.getText().toString()))) {
-                    lblQty.setText((Integer.parseInt(lblQty.getText().toString()) + 1) + "");
-                    list.get(position).setFPRODUCT_QTY(lblQty.getText().toString());
-                    new ProductController(context).updateProductQty(list.get(position).getFPRODUCT_ITEMCODE(), lblQty.getText().toString());
-                }
+//                double qty = Double.parseDouble(lblQty.getText().toString());
+//
+//                lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
+//
+//                if (qty <= (Double.parseDouble(HoQ.getText().toString()))) {
+//                    lblQty.setText((Integer.parseInt(lblQty.getText().toString()) + 1) + "");
+//                    list.get(position).setFPRODUCT_QTY(lblQty.getText().toString());
+//                    new ProductController(context).updateProductQty(list.get(position).getFPRODUCT_ITEMCODE(), lblQty.getText().toString());
+//                }
             }
         });
 
@@ -143,53 +143,53 @@ public class NewProductAdapter extends ArrayAdapter<Product> {
 
         /*-*-*-*-*-*-*--*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-        lblQty.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                if (s.length() > 0) {
-                    int enteredQty = Integer.parseInt(s.toString());
-
-                    if (enteredQty > Integer.parseInt(list.get(position).getFPRODUCT_QOH())) {
-                        Toast.makeText(context, "Quantity exceeds QOH !", Toast.LENGTH_SHORT).show();
-                        lblQty.setText(preText);
-                        lblQty.selectAll();
-                    } else
-                        new ProductController(context).updateProductQty(list.get(position).getFPRODUCT_ITEMCODE(), String.valueOf(enteredQty));
-
-                } else {
-                    lblQty.setText("0");
-                    lblQty.selectAll();
-                }
-
-                /*Change colors*/
-                if (Integer.parseInt(lblQty.getText().toString()) > 0)
-                    lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
-                else
-                    lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));
-
-            }
-        });
-
-        /*-*-*-*-*-*-*--*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
-        lblQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus)
-                    preText = lblQty.getText().toString();
-                else
-                    preText = null;
-            }
-        });
+//        lblQty.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//                if (s.length() > 0) {
+//                    int enteredQty = Integer.parseInt(s.toString());
+//
+//                    if (enteredQty > Integer.parseInt(list.get(position).getFPRODUCT_QOH())) {
+//                        Toast.makeText(context, "Quantity exceeds QOH !", Toast.LENGTH_SHORT).show();
+//                        lblQty.setText(preText);
+//                        lblQty.selectAll();
+//                    } else
+//                        new ProductController(context).updateProductQty(list.get(position).getFPRODUCT_ITEMCODE(), String.valueOf(enteredQty));
+//
+//                } else {
+//                    lblQty.setText("0");
+//                    lblQty.selectAll();
+//                }
+//
+//                /*Change colors*/
+//                if (Integer.parseInt(lblQty.getText().toString()) > 0)
+//                    lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
+//                else
+//                    lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));
+//
+//            }
+//        });
+//
+//        /*-*-*-*-*-*-*--*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+//
+//        lblQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus)
+//                    preText = lblQty.getText().toString();
+//                else
+//                    preText = null;
+//            }
+//        });
 
        return row;
     }
