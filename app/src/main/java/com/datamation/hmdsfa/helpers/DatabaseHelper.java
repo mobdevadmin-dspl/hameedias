@@ -35,6 +35,8 @@ import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
 import com.datamation.hmdsfa.controller.InvTaxDTController;
 import com.datamation.hmdsfa.controller.InvTaxRGController;
+import com.datamation.hmdsfa.controller.InvoiceBarcodeController;
+import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
@@ -90,6 +92,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase arg0) {
+        arg0.execSQL(InvoiceBarcodeController.CREATE_TABLE_BCINCOICEHED);
+        arg0.execSQL(InvoiceDetBarcodeController.CREATE_TABLE_BCINCOICEDET);
         arg0.execSQL(InvTaxDTController.CREATE_FINVTAXDT_TABLE);
         arg0.execSQL(InvTaxRGController.CREATE_FINVTAXRG_TABLE);
         arg0.execSQL(DispDetController.CREATE_FDISPDET_TABLE);
@@ -182,52 +186,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // --------------------------------------------------------------------------------------------------------------
     @Override
     public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-
         this.onCreate(arg0);
+        arg0.execSQL(InvoiceBarcodeController.CREATE_TABLE_BCINCOICEHED);
+        arg0.execSQL(InvoiceDetBarcodeController.CREATE_TABLE_BCINCOICEDET);
+
         try {
-            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN Barcode TEXT DEFAULT ''");
+            arg0.execSQL("ALTER TABLE bcInvHed ADD COLUMN IsSync TEXT DEFAULT '0'");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
         }
         try {
-            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN DocumentNo TEXT DEFAULT ''");
+            arg0.execSQL("ALTER TABLE bcInvHed ADD COLUMN IsActive TEXT DEFAULT ''");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
         }  try {
-            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN VariantCode TEXT DEFAULT ''");
+            arg0.execSQL("ALTER TABLE bcInvDet ADD COLUMN IsActive TEXT DEFAULT ''");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
         }
-        try {
-            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN IsScan TEXT DEFAULT '0'");
-        } catch (SQLiteException e) {
-            Log.v("SQLiteException", e.toString());
-        }
-        try {
-            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN Price TEXT DEFAULT '0.0'");
-        } catch (SQLiteException e) {
-            Log.v("SQLiteException", e.toString());
-        }
-        try {
-            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN VariantColour TEXT DEFAULT ''");
-        } catch (SQLiteException e) {
-            Log.v("SQLiteException", e.toString());
-        }
-        try {
-            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN VariantSize TEXT DEFAULT '0.0'");
-        } catch (SQLiteException e) {
-            Log.v("SQLiteException", e.toString());
-        }try {
-            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN Quantity TEXT DEFAULT '0.0'");
-        } catch (SQLiteException e) {
-            Log.v("SQLiteException", e.toString());
-        }
-
-        try {
-            arg0.execSQL("ALTER TABLE ItemBundle ADD COLUMN Description TEXT DEFAULT ''");
-        } catch (SQLiteException e) {
-            Log.v("SQLiteException", e.toString());
-        }
+//        try {
+//            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN IsScan TEXT DEFAULT '0'");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
+//        try {
+//            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN Price TEXT DEFAULT '0.0'");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
+//        try {
+//            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN VariantColour TEXT DEFAULT ''");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
+//        try {
+//            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN VariantSize TEXT DEFAULT '0.0'");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }try {
+//            arg0.execSQL("ALTER TABLE fProducts ADD COLUMN Quantity TEXT DEFAULT '0.0'");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
+//
+//        try {
+//            arg0.execSQL("ALTER TABLE ItemBundle ADD COLUMN Description TEXT DEFAULT ''");
+//        } catch (SQLiteException e) {
+//            Log.v("SQLiteException", e.toString());
+//        }
 
         try {
 

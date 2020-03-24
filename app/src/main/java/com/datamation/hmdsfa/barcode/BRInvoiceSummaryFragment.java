@@ -45,6 +45,8 @@ import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
 import com.datamation.hmdsfa.controller.InvTaxDTController;
 import com.datamation.hmdsfa.controller.InvTaxRGController;
+import com.datamation.hmdsfa.controller.InvoiceBarcodeController;
+import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.OrderController;
@@ -305,213 +307,163 @@ public class BRInvoiceSummaryFragment extends Fragment {
 //
     public void saveSummaryDialog() {
 
-        if (new InvDetController(getActivity()).getItemCount(RefNo) > 0)
+        if (new InvDetController(getActivity()).getItemCount(RefNo) > 0  && new InvoiceDetBarcodeController(getActivity()).getItemCount(RefNo) > 0)
         {
 
-            if (new SalesReturnDetController(getActivity()).getItemCount(ReturnRefNo) > 0) {
-                //save both invoice and return
-                //Changed By Yasith - 2019-01-29
-                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-                View promptView = layoutInflater.inflate(R.layout.sales_management_van_sales_summary_dialog, null);
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                alertDialogBuilder.setTitle("Do you want to save the invoice with return details ?");
-                alertDialogBuilder.setView(promptView);
-
-                final ListView lvProducts_Invoice = (ListView) promptView.findViewById(R.id.lvProducts_Summary_Dialog_Inv);
-                final ListView lvProducts_Return = (ListView) promptView.findViewById(R.id.lvProducts_Summary_Dialog_Ret);
-
-                ArrayList<InvDet> invoiceItemList = null;
-                ArrayList<FInvRDet> returnItemList = null;
-
-                invoiceItemList = new InvDetController(getActivity()).getAllItemsAddedInCurrentSale(RefNo);
-                returnItemList = new SalesReturnDetController(getActivity()).getAllItemsAddedInCurrentReturn(ReturnRefNo);
-                lvProducts_Invoice.setAdapter(new InvDetAdapter(getActivity(), invoiceItemList));
-                lvProducts_Return.setAdapter(new ReturnDetailsAdapter(getActivity(), returnItemList));
-
-                alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-                    public void onClick(final DialogInterface dialog, int id) {
-
-                        InvHed sHed = new InvHed();
-                        ArrayList<InvHed> invHedList = new ArrayList<InvHed>();
-
-                        InvHed invHed = new InvHedController(getActivity()).getActiveInvhed();
-
-                        sHed.setFINVHED_REFNO(RefNo);
-                        sHed.setFINVHED_DEBCODE(new SharedPref(getActivity()).getSelectedDebCode());
-                        sHed.setFINVHED_ADDDATE(invHed.getFINVHED_ADDDATE());
-                        sHed.setFINVHED_MANUREF(invHed.getFINVHED_MANUREF());
-                        sHed.setFINVHED_REMARKS(invHed.getFINVHED_REMARKS());
-                        sHed.setFINVHED_ADDMACH(invHed.getFINVHED_ADDMACH());
-                        sHed.setFINVHED_ADDUSER(invHed.getFINVHED_ADDUSER());
-                        sHed.setFINVHED_CURCODE(invHed.getFINVHED_CURCODE());
-                        sHed.setFINVHED_CURRATE(invHed.getFINVHED_CURRATE());
-                        sHed.setFINVHED_LOCCODE(invHed.getFINVHED_LOCCODE());
-
-                        sHed.setFINVHED_CUSTELE(invHed.getFINVHED_CUSTELE());
-                        sHed.setFINVHED_CONTACT(invHed.getFINVHED_CONTACT());
-                        sHed.setFINVHED_CUSADD1(invHed.getFINVHED_CUSADD1());
-                        sHed.setFINVHED_CUSADD2(invHed.getFINVHED_CUSADD2());
-                        sHed.setFINVHED_CUSADD3(invHed.getFINVHED_CUSADD3());
-                        sHed.setFINVHED_TXNTYPE(invHed.getFINVHED_TXNTYPE());
-                        sHed.setFINVHED_IS_ACTIVE(invHed.getFINVHED_IS_ACTIVE());
-                        sHed.setFINVHED_IS_SYNCED(invHed.getFINVHED_IS_SYNCED());
-                        sHed.setFINVHED_LOCCODE(invHed.getFINVHED_LOCCODE());
-                        sHed.setFINVHED_AREACODE(invHed.getFINVHED_AREACODE());
-                        sHed.setFINVHED_ROUTECODE(invHed.getFINVHED_ROUTECODE());
-                        sHed.setFINVHED_COSTCODE(invHed.getFINVHED_COSTCODE());
-                        sHed.setFINVHED_TAXREG(invHed.getFINVHED_TAXREG());
-                        sHed.setFINVHED_TOURCODE(invHed.getFINVHED_TOURCODE());
-                        sHed.setFINVHED_TOURCODE(invHed.getFINVHED_START_TIME_SO());
-
-                        sHed.setFINVHED_BPTOTALDIS("0");
-                        sHed.setFINVHED_BTOTALAMT("0");
-                        sHed.setFINVHED_BTOTALDIS("0");
-                        sHed.setFINVHED_BTOTALTAX("0");
-                        sHed.setFINVHED_END_TIME_SO(currentTime());
-                        sHed.setFINVHED_START_TIME_SO(invHed.getFINVHED_START_TIME_SO());
-                        sHed.setFINVHED_LATITUDE(mSharedPref.getGlobalVal("Latitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
-                        sHed.setFINVHED_LONGITUDE(mSharedPref.getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
-                        // sHed.setFINVHED_ADDRESS(localSP.getString("GPS_Address", "").toString());
-                        sHed.setFINVHED_TOTALTAX("0");
-                        sHed.setFINVHED_TOTALDIS("0.0");
-                        sHed.setFINVHED_TOTALAMT(lblNetVal.getText().toString());
-                        sHed.setFINVHED_TXNDATE(invHed.getFINVHED_TXNDATE());
-                        sHed.setFINVHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());
-                        sHed.setFINVHED_REFNO1("");
-                        sHed.setFINVHED_TOTQTY(lblQty.getText().toString());
-                        sHed.setFINVHED_TOTFREEQTY(iTotFreeQty + "");
-                        sHed.setFINVHED_SETTING_CODE(invHed.getFINVHED_SETTING_CODE());
-
-                        invHedList.add(sHed);
-
-                        if (new InvHedController(getActivity()).createOrUpdateInvHed(invHedList) > 0) {
-                            new ProductController(getActivity()).mClearTables();
-                            new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
-                            new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
-
-                            final VanSalesActivity activity = (VanSalesActivity) getActivity();
-
-                            new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
-
-                            FInvRHed mainHead = new FInvRHed();
-                            ArrayList<FInvRHed> returnHedList = new ArrayList<FInvRHed>();
-                            ArrayList<FInvRHed> HedList = new SalesReturnController(getActivity()).getAllActiveInvrhed();
-                            if (!HedList.isEmpty()) {
-
-                                mainHead.setFINVRHED_REFNO(ReturnRefNo);
-                                mainHead.setFINVRHED_DEBCODE(invHed.getFINVHED_DEBCODE());
-                                mainHead.setFINVRHED_ADD_DATE(invHed.getFINVHED_ADDDATE());
-                                mainHead.setFINVRHED_MANUREF(invHed.getFINVHED_MANUREF());
-                                mainHead.setFINVRHED_REMARKS(invHed.getFINVHED_REMARKS());
-                                mainHead.setFINVRHED_ADD_MACH(invHed.getFINVHED_ADDMACH());
-                                mainHead.setFINVRHED_ADD_USER(invHed.getFINVHED_ADDUSER());
-                                mainHead.setFINVRHED_TXN_DATE(HedList.get(0).getFINVRHED_TXN_DATE());
-                                mainHead.setFINVRHED_ROUTE_CODE(invHed.getFINVHED_ROUTECODE());
-                                mainHead.setFINVRHED_TOTAL_AMT(HedList.get(0).getFINVRHED_TOTAL_AMT());
-                                mainHead.setFINVRHED_TXNTYPE(HedList.get(0).getFINVRHED_TXNTYPE());
-                                mainHead.setFINVRHED_ADDRESS(HedList.get(0).getFINVRHED_ADDRESS());
-                                mainHead.setFINVRHED_REASON_CODE(HedList.get(0).getFINVRHED_REASON_CODE());
-                                mainHead.setFINVRHED_COSTCODE(HedList.get(0).getFINVRHED_COSTCODE());
-                                mainHead.setFINVRHED_LOCCODE(HedList.get(0).getFINVRHED_LOCCODE());
-                                mainHead.setFINVRHED_TAX_REG(HedList.get(0).getFINVRHED_TAX_REG());
-                                mainHead.setFINVRHED_TOTAL_TAX(HedList.get(0).getFINVRHED_TOTAL_TAX());
-                                mainHead.setFINVRHED_TOTAL_DIS(HedList.get(0).getFINVRHED_TOTAL_DIS());
-                                mainHead.setFINVRHED_LONGITUDE(HedList.get(0).getFINVRHED_LONGITUDE());
-                                mainHead.setFINVRHED_LATITUDE(HedList.get(0).getFINVRHED_LATITUDE());
-                                mainHead.setFINVRHED_START_TIME(HedList.get(0).getFINVRHED_START_TIME());
-                                mainHead.setFINVRHED_END_TIME(HedList.get(0).getFINVRHED_END_TIME());
-                                mainHead.setFINVRHED_INV_REFNO(RefNo);//HedList.get(0).getFINVRHED_INV_REFNO()
-                                mainHead.setFINVRHED_ORD_REFNO("NON");//HedList.get(0).getFINVRHED_INV_REFNO()
-                                mainHead.setFINVRHED_IS_ACTIVE("0");
-                                mainHead.setFINVRHED_IS_SYNCED("0");
-                            }
-
-                            returnHedList.add(mainHead);
-                            //Log.v("Ref No :",mainHead.getFINVRHED_INV_REFNO().toString());
-
-                            if (new SalesReturnController(getActivity()).createOrUpdateInvRHed(returnHedList) > 0) {
-                                UpdateReturnTotal(ReturnRefNo);
-                                new SalesReturnDetController(getActivity()).InactiveStatusUpdate(ReturnRefNo);
-                                new SalesReturnController(getActivity()).InactiveStatusUpdate(ReturnRefNo);
-
-
-                                new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
-                                Toast.makeText(getActivity(), "Return saved successfully !", Toast.LENGTH_LONG).show();
-                                UtilityContainer.ClearReturnSharedPref(getActivity());
-                                // UtilityContainer.mLoadFragment(new SalesReturnHistory(), activity);
-
-//						new SalesPrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Sales return",
-//								RefNo);
-                            } else {
-                                Toast.makeText(getActivity(), "Return failed !", Toast.LENGTH_LONG)
-                                        .show();
-                            }
-
-
-                            /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/
-
-                            UpdateTaxDetails(RefNo);
-                            UpdateQOH_FIFO();
-                            new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
-                            new ItemLocController(getActivity()).UpdateInvoiceQOHInReturn(RefNo, "+", locCode);
-                            updateDispTables(sHed);
-                            // int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,"",false);
-
-                            Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
-
-                            MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
-                                    .content("Do you want to get print?")
-                                    .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
-                                    .positiveText("Yes")
-                                    .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
-                                    .negativeText("No, Exit")
-                                    .callback(new MaterialDialog.ButtonCallback() {
-
-                                        @Override
-                                        public void onPositive(MaterialDialog dialog) {
-                                            super.onPositive(dialog);
-
-                                            printItems();
-                                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
-                                            startActivity(intent);
-                                            getActivity().finish();
-
-                                        }
-
-                                        @Override
-                                        public void onNegative(MaterialDialog dialog) {
-                                            super.onNegative(dialog);
-                                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
-                                            startActivity(intent);
-                                            getActivity().finish();
-                                            dialog.dismiss();
-
-
-                                        }
-                                    })
-                                    .build();
-                            materialDialog.setCanceledOnTouchOutside(false);
-                            materialDialog.show();
-                        } else {
-                            Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-                AlertDialog alertD = alertDialogBuilder.create();
-                alertD.show();
-            }
-            else
-            {
+//            if (new SalesReturnDetController(getActivity()).getItemCount(ReturnRefNo) > 0) {
+//                //save both invoice and return
+//                //Changed By Yasith - 2019-01-29
+//                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+//                View promptView = layoutInflater.inflate(R.layout.sales_management_van_sales_summary_dialog, null);
+//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//                alertDialogBuilder.setTitle("Do you want to save the invoice with return details ?");
+//                alertDialogBuilder.setView(promptView);
+//
+//                final ListView lvProducts_Invoice = (ListView) promptView.findViewById(R.id.lvProducts_Summary_Dialog_Inv);
+//                final ListView lvProducts_Return = (ListView) promptView.findViewById(R.id.lvProducts_Summary_Dialog_Ret);
+//
+//                ArrayList<InvDet> invoiceItemList = null;
+//                ArrayList<FInvRDet> returnItemList = null;
+//
+//                invoiceItemList = new InvDetController(getActivity()).getAllItemsAddedInCurrentSale(RefNo);
+//                returnItemList = new SalesReturnDetController(getActivity()).getAllItemsAddedInCurrentReturn(ReturnRefNo);
+//                lvProducts_Invoice.setAdapter(new InvDetAdapter(getActivity(), invoiceItemList));
+//                lvProducts_Return.setAdapter(new ReturnDetailsAdapter(getActivity(), returnItemList));
+//
+//                alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//
+//                    public void onClick(final DialogInterface dialog, int id) {
+//
+//                        InvHed sHed = new InvHed();
+//                        ArrayList<InvHed> invHedList = new ArrayList<InvHed>();
+//
+//                        InvHed invHed = new InvHedController(getActivity()).getActiveInvhed();
+//
+//                        sHed.setFINVHED_REFNO(RefNo);
+//                        sHed.setFINVHED_DEBCODE(new SharedPref(getActivity()).getSelectedDebCode());
+//                        sHed.setFINVHED_ADDDATE(invHed.getFINVHED_ADDDATE());
+//                        sHed.setFINVHED_MANUREF(invHed.getFINVHED_MANUREF());
+//                        sHed.setFINVHED_REMARKS(invHed.getFINVHED_REMARKS());
+//                        sHed.setFINVHED_ADDMACH(invHed.getFINVHED_ADDMACH());
+//                        sHed.setFINVHED_ADDUSER(invHed.getFINVHED_ADDUSER());
+//                        sHed.setFINVHED_CURCODE(invHed.getFINVHED_CURCODE());
+//                        sHed.setFINVHED_CURRATE(invHed.getFINVHED_CURRATE());
+//                        sHed.setFINVHED_LOCCODE(invHed.getFINVHED_LOCCODE());
+//
+//                        sHed.setFINVHED_CUSTELE(invHed.getFINVHED_CUSTELE());
+//                        sHed.setFINVHED_CONTACT(invHed.getFINVHED_CONTACT());
+//                        sHed.setFINVHED_CUSADD1(invHed.getFINVHED_CUSADD1());
+//                        sHed.setFINVHED_CUSADD2(invHed.getFINVHED_CUSADD2());
+//                        sHed.setFINVHED_CUSADD3(invHed.getFINVHED_CUSADD3());
+//                        sHed.setFINVHED_TXNTYPE(invHed.getFINVHED_TXNTYPE());
+//                        sHed.setFINVHED_IS_ACTIVE(invHed.getFINVHED_IS_ACTIVE());
+//                        sHed.setFINVHED_IS_SYNCED(invHed.getFINVHED_IS_SYNCED());
+//                        sHed.setFINVHED_LOCCODE(invHed.getFINVHED_LOCCODE());
+//                        sHed.setFINVHED_AREACODE(invHed.getFINVHED_AREACODE());
+//                        sHed.setFINVHED_ROUTECODE(invHed.getFINVHED_ROUTECODE());
+//                        sHed.setFINVHED_COSTCODE(invHed.getFINVHED_COSTCODE());
+//                        sHed.setFINVHED_TAXREG(invHed.getFINVHED_TAXREG());
+//                        sHed.setFINVHED_TOURCODE(invHed.getFINVHED_TOURCODE());
+//                        sHed.setFINVHED_TOURCODE(invHed.getFINVHED_START_TIME_SO());
+//
+//                        sHed.setFINVHED_BPTOTALDIS("0");
+//                        sHed.setFINVHED_BTOTALAMT("0");
+//                        sHed.setFINVHED_BTOTALDIS("0");
+//                        sHed.setFINVHED_BTOTALTAX("0");
+//                        sHed.setFINVHED_END_TIME_SO(currentTime());
+//                        sHed.setFINVHED_START_TIME_SO(invHed.getFINVHED_START_TIME_SO());
+//                        sHed.setFINVHED_LATITUDE(mSharedPref.getGlobalVal("Latitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
+//                        sHed.setFINVHED_LONGITUDE(mSharedPref.getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
+//                        // sHed.setFINVHED_ADDRESS(localSP.getString("GPS_Address", "").toString());
+//                        sHed.setFINVHED_TOTALTAX("0");
+//                        sHed.setFINVHED_TOTALDIS("0.0");
+//                        sHed.setFINVHED_TOTALAMT(lblNetVal.getText().toString());
+//                        sHed.setFINVHED_TXNDATE(invHed.getFINVHED_TXNDATE());
+//                        sHed.setFINVHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());
+//                        sHed.setFINVHED_REFNO1("");
+//                        sHed.setFINVHED_TOTQTY(lblQty.getText().toString());
+//                        sHed.setFINVHED_TOTFREEQTY(iTotFreeQty + "");
+//                        sHed.setFINVHED_SETTING_CODE(invHed.getFINVHED_SETTING_CODE());
+//
+//                        invHedList.add(sHed);
+//
+//                        if (new InvHedController(getActivity()).createOrUpdateInvHed(invHedList) > 0 &&  new InvoiceBarcodeController(getActivity()).insertOrUpdateBCInvHed(invHedList)>0)
+//       {
+//                            new ProductController(getActivity()).mClearTables();
+//                            new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
+//                            new InvoiceBarcodeController(getActivity()).InactiveStatusUpdate(RefNo);
+//                            new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
+//                            new InvoiceDetBarcodeController(getActivity()).InactiveStatusUpdate(RefNo);
+//
+//                            final VanSalesActivity activity = (VanSalesActivity) getActivity();
+//
+//                            new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
+//
+//                            //Log.v("Ref No :",mainHead.getFINVRHED_INV_REFNO().toString());
+//
+//
+//                            /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/
+////commented by rashmi -2020-03-23 till qoh get via itemloc controller
+//                          //  UpdateTaxDetails(RefNo);
+//                          //  UpdateQOH_FIFO();
+//                          //  new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
+//                         //   new ItemLocController(getActivity()).UpdateInvoiceQOHInReturn(RefNo, "+", locCode);
+//                         //   updateDispTables(sHed);
+//                            // int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo,"",false);
+//
+//                            Toast.makeText(getActivity(), "Invoice saved successfully..!", Toast.LENGTH_SHORT).show();
+//
+//                            MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+//                                    .content("Do you want to get print?")
+//                                    .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+//                                    .positiveText("Yes")
+//                                    .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+//                                    .negativeText("No, Exit")
+//                                    .callback(new MaterialDialog.ButtonCallback() {
+//
+//                                        @Override
+//                                        public void onPositive(MaterialDialog dialog) {
+//                                            super.onPositive(dialog);
+//
+//                                            printItems();
+//                                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+//                                            startActivity(intent);
+//                                            getActivity().finish();
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onNegative(MaterialDialog dialog) {
+//                                            super.onNegative(dialog);
+//                                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
+//                                            startActivity(intent);
+//                                            getActivity().finish();
+//                                            dialog.dismiss();
+//
+//
+//                                        }
+//                                    })
+//                                    .build();
+//                            materialDialog.setCanceledOnTouchOutside(false);
+//                            materialDialog.show();
+//                        } else {
+//                            Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                    }
+//
+//                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//                AlertDialog alertD = alertDialogBuilder.create();
+//                alertD.show();
+//            }
+//            else
+//            {
                 // save only invoice
-                //Changed By Yasith - 2019-01-29
                 LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
                 View promptView = layoutInflater.inflate(R.layout.sales_management_van_sales_summary_dialog, null);
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
@@ -621,20 +573,23 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
                         invHedList.add(sHed);
 
-                        if (new InvHedController(getActivity()).createOrUpdateInvHed(invHedList) > 0) {
+                        if (new InvHedController(getActivity()).createOrUpdateInvHed(invHedList) > 0 &&  new InvoiceBarcodeController(getActivity()).insertOrUpdateBCInvHed(invHedList)>0)
+       {
                             new ProductController(getActivity()).mClearTables();
                             new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
+                            new InvoiceBarcodeController(getActivity()).InactiveStatusUpdate(RefNo);
                             new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
+                            new InvoiceDetBarcodeController(getActivity()).InactiveStatusUpdate(RefNo);
 
-                            final VanSalesActivity activity = (VanSalesActivity) getActivity();
+                            final ActivityVanSalesBR activity = (ActivityVanSalesBR) getActivity();
                             new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
 
                             /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/
-
-                            UpdateTaxDetails(RefNo);
-                            UpdateQOH_FIFO();
-                            new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
-                            updateDispTables(sHed);
+                             //commented by rashmi 2020-03-23 till qoh get from fitemloc
+                            //UpdateTaxDetails(RefNo);
+                           // UpdateQOH_FIFO();
+                           // new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
+                           // updateDispTables(sHed);
                             MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                                     .content("Do you want to get print?")
                                     .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
@@ -682,7 +637,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
                 AlertDialog alertD = alertDialogBuilder.create();
                 alertD.show();
-            }
+           // }
 
         } else
             Toast.makeText(activity, "Add items before save ...!", Toast.LENGTH_SHORT).show();

@@ -187,7 +187,7 @@ public class ProductController {
         ArrayList<Product> list = new ArrayList<>();
         try {
           //  cursor = dB.rawQuery("SELECT * FROM " +TABLE_FPRODUCT + " WHERE itemcode || itemname LIKE '%" + newText + "%' and TxnType = '"+txntype+"' ORDER BY QOH DESC", null);
-            cursor = dB.rawQuery("SELECT * FROM " +TABLE_FPRODUCT + " WHERE itemcode || itemname LIKE '%" + newText + "%' and TxnType = '"+txntype+"' ORDER BY QOH DESC", null);
+            cursor = dB.rawQuery("SELECT * FROM " +TABLE_FPRODUCT + " WHERE itemcode || itemname LIKE '%" + newText + "%'", null);
 
             while (cursor.moveToNext()) {
                 Product product = new Product();
@@ -238,7 +238,26 @@ public class ProductController {
             dB.close();
         }
     }
+    public void updateBarCodeInDelete(String itemCode, String isScan) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try {
+
+            ContentValues values = new ContentValues();
+            values.put(FPRODUCT_IsScan, isScan);
+            dB.update(TABLE_FPRODUCT, values,FPRODUCT_ITEMCODE + " =?", new String[]{String.valueOf(itemCode)});
+
+        } catch (Exception e) {
+            Log.v(" Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+    }
 
 
 
@@ -338,11 +357,13 @@ public class ProductController {
                 product.setFPRODUCT_VariantColour(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantColour)));
                 product.setFPRODUCT_VariantSize(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantSize)));
                 product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_Quantity)));
-                product.setFPRODUCT_Price(cursor.getString(cursor.getColumnIndex(FPRODUCT_Price)));
-                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
+//                product.setFPRODUCT_Price(cursor.getString(cursor.getColumnIndex(FPRODUCT_Price)));
+//                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
                 product.setFPRODUCT_IsScan(cursor.getString(cursor.getColumnIndex(FPRODUCT_IsScan)));
 
                 list.add(product);
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -350,7 +371,7 @@ public class ProductController {
             cursor.close();
             dB.close();
         }
-
+Log.d(">>ScannedList",">>"+list.toString());
         return list;
     }
     public ArrayList<Product> getSelectedItems(String txntype) {

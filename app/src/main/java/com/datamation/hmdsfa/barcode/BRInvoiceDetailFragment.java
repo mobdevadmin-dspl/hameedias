@@ -46,6 +46,7 @@ import com.datamation.hmdsfa.adapter.ItemAdapter;
 import com.datamation.hmdsfa.adapter.NewProduct_Adapter;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
+import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemPriController;
@@ -251,6 +252,7 @@ public class BRInvoiceDetailFragment extends Fragment{
             public void onClick(DialogInterface dialog, int id) {
                 selectedItemList = new ProductController(getActivity()).getScannedtems("SA");
                 updateInvoiceDet(selectedItemList);
+                showData();
 //                ArrayList<ItemBundle> scannedItems = new ProductController(getActivity()).getScannedItems();
 //                //added scaned items to lv_ordr_det
 //                lv_order_det.setAdapter(new ItemAdapter(getActivity(), scannedItems));
@@ -768,9 +770,9 @@ public class BRInvoiceDetailFragment extends Fragment{
         alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                new ProductController(getActivity()).updateBarCode(itemArrayList.get(position).getBarcode(), "0");
+                new ProductController(getActivity()).updateBarCodeInDelete(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
                 //new ProductController(getActivity()).updateProductQty(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
-                //new InvDetController(getActivity()).mDeleteProduct(selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE());
+                new InvDetController(getActivity()).mDeleteProduct(selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE());
                 android.widget.Toast.makeText(getActivity(), "Deleted successfully!", android.widget.Toast.LENGTH_SHORT).show();
                 showData();
 
@@ -813,11 +815,12 @@ public class BRInvoiceDetailFragment extends Fragment{
 
                 int i = 0;
                 new InvDetController(getActivity()).mDeleteRecords(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
-
+                new InvoiceDetBarcodeController(getActivity()).mDeleteRecords(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
                 for (Product product : list) {
                     i++;
-                    mUpdateInvoice("0", product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), i + "", product.getFPRODUCT_QOH(),product.getFPRODUCT_Price());
-                }
+                    mUpdateInvoice("0", product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), "1500", i + "", "5","0.0");
+                    new InvoiceDetBarcodeController(getActivity()).mUpdateInvoice(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)),"Invoice",product.getFPRODUCT_ITEMCODE(),product.getFPRODUCT_Barcode(),product.getFPRODUCT_VariantCode(),"articleno",Integer.parseInt(product.getFPRODUCT_QTY()),0.0);
+                }//id,itemcode,qty,price,seqno,qoh,changed price
                 return null;
             }
 

@@ -483,7 +483,8 @@ public class SharedPref {
     public String getBaseURL() {
         //return sharedPref.getString("baseURL", "https://19920502.000webhostapp.com");
         //return sharedPref.getString("baseURL", "http://203.143.21.121:8080");
-        return sharedPref.getString("baseURL", "http://123.231.13.199:1025");
+        return sharedPref.getString("baseURL", "http://13.76.45.176:1010");
+       // return sharedPref.getString("baseURL", "http://123.231.13.199:1025");
         //return sharedPref.getString("baseURL", "http://192.168.43.62");
 
     }

@@ -37,6 +37,7 @@ import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.FItenrDetController;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
+import com.datamation.hmdsfa.controller.InvoiceBarcodeController;
 import com.datamation.hmdsfa.controller.OrderController;
 import com.datamation.hmdsfa.controller.OrderDetailController;
 import com.datamation.hmdsfa.controller.OutstandingController;
@@ -248,6 +249,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             ArrayList<InvHed> ordHedList = new ArrayList<>();
             ordHedList.add(hed);
             new InvHedController(getActivity()).createOrUpdateInvHed(ordHedList);
+            new InvoiceBarcodeController(getActivity()).insertOrUpdateBCInvHed(ordHedList);
         }
     }
 

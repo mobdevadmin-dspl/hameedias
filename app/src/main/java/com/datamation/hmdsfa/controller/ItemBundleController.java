@@ -165,6 +165,34 @@ public class ItemBundleController {
 
         return list;
     }
+    public String getItemNameByCode(String code) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT * FROM ItemBundle WHERE ItemNo ='" + code + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+
+                return cursor.getString(cursor.getColumnIndex(Description));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return "";
+    }
     public int deleteAll() {
 
         int count = 0;

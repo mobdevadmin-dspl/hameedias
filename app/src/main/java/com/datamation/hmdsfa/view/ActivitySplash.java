@@ -297,7 +297,8 @@ public class ActivitySplash extends AppCompatActivity{
                         if (NetworkUtil.isNetworkAvailable(ActivitySplash.this))
                         {
                             pref.setBaseURL(URL);
-                            new Validate(pref.getMacAddress().trim(),URL).execute();
+                            //new Validate(pref.getMacAddress().trim(),URL).execute();
+                            Validate(pref.getMacAddress().trim());
                             //TODO: validate uname pwd with server details
 
 
@@ -462,6 +463,54 @@ public class ActivitySplash extends AppCompatActivity{
                 Toast.makeText(getApplicationContext(), "Invalid Mac Id", Toast.LENGTH_LONG).show();
                 reCallActivity();
             }
+        }
+    }
+
+    private void Validate(String macId){//2020-03-19- by rashmi
+
+        try{
+            ApiInterface apiInterface = ApiCllient.getClient(ActivitySplash.this).create(ApiInterface.class);
+            Call<ReadJsonList> resultCall = apiInterface.getSalRepResult(pref.getDistDB(),macId);
+            resultCall.enqueue(new Callback<ReadJsonList>() {
+                @Override
+                public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                    CustomProgressDialog pdialog = new CustomProgressDialog(ActivitySplash.this);
+                    pdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    pdialog.setMessage("Validating...");
+                    pdialog.show();
+                    System.out.println("test responce 01 " + response.body().getSalRepResult().size());
+                    //  System.out.println(response.body().getInvDetResult().get(1));
+                    ArrayList<SalRep> repList = new ArrayList<SalRep>();
+                    for (int i = 0; i < response.body().getSalRepResult().size(); i++) {
+                        repList.add(response.body().getSalRepResult().get(i));
+                    }
+                    new SalRepController(ActivitySplash.this).createOrUpdateSalRep(repList);
+                    if(repList.size()>0){
+                        if(pdialog.isShowing())
+                            pdialog.cancel();
+                        pref.setValidateStatus(true);
+                        networkFunctions.setUser(repList.get(0));
+                        pref.storeLoginUser(repList.get(0));
+                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                        tryAgain.setVisibility(View.INVISIBLE);
+                        Intent loginActivity = new Intent(ActivitySplash.this, ActivityLogin.class);
+                        startActivity(loginActivity);
+                        finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Invalid Mac Id", Toast.LENGTH_LONG).show();
+                        reCallActivity();
+                    }
+                    Log.d(">>>REP","Rep List " + repList.toString());
+
+                }
+
+                @Override
+                public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }catch (Exception e){
+            Log.d(">>>ERROR Validate",">>>"+e.toString());
         }
     }
     public class getDatabaseNames extends AsyncTask<Object, Object, ArrayList<DbNames>> {
