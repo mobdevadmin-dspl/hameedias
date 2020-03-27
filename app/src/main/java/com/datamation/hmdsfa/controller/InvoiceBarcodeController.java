@@ -102,7 +102,57 @@ public class InvoiceBarcodeController {
         }
         return count;
     }
+    public ArrayList<InvHed> getAllUnsynced() {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
 
+        ArrayList<InvHed> list = new ArrayList<InvHed>();
+
+        String selectQuery = "select * from " + TABLE_BCINCOICEHED + " Where " + BCINCOICEHED_IS_ACTIVE + "='0' AND " + BCINCOICEHED_IS_SYNC + "='0'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        localSP = context.getSharedPreferences(SETTINGS, 0);
+
+        while (cursor.moveToNext()) {
+
+            InvHed vanSalesMapper = new InvHed();
+
+            vanSalesMapper.setNextNumVal(new ReferenceController(context).getCurrentNextNumVal(context.getResources().getString(R.string.VanNumVal)));
+
+            vanSalesMapper.setDistDB(SharedPref.getInstance(context).getDistDB().trim());
+            vanSalesMapper.setConsoleDB(SharedPref.getInstance(context).getConsoleDB().trim());
+
+            vanSalesMapper.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+            vanSalesMapper.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+            vanSalesMapper.setFINVHED_LOCCODE(cursor.getString(cursor.getColumnIndex(BCINCOICEHED_LOCATION_CODE)));
+            vanSalesMapper.setFINVHED_AREACODE(cursor.getString(cursor.getColumnIndex(BCINCOICEHED_AREA_CODE)));
+            vanSalesMapper.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(BCINCOICEHED_CUSTOMER_CODE)));
+            vanSalesMapper.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+
+
+            String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+
+            vanSalesMapper.setInvDets(new InvoiceDetBarcodeController(context).getAllInvDet(RefNo));
+           // vanSalesMapper.setInvDets(new InvDetController(context).getAllInvDet(RefNo));
+            vanSalesMapper.setInvTaxDTs(new InvTaxDTController(context).getAllTaxDT(RefNo));
+            vanSalesMapper.setInvTaxRGs(new InvTaxRGController(context).getAllTaxRG(RefNo));
+            vanSalesMapper.setOrderDiscs(new OrderDiscController(context).getAllOrderDiscs(RefNo));
+            vanSalesMapper.setFreeIssues(new OrdFreeIssueController(context).getAllFreeIssues(RefNo));
+            // vanSalesMapper.setStkIsses(new StkIssController(context).getUploadData(RefNo));
+            vanSalesMapper.setDispHeds(new DispHedController(context).getUploadData(RefNo));
+            vanSalesMapper.setDispDets(new DispDetController(context).getUploadData(RefNo));
+            vanSalesMapper.setDispIsses(new DispIssController(context).getUploadData(RefNo));
+
+
+            list.add(vanSalesMapper);
+
+        }
+
+        return list;
+    }
     public int InactiveStatusUpdate(String refno) {
 
         int count = 0;

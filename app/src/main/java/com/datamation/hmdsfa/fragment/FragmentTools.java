@@ -62,6 +62,7 @@ import com.datamation.hmdsfa.controller.FreeMslabController;
 import com.datamation.hmdsfa.controller.FreeSlabController;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
+import com.datamation.hmdsfa.controller.InvoiceBarcodeController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
@@ -570,116 +571,117 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         super.onPositive(dialog);
                         boolean connectionStatus = NetworkUtil.isNetworkAvailable(context);
                         if (connectionStatus == true) {
-                            try { // new customer upload 2019-10-17MMS
-                                ArrayList<SalRep> fblist = new ArrayList<>();
-                                SalRep salRep = new SalRep();
-                                salRep.setCONSOLE_DB(SharedPref.getInstance(context).getConsoleDB().trim());
-                                salRep.setDIST_DB(SharedPref.getInstance(context).getDistDB().trim());
-                                salRep.setRepCode(SharedPref.getInstance(context).getLoginUser().getRepCode());
-                                salRep.setFirebaseTokenID(SharedPref.getInstance(context).getFirebaseTokenKey());
-                                fblist.add(salRep);
-                                if (fblist.size() <= 0)
-                                    Toast.makeText(getActivity(), "No firebase records to upload !", Toast.LENGTH_LONG).show();
-                                else {
-                                    new UploadFirebaseTokenKey(getActivity(), FragmentTools.this,fblist).execute(fblist);
-//                                    new UploadAttendance(getActivity(), FragmentTools.this, attendList).execute(fblist);
-                                    Log.v(">>8>>", "Upload new firebase records finish" + fblist);
-                                }
-                            } catch (Exception e) {
-                                Log.v("Excp in sync attendance", e.toString());
-                            }
-                            try { // new customer upload 2019-10-17MMS
-                                AttendanceController attendanceController = new AttendanceController(getActivity());
-                                ArrayList<Attendance> attendList = attendanceController.getUnsyncedTourData();
-                                if (attendList.size() <= 0)
-                                    Toast.makeText(getActivity(), "No Attendance Records to upload !", Toast.LENGTH_LONG).show();
-                                else {
-                                    new UploadAttendance(getActivity(), FragmentTools.this, attendList).execute(attendList);
-                                    Log.v(">>8>>", "Upload new Attendance execute finish");
-                                }
-                            } catch (Exception e) {
-                                Log.v("Excp in sync attendance", e.toString());
-                            }
-                            try { // new customer upload 2019-10-17MMS
-                                NewCustomerController customerDS = new NewCustomerController(getActivity());
-                                ArrayList<NewCustomer> newCustomers = customerDS.getAllNewCustomersForSync();
-                                if (newCustomers.size() <= 0)
-                                    Toast.makeText(getActivity(), "No Customer Records to upload !", Toast.LENGTH_LONG).show();
-                                else {
-                                    new UploadNewCustomer(getActivity(), FragmentTools.this, newCustomers).execute(newCustomers);
-                                    Log.v(">>8>>", "Upload new customer execute finish");
-                                }
-                            } catch (Exception e) {
-                                Log.v("Exception in sync order", e.toString());
-                            }
-                            try {//upload email kaveesha, modification 2019-10-24MMS
-                                SalRepController salRepController = new SalRepController(getActivity());
-                                ArrayList<SalRep> saleRep = salRepController.getAllUnsyncSalrep(new SalRepController(context).getCurrentRepCode());
-                                /* If records available for upload then */
-                                if (saleRep.size() <= 0)
-                                    Toast.makeText(getActivity(), "No Records to upload !", Toast.LENGTH_LONG).show();
-                                else {
-                                    new UploadSalRef(getActivity(), FragmentTools.this, saleRep).execute(saleRep);
-                                    Log.v(">>8>>", "Upload email execute finish");
-                                    //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
-                                }
-
-                            } catch (Exception e) {
-                                Log.v("Exception in sync email", e.toString());
-                            }
-                            try {//existing update debtors upload - 2019-12-16
-                                CustomerController customerDS = new CustomerController(getActivity());
-                                ArrayList<Debtor> updExistingDebtors = customerDS.getAllUpdatedDebtors();
-                                if (updExistingDebtors.size() <= 0)
-                                    Toast.makeText(getActivity(), "No updated debtors to upload !", Toast.LENGTH_LONG).show();
-                                else {
-                                    new UploadEditedDebtors(getActivity(), FragmentTools.this, updExistingDebtors).execute(updExistingDebtors);
-                                    Log.v(">>>>", "Updated debtors are uploaded");
-                                }
-                            } catch (Exception e) {
-                                Log.v("Excptn upld edted dbtrs", e.toString());
-                            }
-                            try {// debtor image uploads 2019-11-01MMS
-                                CustomerController customerDS = new CustomerController(getActivity());
-                                ArrayList<Debtor> imgUpdDebtors = customerDS.getAllImagUpdatedDebtors();
-                                if (imgUpdDebtors.size() <= 0)
-                                    Toast.makeText(getActivity(), "No Debtors business images to upload !", Toast.LENGTH_LONG).show();
-                                else {
-                                    new UploadDebtorImges(getActivity(), FragmentTools.this, imgUpdDebtors).execute(imgUpdDebtors);
-                                    Log.v(">>8>>", "Debtor business images uploded");
-                                }
-                            } catch (Exception e) {
-                                Log.v("Exception business img", e.toString());
-                            }
-                            try {// debtor uploads 2019-10-21MMS
-                                CustomerController customerDS = new CustomerController(getActivity());
-                                ArrayList<Debtor> debtors = customerDS.getAllDebtorsToCordinatesUpdate();
-                                if (debtors.size() <= 0)
-                                    Toast.makeText(getActivity(), "No Debtor cordinates to upload !", Toast.LENGTH_LONG).show();
-                                else {
-                                    new UploadDebtorCordinates(getActivity(), FragmentTools.this, debtors).execute(debtors);
-                                    Log.v(">>8>>", "Debtor cordinates uploded");
-                                }
-                            } catch (Exception e) {
-                                Log.v("Exception in sync De", e.toString());
-                            }
-                            try { // upload pre sale order
-                                OrderController orderHed = new OrderController(getActivity());
-                                ArrayList<Order> ordHedList = orderHed.getAllUnSyncOrdHed();
-//                    /* If records available for upload then */
-                                if (ordHedList.size() <= 0)
-                                    Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
-                                else {
-
-                                    new UploadPreSales(getActivity(), FragmentTools.this).execute(ordHedList);
-                                    Log.v(">>8>>", "UploadPreSales execute finish");
-                                    // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
-                                }
-                            } catch (Exception e) {
-                                Log.v("Exception in sync order", e.toString());
-                            }
-                            try {//Van sale upload - 2020-01-28-kaveesha
-                                InvHedController hedDS = new InvHedController(getActivity());
+//                            try { // new customer upload 2019-10-17MMS
+//                                ArrayList<SalRep> fblist = new ArrayList<>();
+//                                SalRep salRep = new SalRep();
+//                                salRep.setCONSOLE_DB(SharedPref.getInstance(context).getConsoleDB().trim());
+//                                salRep.setDIST_DB(SharedPref.getInstance(context).getDistDB().trim());
+//                                salRep.setRepCode(SharedPref.getInstance(context).getLoginUser().getRepCode());
+//                                salRep.setFirebaseTokenID(SharedPref.getInstance(context).getFirebaseTokenKey());
+//                                fblist.add(salRep);
+//                                if (fblist.size() <= 0)
+//                                    Toast.makeText(getActivity(), "No firebase records to upload !", Toast.LENGTH_LONG).show();
+//                                else {
+//                                    new UploadFirebaseTokenKey(getActivity(), FragmentTools.this,fblist).execute(fblist);
+////                                    new UploadAttendance(getActivity(), FragmentTools.this, attendList).execute(fblist);
+//                                    Log.v(">>8>>", "Upload new firebase records finish" + fblist);
+//                                }
+//                            } catch (Exception e) {
+//                                Log.v("Excp in sync attendance", e.toString());
+//                            }
+//                            try { // new customer upload 2019-10-17MMS
+//                                AttendanceController attendanceController = new AttendanceController(getActivity());
+//                                ArrayList<Attendance> attendList = attendanceController.getUnsyncedTourData();
+//                                if (attendList.size() <= 0)
+//                                    Toast.makeText(getActivity(), "No Attendance Records to upload !", Toast.LENGTH_LONG).show();
+//                                else {
+//                                    new UploadAttendance(getActivity(), FragmentTools.this, attendList).execute(attendList);
+//                                    Log.v(">>8>>", "Upload new Attendance execute finish");
+//                                }
+//                            } catch (Exception e) {
+//                                Log.v("Excp in sync attendance", e.toString());
+//                            }
+//                            try { // new customer upload 2019-10-17MMS
+//                                NewCustomerController customerDS = new NewCustomerController(getActivity());
+//                                ArrayList<NewCustomer> newCustomers = customerDS.getAllNewCustomersForSync();
+//                                if (newCustomers.size() <= 0)
+//                                    Toast.makeText(getActivity(), "No Customer Records to upload !", Toast.LENGTH_LONG).show();
+//                                else {
+//                                    new UploadNewCustomer(getActivity(), FragmentTools.this, newCustomers).execute(newCustomers);
+//                                    Log.v(">>8>>", "Upload new customer execute finish");
+//                                }
+//                            } catch (Exception e) {
+//                                Log.v("Exception in sync order", e.toString());
+//                            }
+//                            try {//upload email kaveesha, modification 2019-10-24MMS
+//                                SalRepController salRepController = new SalRepController(getActivity());
+//                                ArrayList<SalRep> saleRep = salRepController.getAllUnsyncSalrep(new SalRepController(context).getCurrentRepCode());
+//                                /* If records available for upload then */
+//                                if (saleRep.size() <= 0)
+//                                    Toast.makeText(getActivity(), "No Records to upload !", Toast.LENGTH_LONG).show();
+//                                else {
+//                                    new UploadSalRef(getActivity(), FragmentTools.this, saleRep).execute(saleRep);
+//                                    Log.v(">>8>>", "Upload email execute finish");
+//                                    //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
+//                                }
+//
+//                            } catch (Exception e) {
+//                                Log.v("Exception in sync email", e.toString());
+//                            }
+//                            try {//existing update debtors upload - 2019-12-16
+//                                CustomerController customerDS = new CustomerController(getActivity());
+//                                ArrayList<Debtor> updExistingDebtors = customerDS.getAllUpdatedDebtors();
+//                                if (updExistingDebtors.size() <= 0)
+//                                    Toast.makeText(getActivity(), "No updated debtors to upload !", Toast.LENGTH_LONG).show();
+//                                else {
+//                                    new UploadEditedDebtors(getActivity(), FragmentTools.this, updExistingDebtors).execute(updExistingDebtors);
+//                                    Log.v(">>>>", "Updated debtors are uploaded");
+//                                }
+//                            } catch (Exception e) {
+//                                Log.v("Excptn upld edted dbtrs", e.toString());
+//                            }
+//                            try {// debtor image uploads 2019-11-01MMS
+//                                CustomerController customerDS = new CustomerController(getActivity());
+//                                ArrayList<Debtor> imgUpdDebtors = customerDS.getAllImagUpdatedDebtors();
+//                                if (imgUpdDebtors.size() <= 0)
+//                                    Toast.makeText(getActivity(), "No Debtors business images to upload !", Toast.LENGTH_LONG).show();
+//                                else {
+//                                    new UploadDebtorImges(getActivity(), FragmentTools.this, imgUpdDebtors).execute(imgUpdDebtors);
+//                                    Log.v(">>8>>", "Debtor business images uploded");
+//                                }
+//                            } catch (Exception e) {
+//                                Log.v("Exception business img", e.toString());
+//                            }
+//                            try {// debtor uploads 2019-10-21MMS
+//                                CustomerController customerDS = new CustomerController(getActivity());
+//                                ArrayList<Debtor> debtors = customerDS.getAllDebtorsToCordinatesUpdate();
+//                                if (debtors.size() <= 0)
+//                                    Toast.makeText(getActivity(), "No Debtor cordinates to upload !", Toast.LENGTH_LONG).show();
+//                                else {
+//                                    new UploadDebtorCordinates(getActivity(), FragmentTools.this, debtors).execute(debtors);
+//                                    Log.v(">>8>>", "Debtor cordinates uploded");
+//                                }
+//                            } catch (Exception e) {
+//                                Log.v("Exception in sync De", e.toString());
+//                            }
+//                            try { // upload pre sale order
+//                                OrderController orderHed = new OrderController(getActivity());
+//                                ArrayList<Order> ordHedList = orderHed.getAllUnSyncOrdHed();
+////                    /* If records available for upload then */
+//                                if (ordHedList.size() <= 0)
+//                                    Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
+//                                else {
+//
+//                                    new UploadPreSales(getActivity(), FragmentTools.this).execute(ordHedList);
+//                                    Log.v(">>8>>", "UploadPreSales execute finish");
+//                                    // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
+//                                }
+//                            } catch (Exception e) {
+//                                Log.v("Exception in sync order", e.toString());
+//                            }
+                            try {//Van sale upload - 2020-03-24-rashmi
+                                //InvHedController hedDS = new InvHedController(getActivity());
+                                InvoiceBarcodeController hedDS = new InvoiceBarcodeController(getActivity());
                                 ArrayList<InvHed> invHedList = hedDS.getAllUnsynced();
 //                    /* If records available for upload then */
                                 if (invHedList.size() <= 0)
@@ -691,48 +693,48 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             }catch(Exception e){
                                 Log.v("Exception in sync order",e.toString());
                             }
-                            try//Sales return upload -  2020-01-28-kaveesha
-                            {
-                                SalesReturnController retHed = new SalesReturnController(getActivity());
-                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
-                                if(retHedList.size() <= 0)
-                                {
-                                    Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
-                                }else
-                                {
-                                    new UploadSalesReturn(getActivity(),FragmentTools.this,"insertReturns").execute(retHedList);
-                                    Log.v(">>8>>","Upload sales return execute finish");
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                Log.v("Exception in sync return" , e.toString());
-                            }
-                            try { // upload Non productive 2019-10-23MMS
-                                DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
-                                ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();
-                                if (npHedList.size() <= 0)
-                                    Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
-                                else {
-                                    new UploadNonProd(getActivity(), FragmentTools.this).execute(npHedList);
-                                    Log.v(">>8>>", "Upload non productive execute finish");//
-                                }
-                            } catch (Exception e) {
-                                Log.v("Exception in sync order", e.toString());
-                            }
-                            try { // upload dAY eXPENSE
-                                DayExpHedController exHed = new DayExpHedController(getActivity());
-                                ArrayList<DayExpHed> exHedList = exHed.getUnSyncedData();
-//                    /* If records available for upload then */
-                                if (exHedList.size() <= 0)
-                                    Toast.makeText(getActivity(), "No Expense Records to upload !", Toast.LENGTH_LONG).show();
-                                else {
-                                    new UploadExpenses(getActivity(), FragmentTools.this).execute(exHedList);
-                                    Log.v(">>8>>", "Upload expense execute finish");
-                                }
-                            } catch (Exception e) {
-                                Log.v("Exception in sync order", e.toString());
-                            }
+//                            try//Sales return upload -  2020-01-28-kaveesha
+//                            {
+//                                SalesReturnController retHed = new SalesReturnController(getActivity());
+//                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
+//                                if(retHedList.size() <= 0)
+//                                {
+//                                    Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
+//                                }else
+//                                {
+//                                    new UploadSalesReturn(getActivity(),FragmentTools.this,"insertReturns").execute(retHedList);
+//                                    Log.v(">>8>>","Upload sales return execute finish");
+//                                }
+//                            }
+//                            catch (Exception e)
+//                            {
+//                                Log.v("Exception in sync return" , e.toString());
+//                            }
+//                            try { // upload Non productive 2019-10-23MMS
+//                                DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
+//                                ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();
+//                                if (npHedList.size() <= 0)
+//                                    Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
+//                                else {
+//                                    new UploadNonProd(getActivity(), FragmentTools.this).execute(npHedList);
+//                                    Log.v(">>8>>", "Upload non productive execute finish");//
+//                                }
+//                            } catch (Exception e) {
+//                                Log.v("Exception in sync order", e.toString());
+//                            }
+//                            try { // upload dAY eXPENSE
+//                                DayExpHedController exHed = new DayExpHedController(getActivity());
+//                                ArrayList<DayExpHed> exHedList = exHed.getUnSyncedData();
+////                    /* If records available for upload then */
+//                                if (exHedList.size() <= 0)
+//                                    Toast.makeText(getActivity(), "No Expense Records to upload !", Toast.LENGTH_LONG).show();
+//                                else {
+//                                    new UploadExpenses(getActivity(), FragmentTools.this).execute(exHedList);
+//                                    Log.v(">>8>>", "Upload expense execute finish");
+//                                }
+//                            } catch (Exception e) {
+//                                Log.v("Exception in sync order", e.toString());
+//                            }
                         } else
                             Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show();
                     }

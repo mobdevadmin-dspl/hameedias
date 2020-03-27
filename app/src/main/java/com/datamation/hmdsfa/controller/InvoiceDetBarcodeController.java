@@ -211,5 +211,87 @@ public class InvoiceDetBarcodeController {
         arrList.add(invDet);
         new InvoiceDetBarcodeController(context).insertOrUpdateBCInvDet(arrList);
     }
+    public ArrayList<BarcodenvoiceDet> getAllInvDet(String refno) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
 
+        ArrayList<BarcodenvoiceDet> list = new ArrayList<BarcodenvoiceDet>();
+
+        // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' AND types='SA'";
+        String selectQuery = "select * from " + TABLE_BCINCOICEDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+
+            while (cursor.moveToNext()) {
+
+                BarcodenvoiceDet invDet = new BarcodenvoiceDet();
+
+                invDet.setItemNo(cursor.getString(cursor.getColumnIndex(BCINCOICEDET_ITEMNO)));
+                invDet.setBarcodeNo(cursor.getString(cursor.getColumnIndex(BCINCOICEDET_BARCODE)));
+                invDet.setVariantCode(cursor.getString(cursor.getColumnIndex(BCINCOICEDET_VARIANT_CODE)));
+                invDet.setArticleNo(cursor.getString(cursor.getColumnIndex(BCINCOICEDET_ARTICLE_NO)));
+                invDet.setQty(cursor.getInt(cursor.getColumnIndex(BCINCOICEDET_QUANTITY)));
+                invDet.setPrice(cursor.getDouble(cursor.getColumnIndex(BCINCOICEDET_PRICE)));
+                invDet.setType(cursor.getString(cursor.getColumnIndex(BCINCOICEDET_TYPE)));
+                invDet.setRefno(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+
+
+                list.add(invDet);
+
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
+
+    public boolean isAnyActiveInvoice()
+    {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "select * from " + TABLE_BCINCOICEDET + " WHERE " + BCINCOICEDET_ISACTIVE + "= '1' ";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            if (cursor.getCount()>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return false;
+    }
 }

@@ -250,7 +250,7 @@ public class ProductController {
 
             ContentValues values = new ContentValues();
             values.put(FPRODUCT_IsScan, isScan);
-            dB.update(TABLE_FPRODUCT, values,FPRODUCT_ITEMCODE + " =?", new String[]{String.valueOf(itemCode)});
+            dB.update(TABLE_FPRODUCT, values,FPRODUCT_Barcode + " =?", new String[]{String.valueOf(itemCode)});
 
         } catch (Exception e) {
             Log.v(" Exception", e.toString());

@@ -41,6 +41,7 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.adapter.BundleAdapter;
 import com.datamation.hmdsfa.adapter.FreeIssueAdapterNew;
 import com.datamation.hmdsfa.adapter.InvDetAdapter;
+import com.datamation.hmdsfa.adapter.InvDetAdapterNew;
 import com.datamation.hmdsfa.adapter.InvoiceFreeItemAdapter;
 import com.datamation.hmdsfa.adapter.ItemAdapter;
 import com.datamation.hmdsfa.adapter.NewProduct_Adapter;
@@ -56,6 +57,7 @@ import com.datamation.hmdsfa.discount.Discount;
 import com.datamation.hmdsfa.freeissue.FreeIssue;
 import com.datamation.hmdsfa.helpers.BluetoothConnectionHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.model.BarcodenvoiceDet;
 import com.datamation.hmdsfa.model.FreeItemDetails;
 import com.datamation.hmdsfa.model.InvDet;
 import com.datamation.hmdsfa.model.InvHed;
@@ -83,11 +85,12 @@ public class BRInvoiceDetailFragment extends Fragment{
     ListView lv_order_det, lvFree;
     Spinner spnScanType;
     ArrayList<InvDet> orderList;
+    ArrayList<BarcodenvoiceDet> orderListNew;
     SharedPref mSharedPref;
     String RefNo, locCode;
     ActivityVanSalesBR mainActivity;
     MyReceiver r;
-    ArrayList<Product> productList = null, selectedItemList = null;
+    ArrayList<Product> productList = null, selectedItemList = null, selectedItem = null;
     ArrayList<ItemBundle> itemArrayList = null, selectedBundleItemList = null;;
     ImageButton ibtProduct, ibtDiscount;
     private  SweetAlertDialog pDialog;
@@ -130,37 +133,49 @@ public class BRInvoiceDetailFragment extends Fragment{
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                Log.v("ENTER CODE","Working.... ");
-//
-//                ArrayList<Item> aList = new ItemController(getActivity())
+               // Log.v("ENTER CODE","Working.... ");
                 if(spnScanType.getSelectedItemPosition() == 0) {
 //                        .getAllItem(etSearchField.getText().toString());
-                    ItemBundle item = new ItemBundleController(getActivity())
-                            .getItem(etSearchField.getText().toString());
+                    if (!new ProductController(getActivity()).tableHasRecords()) {
+                        new ProductController(getActivity()).insertIntoProductAsBulk("MS", "WSP001");
+                        // productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
+                    }
+                    //itemBundle size should be one.because scan only one item
+
+                    ArrayList<ItemBundle> itemBundle = new ItemBundleController(getActivity())
+                            .getItemsInBundle(etSearchField.getText().toString());
                     Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
                     // for (Item item: aList ) {
-                    Log.v("code :", ">> " + item.getItemNo());
-                    etSearchField.setText("");
-                    etSearchField.setFocusable(true);
-                    // }
-                    if(item.getBarcode()!= null) {
-                        itemArrayList.add(item);
+                   // Log.v("code :", ">> " + item.getItemNo());
+                    if(itemBundle.size()==1) {
+                        //when deduct qoh update qoh also
+                        new ProductController(getActivity()).updateBarCode(itemBundle.get(0).getBarcode(),"1");
+                        selectedItem = new ProductController(getActivity()).getScannedtems("SA");
+                        updateInvoiceDet(selectedItem);
+                        showData();
+
                     }else{
                         Toast.makeText(getActivity(),"No matching item",Toast.LENGTH_LONG).show();
                     }
+                    etSearchField.setText("");
+                    etSearchField.setFocusable(true);
+                    // }
+//                    if(item.getBarcode()!= null) {
+//                        itemArrayList.add(item);
+//                    }else{
+//                        Toast.makeText(getActivity(),"No matching item",Toast.LENGTH_LONG).show();
+//                    }
 
                   //  lv_order_det.setAdapter(new ItemAdapter(getActivity(), itemArrayList));
                 }else{
-                    if (new ProductController(getActivity()).tableHasRecords()) {
-                        productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
-                    } else {
+                    if (!new ProductController(getActivity()).tableHasRecords()) {
                         new ProductController(getActivity()).insertIntoProductAsBulk("MS", "WSP001");
+                        // productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
                     }
                     ArrayList<ItemBundle> itemBundle = new ItemBundleController(getActivity())
                             .getItemsInBundle(etSearchField.getText().toString());
                     if(itemBundle.size()>0) {
                         BundleItemsDialogBox(itemBundle);
-
                     }else{
                         Toast.makeText(getActivity(),"No matching bundle",Toast.LENGTH_LONG).show();
                     }
@@ -190,15 +205,6 @@ public class BRInvoiceDetailFragment extends Fragment{
                 return false;
             }
         });
-//        ibtProduct.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                new LoardingProductFromDB().execute();
-//            }
-//        });
-
-
 
         //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*//
 
@@ -245,18 +251,12 @@ public class BRInvoiceDetailFragment extends Fragment{
         final ListView listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
 
         listView.setAdapter(new BundleAdapter(getActivity(), itemDetails));
-       // implement checkbox development and update scan flag in bundleadapter
 
-
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setCancelable(false).setPositiveButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 selectedItemList = new ProductController(getActivity()).getScannedtems("SA");
                 updateInvoiceDet(selectedItemList);
                 showData();
-//                ArrayList<ItemBundle> scannedItems = new ProductController(getActivity()).getScannedItems();
-//                //added scaned items to lv_ordr_det
-//                lv_order_det.setAdapter(new ItemAdapter(getActivity(), scannedItems));
-
 
                 dialog.cancel();//2020-03-10
             }
@@ -270,110 +270,6 @@ public class BRInvoiceDetailFragment extends Fragment{
 
         alertD.show();
         return true;
-    }
-
-    public void BundleDialogBox(final ArrayList<ItemBundle> itemDetails) {
-        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-        View promptView = layoutInflater.inflate(R.layout.product_dialog_layout, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setView(promptView);
-
-        final ListView lvProducts = (ListView) promptView.findViewById(R.id.lv_product_list);
-        final SearchView search = (SearchView) promptView.findViewById(R.id.et_search);
-
-        lvProducts.clearTextFilter();
-        //productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
-        lvProducts.setAdapter(new BundleAdapter(getActivity(), itemDetails));
-
-        alertDialogBuilder.setCancelable(false).setNegativeButton("DONE", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-                selectedItemList = new ProductController(getActivity()).getSelectedItems("SA");
-                updateInvoiceDet(selectedItemList);
-                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-        alertDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                productList = new ProductController(getActivity()).getAllItems(query,"SA");//Rashmi 2018-10-26
-                lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                productList.clear();
-                productList = new ProductController(getActivity()).getAllItems(newText,"SA");//rashmi-2018-10-26
-                lvProducts.setAdapter(new NewProduct_Adapter(getActivity(), productList));
-                return true;
-            }
-        });
-    }
-    //------------------------------------------------------------------------------------------------------------------------------------
-    public class LoardingProductFromDB extends AsyncTask<Object, Object, ArrayList<Product>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
-            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            pDialog.setTitleText("Fetch Data Please Wait.");
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected ArrayList<Product> doInBackground(Object... objects) {
-
-            if (new ProductController(getActivity()).tableHasRecords()) {
-                productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
-            } else {
-
-                new ProductController(getActivity()).insertIntoProductAsBulk("MS","WSP001");
-
-                if(selectedInvHed!=null) {
-
-                    ArrayList<InvDet> invDetArrayList = selectedInvHed.getInvDetArrayList();
-                    if (invDetArrayList != null) {
-                        for (int i = 0; i < invDetArrayList.size(); i++) {
-                            String tmpItemName = invDetArrayList.get(i).getFINVDET_ITEM_CODE();
-                            String tmpQty = invDetArrayList.get(i).getFINVDET_QTY();
-                            //Update Qty in  fProducts_pre table
-                            int count = new ProductController(getActivity()).updateProductQtyfor(tmpItemName, tmpQty);
-                            if (count > 0) {
-
-                                Log.d("InsertOrUpdate", "success");
-                            } else {
-                                Log.d("InsertOrUpdate", "Failed");
-                            }
-
-                        }
-                    }
-                }
-                //----------------------------------------------------------------------------
-            }
-            productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi -2018-10-26
-            return productList;
-        }
-
-
-        @Override
-        protected void onPostExecute(ArrayList<Product> products) {
-            super.onPostExecute(products);
-
-            if(pDialog.isShowing()){
-                pDialog.dismiss();
-            }
-            ProductDialogBox();
-        }
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
@@ -625,8 +521,10 @@ public class BRInvoiceDetailFragment extends Fragment{
         selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
         try {
             orderList = new InvDetController(getActivity()).getAllInvDet(selectedInvHed.getFINVHED_REFNO());
+            orderListNew = new InvoiceDetBarcodeController(getActivity()).getAllInvDet(selectedInvHed.getFINVHED_REFNO());
 //            ArrayList<InvDet> freeList = new InvDetController(getActivity()).getAllFreeIssue(selectedInvHed.getFINVHED_REFNO());
-            lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));//2019-07-07 till error free
+           // lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));
+            lv_order_det.setAdapter(new InvDetAdapterNew(getActivity(), orderListNew));
            // lvFree.setAdapter(new FreeItemsAdapter(getActivity(), freeList));
         } catch (NullPointerException e) {
             Log.v("SA Error", e.toString());
@@ -770,7 +668,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                new ProductController(getActivity()).updateBarCodeInDelete(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
+                new ProductController(getActivity()).updateBarCodeInDelete(orderListNew.get(position).getBarcodeNo(), "0");
                 //new ProductController(getActivity()).updateProductQty(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
                 new InvDetController(getActivity()).mDeleteProduct(selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE());
                 android.widget.Toast.makeText(getActivity(), "Deleted successfully!", android.widget.Toast.LENGTH_SHORT).show();
@@ -819,7 +717,7 @@ public class BRInvoiceDetailFragment extends Fragment{
                 for (Product product : list) {
                     i++;
                     mUpdateInvoice("0", product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), "1500", i + "", "5","0.0");
-                    new InvoiceDetBarcodeController(getActivity()).mUpdateInvoice(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)),"Invoice",product.getFPRODUCT_ITEMCODE(),product.getFPRODUCT_Barcode(),product.getFPRODUCT_VariantCode(),"articleno",Integer.parseInt(product.getFPRODUCT_QTY()),0.0);
+                    new InvoiceDetBarcodeController(getActivity()).mUpdateInvoice(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)),"Invoice",product.getFPRODUCT_ITEMCODE(),product.getFPRODUCT_Barcode(),product.getFPRODUCT_VariantCode(),"articleno",Integer.parseInt(product.getFPRODUCT_QTY()),2500);
                 }//id,itemcode,qty,price,seqno,qoh,changed price
                 return null;
             }
@@ -857,13 +755,13 @@ public class BRInvoiceDetailFragment extends Fragment{
                 try {
                     threadConnectBTdevice.cancel();
                 }catch ( Exception e ){
-                    e.printStackTrace();
+                   // e.printStackTrace();
                 }finally {
                     try {
                         threadConnectBTdevice = new ThreadConnectBTdevice(new BluetoothConnectionHelper(getActivity()).getDevice());
                         threadConnectBTdevice.start();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                       // e.printStackTrace();
                     }
 
 
@@ -936,11 +834,11 @@ public class BRInvoiceDetailFragment extends Fragment{
             }
 
             catch (NoSuchMethodException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+              //  e.printStackTrace();
             } catch (InvocationTargetException e) {
-                e.printStackTrace();
+               // e.printStackTrace();
             }
         }
 
@@ -951,15 +849,15 @@ public class BRInvoiceDetailFragment extends Fragment{
                 bluetoothSocket.connect();
                 success = true;
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
 
-                final String eMessage = e.getMessage();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+//                final String eMessage = e.getMessage();
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
                         connectionError();
-                    }
-                });
+//                    }
+//                });
 
                 try {
                     bluetoothSocket.close();
@@ -975,22 +873,22 @@ public class BRInvoiceDetailFragment extends Fragment{
                 //connect successful
                 final String msgconnected = "Connected.";
 
-                getActivity().runOnUiThread(new Runnable(){
+               // getActivity().runOnUiThread(new Runnable(){
 
-                    @Override
-                    public void run() {
+//                    @Override
+//                    public void run() {
                         textStatus.setText("Status : Connected.");
                         textStatus.setBackgroundResource(R.color.Green);
-                    }});
+                //    }});
 
             }else{
                 //fail
                 Log.e("<<ERROR>>", "Failed to connect.");
-                getActivity().runOnUiThread(new Runnable(){
-                    @Override
-                    public void run() {
+//                getActivity().runOnUiThread(new Runnable(){
+//                    @Override
+//                    public void run() {
                         connectionError();
-                    }});
+               //     }});
                 //connectionError();
             }
         }
@@ -1000,7 +898,7 @@ public class BRInvoiceDetailFragment extends Fragment{
                 bluetoothSocket.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+               // e.printStackTrace();
             }
 
         }

@@ -18,6 +18,7 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.barcode.BRInvoiceDetailFragment;
 import com.datamation.hmdsfa.barcode.BRInvoiceHeaderFragment;
 import com.datamation.hmdsfa.barcode.BRInvoiceSummaryFragment;
+import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
 import com.datamation.hmdsfa.controller.OrderDetailController;
 import com.datamation.hmdsfa.helpers.PreSalesResponseListener;
 import com.datamation.hmdsfa.helpers.VanSalesResponseListener;
@@ -78,13 +79,11 @@ public class ActivityVanSalesBR extends AppCompatActivity implements VanSalesRes
             public void onPageSelected(int position) {
 
                 if (position == 2)
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_SUMMARY"));
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_SUMMARY"));
                 else if (position == 0)
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_HEADER"));
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_HEADER"));
                 else if (position == 1)
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_DETAILS"));
-//                else if (position == 2)
-//                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_PRE_SUMMARY"));
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("TAG_DETAILS"));
 
             }
 
@@ -93,7 +92,7 @@ public class ActivityVanSalesBR extends AppCompatActivity implements VanSalesRes
             }
         });
 
-        status = new OrderDetailController(getApplicationContext()).isAnyActiveOrders();
+        status = new InvoiceDetBarcodeController(getApplicationContext()).isAnyActiveInvoice();
     }
 
     @Override
@@ -107,7 +106,7 @@ public class ActivityVanSalesBR extends AppCompatActivity implements VanSalesRes
     private class PreSalesPagerAdapter extends FragmentPagerAdapter {
 
         //private final String[] titles = {"HEADER", "ORDER DETAILS", "ORDER SUMMARY"};
-        private final String[] titles = {"HEADER", "ORDER DETAILS", "ORDER SUMMARY"};
+        private final String[] titles = {"INVOICE HEADER", "INVOICE DETAILS", "INVOICE SUMMARY"};
 
         public PreSalesPagerAdapter(FragmentManager fm) {
             super(fm);

@@ -38,6 +38,7 @@ import com.datamation.hmdsfa.controller.FItenrDetController;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
 import com.datamation.hmdsfa.controller.InvoiceBarcodeController;
+import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
 import com.datamation.hmdsfa.controller.OrderController;
 import com.datamation.hmdsfa.controller.OrderDetailController;
 import com.datamation.hmdsfa.controller.OutstandingController;
@@ -103,8 +104,6 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
         selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
         selectedDebtor = new CustomerController(getActivity()).getSelectedCustomerByCode(SharedPref.getInstance(getActivity()).getSelectedDebCode());
 
-        //  lblCustomerName.setText(activity.selectedDebtor.getCusName());
-        // activity.selectedRetDebtor = activity.selectedDebtor;
         currnentDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         outStandingAmt.setText(String.format("%,.2f", new OutstandingController(getActivity()).getDebtorBalance(SharedPref.getInstance(getActivity()).getSelectedDebCode())));
         txtRemakrs.setEnabled(true);
@@ -116,9 +115,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             txtRemakrs.setText(selectedInvHed.getFINVHED_REMARKS());
             lblInvRefno.setText(selectedInvHed.getFINVHED_REFNO());
         } else { /*No header*/
-
             lblInvRefno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
-
         }
 
 
@@ -149,7 +146,6 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
         });
 
         List<String> listPayType = new ArrayList<String>();
-        // listPayType.add("-SELECT PAYMENT TYPE-");
         listPayType.add("CASH");
         listPayType.add("CREDIT");
         listPayType.add("OTHER");
@@ -165,8 +161,6 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 new SharedPref(getActivity()).setGlobalVal("KeyPayType", spnPayMethod.getSelectedItem().toString());
                 Log.v("PAYMENT TYPE", spnPayMethod.getSelectedItem().toString());
-                //  mSaveInvoiceHeader();
-
             }
 
             @Override
@@ -253,8 +247,6 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
         }
     }
 
-
-
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void onPause() {
@@ -269,11 +261,6 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
 
     }
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.menu_sync, menu);
-//        super.onCreateOptionsMenu(menu,inflater);
-//    }
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.clear();
@@ -286,13 +273,11 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
         int id = item.getItemId();
         switch (id) {
             case R.id.sync:
-                if(new InvDetController(getActivity()).isAnyActiveOrders()){
+                if(new InvoiceDetBarcodeController(getActivity()).isAnyActiveInvoice()){
                     MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                             .content("You have active invoices. Cannot back without complete.")
                             .positiveText("OK")
                             .positiveColor(getResources().getColor(R.color.material_alert_positive_button))
-//                            .negativeText("No")
-//                            .negativeColor(getResources().getColor(R.color.material_alert_negative_button))
 
                             .callback(new MaterialDialog.ButtonCallback() {
                                 @Override
