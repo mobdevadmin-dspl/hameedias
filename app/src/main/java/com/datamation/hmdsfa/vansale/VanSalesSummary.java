@@ -246,7 +246,7 @@ public class VanSalesSummary extends Fragment {
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
 
         //locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
-        locCode = new SalRepController(getActivity()).getCurrentLocCode().trim();
+        locCode = "";
 
         list = new InvDetController(getActivity()).getAllInvDet(RefNo);
         returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(ReturnRefNo);
@@ -986,7 +986,7 @@ public class VanSalesSummary extends Fragment {
         String printGapAdjustE = printGapAdjust.substring(0, Math.min(lengthDealEB, printGapAdjust.length()));
         String subTitleheadF = printGapAdjustE + SalesRepNamestr;
 
-        String SalesRepPhonestr = "Tele: " + salrep.getMOBILE().trim();
+        String SalesRepPhonestr = "Tele: ";
         int lengthDealF = SalesRepPhonestr.length();
         int lengthDealFB = (LINECHAR - lengthDealF) / 2;
         String printGapAdjustF = printGapAdjust.substring(0, Math.min(lengthDealFB, printGapAdjust.length()));

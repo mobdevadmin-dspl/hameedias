@@ -7,35 +7,34 @@ import org.json.JSONObject;
 
 public class Item {
 
-	@SerializedName("AvgPrice")
+	@SerializedName("AvgPrice")//1
 	private String FITEM_AVGPRICE;
-	@SerializedName("BrandCode")
+	@SerializedName("BrandCode")//2
 	private String FITEM_BRANDCODE;
-	@SerializedName("GroupCode")
+	@SerializedName("GroupCode")//3
 	private String FITEM_GROUPCODE;
-	@SerializedName("ItemCode")
+	@SerializedName("ItemCode")//4
 	private String FITEM_ITEM_CODE;
-	@SerializedName("ItemName")
+	@SerializedName("ItemName")//5
 	private String FITEM_ITEM_NAME;
-	@SerializedName("ItemStatus")
+	@SerializedName("ItemStatus")//6
 	private String FITEM_ITEMSTATUS;
-	@SerializedName("PrilCode")
+	@SerializedName("PrilCode")//7
 	private String FITEM_PRILCODE;
-	@SerializedName("TypeCode")
+	@SerializedName("TypeCode")//8
 	private String FITEM_TYPECODE;
-	@SerializedName("UnitCode")
+	@SerializedName("UnitCode")//9
 	private String FITEM_UNITCODE;
-	@SerializedName("VenPcode")
+	@SerializedName("VenPcode")//10
 	private String FITEM_VENPCODE;
-	@SerializedName("NOUCase")
+	@SerializedName("NOUCase")//11
 	private String FITEM_NOUCASE;
-	@SerializedName("ReOrderLvl")
+	@SerializedName("ReOrderLvl")//12
 	private String FITEM_REORDER_LVL;
-	@SerializedName("ReOrderQty")
+	@SerializedName("ReOrderQty")//13
 	private String FITEM_REORDER_QTY;
-	@SerializedName("TaxComCode")
+	@SerializedName("TaxComCode")//14
 	private String FITEM_TAXCOMCODE;
-
 	private String FITEM_ID;
 	private String FITEM_SCATCODE;
 	private String FITEM_SUBCATCODE;

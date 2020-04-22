@@ -239,7 +239,8 @@ public class OrderHeaderFragment extends Fragment implements DatePickerDialog.On
             @Override
             public void onClick(View view) {
 
-                if (lblCustomerName.getText().toString().equals("")|| lblPreRefno.getText().toString().equals("")||txtRoute.getText().toString().equals(""))
+                if (lblCustomerName.getText().toString().equals("")|| lblPreRefno.getText().toString().equals(""))//temp commented by rashmi 2020-03-31
+               // if (lblCustomerName.getText().toString().equals("")|| lblPreRefno.getText().toString().equals("")||txtRoute.getText().toString().equals(""))
                 {
                     Log.d("<<<lblCustomerName<<<<", " " + lblCustomerName.getText().toString());
                     Log.d("<<<lblPreRefno<<<<", " " + lblPreRefno.getText().toString());
@@ -377,10 +378,6 @@ public class OrderHeaderFragment extends Fragment implements DatePickerDialog.On
             hed.setORDER_LONGITUDE(""+pref.getGlobalVal("Longitude"));
             hed.setORDER_LATITUDE(""+pref.getGlobalVal("Latitude"));
             hed.setORDER_AREACODE(new CustomerController(getActivity()).getAreaByDebCode(pref.getSelectedDebCode()));
-            if (!new SalRepController(getActivity()).getDealCode().trim().equals(""))
-            {
-                hed.setORDER_DEALCODE(new SalRepController(getActivity()).getDealCode().trim());
-            }
             hed.setORDER_ADDRESS(address);
             hed.setORDER_ADDUSER(new SalRepController(getActivity()).getCurrentRepCode().trim());
 

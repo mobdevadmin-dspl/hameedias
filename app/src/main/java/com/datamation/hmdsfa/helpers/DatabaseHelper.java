@@ -69,6 +69,7 @@ import com.datamation.hmdsfa.controller.TaxDetController;
 import com.datamation.hmdsfa.controller.TaxHedController;
 import com.datamation.hmdsfa.controller.TourController;
 import com.datamation.hmdsfa.controller.TownController;
+import com.datamation.hmdsfa.controller.VATController;
 import com.datamation.hmdsfa.model.Attendance;
 import com.datamation.hmdsfa.model.CompanyBranch;
 import com.datamation.hmdsfa.model.CompanySetting;
@@ -87,7 +88,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String REFNO = "RefNo";
     public static final String TXNDATE = "TxnDate";
     public static final String REPCODE = "RepCode";
-    public static final String DEALCODE = "DealCode";
     public static final String DEBCODE = "DebCode";
 
     @Override
@@ -181,6 +181,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(NearCustomerController.CREATE_FNEARDEBTOR_TABLE);
         arg0.execSQL(FirebaseMediaController.CREATETABLE_FIREBASE_MEDIA);
         arg0.execSQL(ItemBundleController.CREATE_ITEMBUNDLE_TABLE);
+        arg0.execSQL(VATController.CREATE_TABLE_VAT);
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -266,6 +267,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(NearCustomerController.CREATE_FNEARDEBTOR_TABLE);
             arg0.execSQL(FirebaseMediaController.CREATETABLE_FIREBASE_MEDIA);
             arg0.execSQL(ItemBundleController.CREATE_ITEMBUNDLE_TABLE);
+            arg0.execSQL(VATController.CREATE_TABLE_VAT);
         } catch (SQLiteException e) {
         }
 

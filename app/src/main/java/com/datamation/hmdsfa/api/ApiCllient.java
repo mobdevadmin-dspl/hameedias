@@ -37,8 +37,8 @@ public class ApiCllient {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
                 // .callTimeout(2, TimeUnit.MINUTES)
                 .connectTimeout(50, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS);
+                .readTimeout(80, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS);
 
         pref = SharedPref.getInstance(contextt);
         String domain = pref.getBaseURL();

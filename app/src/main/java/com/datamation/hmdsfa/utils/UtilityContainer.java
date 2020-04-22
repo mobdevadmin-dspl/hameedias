@@ -204,7 +204,6 @@ public class UtilityContainer {
             etUserName.setText(Vre.getNAME());
             etRepCode.setText(Vre.getRepCode());
             etPreFix.setText(Vre.getPREFIX());
-            etLocCode.setText(Vre.getLOCCODE());
 
         //}
 

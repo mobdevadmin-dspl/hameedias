@@ -125,13 +125,15 @@ public interface ApiInterface {
     @GET("fDdbNoteWithCondition/mobile123/{dbname}/{repcode}")//34
     Call<ReadJsonList> getOutstandingResult(@Path("dbname") String dbname,@Path("repcode") String repcode);
 
-    @GET("ItemBundle/mobile123/{dbname}/{repcode}")//34
+    @GET("bundlebarcode/mobile123/{dbname}/{repcode}")//35
     Call<ReadJsonList> getItemBundle(@Path("dbname") String dbname,@Path("repcode") String repcode);
 
-    @FormUrlEncoded
-    @POST("/insertFordh")
-    Call<ReadJsonList> uploadOrder(@Body ArrayList<Order> orderlist);
+//    @FormUrlEncoded
+//    @POST("/insertFordh")
+//    Call<ReadJsonList> uploadOrder(@Body ArrayList<Order> orderlist);
 
+    @GET("VATMaster/mobile123/{dbname}")//36
+    Call<ReadJsonList> getVATResult(@Path("dbname") String dbname);
 
 
 }

@@ -632,7 +632,7 @@ public class SalesReturnSummary extends Fragment {
         String printGapAdjustE = printGapAdjust.substring(0, Math.min(lengthDealEB, printGapAdjust.length()));
         String subTitleheadF = printGapAdjustE + SalesRepNamestr;
 
-        String SalesRepPhonestr = "Tele: " + salrep.getMOBILE().trim();
+        String SalesRepPhonestr = "Tele: ";
         int lengthDealF = SalesRepPhonestr.length();
         int lengthDealFB = (LINECHAR - lengthDealF) / 2;
         String printGapAdjustF = printGapAdjust.substring(0, Math.min(lengthDealFB, printGapAdjust.length()));

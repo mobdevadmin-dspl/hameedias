@@ -759,7 +759,7 @@ public class OrderDetailFragment extends Fragment{
         SODet.setFORDERDET_BTSELLPRICE(String.valueOf((amt + Double.parseDouble(TaxedAmt)) / Double.parseDouble(SODet.getFORDERDET_QTY())));
         SODet.setFORDERDET_TSELLPRICE(String.valueOf((amt + Double.parseDouble(TaxedAmt)) / Double.parseDouble(SODet.getFORDERDET_QTY())));
         SODet.setFORDERDET_TXNTYPE("21");
-        SODet.setFORDERDET_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
+        SODet.setFORDERDET_LOCCODE("MS");
         SODet.setFORDERDET_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         SODet.setFORDERDET_RECORDID("");
         SODet.setFORDERDET_PDISAMT("0");

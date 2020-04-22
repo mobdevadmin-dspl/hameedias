@@ -333,7 +333,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
                         //  hed.setFINVRHED_TAX_REG(activity.selectedDebtor.getFDEBTOR_TAX_REG());
 
 
-                        hed.setFINVRHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
+                        hed.setFINVRHED_LOCCODE("MS");
                         hed.setFINVRHED_ROUTE_CODE(new SharedPref(getActivity()).getGlobalVal("KeyRouteCode"));
                         hed.setFINVRHED_COSTCODE("");
                         hed.setFINVRHED_INV_REFNO(selectedInvHed.getFINVHED_REFNO());
@@ -487,7 +487,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
         dialog.setCancelable(true);
         productList.clearTextFilter();
 
-        list = new ItemController(getActivity()).getAllItemForSalesReturn("", "", "", new SalRepController(getActivity()).getCurrentLocCode(),SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
+        list = new ItemController(getActivity()).getAllItemForSalesReturn("", "", "", "MS",SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
         //list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","COL02","WSP001");
 
         productList.setAdapter(new ProductAdapter(getActivity(), list));
@@ -530,7 +530,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
             @Override
             public boolean onQueryTextChange(String newText) {
                 list.clear();
-                list = new ItemController(getActivity()).getAllItem(newText, "TxnType ='SR'", RefNo, new SalRepController(getActivity()).getCurrentLocCode(),SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
+                list = new ItemController(getActivity()).getAllItem(newText, "TxnType ='SR'", RefNo,"MS",SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
                 productList.clearTextFilter();
                 productList.setAdapter(new ProductAdapter(getActivity(), list));
                 return false;

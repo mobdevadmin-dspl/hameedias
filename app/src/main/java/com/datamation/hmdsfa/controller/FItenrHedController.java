@@ -29,7 +29,7 @@ public class FItenrHedController {
     public static final String FITENRHED_YEAR = "Year";
 
     // create String
-    public static final String CREATE_FITENRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITENRHED + " (" + FITENRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITENRHED_COST_CODE + " TEXT, " + DatabaseHelper.DEALCODE + " TEXT, " + FITENRHED_MONTH + " TEXT, " + DatabaseHelper.REFNO + " TEXT, " + FITENRHED_REMARKS1 + " TEXT, " + DatabaseHelper.REPCODE + " TEXT, " + FITENRHED_YEAR + " TEXT); ";
+    public static final String CREATE_FITENRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITENRHED + " (" + FITENRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITENRHED_COST_CODE + " TEXT, " + FITENRHED_MONTH + " TEXT, " + DatabaseHelper.REFNO + " TEXT, " + FITENRHED_REMARKS1 + " TEXT, " + DatabaseHelper.REPCODE + " TEXT, " + FITENRHED_YEAR + " TEXT); ";
 
     public FItenrHedController(Context context) {
         this.context = context;
@@ -60,7 +60,6 @@ public class FItenrHedController {
                 ContentValues values = new ContentValues();
 
                 values.put(FITENRHED_COST_CODE, fItenrhed.getFITENRHED_COST_CODE());
-                values.put(DatabaseHelper.DEALCODE, fItenrhed.getFITENRHED_DEAL_CODE());
                 values.put(FITENRHED_MONTH, fItenrhed.getFITENRHED_MONTH());
                 values.put(DatabaseHelper.REFNO, fItenrhed.getFITENRHED_REF_NO());
                 values.put(FITENRHED_REMARKS1,fItenrhed.getFITENRHED_REMARKS1());

@@ -86,12 +86,12 @@ public class UploadSalRef extends AsyncTask<ArrayList<SalRep>, Integer, ArrayLis
 
                 if(bStatus)
                 {
-                   salRepController.updateIsSynced(repcode,"1");
+                   //salRepController.updateIsSynced(repcode,"1");
                     pDialog.dismiss();
                 }
                 else
                 {
-                    salRepController.updateIsSynced(repcode,"0");
+                   // salRepController.updateIsSynced(repcode,"0");
                 }
             }
             catch (Exception e)

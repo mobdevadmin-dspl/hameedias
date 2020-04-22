@@ -15,6 +15,8 @@
         android:layout_height="wrap_content"
         android:gravity="top|center"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:background="@color/unselected"
         android:id="@+id/Relative_layer_heading1">
         <com.datamation.hmdsfa.utils.CustomFont
@@ -23,6 +25,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="15dp"
+
             android:shadowColor="@color/lightgray"
             android:text="Invoice Summary"
             android:textAllCaps="true"
@@ -112,7 +115,7 @@
                     android:paddingLeft="16dp"
                     android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:text="TOTAL ORDER QTY"/>
+                    android:text="TOTAL INVOICE QTY"/>
 
 
 
@@ -150,6 +153,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
             card_view:cardCornerRadius="4dp"
             card_view:cardElevation="2dp"
             card_view:cardPreventCornerOverlap="false"
@@ -161,7 +166,7 @@
                 android:paddingBottom="10dp">
 
                 <TextView
-                    android:id="@+id/lblTotRtrn"
+                    android:id="@+id/lblTotDis"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:background="@color/colorPrimaryDark"
@@ -169,17 +174,17 @@
                     android:paddingLeft="16dp"
                     android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:text="TOTAL RETURNS(Rs.)" />
+                    android:text="TOTAL DISCOUNT(Rs.)" />
 
 
                 <TextView
-                    android:id="@+id/lbl_return_tot"
+                    android:id="@+id/lbl_discount_tot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0.0"
                     android:textSize="20sp"
-                    android:layout_below="@+id/lblTotRtrn"
+                    android:layout_below="@+id/lblTotDis"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginBottom="15dp"
@@ -197,6 +202,8 @@
             android:layout_weight="1"
             card_view:cardCornerRadius="4dp"
             card_view:cardElevation="2dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
             card_view:cardPreventCornerOverlap="false"
             card_view:cardUseCompatPadding="true">
 
@@ -206,7 +213,7 @@
                 android:paddingBottom="10dp">
 
                 <TextView
-                    android:id="@+id/lblrep"
+                    android:id="@+id/lbllines"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:background="@color/colorPrimaryDark"
@@ -214,17 +221,17 @@
                     android:paddingLeft="16dp"
                     android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:text="REPLACEMENTS" />
+                    android:text="TOTAL LINE ITEMS" />
 
 
                 <TextView
-                    android:id="@+id/lblReplacement"
+                    android:id="@+id/lblLines"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0.0"
                     android:textSize="20sp"
-                    android:layout_below="@+id/lblrep"
+                    android:layout_below="@+id/lbllines"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginBottom="15dp"
@@ -250,6 +257,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
             card_view:cardCornerRadius="4dp"
             card_view:cardElevation="2dp"
             card_view:cardPreventCornerOverlap="false"
@@ -306,7 +315,7 @@
                 android:paddingBottom="10dp">
 
                 <TextView
-                    android:id="@+id/lblretQty"
+                    android:id="@+id/lblFreQty"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:background="@color/colorPrimaryDark"
@@ -314,18 +323,18 @@
                     android:paddingLeft="16dp"
                     android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:text="RETURN QUANTITY"/>
+                    android:text="FREE QUANTITY"/>
 
 
 
                 <TextView
-                    android:id="@+id/lblReturnQty"
+                    android:id="@+id/lblFreeQty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0.0"
                     android:textSize="20sp"
-                    android:layout_below="@+id/lblretQty"
+                    android:layout_below="@+id/lblFreQty"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginBottom="15dp"

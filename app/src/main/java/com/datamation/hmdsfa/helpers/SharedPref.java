@@ -141,8 +141,6 @@ public class SharedPref {
         editor.putString("user_id", user.getRepCode());
         editor.putString("user_name", user.getNAME());
         editor.putString("user_password", user.getPASSWORD());
-        editor.putString("user_status", user.getSTATUS());
-        editor.putString("user_mobile", user.getMOBILE());
         editor.putString("user_prefix", user.getPREFIX());
 
         editor.apply();
@@ -154,8 +152,6 @@ public class SharedPref {
         user.setRepCode(sharedPref.getString("user_id", ""));
         user.setNAME(sharedPref.getString("user_name", ""));
         user.setPASSWORD(sharedPref.getString("user_password", ""));
-        user.setSTATUS(sharedPref.getString("user_status", ""));
-        user.setMOBILE(sharedPref.getString("user_mobile", ""));
         user.setPREFIX(sharedPref.getString("user_prefix", ""));
 
         if (user.getRepCode().equals("")) {
@@ -510,11 +506,10 @@ public class SharedPref {
     }
 
     public String getDistDB() {
-        return sharedPref.getString("Dist_DB", "Hameedias");
+        return sharedPref.getString("Dist_DB", "SFA_Integration");
 //        return sharedPref.getString("Dist_DB", "E2936_SWD");
         //return sharedPref.getString("Console_DB", "LHD_PDA_TEST");
         //return sharedPref.getString("baseURL", "http://192.168.43.62");
-
     }
 
     public void setCurrentMillage(double millage) {

@@ -100,7 +100,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
     public static final String SETTINGS = "VanSalesSummary";
     public static SharedPreferences localSP;
     View view;
-    TextView lblGross, lblReturnQty, lblReturn, lblNetVal, lblReplacements, lblQty;
+    TextView lblGross, lblFreeQty, lblDiscount, lblNetVal, lblLines, lblQty;
     SharedPref mSharedPref;
     String RefNo = null,ReturnRefNo = null;
     ArrayList<InvDet> list;
@@ -154,9 +154,9 @@ public class BRInvoiceSummaryFragment extends Fragment {
         fam = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
 
         lblNetVal = (TextView) view.findViewById(R.id.lblNetVal_Inv);
-        lblReturn = (TextView) view.findViewById(R.id.lbl_return_tot);
-        lblReturnQty = (TextView) view.findViewById(R.id.lblReturnQty);
-        lblReplacements = (TextView) view.findViewById(R.id.lblReplacement);
+        lblDiscount = (TextView) view.findViewById(R.id.lbl_discount_tot);
+        lblFreeQty = (TextView) view.findViewById(R.id.lblFreeQty);
+        lblLines = (TextView) view.findViewById(R.id.lblLines);
         lblGross = (TextView) view.findViewById(R.id.lblGross_Inv);
         lblQty = (TextView) view.findViewById(R.id.lblQty_Inv);
 
@@ -245,26 +245,26 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
         String orRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
 
-        int ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
+        int ftotQty = 0, fTotFree = 0, returnQty = 0, lines = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
 
         //locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
 
        // list = new InvDetController(getActivity()).getAllInvDet(RefNo);
         listNew = new InvoiceDetBarcodeController(getActivity()).getAllInvDet(RefNo);
-
+        lines = listNew.size();
         for (BarcodenvoiceDet ordDet : listNew) {
             ftotAmt += ordDet.getPrice()*ordDet.getQty();
             ftotQty += ordDet.getQty();
 
         }
         iTotFreeQty = fTotFree;
-        lblQty.setText(String.valueOf(ftotQty + fTotFree));
+        lblQty.setText(String.valueOf(ftotQty));
         lblGross.setText(String.format("%.2f", ftotAmt + fTotSchDisc + fTotLineDisc));
-        lblReturn.setText(String.format("%.2f", totalReturn));
-        lblNetVal.setText(String.format("%.2f", ftotAmt-totalReturn));
-        lblReturnQty.setText(String.valueOf(returnQty));
-        lblReplacements.setText(String.valueOf(replacements));
+        lblDiscount.setText(String.format("%.2f", fTotLineDisc+fTotSchDisc));
+        lblNetVal.setText(String.format("%.2f", ftotAmt-fTotSchDisc-fTotLineDisc));
+        lblFreeQty.setText(String.valueOf(fTotFree));
+        lblLines.setText(String.valueOf(lines));
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
@@ -643,7 +643,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
         String printGapAdjustE = printGapAdjust.substring(0, Math.min(lengthDealEB, printGapAdjust.length()));
         String subTitleheadF = printGapAdjustE + SalesRepNamestr;
 
-        String SalesRepPhonestr = "Tele: " + salrep.getMOBILE().trim();
+        String SalesRepPhonestr = "Tele: " ;
         int lengthDealF = SalesRepPhonestr.length();
         int lengthDealFB = (LINECHAR - lengthDealF) / 2;
         String printGapAdjustF = printGapAdjust.substring(0, Math.min(lengthDealFB, printGapAdjust.length()));

@@ -425,7 +425,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
         @Override
         protected ArrayList<Item> doInBackground(Object... objects) {
 
-            list = new ItemController(getActivity()).getAllItemForSalesReturn("","","",new SalRepController(getActivity()).getCurrentLocCode().trim(),sharedPref.getSelectedDebtorPrilCode());
+            list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","MS",sharedPref.getSelectedDebtorPrilCode());
             Log.v("Return Item count", ">>>>>"+list.size());
             return list;
         }
@@ -520,7 +520,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
             public boolean onQueryTextChange(String newText) {
 
                 list.clear();
-                list = new ItemController(getActivity()).getAllItemForSalesReturn("","","",new SalRepController(getActivity()).getCurrentLocCode().trim(),sharedPref.getSelectedDebtorPrilCode());
+                list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","MS",sharedPref.getSelectedDebtorPrilCode());
                 Log.v("Return Item count", ">>>>>"+list.size());
                 productList.clearTextFilter();
                 productList.setAdapter(new ProductAdapter(getActivity(), list));

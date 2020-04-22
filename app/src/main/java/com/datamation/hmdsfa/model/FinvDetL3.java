@@ -95,25 +95,5 @@ public class FinvDetL3 {
 	public void setFINVDETL3_COST_CODE(String fINVDETL3_COST_CODE) {
 		FINVDETL3_COST_CODE = fINVDETL3_COST_CODE;
 	}
-	public static FinvDetL3 parseInvoiceDets(JSONObject jObject) throws JSONException {
 
-		if (jObject != null) {
-			FinvDetL3 finvDetL3 = new FinvDetL3();
-
-
-			finvDetL3.setFINVDETL3_AMT(jObject.getString("Amt"));
-		//	finvDetL3.setFINVDETL3_BRAND_CODE(jObject.getString("BrandCode"));
-			finvDetL3.setFINVDETL3_ITEM_CODE(jObject.getString("ItemCode"));
-			finvDetL3.setFINVDETL3_QTY(jObject.getString("Qty"));
-			finvDetL3.setFINVDETL3_REF_NO(jObject.getString("RefNo"));
-			finvDetL3.setFINVDETL3_SEQ_NO(jObject.getString("SeqNo"));
-			finvDetL3.setFINVDETL3_TAX_AMT(jObject.getString("TaxAmt"));
-			finvDetL3.setFINVDETL3_TAX_COM_CODE(jObject.getString("TaxComCode"));
-			finvDetL3.setFINVDETL3_TXN_DATE(jObject.getString("TxnDate"));
-
-
-			return finvDetL3;
-		}
-		return null;
-	}
 }

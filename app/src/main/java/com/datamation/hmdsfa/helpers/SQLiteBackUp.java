@@ -34,7 +34,7 @@ public class SQLiteBackUp {
 
         PACKAGE_NAME = context.getPackageName();
         DATABASE_NAME = context.getResources().getString(R.string.DATABASE_NAME);
-        APP_NAME = context.getResources().getString(R.string.app_name_new);
+        APP_NAME = context.getResources().getString(R.string.app_name);
 
     }
 
@@ -45,7 +45,7 @@ public class SQLiteBackUp {
             File data = Environment.getDataDirectory();
             if (sd.canWrite()) {
                 String currentDBPath = "//data//" + PACKAGE_NAME+ "//databases//" + DATABASE_NAME+"";
-                String backupDBPath ="//SwadeshiSFA//"+name; // From SD directory.
+                String backupDBPath ="//HameediaSFA//"+name; // From SD directory.
                 File backupDB = new File(data, currentDBPath);
                 File currentDB = new File(sd, backupDBPath);
 
@@ -84,7 +84,7 @@ public class SQLiteBackUp {
                 if (sd.canWrite()) {
                     String currentDBPath = "//data//" + PACKAGE_NAME
                             + "//databases//" + DATABASE_NAME;
-                    String backupDBPath = "//SwadeshiSFA//backupname_"+dateFormat.format(date).toString()+".db"; // From SD directory.
+                    String backupDBPath = "//HameediaSFA//backupname_"+dateFormat.format(date).toString()+".db"; // From SD directory.
                     File currentDB = new File(data, currentDBPath);
                     File backupDB = new File(sd, backupDBPath);
 
@@ -112,7 +112,7 @@ public class SQLiteBackUp {
     @SuppressLint("NewApi") public List<Import> getListOfFiles() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy_HH:mm:ss");
-        String path = Environment.getExternalStorageDirectory() + "/SwadeshiSFA";
+        String path = Environment.getExternalStorageDirectory() + "/HameediaSFA";
         File files = new File(path);
 
         FileFilter filter = new FileFilter() {

@@ -50,14 +50,8 @@ public class StockInquiryDialog
         txtTotQty = (TextView) view.findViewById(R.id.txtTotQty);
         prBar = (ProgressBar)view.findViewById(R.id.stock_progress);
 
-        if (new SalRepController(context).getCurrentLocCode().trim().equalsIgnoreCase(""))
-        {
+
             LocCode = "MS";
-        }
-        else
-        {
-            LocCode = new SalRepController(context).getCurrentLocCode().trim();
-        }
 
         txtTotQty.setText(new ItemController(context).getTotalStockQOH(LocCode));
         new LoadStockData(LocCode).execute();

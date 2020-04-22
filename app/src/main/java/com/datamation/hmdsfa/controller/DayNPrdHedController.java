@@ -47,7 +47,6 @@ public class DayNPrdHedController {
     public static final String CREATE_TABLE_NONPRDHED = "CREATE  TABLE IF NOT EXISTS " + TABLE_NONPRDHED + " (" + NONPRDHED_ID +
             " INTEGER PRIMARY KEY AUTOINCREMENT, " + NONPRDHED_REFNO +
             " TEXT, " + NONPRDHED_TXNDAET + " TEXT, " +
-            DatabaseHelper.DEALCODE + " TEXT, " +
             DatabaseHelper.REPCODE + " TEXT, " +
             NONPRDHED_REMARK + " TEXT, " +
             NONPRDHED_COSTCODE + " TEXT, " +

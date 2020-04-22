@@ -231,7 +231,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             // hed.setFINVHED_AREACODE(new SharedPref(getActivity()).getGlobalVal("KeyAreaCode"));
             hed.setFINVHED_AREACODE(SharedPref.getInstance(getActivity()).getSelectedDebName());
             // hed.setFINVHED_LOCCODE(new SharedPref(getActivity()).getGlobalVal("KeyLocCode"));
-            hed.setFINVHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
+            hed.setFINVHED_LOCCODE("MS");
             hed.setFINVHED_ROUTECODE(new SharedPref(getActivity()).getSelectedDebRouteCode());
             hed.setFINVHED_PAYTYPE(new SharedPref(getActivity()).getGlobalVal("KeyPayType"));
             hed.setFINVHED_COSTCODE("");

@@ -38,6 +38,7 @@ import com.datamation.hmdsfa.model.Tax;
 import com.datamation.hmdsfa.model.TaxDet;
 import com.datamation.hmdsfa.model.TaxHed;
 import com.datamation.hmdsfa.model.Town;
+import com.datamation.hmdsfa.model.VatMaster;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -114,9 +115,15 @@ public class ReadJsonList {
     private List<FddbNote> outstandingResult = null ;
     @SerializedName("FdebtorResult")//35
     private List<Debtor> debtorResult = null ;
-
-    @SerializedName("ItemBundleResult")//35
+    @SerializedName("BundleBarCodeResult")//36
     private List<ItemBundle> itemBundleResult = null ;
+    @SerializedName("VATMasterResult")//37
+    private List<VatMaster> vatMasterList = null ;
+
+
+    public List<VatMaster> getVatMasterList() {
+        return vatMasterList;
+    }
 
     public List<ItemBundle> getItemBundleResult() {
         return itemBundleResult;

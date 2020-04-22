@@ -336,7 +336,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
                             hed.setFINVRHED_DEBCODE(activity.selectedDebtor.getCusCode());
                         }
 
-                        hed.setFINVRHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
+                        hed.setFINVRHED_LOCCODE("MS");
                         hed.setFINVRHED_ROUTE_CODE(new SharedPref(getActivity()).getGlobalVal("KeyRouteCode"));
                         hed.setFINVRHED_COSTCODE("");
                         hed.setFINVRHED_ORD_REFNO(RetOrderRefNo);
@@ -487,7 +487,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
         productList.clearTextFilter();
 
         //list = new ItemsDS(getActivity()).getAllItem("", "txntype ='21'", RefNo, new SalRepDS(getActivity()).getCurrentLocCode(),activity.selectedDebtor.getFDEBTOR_PRILLCODE());
-        list = new ItemController(getActivity()).getAllItemForSalesReturn("","","",new SalRepController(getActivity()).getCurrentLocCode().trim(),mSharedPref.getSelectedDebtorPrilCode());
+        list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","MS",mSharedPref.getSelectedDebtorPrilCode());
 
         productList.setAdapter(new ProductAdapter(getActivity(), list));
 
@@ -593,7 +593,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
                 // hed.setFINVRHED_TAX_REG(activity.selectedRetDebtor.getFDEBTOR_TAX_REG());
             }
 
-            hed.setFINVRHED_LOCCODE(new SalRepController(getActivity()).getCurrentLocCode());
+            hed.setFINVRHED_LOCCODE("MS");
             hed.setFINVRHED_ROUTE_CODE(new SharedPref(getActivity()).getGlobalVal("KeyRouteCode"));
             hed.setFINVRHED_COSTCODE("");
 
@@ -676,7 +676,7 @@ public class OrderReturnFragment extends Fragment implements View.OnClickListene
 
             itemList = null;
             // itemList = new ItemsDS(getActivity()).getAllItem("", "TxnType ='SR'", RefNo, new SalRepController(getActivity()).getCurrentLocCode(),SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
-            list = new ItemController(getActivity()).getAllItemForSalesReturn("","","",new SalRepController(getActivity()).getCurrentLocCode().trim(),mSharedPref.getSelectedDebtorPrilCode());
+            list = new ItemController(getActivity()).getAllItemForSalesReturn("","","","MS",mSharedPref.getSelectedDebtorPrilCode());
 
             return itemList;
         }

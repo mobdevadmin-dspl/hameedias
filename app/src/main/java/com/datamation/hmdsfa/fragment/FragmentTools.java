@@ -30,15 +30,9 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
-import com.datamation.hmdsfa.OtherUploads.UploadAttendance;
-import com.datamation.hmdsfa.OtherUploads.UploadDebtorCordinates;
-import com.datamation.hmdsfa.OtherUploads.UploadDebtorImges;
-import com.datamation.hmdsfa.OtherUploads.UploadFirebaseTokenKey;
-import com.datamation.hmdsfa.OtherUploads.UploadSalRef;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.api.ApiCllient;
 import com.datamation.hmdsfa.api.ApiInterface;
-import com.datamation.hmdsfa.controller.AttendanceController;
 import com.datamation.hmdsfa.controller.BankController;
 import com.datamation.hmdsfa.controller.CompanyDetailsController;
 import com.datamation.hmdsfa.controller.CustomerController;
@@ -81,6 +75,7 @@ import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.TownController;
+import com.datamation.hmdsfa.controller.VATController;
 import com.datamation.hmdsfa.customer.UploadEditedDebtors;
 import com.datamation.hmdsfa.customer.UploadNewCustomer;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
@@ -130,6 +125,7 @@ import com.datamation.hmdsfa.model.RouteDet;
 import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.Town;
 import com.datamation.hmdsfa.model.User;
+import com.datamation.hmdsfa.model.VatMaster;
 import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
 import com.datamation.hmdsfa.nonproductive.UploadNonProd;
 import com.datamation.hmdsfa.presale.UploadPreSales;
@@ -514,7 +510,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         repcode.setText(rep.getRepCode());
         repPrefix.setText(rep.getPREFIX());
         repemail.setText(rep.getEMAIL());
-        dealCode.setText(rep.getDEALCODE());
 
         //close
         repDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
@@ -524,7 +519,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     if (isEmailValid(repemail.getText().toString())) {
                         ArrayList<SalRep> salRepslist = new ArrayList<>();
                         rep.setEMAIL(repemail.getText().toString().trim());
-                        rep.setISSYNC("0");
                         salRepslist.add(rep);
                         new SalRepController(getActivity()).createOrUpdateSalRep(salRepslist);
                         repDialog.dismiss();
@@ -613,21 +607,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                            } catch (Exception e) {
 //                                Log.v("Exception in sync order", e.toString());
 //                            }
-//                            try {//upload email kaveesha, modification 2019-10-24MMS
-//                                SalRepController salRepController = new SalRepController(getActivity());
-//                                ArrayList<SalRep> saleRep = salRepController.getAllUnsyncSalrep(new SalRepController(context).getCurrentRepCode());
-//                                /* If records available for upload then */
-//                                if (saleRep.size() <= 0)
-//                                    Toast.makeText(getActivity(), "No Records to upload !", Toast.LENGTH_LONG).show();
-//                                else {
-//                                    new UploadSalRef(getActivity(), FragmentTools.this, saleRep).execute(saleRep);
-//                                    Log.v(">>8>>", "Upload email execute finish");
-//                                    //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
-//                                }
-//
-//                            } catch (Exception e) {
-//                                Log.v("Exception in sync email", e.toString());
-//                            }
+
 //                            try {//existing update debtors upload - 2019-12-16
 //                                CustomerController customerDS = new CustomerController(getActivity());
 //                                ArrayList<Debtor> updExistingDebtors = customerDS.getAllUpdatedDebtors();
@@ -902,39 +882,39 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
             try {
                 if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Downloading firebase media data...");
-                        }
-                    });
-                    Log.d("**$#*", "getImgDataFromFirebase: " + imgList);
-                    if (imgList.size() > 0) {
-                        int existImgRes = fmc.getAllIfIsExist(imgList);
-                        if (existImgRes > 0) {
-                            fmc.createOrUpdateFirebaseData(imgList, 0);
-                        } else {
-                            fmc.deleteAll("IMG");
-                            fmc.createOrUpdateFirebaseData(imgList, 0);
-                        }
-                    }
-/*****************controls**********************************************************************/
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing firebase media data...");
-                        }
-                    });
-                    Log.d("*newvdoList", "doInBackground: " + vdoList);
-                    if (vdoList.size() > 0) {
-                        int existVdoRes = fmc.getAllIfIsExist(vdoList);
-                        if (existVdoRes > 0) {
-                            fmc.createOrUpdateFirebaseData(vdoList, 0);
-                        } else {
-                            fmc.deleteAll("VDO");
-                            fmc.createOrUpdateFirebaseData(vdoList, 0);
-                        }
-                    }
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Downloading firebase media data...");
+//                        }
+//                    });
+//                    Log.d("**$#*", "getImgDataFromFirebase: " + imgList);
+//                    if (imgList.size() > 0) {
+//                        int existImgRes = fmc.getAllIfIsExist(imgList);
+//                        if (existImgRes > 0) {
+//                            fmc.createOrUpdateFirebaseData(imgList, 0);
+//                        } else {
+//                            fmc.deleteAll("IMG");
+//                            fmc.createOrUpdateFirebaseData(imgList, 0);
+//                        }
+//                    }
+///*****************controls**********************************************************************/
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing firebase media data...");
+//                        }
+//                    });
+//                    Log.d("*newvdoList", "doInBackground: " + vdoList);
+//                    if (vdoList.size() > 0) {
+//                        int existVdoRes = fmc.getAllIfIsExist(vdoList);
+//                        if (existVdoRes > 0) {
+//                            fmc.createOrUpdateFirebaseData(vdoList, 0);
+//                        } else {
+//                            fmc.deleteAll("VDO");
+//                            fmc.createOrUpdateFirebaseData(vdoList, 0);
+//                        }
+//                    }
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1001,46 +981,46 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         errors.add(e.toString());
                         throw e;
                     }
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Customers downloaded\nDownloading Near Customers...");
-                        }
-                    });
-                    /*****************end Customers**********************************************************************/
-                    // ----------------Near Customer-------------------- Nuwan ------------- 17/10/2019--------------------------
-                    // Processing outlets
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getNearDebtorResult(pref.getDistDB());
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                if(response.body() != null) {
-                                    ArrayList<NearDebtor> nDebList = new ArrayList<NearDebtor>();
-                                    for (int i = 0; i < response.body().getNearDebtorResult().size(); i++) {
-                                        nDebList.add(response.body().getNearDebtorResult().get(i));
-                                    }
-                                    NearCustomerController nCustomerController = new NearCustomerController(getActivity());
-                                    nCustomerController.InsertOrReplaceNearDebtor(nDebList);
-                                }else{
-                                    errors.add("NearDebtor response is null");
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-                        throw e;
-                    }
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Near Customers downloaded\nDownloading Company Settings...");
-                        }
-                    });
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Customers downloaded\nDownloading Near Customers...");
+//                        }
+//                    });
+//                    /*****************end Customers**********************************************************************/
+//                    // ----------------Near Customer-------------------- Nuwan ------------- 17/10/2019--------------------------
+//                    // Processing outlets
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getNearDebtorResult(pref.getDistDB());
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                                if(response.body() != null) {
+//                                    ArrayList<NearDebtor> nDebList = new ArrayList<NearDebtor>();
+//                                    for (int i = 0; i < response.body().getNearDebtorResult().size(); i++) {
+//                                        nDebList.add(response.body().getNearDebtorResult().get(i));
+//                                    }
+//                                    NearCustomerController nCustomerController = new NearCustomerController(getActivity());
+//                                    nCustomerController.InsertOrReplaceNearDebtor(nDebList);
+//                                }else{
+//                                    errors.add("NearDebtor response is null");
+//                                }
+//                            }
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//                        throw e;
+//                    }
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Near Customers downloaded\nDownloading Company Settings...");
+//                        }
+//                    });
                     // --------------------------------------------------------------------------------------------------
                     /*****************Settings*****************************************************************************/
                     // Processing company settings
@@ -1110,114 +1090,194 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         throw e;
                     }
                     /*****************end Branches**********************************************************************/
+                    /*****************ItemBundle*****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Processing downloaded data (ItemBundle details)...");
+                        }
+                    });
+                    // Processing Branches
+                    ItemBundleController bundleController = new ItemBundleController(getActivity());
+                    bundleController.deleteAll();
+                    try {
+                        Call<ReadJsonList> resultCall = apiInterface.getItemBundle(pref.getDistDB(),repcode);
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                if(response.body() != null) {
+                                    ArrayList<ItemBundle> bundleList = new ArrayList<ItemBundle>();
+                                    for (int i = 0; i < response.body().getItemBundleResult().size(); i++) {
+                                        bundleList.add(response.body().getItemBundleResult().get(i));
+                                    }
+                                    ItemBundleController bundleController = new ItemBundleController(getActivity());
+                                    bundleController.InsertOrReplaceItemBundle(bundleList);
+                                }else{
+                                    Log.d(">>ItmBundleRes", ">> is null");
+
+                                    errors.add("ItemBundle response is null");
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                errors.add(t.toString());
+                            }
+                        });
+                    } catch (Exception e) {
+
+                        throw e;
+                    }
+                    /*****************end ItemBundle**********************************************************************/
+
+/*****************VAT*****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Processing downloaded data (VAT details)...");
+                        }
+                    });
+                    // Processing Branches
+                    VATController vatController = new VATController(getActivity());
+                    vatController.deleteAll();
+                    try {
+                        Call<ReadJsonList> resultCall = apiInterface.getVATResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                if(response.body() != null) {
+                                    ArrayList<VatMaster> vatList = new ArrayList<VatMaster>();
+                                    for (int i = 0; i < response.body().getVatMasterList().size(); i++) {
+                                        vatList.add(response.body().getVatMasterList().get(i));
+                                    }
+                                    VATController vatController = new VATController(getActivity());
+                                    vatController.InsertOrReplaceVAT(vatList);
+                                }else{
+                                    Log.d(">>vat Res", ">> is null");
+
+                                    errors.add("vat response is null");
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                errors.add(t.toString());
+                            }
+                        });
+                    } catch (Exception e) {
+
+                        throw e;
+                    }
+                    /*****************end VAT**********************************************************************/
+
+
+
                     /*****************Item Loc*****************************************************************************/
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (item location details)...");
-                        }
-                    });
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (item location details)...");
+//                        }
+//                    });
 
                     // Processing itemLocations
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getItemLocResult(pref.getDistDB(),repcode);
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                if(response.body() != null) {
-                                    ArrayList<ItemLoc> itemLocList = new ArrayList<ItemLoc>();
-                                    for (int i = 0; i < response.body().getItemLocResult().size(); i++) {
-                                        itemLocList.add(response.body().getItemLocResult().get(i));
-                                    }
-                                    ItemLocController locController = new ItemLocController(getActivity());
-                                    locController.InsertOrReplaceItemLoc(itemLocList);
-                                }else{
-                                    errors.add("ItemLocation response is null");
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-
-                        throw e;
-                    }
-                    /*****************end Item Loc**********************************************************************/
-                    /*****************Locations*****************************************************************************/
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (location details)...");
-                        }
-                    });
-                    LocationsController locController = new LocationsController(getActivity());
-                    locController.deleteAll();
-                    // Processing itemLocations
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getLocationsResult(pref.getDistDB(),repcode);
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                if(response.body() != null) {
-                                    ArrayList<Locations> locList = new ArrayList<Locations>();
-                                    for (int i = 0; i < response.body().getLocationsResult().size(); i++) {
-                                        locList.add(response.body().getLocationsResult().get(i));
-                                    }
-                                    LocationsController locController = new LocationsController(getActivity());
-                                    locController.createOrUpdateFLocations(locList);
-                                }else{
-                                    errors.add("Locations response is null");
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-
-                        throw e;
-                    }
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getItemLocResult(pref.getDistDB(),repcode);
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                                if(response.body() != null) {
+//                                    ArrayList<ItemLoc> itemLocList = new ArrayList<ItemLoc>();
+//                                    for (int i = 0; i < response.body().getItemLocResult().size(); i++) {
+//                                        itemLocList.add(response.body().getItemLocResult().get(i));
+//                                    }
+//                                    ItemLocController locController = new ItemLocController(getActivity());
+//                                    locController.InsertOrReplaceItemLoc(itemLocList);
+//                                }else{
+//                                    errors.add("ItemLocation response is null");
+//                                }
+//                            }
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//
+//                        throw e;
+//                    }
+//                    /*****************end Item Loc**********************************************************************/
+//                    /*****************Locations*****************************************************************************/
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (location details)...");
+//                        }
+//                    });
+//                    LocationsController locController = new LocationsController(getActivity());
+//                    locController.deleteAll();
+//                    // Processing itemLocations
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getLocationsResult(pref.getDistDB(),repcode);
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                                if(response.body() != null) {
+//                                    ArrayList<Locations> locList = new ArrayList<Locations>();
+//                                    for (int i = 0; i < response.body().getLocationsResult().size(); i++) {
+//                                        locList.add(response.body().getLocationsResult().get(i));
+//                                    }
+//                                    LocationsController locController = new LocationsController(getActivity());
+//                                    locController.createOrUpdateFLocations(locList);
+//                                }else{
+//                                    errors.add("Locations response is null");
+//                                }
+//                            }
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//
+//                        throw e;
+//                    }
                     /*****************itemPrices*****************************************************************************/
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (item price details)...");
-                        }
-                    });
-                    ItemPriceController priceController = new ItemPriceController(getActivity());
-                    priceController.deleteAllItemPri();
-                    // Processing itemPrices
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getItemPriResult(pref.getDistDB(),repcode);
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-
-                                if(response.body() != null) {
-                                    ArrayList<ItemPri> itemPriceList = new ArrayList<ItemPri>();
-                                    for (int i = 0; i < response.body().getItemPriResult().size(); i++) {
-                                        itemPriceList.add(response.body().getItemPriResult().get(i));
-                                    }
-                                    ItemPriceController priceController = new ItemPriceController(getActivity());
-                                    priceController.InsertOrReplaceItemPri(itemPriceList);
-                                }else{
-                                    errors.add("ItemPrice response is null");
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-                        throw e;
-                    }
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (item price details)...");
+//                        }
+//                    });
+//                    ItemPriceController priceController = new ItemPriceController(getActivity());
+//                    priceController.deleteAllItemPri();
+//                    // Processing itemPrices
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getItemPriResult(pref.getDistDB(),repcode);
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//
+//                                if(response.body() != null) {
+//                                    ArrayList<ItemPri> itemPriceList = new ArrayList<ItemPri>();
+//                                    for (int i = 0; i < response.body().getItemPriResult().size(); i++) {
+//                                        itemPriceList.add(response.body().getItemPriResult().get(i));
+//                                    }
+//                                    ItemPriceController priceController = new ItemPriceController(getActivity());
+//                                    priceController.InsertOrReplaceItemPri(itemPriceList);
+//                                }else{
+//                                    errors.add("ItemPrice response is null");
+//                                }
+//                            }
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//                        throw e;
+//                    }
                     /*****************end item prices**********************************************************************/
                     /*****************Items*****************************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
@@ -1290,39 +1350,39 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     }
                     /*****************end reasons**********************************************************************/
                     /*****************fddbnote*****************************************************************************/
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Reason downloaded\nDownloading outstanding details...");
-                        }
-                    });
-                    // Processing fddbnote
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getOutstandingResult(pref.getDistDB(),repcode);
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                if(response.body() != null) {
-                                    OutstandingController outstandingController = new OutstandingController(getActivity());
-                                    outstandingController.deleteAll();
-                                    ArrayList<FddbNote> fddbnoteList = new ArrayList<FddbNote>();
-                                    for (int i = 0; i < response.body().getOutstandingResult().size(); i++) {
-                                        fddbnoteList.add(response.body().getOutstandingResult().get(i));
-                                    }
-                                    outstandingController.createOrUpdateFDDbNote(fddbnoteList);
-                                }else{
-                                    errors.add("Outstanding response is null");
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-                        throw e;
-                    }
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Reason downloaded\nDownloading outstanding details...");
+//                        }
+//                    });
+//                    // Processing fddbnote
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getOutstandingResult(pref.getDistDB(),repcode);
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                                if(response.body() != null) {
+//                                    OutstandingController outstandingController = new OutstandingController(getActivity());
+//                                    outstandingController.deleteAll();
+//                                    ArrayList<FddbNote> fddbnoteList = new ArrayList<FddbNote>();
+//                                    for (int i = 0; i < response.body().getOutstandingResult().size(); i++) {
+//                                        fddbnoteList.add(response.body().getOutstandingResult().get(i));
+//                                    }
+//                                    outstandingController.createOrUpdateFDDbNote(fddbnoteList);
+//                                }else{
+//                                    errors.add("Outstanding response is null");
+//                                }
+//                            }
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//                        throw e;
+//                    }
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1431,114 +1491,114 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     }
                     /*****************end route**********************************************************************/
                     /*****************ItemBundle**********************************************************************/
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Route downloaded\nDownloading ItemBundle details...");
-                        }
-                    });
-                    // Processing route
-                    ItemBundleController itmbndlController = new ItemBundleController(getActivity());
-                    itmbndlController.deleteAll();
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getItemBundle(pref.getDistDB(),repcode);
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                if(response.body() != null) {
-                                    ArrayList<ItemBundle> itemList = new ArrayList<ItemBundle>();
-                                    for (int i = 0; i < response.body().getItemBundleResult().size(); i++) {
-                                        itemList.add(response.body().getItemBundleResult().get(i));
-                                    }
-                                    ItemBundleController itmbndlController = new ItemBundleController(getActivity());
-                                    itmbndlController.createOrUpdateItemBundle(itemList);
-                                }else{
-                                    errors.add("ItemBundle response is null");
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-
-                        throw e;
-                    }
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Route downloaded\nDownloading ItemBundle details...");
+//                        }
+//                    });
+//                    // Processing route
+//                    ItemBundleController itmbndlController = new ItemBundleController(getActivity());
+//                    itmbndlController.deleteAll();
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getItemBundle(pref.getDistDB(),repcode);
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                                if(response.body() != null) {
+//                                    ArrayList<ItemBundle> itemList = new ArrayList<ItemBundle>();
+//                                    for (int i = 0; i < response.body().getItemBundleResult().size(); i++) {
+//                                        itemList.add(response.body().getItemBundleResult().get(i));
+//                                    }
+//                                    ItemBundleController itmbndlController = new ItemBundleController(getActivity());
+//                                    itmbndlController.createOrUpdateItemBundle(itemList);
+//                                }else{
+//                                    errors.add("ItemBundle response is null");
+//                                }
+//                            }
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//
+//                        throw e;
+//                    }
                     /*****************end ItemBundle**********************************************************************/
                     /*****************last 3 invoice heds**********************************************************************/
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (last invoices)...");
-                        }
-                    });
-                    // Processing lastinvoiceheds
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getLastThreeInvHedResult(pref.getDistDB(),repcode);
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                FInvhedL3Controller invoiceHedController = new FInvhedL3Controller(getActivity());
-                                invoiceHedController.deleteAll();
-                                ArrayList<FInvhedL3> invoiceHedList = new ArrayList<FInvhedL3>();
-                                if(response.body() != null) {
-
-                                    for (int i = 0; i < response.body().getLastThreeInvHedResult().size(); i++) {
-                                        invoiceHedList.add(response.body().getLastThreeInvHedResult().get(i));
-                                    }
-                                    invoiceHedController.createOrUpdateFinvHedL3(invoiceHedList);
-                                }else{
-                                    errors.add("LastThreeInvHed response is null");
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-                        throw e;
-                    }
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (last invoices)...");
+//                        }
+//                    });
+//                    // Processing lastinvoiceheds
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getLastThreeInvHedResult(pref.getDistDB(),repcode);
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                                FInvhedL3Controller invoiceHedController = new FInvhedL3Controller(getActivity());
+//                                invoiceHedController.deleteAll();
+//                                ArrayList<FInvhedL3> invoiceHedList = new ArrayList<FInvhedL3>();
+//                                if(response.body() != null) {
+//
+//                                    for (int i = 0; i < response.body().getLastThreeInvHedResult().size(); i++) {
+//                                        invoiceHedList.add(response.body().getLastThreeInvHedResult().get(i));
+//                                    }
+//                                    invoiceHedController.createOrUpdateFinvHedL3(invoiceHedList);
+//                                }else{
+//                                    errors.add("LastThreeInvHed response is null");
+//                                }
+//                            }
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//                        throw e;
+//                    }
                     /*****************end lastinvoiceheds**********************************************************************/
                     /*****************last 3 invoice dets**********************************************************************/
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (invoices)...");
-                        }
-                    });
-                    // Processing lastinvoiceheds
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getLastThreeInvDetResult(pref.getDistDB(),repcode);
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                FinvDetL3Controller invoiceDetController = new FinvDetL3Controller(getActivity());
-                                invoiceDetController.deleteAll();
-                                ArrayList<FinvDetL3> invoiceDetList = new ArrayList<FinvDetL3>();
-                                if(response.body() != null) {
-                                    for (int i = 0; i < response.body().getLastThreeInvDetResult().size(); i++) {
-                                        invoiceDetList.add(response.body().getLastThreeInvDetResult().get(i));
-                                    }
-                                    invoiceDetController.createOrUpdateFinvDetL3(invoiceDetList);
-                                }else{
-                                    errors.add("LastThreeInvDet response is null");
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-
-                        throw e;
-                    }
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (invoices)...");
+//                        }
+//                    });
+//                    // Processing lastinvoiceheds
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getLastThreeInvDetResult(pref.getDistDB(),repcode);
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                                FinvDetL3Controller invoiceDetController = new FinvDetL3Controller(getActivity());
+//                                invoiceDetController.deleteAll();
+//                                ArrayList<FinvDetL3> invoiceDetList = new ArrayList<FinvDetL3>();
+//                                if(response.body() != null) {
+//                                    for (int i = 0; i < response.body().getLastThreeInvDetResult().size(); i++) {
+//                                        invoiceDetList.add(response.body().getLastThreeInvDetResult().get(i));
+//                                    }
+//                                    invoiceDetController.createOrUpdateFinvDetL3(invoiceDetList);
+//                                }else{
+//                                    errors.add("LastThreeInvDet response is null");
+//                                }
+//                            }
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//
+//                        throw e;
+//                    }
                     /*****************end lastinvoicedets**********************************************************************/
                     /*****************Route det**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
@@ -1578,41 +1638,41 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     }
                     /*****************end route det**********************************************************************/
                     /*****************towns**********************************************************************/
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Expenses downloaded\nDownloading town details...");
-                        }
-                    });
-                    TownController townController = new TownController(getActivity());
-                    townController.deleteAll();
-                    // Processing towns
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getTownResult(pref.getDistDB());
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                if(response.body() != null) {
-                                    ArrayList<Town> townList = new ArrayList<Town>();
-                                    for (int i = 0; i < response.body().getTownResult().size(); i++) {
-                                        townList.add(response.body().getTownResult().get(i));
-                                    }
-                                    TownController townController = new TownController(getActivity());
-                                    townController.createOrUpdateFTown(townList);
-                                }else{
-                                    errors.add("Town response is null");
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-                        throw e;
-                    }
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Expenses downloaded\nDownloading town details...");
+//                        }
+//                    });
+//                    TownController townController = new TownController(getActivity());
+//                    townController.deleteAll();
+//                    // Processing towns
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getTownResult(pref.getDistDB());
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                                if(response.body() != null) {
+//                                    ArrayList<Town> townList = new ArrayList<Town>();
+//                                    for (int i = 0; i < response.body().getTownResult().size(); i++) {
+//                                        townList.add(response.body().getTownResult().get(i));
+//                                    }
+//                                    TownController townController = new TownController(getActivity());
+//                                    townController.createOrUpdateFTown(townList);
+//                                }else{
+//                                    errors.add("Town response is null");
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//                        throw e;
+//                    }
                     /*****************end towns**********************************************************************/
                     /*****************Freeslab**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
@@ -1842,168 +1902,168 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     /*****************discdeb**********************************************************************/
 
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (discount)...");
-                        }
-                    });
-
-                    // Processing discdeb
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getDiscDebResult(pref.getDistDB(),repcode);
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-
-
-                                if(response.body() != null) {
-                                    DiscdebController discdebController = new DiscdebController(getActivity());
-                                    discdebController.deleteAll();
-                                    ArrayList<Discdeb> discdebList = new ArrayList<Discdeb>();
-                                    for (int i = 0; i < response.body().getDiscDebResult().size(); i++) {
-                                        discdebList.add(response.body().getDiscDebResult().get(i));
-                                    }
-
-                                    discdebController.createOrUpdateDiscdeb(discdebList);
-                                }else{
-                                    errors.add("Discdeb response is null");
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-
-                        throw e;
-                    }
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (discount)...");
+//                        }
+//                    });
+//
+//                    // Processing discdeb
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getDiscDebResult(pref.getDistDB(),repcode);
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//
+//
+//                                if(response.body() != null) {
+//                                    DiscdebController discdebController = new DiscdebController(getActivity());
+//                                    discdebController.deleteAll();
+//                                    ArrayList<Discdeb> discdebList = new ArrayList<Discdeb>();
+//                                    for (int i = 0; i < response.body().getDiscDebResult().size(); i++) {
+//                                        discdebList.add(response.body().getDiscDebResult().get(i));
+//                                    }
+//
+//                                    discdebController.createOrUpdateDiscdeb(discdebList);
+//                                }else{
+//                                    errors.add("Discdeb response is null");
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//
+//                        throw e;
+//                    }
                     /*****************end discdeb**********************************************************************/
                     /*****************discdet**********************************************************************/
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (discount)...");
-                        }
-                    });
-
-                    // Processing discdet
-
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getDiscDetResult(pref.getDistDB());
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-
-                                if(response.body() != null) {
-                                    DiscdetController discdetController = new DiscdetController(getActivity());
-                                    discdetController.deleteAll();
-                                    ArrayList<Discdet> discdetList = new ArrayList<Discdet>();
-                                    for (int i = 0; i < response.body().getDiscDetResult().size(); i++) {
-                                        discdetList.add(response.body().getDiscDetResult().get(i));
-                                    }
-
-                                    discdetController.createOrUpdateDiscdet(discdetList);
-                                }else{
-                                    errors.add("Discdet response is null");
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-
-                        throw e;
-                    }
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (discount)...");
+//                        }
+//                    });
+//
+//                    // Processing discdet
+//
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getDiscDetResult(pref.getDistDB());
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//
+//                                if(response.body() != null) {
+//                                    DiscdetController discdetController = new DiscdetController(getActivity());
+//                                    discdetController.deleteAll();
+//                                    ArrayList<Discdet> discdetList = new ArrayList<Discdet>();
+//                                    for (int i = 0; i < response.body().getDiscDetResult().size(); i++) {
+//                                        discdetList.add(response.body().getDiscDetResult().get(i));
+//                                    }
+//
+//                                    discdetController.createOrUpdateDiscdet(discdetList);
+//                                }else{
+//                                    errors.add("Discdet response is null");
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//
+//                        throw e;
+//                    }
                     /*****************end discdet**********************************************************************/
                     /*****************discshed**********************************************************************/
 
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (discount)...");
-                        }
-                    });
-
-                    // Processing disched
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getDiscHedResult(pref.getDistDB(),repcode);
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-
-                                if(response.body() != null) {
-                                    DischedController dischedController = new DischedController(getActivity());
-                                    dischedController.deleteAll();
-                                    ArrayList<Disched> dischedList = new ArrayList<Disched>();
-                                    for (int i = 0; i < response.body().getDiscHedResult().size(); i++) {
-                                        dischedList.add(response.body().getDiscHedResult().get(i));
-                                    }
-                                    dischedController.createOrUpdateDisched(dischedList);
-                                }else{
-                                    errors.add("Disched response is null");
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-
-                        throw e;
-                    }
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (discount)...");
+//                        }
+//                    });
+//
+//                    // Processing disched
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getDiscHedResult(pref.getDistDB(),repcode);
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//
+//                                if(response.body() != null) {
+//                                    DischedController dischedController = new DischedController(getActivity());
+//                                    dischedController.deleteAll();
+//                                    ArrayList<Disched> dischedList = new ArrayList<Disched>();
+//                                    for (int i = 0; i < response.body().getDiscHedResult().size(); i++) {
+//                                        dischedList.add(response.body().getDiscHedResult().get(i));
+//                                    }
+//                                    dischedController.createOrUpdateDisched(dischedList);
+//                                }else{
+//                                    errors.add("Disched response is null");
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//
+//                        throw e;
+//                    }
                     /*****************end disched**********************************************************************/
                     /*****************discslab**********************************************************************/
 
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (discount)...");
-                        }
-                    });
-
-                    // Processing discslab
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getDiscSlabResult(pref.getDistDB());
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-
-                                if(response.body() != null) {
-                                    DiscslabController discslabController = new DiscslabController(getActivity());
-                                    discslabController.deleteAll();
-                                    ArrayList<Discslab> discslabList = new ArrayList<Discslab>();
-                                    for (int i = 0; i < response.body().getDiscSlabResult().size(); i++) {
-                                        discslabList.add(response.body().getDiscSlabResult().get(i));
-                                    }
-                                    discslabController.createOrUpdateDiscslab(discslabList);
-                                }else{
-                                    errors.add("Disched response is null");
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-                        throw e;
-                    }
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Processing downloaded data (discount)...");
+//                        }
+//                    });
+//
+//                    // Processing discslab
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getDiscSlabResult(pref.getDistDB());
+//                        resultCall.enqueue(new Callback<ReadJsonList>() {
+//                            @Override
+//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//
+//                                if(response.body() != null) {
+//                                    DiscslabController discslabController = new DiscslabController(getActivity());
+//                                    discslabController.deleteAll();
+//                                    ArrayList<Discslab> discslabList = new ArrayList<Discslab>();
+//                                    for (int i = 0; i < response.body().getDiscSlabResult().size(); i++) {
+//                                        discslabList.add(response.body().getDiscSlabResult().get(i));
+//                                    }
+//                                    discslabController.createOrUpdateDiscslab(discslabList);
+//                                }else{
+//                                    errors.add("Disched response is null");
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                                errors.add(t.toString());
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//                        throw e;
+//                    }
                     /*****************end discslab**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override

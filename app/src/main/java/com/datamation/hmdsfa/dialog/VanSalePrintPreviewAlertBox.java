@@ -195,7 +195,7 @@ public class VanSalePrintPreviewAlertBox {
 
 //        User salrep = SharedPref.getInstance(context).getLoginUser();
             SalesRepname.setText(salRep.getRepCode() + "/ " + salRep.getNAME());
-            SalesRepPhone.setText("Tele: " + salRep.getMOBILE());
+            SalesRepPhone.setText("Tele: " );
 
             if (!isPreSale) // if van sale
             {
@@ -468,7 +468,7 @@ public class VanSalePrintPreviewAlertBox {
         String printGapAdjustE = printGapAdjust.substring(0, Math.min(lengthDealEB, printGapAdjust.length()));
         String subTitleheadF = printGapAdjustE + SalesRepNamestr;
 
-        String SalesRepPhonestr = "Tele: " + salrep.getTELE().trim();
+        String SalesRepPhonestr = "Tele: " ;
         int lengthDealF = SalesRepPhonestr.length();
         int lengthDealFB = (LINECHAR - lengthDealF) / 2;
         String printGapAdjustF = printGapAdjust.substring(0, Math.min(lengthDealFB, printGapAdjust.length()));

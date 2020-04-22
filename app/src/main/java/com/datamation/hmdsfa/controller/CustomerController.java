@@ -48,13 +48,12 @@ public class CustomerController {
 
         try {
             dB.beginTransactionNonExclusive();
-            String sql = "INSERT OR REPLACE INTO " + Customer.TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,TownCode,AreaCode,DbGrCode,Status,CrdPeriod,ChkCrdPrd,CrdLimit,ChkCrdLmt,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude,CusImage) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT OR REPLACE INTO " + Customer.TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,AreaCode,DbGrCode,CrdPeriod,CrdLimit,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude,CusImage) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 //            String sql = "INSERT OR REPLACE INTO " + DatabaseHelper.TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,TownCode,AreaCode,DbGrCode,Status,CrdPeriod,ChkCrdPrd,CrdLimit,ChkCrdLmt,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             SQLiteStatement stmt = dB.compileStatement(sql);
 
             for (Debtor debtor : list) {
-
                 stmt.bindString(1, debtor.getFDEBTOR_CODE());
                 stmt.bindString(2, debtor.getFDEBTOR_NAME());
                 stmt.bindString(3, debtor.getFDEBTOR_ADD1());
@@ -63,21 +62,17 @@ public class CustomerController {
                 stmt.bindString(6, debtor.getFDEBTOR_TELE());
                 stmt.bindString(7, debtor.getFDEBTOR_MOB());
                 stmt.bindString(8, debtor.getFDEBTOR_EMAIL());
-                stmt.bindString(9, debtor.getFDEBTOR_TOWN_CODE());
-                stmt.bindString(10, debtor.getFDEBTOR_AREA_CODE());
-                stmt.bindString(11, debtor.getFDEBTOR_DBGR_CODE());
-                stmt.bindString(12, debtor.getFDEBTOR_STATUS());
-                stmt.bindString(13, debtor.getFDEBTOR_CRD_PERIOD());
-                stmt.bindString(14, debtor.getFDEBTOR_CHK_CRD_PRD());
-                stmt.bindString(15, debtor.getFDEBTOR_CRD_LIMIT());
-                stmt.bindString(16, debtor.getFDEBTOR_CHK_CRD_LIMIT());
-                stmt.bindString(17, debtor.getFDEBTOR_REPCODE());
-                stmt.bindString(18, "");
-                stmt.bindString(19, debtor.getFDEBTOR_TAX_REG());
-                stmt.bindString(20, debtor.getFDEBTOR_RANK_CODE());
-                stmt.bindString(21, debtor.getFDEBTOR_LATITUDE());
-                stmt.bindString(22, debtor.getFDEBTOR_LONGITUDE());
-                stmt.bindString(23, debtor.getFDEBTOR_IMG_URL());
+                stmt.bindString(9, debtor.getFDEBTOR_AREA_CODE());
+                stmt.bindString(10, debtor.getFDEBTOR_DBGR_CODE());
+                stmt.bindString(11, debtor.getFDEBTOR_STATUS());
+                stmt.bindString(12, debtor.getFDEBTOR_CRD_PERIOD());
+                stmt.bindString(13, debtor.getFDEBTOR_CRD_LIMIT());
+                stmt.bindString(14, debtor.getFDEBTOR_REPCODE());
+                stmt.bindString(15, debtor.getFDEBTOR_TAX_REG());
+                stmt.bindString(16, debtor.getFDEBTOR_RANK_CODE());
+                stmt.bindString(17, debtor.getFDEBTOR_LATITUDE());
+                stmt.bindString(18, debtor.getFDEBTOR_LONGITUDE());
+                stmt.bindString(19, debtor.getFDEBTOR_IMG_URL());
 
                 stmt.execute();
                 stmt.clearBindings();
@@ -232,13 +227,13 @@ public class CustomerController {
             while (cursor.moveToNext()) {
 
                 Debtor debtor = new Debtor();
-                debtor.setCONSOLE_DB(SharedPref.getInstance(context).getConsoleDB().trim());
-                debtor.setDISTRIBUTE_DB(SharedPref.getInstance(context).getDistDB().trim());
+//                debtor.setCONSOLE_DB(SharedPref.getInstance(context).getConsoleDB().trim());
+//                debtor.setDISTRIBUTE_DB(SharedPref.getInstance(context).getDistDB().trim());
                 debtor.setFDEBTOR_CODE(cursor.getString(cursor.getColumnIndex(Customer.DEBCODE)));
                 debtor.setFDEBTOR_LATITUDE(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_LATITUDE)));
                 debtor.setFDEBTOR_LONGITUDE(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_LONGITUDE)));
-                debtor.setFDEBTOR_IS_SYNC(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_IS_SYNC)));
-                debtor.setFDEBTOR_IS_CORDINATE_UPDATE(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_IS_CORDINATE_UPDATE)));
+//                debtor.setFDEBTOR_IS_SYNC(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_IS_SYNC)));
+//                debtor.setFDEBTOR_IS_CORDINATE_UPDATE(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_IS_CORDINATE_UPDATE)));
 
                 list.add(debtor);
 
@@ -272,10 +267,10 @@ public class CustomerController {
             cursor = dB.rawQuery(selectQuery, null);
             while (cursor.moveToNext()) {
                 Debtor debtor = new Debtor();
-                debtor.setCONSOLE_DB(SharedPref.getInstance(context).getConsoleDB().trim());
-                debtor.setDISTRIBUTE_DB(SharedPref.getInstance(context).getDistDB().trim());
+//                debtor.setCONSOLE_DB(SharedPref.getInstance(context).getConsoleDB().trim());
+//                debtor.setDISTRIBUTE_DB(SharedPref.getInstance(context).getDistDB().trim());
                 debtor.setFDEBTOR_CODE(cursor.getString(cursor.getColumnIndex(Customer.DEBCODE)));
-                debtor.setFDEBTOR_IS_SYNC(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_IS_SYNC)));
+               // debtor.setFDEBTOR_IS_SYNC(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_IS_SYNC)));
                 debtor.setFDEBTOR_IMG_URL(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_IMAGE)));
                 list.add(debtor);
             }
@@ -304,10 +299,10 @@ public class CustomerController {
             cursor = dB.rawQuery(selectQuery, null);
             while (cursor.moveToNext()) {
                 Debtor debtor = new Debtor();
-                debtor.setCONSOLE_DB(SharedPref.getInstance(context).getConsoleDB().trim());
-                debtor.setDISTRIBUTE_DB(SharedPref.getInstance(context).getDistDB().trim());
+//                debtor.setCONSOLE_DB(SharedPref.getInstance(context).getConsoleDB().trim());
+//                debtor.setDISTRIBUTE_DB(SharedPref.getInstance(context).getDistDB().trim());
                 debtor.setFDEBTOR_CODE(cursor.getString(cursor.getColumnIndex(Customer.DEBCODE)));
-                debtor.setFDEBTOR_IS_SYNC(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_IS_SYNC)));
+               // debtor.setFDEBTOR_IS_SYNC(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_IS_SYNC)));
                 debtor.setFDEBTOR_ADD1(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_ADD1)));
                 debtor.setFDEBTOR_ADD2(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_ADD2)));
                 debtor.setFDEBTOR_TELE(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_TELE)));

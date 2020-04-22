@@ -161,7 +161,7 @@ public class PrintPreviewAlertBox {
 
 //        User salrep = SharedPref.getInstance(context).getLoginUser();
         SalesRepname.setText(salRep.getRepCode() + "/ " + salRep.getNAME());
-        SalesRepPhone.setText("Tele: " + salRep.getMOBILE());
+        SalesRepPhone.setText("Tele: " );
 
         FInvRHed retHed = new SalesReturnController(context).getReturnDetailsForPrint(refno);
         ArrayList<FInvRDet> retDetList = new SalesReturnDetController(context).getReturnItemsforPrint(refno);
@@ -315,7 +315,7 @@ public class PrintPreviewAlertBox {
         String printGapAdjustE = printGapAdjust.substring(0, Math.min(lengthDealEB, printGapAdjust.length()));
         String subTitleheadF = printGapAdjustE + SalesRepNamestr;
 
-        String SalesRepPhonestr = "Tele: " + salrep.getMOBILE();
+        String SalesRepPhonestr = "Tele: ";
         int lengthDealF = SalesRepPhonestr.length();
         int lengthDealFB = (LINECHAR - lengthDealF) / 2;
         String printGapAdjustF = printGapAdjust.substring(0, Math.min(lengthDealFB, printGapAdjust.length()));

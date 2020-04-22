@@ -8,6 +8,8 @@ import org.json.JSONObject;
 
 public class ItemBundle {
 
+    @SerializedName("ArticleNo")
+    private String ArticleNo;
     @SerializedName("DocumentNo")
     private String DocumentNo;
     @SerializedName("Barcode")
@@ -26,6 +28,14 @@ public class ItemBundle {
     private int Quantity;
 
     private int isChecked;
+
+    public String getArticleNo() {
+        return ArticleNo;
+    }
+
+    public void setArticleNo(String articleNo) {
+        ArticleNo = articleNo;
+    }
 
     public int getIsChecked() {
         return isChecked;

@@ -257,12 +257,11 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 salRep = new SalRepController(getApplicationContext()).getSalRepCredentials();
 
                 if (pref.isLoggedIn() || SharedPref.getInstance(ActivityLogin.this).getLoginUser() != null) {
-                    if ((username.getText().toString().equalsIgnoreCase(salRep.getRepCode())) && (password.getText().toString().equalsIgnoreCase(salRep.getREPTCODE()))) {
+                    if ((username.getText().toString().equalsIgnoreCase(salRep.getRepCode())) && (password.getText().toString().equalsIgnoreCase(salRep.getPASSWORD()))) {
                         pref.setLoginStatus(true);
                         Log.d(">>>", "Validation :: " + username.getText().toString());
                         Log.d(">>>", "Validation :: " + salRep.getRepCode());
                         Log.d(">>>", "Validation :: " + password.getText().toString());
-                        Log.d(">>>", "Validation :: " + salRep.getREPTCODE());
                         Intent intent = new Intent(ActivityLogin
                                 .this, ActivityHome
                                 .class);
@@ -270,12 +269,11 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                         finish();
                     }
 
-                } else if ((username.getText().toString().equalsIgnoreCase(salRep.getRepCode())) && (password.getText().toString().equalsIgnoreCase(salRep.getREPTCODE()))) {
+                } else if ((username.getText().toString().equalsIgnoreCase(salRep.getRepCode())) && (password.getText().toString().equalsIgnoreCase(salRep.getPASSWORD()))) {
                     //temparary for datamation
                     Log.d(">>>", "Validation :: " + username.getText().toString());
                     Log.d(">>>", "Validation :: " + salRep.getRepCode());
                     Log.d(">>>", "Validation :: " + password.getText().toString());
-                    Log.d(">>>", "Validation :: " + salRep.getREPTCODE());
 
                     SharedPref sharedPref = SharedPref.getInstance(context);
                     if (sharedPref.getGlobalVal("SyncDate").equalsIgnoreCase(dateFormat.format(new Date(timeInMillis))) || sharedPref.getGlobalVal("FirstTimeSyncDate").equalsIgnoreCase(dateFormat.format(new Date(timeInMillis)))) {
@@ -293,7 +291,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     Log.d(">>>", "Validation :: " + username.getText().toString());
                     Log.d(">>>", "Validation :: " + salRep.getRepCode());
                     Log.d(">>>", "Validation :: " + password.getText().toString());
-                    Log.d(">>>", "Validation :: " + salRep.getREPTCODE());
                     Toast.makeText(this, "Please fill the valid credentials", Toast.LENGTH_LONG).show();
                     username.setText("");
                     password.setText("");
@@ -442,39 +439,39 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 });
 
                 // Processing outlets
-                try {
-
-                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
-                    Call<ReadJsonList> resultCall = apiInterface.getNearDebtorResult(pref.getDistDB());
-                    resultCall.enqueue(new Callback<ReadJsonList>() {
-                        @Override
-                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                            System.out.println("test responce 01 " + response.body().getNearDebtorResult().size());
-                            //  System.out.println(response.body().getInvDetResult().get(1));
-                            ArrayList<NearDebtor> nDebList = new ArrayList<NearDebtor>();
-                            for (int i = 0; i < response.body().getNearDebtorResult().size(); i++) {
-                                nDebList.add(response.body().getNearDebtorResult().get(i));
-                            }
-                            NearCustomerController nCustomerController = new NearCustomerController(ActivityLogin.this);
-                            nCustomerController.InsertOrReplaceNearDebtor(nDebList);
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                            t.printStackTrace();
-                        }
-                    });
-                } catch (Exception e) {
-                    errors.add(e.toString());
-                    throw e;
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        pdialog.setMessage("Near Customers downloaded\nDownloading Company Settings...");
-                    }
-                });
+//                try {
+//
+//                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+//                    Call<ReadJsonList> resultCall = apiInterface.getNearDebtorResult(pref.getDistDB());
+//                    resultCall.enqueue(new Callback<ReadJsonList>() {
+//                        @Override
+//                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                            System.out.println("test responce 01 " + response.body().getNearDebtorResult().size());
+//                            //  System.out.println(response.body().getInvDetResult().get(1));
+//                            ArrayList<NearDebtor> nDebList = new ArrayList<NearDebtor>();
+//                            for (int i = 0; i < response.body().getNearDebtorResult().size(); i++) {
+//                                nDebList.add(response.body().getNearDebtorResult().get(i));
+//                            }
+//                            NearCustomerController nCustomerController = new NearCustomerController(ActivityLogin.this);
+//                            nCustomerController.InsertOrReplaceNearDebtor(nDebList);
+//
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                            t.printStackTrace();
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    errors.add(e.toString());
+//                    throw e;
+//                }
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        pdialog.setMessage("Near Customers downloaded\nDownloading Company Settings...");
+//                    }
+//                });
                 /*****************Settings*****************************************************************************/
 
                 runOnUiThread(new Runnable() {
@@ -551,77 +548,77 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 /*****************end Settings**********************************************************************/
                 /*****************Item Loc*****************************************************************************/
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        pdialog.setMessage("Processing downloaded data (item location details)...");
-                    }
-                });
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        pdialog.setMessage("Processing downloaded data (item location details)...");
+//                    }
+//                });
 
                 // Processing itemLocations
-                try {
-
-                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
-                    Call<ReadJsonList> resultCall = apiInterface.getItemLocResult(pref.getDistDB(),repcode);
-                    resultCall.enqueue(new Callback<ReadJsonList>() {
-                        @Override
-                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                            System.out.println("test responce 01 " + response.body().getItemLocResult().size());
-                            //  System.out.println(response.body().getInvDetResult().get(1));
-                            ArrayList<ItemLoc> itemLocList = new ArrayList<ItemLoc>();
-                            for (int i = 0; i < response.body().getItemLocResult().size(); i++) {
-                                itemLocList.add(response.body().getItemLocResult().get(i));
-                            }
-                            ItemLocController locController = new ItemLocController(ActivityLogin.this);
-                            locController.InsertOrReplaceItemLoc(itemLocList);
-                        }
-
-                        @Override
-                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                            t.printStackTrace();
-                        }
-                    });
-                } catch (Exception e) {
-                    errors.add(e.toString());
-                    throw e;
-                }
+//                try {
+//
+//                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+//                    Call<ReadJsonList> resultCall = apiInterface.getItemLocResult(pref.getDistDB(),repcode);
+//                    resultCall.enqueue(new Callback<ReadJsonList>() {
+//                        @Override
+//                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                            System.out.println("test responce 01 " + response.body().getItemLocResult().size());
+//                            //  System.out.println(response.body().getInvDetResult().get(1));
+//                            ArrayList<ItemLoc> itemLocList = new ArrayList<ItemLoc>();
+//                            for (int i = 0; i < response.body().getItemLocResult().size(); i++) {
+//                                itemLocList.add(response.body().getItemLocResult().get(i));
+//                            }
+//                            ItemLocController locController = new ItemLocController(ActivityLogin.this);
+//                            locController.InsertOrReplaceItemLoc(itemLocList);
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                            t.printStackTrace();
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    errors.add(e.toString());
+//                    throw e;
+//                }
 
                 /*****************end Item Loc**********************************************************************/
                 /*****************Locations*****************************************************************************/
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        pdialog.setMessage("Processing downloaded data (location details)...");
-                    }
-                });
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        pdialog.setMessage("Processing downloaded data (location details)...");
+//                    }
+//                });
                 // Processing itemLocations
-                try {
-
-                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
-                    Call<ReadJsonList> resultCall = apiInterface.getLocationsResult(pref.getDistDB(),repcode);
-                    resultCall.enqueue(new Callback<ReadJsonList>() {
-                        @Override
-                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                            System.out.println("test responce 01 " + response.body().getLocationsResult().size());
-                            //  System.out.println(response.body().getInvDetResult().get(1));
-                            ArrayList<Locations> locList = new ArrayList<Locations>();
-                            for (int i = 0; i < response.body().getLocationsResult().size(); i++) {
-                                locList.add(response.body().getLocationsResult().get(i));
-                            }
-                            LocationsController locController = new LocationsController(ActivityLogin.this);
-                            locController.createOrUpdateFLocations(locList);
-                        }
-
-                        @Override
-                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                            t.printStackTrace();
-                        }
-                    });
-                } catch (Exception e) {
-                    errors.add(e.toString());
-                    throw e;
-                }
+//                try {
+//
+//                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+//                    Call<ReadJsonList> resultCall = apiInterface.getLocationsResult(pref.getDistDB(),repcode);
+//                    resultCall.enqueue(new Callback<ReadJsonList>() {
+//                        @Override
+//                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                            System.out.println("test responce 01 " + response.body().getLocationsResult().size());
+//                            //  System.out.println(response.body().getInvDetResult().get(1));
+//                            ArrayList<Locations> locList = new ArrayList<Locations>();
+//                            for (int i = 0; i < response.body().getLocationsResult().size(); i++) {
+//                                locList.add(response.body().getLocationsResult().get(i));
+//                            }
+//                            LocationsController locController = new LocationsController(ActivityLogin.this);
+//                            locController.createOrUpdateFLocations(locList);
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                            t.printStackTrace();
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    errors.add(e.toString());
+//                    throw e;
+//                }
                 /*****************ItemPrice*****************************************************************************/
 
                 runOnUiThread(new Runnable() {
@@ -632,32 +629,32 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 });
 
                 // Processing itemLocations
-                try {
-
-                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
-                    Call<ReadJsonList> resultCall = apiInterface.getItemPriResult(pref.getDistDB(),repcode);
-                    resultCall.enqueue(new Callback<ReadJsonList>() {
-                        @Override
-                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                            System.out.println("test responce 01 " + response.body().getItemPriResult().size());
-                            //  System.out.println(response.body().getInvDetResult().get(1));
-                            ArrayList<ItemPri> itemPriceList = new ArrayList<ItemPri>();
-                            for (int i = 0; i < response.body().getItemPriResult().size(); i++) {
-                                itemPriceList.add(response.body().getItemPriResult().get(i));
-                            }
-                            ItemPriceController priceController = new ItemPriceController(ActivityLogin.this);
-                            priceController.InsertOrReplaceItemPri(itemPriceList);
-                        }
-
-                        @Override
-                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                            t.printStackTrace();
-                        }
-                    });
-                } catch (Exception e) {
-                    errors.add(e.toString());
-                    throw e;
-                }
+//                try {
+//
+//                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+//                    Call<ReadJsonList> resultCall = apiInterface.getItemPriResult(pref.getDistDB(),repcode);
+//                    resultCall.enqueue(new Callback<ReadJsonList>() {
+//                        @Override
+//                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                            System.out.println("test responce 01 " + response.body().getItemPriResult().size());
+//                            //  System.out.println(response.body().getInvDetResult().get(1));
+//                            ArrayList<ItemPri> itemPriceList = new ArrayList<ItemPri>();
+//                            for (int i = 0; i < response.body().getItemPriResult().size(); i++) {
+//                                itemPriceList.add(response.body().getItemPriResult().get(i));
+//                            }
+//                            ItemPriceController priceController = new ItemPriceController(ActivityLogin.this);
+//                            priceController.InsertOrReplaceItemPri(itemPriceList);
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                            t.printStackTrace();
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    errors.add(e.toString());
+//                    throw e;
+//                }
                 /*****************end item prices**********************************************************************/
                 /*****************Item*****************************************************************************/
 
@@ -854,49 +851,49 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 /*****************end route det**********************************************************************/
 
                 /*****************towns**********************************************************************/
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        pdialog.setMessage("Expenses downloaded\nDownloading town details...");
-                    }
-                });
-
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        pdialog.setMessage("Processing downloaded data (towns)...");
-                    }
-                });
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        pdialog.setMessage("Expenses downloaded\nDownloading town details...");
+//                    }
+//                });
+//
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        pdialog.setMessage("Processing downloaded data (towns)...");
+//                    }
+//                });
 
                 // Processing towns
-                try {
-
-                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
-                    Call<ReadJsonList> resultCall = apiInterface.getTownResult(pref.getDistDB());
-                    resultCall.enqueue(new Callback<ReadJsonList>() {
-                        @Override
-                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                            System.out.println("test responce 01 " + response.body().getTownResult().size());
-                            //  System.out.println(response.body().getInvDetResult().get(1));
-                            ArrayList<Town> townList = new ArrayList<Town>();
-                            for (int i = 0; i < response.body().getTownResult().size(); i++) {
-                                townList.add(response.body().getTownResult().get(i));
-                            }
-                            TownController townController = new TownController(ActivityLogin.this);
-                            townController.createOrUpdateFTown(townList);
-                        }
-
-                        @Override
-                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                            t.printStackTrace();
-                        }
-                    });
-                } catch (Exception e) {
-                    errors.add(e.toString());
-                    throw e;
-                }
+//                try {
+//
+//                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+//                    Call<ReadJsonList> resultCall = apiInterface.getTownResult(pref.getDistDB());
+//                    resultCall.enqueue(new Callback<ReadJsonList>() {
+//                        @Override
+//                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                            System.out.println("test responce 01 " + response.body().getTownResult().size());
+//                            //  System.out.println(response.body().getInvDetResult().get(1));
+//                            ArrayList<Town> townList = new ArrayList<Town>();
+//                            for (int i = 0; i < response.body().getTownResult().size(); i++) {
+//                                townList.add(response.body().getTownResult().get(i));
+//                            }
+//                            TownController townController = new TownController(ActivityLogin.this);
+//                            townController.createOrUpdateFTown(townList);
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                            t.printStackTrace();
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    errors.add(e.toString());
+//                    throw e;
+//                }
                 /*****************end towns**********************************************************************/
 
 
@@ -1072,82 +1069,82 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 // Processing discdeb
 
 
-                try {
-
-                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
-                    Call<ReadJsonList> resultCall = apiInterface.getDiscHedResult(pref.getDistDB(),repcode);
-                    resultCall.enqueue(new Callback<ReadJsonList>() {
-                        @Override
-                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                            DischedController dischedController = new DischedController(ActivityLogin.this);
-                            dischedController.deleteAll();
-                            System.out.println("test responce 01 " + response.body().getDiscHedResult().size());
-                            //  System.out.println(response.body().getInvDetResult().get(1));
-                            ArrayList<Disched> dischedList = new ArrayList<Disched>();
-                            for (int i = 0; i < response.body().getDiscHedResult().size(); i++) {
-                                dischedList.add(response.body().getDiscHedResult().get(i));
-                            }
-                            dischedController.createOrUpdateDisched(dischedList);
-                        }
-
-                        @Override
-                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                            t.printStackTrace();
-                        }
-                    });
-                } catch (Exception e) {
-                    errors.add(e.toString());
-                    throw e;
-                }
-                /*****************end discdet**********************************************************************/
-                /*****************discslab*************************************************************************/
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        pdialog.setMessage("Processing downloaded data (discount)...");
-                    }
-                });
-
-                // Processing discslab
-
-                try {
-
-                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
-                    Call<ReadJsonList> resultCall = apiInterface.getDiscSlabResult(pref.getDistDB());
-                    resultCall.enqueue(new Callback<ReadJsonList>() {
-                        @Override
-                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                            DiscslabController discslabController = new DiscslabController(ActivityLogin.this);
-                            discslabController.deleteAll();
-                            System.out.println("test responce 01 " + response.body().getDiscSlabResult().size());
-                            //  System.out.println(response.body().getInvDetResult().get(1));
-                            ArrayList<Discslab> discslabList = new ArrayList<Discslab>();
-                            for (int i = 0; i < response.body().getDiscSlabResult().size(); i++) {
-                                discslabList.add(response.body().getDiscSlabResult().get(i));
-                            }
-                            discslabController.createOrUpdateDiscslab(discslabList);
-                        }
-
-                        @Override
-                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                            t.printStackTrace();
-                        }
-                    });
-                } catch (Exception e) {
-                    errors.add(e.toString());
-                    throw e;
-                }
-                /*****************end discslab**********************************************************************/
-                /*****************itenary det**********************************************************************/
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        pdialog.setMessage("Prices downloaded\nDownloading iteanery details...");
-                    }
-                });
-
+//                try {
+//
+//                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+//                    Call<ReadJsonList> resultCall = apiInterface.getDiscHedResult(pref.getDistDB(),repcode);
+//                    resultCall.enqueue(new Callback<ReadJsonList>() {
+//                        @Override
+//                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                            DischedController dischedController = new DischedController(ActivityLogin.this);
+//                            dischedController.deleteAll();
+//                            System.out.println("test responce 01 " + response.body().getDiscHedResult().size());
+//                            //  System.out.println(response.body().getInvDetResult().get(1));
+//                            ArrayList<Disched> dischedList = new ArrayList<Disched>();
+//                            for (int i = 0; i < response.body().getDiscHedResult().size(); i++) {
+//                                dischedList.add(response.body().getDiscHedResult().get(i));
+//                            }
+//                            dischedController.createOrUpdateDisched(dischedList);
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                            t.printStackTrace();
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    errors.add(e.toString());
+//                    throw e;
+//                }
+//                /*****************end discdet**********************************************************************/
+//                /*****************discslab*************************************************************************/
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        pdialog.setMessage("Processing downloaded data (discount)...");
+//                    }
+//                });
+//
+//                // Processing discslab
+//
+//                try {
+//
+//                    ApiInterface apiInterface = ApiCllient.getClient(ActivityLogin.this).create(ApiInterface.class);
+//                    Call<ReadJsonList> resultCall = apiInterface.getDiscSlabResult(pref.getDistDB());
+//                    resultCall.enqueue(new Callback<ReadJsonList>() {
+//                        @Override
+//                        public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+//                            DiscslabController discslabController = new DiscslabController(ActivityLogin.this);
+//                            discslabController.deleteAll();
+//                            System.out.println("test responce 01 " + response.body().getDiscSlabResult().size());
+//                            //  System.out.println(response.body().getInvDetResult().get(1));
+//                            ArrayList<Discslab> discslabList = new ArrayList<Discslab>();
+//                            for (int i = 0; i < response.body().getDiscSlabResult().size(); i++) {
+//                                discslabList.add(response.body().getDiscSlabResult().get(i));
+//                            }
+//                            discslabController.createOrUpdateDiscslab(discslabList);
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ReadJsonList> call, Throwable t) {
+//                            t.printStackTrace();
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    errors.add(e.toString());
+//                    throw e;
+//                }
+//                /*****************end discslab**********************************************************************/
+//                /*****************itenary det**********************************************************************/
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        pdialog.setMessage("Prices downloaded\nDownloading iteanery details...");
+//                    }
+//                });
+//
 
                 runOnUiThread(new Runnable() {
                     @Override
