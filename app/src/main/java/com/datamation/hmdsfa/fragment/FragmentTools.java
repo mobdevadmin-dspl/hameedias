@@ -57,6 +57,7 @@ import com.datamation.hmdsfa.controller.FreeSlabController;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
 import com.datamation.hmdsfa.controller.InvoiceBarcodeController;
+import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
@@ -115,6 +116,7 @@ import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.ItemLoc;
 import com.datamation.hmdsfa.model.ItemPri;
+import com.datamation.hmdsfa.model.ItenrDeb;
 import com.datamation.hmdsfa.model.Locations;
 import com.datamation.hmdsfa.model.NearDebtor;
 import com.datamation.hmdsfa.model.NewCustomer;
@@ -1097,7 +1099,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Processing downloaded data (ItemBundle details)...");
                         }
                     });
-                    // Processing Branches
+
                     ItemBundleController bundleController = new ItemBundleController(getActivity());
                     bundleController.deleteAll();
                     try {
@@ -1136,7 +1138,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Processing downloaded data (VAT details)...");
                         }
                     });
-                    // Processing Branches
                     VATController vatController = new VATController(getActivity());
                     vatController.deleteAll();
                     try {
@@ -1168,7 +1169,48 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     }
                     /*****************end VAT**********************************************************************/
 
+                    /*****************ItemBundle*****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Processing downloaded data (ItemBundle details)...");
+                        }
+                    });
 
+                    IteaneryDebController itenrDebController = new IteaneryDebController(getActivity());
+                    itenrDebController.deleteAll();
+                    try {
+                        Calendar c = Calendar.getInstance();
+                        int cyear = c.get(Calendar.YEAR);
+                        int cmonth = c.get(Calendar.MONTH) + 1;
+                        DecimalFormat df_month = new DecimalFormat("00");
+                        Call<ReadJsonList> resultCall = apiInterface.getIteaneryDeb(pref.getDistDB(),repcode,""+cyear,""+df_month.format((double) cmonth));
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                if(response.body() != null) {
+                                    ArrayList<ItenrDeb> itenrDebList = new ArrayList<ItenrDeb>();
+                                    for (int i = 0; i < response.body().getIteaneryDebList().size(); i++) {
+                                        itenrDebList.add(response.body().getIteaneryDebList().get(i));
+                                    }
+                                    IteaneryDebController itenrDebController = new IteaneryDebController(getActivity());
+                                    itenrDebController.InsertOrReplaceItenrDeb(itenrDebList);
+                                }else{
+                                    Log.d(">>IteaneryDebRes", ">> is null");
+
+                                    errors.add("IteaneryDeb response is null");
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                errors.add(t.toString());
+                            }
+                        });
+                    } catch (Exception e) {
+
+                        throw e;
+                    }
+                    /*****************end ItemBundle**********************************************************************/
 
                     /*****************Item Loc*****************************************************************************/
 //                    getActivity().runOnUiThread(new Runnable() {
@@ -2236,7 +2278,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         });
         AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
-        alertD.getWindow().setLayout(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        alertD.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
     }
 
