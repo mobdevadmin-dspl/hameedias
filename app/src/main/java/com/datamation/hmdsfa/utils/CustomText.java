@@ -5,7 +5,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 
-public class CustomText extends android.support.v7.widget.AppCompatEditText {
+public class CustomText extends androidx.appcompat.widget.AppCompatEditText {
     public CustomText(Context context) {
         super(context);
 

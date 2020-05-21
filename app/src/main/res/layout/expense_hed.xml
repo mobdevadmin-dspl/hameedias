@@ -23,12 +23,12 @@
                 android:padding="10dp"
                 android:weightSum="1">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:padding="5dp">
 
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/_refNo"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
@@ -36,9 +36,9 @@
                         android:layout_marginTop="5dp"
                         android:editable="false">
 
-                    </android.support.design.widget.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputEditText>
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
             </TableRow>
 
@@ -51,12 +51,12 @@
                 android:weightSum="1"
                 android:layout_marginTop="5dp">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:padding="5dp">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/_date"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -64,9 +64,9 @@
                     android:layout_marginTop="5dp"
                     android:editable="false">
 
-            </android.support.design.widget.TextInputEditText>
+            </com.google.android.material.textfield.TextInputEditText>
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
             </TableRow>
@@ -78,21 +78,21 @@
                 android:weightSum="1"
                 android:layout_marginTop="5dp">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:padding="5dp">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/_remrk"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Remark"
                     android:layout_marginTop="5dp">
 
-                </android.support.design.widget.TextInputEditText>
+                </com.google.android.material.textfield.TextInputEditText>
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
 
             </TableRow>
@@ -104,12 +104,12 @@
                 android:weightSum="1"
                 android:layout_marginTop="5dp">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="530dp"
                     android:layout_height="60dp"
                     android:padding="5dp">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/_expcode"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -117,9 +117,9 @@
                     android:layout_marginTop="5dp"
                     android:editable="false">
 
-                </android.support.design.widget.TextInputEditText>
+                </com.google.android.material.textfield.TextInputEditText>
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/reason_search"
@@ -138,12 +138,12 @@
                 android:weightSum="1"
                 android:layout_marginTop="5dp">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:padding="5dp">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/_amount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -151,9 +151,9 @@
                     android:layout_marginTop="5dp"
                     android:inputType="numberDecimal">
 
-                </android.support.design.widget.TextInputEditText>
+                </com.google.android.material.textfield.TextInputEditText>
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             </TableRow>

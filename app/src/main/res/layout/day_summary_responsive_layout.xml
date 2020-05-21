@@ -18,7 +18,7 @@
         android:layout_alignBottom="@+id/fragment_day_summary_card_header"
         android:background="?android:colorBackground"/>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/fragment_day_summary_card_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         card_view:cardPreventCornerOverlap="false"
         card_view:cardUseCompatPadding="true">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -496,9 +496,9 @@
                 app:layout_constraintStart_toEndOf="@+id/dashboard_tv_card_today_unproductive_calls_label"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
     <LinearLayout
@@ -511,7 +511,7 @@
         android:layout_marginTop="2dp"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="6dp"
@@ -522,7 +522,7 @@
             card_view:cardPreventCornerOverlap="false"
             card_view:cardUseCompatPadding="true">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/contents_This_month"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -826,11 +826,11 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.3" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -840,7 +840,7 @@
             card_view:cardPreventCornerOverlap="false"
             card_view:cardUseCompatPadding="true">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/contents_Pre_month"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1129,9 +1129,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 </RelativeLayout>

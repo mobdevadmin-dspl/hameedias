@@ -8,7 +8,7 @@
     android:layout_margin="10dp">
 
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         app:cardCornerRadius="5dp"
         app:cardElevation="4dp"
@@ -47,6 +47,6 @@
         </LinearLayout>
 
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

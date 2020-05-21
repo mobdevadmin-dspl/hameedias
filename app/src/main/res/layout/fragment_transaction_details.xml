@@ -121,7 +121,7 @@
 
     </RelativeLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeToRefresh"
         android:layout_below="@+id/fragment_order_details_header_container"
         android:layout_width="match_parent"
@@ -133,7 +133,7 @@
             android:layout_height="match_parent"
             android:layout_margin="50dp"/>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     <RelativeLayout

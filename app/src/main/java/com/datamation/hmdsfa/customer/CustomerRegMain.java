@@ -5,11 +5,11 @@ package com.datamation.hmdsfa.customer;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -185,7 +185,7 @@ public class CustomerRegMain extends Fragment {
 
     private void deleteDialog(final Context context, final String refno) {
 
-        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
+        androidx.appcompat.app.AlertDialog.Builder alertDialogBuilder = new androidx.appcompat.app.AlertDialog.Builder(context);
         alertDialogBuilder.setMessage("Are you sure you want to cancel this entry?");
         alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
         alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -207,7 +207,7 @@ public class CustomerRegMain extends Fragment {
             }
         });
 
-        android.support.v7.app.AlertDialog alertD = alertDialogBuilder.create();
+        androidx.appcompat.app.AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
     }
 }

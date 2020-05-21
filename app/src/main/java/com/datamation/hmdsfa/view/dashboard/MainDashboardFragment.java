@@ -1,8 +1,8 @@
 package com.datamation.hmdsfa.view.dashboard;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,6 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.controller.DashboardController;
 import com.datamation.hmdsfa.controller.FItenrDetController;
 import com.datamation.hmdsfa.controller.RouteDetController;
-import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;

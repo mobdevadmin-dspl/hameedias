@@ -1,7 +1,7 @@
 package com.datamation.hmdsfa.Service;
 
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.datamation.hmdsfa.R;
 import com.google.firebase.messaging.FirebaseMessagingService;

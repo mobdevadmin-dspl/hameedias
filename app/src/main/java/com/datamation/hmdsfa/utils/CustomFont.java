@@ -5,7 +5,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 
-public class CustomFont extends android.support.v7.widget.AppCompatTextView {
+public class CustomFont extends androidx.appcompat.widget.AppCompatTextView {
     public CustomFont(Context context) {
         super(context);
 

@@ -1,8 +1,8 @@
 package com.datamation.hmdsfa.view.dashboard;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +12,11 @@ import android.widget.TextView;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.controller.DashboardController;
 import com.datamation.hmdsfa.controller.FItenrDetController;
-import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.RouteDetController;
-import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.helpers.SharedPref;
-import com.datamation.hmdsfa.model.Item;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 

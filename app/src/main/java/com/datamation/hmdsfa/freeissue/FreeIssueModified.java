@@ -24,13 +24,14 @@ import com.datamation.hmdsfa.model.OrderDetail;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.support.constraint.Constraints.TAG;
+
 
 /*created by rashmi-2019-09-10*/
 public class FreeIssueModified {
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
+    private String TAG = "FreeIssueModified";
 
     public FreeIssueModified(Context context) {
         this.context = context;

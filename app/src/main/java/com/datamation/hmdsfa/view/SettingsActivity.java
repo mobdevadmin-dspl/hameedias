@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,7 +33,6 @@ import com.datamation.hmdsfa.controller.OrderController;
 import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.helpers.SQLiteBackUp;
 import com.datamation.hmdsfa.helpers.SharedPref;
-import com.datamation.hmdsfa.model.User;
 import com.datamation.hmdsfa.R;
 
 import java.text.SimpleDateFormat;

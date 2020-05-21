@@ -64,10 +64,10 @@ public class CustomerController {
                 stmt.bindString(8, debtor.getFDEBTOR_EMAIL());
                 stmt.bindString(9, debtor.getFDEBTOR_AREA_CODE());
                 stmt.bindString(10, debtor.getFDEBTOR_DBGR_CODE());
-                stmt.bindString(11, debtor.getFDEBTOR_STATUS());
-                stmt.bindString(12, debtor.getFDEBTOR_CRD_PERIOD());
-                stmt.bindString(13, debtor.getFDEBTOR_CRD_LIMIT());
-                stmt.bindString(14, debtor.getFDEBTOR_REPCODE());
+                stmt.bindString(11, debtor.getFDEBTOR_CRD_PERIOD());
+                stmt.bindString(12, debtor.getFDEBTOR_CRD_LIMIT());
+                stmt.bindString(13, debtor.getFDEBTOR_REPCODE());
+                stmt.bindString(14, debtor.getFDEBTOR_PRILLCODE());
                 stmt.bindString(15, debtor.getFDEBTOR_TAX_REG());
                 stmt.bindString(16, debtor.getFDEBTOR_RANK_CODE());
                 stmt.bindString(17, debtor.getFDEBTOR_LATITUDE());

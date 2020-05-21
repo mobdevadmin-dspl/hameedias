@@ -3,13 +3,13 @@ package com.datamation.hmdsfa.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.TypedValue;
 import android.widget.Toast;
 
@@ -19,7 +19,6 @@ import com.datamation.hmdsfa.controller.InvDetController;
 
 import com.datamation.hmdsfa.helpers.VanSalesResponseListener;
 
-import com.datamation.hmdsfa.model.Debtor;
 import com.datamation.hmdsfa.vansale.InnerReturnDetails;
 import com.datamation.hmdsfa.vansale.VanSalesHeader;
 import com.datamation.hmdsfa.vansale.VanSalesOrderDetails;

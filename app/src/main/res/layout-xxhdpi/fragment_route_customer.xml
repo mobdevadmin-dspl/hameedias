@@ -19,7 +19,7 @@
         android:layout_marginRight="10dp"
         android:weightSum="5">
 
-        <android.support.v7.widget.SearchView
+        <androidx.appcompat.widget.SearchView
             android:id="@+id/et_all_deb_search"
             android:layout_width="0dp"
             android:layout_height="match_parent"
