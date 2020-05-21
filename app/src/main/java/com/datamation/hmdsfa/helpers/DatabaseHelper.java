@@ -37,6 +37,7 @@ import com.datamation.hmdsfa.controller.InvTaxDTController;
 import com.datamation.hmdsfa.controller.InvTaxRGController;
 import com.datamation.hmdsfa.controller.InvoiceBarcodeController;
 import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
+import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
@@ -182,6 +183,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(FirebaseMediaController.CREATETABLE_FIREBASE_MEDIA);
         arg0.execSQL(ItemBundleController.CREATE_ITEMBUNDLE_TABLE);
         arg0.execSQL(VATController.CREATE_TABLE_VAT);
+        arg0.execSQL(IteaneryDebController.CREATE_TABLE_ITEDEB);
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -268,6 +270,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(FirebaseMediaController.CREATETABLE_FIREBASE_MEDIA);
             arg0.execSQL(ItemBundleController.CREATE_ITEMBUNDLE_TABLE);
             arg0.execSQL(VATController.CREATE_TABLE_VAT);
+            arg0.execSQL(IteaneryDebController.CREATE_TABLE_ITEDEB);
+
         } catch (SQLiteException e) {
         }
 

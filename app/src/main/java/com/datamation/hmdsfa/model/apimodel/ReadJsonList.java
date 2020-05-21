@@ -28,6 +28,7 @@ import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.ItemLoc;
 import com.datamation.hmdsfa.model.ItemPri;
+import com.datamation.hmdsfa.model.ItenrDeb;
 import com.datamation.hmdsfa.model.Locations;
 import com.datamation.hmdsfa.model.NearDebtor;
 import com.datamation.hmdsfa.model.Reason;
@@ -119,7 +120,12 @@ public class ReadJsonList {
     private List<ItemBundle> itemBundleResult = null ;
     @SerializedName("VATMasterResult")//37
     private List<VatMaster> vatMasterList = null ;
+    @SerializedName("fIteDebDetResult")//38
+    private List<ItenrDeb> iteaneryDebList = null ;
 
+    public List<ItenrDeb> getIteaneryDebList() {
+        return iteaneryDebList;
+    }
 
     public List<VatMaster> getVatMasterList() {
         return vatMasterList;

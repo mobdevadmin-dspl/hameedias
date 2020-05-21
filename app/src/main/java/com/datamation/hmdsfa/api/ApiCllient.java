@@ -22,18 +22,9 @@ public class ApiCllient {
     private static SharedPref pref;
     private static Retrofit retrofit = null;
 
-//    public ApiCllient(Context contextt) {
-//        this.context = contextt;
-//        pref = SharedPref.getInstance(context);
-//        String domain = pref.getBaseURL();
-//        Log.d("baseURL>>>>>>>>>", domain);
-//        baseURL = domain + context.getResources().getString(R.string.connection_string);
-//    }
-
-
     public static Retrofit getClient(Context contextt) {
 
-        //add 2020-03-19 becz sockettimeoutexception
+        //add timouts 2020-03-19 becz sockettimeoutexception by rashmi
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
                 // .callTimeout(2, TimeUnit.MINUTES)
                 .connectTimeout(50, TimeUnit.SECONDS)
@@ -44,13 +35,6 @@ public class ApiCllient {
         String domain = pref.getBaseURL();
         Log.d("baseURL>>>>>>>>>", domain);
         baseURL = domain + contextt.getResources().getString(R.string.connection_string);
-
-        //commented 2020-03-19 becz sockettimeoutexception
-        //        if (retrofit==null) {
-//            retrofit = new Retrofit.Builder()
-//                    .baseUrl(baseURL)
-//                    .addConverterFactory(GsonConverterFactory.create());
-//                   // .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(baseURL)
