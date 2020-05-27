@@ -50,6 +50,7 @@ import com.datamation.hmdsfa.controller.FreeMslabController;
 import com.datamation.hmdsfa.controller.FreeSlabController;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvoiceBarcodeController;
+import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.OrderController;
@@ -86,6 +87,7 @@ import com.datamation.hmdsfa.model.FreeSlab;
 import com.datamation.hmdsfa.model.InvHed;
 import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemBundle;
+import com.datamation.hmdsfa.model.ItenrDeb;
 import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.Reason;
 import com.datamation.hmdsfa.model.Route;
@@ -823,7 +825,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
     }
 
     //**********************secondary sysnc start***********************************************/
-    private class secondarySync extends AsyncTask<String, Integer, Boolean> {
+     private class secondarySync extends AsyncTask<String, Integer, Boolean> {
         int totalRecords = 0;
         CustomProgressDialog pdialog;
         private String repcode;
@@ -879,12 +881,70 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                            fmc.createOrUpdateFirebaseData(vdoList, 0);
 //                        }
 //                    }
+
+                    /*****************itenary detdeb**********************************************************************/
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Prices downloaded\nDownloading iteanery details...");
+                        }
+                    });
+                    // Processing itenarydetdeb
+                    try {
+                        Calendar c = Calendar.getInstance();
+                        int cyear = c.get(Calendar.YEAR);
+                        int cmonth = c.get(Calendar.MONTH) + 1;
+                        DecimalFormat df_month = new DecimalFormat("00");
+                        String curmonth = df_month.format((double) cmonth);
+                        Log.d(">>>>curmonth",">>>"+curmonth);
+                        Call<ReadJsonList> resultCall = apiInterface.getIteaneryDeb(pref.getDistDB(),repcode,""+cyear,""+df_month.format((double) cmonth));
+
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+
+
+                                if(response.body() != null) {
+                                    IteaneryDebController itenaryDebController = new IteaneryDebController(getActivity());
+                                    itenaryDebController.deleteAll();
+                                    ArrayList<ItenrDeb> itenaryDebList = new ArrayList<ItenrDeb>();
+                                    for (int i = 0; i < response.body().getIteaneryDebList().size(); i++) {
+                                        itenaryDebList.add(response.body().getIteaneryDebList().get(i));
+                                    }
+                                    itenaryDebController.InsertOrReplaceItenrDeb(itenaryDebList);
+                                }else{
+                                    errors.add("ItenrDeb response is null");
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                errors.add(t.toString());
+                            }
+                        });
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+
+                        throw e;
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Completed...");
+                        }
+                    });
+
+
+/*****************company details**********************************************************************/
+
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Processing downloaded data (Company details)...");
                         }
                     });
+
                     // Processing controls
                     try {
                         Call<ReadJsonList> resultCall = apiInterface.getControlResult(pref.getDistDB());
@@ -2029,13 +2089,13 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                        throw e;
 //                    }
                     /*****************end discslab**********************************************************************/
-                    getActivity().runOnUiThread(new Runnable() {
+             getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Prices downloaded\nDownloading iteanery details...");
                         }
                     });
-
+//**************************************************itenaryhed**********************************************************
                     FItenrHedController itenaryHedController = new FItenrHedController(getActivity());
                     itenaryHedController.deleteAll();
                     // Processing itenaryhed
