@@ -35,6 +35,7 @@ import com.datamation.hmdsfa.model.Reason;
 import com.datamation.hmdsfa.model.Route;
 import com.datamation.hmdsfa.model.RouteDet;
 import com.datamation.hmdsfa.model.SalRep;
+import com.datamation.hmdsfa.model.SalesPrice;
 import com.datamation.hmdsfa.model.Tax;
 import com.datamation.hmdsfa.model.TaxDet;
 import com.datamation.hmdsfa.model.TaxHed;
@@ -122,6 +123,13 @@ public class ReadJsonList {
     private List<VatMaster> vatMasterList = null ;
     @SerializedName("fIteDebDetResult")//38
     private List<ItenrDeb> iteaneryDebList = null ;
+    @SerializedName("SalesPriceResult")//39
+    private List<SalesPrice> salesPriceResult = null ;
+
+
+    public List<SalesPrice> getSalesPriceResult() {
+        return salesPriceResult;
+    }
 
     public List<ItenrDeb> getIteaneryDebList() {
         return iteaneryDebList;

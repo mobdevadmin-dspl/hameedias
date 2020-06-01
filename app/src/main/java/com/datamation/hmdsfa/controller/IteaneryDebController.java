@@ -64,7 +64,7 @@ public class IteaneryDebController {
 				stmt.bindString(1, deb.getDebCode());
 				stmt.bindString(2, deb.getRefNo());
 				stmt.bindString(3, deb.getRouteCode());
-				stmt.bindLong(4, deb.getTxnDate());
+				stmt.bindString(4, deb.getTxnDate());
 
 				stmt.execute();
 				stmt.clearBindings();

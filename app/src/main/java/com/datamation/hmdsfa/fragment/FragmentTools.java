@@ -61,6 +61,7 @@ import com.datamation.hmdsfa.controller.ReferenceSettingController;
 import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalRepController;
+import com.datamation.hmdsfa.controller.SalesPriceController;
 import com.datamation.hmdsfa.controller.VATController;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.dialog.StockInquiryDialog;
@@ -93,6 +94,7 @@ import com.datamation.hmdsfa.model.Reason;
 import com.datamation.hmdsfa.model.Route;
 import com.datamation.hmdsfa.model.RouteDet;
 import com.datamation.hmdsfa.model.SalRep;
+import com.datamation.hmdsfa.model.SalesPrice;
 import com.datamation.hmdsfa.model.User;
 import com.datamation.hmdsfa.model.VatMaster;
 import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
@@ -928,13 +930,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                         throw e;
                     }
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Completed...");
-                        }
-                    });
-
 
 /*****************company details**********************************************************************/
 
@@ -1005,6 +1000,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         errors.add(e.toString());
                         throw e;
                     }
+
+
+
 //                    getActivity().runOnUiThread(new Runnable() {
 //                        @Override
 //                        public void run() {
@@ -2175,6 +2173,41 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                         throw e;
                     }
+
+                    /*****************SalesPrice**********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading SalesPeice....");
+                        }
+                    });
+                    // Processing SalesPrice
+                    try {
+                        Call<ReadJsonList> resultCall = apiInterface.getSalesPriceResult(pref.getDistDB());
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                if(response.body() != null) {
+                                    ArrayList<SalesPrice> salesPri_list = new ArrayList<SalesPrice>();
+                                    for (int i = 0; i < response.body().getSalesPriceResult().size(); i++) {
+                                        salesPri_list.add(response.body().getSalesPriceResult().get(i));
+                                    }
+                                    SalesPriceController salepriController = new SalesPriceController(getActivity());
+                                    salepriController.InsertOrReplaceSalesPrice(salesPri_list);
+                                }else{
+                                    errors.add("SalesPrice response is null");
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                                errors.add(t.toString());
+                            }
+                        });
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
