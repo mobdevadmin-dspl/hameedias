@@ -8,11 +8,27 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+
+import com.datamation.hmdsfa.api.ApiCllient;
+import com.datamation.hmdsfa.api.ApiInterface;
+import com.datamation.hmdsfa.controller.CompanyDetailsController;
+import com.datamation.hmdsfa.controller.CustomerController;
+import com.datamation.hmdsfa.controller.ReferenceSettingController;
+import com.datamation.hmdsfa.model.CompanySetting;
+import com.datamation.hmdsfa.model.Control;
+import com.datamation.hmdsfa.model.Debtor;
+import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
+import com.datamation.hmdsfa.settings.TaskType;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +45,7 @@ import com.datamation.hmdsfa.helpers.SQLiteRestore;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.SalRep;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -254,5 +271,134 @@ public class UtilityContainer {
 
         dialog.show();
     }
+    public static void download(final Context context, Call<ReadJsonList> resultCall, TaskType task) {
 
+        switch (task) {
+            case ItenrDeb: {
+                try {
+                                            resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                if(response.body() != null) {
+                                    final ArrayList<Control> controlList = new ArrayList<Control>();
+                                    for (int i = 0; i < response.body().getControlResult().size(); i++) {
+                                        controlList.add(response.body().getControlResult().get(i));
+                                    }
+                                    final CompanyDetailsController companyController = new CompanyDetailsController(context);
+//                                    mHandler.post(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+
+                                          //  pdialog.setMessage("Processing downloaded data (Company Details)...");
+                                            companyController.createOrUpdateFControl(controlList);
+                                          //  pdialog.setMessage("Processed (Company Details)...");
+
+//                                        }
+//                                    });
+
+                                }else{
+                                    //errors.add("Control response is null");
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                              //  errors.add(t.toString());
+                            }
+                        });
+
+
+                } catch (Exception e) {
+                    Log.e("networkFunctions ->", "IOException -> " + e.toString());
+                    throw e;
+                }
+            }
+
+            break;
+            case Controllist:{
+                try {
+                        resultCall.enqueue(new Callback<ReadJsonList>() {
+                            @Override
+                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                                if(response.body() != null) {
+                                    final ArrayList<Debtor> debtorList = new ArrayList<Debtor>();
+                                    for (int i = 0; i < response.body().getDebtorResult().size(); i++) {
+                                        debtorList.add(response.body().getDebtorResult().get(i));
+                                    }
+                                    final CustomerController customerController = new CustomerController(context);
+//                                    mHandler.post(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+
+
+                                            customerController.InsertOrReplaceDebtor(debtorList);
+
+//                                        }
+//                                    });
+
+                                }else{
+                                   // errors.add("Control response is null");
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                              //  errors.add(t.toString());
+                            }
+                        });
+                    } catch (Exception e) {
+                      //  errors.add(e.toString());
+                        throw e;
+                    }
+            }
+            break;
+            case Customers:{
+                resultCall.enqueue(new Callback<ReadJsonList>() {
+                    @Override
+                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+
+                        if(response.body() != null) {
+                            final ArrayList<CompanySetting> settingList = new ArrayList<CompanySetting>();
+                            for (int i = 0; i < response.body().getCompanySettingResult().size(); i++) {
+                                settingList.add(response.body().getCompanySettingResult().get(i));
+                            }
+                            final ReferenceSettingController settingController = new ReferenceSettingController(context);
+//                            mHandler.post(new Runnable() {
+//                                @Override
+//                                public void run() {
+
+                                 //   pdialog.setMessage("Processing downloaded data (Settings)...");
+                                    settingController.createOrUpdateFCompanySetting(settingList);
+                                  //  pdialog.setMessage("Processed (Settings)...");
+//
+//                                }
+//                            });
+
+                        }else {
+                            //errors.add("CompanySetting response is null");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
+                      //  errors.add(t.toString());
+                    }
+                });
+            }
+            break;
+            case Settings:{
+                Toast.makeText(context,"Completed",Toast.LENGTH_SHORT);
+            }
+            break;
+
+            default:
+                break;
+        }
+
+
+
+
+
+
+
+
+    }
 }
