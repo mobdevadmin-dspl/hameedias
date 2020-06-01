@@ -11,7 +11,7 @@ public class ItenrDeb {
 	@SerializedName("RouteCode")
 	private String RouteCode;
 	@SerializedName("TxnDate")
-	private int TxnDate;
+	private String TxnDate;
 
 	public String getDebCode() {
 		return DebCode;
@@ -37,11 +37,11 @@ public class ItenrDeb {
 		RouteCode = routeCode;
 	}
 
-	public int getTxnDate() {
+	public String getTxnDate() {
 		return TxnDate;
 	}
 
-	public void setTxnDate(int txnDate) {
+	public void setTxnDate(String txnDate) {
 		TxnDate = txnDate;
 	}
 }

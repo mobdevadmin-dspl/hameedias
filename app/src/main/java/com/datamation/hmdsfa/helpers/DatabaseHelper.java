@@ -61,6 +61,7 @@ import com.datamation.hmdsfa.controller.ReferenceSettingController;
 import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalRepController;
+import com.datamation.hmdsfa.controller.SalesPriceController;
 import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.SalesReturnDetController;
 import com.datamation.hmdsfa.controller.SalesReturnTaxDTController;
@@ -184,6 +185,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(ItemBundleController.CREATE_ITEMBUNDLE_TABLE);
         arg0.execSQL(VATController.CREATE_TABLE_VAT);
         arg0.execSQL(IteaneryDebController.CREATE_TABLE_ITEDEB);
+        arg0.execSQL(SalesPriceController.CREATE_TABLE_FSALESPRICE);
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -271,6 +273,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(ItemBundleController.CREATE_ITEMBUNDLE_TABLE);
             arg0.execSQL(VATController.CREATE_TABLE_VAT);
             arg0.execSQL(IteaneryDebController.CREATE_TABLE_ITEDEB);
+            arg0.execSQL(SalesPriceController.CREATE_TABLE_FSALESPRICE);
 
         } catch (SQLiteException e) {
         }

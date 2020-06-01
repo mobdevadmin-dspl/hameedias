@@ -135,6 +135,10 @@ public interface ApiInterface {
     @GET("VATMaster/mobile123/{dbname}")//36
     Call<ReadJsonList> getVATResult(@Path("dbname") String dbname);
 
-    @GET("fitedebdet/mobile123/{dbname}/{repcode}/{year}/{month}")//36
+    @GET("fitedebdet/mobile123/{dbname}/{repcode}/{year}/{month}")//37
     Call<ReadJsonList> getIteaneryDeb(@Path("dbname") String dbname,@Path("repcode") String repcode,@Path("year") String year,@Path("month") String month);
+
+    @GET("Salesprice/mobile123/{dbname}")//38
+    Call<ReadJsonList> getSalesPriceResult(@Path("dbname") String dbname);
+
 }
