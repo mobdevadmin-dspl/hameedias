@@ -2,7 +2,7 @@ package com.datamation.hmdsfa.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class discount {
+public class Discount {
 
     @SerializedName("DebCode")
     private String DebCode;
