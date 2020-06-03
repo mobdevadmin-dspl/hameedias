@@ -15,6 +15,7 @@ import com.datamation.hmdsfa.controller.DebItemPriController;
 import com.datamation.hmdsfa.controller.DiscdebController;
 import com.datamation.hmdsfa.controller.DiscdetController;
 import com.datamation.hmdsfa.controller.DischedController;
+import com.datamation.hmdsfa.controller.DiscountController;
 import com.datamation.hmdsfa.controller.DiscslabController;
 import com.datamation.hmdsfa.controller.DispDetController;
 import com.datamation.hmdsfa.controller.DispHedController;
@@ -186,6 +187,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(VATController.CREATE_TABLE_VAT);
         arg0.execSQL(IteaneryDebController.CREATE_TABLE_ITEDEB);
         arg0.execSQL(SalesPriceController.CREATE_TABLE_FSALESPRICE);
+        arg0.execSQL(DiscountController.CREATE_TABLE_DISCOUNT);
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -274,6 +276,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(VATController.CREATE_TABLE_VAT);
             arg0.execSQL(IteaneryDebController.CREATE_TABLE_ITEDEB);
             arg0.execSQL(SalesPriceController.CREATE_TABLE_FSALESPRICE);
+            arg0.execSQL(DiscountController.CREATE_TABLE_DISCOUNT);
 
         } catch (SQLiteException e) {
         }
