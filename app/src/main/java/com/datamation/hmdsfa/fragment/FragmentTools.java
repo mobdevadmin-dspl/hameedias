@@ -1473,6 +1473,21 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         errors.add(e.toString());
                         throw e;
                     }
+                    /*****************discount**********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading discount....");
+                        }
+                    });
+                    // Processing SalesPrice
+                    try {
+                        Call<ReadJsonList> resultCall = apiInterface.getDiscountResult(pref.getDistDB(),repcode);
+                        UtilityContainer.download(getActivity(),resultCall, TaskType.Itenerydet);
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override

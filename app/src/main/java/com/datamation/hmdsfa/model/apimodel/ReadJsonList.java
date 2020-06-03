@@ -43,244 +43,250 @@ import com.datamation.hmdsfa.model.Town;
 import com.datamation.hmdsfa.model.VatMaster;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReadJsonList {
 
     @SerializedName("GetdatabaseNamesResult")//01GetdatabaseNamesResult
-    private List<DbNames> dbResult = null;
+    private ArrayList<DbNames> dbResult = null;
     @SerializedName("fSalRepResult")//01
-    private List<SalRep> salRepResult = null;
+    private ArrayList<SalRep> salRepResult = null;
     @SerializedName("fControlResult")//02
-    private List<Control> controlResult = null;
+    private ArrayList<Control> controlResult = null;
     @SerializedName("fItemLocResult")//03
-    private List<ItemLoc> itemLocResult = null;
+    private ArrayList<ItemLoc> itemLocResult = null;
     @SerializedName("fItemPriResult")//05
-    private List<ItemPri> itemPriResult = null ;
+    private ArrayList<ItemPri> itemPriResult = null ;
     @SerializedName("fItemsResult")//06
-    private List<Item> itemsResult = null ;
+    private ArrayList<Item> itemsResult = null ;
     @SerializedName("fLocationsResult")//07
-    private List<Locations> locationsResult = null ;
+    private ArrayList<Locations> locationsResult = null ;
     @SerializedName("fTaxResult")//08
-    private List<Tax> taxResult = null ;
+    private ArrayList<Tax> taxResult = null ;
     @SerializedName("fTaxHedResult")//09
-    private List<TaxHed> taxHedResult = null ;
+    private ArrayList<TaxHed> taxHedResult = null ;
     @SerializedName("fTaxDetResult")//10
-    private List<TaxDet> taxDetResult = null ;
+    private ArrayList<TaxDet> taxDetResult = null ;
     @SerializedName("FnearDebtorResult")//11
-    private List<NearDebtor> nearDebtorResult = null ;
+    private ArrayList<NearDebtor> nearDebtorResult = null ;
     @SerializedName("FCompanyBranchResult")//12
-    private List<CompanyBranch> companyBranchResult = null ;
+    private ArrayList<CompanyBranch> companyBranchResult = null ;
     @SerializedName("fCompanySettingResult")//13
-    private List<CompanySetting> companySettingResult = null ;
+    private ArrayList<CompanySetting> companySettingResult = null ;
     @SerializedName("fReasonResult")//14
-    private List<Reason> reasonResult = null ;
+    private ArrayList<Reason> reasonResult = null ;
     @SerializedName("fExpenseResult")//15
-    private List<Expense> expenseResult = null ;
+    private ArrayList<Expense> expenseResult = null ;
     @SerializedName("FfreeslabResult")//16
-    private List<FreeSlab> freeSlabResult = null ;
+    private ArrayList<FreeSlab> freeSlabResult = null ;
     @SerializedName("FfreedetResult")//17
-    private List<FreeDet> freeDetResult = null ;
+    private ArrayList<FreeDet> freeDetResult = null ;
     @SerializedName("FfreedebResult")//18
-    private List<FreeDeb> freeDebResult = null ;
+    private ArrayList<FreeDeb> freeDebResult = null ;
     @SerializedName("fFreeItemResult")//19
-    private List<FreeItem> freeItemResult = null ;
+    private ArrayList<FreeItem> freeItemResult = null ;
     @SerializedName("FfreehedResult")//20
-    private List<FreeHed> freeHedResult = null ;
+    private ArrayList<FreeHed> freeHedResult = null ;
     @SerializedName("fFreeMslabResult")//21
-    private List<FreeMslab> freeMslabResult = null ;
+    private ArrayList<FreeMslab> freeMslabResult = null ;
     @SerializedName("fbankResult")//22
-    private List<Bank> bankResult = null ;
+    private ArrayList<Bank> bankResult = null ;
     @SerializedName("FdiscdetResult")//23
-    private List<Discdet> discDetResult = null ;
+    private ArrayList<Discdet> discDetResult = null ;
     @SerializedName("FdiscslabResult")//24
-    private List<Discslab> discSlabResult = null ;
+    private ArrayList<Discslab> discSlabResult = null ;
     @SerializedName("FdiscdebResult")//25
-    private List<Discdeb> discDebResult = null ;
+    private ArrayList<Discdeb> discDebResult = null ;
     @SerializedName("FDischedResult")//26
-    private List<Disched> discHedResult = null ;
+    private ArrayList<Disched> discHedResult = null ;
     @SerializedName("fTownResult")//27
-    private List<Town> townResult = null ;
+    private ArrayList<Town> townResult = null ;
     @SerializedName("fRouteResult")//28
-    private List<Route> routeResult = null ;
+    private ArrayList<Route> routeResult = null ;
     @SerializedName("fRouteDetResult")//29
-    private List<RouteDet> routeDetResult = null ;
+    private ArrayList<RouteDet> routeDetResult = null ;
     @SerializedName("fItenrHedResult")//30
-    private List<FItenrHed> itenrHedResult = null ;
+    private ArrayList<FItenrHed> itenrHedResult = null ;
     @SerializedName("fItenrDetResult")//31
-    private List<FItenrDet> itenrDetResult = null ;
+    private ArrayList<FItenrDet> itenrDetResult = null ;
     @SerializedName("RepLastThreeInvDetResult")//32
-    private List<FinvDetL3> lastThreeInvDetResult = null ;
+    private ArrayList<FinvDetL3> lastThreeInvDetResult = null ;
     @SerializedName("RepLastThreeInvHedResult")//33
-    private List<FInvhedL3> lastThreeInvHedResult = null ;
+    private ArrayList<FInvhedL3> lastThreeInvHedResult = null ;
     @SerializedName("fDdbNoteWithConditionResult")//34
-    private List<FddbNote> outstandingResult = null ;
+    private ArrayList<FddbNote> outstandingResult = null ;
     @SerializedName("FdebtorResult")//35
-    private List<Debtor> debtorResult = null ;
+    private ArrayList<Debtor> debtorResult = null ;
     @SerializedName("BundleBarCodeResult")//36
-    private List<ItemBundle> itemBundleResult = null ;
+    private ArrayList<ItemBundle> itemBundleResult = null ;
     @SerializedName("VATMasterResult")//37
-    private List<VatMaster> vatMasterList = null ;
+    private ArrayList<VatMaster> vatMasterList = null ;
     @SerializedName("fIteDebDetResult")//38
-    private List<ItenrDeb> iteaneryDebList = null ;
+    private ArrayList<ItenrDeb> iteaneryDebList = null ;
     @SerializedName("SalesPriceResult")//39
-    private List<SalesPrice> salesPriceResult = null ;
+    private ArrayList<SalesPrice> salesPriceResult = null ;
+    @SerializedName("CusProductDisResult")//39
+    private ArrayList<SalesPrice> discountResult = null ;
 
-
-    public List<SalesPrice> getSalesPriceResult() {
-        return salesPriceResult;
-    }
-
-    public List<ItenrDeb> getIteaneryDebList() {
-        return iteaneryDebList;
-    }
-
-    public List<VatMaster> getVatMasterList() {
-        return vatMasterList;
-    }
-
-    public List<ItemBundle> getItemBundleResult() {
-        return itemBundleResult;
-    }
-
-    public List<DbNames> getDbResult() {
+    public ArrayList<DbNames> getDbResult() {
         return dbResult;
     }
 
-    public List<SalRep> getSalRepResult() {
+    public ArrayList<SalRep> getSalRepResult() {
         return salRepResult;
     }
 
-    public List<Control> getControlResult() {
+    public ArrayList<Control> getControlResult() {
         return controlResult;
     }
 
-    public List<ItemLoc> getItemLocResult() {
+    public ArrayList<ItemLoc> getItemLocResult() {
         return itemLocResult;
     }
 
-    public List<ItemPri> getItemPriResult() {
+    public ArrayList<ItemPri> getItemPriResult() {
         return itemPriResult;
     }
 
-    public List<Item> getItemsResult() {
+    public ArrayList<Item> getItemsResult() {
         return itemsResult;
     }
 
-    public List<Locations> getLocationsResult() {
+    public ArrayList<Locations> getLocationsResult() {
         return locationsResult;
     }
 
-    public List<Tax> getTaxResult() {
+    public ArrayList<Tax> getTaxResult() {
         return taxResult;
     }
 
-    public List<TaxHed> getTaxHedResult() {
+    public ArrayList<TaxHed> getTaxHedResult() {
         return taxHedResult;
     }
 
-    public List<TaxDet> getTaxDetResult() {
+    public ArrayList<TaxDet> getTaxDetResult() {
         return taxDetResult;
     }
 
-    public List<NearDebtor> getNearDebtorResult() {
+    public ArrayList<NearDebtor> getNearDebtorResult() {
         return nearDebtorResult;
     }
 
-    public List<CompanyBranch> getCompanyBranchResult() {
+    public ArrayList<CompanyBranch> getCompanyBranchResult() {
         return companyBranchResult;
     }
 
-    public List<CompanySetting> getCompanySettingResult() {
+    public ArrayList<CompanySetting> getCompanySettingResult() {
         return companySettingResult;
     }
 
-    public List<Reason> getReasonResult() {
+    public ArrayList<Reason> getReasonResult() {
         return reasonResult;
     }
 
-    public List<Expense> getExpenseResult() {
+    public ArrayList<Expense> getExpenseResult() {
         return expenseResult;
     }
 
-    public List<FreeSlab> getFreeSlabResult() {
+    public ArrayList<FreeSlab> getFreeSlabResult() {
         return freeSlabResult;
     }
 
-    public List<FreeDet> getFreeDetResult() {
+    public ArrayList<FreeDet> getFreeDetResult() {
         return freeDetResult;
     }
 
-    public List<FreeDeb> getFreeDebResult() {
+    public ArrayList<FreeDeb> getFreeDebResult() {
         return freeDebResult;
     }
 
-    public List<FreeItem> getFreeItemResult() {
+    public ArrayList<FreeItem> getFreeItemResult() {
         return freeItemResult;
     }
 
-    public List<FreeHed> getFreeHedResult() {
+    public ArrayList<FreeHed> getFreeHedResult() {
         return freeHedResult;
     }
 
-    public List<FreeMslab> getFreeMslabResult() {
+    public ArrayList<FreeMslab> getFreeMslabResult() {
         return freeMslabResult;
     }
 
-    public List<Bank> getBankResult() {
+    public ArrayList<Bank> getBankResult() {
         return bankResult;
     }
 
-    public List<Discdet> getDiscDetResult() {
+    public ArrayList<Discdet> getDiscDetResult() {
         return discDetResult;
     }
 
-    public List<Discslab> getDiscSlabResult() {
+    public ArrayList<Discslab> getDiscSlabResult() {
         return discSlabResult;
     }
 
-    public List<Discdeb> getDiscDebResult() {
+    public ArrayList<Discdeb> getDiscDebResult() {
         return discDebResult;
     }
 
-    public List<Disched> getDiscHedResult() {
+    public ArrayList<Disched> getDiscHedResult() {
         return discHedResult;
     }
 
-    public List<Town> getTownResult() {
+    public ArrayList<Town> getTownResult() {
         return townResult;
     }
 
-    public List<Route> getRouteResult() {
+    public ArrayList<Route> getRouteResult() {
         return routeResult;
     }
 
-    public List<RouteDet> getRouteDetResult() {
+    public ArrayList<RouteDet> getRouteDetResult() {
         return routeDetResult;
     }
 
-    public List<FItenrHed> getItenrHedResult() {
+    public ArrayList<FItenrHed> getItenrHedResult() {
         return itenrHedResult;
     }
 
-    public List<FItenrDet> getItenrDetResult() {
+    public ArrayList<FItenrDet> getItenrDetResult() {
         return itenrDetResult;
     }
 
-    public List<FinvDetL3> getLastThreeInvDetResult() {
+    public ArrayList<FinvDetL3> getLastThreeInvDetResult() {
         return lastThreeInvDetResult;
     }
 
-    public List<FInvhedL3> getLastThreeInvHedResult() {
+    public ArrayList<FInvhedL3> getLastThreeInvHedResult() {
         return lastThreeInvHedResult;
     }
 
-    public List<FddbNote> getOutstandingResult() {
+    public ArrayList<FddbNote> getOutstandingResult() {
         return outstandingResult;
     }
 
-    public List<Debtor> getDebtorResult() {
+    public ArrayList<Debtor> getDebtorResult() {
         return debtorResult;
+    }
+
+    public ArrayList<ItemBundle> getItemBundleResult() {
+        return itemBundleResult;
+    }
+
+    public ArrayList<VatMaster> getVatMasterList() {
+        return vatMasterList;
+    }
+
+    public ArrayList<ItenrDeb> getIteaneryDebList() {
+        return iteaneryDebList;
+    }
+
+    public ArrayList<SalesPrice> getSalesPriceResult() {
+        return salesPriceResult;
+    }
+
+    public ArrayList<SalesPrice> getDiscountResult() {
+        return discountResult;
     }
 }
 

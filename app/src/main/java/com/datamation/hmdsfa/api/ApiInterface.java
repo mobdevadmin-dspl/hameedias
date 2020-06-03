@@ -141,4 +141,7 @@ public interface ApiInterface {
     @GET("Salesprice/mobile123/{dbname}")//38
     Call<ReadJsonList> getSalesPriceResult(@Path("dbname") String dbname);
 
+    @GET("CusProductDis/mobile123/{dbname}/{repcode}")//38
+    Call<ReadJsonList> getDiscountResult(@Path("dbname") String dbname,@Path("repcode") String repcode);
+
 }

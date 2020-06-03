@@ -316,12 +316,12 @@ public class UtilityContainer {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                                 if(response.body() != null) {
-                                    final ArrayList<Control> controlList = new ArrayList<Control>();
-                                    for (int i = 0; i < response.body().getControlResult().size(); i++) {
-                                        controlList.add(response.body().getControlResult().get(i));
-                                    }
+//                                    final ArrayList<Control> controlList = new ArrayList<Control>();
+//                                    for (int i = 0; i < response.body().getControlResult().size(); i++) {
+//                                        controlList.add(response.body().getControlResult().get(i));
+//                                    }
                                     final CompanyDetailsController companyController = new CompanyDetailsController(context);
-                                            companyController.createOrUpdateFControl(controlList);
+                                            companyController.createOrUpdateFControl(response.body().getControlResult());
                                 }else{
                                     //errors.add("Control response is null");
                                 }
@@ -344,12 +344,12 @@ public class UtilityContainer {
                             @Override
                             public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                                 if(response.body() != null) {
-                                    final ArrayList<Debtor> debtorList = new ArrayList<Debtor>();
-                                    for (int i = 0; i < response.body().getDebtorResult().size(); i++) {
-                                        debtorList.add(response.body().getDebtorResult().get(i));
-                                    }
+//                                    final ArrayList<Debtor> debtorList = new ArrayList<Debtor>();
+//                                    for (int i = 0; i < response.body().getDebtorResult().size(); i++) {
+//                                        debtorList.add(response.body().getDebtorResult().get(i));
+//                                    }
                                     final CustomerController customerController = new CustomerController(context);
-                                            customerController.InsertOrReplaceDebtor(debtorList);
+                                            customerController.InsertOrReplaceDebtor(response.body().getDebtorResult());
                                 }else{
                                    // errors.add("Control response is null");
                                 }
@@ -371,12 +371,12 @@ public class UtilityContainer {
                     public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
 
                         if(response.body() != null) {
-                            final ArrayList<CompanySetting> settingList = new ArrayList<CompanySetting>();
-                            for (int i = 0; i < response.body().getCompanySettingResult().size(); i++) {
-                                settingList.add(response.body().getCompanySettingResult().get(i));
-                            }
+//                            final ArrayList<CompanySetting> settingList = new ArrayList<CompanySetting>();
+//                            for (int i = 0; i < response.body().getCompanySettingResult().size(); i++) {
+//                                settingList.add(response.body().getCompanySettingResult().get(i));
+//                            }
                             final ReferenceSettingController settingController = new ReferenceSettingController(context);
-                                    settingController.createOrUpdateFCompanySetting(settingList);
+                                    settingController.createOrUpdateFCompanySetting(response.body().getCompanySettingResult());
                         }else {
                             //errors.add("CompanySetting response is null");
                         }
@@ -394,17 +394,17 @@ public class UtilityContainer {
                     @Override
                     public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                         if(response.body() != null) {
-                            final ArrayList<CompanyBranch> settingList = new ArrayList<CompanyBranch>();
-                            for (int i = 0; i < response.body().getCompanyBranchResult().size(); i++) {
-                                settingList.add(response.body().getCompanyBranchResult().get(i));
-                            }
+//                            final ArrayList<CompanyBranch> settingList = new ArrayList<CompanyBranch>();
+//                            for (int i = 0; i < response.body().getCompanyBranchResult().size(); i++) {
+//                                settingList.add(response.body().getCompanyBranchResult().get(i));
+//                            }
                             final ReferenceDetailDownloader settingController = new ReferenceDetailDownloader(context);
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (references)...");
-                                    settingController.createOrUpdateFCompanyBranch(settingList);
+                                    settingController.createOrUpdateFCompanyBranch(response.body().getCompanyBranchResult());
 //                                    pdialog.setMessage("Processed (references)...");
 //
 //                                }
@@ -426,17 +426,17 @@ public class UtilityContainer {
                     @Override
                     public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                         if(response.body() != null) {
-                            final ArrayList<ItemBundle> bundleList = new ArrayList<ItemBundle>();
-                            for (int i = 0; i < response.body().getItemBundleResult().size(); i++) {
-                                bundleList.add(response.body().getItemBundleResult().get(i));
-                            }
+//                            final ArrayList<ItemBundle> bundleList = new ArrayList<ItemBundle>();
+//                            for (int i = 0; i < response.body().getItemBundleResult().size(); i++) {
+//                                bundleList.add(response.body().getItemBundleResult().get(i));
+//                            }
                             final ItemBundleController bundleController = new ItemBundleController(context);
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (Item bundle)...");
-                                    bundleController.InsertOrReplaceItemBundle(bundleList);
+                                    bundleController.InsertOrReplaceItemBundle(response.body().getItemBundleResult());
 //                                    pdialog.setMessage("Processed (Item bundle)...");
 //
 //                                }
@@ -460,10 +460,10 @@ public class UtilityContainer {
                     @Override
                     public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                         if(response.body() != null) {
-                            final ArrayList<VatMaster> vatList = new ArrayList<VatMaster>();
-                            for (int i = 0; i < response.body().getVatMasterList().size(); i++) {
-                                vatList.add(response.body().getVatMasterList().get(i));
-                            }
+//                            final ArrayList<VatMaster> vatList = new ArrayList<VatMaster>();
+//                            for (int i = 0; i < response.body().getVatMasterList().size(); i++) {
+//                                vatList.add(response.body().getVatMasterList().get(i));
+//                            }
                             final VATController vatController = new VATController(context);
 
 //                            mHandler.post(new Runnable() {
@@ -471,7 +471,7 @@ public class UtilityContainer {
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (VAT)...");
-                                    vatController.InsertOrReplaceVAT(vatList);
+                                    vatController.InsertOrReplaceVAT(response.body().getVatMasterList());
 //                                    pdialog.setMessage("Processed (VAT)...");
 //
 //                                }
@@ -494,10 +494,10 @@ public class UtilityContainer {
                     @Override
                     public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                         if(response.body() != null) {
-                            final ArrayList<Item> itemList = new ArrayList<Item>();
-                            for (int i = 0; i < response.body().getItemsResult().size(); i++) {
-                                itemList.add(response.body().getItemsResult().get(i));
-                            }
+//                            final ArrayList<Item> itemList = new ArrayList<Item>();
+//                            for (int i = 0; i < response.body().getItemsResult().size(); i++) {
+//                                itemList.add(response.body().getItemsResult().get(i));
+//                            }
                             final ItemController itemController = new ItemController(context);
 
 //                            mHandler.post(new Runnable() {
@@ -505,7 +505,7 @@ public class UtilityContainer {
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (Items)...");
-                                    itemController.InsertOrReplaceItems(itemList);
+                                    itemController.InsertOrReplaceItems(response.body().getItemsResult());
 //                                    pdialog.setMessage("Processed (Items)...");
 //
 //                                }
@@ -526,10 +526,10 @@ public class UtilityContainer {
                     @Override
                     public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                         if(response.body() != null) {
-                            final ArrayList<Reason> reasonList = new ArrayList<Reason>();
-                            for (int i = 0; i < response.body().getReasonResult().size(); i++) {
-                                reasonList.add(response.body().getReasonResult().get(i));
-                            }
+//                            final ArrayList<Reason> reasonList = new ArrayList<Reason>();
+//                            for (int i = 0; i < response.body().getReasonResult().size(); i++) {
+//                                reasonList.add(response.body().getReasonResult().get(i));
+//                            }
                             final ReasonController reasonController = new ReasonController(context);
 
 //                            mHandler.post(new Runnable() {
@@ -537,7 +537,7 @@ public class UtilityContainer {
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (Reasons)...");
-                                    reasonController.createOrUpdateReason(reasonList);
+                                    reasonController.createOrUpdateReason(response.body().getReasonResult());
 //                                    pdialog.setMessage("Processed (Reasons)...");
 //
 //                                }
@@ -559,16 +559,16 @@ public class UtilityContainer {
                     public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                         if(response.body() != null) {
                             final BankController bankController = new BankController(context);
-                            final ArrayList<Bank> bankList = new ArrayList<Bank>();
-                            for (int i = 0; i < response.body().getBankResult().size(); i++) {
-                                bankList.add(response.body().getBankResult().get(i));
-                            }
+//                            final ArrayList<Bank> bankList = new ArrayList<Bank>();
+//                            for (int i = 0; i < response.body().getBankResult().size(); i++) {
+//                                bankList.add(response.body().getBankResult().get(i));
+//                            }
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (Banks)...");
-                                    bankController.createOrUpdateBank(bankList);
+                                    bankController.createOrUpdateBank(response.body().getBankResult());
 //                                    pdialog.setMessage("Processed (Banks)...");
 //
 //                                }
@@ -590,10 +590,10 @@ public class UtilityContainer {
                     @Override
                     public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                         if(response.body() != null) {
-                            final ArrayList<Expense> expensesList = new ArrayList<Expense>();
-                            for (int i = 0; i < response.body().getExpenseResult().size(); i++) {
-                                expensesList.add(response.body().getExpenseResult().get(i));
-                            }
+//                            final ArrayList<Expense> expensesList = new ArrayList<Expense>();
+//                            for (int i = 0; i < response.body().getExpenseResult().size(); i++) {
+//                                expensesList.add(response.body().getExpenseResult().get(i));
+//                            }
                             final ExpenseController expenseController = new ExpenseController(context);
 
 //                            mHandler.post(new Runnable() {
@@ -601,7 +601,7 @@ public class UtilityContainer {
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (Expenses)...");
-                                    expenseController.createOrUpdateFExpense(expensesList);
+                                    expenseController.createOrUpdateFExpense(response.body().getExpenseResult());
 //                                    pdialog.setMessage("Processed (Expenses)...");
 //
 //                                }
@@ -622,17 +622,17 @@ public class UtilityContainer {
                     @Override
                     public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                         if(response.body() != null) {
-                            final ArrayList<Route> routeList = new ArrayList<Route>();
-                            for (int i = 0; i < response.body().getRouteResult().size(); i++) {
-                                routeList.add(response.body().getRouteResult().get(i));
-                            }
+//                            final ArrayList<Route> routeList = new ArrayList<Route>();
+//                            for (int i = 0; i < response.body().getRouteResult().size(); i++) {
+//                                routeList.add(response.body().getRouteResult().get(i));
+//                            }
                             final RouteController routeController = new RouteController(context);
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (Routes)...");
-                                    routeController.createOrUpdateFRoute(routeList);
+                                    routeController.createOrUpdateFRoute(response.body().getRouteResult());
 //                                    pdialog.setMessage("Processed (Routes)...");
 //
 //                                }
@@ -654,17 +654,17 @@ public class UtilityContainer {
                     @Override
                     public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                         if(response.body() != null) {
-                            final ArrayList<RouteDet> routeList = new ArrayList<RouteDet>();
-                            for (int i = 0; i < response.body().getRouteDetResult().size(); i++) {
-                                routeList.add(response.body().getRouteDetResult().get(i));
-                            }
+//                            final ArrayList<RouteDet> routeList = new ArrayList<RouteDet>();
+//                            for (int i = 0; i < response.body().getRouteDetResult().size(); i++) {
+//                                routeList.add(response.body().getRouteDetResult().get(i));
+//                            }
                             final RouteDetController routeController = new RouteDetController(context);
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (Routes)...");
-                                    routeController.InsertOrReplaceRouteDet(routeList);
+                                    routeController.InsertOrReplaceRouteDet(response.body().getRouteDetResult());
 //                                    pdialog.setMessage("Processed (Routes)...");
 //
 //                                }
@@ -688,17 +688,17 @@ public class UtilityContainer {
                         if(response.body() != null) {
                             final FreeSlabController freeslabController = new FreeSlabController(context);
                             freeslabController.deleteAll();
-                            final ArrayList<FreeSlab> freeslabList = new ArrayList<FreeSlab>();
-                            for (int i = 0; i < response.body().getFreeSlabResult().size(); i++) {
-                                freeslabList.add(response.body().getFreeSlabResult().get(i));
-                            }
+//                            final ArrayList<FreeSlab> freeslabList = new ArrayList<FreeSlab>();
+//                            for (int i = 0; i < response.body().getFreeSlabResult().size(); i++) {
+//                                freeslabList.add(response.body().getFreeSlabResult().get(i));
+//                            }
 
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (Freeslab)...");
-                                    freeslabController.createOrUpdateFreeSlab(freeslabList);
+                                    freeslabController.createOrUpdateFreeSlab(response.body().getFreeSlabResult());
 //                                    pdialog.setMessage("Processed (Freeslab)...");
 //
 //                                }
@@ -722,17 +722,17 @@ public class UtilityContainer {
                         if(response.body() != null) {
                             final FreeMslabController freeMslabController = new FreeMslabController(context);
                             freeMslabController.deleteAll();
-                            final ArrayList<FreeMslab> freeMslabList = new ArrayList<FreeMslab>();
-                            for (int i = 0; i < response.body().getFreeMslabResult().size(); i++) {
-                                freeMslabList.add(response.body().getFreeMslabResult().get(i));
-                            }
+//                            final ArrayList<FreeMslab> freeMslabList = new ArrayList<FreeMslab>();
+//                            for (int i = 0; i < response.body().getFreeMslabResult().size(); i++) {
+//                                freeMslabList.add(response.body().getFreeMslabResult().get(i));
+//                            }
 
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (Freemslab)...");
-                                    freeMslabController.createOrUpdateFreeMslab(freeMslabList);
+                                    freeMslabController.createOrUpdateFreeMslab(response.body().getFreeMslabResult());
 //                                    pdialog.setMessage("Processed (Freemslab)...");
 //
 //                                }
@@ -756,17 +756,17 @@ public class UtilityContainer {
                         if(response.body() != null) {
                             final FreeHedController freeHedController = new FreeHedController(context);
                             freeHedController.deleteAll();
-                            final ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
-                            for (int i = 0; i < response.body().getFreeHedResult().size(); i++) {
-                                freeHedList.add(response.body().getFreeHedResult().get(i));
-                            }
+//                            final ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
+//                            for (int i = 0; i < response.body().getFreeHedResult().size(); i++) {
+//                                freeHedList.add(response.body().getFreeHedResult().get(i));
+//                            }
 
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (Freehed)...");
-                                    freeHedController.createOrUpdateFreeHed(freeHedList);
+                                    freeHedController.createOrUpdateFreeHed(response.body().getFreeHedResult());
 //                                    pdialog.setMessage("Processed (Freehed)...");
 //
 //                                }
@@ -790,16 +790,16 @@ public class UtilityContainer {
                         if(response.body() != null) {
                             final FreeDetController freedetController = new FreeDetController(context);
                             freedetController.deleteAll();
-                            final ArrayList<FreeDet> freedetList = new ArrayList<FreeDet>();
-                            for (int i = 0; i < response.body().getFreeDetResult().size(); i++) {
-                                freedetList.add(response.body().getFreeDetResult().get(i));
-                            }
+//                            final ArrayList<FreeDet> freedetList = new ArrayList<FreeDet>();
+//                            for (int i = 0; i < response.body().getFreeDetResult().size(); i++) {
+//                                freedetList.add(response.body().getFreeDetResult().get(i));
+//                            }
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (Freedet)...");
-                                    freedetController.createOrUpdateFreeDet(freedetList);
+                                    freedetController.createOrUpdateFreeDet(response.body().getFreeDetResult());
 //                                    pdialog.setMessage("Processed (Freedet)...");
 //
 //                                }
@@ -825,16 +825,16 @@ public class UtilityContainer {
                         if(response.body() != null) {
                             final FreeDebController freedebController = new FreeDebController(context);
                             freedebController.deleteAll();
-                            final ArrayList<FreeDeb> freedebList = new ArrayList<FreeDeb>();
-                            for (int i = 0; i < response.body().getFreeDebResult().size(); i++) {
-                                freedebList.add(response.body().getFreeDebResult().get(i));
-                            }
+//                            final ArrayList<FreeDeb> freedebList = new ArrayList<FreeDeb>();
+//                            for (int i = 0; i < response.body().getFreeDebResult().size(); i++) {
+//                                freedebList.add(response.body().getFreeDebResult().get(i));
+//                            }
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (freedeb)...");
-                                    freedebController.createOrUpdateFreeDeb(freedebList);
+                                    freedebController.createOrUpdateFreeDeb(response.body().getFreeDebResult());
 //                                    pdialog.setMessage("Processed (freedeb)...");
 //
 //                                }
@@ -859,16 +859,16 @@ public class UtilityContainer {
                         if(response.body() != null) {
                             final FreeItemController freeitemController = new FreeItemController(context);
                             freeitemController.deleteAll();
-                            final ArrayList<FreeItem> freeitemList = new ArrayList<FreeItem>();
-                            for (int i = 0; i < response.body().getFreeItemResult().size(); i++) {
-                                freeitemList.add(response.body().getFreeItemResult().get(i));
-                            }
+//                            final ArrayList<FreeItem> freeitemList = new ArrayList<FreeItem>();
+//                            for (int i = 0; i < response.body().getFreeItemResult().size(); i++) {
+//                                freeitemList.add(response.body().getFreeItemResult().get(i));
+//                            }
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (freeitem)...");
-                                    freeitemController.createOrUpdateFreeItem(freeitemList);
+                                    freeitemController.createOrUpdateFreeItem(response.body().getFreeItemResult());
 //                                    pdialog.setMessage("Processed (freeitem)...");
 //
 //                                }
@@ -893,16 +893,16 @@ public class UtilityContainer {
 
                         if(response.body() != null) {
                             final FItenrHedController itenaryHedController = new FItenrHedController(context);
-                            final ArrayList<FItenrHed> itenaryHedList = new ArrayList<FItenrHed>();
-                            for (int i = 0; i < response.body().getItenrHedResult().size(); i++) {
-                                itenaryHedList.add(response.body().getItenrHedResult().get(i));
-                            }
+//                            final ArrayList<FItenrHed> itenaryHedList = new ArrayList<FItenrHed>();
+//                            for (int i = 0; i < response.body().getItenrHedResult().size(); i++) {
+//                                itenaryHedList.add(response.body().getItenrHedResult().get(i));
+//                            }
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (itenaryhed)...");
-                                    itenaryHedController.createOrUpdateFItenrHed(itenaryHedList);
+                                    itenaryHedController.createOrUpdateFItenrHed(response.body().getItenrHedResult());
 //                                    pdialog.setMessage("Processed (itenaryhed)...");
 //
 //                                }
@@ -929,16 +929,16 @@ public class UtilityContainer {
                         if(response.body() != null) {
                             final FItenrDetController itenaryDetController = new FItenrDetController(context);
                             itenaryDetController.deleteAll();
-                            final ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
-                            for (int i = 0; i < response.body().getItenrDetResult().size(); i++) {
-                                itenaryDetList.add(response.body().getItenrDetResult().get(i));
-                            }
+//                            final ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
+//                            for (int i = 0; i < response.body().getItenrDetResult().size(); i++) {
+//                                itenaryDetList.add(response.body().getItenrDetResult().get(i));
+//                            }
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (itenarydet)...");
-                                    itenaryDetController.createOrUpdateFItenrDet(itenaryDetList);
+                                    itenaryDetController.createOrUpdateFItenrDet(response.body().getItenrDetResult());
 //                                    pdialog.setMessage("Processed (itenarydet)...");
 //
 //                                }
@@ -961,17 +961,17 @@ public class UtilityContainer {
                     @Override
                     public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                         if(response.body() != null) {
-                            final ArrayList<SalesPrice> salesPri_list = new ArrayList<SalesPrice>();
-                            for (int i = 0; i < response.body().getSalesPriceResult().size(); i++) {
-                                salesPri_list.add(response.body().getSalesPriceResult().get(i));
-                            }
+//                            final ArrayList<SalesPrice> salesPri_list = new ArrayList<SalesPrice>();
+//                            for (int i = 0; i < response.body().getSalesPriceResult().size(); i++) {
+//                                salesPri_list.add(response.body().getSalesPriceResult().get(i));
+//                            }
                             final SalesPriceController salepriController = new SalesPriceController(context);
 //                            mHandler.post(new Runnable() {
 //                                @Override
 //                                public void run() {
 //
 //                                    pdialog.setMessage("Processing downloaded data (salesprice)...");
-                                    salepriController.InsertOrReplaceSalesPrice(salesPri_list);
+                                    salepriController.InsertOrReplaceSalesPrice(response.body().getSalesPriceResult());
 //                                    pdialog.setMessage("Processed (salesprice)...");
 //
 //                                }
