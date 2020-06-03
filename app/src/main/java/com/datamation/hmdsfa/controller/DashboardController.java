@@ -45,9 +45,11 @@ public class DashboardController {
 
 
         double targetsum = 3000000.00;
+        Cursor cursor = null;
+
         String selectQuery = "SELECT ifnull((sum(Rdtarget)),0)  as Target from FItenrDet where txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
 
-        Cursor cursor = dB.rawQuery(selectQuery, null);
+       cursor = dB.rawQuery(selectQuery, null);
         try {
 
             while (cursor.moveToNext()) {

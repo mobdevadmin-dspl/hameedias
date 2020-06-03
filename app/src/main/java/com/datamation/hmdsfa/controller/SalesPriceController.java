@@ -41,7 +41,7 @@ public class SalesPriceController {
     public static final String CREATE_TABLE_FSALESPRICE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALESPRICE + " (" + FSALES_PRI_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + FSALES_PRI_ALLOWLINEDIS + " TEXT, " + FSALES_PRI_ENDING_DATE + " TEXT, " + FSALES_PRI_ITEMNO + " TEXT, "
             + FSALES_PRI_MARKUP + " TEXT, " + FSALES_PRI_PRICEINCVAT + " TEXT, " + FSALES_PRI_PROFIT + " TEXT, "
-            + FSALES_PRI_PROFITLCY + "TEXT, " + FSALES_PRI_SALESTYPE + " TEXT, " + FSALES_PRI_STARTINGDATE + " TEXT, "
+            + FSALES_PRI_PROFITLCY + " TEXT, " + FSALES_PRI_SALESTYPE + " TEXT, " + FSALES_PRI_STARTINGDATE + " TEXT, "
             + FSALES_PRI_UNITOFMEA + " TEXT, " + FSALES_PRI_UNITPRICE + " TEXT, " + FSALES_PRI_UNITPRICEINCLVAT + " TEXT, " + FSALES_PRI_VARIENTCODE + " TEXT); ";
 
 
@@ -58,6 +58,7 @@ public class SalesPriceController {
 
     public void InsertOrReplaceSalesPrice(ArrayList<SalesPrice> list) {
         Log.d("InsertOrReplaceSalesPri", "" + list.size());
+        Log.d(">>>insert", ">>>insert" + list.size());
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -67,23 +68,38 @@ public class SalesPriceController {
         try {
             dB.beginTransactionNonExclusive();
             String sql = "INSERT OR REPLACE INTO " + TABLE_FSALESPRICE + " (AllowLineDis,EndingDate,ItemNo,Markup,PriceInclVat,Profit,ProfitLCY,SalesType,StartingDate,UnitOfMea,UnitPrice,UnitPriceInclVat,VarientCode) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
+            Log.d(">>>", ">>>" + sql);
             SQLiteStatement stmt = dB.compileStatement(sql);
 
             for (SalesPrice salesprice : list) {
+
                 stmt.bindString(1, salesprice.getAllowLineDis());
+                Log.d(">>>", ">>>" + salesprice.getAllowLineDis());
                 stmt.bindString(2, salesprice.getEndingDate());
+               // Log.d(">>>", ">>>" + salesprice.getEndingDate());
                 stmt.bindString(3, salesprice.getItemNo());
+               // Log.d(">>>", ">>>" + salesprice.getItemNo());
                 stmt.bindString(4, salesprice.getMarkup());
+              //  Log.d(">>>", ">>>" + salesprice.getMarkup());
                 stmt.bindString(5, salesprice.getPriceInclVat());
+               // Log.d(">>>", ">>>" + salesprice.getPriceInclVat());
                 stmt.bindString(6, salesprice.getProfit());
+             //   Log.d(">>>", ">>>" + salesprice.getProfit());
                 stmt.bindString(7, salesprice.getProfitLCY());
+             //   Log.d(">>>", ">>>" + salesprice.getProfitLCY());
                 stmt.bindString(8, salesprice.getSalesType());
+              //  Log.d(">>>", ">>>" + salesprice.getSalesType());
                 stmt.bindString(9, salesprice.getStartingDate());
+             //   Log.d(">>>", ">>>" + salesprice.getStartingDate());
                 stmt.bindString(10, salesprice.getUnitOfMea());
+             //   Log.d(">>>", ">>>" + salesprice.getUnitOfMea());
                 stmt.bindString(11, salesprice.getUnitPrice());
+              //  Log.d(">>>", ">>>" + salesprice.getUnitOfMea());
                 stmt.bindString(12, salesprice.getUnitPriceInclVat());
+              //  Log.d(">>>", ">>>" + salesprice.getUnitPriceInclVat());
                 stmt.bindString(13, salesprice.getVarientCode());
+               // Log.d(">>>", ">>>" + salesprice.getVarientCode());
+
 
 
                 stmt.execute();
@@ -91,6 +107,7 @@ public class SalesPriceController {
             }
 
         } catch (SQLException e) {
+            Log.d(">>>", "error in fragment :" + e.toString());
             e.printStackTrace();
         } finally {
             dB.setTransactionSuccessful();

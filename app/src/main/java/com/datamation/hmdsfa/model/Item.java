@@ -35,6 +35,7 @@ public class Item {
 	private String FITEM_REORDER_QTY;
 	@SerializedName("TaxComCode")//14
 	private String FITEM_TAXCOMCODE;
+	@SerializedName("AddMach")
 	private String FITEM_ID;
 	private String FITEM_SCATCODE;
 	private String FITEM_SUBCATCODE;
@@ -258,12 +259,12 @@ public class Item {
 			itm.setFITEM_ITEM_NAME(instance.getString("ItemName"));
 			itm.setFITEM_ITEMSTATUS(instance.getString("ItemStatus"));
 			itm.setFITEM_PRILCODE(instance.getString("PrilCode"));
-			itm.setFITEM_TYPECODE(instance.getString("TypeCode"));
-			itm.setFITEM_UNITCODE(instance.getString("UnitCode"));
 			itm.setFITEM_VENPCODE(instance.getString("VenPcode"));
 			itm.setFITEM_NOUCASE(instance.getString("NOUCase"));
 			itm.setFITEM_REORDER_LVL(instance.getString("ReOrderLvl"));
 			itm.setFITEM_REORDER_QTY(instance.getString("ReOrderQty"));
+			itm.setFITEM_UNITCODE(instance.getString("UnitCode"));
+			itm.setFITEM_TYPECODE(instance.getString("TypeCode"));
 			itm.setFITEM_TAXCOMCODE(instance.getString("TaxComCode"));
 
 

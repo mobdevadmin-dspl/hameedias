@@ -162,6 +162,16 @@ public class NetworkFunctions {
 
     }
 
+    public String getSalesPrice() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting Salesprice : " + baseURL + "Salesprice" + restOfURL + "/" + params);
+
+        return getFromServer(baseURL + "Salesprice" + restOfURL , params);
+
+    }
+
     public String getLocations(String repCode) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();

@@ -139,7 +139,7 @@ public class SalesPrice {
         VarientCode = varientCode;
     }
 
-    public static SalesPrice parseOutlet(JSONObject instance) throws JSONException {
+    public static SalesPrice parseSalespri(JSONObject instance) throws JSONException {
 
         if (instance != null) {
             SalesPrice salespri = new SalesPrice();
@@ -156,7 +156,7 @@ public class SalesPrice {
             salespri.setUnitOfMea(instance.getString("UnitOfMea"));
             salespri.setUnitPrice(instance.getString("UnitPrice"));
             salespri.setUnitPriceInclVat(instance.getString("UnitPriceInclVat"));
-            salespri.setVarientCode(instance.getString("VarientCode"));
+            salespri.setVarientCode("");
 
 
             return salespri;

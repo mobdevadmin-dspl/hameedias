@@ -27,7 +27,7 @@ public class DaySummaryFragment  extends Fragment {
     private static final String LOG_TAG = DaySummaryFragment.class.getSimpleName();
     private TextView tvDate;
 
-    private TextView tvSalesGross, tvSalesMarketReturn, tvDiscount, tvNetValue, tvTarget,tvProductive,tvNonprdctive;
+    private TextView tvSalesGross, tvSalesReturn, tvDiscount, tvNetValue, tvTarget,tvProductive,tvNonprdctive;
     private TextView tvDayCredit, tvDayCreditPercentage, tvDayCash, tvDayCashPercentage, tvDayCheque, tvDayChequePercentage;
     //    private TextView tvPreviousCredit, tvPreviousCreditPercentage, tvPreviousCash, tvPreviousCashPercentage, tvPreviousCheque, tvPreviousChequePercentage;
     private TextView tvPreviousCredit, tvPreviousCash, tvPreviousCheque;
@@ -63,7 +63,7 @@ public class DaySummaryFragment  extends Fragment {
         tvDate.setText(dateFormat.format(new Date(timeInMillis)));
 
         tvSalesGross = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_gross_sale);
-        tvSalesMarketReturn = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_market_return);
+        tvSalesReturn = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_market_return);
         tvDiscount = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_discount);
         tvNetValue = (TextView) rootView.findViewById(R.id.fragment_day_summary_card_tv_net_sale);
         tvTarget = (TextView) rootView.findViewById(R.id.dashboard_tv_card_today_target);
@@ -170,6 +170,8 @@ public class DaySummaryFragment  extends Fragment {
         tvSalesGross.setText(""+format.format(dailyAchieve));
         tvNetValue.setText(""+format.format(dailyAchieve));
         tvTarget.setText(""+format.format(dailyTarget));
+        tvDiscount.setText("" +format.format(dailyDiscount));
+        tvSalesReturn.setText("" +format.format(dailyReturn));
         tvProductive.setText(""+ordcount);
         tvNonprdctive.setText(""+nonprd);
         tvDayCash.setText(""+format.format(dayCash));

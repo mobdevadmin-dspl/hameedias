@@ -30,6 +30,7 @@ import com.datamation.hmdsfa.controller.OrderController;
 import com.datamation.hmdsfa.controller.OutstandingController;
 import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.RouteDetController;
+import com.datamation.hmdsfa.controller.SalesPriceController;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.helpers.NetworkFunctions;
 import com.datamation.hmdsfa.helpers.SharedPref;
@@ -47,6 +48,7 @@ import com.datamation.hmdsfa.model.Locations;
 import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.Route;
 import com.datamation.hmdsfa.model.RouteDet;
+import com.datamation.hmdsfa.model.SalesPrice;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.view.ActivityHome;
 
@@ -110,7 +112,8 @@ public void onClick(View v) {
         if (isAllUploaded(getActivity())) {
 
         try {
-            new freeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+            new salespriceDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+            //new freeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
         } catch (Exception e) {
             Log.e("## ErrorInItemDown ##", e.toString());
         }
@@ -307,6 +310,113 @@ public void onClick(View v) {
             super.onPostExecute(result);
 
             pdialog.setMessage("Finalizing item data");
+            pdialog.setMessage("Download Completed..");
+            if (result) {
+                if (pdialog.isShowing()) {
+                    pdialog.dismiss();
+                }
+
+            } else {
+                if (pdialog.isShowing()) {
+                    pdialog.dismiss();
+                }
+
+            }
+        }
+    }
+
+    //salesprice download asynctask
+    private class salespriceDownload extends AsyncTask<String, Integer, Boolean> {
+        CustomProgressDialog pdialog;
+        private String repcode;
+
+        public salespriceDownload(String repcode) {
+            this.repcode = repcode;
+            this.pdialog = new CustomProgressDialog(getActivity());
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdialog = new CustomProgressDialog(getActivity());
+            pdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            pdialog.setMessage("Downloading SalesPrice...");
+            pdialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... arg0) {
+            try {
+                if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
+
+                    /*****************Sales Price****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading Sales Price Data...");
+                        }
+                    });
+
+                    String salespri = "";
+                    try {
+                        salespri = networkFunctions.getSalesPrice();
+                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
+
+
+                    try {
+                        JSONObject salesPriceJSON = new JSONObject(salespri);
+                        JSONArray salesPriJSONJSONArray = salesPriceJSON.getJSONArray("SalesPriceResult");
+                        ArrayList<SalesPrice> salesPriList = new ArrayList<SalesPrice>();
+                        SalesPriceController salesPriceController = new SalesPriceController(getActivity());
+                        for (int i = 0; i < salesPriJSONJSONArray.length(); i++) {
+                            Log.d(">>>", ">>>" + i);
+                            salesPriList.add(SalesPrice.parseSalespri(salesPriJSONJSONArray.getJSONObject(i)));
+                        }
+                        Log.d(">>>", "size :" + salesPriList.size());
+                        salesPriceController.InsertOrReplaceSalesPrice(salesPriList);
+                    } catch (JSONException | NumberFormatException e) {
+                        Log.d(">>>", "error in fragment :" + e.toString());
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
+                    /*****************end sales price **********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Download complete...");
+                        }
+                    });
+                    return true;
+                } else {
+                    //errors.add("Please enter correct username and password");
+                    return false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+
+                return false;
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+                return false;
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean result) {
+            super.onPostExecute(result);
+
+            pdialog.setMessage("Finalizing Sales Price data");
             pdialog.setMessage("Download Completed..");
             if (result) {
                 if (pdialog.isShowing()) {
