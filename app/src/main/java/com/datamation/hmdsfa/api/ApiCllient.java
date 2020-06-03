@@ -27,9 +27,9 @@ public class ApiCllient {
         //add timouts 2020-03-19 becz sockettimeoutexception by rashmi
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
                 // .callTimeout(2, TimeUnit.MINUTES)
-                .connectTimeout(50, TimeUnit.SECONDS)
-                .readTimeout(80, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS);
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(5, TimeUnit.MINUTES)
+                .writeTimeout(2, TimeUnit.MINUTES);
 
         pref = SharedPref.getInstance(contextt);
         String domain = pref.getBaseURL();
