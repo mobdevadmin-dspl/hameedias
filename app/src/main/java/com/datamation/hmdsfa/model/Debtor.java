@@ -51,7 +51,38 @@ public class Debtor {
     private String FDEBTOR_LONGITUDE;
     @SerializedName("ImgURL")
     private String FDEBTOR_IMG_URL;
+    public static Debtor parseOutlet(JSONObject instance) throws JSONException {
 
+        if (instance != null) {
+            Debtor aDebtor = new Debtor();
+            aDebtor.setFDEBTOR_ADD1(instance.getString("DebAdd1"));
+            aDebtor.setFDEBTOR_ADD2(instance.getString("DebAdd2"));
+            aDebtor.setFDEBTOR_ADD3(instance.getString("DebAdd3"));
+            aDebtor.setFDEBTOR_AREA_CODE(instance.getString("AreaCode"));
+            aDebtor.setFDEBTOR_CODE(instance.getString("DebCode"));
+            aDebtor.setFDEBTOR_CRD_LIMIT(instance.getString("CrdLimit"));
+            aDebtor.setFDEBTOR_CRD_PERIOD(instance.getString("CrdPeriod"));
+            aDebtor.setFDEBTOR_DBGR_CODE(instance.getString("DbGrCode"));
+            aDebtor.setFDEBTOR_EMAIL(instance.getString("DebEMail"));
+            aDebtor.setFDEBTOR_MOB(instance.getString("DebMob"));
+            aDebtor.setFDEBTOR_NAME(instance.getString("DebName"));
+            aDebtor.setFDEBTOR_PRILLCODE(instance.getString("PrilCode"));
+            aDebtor.setFDEBTOR_RANK_CODE(instance.getString("RankCode"));
+            aDebtor.setFDEBTOR_STATUS(instance.getString("Status"));
+            aDebtor.setFDEBTOR_TAX_REG(instance.getString("TaxReg"));
+            aDebtor.setFDEBTOR_TELE(instance.getString("DebTele"));
+            aDebtor.setFDEBTOR_REPCODE(instance.getString("RepCode"));
+            aDebtor.setFDEBTOR_LATITUDE(instance.getString("Latitude"));
+            aDebtor.setFDEBTOR_LONGITUDE(instance.getString("Longitude"));
+            aDebtor.setFDEBTOR_IMG_URL(instance.getString("ImgURL"));
+
+//            aDebtor.setFDEBTOR_IMG_URL(instance.getString("FDEBTOR_IMG_URL"));
+
+            return aDebtor;
+        }
+
+        return null;
+    }
 //    public String DISTRIBUTE_DB;
 //    public String CONSOLE_DB;
 //    private  String  FDEBTOR_COSTCODE;

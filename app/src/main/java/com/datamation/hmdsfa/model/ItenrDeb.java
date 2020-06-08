@@ -2,6 +2,9 @@ package com.datamation.hmdsfa.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ItenrDeb {
 
 	@SerializedName("DebCode")
@@ -43,5 +46,19 @@ public class ItenrDeb {
 
 	public void setTxnDate(String txnDate) {
 		TxnDate = txnDate;
+	}
+
+	public static ItenrDeb parseIteDebDet(JSONObject instance) throws JSONException {
+
+		if (instance != null) {
+			ItenrDeb itenrDeb = new ItenrDeb();
+			itenrDeb.setDebCode(instance.getString("DebCode"));
+			itenrDeb.setRefNo(instance.getString("RefNo"));
+			itenrDeb.setRouteCode(instance.getString("RouteCode"));
+			itenrDeb.setTxnDate(instance.getString("TxnDate"));
+			return itenrDeb;
+		}
+
+		return null;
 	}
 }

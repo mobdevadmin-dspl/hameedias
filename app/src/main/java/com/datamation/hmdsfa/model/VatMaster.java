@@ -2,6 +2,9 @@ package com.datamation.hmdsfa.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class VatMaster {
 
 	@SerializedName("VatCalType")
@@ -43,5 +46,20 @@ public class VatMaster {
 
 	public void setVatPer(int vatPer) {
 		VatPer = vatPer;
+	}
+
+	public static VatMaster parseVAT(JSONObject instance) throws JSONException {
+
+		if (instance != null) {
+			VatMaster vat = new VatMaster();
+			vat.setVatCalType(instance.getString("VatCalType"));
+			vat.setVatCode(instance.getString("VatCode"));
+			vat.setVatDesciption(instance.getString("VatDesciption"));
+			vat.setVatPer(instance.getInt("VatPer"));
+
+			return vat;
+		}
+
+		return null;
 	}
 }

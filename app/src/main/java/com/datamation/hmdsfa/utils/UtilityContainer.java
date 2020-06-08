@@ -14,6 +14,7 @@ import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.controller.BankController;
 import com.datamation.hmdsfa.controller.CompanyDetailsController;
 import com.datamation.hmdsfa.controller.CustomerController;
+import com.datamation.hmdsfa.controller.DiscountController;
 import com.datamation.hmdsfa.controller.ExpenseController;
 import com.datamation.hmdsfa.controller.FItenrDetController;
 import com.datamation.hmdsfa.controller.FItenrHedController;
@@ -23,6 +24,7 @@ import com.datamation.hmdsfa.controller.FreeHedController;
 import com.datamation.hmdsfa.controller.FreeItemController;
 import com.datamation.hmdsfa.controller.FreeMslabController;
 import com.datamation.hmdsfa.controller.FreeSlabController;
+import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ReasonController;
@@ -32,11 +34,13 @@ import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalesPriceController;
 import com.datamation.hmdsfa.controller.VATController;
+import com.datamation.hmdsfa.helpers.NetworkFunctions;
 import com.datamation.hmdsfa.model.Bank;
 import com.datamation.hmdsfa.model.CompanyBranch;
 import com.datamation.hmdsfa.model.CompanySetting;
 import com.datamation.hmdsfa.model.Control;
 import com.datamation.hmdsfa.model.Debtor;
+import com.datamation.hmdsfa.model.Discount;
 import com.datamation.hmdsfa.model.Expense;
 import com.datamation.hmdsfa.model.FItenrDet;
 import com.datamation.hmdsfa.model.FItenrHed;
@@ -48,6 +52,7 @@ import com.datamation.hmdsfa.model.FreeMslab;
 import com.datamation.hmdsfa.model.FreeSlab;
 import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemBundle;
+import com.datamation.hmdsfa.model.ItenrDeb;
 import com.datamation.hmdsfa.model.Reason;
 import com.datamation.hmdsfa.model.Route;
 import com.datamation.hmdsfa.model.RouteDet;
@@ -81,6 +86,11 @@ import com.datamation.hmdsfa.helpers.SQLiteRestore;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.SalRep;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -307,694 +317,497 @@ public class UtilityContainer {
 
         dialog.show();
     }
-    public static void download(final Context context, Call<ReadJsonList> resultCall, TaskType task) {
+    public static void download(final Context context, TaskType task , String jsonString) {
+        NetworkFunctions networkFunctions = new NetworkFunctions(context);
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(jsonString);
 
+         } catch (JSONException e) {
+            Log.e("JSON ERROR>>>>>",e.toString());
+        }
         switch (task) {
             case ItenrDeb: {
+
+                // Processing itenarydetdeb
                 try {
-                            resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                if(response.body() != null) {
-//                                    final ArrayList<Control> controlList = new ArrayList<Control>();
-//                                    for (int i = 0; i < response.body().getControlResult().size(); i++) {
-//                                        controlList.add(response.body().getControlResult().get(i));
-//                                    }
-                                    final CompanyDetailsController companyController = new CompanyDetailsController(context);
-                                            companyController.createOrUpdateFControl(response.body().getControlResult());
-                                }else{
-                                    //errors.add("Control response is null");
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                              //  errors.add(t.toString());
-                            }
-                        });
+
+                    final IteaneryDebController itenaryDebController = new IteaneryDebController(context);
+                    itenaryDebController.deleteAll();
+                    JSONArray jsonArray = jsonObject.getJSONArray("fIteDebDetResult");
+
+                    ArrayList<ItenrDeb> downloadedList = new ArrayList<ItenrDeb>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        downloadedList.add(ItenrDeb.parseIteDebDet(jsonArray.getJSONObject(i)));
+                    }
+                    itenaryDebController.InsertOrReplaceItenrDeb(downloadedList);
+                    Log.d("InsertOrReplaceDebtor", "succes");
+
+
                 } catch (Exception e) {
-                    Log.e("networkFunctions ->", "IOException -> " + e.toString());
-                    throw e;
+                  //  errors.add(e.toString());
+
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
+                    }
                 }
             }
 
             break;
             case Controllist:{
-                try {
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                                if(response.body() != null) {
-//                                    final ArrayList<Debtor> debtorList = new ArrayList<Debtor>();
-//                                    for (int i = 0; i < response.body().getDebtorResult().size(); i++) {
-//                                        debtorList.add(response.body().getDebtorResult().get(i));
-//                                    }
-                                    final CustomerController customerController = new CustomerController(context);
-                                            customerController.InsertOrReplaceDebtor(response.body().getDebtorResult());
-                                }else{
-                                   // errors.add("Control response is null");
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                              //  errors.add(t.toString());
-                            }
-                        });
-                    } catch (Exception e) {
-                      //  errors.add(e.toString());
-                        throw e;
+
+                    try {
+                        JSONArray jsonArray = jsonObject.getJSONArray("fControlResult");
+                        ArrayList<Control> downloadedList = new ArrayList<Control>();
+                        CompanyDetailsController companyController = new CompanyDetailsController(context);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            downloadedList.add(Control.parseControlDetails(jsonArray.getJSONObject(i)));
+                        }
+                        companyController.createOrUpdateFControl(downloadedList);
+                    } catch (JSONException | NumberFormatException e) {
+
+                        try {
+                            throw e;
+                        } catch (JSONException e1) {
+                            Log.e("JSON ERROR>>>>>",e.toString());
+                        }
                     }
             }
             break;
             case Customers:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
+                CustomerController customerController = new CustomerController(context);
+                customerController.deleteAll();
+                try {
 
-                        if(response.body() != null) {
-//                            final ArrayList<CompanySetting> settingList = new ArrayList<CompanySetting>();
-//                            for (int i = 0; i < response.body().getCompanySettingResult().size(); i++) {
-//                                settingList.add(response.body().getCompanySettingResult().get(i));
-//                            }
-                            final ReferenceSettingController settingController = new ReferenceSettingController(context);
-                                    settingController.createOrUpdateFCompanySetting(response.body().getCompanySettingResult());
-                        }else {
-                            //errors.add("CompanySetting response is null");
-                        }
+                    JSONArray jsonArray = jsonObject.getJSONArray("FdebtorResult");
+                    ArrayList<Debtor> downloadedList = new ArrayList<Debtor>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        downloadedList.add(Debtor.parseOutlet(jsonArray.getJSONObject(i)));
                     }
+                    customerController.InsertOrReplaceDebtor(downloadedList);
+                    Log.d("InsertOrReplaceDebtor", "succes");
 
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                      //  errors.add(t.toString());
+                } catch (JSONException | NumberFormatException e) {
+
+                   // errors.add(e.toString());
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Settings:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-//                            final ArrayList<CompanyBranch> settingList = new ArrayList<CompanyBranch>();
-//                            for (int i = 0; i < response.body().getCompanyBranchResult().size(); i++) {
-//                                settingList.add(response.body().getCompanyBranchResult().get(i));
-//                            }
-                            final ReferenceDetailDownloader settingController = new ReferenceDetailDownloader(context);
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (references)...");
-                                    settingController.createOrUpdateFCompanyBranch(response.body().getCompanyBranchResult());
-//                                    pdialog.setMessage("Processed (references)...");
-//
-//                                }
-//                            });
+                ReferenceSettingController settingController = new ReferenceSettingController(context);
+                settingController.deleteAll();
+                try {
 
-                        }else{
-                            //errors.add("CompanyBranch response is null");
-                        }
+                    JSONArray jsonArray = jsonObject.getJSONArray("fCompanySettingResult");
+                    ArrayList<CompanySetting> downloadedList = new ArrayList<CompanySetting>();
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        downloadedList.add(CompanySetting.parseSettings(jsonArray.getJSONObject(i)));
                     }
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                      //  errors.add(t.toString());
+                    settingController.createOrUpdateFCompanySetting(downloadedList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Reference:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-//                            final ArrayList<ItemBundle> bundleList = new ArrayList<ItemBundle>();
-//                            for (int i = 0; i < response.body().getItemBundleResult().size(); i++) {
-//                                bundleList.add(response.body().getItemBundleResult().get(i));
-//                            }
-                            final ItemBundleController bundleController = new ItemBundleController(context);
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (Item bundle)...");
-                                    bundleController.InsertOrReplaceItemBundle(response.body().getItemBundleResult());
-//                                    pdialog.setMessage("Processed (Item bundle)...");
-//
-//                                }
-                           // });
+                ReferenceDetailDownloader branchController = new ReferenceDetailDownloader(context);
+                branchController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("FCompanyBranchResult");
+                    ArrayList<CompanyBranch> downloadedList = new ArrayList<CompanyBranch>();
 
-                        }else{
-                            Log.d(">>ItmBundleRes", ">> is null");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        downloadedList.add(CompanyBranch.parseSettings(jsonArray.getJSONObject(i)));
+                    }
+                    branchController.createOrUpdateFCompanyBranch(downloadedList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
+                    }
+                }
 
-                           // errors.add("ItemBundle response is null");
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                      //  errors.add(t.toString());
-                    }
-                });
             }
             break;
             case ItemBundle:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-//                            final ArrayList<VatMaster> vatList = new ArrayList<VatMaster>();
-//                            for (int i = 0; i < response.body().getVatMasterList().size(); i++) {
-//                                vatList.add(response.body().getVatMasterList().get(i));
-//                            }
-                            final VATController vatController = new VATController(context);
+                final ItemBundleController bundleController = new ItemBundleController(context);
+                bundleController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("BundleBarCodeResult");
+                    ArrayList<ItemBundle> downloadedList = new ArrayList<ItemBundle>();
 
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (VAT)...");
-                                    vatController.InsertOrReplaceVAT(response.body().getVatMasterList());
-//                                    pdialog.setMessage("Processed (VAT)...");
-//
-//                                }
-//                            });
-                        }else{
-                            Log.d(">>vat Res", ">> is null");
-
-                            //errors.add("vat response is null");
-                        }
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        downloadedList.add(ItemBundle.parseItemBundle(jsonArray.getJSONObject(i)));
                     }
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                       // errors.add(t.toString());
+                    bundleController.InsertOrReplaceItemBundle(downloadedList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case VAT:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-//                            final ArrayList<Item> itemList = new ArrayList<Item>();
-//                            for (int i = 0; i < response.body().getItemsResult().size(); i++) {
-//                                itemList.add(response.body().getItemsResult().get(i));
-//                            }
-                            final ItemController itemController = new ItemController(context);
+            final VATController vatController = new VATController(context);
+            vatController.deleteAll();
 
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (Items)...");
-                                    itemController.InsertOrReplaceItems(response.body().getItemsResult());
-//                                    pdialog.setMessage("Processed (Items)...");
-//
-//                                }
-//                            });
-                        }else{
-                            //errors.add("Item response is null");
-                        }
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("VATMasterResult");
+                    ArrayList<VatMaster> downloadedList = new ArrayList<VatMaster>();
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        downloadedList.add(VatMaster.parseVAT(jsonArray.getJSONObject(i)));
                     }
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                        //errors.add(t.toString());
+                    vatController.InsertOrReplaceVAT(downloadedList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
+
             }
             break;
             case Items:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-//                            final ArrayList<Reason> reasonList = new ArrayList<Reason>();
-//                            for (int i = 0; i < response.body().getReasonResult().size(); i++) {
-//                                reasonList.add(response.body().getReasonResult().get(i));
-//                            }
-                            final ReasonController reasonController = new ReasonController(context);
+                final ItemController itemController = new ItemController(context);
+                itemController.deleteAll();
 
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (Reasons)...");
-                                    reasonController.createOrUpdateReason(response.body().getReasonResult());
-//                                    pdialog.setMessage("Processed (Reasons)...");
-//
-//                                }
-//                            });
-                        }else{
-                            //errors.add("Reason response is null");
-                        }
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("fItemsResult");
+                    ArrayList<Item> downloadedList = new ArrayList<Item>();
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        downloadedList.add(Item.parseItem(jsonArray.getJSONObject(i)));
                     }
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                        //errors.add(t.toString());
+                    itemController.InsertOrReplaceItems(downloadedList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Reason:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-                            final BankController bankController = new BankController(context);
-//                            final ArrayList<Bank> bankList = new ArrayList<Bank>();
-//                            for (int i = 0; i < response.body().getBankResult().size(); i++) {
-//                                bankList.add(response.body().getBankResult().get(i));
-//                            }
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (Banks)...");
-                                    bankController.createOrUpdateBank(response.body().getBankResult());
-//                                    pdialog.setMessage("Processed (Banks)...");
-//
-//                                }
-//                            });
-
-                        }else{
-                            //errors.add("Bank response is null");
-                        }
+                ReasonController reasonController = new ReasonController(context);
+                reasonController.deleteAll();
+                // Processing reasons
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("fReasonResult");
+                    ArrayList<Reason> arrayList = new ArrayList<Reason>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(Reason.parseReason(jsonArray.getJSONObject(i)));
                     }
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                      //  errors.add(t.toString());
+                    Log.d("befor add reason tbl>>>", arrayList.toString());
+                    reasonController.createOrUpdateReason(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Bank: {
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-//                            final ArrayList<Expense> expensesList = new ArrayList<Expense>();
-//                            for (int i = 0; i < response.body().getExpenseResult().size(); i++) {
-//                                expensesList.add(response.body().getExpenseResult().get(i));
-//                            }
-                            final ExpenseController expenseController = new ExpenseController(context);
+                BankController bankController = new BankController(context);
+                bankController.deleteAll();
+                // Processing route
+                try {
 
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (Expenses)...");
-                                    expenseController.createOrUpdateFExpense(response.body().getExpenseResult());
-//                                    pdialog.setMessage("Processed (Expenses)...");
-//
-//                                }
-//                            });
-                        }else{
-                            //errors.add("Expense response is null");
-                        }
+                    JSONArray jsonArray = jsonObject.getJSONArray("fbankResult");
+                    ArrayList<Bank> arrayList = new ArrayList<Bank>();
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(Bank.parseBank(jsonArray.getJSONObject(i)));
                     }
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                       // errors.add(t.toString());
+                    bankController.createOrUpdateBank(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Expense:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-//                            final ArrayList<Route> routeList = new ArrayList<Route>();
-//                            for (int i = 0; i < response.body().getRouteResult().size(); i++) {
-//                                routeList.add(response.body().getRouteResult().get(i));
-//                            }
-                            final RouteController routeController = new RouteController(context);
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (Routes)...");
-                                    routeController.createOrUpdateFRoute(response.body().getRouteResult());
-//                                    pdialog.setMessage("Processed (Routes)...");
-//
-//                                }
-//                            });
+                ExpenseController expenseController = new ExpenseController(context);
+                expenseController.deleteAll();
+                // Processing expense
+                try {
 
-                        }else{
-                          //  errors.add("Route response is null");
-                        }
+                    JSONArray jsonArray = jsonObject.getJSONArray("fExpenseResult");
+                    ArrayList<Expense> arrayList = new ArrayList<Expense>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(Expense.parseExpense(jsonArray.getJSONObject(i)));
                     }
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                       // errors.add(t.toString());
+                    expenseController.createOrUpdateFExpense(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Route:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-//                            final ArrayList<RouteDet> routeList = new ArrayList<RouteDet>();
-//                            for (int i = 0; i < response.body().getRouteDetResult().size(); i++) {
-//                                routeList.add(response.body().getRouteDetResult().get(i));
-//                            }
-                            final RouteDetController routeController = new RouteDetController(context);
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (Routes)...");
-                                    routeController.InsertOrReplaceRouteDet(response.body().getRouteDetResult());
-//                                    pdialog.setMessage("Processed (Routes)...");
-//
-//                                }
-//                            });
 
-                        }else{
-                           // errors.add("RouteDetail response is null");
-                        }
+                RouteController routeController = new RouteController(context);
+                routeController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("fRouteResult");
+                    ArrayList<Route> arrayList = new ArrayList<Route>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(Route.parseRoute(jsonArray.getJSONObject(i)));
                     }
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                      //  errors.add(t.toString());
+                    routeController.createOrUpdateFRoute(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case RouteDet:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-                            final FreeSlabController freeslabController = new FreeSlabController(context);
-                            freeslabController.deleteAll();
-//                            final ArrayList<FreeSlab> freeslabList = new ArrayList<FreeSlab>();
-//                            for (int i = 0; i < response.body().getFreeSlabResult().size(); i++) {
-//                                freeslabList.add(response.body().getFreeSlabResult().get(i));
-//                            }
-
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (Freeslab)...");
-                                    freeslabController.createOrUpdateFreeSlab(response.body().getFreeSlabResult());
-//                                    pdialog.setMessage("Processed (Freeslab)...");
-//
-//                                }
-//                            });
-
-                        }else{
-                           // errors.add("FreeSlab response is null");
-                        }
+                RouteDetController routeDetController = new RouteDetController(context);
+                routeDetController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("fRouteDetResult");
+                    ArrayList<RouteDet> arrayList = new ArrayList<RouteDet>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(RouteDet.parseRoute(jsonArray.getJSONObject(i)));
                     }
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                      //  errors.add(t.toString());
+                    routeDetController.InsertOrReplaceRouteDet(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Freeslab:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-                            final FreeMslabController freeMslabController = new FreeMslabController(context);
-                            freeMslabController.deleteAll();
-//                            final ArrayList<FreeMslab> freeMslabList = new ArrayList<FreeMslab>();
-//                            for (int i = 0; i < response.body().getFreeMslabResult().size(); i++) {
-//                                freeMslabList.add(response.body().getFreeMslabResult().get(i));
-//                            }
-
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (Freemslab)...");
-                                    freeMslabController.createOrUpdateFreeMslab(response.body().getFreeMslabResult());
-//                                    pdialog.setMessage("Processed (Freemslab)...");
-//
-//                                }
-//                            });
-                        }else{
-                          //  errors.add("FreeMslab response is null");
-                        }
+                FreeSlabController freeSlabController = new FreeSlabController(context);
+                freeSlabController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("FfreeslabResult");
+                    ArrayList<FreeSlab> arrayList = new ArrayList<FreeSlab>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(FreeSlab.parseFreeSlab(jsonArray.getJSONObject(i)));
                     }
-
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                      //  errors.add(t.toString());
+                    freeSlabController.createOrUpdateFreeSlab(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Freemslab:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-                            final FreeHedController freeHedController = new FreeHedController(context);
-                            freeHedController.deleteAll();
-//                            final ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
-//                            for (int i = 0; i < response.body().getFreeHedResult().size(); i++) {
-//                                freeHedList.add(response.body().getFreeHedResult().get(i));
-//                            }
-
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (Freehed)...");
-                                    freeHedController.createOrUpdateFreeHed(response.body().getFreeHedResult());
-//                                    pdialog.setMessage("Processed (Freehed)...");
-//
-//                                }
-//                            });
-                        }else{
-                           // errors.add("FreeHed response is null");
-                        }
+                FreeMslabController freemSlabController = new FreeMslabController(context);
+                freemSlabController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("fFreeMslabResult");
+                    ArrayList<FreeMslab> arrayList = new ArrayList<FreeMslab>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(FreeMslab.parseFreeMslab(jsonArray.getJSONObject(i)));
                     }
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                      //  errors.add(t.toString());
+                    freemSlabController.createOrUpdateFreeMslab(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Freehed:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-
-                        if(response.body() != null) {
-                            final FreeDetController freedetController = new FreeDetController(context);
-                            freedetController.deleteAll();
-//                            final ArrayList<FreeDet> freedetList = new ArrayList<FreeDet>();
-//                            for (int i = 0; i < response.body().getFreeDetResult().size(); i++) {
-//                                freedetList.add(response.body().getFreeDetResult().get(i));
-//                            }
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (Freedet)...");
-                                    freedetController.createOrUpdateFreeDet(response.body().getFreeDetResult());
-//                                    pdialog.setMessage("Processed (Freedet)...");
-//
-//                                }
-//                            });
-
-                        }else{
-                          //  errors.add("FreeDetail response is null");
-                        }
+                FreeHedController freeHedController = new FreeHedController(context);
+                freeHedController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("FfreehedResult");
+                    ArrayList<FreeHed> arrayList = new ArrayList<FreeHed>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(FreeHed.parseFreeHed(jsonArray.getJSONObject(i)));
                     }
-
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                      //  errors.add(t.toString());
+                    freeHedController.createOrUpdateFreeHed(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Freedet:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-
-                        if(response.body() != null) {
-                            final FreeDebController freedebController = new FreeDebController(context);
-                            freedebController.deleteAll();
-//                            final ArrayList<FreeDeb> freedebList = new ArrayList<FreeDeb>();
-//                            for (int i = 0; i < response.body().getFreeDebResult().size(); i++) {
-//                                freedebList.add(response.body().getFreeDebResult().get(i));
-//                            }
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (freedeb)...");
-                                    freedebController.createOrUpdateFreeDeb(response.body().getFreeDebResult());
-//                                    pdialog.setMessage("Processed (freedeb)...");
-//
-//                                }
-//                            });
-
-                        }else{
-                           // errors.add("FreeDeb response is null");
-                        }
+                FreeDetController freeDetController = new FreeDetController(context);
+                freeDetController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("FfreedetResult");
+                    ArrayList<FreeDet> arrayList = new ArrayList<FreeDet>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(FreeDet.parseFreeDet(jsonArray.getJSONObject(i)));
                     }
-
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                      //  errors.add(t.toString());
+                    freeDetController.createOrUpdateFreeDet(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Freedeb:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-                            final FreeItemController freeitemController = new FreeItemController(context);
-                            freeitemController.deleteAll();
-//                            final ArrayList<FreeItem> freeitemList = new ArrayList<FreeItem>();
-//                            for (int i = 0; i < response.body().getFreeItemResult().size(); i++) {
-//                                freeitemList.add(response.body().getFreeItemResult().get(i));
-//                            }
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (freeitem)...");
-                                    freeitemController.createOrUpdateFreeItem(response.body().getFreeItemResult());
-//                                    pdialog.setMessage("Processed (freeitem)...");
-//
-//                                }
-//                            });
-
-                        }else{
-                            //errors.add("FreeItem response is null");
-                        }
+                FreeDebController freeDebController = new FreeDebController(context);
+                freeDebController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("FfreedebResult");
+                    ArrayList<FreeDeb> arrayList = new ArrayList<FreeDeb>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(FreeDeb.parseFreeDeb(jsonArray.getJSONObject(i)));
                     }
-
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                       // errors.add(t.toString());
+                    freeDebController.createOrUpdateFreeDeb(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Freeitem:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-
-                        if(response.body() != null) {
-                            final FItenrHedController itenaryHedController = new FItenrHedController(context);
-//                            final ArrayList<FItenrHed> itenaryHedList = new ArrayList<FItenrHed>();
-//                            for (int i = 0; i < response.body().getItenrHedResult().size(); i++) {
-//                                itenaryHedList.add(response.body().getItenrHedResult().get(i));
-//                            }
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (itenaryhed)...");
-                                    itenaryHedController.createOrUpdateFItenrHed(response.body().getItenrHedResult());
-//                                    pdialog.setMessage("Processed (itenaryhed)...");
-//
-//                                }
-//                            });
-
-                        }else{
-                           // errors.add("ItenrHed response is null");
-                        }
+                FreeItemController freeItemController = new FreeItemController(context);
+                freeItemController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("fFreeItemResult");
+                    ArrayList<FreeItem> arrayList = new ArrayList<FreeItem>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(FreeItem.parseFreeItem(jsonArray.getJSONObject(i)));
                     }
-
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                      //  errors.add(t.toString());
+                    freeItemController.createOrUpdateFreeItem(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Iteneryhed:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-
-
-                        if(response.body() != null) {
-                            final FItenrDetController itenaryDetController = new FItenrDetController(context);
-                            itenaryDetController.deleteAll();
-//                            final ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
-//                            for (int i = 0; i < response.body().getItenrDetResult().size(); i++) {
-//                                itenaryDetList.add(response.body().getItenrDetResult().get(i));
-//                            }
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (itenarydet)...");
-                                    itenaryDetController.createOrUpdateFItenrDet(response.body().getItenrDetResult());
-//                                    pdialog.setMessage("Processed (itenarydet)...");
-//
-//                                }
-//                            });
-
-                        }else{
-                           // errors.add("ItenrDet response is null");
-                        }
+                FItenrHedController fItenrHedController = new FItenrHedController(context);
+                fItenrHedController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("fItenrHedResult");
+                    ArrayList<FItenrHed> arrayList = new ArrayList<FItenrHed>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(FItenrHed.parseIteanaryHed(jsonArray.getJSONObject(i)));
                     }
-
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                        //errors.add(t.toString());
+                    fItenrHedController.createOrUpdateFItenrHed(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Itenerydet:{
-                resultCall.enqueue(new Callback<ReadJsonList>() {
-                    @Override
-                    public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-                        if(response.body() != null) {
-//                            final ArrayList<SalesPrice> salesPri_list = new ArrayList<SalesPrice>();
-//                            for (int i = 0; i < response.body().getSalesPriceResult().size(); i++) {
-//                                salesPri_list.add(response.body().getSalesPriceResult().get(i));
-//                            }
-                            final SalesPriceController salepriController = new SalesPriceController(context);
-//                            mHandler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    pdialog.setMessage("Processing downloaded data (salesprice)...");
-                                    salepriController.InsertOrReplaceSalesPrice(response.body().getSalesPriceResult());
-//                                    pdialog.setMessage("Processed (salesprice)...");
-//
-//                                }
-//                            });
-
-                        }else{
-                            //errors.add("SalesPrice response is null");
-                        }
+                FItenrDetController fItenrDetController = new FItenrDetController(context);
+                fItenrDetController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("fItenrDetResult");
+                    ArrayList<FItenrDet> arrayList = new ArrayList<FItenrDet>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(FItenrDet.parseIteanaryDet(jsonArray.getJSONObject(i)));
                     }
-                    @Override
-                    public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                        //errors.add(t.toString());
+                    fItenrDetController.createOrUpdateFItenrDet(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
                     }
-                });
+                }
             }
             break;
             case Salesprice:{
-                Toast.makeText(context,"Download Completed",Toast.LENGTH_SHORT).show();
+                try {
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("SalesPriceResult");
+                    ArrayList<SalesPrice> arrayList = new ArrayList<SalesPrice>();
+                    SalesPriceController salesPriceController = new SalesPriceController(context);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        //  Log.d(">>>", ">>>" + i);
+                        arrayList.add(SalesPrice.parseSalespri(jsonArray.getJSONObject(i)));
+                    }
+                    // Log.d(">>>", "size :" + salesPriList.size());
+                    salesPriceController.InsertOrReplaceSalesPrice(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
+                    }
+                }
+
 
             }
             break;
             case Discount:{
+                try {
 
+                    JSONArray jsonArray = jsonObject.getJSONArray("CusProductDisResult");
+                    ArrayList<Discount> arrayList = new ArrayList<Discount>();
+                    DiscountController discountController = new DiscountController(context);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        //  Log.d(">>>", ">>>" + i);
+                        arrayList.add(Discount.parseDiscounts(jsonArray.getJSONObject(i)));
+                    }
+                    // Log.d(">>>", "size :" + salesPriList.size());
+                    discountController.InsertOrReplaceDiscount(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
+                    }
+                }
+
+
+                Toast.makeText(context,"Download Completed",Toast.LENGTH_SHORT).show();
             }
             break;
             default:

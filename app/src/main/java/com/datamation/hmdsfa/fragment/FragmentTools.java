@@ -112,6 +112,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -184,8 +189,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
         rootRef = FirebaseDatabase.getInstance().getReference();
 
-        getImgDataFromFirebase(rootRef);
-        getVdoDataFromFirebase(rootRef);
+       // getImgDataFromFirebase(rootRef);
+       // getVdoDataFromFirebase(rootRef);
 
         isAnyActiveImages = new InvDetController(getActivity()).isAnyActiveOrders();
         isAnyActiveVideos = new ReceiptDetController(getActivity()).isAnyActiveReceipt();
@@ -235,42 +240,42 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         return view;
     }
 
-    private void getVdoDataFromFirebase(DatabaseReference rootRef) {
-        DatabaseReference chatSpaceRef = rootRef.child("Videos");
-        ValueEventListener eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    try
-                    {
-                        int flag = ds.child("FLAG").getValue(Integer.class);
-                        String mType = ds.child("M_TYPE").getValue(String.class);
-                        List<Object> repCodeList = (List<Object>) ds.child("REPCODE").getValue();
-                        String url = ds.child("URL").getValue(String.class);
-                        if(repCodeList.size()>0)
-                            if (repCodeList.contains(pref.getLoginUser().getRepCode()) && (flag == 0)) {
-                                FirebaseData fd = new FirebaseData();
-                                fd.setMEDIA_FLAG(flag + "");
-                                fd.setMEDIA_URL(url);
-                                fd.setMEDIA_TYPE(mType);
-                                vdoList.add(fd);
-                                Log.d("*TAG", url + "," + flag + "," + repCodeList + "" + pref.getLoginUser().getRepCode() + ", " + mType);
-                            }
-                    }
-                    catch (Exception ex)
-                    {
-                        Toast.makeText(getActivity(),"Video Media Problem....",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("*ERR", databaseError + "");
-            }
-        };
-        chatSpaceRef.addListenerForSingleValueEvent(eventListener);
-    }
+//    private void getVdoDataFromFirebase(DatabaseReference rootRef) {
+//        DatabaseReference chatSpaceRef = rootRef.child("Videos");
+//        ValueEventListener eventListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//                    try
+//                    {
+//                        int flag = ds.child("FLAG").getValue(Integer.class);
+//                        String mType = ds.child("M_TYPE").getValue(String.class);
+//                        List<Object> repCodeList = (List<Object>) ds.child("REPCODE").getValue();
+//                        String url = ds.child("URL").getValue(String.class);
+//                        if(repCodeList.size()>0)
+//                            if (repCodeList.contains(pref.getLoginUser().getRepCode()) && (flag == 0)) {
+//                                FirebaseData fd = new FirebaseData();
+//                                fd.setMEDIA_FLAG(flag + "");
+//                                fd.setMEDIA_URL(url);
+//                                fd.setMEDIA_TYPE(mType);
+//                                vdoList.add(fd);
+//                                Log.d("*TAG", url + "," + flag + "," + repCodeList + "" + pref.getLoginUser().getRepCode() + ", " + mType);
+//                            }
+//                    }
+//                    catch (Exception ex)
+//                    {
+//                        Toast.makeText(getActivity(),"Video Media Problem....",Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.d("*ERR", databaseError + "");
+//            }
+//        };
+//        chatSpaceRef.addListenerForSingleValueEvent(eventListener);
+//    }
 
     @Override
     public void onClick(View view) {
@@ -334,13 +339,13 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             case R.id.imgImage:
                 imgImage.startAnimation(animScale);
                 imgUrlList = fmc.getAllMediafromDb("IMG");
-                ViewImageList();
+               // ViewImageList();
                 break;
 
             case R.id.imgVideo:
                 imgVideo.startAnimation(animScale);
                 vdoUrlList = fmc.getAllMediafromDb("VDO");
-                ViewVideoList();
+                //ViewVideoList();
                 break;
 
         }
@@ -348,118 +353,118 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
     }
 
 
-    public void ViewImageList() {
-        final Dialog imageDialog = new Dialog(getActivity());
-        imageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        imageDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        imageDialog.setCancelable(false);
-        imageDialog.setCanceledOnTouchOutside(false);
-        imageDialog.setContentView(R.layout.whatsapp_image_layout);
+//    public void ViewImageList() {
+//        final Dialog imageDialog = new Dialog(getActivity());
+//        imageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        imageDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        imageDialog.setCancelable(false);
+//        imageDialog.setCanceledOnTouchOutside(false);
+//        imageDialog.setContentView(R.layout.whatsapp_image_layout);
+//
+//        LinearLayout parentLayout = (LinearLayout) imageDialog.findViewById(R.id.image_layout);
+//
+//
+//        if (imgUrlList != null) {
+//            for (FirebaseData fd : imgUrlList) {
+////            for (int i = 0; i < imgUrlList.size(); i++) {
+//                try {
+//                    final ImageView imageButton = new ImageView(getActivity());
+//                    final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(400, 400);
+//                    lp.setMargins(20, 20, 20, 20);
+//                    imageButton.setLayoutParams(lp);
+//
+//                    Glide.with(this)
+//                            .load(fd.getMEDIA_URL())
+//                            .into(imageButton);
+//
+//                    imageButton.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            if (isImageFitToScreen) {
+//                                isImageFitToScreen = false;
+//                                imageButton.setLayoutParams(lp);
+//                                imageButton.setAdjustViewBounds(true);
+//                            } else {
+//                                isImageFitToScreen = true;
+//                                imageButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+//                                imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+//                            }
+//                        }
+//                    });
+//
+//                    parentLayout.addView(imageButton);
+//                } catch (Exception exception) {
+//                    exception.printStackTrace();
+//                }
+//            }
+//        } else {
+//            Toast.makeText(getActivity(), "No Images to show!", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        imageDialog.findViewById(R.id.got_it).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                int result = fmc.createOrUpdateFirebaseData(imgList, 1);
+//                if (result > 0) {
+//                    Toast.makeText(getActivity(), "Image flag updated", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                if (fmc.getAllMediaforCheckIfIsExist("IMG") > 0) {
+//                    imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_img_notification));
+//                } else {
+//                    imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_image));
+//                }
+//                imageDialog.dismiss();
+//            }
+//        });
+//
+//        imageDialog.show();
+//    }
 
-        LinearLayout parentLayout = (LinearLayout) imageDialog.findViewById(R.id.image_layout);
 
-
-        if (imgUrlList != null) {
-            for (FirebaseData fd : imgUrlList) {
-//            for (int i = 0; i < imgUrlList.size(); i++) {
-                try {
-                    final ImageView imageButton = new ImageView(getActivity());
-                    final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(400, 400);
-                    lp.setMargins(20, 20, 20, 20);
-                    imageButton.setLayoutParams(lp);
-
-                    Glide.with(this)
-                            .load(fd.getMEDIA_URL())
-                            .into(imageButton);
-
-                    imageButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (isImageFitToScreen) {
-                                isImageFitToScreen = false;
-                                imageButton.setLayoutParams(lp);
-                                imageButton.setAdjustViewBounds(true);
-                            } else {
-                                isImageFitToScreen = true;
-                                imageButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                                imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
-                            }
-                        }
-                    });
-
-                    parentLayout.addView(imageButton);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-            }
-        } else {
-            Toast.makeText(getActivity(), "No Images to show!", Toast.LENGTH_SHORT).show();
-        }
-
-        imageDialog.findViewById(R.id.got_it).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                int result = fmc.createOrUpdateFirebaseData(imgList, 1);
-                if (result > 0) {
-                    Toast.makeText(getActivity(), "Image flag updated", Toast.LENGTH_SHORT).show();
-                }
-
-                if (fmc.getAllMediaforCheckIfIsExist("IMG") > 0) {
-                    imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_img_notification));
-                } else {
-                    imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_image));
-                }
-                imageDialog.dismiss();
-            }
-        });
-
-        imageDialog.show();
-    }
-
-
-    public void ViewVideoList() {
-        final Dialog videoDialog = new Dialog(getActivity());
-        videoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        videoDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        videoDialog.setCancelable(false);
-        videoDialog.setCanceledOnTouchOutside(false);
-        //videoDialog.setContentView(R.layout.whatsapp_video_responsive_layout);
-        videoDialog.setContentView(R.layout.whatsapp_video_layout);
-        LinearLayout parentLayout = (LinearLayout) videoDialog.findViewById(R.id.video_layout);
-
-        for (FirebaseData fd : vdoUrlList) {
-            try {
-                final fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard videoView = new fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard(getActivity());
-                final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(475, 250);
-                lp.setMargins(20, 20, 20, 20);
-                videoView.setLayoutParams(lp);
-                String pathName = "" + fd.getMEDIA_URL();
-                videoView.setUp(pathName, "SWADESHI");
-                videoView.ivThumb.setImageDrawable(getResources().getDrawable(R.drawable.video));
-                parentLayout.addView(videoView);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-        }
-
-        videoDialog.findViewById(R.id.got_it).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int vdoresult = fmc.createOrUpdateFirebaseData(vdoList, 1);
-                if (vdoresult > 0) {
-                    Toast.makeText(getActivity(), "Video flag updated", Toast.LENGTH_SHORT).show();
-                }
-                if (fmc.getAllMediaforCheckIfIsExist("VDO") > 0) {
-                    imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video_notification));
-                } else {
-                    imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video));
-                }
-                videoDialog.dismiss();
-            }
-        });
-        videoDialog.show();
-    }
+//    public void ViewVideoList() {
+//        final Dialog videoDialog = new Dialog(getActivity());
+//        videoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        videoDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        videoDialog.setCancelable(false);
+//        videoDialog.setCanceledOnTouchOutside(false);
+//        //videoDialog.setContentView(R.layout.whatsapp_video_responsive_layout);
+//        videoDialog.setContentView(R.layout.whatsapp_video_layout);
+//        LinearLayout parentLayout = (LinearLayout) videoDialog.findViewById(R.id.video_layout);
+//
+//        for (FirebaseData fd : vdoUrlList) {
+//            try {
+//                final fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard videoView = new fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard(getActivity());
+//                final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(475, 250);
+//                lp.setMargins(20, 20, 20, 20);
+//                videoView.setLayoutParams(lp);
+//                String pathName = "" + fd.getMEDIA_URL();
+//                videoView.setUp(pathName, "SWADESHI");
+//                videoView.ivThumb.setImageDrawable(getResources().getDrawable(R.drawable.video));
+//                parentLayout.addView(videoView);
+//            } catch (Exception exception) {
+//                exception.printStackTrace();
+//            }
+//        }
+//
+//        videoDialog.findViewById(R.id.got_it).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                int vdoresult = fmc.createOrUpdateFirebaseData(vdoList, 1);
+//                if (vdoresult > 0) {
+//                    Toast.makeText(getActivity(), "Video flag updated", Toast.LENGTH_SHORT).show();
+//                }
+//                if (fmc.getAllMediaforCheckIfIsExist("VDO") > 0) {
+//                    imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video_notification));
+//                } else {
+//                    imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video));
+//                }
+//                videoDialog.dismiss();
+//            }
+//        });
+//        videoDialog.show();
+//    }
 
     public void ViewRepProfile() {
         final Dialog repDialog = new Dialog(getActivity());
@@ -781,44 +786,44 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         return allUpload;
     }
 
-    private void getImgDataFromFirebase(DatabaseReference rootRef) {
-        DatabaseReference chatSpaceRef = rootRef.child("Images");
-        ValueEventListener eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                    try
-                    {
-                        int flag = ds.child("FLAG").getValue(Integer.class);
-                        String mType = ds.child("M_TYPE").getValue(String.class);
-                        List<String> repCodeList = (List<String>) ds.child("REPCODE").getValue();
-                        String url = ds.child("URL").getValue(String.class);
-                        if(repCodeList.size()>0)
-                            if (repCodeList.contains(pref.getLoginUser().getRepCode()) && (flag == 0)) {
-                                fd = new FirebaseData();
-                                fd.setMEDIA_FLAG(flag + "");
-                                fd.setMEDIA_URL(url);
-                                fd.setMEDIA_TYPE(mType);
-                                imgList.add(fd);
-
-                                Log.d("*TAG", url + "," + flag + "," + repCodeList + "" + pref.getLoginUser().getRepCode() + " " + mType);
-                            }
-                    }
-                    catch (Exception ex)
-                    {
-                        Toast.makeText(getActivity(),"Image Media Problem....",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("*ERR", databaseError + "");
-            }
-        };
-        chatSpaceRef.addListenerForSingleValueEvent(eventListener);
-    }
+//    private void getImgDataFromFirebase(DatabaseReference rootRef) {
+//        DatabaseReference chatSpaceRef = rootRef.child("Images");
+//        ValueEventListener eventListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//
+//                    try
+//                    {
+//                        int flag = ds.child("FLAG").getValue(Integer.class);
+//                        String mType = ds.child("M_TYPE").getValue(String.class);
+//                        List<String> repCodeList = (List<String>) ds.child("REPCODE").getValue();
+//                        String url = ds.child("URL").getValue(String.class);
+//                        if(repCodeList.size()>0)
+//                            if (repCodeList.contains(pref.getLoginUser().getRepCode()) && (flag == 0)) {
+//                                fd = new FirebaseData();
+//                                fd.setMEDIA_FLAG(flag + "");
+//                                fd.setMEDIA_URL(url);
+//                                fd.setMEDIA_TYPE(mType);
+//                                imgList.add(fd);
+//
+//                                Log.d("*TAG", url + "," + flag + "," + repCodeList + "" + pref.getLoginUser().getRepCode() + " " + mType);
+//                            }
+//                    }
+//                    catch (Exception ex)
+//                    {
+//                        Toast.makeText(getActivity(),"Image Media Problem....",Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.d("*ERR", databaseError + "");
+//            }
+//        };
+//        chatSpaceRef.addListenerForSingleValueEvent(eventListener);
+//    }
 
     @Override
     public void onTaskCompleted(List<String> list) {
@@ -865,69 +870,25 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Prices downloaded\nDownloading iteanery details...");
+                            pdialog.setMessage("Downloading iteanery customer details...");
                         }
                     });
-                    // Processing itenarydetdeb
-                    try {
-                        Calendar c = Calendar.getInstance();
-                        int cyear = c.get(Calendar.YEAR);
-                        int cmonth = c.get(Calendar.MONTH) + 1;
-                        DecimalFormat df_month = new DecimalFormat("00");
-                        String curmonth = df_month.format((double) cmonth);
-                        Log.d(">>>>curmonth",">>>"+curmonth);
-                        Call<ReadJsonList> resultCall = apiInterface.getIteaneryDeb(pref.getDistDB(),repcode,""+cyear,""+df_month.format((double) cmonth));
-
-                        resultCall.enqueue(new Callback<ReadJsonList>() {
-                            @Override
-                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-
-
-                                if(response.body() != null) {
-                                    final IteaneryDebController itenaryDebController = new IteaneryDebController(getActivity());
-                                    itenaryDebController.deleteAll();
-                                    final ArrayList<ItenrDeb> itenaryDebList = new ArrayList<ItenrDeb>();
-                                    for (int i = 0; i < response.body().getIteaneryDebList().size(); i++) {
-                                        itenaryDebList.add(response.body().getIteaneryDebList().get(i));
-                                    }
-                                    mHandler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-
-                                            pdialog.setMessage("Processing downloaded data (Iteanerydeb)...");
-                                            itenaryDebController.InsertOrReplaceItenrDeb(itenaryDebList);
-                                            pdialog.setMessage("Processed (Iteanerydeb)...");
-
-                                                       }
-                                    });
-
-                                }else{
-                                    errors.add("ItenrDeb response is null");
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-                                errors.add(t.toString());
-                            }
-                        });
+                    try{
+                        UtilityContainer.download(getActivity(),TaskType.ItenrDeb,networkFunctions.getItenaryDebDet(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
-
                         throw e;
                     }
-
 /*****************company details**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Processing downloaded data (Company details)...");
+                            pdialog.setMessage("Downloading data(Company details)...");
                         }
                     });
                     // Processing controls
                     try{
-                        Call<ReadJsonList> resultCall = apiInterface.getControlResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.ItenrDeb);
+                        UtilityContainer.download(getActivity(),TaskType.Controllist, networkFunctions.getCompanyDetails(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -939,41 +900,45 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Downloading Customers...");
                         }
                     });
-                    CustomerController customerController = new CustomerController(getActivity());
-                    customerController.deleteAll();
-                    // Processing outlets
+
                     try{
-                        Call<ReadJsonList> resultCall = apiInterface.getDebtorResult(pref.getDistDB(),repcode);
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Controllist);
+                        UtilityContainer.download(getActivity(),TaskType.Customers, networkFunctions.getCustomer(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
                     }
                     /*****************Settings*****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading Settings...");
+                        }
+                    });
                     // Processing company settings
-                    final ReferenceSettingController settingController = new ReferenceSettingController(getActivity());
-                    settingController.deleteAll();
                     try{
-                        Call<ReadJsonList> resultCall = apiInterface.getCompanySettingResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Customers);
+                        UtilityContainer.download(getActivity(),TaskType.Settings, networkFunctions.getReferenceSettings());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
                     }
+
+                    // Processing company settings
+
+
 /*****************end Settings**********************************************************************/
 /*****************Branches*****************************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Processing downloaded data (setting details)...");
+                            pdialog.setMessage("Downloading data (reference details)...");
                         }
                     });
                     // Processing Branches
-                    ReferenceDetailDownloader branchController = new ReferenceDetailDownloader(getActivity());
-                    branchController.deleteAll();
+
+                    // Processing Branches
+
                     try{
-                        Call<ReadJsonList> resultCall = apiInterface.getCompanyBranchResult(pref.getDistDB(),repcode);
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Settings);
+                        UtilityContainer.download(getActivity(),TaskType.Reference, networkFunctions.getReferences(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -984,15 +949,13 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Processing downloaded data (ItemBundle details)...");
+                            pdialog.setMessage("Downloading data (ItemBundle details)...");
                         }
                     });
                     // Processing Branches
-                    final ItemBundleController bundleController = new ItemBundleController(getActivity());
-                    bundleController.deleteAll();
+
                     try{
-                        Call<ReadJsonList> resultCall = apiInterface.getItemBundle(pref.getDistDB(),repcode);
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Reference);
+                        UtilityContainer.download(getActivity(),TaskType.ItemBundle, networkFunctions.getItemBundles(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1004,15 +967,13 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Processing downloaded data (VAT details)...");
+                            pdialog.setMessage("Downloading data (VAT details)...");
                         }
                     });
                     // Processing Branches
-                    final VATController vatController = new VATController(getActivity());
-                    vatController.deleteAll();
+
                     try{
-                        Call<ReadJsonList> resultCall = apiInterface.getVATResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.ItemBundle);
+                        UtilityContainer.download(getActivity(),TaskType.VAT, networkFunctions.getVAT());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1026,16 +987,15 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Processing downloaded data (item details)...");
                         }
                     });
-                    final ItemController itemController = new ItemController(getActivity());
-                    itemController.deleteAll();
+
                     // Processing Items
                     try {
-                        Call<ReadJsonList> resultCall = apiInterface.getItemsResult(pref.getDistDB(),repcode);
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.VAT);
-                    } catch (Exception e) {
-                        errors.add(e.toString());
+                        UtilityContainer.download(getActivity(),TaskType.Items, networkFunctions.getItems());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                         throw e;
                     }
+
                     /*****************end Items **********************************************************************/
                     //                    /*****************reasons**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
@@ -1045,21 +1005,15 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
                     // Processing reasons
+
                     try {
-                        Call<ReadJsonList> resultCall = apiInterface.getReasonResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Items);
-                    } catch (Exception e) {
+                        UtilityContainer.download(getActivity(),TaskType.Reason, networkFunctions.getReasons());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                         errors.add(e.toString());
                         throw e;
                     }
-                    /*****************end reasons**********************************************************************/
-                    /*****************fddbnote*****************************************************************************/
-//                    getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Reason downloaded\nDownloading outstanding details...");
-//                        }
-//                    });
+
 //                    // Processing fddbnote
 //                    try {
 //                        Call<ReadJsonList> resultCall = apiInterface.getOutstandingResult(pref.getDistDB(),repcode);
@@ -1090,37 +1044,36 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("outstanding downloaded\nDownloading banks...");
+                            pdialog.setMessage("Downloading banks...");
                         }
                     });
 //                    /*****************expenses**********************************************************************/
 
-                    // Processing route
                     try {
-                       // ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
-                        Call<ReadJsonList> resultCall = apiInterface.getBankResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Reason);
-
-                    } catch (Exception e) {
+                        UtilityContainer.download(getActivity(),TaskType.Bank, networkFunctions.getBanks());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                         errors.add(e.toString());
-
                         throw e;
                     }
+
+
                     /*****************end banks**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Processing downloaded data (expenses)...");
+                            pdialog.setMessage("Downloading data (expenses)...");
                         }
                     });
                     // Processing expense
                     try {
-                        Call<ReadJsonList> resultCall = apiInterface.getExpenseResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Bank);
-                    } catch (Exception e) {
+                        UtilityContainer.download(getActivity(),TaskType.Expense, networkFunctions.getExpenses());
+                    } catch (IOException e) {
                         errors.add(e.toString());
+                        e.printStackTrace();
                         throw e;
                     }
+
                     /*****************end expenses**********************************************************************/
                     /*****************Route**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
@@ -1130,53 +1083,19 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
                     // Processing route
-                    final RouteController routeController = new RouteController(getActivity());
-                    routeController.deleteAll();
-                    try {
-                        Call<ReadJsonList> resultCall = apiInterface.getRouteResult(pref.getDistDB(),repcode);
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Expense);
-                    } catch (Exception e) {
-                        errors.add(e.toString());
 
+                    try {
+                        UtilityContainer.download(getActivity(),TaskType.Route, networkFunctions.getRoutes(repcode));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        errors.add(e.toString());
                         throw e;
                     }
-                    /*****************end route**********************************************************************/
-                    /*****************ItemBundle**********************************************************************/
-//                    getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            pdialog.setMessage("Route downloaded\nDownloading ItemBundle details...");
-//                        }
-//                    });
-//                    // Processing route
-//                    ItemBundleController itmbndlController = new ItemBundleController(getActivity());
-//                    itmbndlController.deleteAll();
-//                    try {
-//                        Call<ReadJsonList> resultCall = apiInterface.getItemBundle(pref.getDistDB(),repcode);
-//                        resultCall.enqueue(new Callback<ReadJsonList>() {
-//                            @Override
-//                            public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
-//                                if(response.body() != null) {
-//                                    ArrayList<ItemBundle> itemList = new ArrayList<ItemBundle>();
-//                                    for (int i = 0; i < response.body().getItemBundleResult().size(); i++) {
-//                                        itemList.add(response.body().getItemBundleResult().get(i));
-//                                    }
-//                                    ItemBundleController itmbndlController = new ItemBundleController(getActivity());
-//                                    itmbndlController.createOrUpdateItemBundle(itemList);
-//                                }else{
-//                                    errors.add("ItemBundle response is null");
-//                                }
-//                            }
-//                            @Override
-//                            public void onFailure(Call<ReadJsonList> call, Throwable t) {
-//                                errors.add(t.toString());
-//                            }
-//                        });
-//                    } catch (Exception e) {
-//                        errors.add(e.toString());
-//
-//                        throw e;
-//                    }
+
+
+                    // Processing route
+
+
                     /*****************end ItemBundle**********************************************************************/
                     /*****************last 3 invoice heds**********************************************************************/
 
@@ -1255,20 +1174,28 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Last invoices downloaded\nDownloading route details...");
+                            pdialog.setMessage("Downloading route details...");
                         }
                     });
-                    RouteDetController routeDetController = new RouteDetController(getActivity());
-                    routeDetController.deleteAll();
+
                     // Processing route
                     try {
-                        Call<ReadJsonList> resultCall = apiInterface.getRouteDetResult(pref.getDistDB(),repcode);
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Route);
-                    } catch (Exception e) {
+                        UtilityContainer.download(getActivity(),TaskType.RouteDet, networkFunctions.getRouteDets(repcode));
+                    } catch (IOException e) {
+                        e.printStackTrace();
                         errors.add(e.toString());
-
                         throw e;
                     }
+                    // Processing route
+
+//                    try {
+//                        Call<ReadJsonList> resultCall = apiInterface.getRouteDetResult(pref.getDistDB(),repcode);
+//                        UtilityContainer.download(getActivity(),resultCall, TaskType.Route);
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//
+//                        throw e;
+//                    }
                     /*****************end route det**********************************************************************/
                     /*****************towns**********************************************************************/
 //                    getActivity().runOnUiThread(new Runnable() {
@@ -1316,8 +1243,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing freeslab
                     try {
-                        Call<ReadJsonList> resultCall = apiInterface.getFreeSlabResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.RouteDet);
+
+                        UtilityContainer.download(getActivity(),TaskType.Freeslab, networkFunctions.getFreeSlab());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1332,8 +1259,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing freeMslab
                     try {
-                        Call<ReadJsonList> resultCall = apiInterface.getFreeMSlabResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Freeslab);
+                        UtilityContainer.download(getActivity(),TaskType.Freemslab, networkFunctions.getFreeMslab());
                     } catch (Exception e) {
                         errors.add(e.toString());
 
@@ -1349,8 +1275,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing freehed
                     try {
-                        Call<ReadJsonList> resultCall = apiInterface.getFreehedResult(pref.getDistDB(),repcode);
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Freemslab);
+                        UtilityContainer.download(getActivity(),TaskType.Freehed, networkFunctions.getFreeHed(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
 
@@ -1368,8 +1293,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing freedet
                     try {
-                        Call<ReadJsonList> resultCall = apiInterface.getFreeDetResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Freehed);
+                        UtilityContainer.download(getActivity(),TaskType.Freedet, networkFunctions.getFreeDet());
 
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1388,8 +1312,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing freedeb
                     try {
-                        Call<ReadJsonList> resultCall = apiInterface.getFreedebResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Freedet);
+                        UtilityContainer.download(getActivity(),TaskType.Freedeb, networkFunctions.getFreeDebs());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1406,17 +1329,16 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing freeItem
                     try {
-                        Call<ReadJsonList> resultCall = apiInterface.getFreeitemResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Freedeb);
+                        UtilityContainer.download(getActivity(),TaskType.Freeitem, networkFunctions.getFreeItems());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
                     }
                     /*****************end freeItem**********************************************************************/
-   getActivity().runOnUiThread(new Runnable() {
+                    getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Prices downloaded\nDownloading iteanery details...");
+                            pdialog.setMessage("Downloading iteanery details...");
                         }
                     });
 //**************************************************itenaryhed**********************************************************
@@ -1428,8 +1350,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         int cyear = c.get(Calendar.YEAR);
                         int cmonth = c.get(Calendar.MONTH) + 1;
                         DecimalFormat df_month = new DecimalFormat("00");
-                        Call<ReadJsonList> resultCall = apiInterface.getItenrHedResult(pref.getDistDB(),repcode,""+cyear,""+df_month.format((double) cmonth));
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Freeitem);
+                        UtilityContainer.download(getActivity(),TaskType.Iteneryhed, networkFunctions.getItenaryHed(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1440,7 +1361,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Prices downloaded\nDownloading iteanery details...");
+                            pdialog.setMessage("Downloading iteanery details...");
                         }
                     });
                     // Processing itenarydet
@@ -1449,8 +1370,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         int cyear = c.get(Calendar.YEAR);
                         int cmonth = c.get(Calendar.MONTH) + 1;
                         DecimalFormat df_month = new DecimalFormat("00");
-                        Call<ReadJsonList> resultCall = apiInterface.getItenrDetResult(pref.getDistDB(),repcode,""+cyear,""+df_month.format((double) cmonth));
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Iteneryhed);
+                        UtilityContainer.download(getActivity(),TaskType.Iteneryhed, networkFunctions.getItenaryDet(repcode));
 
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1459,6 +1379,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     }
 
                     /*****************SalesPrice**********************************************************************/
+
+
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1467,8 +1389,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing SalesPrice
                     try {
-                        Call<ReadJsonList> resultCall = apiInterface.getSalesPriceResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Itenerydet);
+                        UtilityContainer.download(getActivity(),TaskType.Salesprice, networkFunctions.getSalesPrices());
+
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1482,8 +1404,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing SalesPrice
                     try {
-                        Call<ReadJsonList> resultCall = apiInterface.getDiscountResult(pref.getDistDB(),repcode);
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Itenerydet);
+                        UtilityContainer.download(getActivity(),TaskType.Discount, networkFunctions.getDiscounts(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;

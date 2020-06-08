@@ -74,7 +74,7 @@ public class SalesPriceController {
             for (SalesPrice salesprice : list) {
 
                 stmt.bindString(1, salesprice.getAllowLineDis());
-                Log.d(">>>", ">>>" + salesprice.getAllowLineDis());
+                //Log.d(">>>", ">>>" + salesprice.getAllowLineDis());
                 stmt.bindString(2, salesprice.getEndingDate());
                // Log.d(">>>", ">>>" + salesprice.getEndingDate());
                 stmt.bindString(3, salesprice.getItemNo());

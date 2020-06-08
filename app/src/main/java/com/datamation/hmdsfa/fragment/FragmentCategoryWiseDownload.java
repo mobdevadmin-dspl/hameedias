@@ -112,8 +112,8 @@ public void onClick(View v) {
         if (isAllUploaded(getActivity())) {
 
         try {
-            new salespriceDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
-            //new freeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+            //new salespriceDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+            new freeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
         } catch (Exception e) {
             Log.e("## ErrorInItemDown ##", e.toString());
         }
@@ -373,13 +373,13 @@ public void onClick(View v) {
                         ArrayList<SalesPrice> salesPriList = new ArrayList<SalesPrice>();
                         SalesPriceController salesPriceController = new SalesPriceController(getActivity());
                         for (int i = 0; i < salesPriJSONJSONArray.length(); i++) {
-                            Log.d(">>>", ">>>" + i);
+                          //  Log.d(">>>", ">>>" + i);
                             salesPriList.add(SalesPrice.parseSalespri(salesPriJSONJSONArray.getJSONObject(i)));
                         }
-                        Log.d(">>>", "size :" + salesPriList.size());
+                       // Log.d(">>>", "size :" + salesPriList.size());
                         salesPriceController.InsertOrReplaceSalesPrice(salesPriList);
                     } catch (JSONException | NumberFormatException e) {
-                        Log.d(">>>", "error in fragment :" + e.toString());
+                       // Log.d(">>>", "error in fragment :" + e.toString());
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
 //                                e, routes, BugReport.SEVERITY_HIGH);

@@ -108,4 +108,22 @@ public class ItemBundle {
     public void setQuantity(int quantity) {
         Quantity = quantity;
     }
+    public static ItemBundle parseItemBundle(JSONObject instance) throws JSONException {
+
+        if (instance != null) {
+            ItemBundle itmbundle = new ItemBundle();
+            itmbundle.setArticleNo(instance.getString("ArticleNo"));
+            itmbundle.setDocumentNo(instance.getString("DocumentNo"));
+            itmbundle.setBarcode(instance.getString("Barcode"));
+            itmbundle.setDescription(instance.getString("Description"));
+            itmbundle.setItemNo(instance.getString("ItemNo"));
+            itmbundle.setVariantCode(instance.getString("VariantCode"));
+            itmbundle.setVariantColour(instance.getString("VariantColour"));
+            itmbundle.setVariantSize(instance.getString("VariantSize"));
+            itmbundle.setQuantity(instance.getInt("Quantity"));
+            return itmbundle;
+        }
+
+        return null;
+    }
 }

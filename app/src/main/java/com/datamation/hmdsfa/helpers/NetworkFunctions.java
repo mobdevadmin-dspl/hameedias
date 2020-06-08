@@ -238,7 +238,22 @@ public class NetworkFunctions {
 
         return getFromServer(baseURL + "FCompanyBranch" + restOfURL + "/" + repCode, params);
     }
+    public String getItemBundles(String repCode) throws IOException {
 
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting bundlebarcode : " + baseURL + "bundlebarcode" + restOfURL + "/" + repCode + params);
+
+        return getFromServer(baseURL + "bundlebarcode" + restOfURL + "/" + repCode, params);
+    }
+    public String getDiscounts(String repCode) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting CusProductDis : " + baseURL + "CusProductDis" + restOfURL + "/" + repCode + params);
+
+        return getFromServer(baseURL + "CusProductDis" + restOfURL + "/" + repCode, params);
+    }
     public String getReferenceSettings() throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
@@ -246,6 +261,14 @@ public class NetworkFunctions {
         Log.d(LOG_TAG, "Getting fCompanySetting : " + baseURL + "fCompanySetting" + restOfURL + params);
 
         return getFromServer(baseURL + "fCompanySetting" + restOfURL, params);
+    }
+    public String getVAT() throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting VATMaster : " + baseURL + "VATMaster" + restOfURL + params);
+
+        return getFromServer(baseURL + "VATMaster" + restOfURL, params);
     }
 
     public String getReasons() throws IOException {
@@ -256,7 +279,14 @@ public class NetworkFunctions {
 
         return getFromServer(baseURL + "freason" + restOfURL, params);
     }
+    public String getSalesPrices() throws IOException {
 
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting Salesprice  : " + baseURL + "Salesprice " + restOfURL + params);
+
+        return getFromServer(baseURL + "Salesprice" + restOfURL, params);
+    }
     public String getExpenses() throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
@@ -419,6 +449,17 @@ public class NetworkFunctions {
         Log.d(LOG_TAG, "Getting FItenrHed : " + baseURL + "FItenrHed" + restOfURL);
 
         return getFromServer(baseURL + "FItenrHed" + restOfURL + "/" + repCode + "/" + cyear + "/" + df_month.format((double) cmonth), params);
+    }
+    public String getItenaryDebDet(String repCode) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+        Calendar c = Calendar.getInstance();
+        int cyear = c.get(Calendar.YEAR);
+        int cmonth = c.get(Calendar.MONTH) + 1;
+        DecimalFormat df_month = new DecimalFormat("00");
+        Log.d(LOG_TAG, "Getting fitedebdet : " + baseURL + "fitedebdet" + restOfURL);
+
+        return getFromServer(baseURL + "fitedebdet" + restOfURL + "/" + repCode + "/" + cyear + "/" + df_month.format((double) cmonth), params);
     }
 
     public String getTMInvoiceSale(String repCode) throws IOException {

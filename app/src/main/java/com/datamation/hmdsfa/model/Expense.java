@@ -104,7 +104,7 @@ public class Expense {
             expense.setFEXPENSE_ADD_MACH(instance.getString("AddMach"));
             expense.setFEXPENSE_ADD_USER(instance.getString("AddUser"));
             expense.setFEXPENSE_CODE(instance.getString("ExpCode"));
-            // expense.setFEXPENSE_GRP_CODE(jObject.getString("ExpGrpCode"));
+            expense.setFEXPENSE_GRP_CODE(instance.getString("ExpGrpCode"));
             expense.setFEXPENSE_NAME(instance.getString("ExpName"));
             expense.setFEXPENSE_STATUS(instance.getString("Status"));
             return expense;

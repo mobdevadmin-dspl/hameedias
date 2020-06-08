@@ -2,6 +2,9 @@ package com.datamation.hmdsfa.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Discount {
 
     @SerializedName("DebCode")
@@ -63,5 +66,21 @@ public class Discount {
 
     public void setRepCode(String repCode) {
         RepCode = repCode;
+    }
+    public static Discount parseDiscounts(JSONObject instance) throws JSONException {
+
+        if (instance != null) {
+            Discount discount = new Discount();
+
+            discount.setDebCode(instance.getString("DebCode"));
+            discount.setDebName(instance.getString("DebName"));
+            discount.setLocCode(instance.getString("LocCode"));
+            discount.setProductDis(instance.getString("ProductDis"));
+            discount.setProductGroup(instance.getString("ProductGroup"));
+            discount.setRepCode(instance.getString("RepCode"));
+            return discount;
+        }
+
+        return null;
     }
 }
