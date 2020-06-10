@@ -66,19 +66,12 @@ public class FItenrDetController {
                 ContentValues values = new ContentValues();
 
                 values.put(DatabaseHelper.REFNO,  fItenrDet.getFITENRDET_REF_NO());
-                Log.d(">>>", ">>>" + fItenrDet.getFITENRDET_REF_NO());
                 values.put(DatabaseHelper.TXNDATE, fItenrDet.getFITENRDET_TXN_DATE());
-                Log.d(">>>", ">>>" + fItenrDet.getFITENRDET_TXN_DATE());
                 values.put(FITENRDET_NO_OUTLET, fItenrDet.getFITENRDET_NO_OUTLET());
-                Log.d(">>>", ">>>" +fItenrDet.getFITENRDET_NO_OUTLET());
                 values.put(FITENRDET_ROUTE_CODE, fItenrDet.getFITENRDET_ROUTE_CODE());
-                Log.d(">>>", ">>>" + fItenrDet.getFITENRDET_ROUTE_CODE());
                 values.put(FITENRDET_NO_SHCUCAL, fItenrDet.getFITENRDET_NO_SHCUCAL());
-                Log.d(">>>", ">>>" + fItenrDet.getFITENRDET_NO_SHCUCAL());
                 values.put(FITENRDET_REMARKS,fItenrDet.getFITENRDET_REMARKS());
-                Log.d(">>>", ">>>" + fItenrDet.getFITENRDET_REMARKS());
                 values.put(FITENRDET_RD_TARGET,fItenrDet.getFITENRDET_RD_TARGET());
-                Log.d(">>>", ">>>" + fItenrDet.getFITENRDET_RD_TARGET());
 
                 if (cursor.getCount() > 0) {
                     dB.update(TABLE_FITENRDET, values, "", null);

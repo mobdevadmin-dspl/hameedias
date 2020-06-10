@@ -1396,7 +1396,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         int cyear = c.get(Calendar.YEAR);
                         int cmonth = c.get(Calendar.MONTH) + 1;
                         DecimalFormat df_month = new DecimalFormat("00");
-                        UtilityContainer.download(getActivity(),TaskType.Iteneryhed, networkFunctions.getItenaryDet(repcode));
+                        UtilityContainer.download(getActivity(),TaskType.Itenerydet, networkFunctions.getItenaryDet(repcode));
 
                     } catch (Exception e) {
                         errors.add(e.toString());

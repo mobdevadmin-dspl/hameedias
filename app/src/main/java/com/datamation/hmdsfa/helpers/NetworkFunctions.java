@@ -449,6 +449,7 @@ public class NetworkFunctions {
         Log.d(LOG_TAG, "Getting FItenrHed : " + baseURL + "FItenrHed" + restOfURL);
 
         return getFromServer(baseURL + "FItenrHed" + restOfURL + "/" + repCode + "/" + cyear + "/" + df_month.format((double) cmonth), params);
+
     }
     public String getItenaryDebDet(String repCode) throws IOException {
 
