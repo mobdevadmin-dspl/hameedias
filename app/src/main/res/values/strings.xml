@@ -12,6 +12,7 @@
     <string name="login_et_password_hint">P A S S W O R D</string>
     <string name="login_et_username_hint">U S E R N A M E</string>
     <string name="login_btn_sign_in_txt">SIGN IN</string>
+    <string name="fab_content_desc">DISCOUNT</string>
     <!--  Num Value -->
     <string name="NumVal">SFAORDER</string>
     <string name="VanNumVal">SFAINVOICE</string>

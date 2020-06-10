@@ -902,8 +902,9 @@ public class BRInvoiceDetailFragment extends Fragment{
     }
 
     private void connectionError(){
-       // textStatus.setText("STATUS : BLUETOOTH CONNECTION ERROR!");
-        textStatus.setBackgroundResource(R.color.blue_c);
+        //textStatus.setText("STATUS : BLUETOOTH CONNECTION ERROR!");
+        Log.e("BLUETOOTH CONNECTION>>",">>>ERROR");
+       // textStatus.setBackgroundResource(R.color.blue_c);
     }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 

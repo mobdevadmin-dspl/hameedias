@@ -31,6 +31,7 @@
     <application
         android:name="com.datamation.hmdsfa.MyApplication"
         android:usesCleartextTraffic="true"
+        android:hardwareAccelerated="false"
         android:allowBackup="true"
         android:icon="@drawable/dm_logo"
         android:label="@string/app_name"

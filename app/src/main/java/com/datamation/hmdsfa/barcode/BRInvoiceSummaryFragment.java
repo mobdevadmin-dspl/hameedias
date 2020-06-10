@@ -186,19 +186,17 @@ public class BRInvoiceSummaryFragment extends Fragment {
                 RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
 
                 String orRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
-                String activeRetRefNo = new SalesReturnController(getActivity()).getCurRefNoOfRetWitInv(orRefNo);
 
                 String result = new InvHedController(getActivity()).restData(RefNo);
                 if (!result.equals("")) {
-                    new InvDetController(getActivity()).restData(RefNo);
                     new ProductController(getActivity()).mClearTables();
+                    new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
+                    new InvoiceBarcodeController(getActivity()).InactiveStatusUpdate(RefNo);
+                    new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
+                    new InvoiceDetBarcodeController(getActivity()).InactiveStatusUpdate(RefNo);
                 }
 
-
-                //    activity.cusPosition = 0;
                 Toast.makeText(getActivity(), "Invoice details discarded successfully..!", Toast.LENGTH_SHORT).show();
-                // UtilityContainer.ClearVanSharedPref(getActivity());
-                UtilityContainer.ClearReturnSharedPref(getActivity());
 
                 Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
                 startActivity(intnt);
@@ -317,7 +315,6 @@ public class BRInvoiceSummaryFragment extends Fragment {
                             new InvoiceBarcodeController(getActivity()).InactiveStatusUpdate(RefNo);
                             new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
                             new InvoiceDetBarcodeController(getActivity()).InactiveStatusUpdate(RefNo);
-                            final ActivityVanSalesBR activity = (ActivityVanSalesBR) getActivity();
                             new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
 
                             /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/

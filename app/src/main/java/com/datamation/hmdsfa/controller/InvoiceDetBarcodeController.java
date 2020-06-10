@@ -105,7 +105,7 @@ public class InvoiceDetBarcodeController {
         }
 
         try {
-            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + TABLE_BCINCOICEDET + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
+            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + TABLE_BCINCOICEDET + " WHERE  " + DatabaseHelper.REFNO + " = '" + refNo + "'";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
@@ -207,6 +207,7 @@ public class InvoiceDetBarcodeController {
         invDet.setArticleNo(articleNo);
         invDet.setQty(qty);
         invDet.setPrice(price);
+        invDet.setIsActive("1");
 
         arrList.add(invDet);
         new InvoiceDetBarcodeController(context).insertOrUpdateBCInvDet(arrList);
@@ -221,7 +222,7 @@ public class InvoiceDetBarcodeController {
         ArrayList<BarcodenvoiceDet> list = new ArrayList<BarcodenvoiceDet>();
 
         // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' AND types='SA'";
-        String selectQuery = "select * from " + TABLE_BCINCOICEDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + TABLE_BCINCOICEDET + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 

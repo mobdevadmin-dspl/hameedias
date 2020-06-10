@@ -119,4 +119,14 @@
 <!--            app:fab_size="mini" />-->
 
 <!--    </com.github.clans.fab.FloatingActionMenu>-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_discount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/fab_content_desc"
+        app:srcCompat="@drawable/discount_new"/>
 </RelativeLayout>

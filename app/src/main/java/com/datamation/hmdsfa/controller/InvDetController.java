@@ -394,7 +394,7 @@ public class InvDetController {
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
        // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' AND types='SA'";
-        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' ";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
