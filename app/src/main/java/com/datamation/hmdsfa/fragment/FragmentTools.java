@@ -1406,21 +1406,21 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     /*****************SalesPrice**********************************************************************/
 
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Downloading SalesPeice....");
-                        }
-                    });
-                    // Processing SalesPrice
-                    try {
-                        UtilityContainer.download(getActivity(),TaskType.Salesprice, networkFunctions.getSalesPrices());
-
-                    } catch (Exception e) {
-                        errors.add(e.toString());
-                        throw e;
-                    }
+//
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pdialog.setMessage("Downloading SalesPeice....");
+//                        }
+//                    });
+//                    // Processing SalesPrice
+//                    try {
+//                        UtilityContainer.download(getActivity(),TaskType.Salesprice, networkFunctions.getSalesPrices());
+//
+//                    } catch (Exception e) {
+//                        errors.add(e.toString());
+//                        throw e;
+//                    }
                     /*****************discount**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
