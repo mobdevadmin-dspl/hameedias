@@ -30,6 +30,7 @@ import com.datamation.hmdsfa.controller.FreeSlabController;
 import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
+import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.ReasonController;
 import com.datamation.hmdsfa.controller.ReferenceDetailDownloader;
 import com.datamation.hmdsfa.controller.ReferenceSettingController;
@@ -55,6 +56,7 @@ import com.datamation.hmdsfa.model.FreeMslab;
 import com.datamation.hmdsfa.model.FreeSlab;
 import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemBundle;
+import com.datamation.hmdsfa.model.ItemLoc;
 import com.datamation.hmdsfa.model.ItenrDeb;
 import com.datamation.hmdsfa.model.Reason;
 import com.datamation.hmdsfa.model.Route;
@@ -760,6 +762,28 @@ public class UtilityContainer {
                     }
                     fItenrDetController.createOrUpdateFItenrDet(arrayList);
                     Log.d("Insertitenrydet", "succes");
+
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.d(">>>", "error in fragment" + e.toString());
+                    }
+                }
+            }
+            break;
+            case Stock:{
+                ItemLocController itemLocController = new ItemLocController(context);
+                itemLocController.deleteAll();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("fItemLocResult");
+                    ArrayList<ItemLoc> arrayList = new ArrayList<ItemLoc>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        Log.d(">>>", ">>>" + i);
+                        arrayList.add(ItemLoc.parseItemLocs(jsonArray.getJSONObject(i)));
+                    }
+                    itemLocController.InsertOrReplaceItemLoc(arrayList);
+                    Log.d("InsertItemLoc", "succes");
 
                 } catch (JSONException | NumberFormatException e) {
                     try {

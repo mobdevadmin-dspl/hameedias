@@ -1428,7 +1428,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Downloading discount....");
                         }
                     });
-                    // Processing SalesPrice
+                    // Processing discount
                     try {
                         UtilityContainer.download(getActivity(),TaskType.Discount, networkFunctions.getDiscounts(repcode));
                     } catch (Exception e) {
@@ -1443,7 +1443,30 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    /*****************end iteanerydet**********************************************************************/
+                    /*****************stock**********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading ItemLoc....");
+                        }
+                    });
+                    // Processing discount
+                    try {
+                        UtilityContainer.download(getActivity(),TaskType.Stock, networkFunctions.getStock(repcode));
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Completed...");
+                        }
+                    });
+
+                    /*****************end sync**********************************************************************/
+
                     return true;
                 } else {
                     errors.add("SharedPref.getInstance(getActivity()).getLoginUser() = null OR !SharedPref.getInstance(getActivity()).isLoggedIn()");

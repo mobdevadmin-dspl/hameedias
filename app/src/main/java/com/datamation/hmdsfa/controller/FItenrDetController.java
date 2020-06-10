@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Created by Rashmi
  */
 
-public class FItenrDetController {
+public class FItenrDetController{
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     Context context;

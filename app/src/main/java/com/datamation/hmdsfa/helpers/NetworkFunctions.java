@@ -254,6 +254,16 @@ public class NetworkFunctions {
 
         return getFromServer(baseURL + "CusProductDis" + restOfURL + "/" + repCode, params);
     }
+
+    public String getStock(String repCode) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting fitemloc : " + baseURL + "fitemloc" + restOfURL + "/" + repCode + params);
+
+        return getFromServer(baseURL + "fitemloc" + restOfURL + "/" + repCode, params);
+    }
+
     public String getReferenceSettings() throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();

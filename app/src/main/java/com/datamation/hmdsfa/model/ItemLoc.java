@@ -15,6 +15,16 @@ public class ItemLoc
     private String FITEMLOC_QOH;
     @SerializedName("RecordId")
     private String FITEMLOC_RECORD_ID;
+    @SerializedName("Barcode")
+    private String FITEMLOC_BARCODE;
+
+    public String getFITEMLOC_BARCODE() {
+        return FITEMLOC_BARCODE;
+    }
+
+    public void setFITEMLOC_BARCODE(String FITEMLOC_BARCODE) {
+        this.FITEMLOC_BARCODE = FITEMLOC_BARCODE;
+    }
 
     private String FITEMLOC_ID;
 
@@ -64,7 +74,8 @@ public class ItemLoc
             loc.setFITEMLOC_ITEM_CODE(instance.getString("ItemCode"));
             loc.setFITEMLOC_LOC_CODE(instance.getString("LocCode"));
             loc.setFITEMLOC_QOH(instance.getString("QOH"));
-            loc.setFITEMLOC_RECORD_ID(instance.getString("RecordId"));
+            loc.setFITEMLOC_BARCODE(instance.getString("Barcode"));
+           // loc.setFITEMLOC_RECORD_ID(instance.getString("RecordId"));
             return loc;
         }
 
