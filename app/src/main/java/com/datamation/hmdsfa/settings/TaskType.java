@@ -24,8 +24,10 @@ public enum TaskType {
     Freeitem(19),
     Iteneryhed(20),
     Itenerydet(21),
-    Salesprice(22),
-    Discount(23);
+    Stock(22),
+    Salesprice(23),
+    Discount(24);
+
     int value;
 
     private TaskType(int value) {

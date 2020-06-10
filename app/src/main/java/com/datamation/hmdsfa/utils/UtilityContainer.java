@@ -30,6 +30,7 @@ import com.datamation.hmdsfa.controller.FreeSlabController;
 import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
+import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.ReasonController;
 import com.datamation.hmdsfa.controller.ReferenceDetailDownloader;
 import com.datamation.hmdsfa.controller.ReferenceSettingController;
@@ -55,6 +56,7 @@ import com.datamation.hmdsfa.model.FreeMslab;
 import com.datamation.hmdsfa.model.FreeSlab;
 import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemBundle;
+import com.datamation.hmdsfa.model.ItemLoc;
 import com.datamation.hmdsfa.model.ItenrDeb;
 import com.datamation.hmdsfa.model.Reason;
 import com.datamation.hmdsfa.model.Route;
@@ -770,28 +772,51 @@ public class UtilityContainer {
                 }
             }
             break;
-            case Salesprice:{
+            case Stock:{
+                ItemLocController itemLocController = new ItemLocController(context);
+                itemLocController.deleteAll();
                 try {
-
-                    JSONArray jsonArray = jsonObject.getJSONArray("SalesPriceResult");
-                    ArrayList<SalesPrice> arrayList = new ArrayList<SalesPrice>();
-                    SalesPriceController salesPriceController = new SalesPriceController(context);
+                    JSONArray jsonArray = jsonObject.getJSONArray("fItemLocResult");
+                    ArrayList<ItemLoc> arrayList = new ArrayList<ItemLoc>();
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        //  Log.d(">>>", ">>>" + i);
-                        arrayList.add(SalesPrice.parseSalespri(jsonArray.getJSONObject(i)));
+                        Log.d(">>>", ">>>" + i);
+                        arrayList.add(ItemLoc.parseItemLocs(jsonArray.getJSONObject(i)));
                     }
-                    // Log.d(">>>", "size :" + salesPriList.size());
-                    salesPriceController.InsertOrReplaceSalesPrice(arrayList);
+                    itemLocController.InsertOrReplaceItemLoc(arrayList);
+                    Log.d("InsertItemLoc", "succes");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.d(">>>", "error in fragment" + e.toString());
                     }
                 }
-
-
             }
+//            break;
+////            case Salesprice:{
+////                try {
+////
+////                    JSONArray jsonArray = jsonObject.getJSONArray("SalesPriceResult");
+////                    ArrayList<SalesPrice> arrayList = new ArrayList<SalesPrice>();
+////                    SalesPriceController salesPriceController = new SalesPriceController(context);
+////                    salesPriceController.deleteAll();
+////                    for (int i = 0; i < jsonArray.length(); i++) {
+////                        //  Log.d(">>>", ">>>" + i);
+////                        arrayList.add(SalesPrice.parseSalespri(jsonArray.getJSONObject(i)));
+////                    }
+////                    // Log.d(">>>", "size :" + salesPriList.size());
+////                    salesPriceController.InsertOrReplaceSalesPrice(arrayList);
+////                } catch (JSONException | NumberFormatException e) {
+////                    try {
+////                        throw e;
+////                    } catch (JSONException e1) {
+////                        Log.e("JSON ERROR>>>>>",e.toString());
+////                    }
+////                }
+//
+//
+//            }
             break;
             case Discount:{
                 try {

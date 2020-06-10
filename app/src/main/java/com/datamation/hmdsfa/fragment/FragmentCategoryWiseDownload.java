@@ -18,10 +18,14 @@ import android.widget.Toast;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.controller.DayExpHedController;
 import com.datamation.hmdsfa.controller.DayNPrdHedController;
+import com.datamation.hmdsfa.controller.FItenrDetController;
+import com.datamation.hmdsfa.controller.FItenrHedController;
 import com.datamation.hmdsfa.controller.FreeDebController;
 import com.datamation.hmdsfa.controller.FreeDetController;
 import com.datamation.hmdsfa.controller.FreeHedController;
 import com.datamation.hmdsfa.controller.FreeItemController;
+import com.datamation.hmdsfa.controller.IteaneryDebController;
+import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.ItemPriceController;
@@ -36,14 +40,18 @@ import com.datamation.hmdsfa.helpers.NetworkFunctions;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.DayExpHed;
 import com.datamation.hmdsfa.model.DayNPrdHed;
+import com.datamation.hmdsfa.model.FItenrDet;
+import com.datamation.hmdsfa.model.FItenrHed;
 import com.datamation.hmdsfa.model.FddbNote;
 import com.datamation.hmdsfa.model.FreeDeb;
 import com.datamation.hmdsfa.model.FreeDet;
 import com.datamation.hmdsfa.model.FreeHed;
 import com.datamation.hmdsfa.model.FreeItem;
 import com.datamation.hmdsfa.model.Item;
+import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.ItemLoc;
 import com.datamation.hmdsfa.model.ItemPri;
+import com.datamation.hmdsfa.model.ItenrDeb;
 import com.datamation.hmdsfa.model.Locations;
 import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.Route;
@@ -63,7 +71,7 @@ import java.util.ArrayList;
 public class FragmentCategoryWiseDownload extends Fragment {
 
     private View view;
-    private TextView downItems,downFree,downRoute,downOutstanding;
+    private TextView downItems,downFree,downRoute,downOutstanding,downPrice,downStock,downOthers;
     NetworkFunctions networkFunctions;
 
 
@@ -79,6 +87,9 @@ public class FragmentCategoryWiseDownload extends Fragment {
          downFree        = (TextView) view.findViewById(R.id.free_download);
          downRoute       = (TextView) view.findViewById(R.id.route_download);
          downOutstanding = (TextView) view.findViewById(R.id.outstanding_download);
+         downPrice= (TextView) view.findViewById(R.id.price_download);
+         downStock = (TextView) view.findViewById(R.id.stock_download);
+         downOthers = (TextView) view.findViewById(R.id.other_download);
 
         downItems.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +123,7 @@ public void onClick(View v) {
         if (isAllUploaded(getActivity())) {
 
         try {
-            //new salespriceDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+
             new freeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
         } catch (Exception e) {
             Log.e("## ErrorInItemDown ##", e.toString());
@@ -169,6 +180,69 @@ public void onClick(View v) {
             }
              }
         });
+
+        downStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
+
+                if(connectionStatus == true)
+                {
+                    if(isAllUploaded(getActivity()))
+                    {
+                        try
+                        {
+                            new StockDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+                        }
+                        catch (Exception e)
+                        {
+                            Log.e("## ErrorInStockDown ##", e.toString());
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        downPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
+
+                if(connectionStatus == true)
+                {
+                    if(isAllUploaded(getActivity()))
+                    {
+                        try
+                        {
+                            new salespriceDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+                        }
+                        catch (Exception e)
+                        {
+                            Log.e("## ErrorInPriceDown ##", e.toString());
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+
         //DISABLED BACK NAVIGATION
         view.setFocusableInTouchMode(true);
         view.requestFocus();
@@ -243,15 +317,13 @@ public void onClick(View v) {
             try {
                 if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
 
-                    /*****************Item Loc*****************************************************************************/
+                    /*****************Item *****************************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Downloading item data...");
                         }
                     });
-
-                    /*****************Item*****************************************************************************/
 
                     String item = "";
                     try {
@@ -262,7 +334,7 @@ public void onClick(View v) {
                         throw e;
                     }
 
-                    // Processing item price
+                    // Processing item
                     try {
                         JSONObject itemJSON = new JSONObject(item);
                         JSONArray itemJSONArray = itemJSON.getJSONArray("fItemsResult");
@@ -280,6 +352,41 @@ public void onClick(View v) {
                         throw e;
                     }
                     /*****************end item **********************************************************************/
+
+                    /*****************Item Bundle*****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading item data...");
+                        }
+                    });
+
+                    String itemBundle = "";
+                    try {
+                        itemBundle = networkFunctions.getItemBundles(repcode);
+                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
+
+                    // Processing itembundle
+                    try {
+                        JSONObject itemBundleJSON = new JSONObject(itemBundle);
+                        JSONArray itemBundleJSONArray = itemBundleJSON.getJSONArray("BundleBarCodeResult");
+                        ArrayList<ItemBundle> itemBundleList = new ArrayList<ItemBundle>();
+                        ItemBundleController itemBundleController = new ItemBundleController(getActivity());
+                        for (int i = 0; i < itemBundleJSONArray.length(); i++) {
+                            itemBundleList.add(ItemBundle.parseItemBundle(itemBundleJSONArray.getJSONObject(i)));
+                        }
+                        itemBundleController.InsertOrReplaceItemBundle(itemBundleList);
+                    } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -309,7 +416,7 @@ public void onClick(View v) {
         protected void onPostExecute(final Boolean result) {
             super.onPostExecute(result);
 
-            pdialog.setMessage("Finalizing item data");
+            pdialog.setMessage("Finalizing itembundle data");
             pdialog.setMessage("Download Completed..");
             if (result) {
                 if (pdialog.isShowing()) {
@@ -372,6 +479,7 @@ public void onClick(View v) {
                         JSONArray salesPriJSONJSONArray = salesPriceJSON.getJSONArray("SalesPriceResult");
                         ArrayList<SalesPrice> salesPriList = new ArrayList<SalesPrice>();
                         SalesPriceController salesPriceController = new SalesPriceController(getActivity());
+                        salesPriceController.deleteAll();
                         for (int i = 0; i < salesPriJSONJSONArray.length(); i++) {
                           //  Log.d(">>>", ">>>" + i);
                             salesPriList.add(SalesPrice.parseSalespri(salesPriJSONJSONArray.getJSONObject(i)));
@@ -632,7 +740,7 @@ public void onClick(View v) {
             try {
                 if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
 
-                    /*****************Item Loc*****************************************************************************/
+                    /*****************route*****************************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -715,6 +823,141 @@ public void onClick(View v) {
                         throw e;
                     }
                     /*****************end route det**********************************************************************/
+
+                    /*****************Itenary hed**********************************************************************/
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("ItenaryHed\nDownloading route details...");
+                        }
+                    });
+
+                    String itenaryHed = "";
+                    try {
+                        itenaryHed = networkFunctions.getItenaryHed(repcode);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Processing downloaded data (ItenaryHed)...");
+                        }
+                    });
+
+                    // Processing itenaryHed
+                    try {
+                        JSONObject itenaryHedJSON = new JSONObject(itenaryHed);
+                        JSONArray itenaryHedJSONJSONArray = itenaryHedJSON.getJSONArray("fItenrHedResult");
+                        ArrayList<FItenrHed> itenaryHedList = new ArrayList<FItenrHed>();
+                        FItenrHedController fItenrHedController = new FItenrHedController(getActivity());
+                        fItenrHedController.deleteAll();
+                        for (int i = 0; i < itenaryHedJSONJSONArray.length(); i++) {
+                            itenaryHedList.add(FItenrHed.parseIteanaryHed(itenaryHedJSONJSONArray.getJSONObject(i)));
+                        }
+                        fItenrHedController.createOrUpdateFItenrHed(itenaryHedList);
+                    } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
+
+                    /*****************end itenaryHed**********************************************************************/
+
+                    /*****************Itenary det**********************************************************************/
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("ItenaryDet\nDownloading route details...");
+                        }
+                    });
+
+                    String itenaryDet = "";
+                    try {
+                        itenaryDet = networkFunctions.getItenaryDet(repcode);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Processing downloaded data (ItenaryDet)...");
+                        }
+                    });
+
+                    // Processing itenaryDet
+                    try {
+                        JSONObject itenaryDetJSON = new JSONObject(itenaryDet);
+                        JSONArray itenaryDetJSONJSONArray = itenaryDetJSON.getJSONArray("fItenrDetResult");
+                        ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
+                        FItenrDetController fItenrDetController= new FItenrDetController(getActivity());
+                        fItenrDetController.deleteAll();
+                        for (int i = 0; i < itenaryDetJSONJSONArray.length(); i++) {
+                            itenaryDetList.add(FItenrDet.parseIteanaryDet(itenaryDetJSONJSONArray.getJSONObject(i)));
+                        }
+                        fItenrDetController.createOrUpdateFItenrDet(itenaryDetList);
+                    } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
+
+                    /*****************end itenaryDet*********************************************************************/
+
+                    /*****************Itenary debDet**********************************************************************/
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("ItenaryDebDet\nDownloading route details...");
+                        }
+                    });
+
+                    String itenaryDeb = "";
+                    try {
+                        itenaryDeb = networkFunctions.getItenaryDebDet(repcode);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Processing downloaded data (ItenaryDeb)...");
+                        }
+                    });
+
+                    // Processing itenaryDeb
+                    try {
+                        JSONObject itenaryDebJSON = new JSONObject(itenaryDeb);
+                        JSONArray itenaryDebJSONJSONArray = itenaryDebJSON.getJSONArray("fIteDebDetResult");
+                        ArrayList<ItenrDeb> itenaryDebList = new ArrayList<ItenrDeb>();
+                        IteaneryDebController iteaneryDebController = new IteaneryDebController(getActivity());
+                        iteaneryDebController.deleteAll();
+                        for (int i = 0; i < itenaryDebJSONJSONArray.length(); i++) {
+                            itenaryDebList.add(ItenrDeb.parseIteDebDet(itenaryDebJSONJSONArray.getJSONObject(i)));
+                        }
+                        iteaneryDebController.InsertOrReplaceItenrDeb(itenaryDebList);
+                    } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
+                    /*****************end itenaryDeb*********************************************************************/
+
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -871,4 +1114,124 @@ public void onClick(View v) {
             }
         }
     }
+
+    //stock download
+    private class StockDownload extends  AsyncTask<String,Integer,Boolean>{
+
+        CustomProgressDialog pdialog;
+        private String repcode;
+
+        public StockDownload(String repcode) {
+            this.repcode = repcode;
+            this.pdialog = new CustomProgressDialog(getActivity());
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdialog = new CustomProgressDialog(getActivity());
+            pdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            pdialog.setMessage("Downloading Stock..");
+            pdialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+
+                try {
+                    if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
+
+                        /*****************Stock*****************************************************************************/
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pdialog.setMessage("Downloading Stock data...");
+                            }
+                        });
+
+                        String stock = "";
+                        try {
+                            stock = networkFunctions.getStock(repcode);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            throw e;
+                        }
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pdialog.setMessage("Processing downloaded data (stock)...");
+                            }
+                        });
+
+                        // Processing stock
+                        try {
+                            JSONObject stockJSON = new JSONObject(stock);
+                            JSONArray stockJSONArray = stockJSON.getJSONArray("fItemLocResult");
+                            ArrayList<ItemLoc> stockList = new ArrayList<ItemLoc>();
+                            ItemLocController itemLocController = new ItemLocController(getActivity());
+                            itemLocController.deleteAll();
+                            for(int i = 0; i < stockJSONArray.length(); i++)
+                            {
+                                stockList.add(ItemLoc.parseItemLocs(stockJSONArray.getJSONObject(i)));
+                            }
+                            itemLocController.InsertOrReplaceItemLoc(stockList);
+
+                        } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                            throw e;
+                        }
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pdialog.setMessage("Download complete...");
+                            }
+                        });
+                        return true;
+                    } else {
+                        //errors.add("Please enter correct username and password");
+                        return false;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                    return false;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                    return false;
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+            pdialog.setMessage("Finalizing Stock data");
+            pdialog.setMessage("Download Completed..");
+
+            if(result)
+            {
+                if(pdialog.isShowing())
+                {
+                    pdialog.dismiss();
+                }
+            }
+            else
+            {
+                if (pdialog.isShowing())
+                {
+                    pdialog.dismiss();
+                }
+            }
+        }
+    }
+
 }
