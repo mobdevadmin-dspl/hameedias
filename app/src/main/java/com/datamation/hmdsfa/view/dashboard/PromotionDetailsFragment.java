@@ -8,10 +8,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +26,17 @@ import com.datamation.hmdsfa.controller.FreeHedController;
 import com.datamation.hmdsfa.model.FreeDeb;
 import com.datamation.hmdsfa.model.FreeHed;
 import com.datamation.hmdsfa.model.free;
-
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * Used to show the user a list of recorded payments.
@@ -260,7 +260,7 @@ public class PromotionDetailsFragment extends Fragment  {
                txtListChild.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View v) {
-                       Toast.makeText(getActivity(),"SaleItems for refno"+refno,Toast.LENGTH_LONG).show();
+                       Toast.makeText(getActivity(),"SaleItems for refno"+refno, Toast.LENGTH_LONG).show();
                        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
                        View promptView = layoutInflater.inflate(R.layout.promo_items_mix, null);
                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
@@ -287,7 +287,7 @@ public class PromotionDetailsFragment extends Fragment  {
                     @Override
                     public void onClick(View v) {
                     //Toast.makeText(getActivity(),"FreeItem for refno"+refno,Toast.LENGTH_LONG).show();
-                        Toast.makeText(getActivity(),"SaleItems for refno"+refno,Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(),"SaleItems for refno"+refno, Toast.LENGTH_LONG).show();
                         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
                         View promptView = layoutInflater.inflate(R.layout.promo_items_mix, null);
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
@@ -377,7 +377,7 @@ public class PromotionDetailsFragment extends Fragment  {
         private HashMap<FreeHed, List<FreeDeb>> _listDataChild;
 
         public ExpandableListAdapterDeb(Context context, List<FreeHed> listDataHeader,
-                                     HashMap<FreeHed, List<FreeDeb>> listChildData) {
+                                        HashMap<FreeHed, List<FreeDeb>> listChildData) {
             this._context = context;
             this._listDataHeader = listDataHeader;
             this._listDataChild = listChildData;

@@ -988,14 +988,40 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    // Processing Items
+//                    // Processing Items
+//                    try {
+//                        UtilityContainer.download(getActivity(),TaskType.Items, networkFunctions.getItems());
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        throw e;
+//                    }
+
+                    String item = "";
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Items, networkFunctions.getItems());
+                        item = networkFunctions.getItems(repcode);
+                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
                     } catch (IOException e) {
                         e.printStackTrace();
                         throw e;
                     }
 
+                    // Processing item price
+                    try {
+                        JSONObject itemJSON = new JSONObject(item);
+                        JSONArray itemJSONArray = itemJSON.getJSONArray("fItemsResult");
+                        ArrayList<Item> itemList = new ArrayList<Item>();
+                        ItemController itemController = new ItemController(getActivity());
+                        for (int i = 0; i < itemJSONArray.length(); i++) {
+                            itemList.add(Item.parseItem(itemJSONArray.getJSONObject(i)));
+                        }
+                        itemController.InsertOrReplaceItems(itemList);
+                    } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
                     /*****************end Items **********************************************************************/
                     //                    /*****************reasons**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {

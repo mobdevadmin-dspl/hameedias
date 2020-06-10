@@ -22,9 +22,9 @@ import com.datamation.hmdsfa.view.dashboard.DaySummaryFragment;
 import com.datamation.hmdsfa.view.dashboard.InvoiceDetailsFragmentNew;
 import com.datamation.hmdsfa.view.dashboard.MainDashboardFragment;
 import com.datamation.hmdsfa.view.dashboard.OrderDetailsFragment;
+import com.datamation.hmdsfa.view.dashboard.PromotionDetailsFragment;
 import com.datamation.hmdsfa.view.dashboard.ReportFragment;
 import com.datamation.hmdsfa.view.dashboard.PaymentDetailsFragment;
-import com.datamation.hmdsfa.view.dashboard.PromotionDetailsFragment;
 import com.datamation.hmdsfa.view.dashboard.TransactionDetailsFragment;
 
 
@@ -172,8 +172,8 @@ public class FragmentHome extends Fragment {
     private class DashboardPagerAdapter extends FragmentPagerAdapter {
 
       //  private String[] titles = {"Main", "Summary","Promotion","Order", "Invoice", "Payment"};
-      //  private String[] titles = {"Main", "Summary", "Transactions", "Promotion", "Payment", "Reports"};
-        private String[] titles = {"Main", "Summary", "Today Sale", "Promotion", "Reports"};
+          private String[] titles = {"Main", "Summary","Transactions", "Promotion", "Payment", "Reports"};
+       // private String[] titles = {"Main", "Summary", "Today Sale", "Promotion", "Reports"};
 
         public DashboardPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -199,13 +199,13 @@ public class FragmentHome extends Fragment {
                 case 3:
                     if(promoDetailsFragment == null) promoDetailsFragment = new PromotionDetailsFragment();
                     return promoDetailsFragment;
-//                case 4:
-//                    if(paymentDetailsFragment == null) paymentDetailsFragment = new PaymentDetailsFragment();
-//                    return paymentDetailsFragment;
                 case 4:
+                    if(paymentDetailsFragment == null) paymentDetailsFragment = new PaymentDetailsFragment();
+                    return paymentDetailsFragment;
+                case 5:
                     if(otherDetailsFragment == null) otherDetailsFragment = new ReportFragment();
                     return otherDetailsFragment;
-//
+
 //                case 4:
 //
 //if(promoDetailsFragment == null) promoDetailsFragment = new PromotionDetailsFragment();

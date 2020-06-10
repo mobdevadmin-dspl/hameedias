@@ -960,7 +960,7 @@ public class FragmentToolsOld extends Fragment implements View.OnClickListener, 
                     // Processing controls
                     try{
                         Call<ReadJsonList> resultCall = apiInterface.getControlResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.ItenrDeb);
+    //                    UtilityContainer.download(getActivity(),resultCall, TaskType.ItenrDeb);
 
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1014,7 +1014,7 @@ public class FragmentToolsOld extends Fragment implements View.OnClickListener, 
                     // Processing outlets
                     try{
                         Call<ReadJsonList> resultCall = apiInterface.getDebtorResult(pref.getDistDB(),repcode);
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Controllist);
+     //                   UtilityContainer.download(getActivity(),resultCall, TaskType.Controllist);
 
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1105,7 +1105,7 @@ public class FragmentToolsOld extends Fragment implements View.OnClickListener, 
                     settingController.deleteAll();
                     try{
                         Call<ReadJsonList> resultCall = apiInterface.getCompanySettingResult(pref.getDistDB());
-                        UtilityContainer.download(getActivity(),resultCall, TaskType.Customers);
+      //                  UtilityContainer.download(getActivity(),resultCall, TaskType.Customers);
 
                     } catch (Exception e) {
                         errors.add(e.toString());

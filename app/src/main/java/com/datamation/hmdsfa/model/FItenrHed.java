@@ -77,8 +77,9 @@ public class FItenrHed {
 
 		if (jObject != null) {
 			FItenrHed fItenrHed = new FItenrHed();
+
 						fItenrHed.setFITENRHED_COST_CODE(jObject.getString("CostCode"));
-                        fItenrHed.setFITENRHED_DEAL_CODE(jObject.getString("DealCode"));
+                      	fItenrHed.setFITENRHED_DEAL_CODE(jObject.getString("DealCode"));
                         fItenrHed.setFITENRHED_MONTH(jObject.getString("Month"));
                         fItenrHed.setFITENRHED_REF_NO(jObject.getString("RefNo"));
                         fItenrHed.setFITENRHED_REMARKS1(jObject.getString("Remarks1"));

@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 
 import com.datamation.hmdsfa.api.ApiCllient;
@@ -735,6 +738,7 @@ public class UtilityContainer {
                         arrayList.add(FItenrHed.parseIteanaryHed(jsonArray.getJSONObject(i)));
                     }
                     fItenrHedController.createOrUpdateFItenrHed(arrayList);
+                    Log.d("InsertIhed ", "succes");
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -751,14 +755,17 @@ public class UtilityContainer {
                     JSONArray jsonArray = jsonObject.getJSONArray("fItenrDetResult");
                     ArrayList<FItenrDet> arrayList = new ArrayList<FItenrDet>();
                     for (int i = 0; i < jsonArray.length(); i++) {
+                        Log.d(">>>", ">>>" + i);
                         arrayList.add(FItenrDet.parseIteanaryDet(jsonArray.getJSONObject(i)));
                     }
                     fItenrDetController.createOrUpdateFItenrDet(arrayList);
+                    Log.d("Insertitenrydet", "succes");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.d(">>>", "error in fragment" + e.toString());
                     }
                 }
             }
@@ -806,8 +813,22 @@ public class UtilityContainer {
                     }
                 }
 
+                Thread thread = new Thread(){
+                    public void run(){
+                        Looper.prepare();//Call looper.prepare()
 
-                Toast.makeText(context,"Download Completed",Toast.LENGTH_SHORT).show();
+                        Handler mHandler = new Handler() {
+                            public void handleMessage(Message msg) {
+                                Toast.makeText(context,"Download Completed",Toast.LENGTH_SHORT).show();
+                            }
+                        };
+
+                        Looper.loop();
+                    }
+                };
+                thread.start();
+
+              //  Toast.makeText(context,"Download Completed",Toast.LENGTH_SHORT).show();
             }
             break;
             default:

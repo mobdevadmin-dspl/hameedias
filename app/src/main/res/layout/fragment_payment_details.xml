@@ -201,7 +201,6 @@
             android:layout_toLeftOf="@+id/item_payment_details_tv_net_amount"
             android:textSize="14sp"
             android:gravity="center"
-
             android:singleLine="true"
             android:text="Invoice Ref"/>
 

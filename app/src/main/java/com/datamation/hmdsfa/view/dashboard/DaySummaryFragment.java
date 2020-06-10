@@ -117,8 +117,8 @@ public class DaySummaryFragment  extends Fragment {
         double dailyReturn = new DashboardController(getActivity()).getTodayReturn();
         double dayCash = new DashboardController(getActivity()).getTodayCashCollection();
         double dayCheque = new DashboardController(getActivity()).getTodayChequeCollection();
-        double previousCash = new DashboardController(getActivity()).getTodayCashPreviousCollection();
-        double previousCheque = new DashboardController(getActivity()).getTodayChequePreviousCollection();
+        double previousCash = new DashboardController(getActivity()).getCashPreviousCollection();
+        double previousCheque = new DashboardController(getActivity()).getChequePreviousCollection();
         int nonprd = new DashboardController(getActivity()).getNonPrdCount();
         int ordcount = new DashboardController(getActivity()).getProductiveCount();
         if(!new FItenrDetController(getActivity()).getRouteFromItenary(curdate).equals("")) {

@@ -128,8 +128,8 @@ public class DaySummaryFragment_swd extends Fragment {
         double dailyReturn = new DashboardController(getActivity()).getTodayReturn();
         double dayCash = new DashboardController(getActivity()).getTodayCashCollection();
         double dayCheque = new DashboardController(getActivity()).getTodayChequeCollection();
-        double previousCash = new DashboardController(getActivity()).getTodayCashPreviousCollection();
-        double previousCheque = new DashboardController(getActivity()).getTodayChequePreviousCollection();
+        double previousCash = new DashboardController(getActivity()).getCashPreviousCollection();
+        double previousCheque = new DashboardController(getActivity()).getChequePreviousCollection();
         double usableReturn = new DashboardController(getActivity()).getTodayUsableReturn();
         double marketReturn = new DashboardController(getActivity()).getTodayMarketReturn();
         int freecompany = new DashboardController(getActivity()).getFreeCompany();
