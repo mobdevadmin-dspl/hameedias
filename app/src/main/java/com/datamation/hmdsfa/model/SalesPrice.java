@@ -156,7 +156,7 @@ public class SalesPrice {
             salespri.setUnitOfMea(instance.getString("UnitOfMea"));
             salespri.setUnitPrice(instance.getString("UnitPrice"));
             salespri.setUnitPriceInclVat(instance.getString("UnitPriceInclVat"));
-            salespri.setVarientCode("");
+            salespri.setVarientCode(instance.getString("VarientCode"));
 
 
             return salespri;

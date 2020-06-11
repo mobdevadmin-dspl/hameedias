@@ -793,30 +793,30 @@ public class UtilityContainer {
                     }
                 }
             }
-//            break;
-////            case Salesprice:{
-////                try {
-////
-////                    JSONArray jsonArray = jsonObject.getJSONArray("SalesPriceResult");
-////                    ArrayList<SalesPrice> arrayList = new ArrayList<SalesPrice>();
-////                    SalesPriceController salesPriceController = new SalesPriceController(context);
-////                    salesPriceController.deleteAll();
-////                    for (int i = 0; i < jsonArray.length(); i++) {
-////                        //  Log.d(">>>", ">>>" + i);
-////                        arrayList.add(SalesPrice.parseSalespri(jsonArray.getJSONObject(i)));
-////                    }
-////                    // Log.d(">>>", "size :" + salesPriList.size());
-////                    salesPriceController.InsertOrReplaceSalesPrice(arrayList);
-////                } catch (JSONException | NumberFormatException e) {
-////                    try {
-////                        throw e;
-////                    } catch (JSONException e1) {
-////                        Log.e("JSON ERROR>>>>>",e.toString());
-////                    }
-////                }
-//
-//
-//            }
+            break;
+            case Salesprice:{
+                try {
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("SalesPriceResult");
+                    ArrayList<SalesPrice> arrayList = new ArrayList<SalesPrice>();
+                    SalesPriceController salesPriceController = new SalesPriceController(context);
+                    salesPriceController.deleteAll();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        //  Log.d(">>>", ">>>" + i);
+                        arrayList.add(SalesPrice.parseSalespri(jsonArray.getJSONObject(i)));
+                    }
+                    // Log.d(">>>", "size :" + salesPriList.size());
+                    salesPriceController.InsertOrReplaceSalesPrice(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>",e.toString());
+                    }
+                }
+
+
+            }
             break;
             case Discount:{
                 try {
