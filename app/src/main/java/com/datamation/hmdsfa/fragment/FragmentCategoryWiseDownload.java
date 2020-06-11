@@ -340,6 +340,7 @@ public void onClick(View v) {
                         JSONArray itemJSONArray = itemJSON.getJSONArray("fItemsResult");
                         ArrayList<Item> itemList = new ArrayList<Item>();
                         ItemController itemController = new ItemController(getActivity());
+                        itemController.deleteAll();
                         for (int i = 0; i < itemJSONArray.length(); i++) {
                             itemList.add(Item.parseItem(itemJSONArray.getJSONObject(i)));
                         }
@@ -376,6 +377,7 @@ public void onClick(View v) {
                         JSONArray itemBundleJSONArray = itemBundleJSON.getJSONArray("BundleBarCodeResult");
                         ArrayList<ItemBundle> itemBundleList = new ArrayList<ItemBundle>();
                         ItemBundleController itemBundleController = new ItemBundleController(getActivity());
+                        itemBundleController.deleteAll();
                         for (int i = 0; i < itemBundleJSONArray.length(); i++) {
                             itemBundleList.add(ItemBundle.parseItemBundle(itemBundleJSONArray.getJSONObject(i)));
                         }
@@ -581,6 +583,7 @@ public void onClick(View v) {
                         JSONArray freeHedJSONArray = freeHedJSON.getJSONArray("FfreehedResult");
                         ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
                         FreeHedController freeHedController = new FreeHedController(getActivity());
+                        freeHedController.deleteAll();
                         for (int i = 0; i < freeHedJSONArray.length(); i++) {
                             freeHedList.add(FreeHed.parseFreeHed(freeHedJSONArray.getJSONObject(i)));
                         }
@@ -607,6 +610,7 @@ public void onClick(View v) {
                         JSONArray freedetJSONArray = freedetJSON.getJSONArray("FfreedetResult");
                         ArrayList<FreeDet> freedetList = new ArrayList<FreeDet>();
                         FreeDetController freedetController = new FreeDetController(getActivity());
+                        freedetController.deleteAll();
                         for (int i = 0; i < freedetJSONArray.length(); i++) {
                             freedetList.add(FreeDet.parseFreeDet(freedetJSONArray.getJSONObject(i)));
                         }
@@ -664,6 +668,7 @@ public void onClick(View v) {
                         JSONArray freeitemJSONArray = freeitemJSON.getJSONArray("fFreeItemResult");
                         ArrayList<FreeItem> freeitemList = new ArrayList<FreeItem>();
                         FreeItemController freeitemController = new FreeItemController(getActivity());
+                        freeitemController.deleteAll();
                         for (int i = 0; i < freeitemJSONArray.length(); i++) {
                             freeitemList.add(FreeItem.parseFreeItem(freeitemJSONArray.getJSONObject(i)));
                         }
@@ -769,6 +774,7 @@ public void onClick(View v) {
                         JSONArray routeJSONArray = routeJSON.getJSONArray("fRouteResult");
                         ArrayList<Route> routeList = new ArrayList<Route>();
                         RouteController routeController = new RouteController(getActivity());
+                        routeController.deleteAll();
                         for (int i = 0; i < routeJSONArray.length(); i++) {
                             routeList.add(Route.parseRoute(routeJSONArray.getJSONObject(i)));
                         }
@@ -811,6 +817,7 @@ public void onClick(View v) {
                         JSONArray routeJSONArray = routeJSON.getJSONArray("fRouteDetResult");
                         ArrayList<RouteDet> routeList = new ArrayList<RouteDet>();
                         RouteDetController routeController = new RouteDetController(getActivity());
+                        routeController.deleteAll();
                         for (int i = 0; i < routeJSONArray.length(); i++) {
                             routeList.add(RouteDet.parseRoute(routeJSONArray.getJSONObject(i)));
                         }
@@ -1059,6 +1066,7 @@ public void onClick(View v) {
                         JSONArray fddbnoteJSONArray = fddbnoteJSON.getJSONArray("fDdbNoteWithConditionResult");
                         ArrayList<FddbNote> fddbnoteList = new ArrayList<FddbNote>();
                         OutstandingController outstandingController = new OutstandingController(getActivity());
+                        outstandingController.deleteAll();
                         for (int i = 0; i < fddbnoteJSONArray.length(); i++) {
                             fddbnoteList.add(FddbNote.parseFddbnote(fddbnoteJSONArray.getJSONObject(i)));
                         }
