@@ -6,6 +6,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -16,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.api.ApiCllient;
+import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.controller.DayExpHedController;
 import com.datamation.hmdsfa.controller.DayNPrdHedController;
 import com.datamation.hmdsfa.controller.FItenrDetController;
@@ -24,6 +29,7 @@ import com.datamation.hmdsfa.controller.FreeDebController;
 import com.datamation.hmdsfa.controller.FreeDetController;
 import com.datamation.hmdsfa.controller.FreeHedController;
 import com.datamation.hmdsfa.controller.FreeItemController;
+import com.datamation.hmdsfa.controller.FreeMslabController;
 import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
@@ -47,6 +53,7 @@ import com.datamation.hmdsfa.model.FreeDeb;
 import com.datamation.hmdsfa.model.FreeDet;
 import com.datamation.hmdsfa.model.FreeHed;
 import com.datamation.hmdsfa.model.FreeItem;
+import com.datamation.hmdsfa.model.FreeMslab;
 import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.ItemLoc;
@@ -57,7 +64,9 @@ import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.Route;
 import com.datamation.hmdsfa.model.RouteDet;
 import com.datamation.hmdsfa.model.SalesPrice;
+import com.datamation.hmdsfa.settings.TaskType;
 import com.datamation.hmdsfa.utils.NetworkUtil;
+import com.datamation.hmdsfa.utils.UtilityContainer;
 import com.datamation.hmdsfa.view.ActivityHome;
 
 import org.json.JSONArray;
@@ -66,13 +75,15 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class FragmentCategoryWiseDownload extends Fragment {
 
     private View view;
-    private TextView downItems,downFree,downRoute,downOutstanding,downPrice,downStock,downOthers;
+    private TextView downItems, downFree, downRoute, downOutstanding, downPrice, downStock, downOthers;
     NetworkFunctions networkFunctions;
+    ApiInterface apiInterface;
 
 
     @Nullable
@@ -83,102 +94,102 @@ public class FragmentCategoryWiseDownload extends Fragment {
         getActivity().setTitle("Category Wise Download");
         networkFunctions = new NetworkFunctions(getActivity());
         //initializations
-         downItems       = (TextView) view.findViewById(R.id.items_download);
-         downFree        = (TextView) view.findViewById(R.id.free_download);
-         downRoute       = (TextView) view.findViewById(R.id.route_download);
-         downOutstanding = (TextView) view.findViewById(R.id.outstanding_download);
-         downPrice= (TextView) view.findViewById(R.id.price_download);
-         downStock = (TextView) view.findViewById(R.id.stock_download);
-         downOthers = (TextView) view.findViewById(R.id.other_download);
+        downItems = (TextView) view.findViewById(R.id.items_download);
+        downFree = (TextView) view.findViewById(R.id.free_download);
+        downRoute = (TextView) view.findViewById(R.id.route_download);
+        downOutstanding = (TextView) view.findViewById(R.id.outstanding_download);
+        downPrice = (TextView) view.findViewById(R.id.price_download);
+        downStock = (TextView) view.findViewById(R.id.stock_download);
+        downOthers = (TextView) view.findViewById(R.id.other_download);
 
         downItems.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-        boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
-        if (connectionStatus == true) {
+                boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
+                if (connectionStatus == true) {
 
-            if (isAllUploaded(getActivity())) {
+                    if (isAllUploaded(getActivity())) {
 
-                try {
-                    new itemsDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
-                } catch (Exception e) {
-                    Log.e("## ErrorInItemDown ##", e.toString());
+                        try {
+                            new itemsDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+                        } catch (Exception e) {
+                            Log.e("## ErrorInItemDown ##", e.toString());
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
                 }
-            } else {
-                Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
-            }
-        } else {
-            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
-        }
 
-    }
-});
+            }
+        });
 
         downFree.setOnClickListener(new View.OnClickListener() {
-@Override
-public void onClick(View v) {
-        boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
-        if (connectionStatus == true) {
+            @Override
+            public void onClick(View v) {
+                boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
+                if (connectionStatus == true) {
 
-        if (isAllUploaded(getActivity())) {
+                    if (isAllUploaded(getActivity())) {
 
-        try {
+                        try {
 
-            new freeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
-        } catch (Exception e) {
-            Log.e("## ErrorInItemDown ##", e.toString());
-        }
-        } else {
-        Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
-        }
-        } else {
-        Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
-        }
-        }
+                            new freeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+                        } catch (Exception e) {
+                            Log.e("## ErrorInItemDown ##", e.toString());
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                }
+            }
         });
 
         downRoute.setOnClickListener(new View.OnClickListener() {
-        @Override
+            @Override
             public void onClick(View v) {
-            boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
-            if (connectionStatus == true) {
+                boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
+                if (connectionStatus == true) {
 
-                if (isAllUploaded(getActivity())) {
+                    if (isAllUploaded(getActivity())) {
 
-                    try {
-                        new routeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
-                    } catch (Exception e) {
-                        Log.e("## ErrorInItemDown ##", e.toString());
+                        try {
+                            new routeDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+                        } catch (Exception e) {
+                            Log.e("## ErrorInItemDown ##", e.toString());
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
                 }
-            } else {
-                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
-            }
             }
         });
 
         downOutstanding.setOnClickListener(new View.OnClickListener() {
-        @Override
+            @Override
             public void onClick(View v) {
-            boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
-            if (connectionStatus == true) {
+                boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
+                if (connectionStatus == true) {
 
-                if (isAllUploaded(getActivity())) {
+                    if (isAllUploaded(getActivity())) {
 
-                    try {
-                        new outstandingDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
-                    } catch (Exception e) {
-                        Log.e("## ErrorInItemDown ##", e.toString());
+                        try {
+                            new outstandingDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+                        } catch (Exception e) {
+                            Log.e("## ErrorInItemDown ##", e.toString());
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
                 }
-            } else {
-                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
             }
-             }
         });
 
         downStock.setOnClickListener(new View.OnClickListener() {
@@ -186,26 +197,17 @@ public void onClick(View v) {
             public void onClick(View v) {
                 boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
 
-                if(connectionStatus == true)
-                {
-                    if(isAllUploaded(getActivity()))
-                    {
-                        try
-                        {
+                if (connectionStatus == true) {
+                    if (isAllUploaded(getActivity())) {
+                        try {
                             new StockDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
-                        }
-                        catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.e("## ErrorInStockDown ##", e.toString());
                         }
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
                     }
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
                 }
             }
@@ -216,31 +218,42 @@ public void onClick(View v) {
             public void onClick(View v) {
                 boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
 
-                if(connectionStatus == true)
-                {
-                    if(isAllUploaded(getActivity()))
-                    {
-                        try
-                        {
+                if (connectionStatus == true) {
+                    if (isAllUploaded(getActivity())) {
+                        try {
                             new salespriceDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
-                        }
-                        catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.e("## ErrorInPriceDown ##", e.toString());
                         }
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
                     }
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
+        downOthers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
+
+                if (connectionStatus == true) {
+                    if (isAllUploaded(getActivity())) {
+                        try {
+                            new OtherDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+                        } catch (Exception e) {
+                            Log.e("## ErrorInOtherDown ##", e.toString());
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
         //DISABLED BACK NAVIGATION
@@ -252,10 +265,10 @@ public void onClick(View v) {
                 Log.i("", "keyCode: " + keyCode);
                 ActivityHome.navigation.setVisibility(View.VISIBLE);
 
-                if( keyCode == KeyEvent.KEYCODE_BACK ) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
                     Toast.makeText(getActivity(), "Back button disabled!", Toast.LENGTH_SHORT).show();
                     return true;
-                }else if ((keyCode == KeyEvent.KEYCODE_HOME)) {
+                } else if ((keyCode == KeyEvent.KEYCODE_HOME)) {
 
                     getActivity().finish();
 
@@ -483,13 +496,13 @@ public void onClick(View v) {
                         SalesPriceController salesPriceController = new SalesPriceController(getActivity());
                         salesPriceController.deleteAll();
                         for (int i = 0; i < salesPriJSONJSONArray.length(); i++) {
-                          //  Log.d(">>>", ">>>" + i);
+                            //  Log.d(">>>", ">>>" + i);
                             salesPriList.add(SalesPrice.parseSalespri(salesPriJSONJSONArray.getJSONObject(i)));
                         }
-                       // Log.d(">>>", "size :" + salesPriList.size());
+                        // Log.d(">>>", "size :" + salesPriList.size());
                         salesPriceController.InsertOrReplaceSalesPrice(salesPriList);
                     } catch (JSONException | NumberFormatException e) {
-                       // Log.d(">>>", "error in fragment :" + e.toString());
+                        // Log.d(">>>", "error in fragment :" + e.toString());
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
 //                                e, routes, BugReport.SEVERITY_HIGH);
@@ -653,7 +666,7 @@ public void onClick(View v) {
                         throw e;
                     }
                     /*****************end freedeb**********************************************************************/
-                    /*****************Freeslab**********************************************************************/
+                    /*****************FreeItem*********************************************************************/
                     String freeitem = "";
                     try {
                         freeitem = networkFunctions.getFreeItems();
@@ -681,6 +694,35 @@ public void onClick(View v) {
                         throw e;
                     }
                     /*****************end freeItem**********************************************************************/
+
+                    /*****************Freemslab*********************************************************************/
+                    String freemslab = "";
+                    try {
+                        freemslab = networkFunctions.getFreeMslab();
+                    } catch (IOException e) {
+
+                        throw e;
+                    }
+
+                    // Processing freeItem
+                    try {
+                        JSONObject freemslabJSON = new JSONObject(freemslab);
+                        JSONArray freemslabJSONArray = freemslabJSON.getJSONArray("fFreeMslabResult");
+                        ArrayList<FreeMslab> freeMslabsList = new ArrayList<FreeMslab>();
+                        FreeMslabController freeMslabController = new FreeMslabController(getActivity());
+                        freeMslabController.deleteAll();
+                        for (int i = 0; i < freemslabJSONArray.length(); i++) {
+                            freeMslabsList.add(FreeMslab.parseFreeMslab(freemslabJSONArray.getJSONObject(i)));
+                        }
+                        freeMslabController.createOrUpdateFreeMslab(freeMslabsList);
+                    } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
+                    /*****************end freemslab**********************************************************************/
 
                     return true;
                 } else {
@@ -905,7 +947,7 @@ public void onClick(View v) {
                         JSONObject itenaryDetJSON = new JSONObject(itenaryDet);
                         JSONArray itenaryDetJSONJSONArray = itenaryDetJSON.getJSONArray("fItenrDetResult");
                         ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
-                        FItenrDetController fItenrDetController= new FItenrDetController(getActivity());
+                        FItenrDetController fItenrDetController = new FItenrDetController(getActivity());
                         fItenrDetController.deleteAll();
                         for (int i = 0; i < itenaryDetJSONJSONArray.length(); i++) {
                             itenaryDetList.add(FItenrDet.parseIteanaryDet(itenaryDetJSONJSONArray.getJSONObject(i)));
@@ -1124,7 +1166,7 @@ public void onClick(View v) {
     }
 
     //stock download
-    private class StockDownload extends  AsyncTask<String,Integer,Boolean>{
+    private class StockDownload extends AsyncTask<String, Integer, Boolean> {
 
         CustomProgressDialog pdialog;
         private String repcode;
@@ -1146,77 +1188,76 @@ public void onClick(View v) {
         @Override
         protected Boolean doInBackground(String... strings) {
 
-                try {
-                    if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
+            try {
+                if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
 
-                        /*****************Stock*****************************************************************************/
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                pdialog.setMessage("Downloading Stock data...");
-                            }
-                        });
-
-                        String stock = "";
-                        try {
-                            stock = networkFunctions.getStock(repcode);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            throw e;
+                    /*****************Stock*****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading Stock data...");
                         }
+                    });
 
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                pdialog.setMessage("Processing downloaded data (stock)...");
-                            }
-                        });
+                    String stock = "";
+                    try {
+                        stock = networkFunctions.getStock(repcode);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
 
-                        // Processing stock
-                        try {
-                            JSONObject stockJSON = new JSONObject(stock);
-                            JSONArray stockJSONArray = stockJSON.getJSONArray("fItemLocResult");
-                            ArrayList<ItemLoc> stockList = new ArrayList<ItemLoc>();
-                            ItemLocController itemLocController = new ItemLocController(getActivity());
-                            itemLocController.deleteAll();
-                            for(int i = 0; i < stockJSONArray.length(); i++)
-                            {
-                                stockList.add(ItemLoc.parseItemLocs(stockJSONArray.getJSONObject(i)));
-                            }
-                            itemLocController.InsertOrReplaceItemLoc(stockList);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Processing downloaded data (stock)...");
+                        }
+                    });
 
-                        } catch (JSONException | NumberFormatException e) {
+                    // Processing stock
+                    try {
+                        JSONObject stockJSON = new JSONObject(stock);
+                        JSONArray stockJSONArray = stockJSON.getJSONArray("fItemLocResult");
+                        ArrayList<ItemLoc> stockList = new ArrayList<ItemLoc>();
+                        ItemLocController itemLocController = new ItemLocController(getActivity());
+                        itemLocController.deleteAll();
+                        for (int i = 0; i < stockJSONArray.length(); i++) {
+                            stockList.add(ItemLoc.parseItemLocs(stockJSONArray.getJSONObject(i)));
+                        }
+                        itemLocController.InsertOrReplaceItemLoc(stockList);
+
+                    } catch (JSONException | NumberFormatException e) {
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
 //                                e, routes, BugReport.SEVERITY_HIGH);
 
-                            throw e;
-                        }
-
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                pdialog.setMessage("Download complete...");
-                            }
-                        });
-                        return true;
-                    } else {
-                        //errors.add("Please enter correct username and password");
-                        return false;
+                        throw e;
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
 
-                    return false;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-
-                    return false;
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Download complete...");
+                        }
+                    });
+                    return true;
+                } else {
+                    //errors.add("Please enter correct username and password");
                     return false;
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+
+                return false;
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+                return false;
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                return false;
             }
+        }
 
         @Override
         protected void onPostExecute(Boolean result) {
@@ -1225,21 +1266,241 @@ public void onClick(View v) {
             pdialog.setMessage("Finalizing Stock data");
             pdialog.setMessage("Download Completed..");
 
-            if(result)
-            {
-                if(pdialog.isShowing())
-                {
+            if (result) {
+                if (pdialog.isShowing()) {
                     pdialog.dismiss();
                 }
-            }
-            else
-            {
-                if (pdialog.isShowing())
-                {
+            } else {
+                if (pdialog.isShowing()) {
                     pdialog.dismiss();
                 }
             }
         }
     }
 
+    //other download
+    private class OtherDownload extends AsyncTask<String, Integer, Boolean> {
+
+        private String repcode;
+        CustomProgressDialog pdialog;
+        private Handler mHandler;
+        private List<String> errors = new ArrayList<>();
+
+        public OtherDownload(String repcode) {
+            this.repcode = repcode;
+            this.pdialog = new CustomProgressDialog(getActivity());
+            mHandler = new Handler(Looper.getMainLooper());
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdialog = new CustomProgressDialog(getActivity());
+            mHandler = new Handler(Looper.getMainLooper());
+            pdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            pdialog.setMessage("Authenticating...");
+            pdialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+
+            apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
+            mHandler = new Handler(Looper.getMainLooper());
+
+            try {
+                if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
+
+                    /*****************company details**********************************************************************/
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading data(Company details)...");
+                        }
+                    });
+
+                    // Processing controls
+                    try {
+                        UtilityContainer.download(getActivity(), TaskType.Controllist, networkFunctions.getCompanyDetails(repcode));
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+
+                    /*****************outlets**********************************************************************/
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading Customers...");
+                        }
+                    });
+
+                    // Processing outlets
+                    try {
+                        UtilityContainer.download(getActivity(), TaskType.Customers, networkFunctions.getCustomer(repcode));
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+
+                    /*****************Settings*****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading Settings...");
+                        }
+                    });
+
+                    // Processing company settings
+                    try {
+                        UtilityContainer.download(getActivity(), TaskType.Settings, networkFunctions.getReferenceSettings());
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+
+                    /*****************Branches*****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading data (reference details)...");
+                        }
+                    });
+
+                    // Processing Branches
+
+                    try {
+                        UtilityContainer.download(getActivity(), TaskType.Reference, networkFunctions.getReferences(repcode));
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+
+                    /*****************VAT*****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading data (VAT details)...");
+                        }
+                    });
+                    // Processing VAT
+
+                    try {
+                        UtilityContainer.download(getActivity(), TaskType.VAT, networkFunctions.getVAT());
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+
+                    // ************************reasons**********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading data (reasons)...");
+                        }
+                    });
+                    // Processing reasons
+
+                    try {
+                        UtilityContainer.download(getActivity(), TaskType.Reason, networkFunctions.getReasons());
+                    } catch (IOException e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+
+                    /*****************banks**********************************************************************/
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading banks...");
+                        }
+                    });
+
+                    // Processing banks
+                    try {
+                        UtilityContainer.download(getActivity(), TaskType.Bank, networkFunctions.getBanks());
+                    } catch (IOException e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+
+                    /*****************expense**********************************************************************/
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading data (expenses)...");
+                        }
+                    });
+
+                    // Processing expense
+                    try {
+                        UtilityContainer.download(getActivity(), TaskType.Expense, networkFunctions.getExpenses());
+                    } catch (IOException e) {
+                        errors.add(e.toString());
+                        e.printStackTrace();
+                        throw e;
+                    }
+
+                    /*****************discount**********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading discount....");
+                        }
+                    });
+
+                    // Processing discount
+                    try {
+                        UtilityContainer.download(getActivity(), TaskType.Discount, networkFunctions.getDiscounts(repcode));
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Completed...");
+                        }
+                    });
+
+                    /*****************end sync**********************************************************************/
+
+                    return true;
+                } else {
+                    errors.add("SharedPref.getInstance(getActivity()).getLoginUser() = null OR !SharedPref.getInstance(getActivity()).isLoggedIn()");
+                    Log.d("ERROR>>>>>", "Login USer" + SharedPref.getInstance(getActivity()).getLoginUser().toString() + " IS LoggedIn --> " + SharedPref.getInstance(getActivity()).isLoggedIn());
+                    return false;
+                }
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                errors.add(e.toString());
+
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+            pdialog.setMessage("Finalizing data");
+            pdialog.setMessage("Download Completed..");
+
+            if (result) {
+                if (pdialog.isShowing()) {
+                    pdialog.dismiss();
+                }
+            } else {
+                if (pdialog.isShowing()) {
+                    pdialog.dismiss();
+                }
+            }
+        }
+    }
 }
