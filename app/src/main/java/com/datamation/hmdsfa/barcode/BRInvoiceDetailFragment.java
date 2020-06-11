@@ -26,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -50,6 +51,7 @@ import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemPriController;
 import com.datamation.hmdsfa.controller.OrdFreeIssueController;
 import com.datamation.hmdsfa.controller.ProductController;
+import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.discount.Discount;
 import com.datamation.hmdsfa.freeissue.FreeIssue;
 import com.datamation.hmdsfa.helpers.BluetoothConnectionHelper;
@@ -64,6 +66,7 @@ import com.datamation.hmdsfa.model.OrdFreeIssue;
 import com.datamation.hmdsfa.model.Product;
 import com.datamation.hmdsfa.settings.ReferenceNum;
 import com.datamation.hmdsfa.view.ActivityVanSalesBR;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -81,6 +84,7 @@ public class BRInvoiceDetailFragment extends Fragment{
     int seqno = 0;
     ListView lv_order_det, lvFree;
     Spinner spnScanType;
+    FloatingActionButton btnDiscount;
     ArrayList<InvDet> orderList;
     ArrayList<BarcodenvoiceDet> orderListNew;
     SharedPref mSharedPref;
@@ -109,6 +113,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         textStatus = view.findViewById(R.id.tvStatus_main);
         etSearchField = view.findViewById(R.id.etSearchField);
         spnScanType = (Spinner) view.findViewById(R.id.spnScan);
+        btnDiscount = (FloatingActionButton)  view.findViewById(R.id.btn_discount);
         itemArrayList = new ArrayList<>();
         setHasOptionsMenu(true);
 
@@ -200,6 +205,12 @@ public class BRInvoiceDetailFragment extends Fragment{
                     return true;
                 }
                 return false;
+            }
+        });
+        btnDiscount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CalculateDiscounts(mSharedPref.getSelectedDebCode()).execute();
             }
         });
 
@@ -907,6 +918,56 @@ public class BRInvoiceDetailFragment extends Fragment{
        // textStatus.setBackgroundResource(R.color.blue_c);
     }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public class CalculateDiscounts extends AsyncTask<Object, Object, Boolean> {
+        CustomProgressDialog pdialog;
+        private String debcode;
 
+        public CalculateDiscounts(String debcode) {
+            this.pdialog = new CustomProgressDialog(getActivity());
+            this.debcode = debcode;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            pdialog.setMessage("Calculating discounts.. Please Wait.");
+            pdialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Object... objects) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    pdialog.setMessage("Calculating discounts...");
+                }
+            });
+
+
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    pdialog.setMessage("Calculed Discounts...");
+                }
+            });
+            return true;
+        }
+
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+            if(pdialog.isShowing()){
+                pdialog.dismiss();
+            }
+
+            showData();
+
+        }
+    }
 
 }
