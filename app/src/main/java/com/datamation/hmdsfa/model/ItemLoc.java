@@ -71,10 +71,12 @@ public class ItemLoc
 
         if (instance != null) {
             ItemLoc loc = new ItemLoc();
+
+            loc.setFITEMLOC_BARCODE(instance.getString("Barcode"));
             loc.setFITEMLOC_ITEM_CODE(instance.getString("ItemCode"));
             loc.setFITEMLOC_LOC_CODE(instance.getString("LocCode"));
             loc.setFITEMLOC_QOH(instance.getString("QOH"));
-            loc.setFITEMLOC_BARCODE(instance.getString("Barcode"));
+
            // loc.setFITEMLOC_RECORD_ID(instance.getString("RecordId"));
             return loc;
         }

@@ -28,13 +28,13 @@ public class ItemLocController
     public static final String TABLE_FITEMLOC = "fItemLoc";
     // table attributes
     public static final String FITEMLOC_ID = "fItemLoc_id";
+    public static final String FITEMLOC_BARCODE = "Barcode";
     public static final String FITEMLOC_ITEM_CODE = "ItemCode";
     public static final String FITEMLOC_LOC_CODE = "LocCode";
-    public static final String FITEMLOC_BARCODE = "Barcode";
     public static final String FITEMLOC_QOH = "QOH";
-    public static final String FITEMLOC_RECORD_ID = "RecordId";
+   // public static final String FITEMLOC_RECORD_ID = "RecordId";
     // create String
-    public static final String CREATE_FITEMLOC_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITEMLOC + " (" + FITEMLOC_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITEMLOC_ITEM_CODE + " TEXT, " + FITEMLOC_LOC_CODE + " TEXT, "+ FITEMLOC_BARCODE + " TEXT, " + FITEMLOC_QOH + " TEXT, "+ FITEMLOC_RECORD_ID + " TEXT); ";
+    public static final String CREATE_FITEMLOC_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITEMLOC + " (" + FITEMLOC_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITEMLOC_BARCODE + " TEXT, " + FITEMLOC_ITEM_CODE+ " TEXT, " + FITEMLOC_LOC_CODE + " TEXT, " + FITEMLOC_QOH+ " TEXT); ";
 
     public static final String TESTITEMLOC = "CREATE UNIQUE INDEX IF NOT EXISTS idxitemloc_something ON " + TABLE_FITEMLOC + " (" + FITEMLOC_ITEM_CODE + "," + FITEMLOC_LOC_CODE + ")";
     // table
@@ -58,16 +58,17 @@ public class ItemLocController
 
         try {
             dB.beginTransactionNonExclusive();
-            String sql = "INSERT OR REPLACE INTO " + TABLE_FITEMLOC + " (ItemCode,LocCode,Barcode,QOH) VALUES (?,?,?,?)";
+
+            String sql = "INSERT OR REPLACE INTO " + TABLE_FITEMLOC + " (Barcode,ItemCode,LocCode,QOH) VALUES (?,?,?,?)";
 
             SQLiteStatement stmt = dB.compileStatement(sql);
 
             for (ItemLoc itemLoc : list) {
 
-                stmt.bindString(1, itemLoc.getFITEMLOC_ITEM_CODE());
-                stmt.bindString(2, itemLoc.getFITEMLOC_LOC_CODE());
-                stmt.bindString(2, itemLoc.getFITEMLOC_BARCODE());
-                stmt.bindString(3, itemLoc.getFITEMLOC_QOH());
+                stmt.bindString(1, itemLoc.getFITEMLOC_BARCODE());
+                stmt.bindString(2, itemLoc.getFITEMLOC_ITEM_CODE());
+                stmt.bindString(3, itemLoc.getFITEMLOC_LOC_CODE());
+                stmt.bindString(4, itemLoc.getFITEMLOC_QOH());
                // stmt.bindString(4, itemLoc.getFITEMLOC_RECORD_ID());
 
                 stmt.execute();
