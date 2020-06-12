@@ -16,6 +16,9 @@ import com.datamation.hmdsfa.model.Product;
 
 import java.util.ArrayList;
 
+import static com.datamation.hmdsfa.controller.SalesPriceController.FSALES_PRI_UNITPRICE;
+import static com.datamation.hmdsfa.controller.SalesPriceController.TABLE_FSALESPRICE;
+
 /**
  * rashmi
  */
@@ -372,6 +375,47 @@ public class ProductController {
             dB.close();
         }
 Log.d(">>ScannedList",">>"+list.toString());
+        return list;
+    }
+
+    public ArrayList<Product> getScannedtems(ItemBundle itembundle) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<Product> list = new ArrayList<>();
+        try {
+            cursor = dB.rawQuery("SELECT UnitPrice FROM " +TABLE_FSALESPRICE + " WHERE  ItemNo = '" + itembundle.getItemNo() + "' and VarientCode = '" + itembundle.getVariantCode() + "' ", null);
+
+            while (cursor.moveToNext()) {
+                Product product = new Product();
+                product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
+                product.setFPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMCODE)));
+                product.setFPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMNAME)));
+                product.setFPRODUCT_Barcode(cursor.getString(cursor.getColumnIndex(FPRODUCT_Barcode)));
+                product.setFPRODUCT_DocumentNo(cursor.getString(cursor.getColumnIndex(FPRODUCT_DocumentNo)));
+                product.setFPRODUCT_VariantCode(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantCode)));
+                product.setFPRODUCT_VariantColour(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantColour)));
+                product.setFPRODUCT_VariantSize(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantSize)));
+                product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_Quantity)));
+                product.setFPRODUCT_Price(cursor.getString(cursor.getColumnIndex(FSALES_PRI_UNITPRICE)));
+//                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
+                product.setFPRODUCT_IsScan(cursor.getString(cursor.getColumnIndex(FPRODUCT_IsScan)));
+
+                list.add(product);
+
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            dB.close();
+        }
+        Log.d(">>ScannedList",">>"+list.toString());
         return list;
     }
     public ArrayList<Product> getSelectedItems(String txntype) {

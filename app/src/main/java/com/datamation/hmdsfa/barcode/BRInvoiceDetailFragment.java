@@ -138,10 +138,10 @@ public class BRInvoiceDetailFragment extends Fragment{
                // Log.v("ENTER CODE","Working.... ");
                 if(spnScanType.getSelectedItemPosition() == 0) {
 //                        .getAllItem(etSearchField.getText().toString());
-                    if (!new ProductController(getActivity()).tableHasRecords()) {
-                        new ProductController(getActivity()).insertIntoProductAsBulk("MS", "WSP001");
-                        // productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
-                    }
+//                    if (!new ProductController(getActivity()).tableHasRecords()) {
+//                        new ProductController(getActivity()).insertIntoProductAsBulk("MS", "WSP001");
+//                        // productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
+//                    }
                     //itemBundle size should be one.because scan only one item
 
                     ArrayList<ItemBundle> itemBundle = new ItemBundleController(getActivity())
@@ -151,8 +151,8 @@ public class BRInvoiceDetailFragment extends Fragment{
                    // Log.v("code :", ">> " + item.getItemNo());
                     if(itemBundle.size()==1) {
                         //when deduct qoh update qoh also
-                        new ProductController(getActivity()).updateBarCode(itemBundle.get(0).getBarcode(),"1");
-                        selectedItem = new ProductController(getActivity()).getScannedtems("SA");
+                       // new ProductController(getActivity()).updateBarCode(itemBundle.get(0).getBarcode(),"1");
+                        selectedItem = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
                         updateInvoiceDet(selectedItem);
                         showData();
 
@@ -170,10 +170,10 @@ public class BRInvoiceDetailFragment extends Fragment{
 
                   //  lv_order_det.setAdapter(new ItemAdapter(getActivity(), itemArrayList));
                 }else{
-                    if (!new ProductController(getActivity()).tableHasRecords()) {
-                        new ProductController(getActivity()).insertIntoProductAsBulk("MS", "WSP001");
-                        // productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
-                    }
+//                    if (!new ProductController(getActivity()).tableHasRecords()) {
+//                        new ProductController(getActivity()).insertIntoProductAsBulk("MS", "WSP001");
+//                        // productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
+//                    }
                     ArrayList<ItemBundle> itemBundle = new ItemBundleController(getActivity())
                             .getItemsInBundle(etSearchField.getText().toString());
                     if(itemBundle.size()>0) {
