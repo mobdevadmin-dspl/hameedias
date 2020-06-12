@@ -76,6 +76,7 @@ public class OutstandingDetailsFragment extends Fragment
         com.datamation.hmdsfa.utils.CustomFont invoiceAmt;
         com.datamation.hmdsfa.utils.CustomFont invoiceBalance;
         com.datamation.hmdsfa.utils.CustomFont invoiceDays;
+
     }
 
 
@@ -158,7 +159,7 @@ public class OutstandingDetailsFragment extends Fragment
                 //viewHolder.lblDays.setText(""+numOfDays);
                 viewHolder.invoiceDays.setText(""+numOfDays);
                 if(Integer.parseInt(fddbNotes.get(position).getCreditPeriod())<numOfDays){
-                //if(90<numOfDays){
+                    //if(90<numOfDays){
                     viewHolder.invoiceId.setTextColor(getResources().getColor(R.color.red_btn_bg_color));
                     viewHolder.invoiceId.setTypeface(viewHolder.invoiceId.getTypeface(), Typeface.BOLD);
                     viewHolder.invoiceDate.setTextColor(getResources().getColor(R.color.red_btn_bg_color));
@@ -173,7 +174,7 @@ public class OutstandingDetailsFragment extends Fragment
 //default colours and typeface will be set
                 }
 
-                }
+            }
 
             return convertView;
         }

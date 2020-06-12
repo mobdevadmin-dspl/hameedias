@@ -53,9 +53,7 @@ public class DashboardController {
         try {
 
             while (cursor.moveToNext()) {
-                //Temporary hard code target value
-                targetsum = targetsum + Double.parseDouble(cursor.getString(cursor.getColumnIndex("Target")));
-              //  targetsum = Double.parseDouble(cursor.getString(cursor.getColumnIndex("Target")));
+                targetsum = Double.parseDouble(cursor.getString(cursor.getColumnIndex("Target")));
                 return targetsum;
             }
 

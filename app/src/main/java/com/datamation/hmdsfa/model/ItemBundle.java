@@ -108,10 +108,12 @@ public class ItemBundle {
     public void setQuantity(int quantity) {
         Quantity = quantity;
     }
+
     public static ItemBundle parseItemBundle(JSONObject instance) throws JSONException {
 
         if (instance != null) {
             ItemBundle itmbundle = new ItemBundle();
+
             itmbundle.setArticleNo(instance.getString("ArticleNo"));
             itmbundle.setDocumentNo(instance.getString("DocumentNo"));
             itmbundle.setBarcode(instance.getString("Barcode"));
@@ -122,6 +124,23 @@ public class ItemBundle {
             itmbundle.setVariantSize(instance.getString("VariantSize"));
             itmbundle.setQuantity(instance.getInt("Quantity"));
             return itmbundle;
+        }
+
+        return null;
+    }
+
+    public static ItemBundle parseBarcodevarient(JSONObject instance) throws JSONException {
+
+        if (instance != null) {
+            ItemBundle barcodevarient = new ItemBundle();
+
+            barcodevarient.setBarcode(instance.getString("Barcode_No"));
+            barcodevarient.setDescription(instance.getString("Description"));
+            barcodevarient.setItemNo(instance.getString("Item_No"));
+            barcodevarient.setVariantSize(instance.getString("Size"));
+            barcodevarient.setVariantCode(instance.getString("Variant_Code"));
+
+            return barcodevarient;
         }
 
         return null;

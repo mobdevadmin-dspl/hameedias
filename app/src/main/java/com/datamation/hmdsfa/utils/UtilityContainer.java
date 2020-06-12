@@ -31,6 +31,7 @@ import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
+import com.datamation.hmdsfa.controller.OutstandingController;
 import com.datamation.hmdsfa.controller.ReasonController;
 import com.datamation.hmdsfa.controller.ReferenceDetailDownloader;
 import com.datamation.hmdsfa.controller.ReferenceSettingController;
@@ -38,6 +39,7 @@ import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalesPriceController;
 import com.datamation.hmdsfa.controller.VATController;
+import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.helpers.NetworkFunctions;
 import com.datamation.hmdsfa.model.Bank;
 import com.datamation.hmdsfa.model.CompanyBranch;
@@ -48,6 +50,7 @@ import com.datamation.hmdsfa.model.Discount;
 import com.datamation.hmdsfa.model.Expense;
 import com.datamation.hmdsfa.model.FItenrDet;
 import com.datamation.hmdsfa.model.FItenrHed;
+import com.datamation.hmdsfa.model.FddbNote;
 import com.datamation.hmdsfa.model.FreeDeb;
 import com.datamation.hmdsfa.model.FreeDet;
 import com.datamation.hmdsfa.model.FreeHed;
@@ -62,6 +65,7 @@ import com.datamation.hmdsfa.model.Reason;
 import com.datamation.hmdsfa.model.Route;
 import com.datamation.hmdsfa.model.RouteDet;
 import com.datamation.hmdsfa.model.SalesPrice;
+import com.datamation.hmdsfa.model.VanStock;
 import com.datamation.hmdsfa.model.VatMaster;
 import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
 import com.datamation.hmdsfa.settings.TaskType;
@@ -818,25 +822,85 @@ public class UtilityContainer {
 
             }
             break;
-            case Discount:{
+            case Discount: {
+                DiscountController discountController = new DiscountController(context);
+                discountController.deleteAll();
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("CusProductDisResult");
                     ArrayList<Discount> arrayList = new ArrayList<Discount>();
-                    DiscountController discountController = new DiscountController(context);
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        //  Log.d(">>>", ">>>" + i);
                         arrayList.add(Discount.parseDiscounts(jsonArray.getJSONObject(i)));
                     }
-                    // Log.d(">>>", "size :" + salesPriList.size());
                     discountController.InsertOrReplaceDiscount(arrayList);
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
+            }
+            break;
+            case fddbnote: {
+                OutstandingController outstandingController = new OutstandingController(context);
+                outstandingController.deleteAll();
+                try {
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("fDdbNoteWithConditionResult");
+                    ArrayList<FddbNote> arrayList = new ArrayList<FddbNote>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(FddbNote.parseFddbnote(jsonArray.getJSONObject(i)));
+                    }
+                    outstandingController.createOrUpdateFDDbNote(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>", e.toString());
+                    }
+                }
+            }
+                break;
+                case VanStock : {
+                    VanStockController vanStockController = new VanStockController(context);
+                    vanStockController.deleteAll();
+                    try {
+
+                        JSONArray jsonArray = jsonObject.getJSONArray("VanStockResult");
+                        ArrayList<VanStock> arrayList = new ArrayList<VanStock>();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            arrayList.add(VanStock.parseVanStock(jsonArray.getJSONObject(i)));
+                        }
+                        vanStockController.InsertOrReplaceVanStock(arrayList);
+                    } catch (JSONException | NumberFormatException e) {
+                        try {
+                            throw e;
+                        } catch (JSONException e1) {
+                            Log.e("JSON ERROR>>>>>", e.toString());
+                        }
+                    }
+                }
+                    break;
+                    case Barcodevarient: {
+                        ItemBundleController itemBundleController = new ItemBundleController(context);
+                        itemBundleController.deleteAll_BarcodeVariant();
+
+                        try {
+
+                            JSONArray jsonArray = jsonObject.getJSONArray("BarCodeVarientResult");
+                            ArrayList<ItemBundle> arrayList = new ArrayList<ItemBundle>();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                arrayList.add(ItemBundle.parseBarcodevarient(jsonArray.getJSONObject(i)));
+                            }
+                            itemBundleController.InsertOrReplaceBarcodeVariant(arrayList);
+                        } catch (JSONException | NumberFormatException e) {
+                            try {
+                                throw e;
+                            } catch (JSONException e1) {
+                                Log.e("JSON ERROR>>>>>", e.toString());
+                            }
+                        }
 
                 Thread thread = new Thread(){
                     public void run(){
@@ -852,8 +916,6 @@ public class UtilityContainer {
                     }
                 };
                 thread.start();
-
-              //  Toast.makeText(context,"Download Completed",Toast.LENGTH_SHORT).show();
             }
             break;
             default:

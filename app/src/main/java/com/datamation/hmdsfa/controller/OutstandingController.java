@@ -79,84 +79,85 @@ public class OutstandingController {
         dB = dbHelper.getWritableDatabase();
     }
 //    public void createOrUpdateFDDbNote(ArrayList<FddbNote> list) {
-////        Log.d("InsertOrReplaceDebtor", "" + list.size());
-////        if (dB == null) {
-////            open();
-////        } else if (!dB.isOpen()) {
-////            open();
-////        }
-////
-////        try {
-////            dB.beginTransactionNonExclusive();
-////            String sql = "INSERT OR REPLACE INTO " + TABLE_FDDBNOTE + " (RefNo,RefInv,AddMach," +
-////                    "SaleRefNo," +
-////                    "ManuRef," +
-////                    "TxnType," +
-////                    "TxnDate," +
-////                    "CurCode," +
-////                    "CurRate," +
-////                    "DebCode," +
-////                    "RepCode," +
-////                    "TaxComCode," +
-////                    "TaxAmt," +
-////                    "BTaxAmt," +
-////                    "Amt," +
-////                    "BAmt," +
-////                    "TotBal," +
-////                    "TotBal1," +
-////                    "OvPayAmt," +
-////                    "Remarks," +
-////                    "AddUser,AddDate,EnterAmt) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?.?)";
-////
-////            SQLiteStatement stmt = dB.compileStatement(sql);
-////
-////            for (FddbNote fdDbNote : list) {
-////
-////
-////                stmt.bindString(1, fdDbNote.getFDDBNOTE_REFNO());
-////                stmt.bindString(2, fdDbNote.getFDDBNOTE_REF_INV());
-////                stmt.bindString(3, fdDbNote.getFDDBNOTE_ADD_MACH());
-////                stmt.bindString(4, fdDbNote.getFDDBNOTE_SALE_REF_NO());
-////                stmt.bindString(5, fdDbNote.getFDDBNOTE_MANU_REF());
-////                stmt.bindString(6, fdDbNote.getFDDBNOTE_TXN_TYPE());
-////                stmt.bindString(7, fdDbNote.getFDDBNOTE_TXN_DATE());
-////                stmt.bindString(8, fdDbNote.getFDDBNOTE_CUR_CODE());
-////                stmt.bindString(9, fdDbNote.getFDDBNOTE_CUR_RATE());
-////                stmt.bindString(10, fdDbNote.getFDDBNOTE_DEB_CODE());
-////                stmt.bindString(11, fdDbNote.getFDDBNOTE_REP_CODE());
-////                stmt.bindString(12, fdDbNote.getFDDBNOTE_TAX_COM_CODE());
-////                stmt.bindString(13, fdDbNote.getFDDBNOTE_TAX_AMT());
-////                stmt.bindString(14, fdDbNote.getFDDBNOTE_B_TAX_AMT());
-////                stmt.bindString(15, fdDbNote.getFDDBNOTE_AMT());
-////                stmt.bindString(16, fdDbNote.getFDDBNOTE_B_AMT());
-////                stmt.bindString(17, fdDbNote.getFDDBNOTE_TOT_BAL());
-////                stmt.bindString(18, fdDbNote.getFDDBNOTE_TOT_BAL1());
-////                stmt.bindString(19, fdDbNote.getFDDBNOTE_OV_PAY_AMT());
-////                stmt.bindString(20, fdDbNote.getFDDBNOTE_REMARKS());
-////                //stmt.bindString(20, fdDbNote.getFDDBNOTE_REMARKS());
-//////                stmt.bindString(21, fdDbNote.getFDDBNOTE_CR_ACC());
-//////                stmt.bindString(22, fdDbNote.getFDDBNOTE_PRT_COPY());
-//////                stmt.bindString(23, fdDbNote.getFDDBNOTE_GL_POST());
-//////                stmt.bindString(24, fdDbNote.getFDDBNOTE_GL_BATCH());
-////                stmt.bindString(21, fdDbNote.getFDDBNOTE_ADD_USER());
-////                stmt.bindString(22, fdDbNote.getFDDBNOTE_ADD_DATE());
-////                stmt.bindString(23, fdDbNote.getFDDBNOTE_ENTER_AMT());
-////
-////
-////                stmt.execute();
-////                stmt.clearBindings();
-////            }
-////
-////
-////        } catch (SQLException e) {
-////            e.printStackTrace();
-////        } finally {
-////            dB.setTransactionSuccessful();
-////            dB.endTransaction();
-////            dB.close();
-////        }
-////
-////    }
+//        Log.d("InsertOrReplaceFDDbNote", "" + list.size());
+//        if (dB == null) {
+//            open();
+//        } else if (!dB.isOpen()) {
+//            open();
+//        }
+//
+//        try {
+//            dB.beginTransactionNonExclusive();
+//            String sql = "INSERT OR REPLACE INTO " + TABLE_FDDBNOTE + " (RefNo,RefInv,AddMach," +
+//                    "SaleRefNo," +
+//                    "ManuRef," +
+//                    "TxnType," +
+//                    "TxnDate," +
+//                    "CurCode," +
+//                    "CurRate," +
+//                    "DebCode," +
+//                    "RepCode," +
+//                    "TaxComCode," +
+//                    "TaxAmt," +
+//                    "BTaxAmt," +
+//                    "Amt," +
+//                    "BAmt," +
+//                    "TotBal," +
+//                    "TotBal1," +
+//                    "OvPayAmt," +
+//                    "Remarks," +
+//                    "AddUser,AddDate,EnterAmt,PdaAmt) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+//
+//            SQLiteStatement stmt = dB.compileStatement(sql);
+//
+//            for (FddbNote fdDbNote : list) {
+//
+//
+//                stmt.bindString(1, fdDbNote.getFDDBNOTE_REFNO());
+//                stmt.bindString(2, fdDbNote.getFDDBNOTE_REF_INV());
+//                stmt.bindString(3, fdDbNote.getFDDBNOTE_ADD_MACH());
+//                stmt.bindString(4, fdDbNote.getFDDBNOTE_SALE_REF_NO());
+//                stmt.bindString(5, fdDbNote.getFDDBNOTE_MANU_REF());
+//                stmt.bindString(6, fdDbNote.getFDDBNOTE_TXN_TYPE());
+//                stmt.bindString(7, fdDbNote.getFDDBNOTE_TXN_DATE());
+//                stmt.bindString(8, fdDbNote.getFDDBNOTE_CUR_CODE());
+//                stmt.bindString(9, fdDbNote.getFDDBNOTE_CUR_RATE());
+//                stmt.bindString(10, fdDbNote.getFDDBNOTE_DEB_CODE());
+//                stmt.bindString(11, fdDbNote.getFDDBNOTE_REP_CODE());
+//                stmt.bindString(12, fdDbNote.getFDDBNOTE_TAX_COM_CODE());
+//                stmt.bindString(13, fdDbNote.getFDDBNOTE_TAX_AMT());
+//                stmt.bindString(14, fdDbNote.getFDDBNOTE_B_TAX_AMT());
+//                stmt.bindString(15, fdDbNote.getFDDBNOTE_AMT());
+//                stmt.bindString(16, fdDbNote.getFDDBNOTE_B_AMT());
+//                stmt.bindString(17, fdDbNote.getFDDBNOTE_TOT_BAL());
+//                stmt.bindString(18, fdDbNote.getFDDBNOTE_TOT_BAL1());
+//                stmt.bindString(19, fdDbNote.getFDDBNOTE_OV_PAY_AMT());
+//                stmt.bindString(20, fdDbNote.getFDDBNOTE_REMARKS());
+//                //stmt.bindString(20, fdDbNote.getFDDBNOTE_REMARKS());
+//                stmt.bindString(21, fdDbNote.getFDDBNOTE_CR_ACC());
+//                stmt.bindString(22, fdDbNote.getFDDBNOTE_PRT_COPY());
+//                stmt.bindString(23, fdDbNote.getFDDBNOTE_GL_POST());
+//                stmt.bindString(24, fdDbNote.getFDDBNOTE_GL_BATCH());
+//                stmt.bindString(21, fdDbNote.getFDDBNOTE_ADD_USER());
+//                stmt.bindString(22, fdDbNote.getFDDBNOTE_ADD_DATE());
+//                stmt.bindString(23, fdDbNote.getFDDBNOTE_ENTER_AMT());
+//                stmt.bindString(24, fdDbNote.getFDDBNOTE_PDA_AMT());
+//
+//
+//                stmt.execute();
+//                stmt.clearBindings();
+//            }
+//
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            dB.setTransactionSuccessful();
+//            dB.endTransaction();
+//            dB.close();
+//        }
+//
+//    }
 
     public int createOrUpdateFDDbNote(ArrayList<FddbNote> list) {
         int count = 0;
@@ -203,6 +204,7 @@ public class OutstandingController {
                 values.put(FDDBNOTE_ADD_MACH, fdDbNote.getFDDBNOTE_ADD_MACH());
                 values.put(FDDBNOTE_REFNO1, fdDbNote.getFDDBNOTE_REFNO1());
                 values.put(FDDBNOTE_ENTER_AMT, fdDbNote.getFDDBNOTE_ENTER_AMT());
+                values.put(FDDBNOTE_PDAAMT, fdDbNote.getFDDBNOTE_PDA_AMT());
 
                 if (cursor.getCount() > 0) {
                     dB.update(TABLE_FDDBNOTE, values, REFNO + "=?", new String[]{fdDbNote.getFDDBNOTE_REFNO().toString()});
