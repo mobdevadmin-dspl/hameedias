@@ -181,7 +181,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         try {
                             new outstandingDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
                         } catch (Exception e) {
-                            Log.e("## ErrorInItemDown ##", e.toString());
+                            Log.e("## ErrorInOutstanding##", e.toString());
                         }
                     } else {
                         Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
@@ -1076,7 +1076,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
             try {
                 if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
 
-                    /*****************Item Loc*****************************************************************************/
+                    /*****************fDdbNoteWithCondition*****************************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

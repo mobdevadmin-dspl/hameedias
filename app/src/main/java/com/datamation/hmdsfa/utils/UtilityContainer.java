@@ -31,6 +31,7 @@ import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
+import com.datamation.hmdsfa.controller.OutstandingController;
 import com.datamation.hmdsfa.controller.ReasonController;
 import com.datamation.hmdsfa.controller.ReferenceDetailDownloader;
 import com.datamation.hmdsfa.controller.ReferenceSettingController;
@@ -48,6 +49,7 @@ import com.datamation.hmdsfa.model.Discount;
 import com.datamation.hmdsfa.model.Expense;
 import com.datamation.hmdsfa.model.FItenrDet;
 import com.datamation.hmdsfa.model.FItenrHed;
+import com.datamation.hmdsfa.model.FddbNote;
 import com.datamation.hmdsfa.model.FreeDeb;
 import com.datamation.hmdsfa.model.FreeDet;
 import com.datamation.hmdsfa.model.FreeHed;
@@ -818,23 +820,42 @@ public class UtilityContainer {
 
             }
             break;
-            case Discount:{
+            case Discount: {
+                DiscountController discountController = new DiscountController(context);
+                discountController.deleteAll();
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("CusProductDisResult");
                     ArrayList<Discount> arrayList = new ArrayList<Discount>();
-                    DiscountController discountController = new DiscountController(context);
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        //  Log.d(">>>", ">>>" + i);
                         arrayList.add(Discount.parseDiscounts(jsonArray.getJSONObject(i)));
                     }
-                    // Log.d(">>>", "size :" + salesPriList.size());
                     discountController.InsertOrReplaceDiscount(arrayList);
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
+                    }
+                }
+            }
+            break;
+            case fddbnote: {
+                OutstandingController outstandingController = new OutstandingController(context);
+                outstandingController.deleteAll();
+                try {
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("fDdbNoteWithConditionResult");
+                    ArrayList<FddbNote> arrayList = new ArrayList<FddbNote>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(FddbNote.parseFddbnote(jsonArray.getJSONObject(i)));
+                    }
+                    outstandingController.createOrUpdateFDDbNote(arrayList);
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
 
@@ -852,8 +873,6 @@ public class UtilityContainer {
                     }
                 };
                 thread.start();
-
-              //  Toast.makeText(context,"Download Completed",Toast.LENGTH_SHORT).show();
             }
             break;
             default:

@@ -26,7 +26,8 @@ public enum TaskType {
     Itenerydet(21),
     Stock(22),
     Salesprice(23),
-    Discount(24);
+    Discount(24),
+    fddbnote(25);
 
     int value;
 

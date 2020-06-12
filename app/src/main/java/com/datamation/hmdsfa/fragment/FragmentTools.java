@@ -1040,6 +1040,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         throw e;
                     }
 
+                    /*****************end reasons **********************************************************************/
+
 //                    // Processing fddbnote
 //                    try {
 //                        Call<ReadJsonList> resultCall = apiInterface.getOutstandingResult(pref.getDistDB(),repcode);
@@ -1067,13 +1069,33 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                        errors.add(e.toString());
 //                        throw e;
 //                    }
+
+
+                    // *****************fddbnote**********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Outsatnding downloaded\nDownloading fddbnote...");
+                        }
+                    });
+                    // Processing fddbnote
+
+                    try {
+                        UtilityContainer.download(getActivity(),TaskType.fddbnote, networkFunctions.getFddbNotes(repcode));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        errors.add(e.toString());
+                        throw e;
+                    }
+                    /*****************end fddbnote**********************************************************************/
+
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             pdialog.setMessage("Downloading banks...");
                         }
                     });
-//                    /*****************expenses**********************************************************************/
+//                    /*****************banks**********************************************************************/
 
                     try {
                         UtilityContainer.download(getActivity(),TaskType.Bank, networkFunctions.getBanks());
@@ -1082,9 +1104,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         errors.add(e.toString());
                         throw e;
                     }
-
-
                     /*****************end banks**********************************************************************/
+                    /*****************expenses**********************************************************************/
+
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
