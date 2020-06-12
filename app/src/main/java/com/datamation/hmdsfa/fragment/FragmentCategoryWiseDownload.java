@@ -367,7 +367,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                     }
                     /*****************end item **********************************************************************/
 
-                    /*****************Item Bundle*****************************************************************************/
+                    /*****************Item Bundle - kaveesha - 10-06-2020*****************************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -447,7 +447,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
         }
     }
 
-    //salesprice download asynctask
+    //salesprice download asynctask -- kaveesha -  03-06-2020
     private class salespriceDownload extends AsyncTask<String, Integer, Boolean> {
         CustomProgressDialog pdialog;
         private String repcode;
@@ -695,7 +695,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                     }
                     /*****************end freeItem**********************************************************************/
 
-                    /*****************Freemslab*********************************************************************/
+                    /*****************Freemslab - kaveesha -11-06-2020 *********************************************************************/
                     String freemslab = "";
                     try {
                         freemslab = networkFunctions.getFreeMslab();
@@ -873,7 +873,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                     }
                     /*****************end route det**********************************************************************/
 
-                    /*****************Itenary hed**********************************************************************/
+                    /*****************Itenary hed - kaveesha - 10-06-2020  *********************************************************************/
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -918,7 +918,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     /*****************end itenaryHed**********************************************************************/
 
-                    /*****************Itenary det**********************************************************************/
+                    /*****************Itenary det -  kaveesha - 10-06-2020 ********************************************************************/
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -963,7 +963,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     /*****************end itenaryDet*********************************************************************/
 
-                    /*****************Itenary debDet**********************************************************************/
+                    /*****************Itenary debDet- kaveesha - 10-06-2020 ********************************************************************/
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1165,7 +1165,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
         }
     }
 
-    //stock download
+    //stock download - kaveesha - 10-06-2020
     private class StockDownload extends AsyncTask<String, Integer, Boolean> {
 
         CustomProgressDialog pdialog;
@@ -1278,7 +1278,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
         }
     }
 
-    //other download
+    //other download - 11-06-2020
     private class OtherDownload extends AsyncTask<String, Integer, Boolean> {
 
         private String repcode;

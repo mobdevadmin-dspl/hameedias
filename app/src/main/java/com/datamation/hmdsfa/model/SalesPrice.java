@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+//*********kaveesha - 01-06-2020
 public class SalesPrice {
 
     @SerializedName("AllowLineDis")
