@@ -289,6 +289,7 @@ public class NetworkFunctions {
 
         return getFromServer(baseURL + "freason" + restOfURL, params);
     }
+
     public String getSalesPrices() throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
@@ -297,6 +298,7 @@ public class NetworkFunctions {
 
         return getFromServer(baseURL + "Salesprice" + restOfURL, params);
     }
+
     public String getExpenses() throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
