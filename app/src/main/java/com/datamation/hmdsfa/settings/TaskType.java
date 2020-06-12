@@ -27,7 +27,9 @@ public enum TaskType {
     Stock(22),
     Salesprice(23),
     Discount(24),
-    fddbnote(25);
+    fddbnote(25),
+    VanStock(26),
+    Barcodevarient(27);
 
     int value;
 

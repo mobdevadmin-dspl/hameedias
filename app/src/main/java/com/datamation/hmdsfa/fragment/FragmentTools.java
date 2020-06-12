@@ -1465,7 +1465,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
 
-                    /*****************stock**********************************************************************/
+                    /*****************stock - kaveesha - 10-06-2020**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1475,6 +1475,37 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing discount
                     try {
                         UtilityContainer.download(getActivity(),TaskType.Stock, networkFunctions.getStock(repcode));
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+
+                    /*****************Van Stock  - kaveesha - 12-06-2020**********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading Van Stock....");
+                        }
+                    });
+                    // Processing van stock
+                    try {
+                        UtilityContainer.download(getActivity(),TaskType.VanStock, networkFunctions.getVanStock(repcode));
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+
+                    /*****************Barcode Variant  - kaveesha - 12-06-2020**********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading Barcode Variant....");
+                        }
+                    });
+
+                    // Processing Barcode Varient
+                    try {
+                        UtilityContainer.download(getActivity(),TaskType.Barcodevarient, networkFunctions.getBarcodeVariant());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;

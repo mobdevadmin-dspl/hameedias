@@ -21,6 +21,7 @@ public class ItemBundleController {
     private SQLiteDatabase dB;
     private DatabaseHelper dbeHelper;
     private String TAG = "ItemBundleController";
+    private String TAG_1 = "BarCodeVarientController";
 
     public static final String TABLE_ITEMBUNDLE = "ItemBundle";
     public static final String Id = "Id";
@@ -43,6 +44,21 @@ public class ItemBundleController {
             Description + " TEXT, " +
             ArticleNo + " TEXT, " +
             Quantity + " TEXT ); ";
+
+    //table - kaveesha - 12-06-2020
+    public static final String TABLE_BAR_CODE_VARIENT = "BarCodeVarient";
+
+    //table attributes
+    public static final String BARCODE_ID = "Id";
+    public static final String BARCODE_NO = "Barcode_No";
+    public static final String DOCUMENT_NO = "Description";
+    public static final String ITEM_NO = "Item_No";
+    public static final String VARIANT_SIZE = "Size";
+    public static final String VARIANT_CODE = "Variant_Code";
+
+    public static final String  CREATE_TABLE_BAR_CODE_VARIENT = "CREATE TABLE IF NOT EXISTS " + TABLE_BAR_CODE_VARIENT + " (" + BARCODE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            BARCODE_NO + " TEXT, " + DOCUMENT_NO + " TEXT, " + ITEM_NO + " TEXT, " +
+            VARIANT_SIZE + " TEXT, "+ VARIANT_CODE + " TEXT ); ";
 
     public ItemBundleController(Context context) {
         this.context = context;
@@ -132,6 +148,46 @@ public class ItemBundleController {
                 stmt.bindString(8, itemBndl.getDescription());
                 stmt.bindString(9, itemBndl.getArticleNo());
 
+
+                stmt.execute();
+                stmt.clearBindings();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dB.setTransactionSuccessful();
+            dB.endTransaction();
+            dB.close();
+        }
+
+    }
+
+    public void InsertOrReplaceBarcodeVariant(ArrayList<ItemBundle> list) {
+
+        deleteAll();
+        Log.d(">>InsrtOrRepBarcodeVari", ">>" + list.size());
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try {
+            dB.beginTransactionNonExclusive();
+            String sql = "INSERT OR REPLACE INTO " + TABLE_BAR_CODE_VARIENT + " (Barcode_No,Description,Item_No,Size,Variant_Code) " + " VALUES (?,?,?,?,?)";
+
+            SQLiteStatement stmt = dB.compileStatement(sql);
+
+            for (ItemBundle barcodevariant : list) {
+
+                Log.d(">>check item",">>"+barcodevariant.toString());
+                stmt.bindString(1, barcodevariant.getBarcode());
+                stmt.bindString(2, barcodevariant.getDescription());
+                stmt.bindString(3, barcodevariant.getItemNo());
+                stmt.bindString(4, barcodevariant.getVariantSize());
+                stmt.bindString(5, barcodevariant.getVariantCode());
 
                 stmt.execute();
                 stmt.clearBindings();
@@ -257,6 +313,39 @@ public class ItemBundleController {
             count = cursor.getCount();
             if (count > 0) {
                 int success = dB.delete(TABLE_ITEMBUNDLE, null, null);
+                Log.v("Success", success + "");
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return count;
+
+    }
+
+    public int deleteAll_BarcodeVariant() {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        try {
+
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_BAR_CODE_VARIENT, null);
+            count = cursor.getCount();
+            if (count > 0) {
+                int success = dB.delete(TABLE_BAR_CODE_VARIENT, null, null);
                 Log.v("Success", success + "");
             }
         } catch (Exception e) {
