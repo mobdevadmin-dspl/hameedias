@@ -378,42 +378,65 @@ Log.d(">>ScannedList",">>"+list.toString());
         return list;
     }
 
+    //get scanned items for itemwise scan
     public ArrayList<Product> getScannedtems(ItemBundle itembundle) {
 
-        if (dB == null) {
-            open();
-        } else if (!dB.isOpen()) {
-            open();
-        }
-        Cursor cursor = null;
+
         ArrayList<Product> list = new ArrayList<>();
         try {
-            cursor = dB.rawQuery("SELECT UnitPrice FROM " +TABLE_FSALESPRICE + " WHERE  ItemNo = '" + itembundle.getItemNo() + "' and VarientCode = '" + itembundle.getVariantCode() + "' ", null);
-
-            while (cursor.moveToNext()) {
                 Product product = new Product();
-                product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
-                product.setFPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMCODE)));
-                product.setFPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMNAME)));
-                product.setFPRODUCT_Barcode(cursor.getString(cursor.getColumnIndex(FPRODUCT_Barcode)));
-                product.setFPRODUCT_DocumentNo(cursor.getString(cursor.getColumnIndex(FPRODUCT_DocumentNo)));
-                product.setFPRODUCT_VariantCode(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantCode)));
-                product.setFPRODUCT_VariantColour(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantColour)));
-                product.setFPRODUCT_VariantSize(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantSize)));
-                product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_Quantity)));
-                product.setFPRODUCT_Price(cursor.getString(cursor.getColumnIndex(FSALES_PRI_UNITPRICE)));
+                String price = new SalesPriceController(context).getPrice(itembundle.getItemNo(),itembundle.getVariantCode());
+             //   product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
+                product.setFPRODUCT_ITEMCODE(itembundle.getItemNo());
+                product.setFPRODUCT_ITEMNAME(itembundle.getDescription());
+                product.setFPRODUCT_Barcode(itembundle.getBarcode());
+                product.setFPRODUCT_DocumentNo(itembundle.getDocumentNo());
+                product.setFPRODUCT_VariantCode(itembundle.getVariantCode());
+                product.setFPRODUCT_VariantColour(itembundle.getVariantColour());
+                product.setFPRODUCT_VariantSize(itembundle.getVariantSize());
+                product.setFPRODUCT_QTY(String.valueOf(itembundle.getQuantity()));
+                product.setFPRODUCT_Price(price);
 //                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
-                product.setFPRODUCT_IsScan(cursor.getString(cursor.getColumnIndex(FPRODUCT_IsScan)));
+                product.setFPRODUCT_IsScan("1");
 
                 list.add(product);
 
 
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            cursor.close();
-            dB.close();
+        }
+        Log.d(">>ScannedList",">>"+list.toString());
+        return list;
+    }
+    //get scanned items for itembundle scan
+    public ArrayList<Product> getBundleScannedtems(ArrayList<ItemBundle> itembundleList) {
+
+
+        ArrayList<Product> list = new ArrayList<>();
+        try {
+            for(ItemBundle itembundle : itembundleList) {
+                Product product = new Product();
+                String price = new SalesPriceController(context).getPrice(itembundle.getItemNo(), itembundle.getVariantCode());
+                //   product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
+                product.setFPRODUCT_ITEMCODE(itembundle.getItemNo());
+                product.setFPRODUCT_ITEMNAME(itembundle.getDescription());
+                product.setFPRODUCT_Barcode(itembundle.getBarcode());
+                product.setFPRODUCT_DocumentNo(itembundle.getDocumentNo());
+                product.setFPRODUCT_VariantCode(itembundle.getVariantCode());
+                product.setFPRODUCT_VariantColour(itembundle.getVariantColour());
+                product.setFPRODUCT_VariantSize(itembundle.getVariantSize());
+                product.setFPRODUCT_QTY(String.valueOf(itembundle.getQuantity()));
+                product.setFPRODUCT_Price(price);
+//                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
+                product.setFPRODUCT_IsScan("1");
+
+                list.add(product);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         Log.d(">>ScannedList",">>"+list.toString());
         return list;

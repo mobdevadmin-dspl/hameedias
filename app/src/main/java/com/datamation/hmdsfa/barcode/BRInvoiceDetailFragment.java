@@ -262,7 +262,7 @@ public class BRInvoiceDetailFragment extends Fragment{
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                selectedItemList = new ProductController(getActivity()).getScannedtems("SA");
+                selectedItemList = new ProductController(getActivity()).getBundleScannedtems(itemDetails);
                 updateInvoiceDet(selectedItemList);
                 showData();
 
@@ -724,8 +724,8 @@ public class BRInvoiceDetailFragment extends Fragment{
                 new InvoiceDetBarcodeController(getActivity()).mDeleteRecords(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
                 for (Product product : list) {
                     i++;
-                    mUpdateInvoice("0", product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), "1500", i + "", "5","0.0");
-                    new InvoiceDetBarcodeController(getActivity()).mUpdateInvoice(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)),"Invoice",product.getFPRODUCT_ITEMCODE(),product.getFPRODUCT_Barcode(),product.getFPRODUCT_VariantCode(),"articleno",Integer.parseInt(product.getFPRODUCT_QTY()),2500);
+                    mUpdateInvoice("0", product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), i + "", product.getFPRODUCT_QTY(),"0.0");
+                    new InvoiceDetBarcodeController(getActivity()).mUpdateInvoice(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)),"Invoice",product.getFPRODUCT_ITEMCODE(),product.getFPRODUCT_Barcode(),product.getFPRODUCT_VariantCode(),product.getFPRODUCT_VariantCode(),Integer.parseInt(product.getFPRODUCT_QTY()),Double.parseDouble(product.getFPRODUCT_Price()));
                 }//id,itemcode,qty,price,seqno,qoh,changed price
                 return null;
             }

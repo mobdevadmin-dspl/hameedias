@@ -116,7 +116,34 @@ public class SalesPriceController {
         }
 
     }
+    public String getPrice(String itemNo, String variantCode) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT UnitPrice FROM " +TABLE_FSALESPRICE + " WHERE  ItemNo = '" + itemNo + "' and VarientCode = '" + variantCode + "' ";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+
+                return cursor.getString(cursor.getColumnIndex(FSALES_PRI_UNITPRICE));
+
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return "0";
+    }
     public int deleteAll() {
 
         int count = 0;
