@@ -144,18 +144,18 @@ public class SalesPrice {
         if (instance != null) {
             SalesPrice salespri = new SalesPrice();
 
-            salespri.setAllowLineDis(instance.getString("AllowLineDis"));
-            salespri.setEndingDate(instance.getString("EndingDate"));
+            salespri.setAllowLineDis("0");
+            salespri.setEndingDate("0");
             salespri.setItemNo(instance.getString("ItemNo"));
-            salespri.setMarkup(instance.getString("Markup"));
-            salespri.setPriceInclVat(instance.getString("PriceInclVat"));
-            salespri.setProfit(instance.getString("Profit"));
-            salespri.setProfitLCY(instance.getString("ProfitLCY"));
-            salespri.setSalesType(instance.getString("SalesType"));
-            salespri.setStartingDate(instance.getString("StartingDate"));
-            salespri.setUnitOfMea(instance.getString("UnitOfMea"));
+            salespri.setMarkup("0");
+            salespri.setPriceInclVat("0");
+            salespri.setProfit("0");
+            salespri.setProfitLCY("0");
+            salespri.setSalesType("0");
+            salespri.setStartingDate("0");
+            salespri.setUnitOfMea("0");
             salespri.setUnitPrice(instance.getString("UnitPrice"));
-            salespri.setUnitPriceInclVat(instance.getString("UnitPriceInclVat"));
+            salespri.setUnitPriceInclVat("0");
             salespri.setVarientCode(instance.getString("VarientCode"));
 
 
