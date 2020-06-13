@@ -891,8 +891,10 @@ public class UtilityContainer {
                             JSONArray jsonArray = jsonObject.getJSONArray("BarCodeVarientResult");
                             ArrayList<ItemBundle> arrayList = new ArrayList<ItemBundle>();
                             for (int i = 0; i < jsonArray.length(); i++) {
+                                  Log.d(">>itembundle", ">>>" + i);
                                 arrayList.add(ItemBundle.parseBarcodevarient(jsonArray.getJSONObject(i)));
                             }
+                             Log.d(">>itembundle", "size :" + arrayList.size());
                             itemBundleController.InsertOrReplaceBarcodeVariant(arrayList);
                         } catch (JSONException | NumberFormatException e) {
                             try {

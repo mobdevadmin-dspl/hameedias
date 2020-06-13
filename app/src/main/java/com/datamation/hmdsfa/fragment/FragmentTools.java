@@ -952,7 +952,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             pdialog.setMessage("Downloading data (ItemBundle details)...");
                         }
                     });
-                    // Processing Branches
+                    // Processing ItemBundle
 
                     try{
                         UtilityContainer.download(getActivity(),TaskType.ItemBundle, networkFunctions.getItemBundles(repcode));

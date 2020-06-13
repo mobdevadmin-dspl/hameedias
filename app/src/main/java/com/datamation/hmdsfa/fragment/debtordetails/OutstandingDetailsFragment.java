@@ -158,22 +158,24 @@ public class OutstandingDetailsFragment extends Fragment
                 int numOfDays =   (int) ((System.currentTimeMillis()  - txn) / DAY_IN_MILLIS);
                 //viewHolder.lblDays.setText(""+numOfDays);
                 viewHolder.invoiceDays.setText(""+numOfDays);
-                if(Integer.parseInt(fddbNotes.get(position).getCreditPeriod())<numOfDays){
-                    //if(90<numOfDays){
-                    viewHolder.invoiceId.setTextColor(getResources().getColor(R.color.red_btn_bg_color));
-                    viewHolder.invoiceId.setTypeface(viewHolder.invoiceId.getTypeface(), Typeface.BOLD);
-                    viewHolder.invoiceDate.setTextColor(getResources().getColor(R.color.red_btn_bg_color));
-                    viewHolder.invoiceDate.setTypeface(viewHolder.invoiceDate.getTypeface(), Typeface.BOLD);
-                    viewHolder.invoiceAmt.setTextColor(getResources().getColor(R.color.red_btn_bg_color));
-                    viewHolder.invoiceAmt.setTypeface(viewHolder.invoiceAmt.getTypeface(), Typeface.BOLD);
-                    viewHolder.invoiceBalance.setTextColor(getResources().getColor(R.color.red_btn_bg_color));
-                    viewHolder.invoiceBalance.setTypeface(viewHolder.invoiceBalance.getTypeface(), Typeface.BOLD);
-                    viewHolder.invoiceDays.setTextColor(getResources().getColor(R.color.red_btn_bg_color));
-                    viewHolder.invoiceDays.setTypeface(viewHolder.invoiceDays.getTypeface(), Typeface.BOLD);
-                }else{
+                if(fddbNotes.get(position).getCreditPeriod() != null && !fddbNotes.get(position).getCreditPeriod().isEmpty())
+                {
+                    if(Integer.parseInt(fddbNotes.get(position).getCreditPeriod())<numOfDays){
+                        //if(90<numOfDays){
+                        viewHolder.invoiceId.setTextColor(getResources().getColor(R.color.red_btn_bg_color));
+                        viewHolder.invoiceId.setTypeface(viewHolder.invoiceId.getTypeface(), Typeface.BOLD);
+                        viewHolder.invoiceDate.setTextColor(getResources().getColor(R.color.red_btn_bg_color));
+                        viewHolder.invoiceDate.setTypeface(viewHolder.invoiceDate.getTypeface(), Typeface.BOLD);
+                        viewHolder.invoiceAmt.setTextColor(getResources().getColor(R.color.red_btn_bg_color));
+                        viewHolder.invoiceAmt.setTypeface(viewHolder.invoiceAmt.getTypeface(), Typeface.BOLD);
+                        viewHolder.invoiceBalance.setTextColor(getResources().getColor(R.color.red_btn_bg_color));
+                        viewHolder.invoiceBalance.setTypeface(viewHolder.invoiceBalance.getTypeface(), Typeface.BOLD);
+                        viewHolder.invoiceDays.setTextColor(getResources().getColor(R.color.red_btn_bg_color));
+                        viewHolder.invoiceDays.setTypeface(viewHolder.invoiceDays.getTypeface(), Typeface.BOLD);
+                    }else{
 //default colours and typeface will be set
+                    }
                 }
-
             }
 
             return convertView;

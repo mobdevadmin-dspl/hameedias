@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.api.ApiCllient;
 import com.datamation.hmdsfa.api.ApiInterface;
+import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.DayExpHedController;
 import com.datamation.hmdsfa.controller.DayNPrdHedController;
 import com.datamation.hmdsfa.controller.FItenrDetController;
@@ -30,6 +31,7 @@ import com.datamation.hmdsfa.controller.FreeDetController;
 import com.datamation.hmdsfa.controller.FreeHedController;
 import com.datamation.hmdsfa.controller.FreeItemController;
 import com.datamation.hmdsfa.controller.FreeMslabController;
+import com.datamation.hmdsfa.controller.FreeSlabController;
 import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
@@ -41,11 +43,13 @@ import com.datamation.hmdsfa.controller.OutstandingController;
 import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalesPriceController;
+import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.helpers.NetworkFunctions;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.DayExpHed;
 import com.datamation.hmdsfa.model.DayNPrdHed;
+import com.datamation.hmdsfa.model.Debtor;
 import com.datamation.hmdsfa.model.FItenrDet;
 import com.datamation.hmdsfa.model.FItenrHed;
 import com.datamation.hmdsfa.model.FddbNote;
@@ -54,6 +58,7 @@ import com.datamation.hmdsfa.model.FreeDet;
 import com.datamation.hmdsfa.model.FreeHed;
 import com.datamation.hmdsfa.model.FreeItem;
 import com.datamation.hmdsfa.model.FreeMslab;
+import com.datamation.hmdsfa.model.FreeSlab;
 import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.ItemLoc;
@@ -64,6 +69,7 @@ import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.Route;
 import com.datamation.hmdsfa.model.RouteDet;
 import com.datamation.hmdsfa.model.SalesPrice;
+import com.datamation.hmdsfa.model.VanStock;
 import com.datamation.hmdsfa.settings.TaskType;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.utils.UtilityContainer;
@@ -81,7 +87,7 @@ import java.util.List;
 public class FragmentCategoryWiseDownload extends Fragment {
 
     private View view;
-    private TextView downItems, downFree, downRoute, downOutstanding, downPrice, downStock, downOthers;
+    private TextView downItems, downFree, downRoute, downOutstanding, downPrice, downStock, downOthers,downCustomer;
     NetworkFunctions networkFunctions;
     ApiInterface apiInterface;
 
@@ -101,6 +107,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
         downPrice = (TextView) view.findViewById(R.id.price_download);
         downStock = (TextView) view.findViewById(R.id.stock_download);
         downOthers = (TextView) view.findViewById(R.id.other_download);
+        downCustomer = (TextView) view.findViewById(R.id.customer_download);
 
         downItems.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,6 +231,27 @@ public class FragmentCategoryWiseDownload extends Fragment {
                             new salespriceDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
                         } catch (Exception e) {
                             Log.e("## ErrorInPriceDown ##", e.toString());
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        downCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean connectionStatus = NetworkUtil.isNetworkAvailable(getActivity());
+
+                if (connectionStatus == true) {
+                    if (isAllUploaded(getActivity())) {
+                        try {
+                            new CustomersDownload(SharedPref.getInstance(getActivity()).getLoginUser().getRepCode()).execute();
+                        } catch (Exception e) {
+                            Log.e("## ErrorInCustomer ##", e.toString());
                         }
                     } else {
                         Toast.makeText(getActivity(), "Please Upload All Transactions", Toast.LENGTH_LONG).show();
@@ -395,6 +423,42 @@ public class FragmentCategoryWiseDownload extends Fragment {
                             itemBundleList.add(ItemBundle.parseItemBundle(itemBundleJSONArray.getJSONObject(i)));
                         }
                         itemBundleController.InsertOrReplaceItemBundle(itemBundleList);
+                    } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
+
+                    /*****************Barcode Variant - kaveesha - 13-06-2020*****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading Barcode Variant...");
+                        }
+                    });
+
+                    String barcodeVariant = "";
+                    try {
+                        barcodeVariant = networkFunctions.getBarcodeVariant();
+                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
+
+                    // Processing barcodevariant
+                    try {
+                        JSONObject barcodeVJSON = new JSONObject(barcodeVariant);
+                        JSONArray barcodeVJSONArray = barcodeVJSON.getJSONArray("BarCodeVarientResult");
+                        ArrayList<ItemBundle> barcodeVList = new ArrayList<ItemBundle>();
+                        ItemBundleController itemBundleController = new ItemBundleController(getActivity());
+                        itemBundleController.deleteAll_BarcodeVariant();
+                        for (int i = 0; i < barcodeVJSONArray.length(); i++) {
+                            barcodeVList.add(ItemBundle.parseBarcodevarient(barcodeVJSONArray.getJSONObject(i)));
+                        }
+                        itemBundleController.InsertOrReplaceBarcodeVariant(barcodeVList);
                     } catch (JSONException | NumberFormatException e) {
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
@@ -704,7 +768,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         throw e;
                     }
 
-                    // Processing freeItem
+                    // Processing Freemslab
                     try {
                         JSONObject freemslabJSON = new JSONObject(freemslab);
                         JSONArray freemslabJSONArray = freemslabJSON.getJSONArray("fFreeMslabResult");
@@ -719,10 +783,38 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
 //                                e, routes, BugReport.SEVERITY_HIGH);
-
                         throw e;
                     }
                     /*****************end freemslab**********************************************************************/
+
+                    /*****************freeslab kaveesha - 13-06-2020 *********************************************************************/
+                    String freeslab = "";
+                    try {
+                        freeslab = networkFunctions.getFreeSlab();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
+
+                    // Processing freeslab
+                    try {
+                        JSONObject freeslabJSON = new JSONObject(freeslab);
+                        JSONArray freeslabJSONArray = freeslabJSON.getJSONArray("FfreeslabResult");
+                        ArrayList<FreeSlab> freeslabList = new ArrayList<FreeSlab>();
+                        FreeSlabController freeSlabController = new FreeSlabController(getActivity());
+                        freeSlabController.deleteAll();
+                        for (int i = 0; i < freeslabJSONArray.length(); i++) {
+                            freeslabList.add(FreeSlab.parseFreeSlab(freeslabJSONArray.getJSONObject(i)));
+                        }
+                        freeSlabController.createOrUpdateFreeSlab(freeslabList);
+                    } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
+                    /*****************end freeslab**********************************************************************/
 
                     return true;
                 } else {
@@ -963,49 +1055,6 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     /*****************end itenaryDet*********************************************************************/
 
-                    /*****************Itenary debDet- kaveesha - 10-06-2020 ********************************************************************/
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("ItenaryDebDet\nDownloading route details...");
-                        }
-                    });
-
-                    String itenaryDeb = "";
-                    try {
-                        itenaryDeb = networkFunctions.getItenaryDebDet(repcode);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Processing downloaded data (ItenaryDeb)...");
-                        }
-                    });
-
-                    // Processing itenaryDeb
-                    try {
-                        JSONObject itenaryDebJSON = new JSONObject(itenaryDeb);
-                        JSONArray itenaryDebJSONJSONArray = itenaryDebJSON.getJSONArray("fIteDebDetResult");
-                        ArrayList<ItenrDeb> itenaryDebList = new ArrayList<ItenrDeb>();
-                        IteaneryDebController iteaneryDebController = new IteaneryDebController(getActivity());
-                        iteaneryDebController.deleteAll();
-                        for (int i = 0; i < itenaryDebJSONJSONArray.length(); i++) {
-                            itenaryDebList.add(ItenrDeb.parseIteDebDet(itenaryDebJSONJSONArray.getJSONObject(i)));
-                        }
-                        iteaneryDebController.InsertOrReplaceItenrDeb(itenaryDebList);
-                    } catch (JSONException | NumberFormatException e) {
-
-//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
-//                                e, routes, BugReport.SEVERITY_HIGH);
-
-                        throw e;
-                    }
-                    /*****************end itenaryDeb*********************************************************************/
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1234,6 +1283,49 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         throw e;
                     }
 
+                    /*****************Van Stock  kaveesha - 13-06-2020 *****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading Van Stock data...");
+                        }
+                    });
+
+                    String vanstock = "";
+                    try {
+                        vanstock = networkFunctions.getVanStock(repcode);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Processing downloaded data (Van stock)...");
+                        }
+                    });
+
+                    // Processing vanstock
+                    try {
+                        JSONObject vanstockJSON = new JSONObject(vanstock);
+                        JSONArray vanstockJSONArray = vanstockJSON.getJSONArray("VanStockResult");
+                        ArrayList<VanStock> vanstockList = new ArrayList<VanStock>();
+                        VanStockController vanStockController = new VanStockController(getActivity());
+                        vanStockController.deleteAll();
+                        for (int i = 0; i < vanstockJSONArray.length(); i++) {
+                            vanstockList.add(VanStock.parseVanStock(vanstockJSONArray.getJSONObject(i)));
+                        }
+                        vanStockController.InsertOrReplaceVanStock(vanstockList);
+
+                    } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
+
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1274,6 +1366,157 @@ public class FragmentCategoryWiseDownload extends Fragment {
                 if (pdialog.isShowing()) {
                     pdialog.dismiss();
                 }
+            }
+        }
+    }
+
+    //Customer download asynctask -- kaveesha -  13-06-2020
+    private class CustomersDownload extends AsyncTask<String, Integer, Boolean> {
+        CustomProgressDialog pdialog;
+        private String repcode;
+
+        public CustomersDownload(String repcode) {
+            this.repcode = repcode;
+            this.pdialog = new CustomProgressDialog(getActivity());
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdialog = new CustomProgressDialog(getActivity());
+            pdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            pdialog.setMessage("Downloading Customers...");
+            pdialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... arg0) {
+            try {
+                if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
+
+                    /*****************Customers ****************************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading Customers...");
+                        }
+                    });
+
+                    String customers = "";
+                    try {
+                        customers = networkFunctions.getCustomer(repcode);
+                        // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
+
+
+                    try {
+                        JSONObject customerJSON = new JSONObject(customers);
+                        JSONArray customerJSONJSONArray = customerJSON.getJSONArray("FdebtorResult");
+                        ArrayList<Debtor> customerList = new ArrayList<Debtor>();
+                        CustomerController customerController = new CustomerController(getActivity());
+                        customerController.deleteAll();
+                        for (int i = 0; i < customerJSONJSONArray.length(); i++) {
+                            customerList.add(Debtor.parseOutlet(customerJSONJSONArray.getJSONObject(i)));
+                        }
+                        customerController.InsertOrReplaceDebtor(customerList);
+                    } catch (JSONException | NumberFormatException e) {
+                        // Log.d(">>>", "error in fragment :" + e.toString());
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
+                    /*****************end customers**********************************************************************/
+
+                    /*****************Itenary debDet- kaveesha - 10-06-2020 ********************************************************************/
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("ItenaryDebDet\nDownloading route details...");
+                        }
+                    });
+
+                    String itenaryDeb = "";
+                    try {
+                        itenaryDeb = networkFunctions.getItenaryDebDet(repcode);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Processing downloaded data (ItenaryDeb)...");
+                        }
+                    });
+
+                    // Processing itenaryDeb
+                    try {
+                        JSONObject itenaryDebJSON = new JSONObject(itenaryDeb);
+                        JSONArray itenaryDebJSONJSONArray = itenaryDebJSON.getJSONArray("fIteDebDetResult");
+                        ArrayList<ItenrDeb> itenaryDebList = new ArrayList<ItenrDeb>();
+                        IteaneryDebController iteaneryDebController = new IteaneryDebController(getActivity());
+                        iteaneryDebController.deleteAll();
+                        for (int i = 0; i < itenaryDebJSONJSONArray.length(); i++) {
+                            itenaryDebList.add(ItenrDeb.parseIteDebDet(itenaryDebJSONJSONArray.getJSONObject(i)));
+                        }
+                        iteaneryDebController.InsertOrReplaceItenrDeb(itenaryDebList);
+                    } catch (JSONException | NumberFormatException e) {
+
+//                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
+//                                e, routes, BugReport.SEVERITY_HIGH);
+
+                        throw e;
+                    }
+                    /*****************end itenaryDeb*********************************************************************/
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Download complete...");
+                        }
+                    });
+                    return true;
+                } else {
+                    //errors.add("Please enter correct username and password");
+                    return false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+
+                return false;
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+                return false;
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean result) {
+            super.onPostExecute(result);
+
+            pdialog.setMessage("Finalizing Sales Price data");
+            pdialog.setMessage("Download Completed..");
+            if (result) {
+                if (pdialog.isShowing()) {
+                    pdialog.dismiss();
+                }
+
+            } else {
+                if (pdialog.isShowing()) {
+                    pdialog.dismiss();
+                }
+
             }
         }
     }

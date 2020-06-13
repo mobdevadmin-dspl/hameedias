@@ -122,7 +122,8 @@ public class ItemBundleController {
 //    }
     public void InsertOrReplaceItemBundle(ArrayList<ItemBundle> list) {
         deleteAll();
-        Log.d(">>InsrtOrRepItemBundle", ">>" + list.size());
+        //Log.d(">>InsrtOrRepItemBundle", ">>" + list.size());
+        Log.d(">>itemBundle", ">>InsrtOrRepItemBundle" + list.size());
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -133,20 +134,30 @@ public class ItemBundleController {
             dB.beginTransactionNonExclusive();
             String sql = "INSERT OR REPLACE INTO " + TABLE_ITEMBUNDLE + " (Barcode,DocumentNo,ItemNo,VariantCode,VariantColour,VariantSize,Quantity,Description,ArticleNo) " + " VALUES (?,?,?,?,?,?,?,?,?)";
 //            String sql = "INSERT OR REPLACE INTO " + DatabaseHelper.TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,TownCode,AreaCode,DbGrCode,Status,CrdPeriod,ChkCrdPrd,CrdLimit,ChkCrdLmt,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
+            Log.d(">>itembundle", "sql" + sql);
             SQLiteStatement stmt = dB.compileStatement(sql);
 
             for (ItemBundle itemBndl : list) {
-                Log.d(">>check item",">>"+itemBndl.toString());
+                //Log.d(">>check item",">>"+itemBndl.toString());
+                Log.d(">>itembundle",">>"+itemBndl.toString());
                 stmt.bindString(1, itemBndl.getBarcode());
+                Log.d(">>itembundle","itembundle_Barcode"+itemBndl.getBarcode());
                 stmt.bindString(2, itemBndl.getDocumentNo());
+                Log.d(">>itembundle","itembundle_Document"+itemBndl.getDocumentNo());
                 stmt.bindString(3, itemBndl.getItemNo());
+                Log.d(">>itembundle","itembundle_ItemNo"+itemBndl.getItemNo());
                 stmt.bindString(4, itemBndl.getVariantCode());
+                Log.d(">>itembundle","itembundle"+itemBndl.getVariantCode());
                 stmt.bindString(5, itemBndl.getVariantColour());
+                Log.d(">>itembundle","itembundle_Vari_colour"+itemBndl.getVariantColour());
                 stmt.bindString(6, itemBndl.getVariantSize());
+                Log.d(">>itembundle","itembundle_size"+itemBndl.getVariantSize());
                 stmt.bindLong(7,   itemBndl.getQuantity());
+                Log.d(">>itembundle","itembundle_quanity"+itemBndl.getQuantity());
                 stmt.bindString(8, itemBndl.getDescription());
+                Log.d(">>itembundle","itembundle_description"+itemBndl.getDescription());
                 stmt.bindString(9, itemBndl.getArticleNo());
+                Log.d(">>itembundle","itembundle_Artical"+itemBndl.getArticleNo());
 
 
                 stmt.execute();
@@ -155,6 +166,7 @@ public class ItemBundleController {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            Log.d(">>itembundle", "error in fragment :" + e.toString());
         } finally {
             dB.setTransactionSuccessful();
             dB.endTransaction();
