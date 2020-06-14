@@ -43,6 +43,7 @@ import com.datamation.hmdsfa.adapter.FreeIssueAdapterNew;
 import com.datamation.hmdsfa.adapter.InvDetAdapterNew;
 import com.datamation.hmdsfa.adapter.InvoiceFreeItemAdapter;
 import com.datamation.hmdsfa.adapter.NewProduct_Adapter;
+import com.datamation.hmdsfa.controller.BarcodeVarientController;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
 import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
@@ -144,7 +145,7 @@ public class BRInvoiceDetailFragment extends Fragment{
 //                    }
                     //itemBundle size should be one.because scan only one item
 
-                    ArrayList<ItemBundle> itemBundle = new ItemBundleController(getActivity())
+                    ArrayList<ItemBundle> itemBundle = new BarcodeVarientController(getActivity())
                             .getItemsInBundle(etSearchField.getText().toString());
                     Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
                     // for (Item item: aList ) {

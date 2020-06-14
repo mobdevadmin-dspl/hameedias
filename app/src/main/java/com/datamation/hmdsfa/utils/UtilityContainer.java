@@ -15,6 +15,7 @@ import android.preference.PreferenceManager;
 import com.datamation.hmdsfa.api.ApiCllient;
 import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.controller.BankController;
+import com.datamation.hmdsfa.controller.BarcodeVarientController;
 import com.datamation.hmdsfa.controller.CompanyDetailsController;
 import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.DiscountController;
@@ -883,7 +884,7 @@ public class UtilityContainer {
                 }
                     break;
                     case Barcodevarient: {
-                        ItemBundleController itemBundleController = new ItemBundleController(context);
+                        BarcodeVarientController itemBundleController = new BarcodeVarientController(context);
                         itemBundleController.deleteAll_BarcodeVariant();
 
                         try {
@@ -896,6 +897,7 @@ public class UtilityContainer {
                             }
                              Log.d(">>itembundle", "size :" + arrayList.size());
                             itemBundleController.InsertOrReplaceBarcodeVariant(arrayList);
+
                         } catch (JSONException | NumberFormatException e) {
                             try {
                                 throw e;
