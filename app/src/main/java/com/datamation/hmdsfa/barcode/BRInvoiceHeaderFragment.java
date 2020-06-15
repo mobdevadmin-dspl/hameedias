@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import com.datamation.hmdsfa.controller.VATController;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 
@@ -58,7 +60,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
     private FloatingActionButton next;
     TextView lblCustomerName, outStandingAmt, lastBillAmt,lblInvRefno;
     EditText  currnentDate,txtManual,txtRemakrs;
-    Spinner spnPayMethod;
+    Spinner spnPayMethod,spnVat;
     InvHed selectedInvHed;
     Customer selectedDebtor;
     ActivityVanSalesBR activity;
@@ -81,6 +83,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
         txtManual = (EditText) view.findViewById(R.id.txt_InvManual);
         txtRemakrs = (EditText) view.findViewById(R.id.txt_InvRemarks);
         spnPayMethod = (Spinner) view.findViewById(R.id.spnnerPayment);
+        spnVat = (Spinner) view.findViewById(R.id.spnnervat);
 
         lblCustomerName.setText(SharedPref.getInstance(getActivity()).getSelectedDebName());
         selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
@@ -151,6 +154,25 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             }
         });
 
+        ArrayList<String> vatDetails = new VATController(getActivity()).getVatDetails();
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, vatDetails);
+        dataAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnVat.setAdapter(dataAdapter2);
+
+        spnVat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                new SharedPref(getActivity()).setGlobalVal("KeyVat", spnVat.getSelectedItem().toString().split("-")[0].trim());
+                Log.v("VAT", spnVat.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,7 +240,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             hed.setFINVHED_PAYTYPE(new SharedPref(getActivity()).getGlobalVal("KeyPayType"));
             hed.setFINVHED_COSTCODE("");
             hed.setFINVHED_START_TIME_SO(currentTime());
-            hed.setFINVHED_SETTING_CODE(getResources().getString(R.string.VanNumVal));
+            hed.setFINVHED_VAT_CODE(new SharedPref(getActivity()).getGlobalVal("KeyVat"));
 
 
             // SharedPreferencesClass.setLocalSharedPreference(activity, "Van_Start_Time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()));

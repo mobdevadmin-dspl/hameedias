@@ -361,7 +361,7 @@ public class VanSalesSummary extends Fragment {
                         sHed.setFINVHED_REFNO1("");
                         sHed.setFINVHED_TOTQTY(lblQty.getText().toString());
                         sHed.setFINVHED_TOTFREEQTY(iTotFreeQty + "");
-                        sHed.setFINVHED_SETTING_CODE(invHed.getFINVHED_SETTING_CODE());
+                        sHed.setFINVHED_VAT_CODE(invHed.getFINVHED_VAT_CODE());
 
                         invHedList.add(sHed);
 
@@ -552,7 +552,7 @@ public class VanSalesSummary extends Fragment {
  hed.setFINVHED_PAYTYPE(new SharedPref(getActivity()).getGlobalVal("KeyPayType"));
  hed.setFINVHED_COSTCODE("");
  hed.setFINVHED_START_TIME_SO(currentTime());
- hed.setFINVHED_SETTING_CODE(getResources().getString(R.string.VanNumVal));**/
+ hed.setFINVHED_VAT_CODE(getResources().getString(R.string.VanNumVal));**/
                         sHed.setFINVHED_REFNO(RefNo);
                         sHed.setFINVHED_DEBCODE(new SharedPref(getActivity()).getSelectedDebCode());
                         sHed.setFINVHED_ADDDATE(invHed.getFINVHED_ADDDATE());
@@ -597,7 +597,7 @@ public class VanSalesSummary extends Fragment {
                         sHed.setFINVHED_REFNO1("");
                         sHed.setFINVHED_TOTQTY(lblQty.getText().toString());
                         sHed.setFINVHED_TOTFREEQTY(iTotFreeQty + "");
-                        sHed.setFINVHED_SETTING_CODE(invHed.getFINVHED_SETTING_CODE());
+                        sHed.setFINVHED_VAT_CODE(invHed.getFINVHED_VAT_CODE());
 
                         invHedList.add(sHed);
 

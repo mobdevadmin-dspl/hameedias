@@ -9,8 +9,10 @@ import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.model.FinvDetL3;
+import com.datamation.hmdsfa.model.TaxDet;
 import com.datamation.hmdsfa.model.VatMaster;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class VATController {
@@ -79,8 +81,105 @@ public class VATController {
 		}
 
 	}
-	
-	
+	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*developed for hameedias 20200615 by rashmi*/
+
+	public ArrayList<TaxDet> getTaxInfoByTaxCode(String taxCode) {
+
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		ArrayList<TaxDet> list = new ArrayList<TaxDet>();
+
+		String selectQuery = "select * from " + TABLE_VAT + " WHERE " + VATCODE + "='" + taxCode + "' ORDER BY Seq DESC";
+		try {
+			Cursor cursor = dB.rawQuery(selectQuery, null);
+
+			while (cursor.moveToNext()) {
+				TaxDet det = new TaxDet();
+
+				det.setTAXCOMCODE(cursor.getString(cursor.getColumnIndex(VATCODE)));
+				det.setTAXVAL(cursor.getString(cursor.getColumnIndex(VATPER)));
+
+				list.add(det);
+			}
+			cursor.close();
+		} catch (Exception e) {
+
+			Log.v(TAG + " Exception", e.toString());
+
+		} finally {
+			dB.close();
+		}
+
+		return list;
+
+	}
+	public String calculateReverse(String taxcode,BigDecimal price)
+	{
+
+
+		ArrayList<TaxDet> list = new VATController(context).getTaxInfoByTaxCode(taxcode);
+		BigDecimal tax = new BigDecimal("0");
+
+		if (list.size() > 0) {
+
+			for (TaxDet det : list) {
+				tax = tax.add(new BigDecimal(det.getTAXVAL()).multiply(price.divide(new BigDecimal(det.getTAXVAL()).add(new BigDecimal("100")), 4, BigDecimal.ROUND_HALF_EVEN)));
+			    price = new BigDecimal("100").multiply(price.divide(new BigDecimal(det.getTAXVAL()).add(new BigDecimal("100")), 8, BigDecimal.ROUND_HALF_EVEN));
+
+			}
+		}
+		//return String.format("%.2f", tax);
+		return String.valueOf(price);
+		//return String.format("%.2f", amt);
+	}
+	public String[] calculateTaxForward(String taxcode, double price) {
+
+		ArrayList<TaxDet> list = new VATController(context).getTaxInfoByTaxCode(taxcode);
+		double tax = 0;
+		String sArray[] = new String[2];
+
+		if (list.size() > 0) {
+
+			for (int i = list.size() - 1; i > -1; i--) {
+				tax += Double.parseDouble(list.get(i).getTAXVAL()) * (price / 100);
+				price = (Double.parseDouble(list.get(i).getTAXVAL()) + 100) * (price / 100);
+			}
+		}
+
+		sArray[0] = String.format("%.2f", price);
+		sArray[1] = String.format("%.2f", tax);
+		return sArray;
+	}
+
+	public ArrayList<String> getVatDetails() {
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		ArrayList<String> list = new ArrayList<String>();
+
+		String selectQuery = "SELECT * FROM " + TABLE_VAT + " WHERE trim(" + VATCODE + ") <> ''";
+
+		Cursor cursor = dB.rawQuery(selectQuery, null);
+
+		while (cursor.moveToNext()) {
+
+			String vat = "";
+
+			vat =  cursor.getString(cursor.getColumnIndex(VATCODE))+" - "+cursor.getString(cursor.getColumnIndex(VATDESCRIPTION))+"("+VATPER+"%)";
+
+			list.add(vat);
+
+		}
+
+		return list;
+	}
 
 	public int deleteAll() {
 		int count = 0;

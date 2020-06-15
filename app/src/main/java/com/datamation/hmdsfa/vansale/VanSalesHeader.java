@@ -222,7 +222,7 @@ public class VanSalesHeader extends Fragment implements View.OnClickListener{
             hed.setFINVHED_PAYTYPE(new SharedPref(getActivity()).getGlobalVal("KeyPayType"));
             hed.setFINVHED_COSTCODE("");
             hed.setFINVHED_START_TIME_SO(currentTime());
-            hed.setFINVHED_SETTING_CODE(getResources().getString(R.string.VanNumVal));
+            hed.setFINVHED_VAT_CODE(new SharedPref(getActivity()).getGlobalVal("KeyVat"));
 
 
             // SharedPreferencesClass.setLocalSharedPreference(activity, "Van_Start_Time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()));

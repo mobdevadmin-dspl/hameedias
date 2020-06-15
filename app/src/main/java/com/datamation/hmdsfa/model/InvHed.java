@@ -65,7 +65,7 @@ public class InvHed implements Serializable {
     private String FINVHED_ROUTECODE;
     private String FINVHED_AREACODE;
     private String FINVHED_PAYTYPE;
-    private String FINVHED_SETTING_CODE;
+    private String FINVHED_VAT_CODE;
 
     private String ConsoleDB;
     private String DistDB;
@@ -206,12 +206,12 @@ public class InvHed implements Serializable {
         this.FINVHED_PAYTYPE = FINVHED_PAYTYPE;
     }
 
-    public String getFINVHED_SETTING_CODE() {
-        return FINVHED_SETTING_CODE;
+    public String getFINVHED_VAT_CODE() {
+        return FINVHED_VAT_CODE;
     }
 
-    public void setFINVHED_SETTING_CODE(String FINVHED_SETTING_CODE) {
-        this.FINVHED_SETTING_CODE = FINVHED_SETTING_CODE;
+    public void setFINVHED_VAT_CODE(String FINVHED_VAT_CODE) {
+        this.FINVHED_VAT_CODE = FINVHED_VAT_CODE;
     }
 
     public String getFINVHED_ID() {
@@ -649,7 +649,7 @@ public class InvHed implements Serializable {
         invoiceParams.put("FINVHED_REMARKS",FINVHED_REMARKS);
         invoiceParams.put("FINVHED_REPCODE",FINVHED_REPCODE);
         invoiceParams.put("FINVHED_ROUTECODE",FINVHED_ROUTECODE);
-        invoiceParams.put("FINVHED_SETTING_CODE",FINVHED_SETTING_CODE);
+        invoiceParams.put("FINVHED_VAT_CODE", FINVHED_VAT_CODE);
         invoiceParams.put("FINVHED_START_TIME_SO",FINVHED_START_TIME_SO);
         invoiceParams.put("FINVHED_TAXREG",FINVHED_TAXREG);
         invoiceParams.put("FINVHED_TOTALAMT",FINVHED_TOTALAMT);

@@ -457,7 +457,44 @@ public class InvDetController {
     }
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public ArrayList<InvDet> getCurrentInvoiceDetails(String refno) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<InvDet> list = new ArrayList<InvDet>();
+
+        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE "
+                + DatabaseHelper.REFNO  + "='" + refno + "' and "
+                + FINVDET_IS_ACTIVE +" = '1'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                InvDet invDet = new InvDet();
+
+                invDet.setFINVDET_ITEM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_ITEM_CODE)));
+                invDet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
+                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                invDet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
+
+                list.add(invDet);
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+
+        return list;
+    }
     public int deleteInvDetByID(String id) {
 
         int count = 0;
@@ -826,7 +863,39 @@ public class InvDetController {
 
         return list;
     }
+    //rashmi 20200615
+    public void updateDiscount(InvDet invDet) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            OrderDisc orderDisc = new OrderDisc();
+            orderDisc.setRefNo(invDet.getFINVDET_REFNO());
+            orderDisc.setTxnDate(invDet.getFINVDET_TXN_DATE());
+            orderDisc.setItemCode(invDet.getFINVDET_ITEM_CODE());
+            orderDisc.setDisAmt(String.format("%.2f",  invDet.getFINVDET_DIS_AMT()));
+
+            new OrderDiscController(context).UpdateOrderDiscount(orderDisc,  invDet.getFINVDET_DISVALAMT());
+            String amt = String.format(String.format("%.2f", (Double.parseDouble(invDet.getFINVDET_AMT()) - Double.parseDouble(invDet.getFINVDET_DISVALAMT()))));
+            String updateQuery = "UPDATE finvdet SET SchDisPer='" + invDet.getFINVDET_SCHDISPER() + "', DisValAmt='" + invDet.getFINVDET_DISVALAMT() + "', amt='" + amt + "' where Itemcode ='" + invDet.getFINVDET_ITEM_CODE() + "' and RefNo = '"+ invDet.getFINVDET_REFNO()+"'";
+            dB.execSQL(updateQuery);
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+    }
     public void updateDiscount(InvDet invDet, double discount, String discType) {
 
         if (dB == null) {
@@ -935,6 +1004,29 @@ public class InvDetController {
             }
             dB.close();
         }
+    }
+    public void UpdateItemTaxInfo(String taxamt, String amt, String refno) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        double totTax = 0, totalAmt = 0;
+
+        try {
+
+
+            /* Update Sales order Header TotalTax */
+            dB.execSQL("UPDATE finvdet SET taxamt='" + taxamt + "', amt='" + amt + "' WHERE refno='" + refno + "'");
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+
     }
 //change by rashmi -2018-10-23 for mega heaters
     public void UpdateItemTaxInfo(ArrayList<InvDet> list) {

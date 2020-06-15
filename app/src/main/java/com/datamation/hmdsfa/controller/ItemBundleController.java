@@ -225,7 +225,7 @@ public class ItemBundleController {
 
         ItemBundle items=new ItemBundle();
         //  String selectQuery = "SELECT *  FROM fItem WHERE ItemCode LIKE '%"+itemCode+"%'";
-        String selectQuery =  "SELECT * FROM ItemBundle WHERE  Barcode = '" + itemCode + "' ";
+        String selectQuery =  "SELECT * FROM ItemBundle WHERE  ItemNo = '" + itemCode + "' ";
 
 
         Cursor cursor = dB.rawQuery(selectQuery, null);

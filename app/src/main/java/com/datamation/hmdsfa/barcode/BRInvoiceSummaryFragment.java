@@ -55,8 +55,6 @@ import com.datamation.hmdsfa.model.Product;
 import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.StkIss;
 import com.datamation.hmdsfa.settings.ReferenceNum;
-import com.datamation.hmdsfa.utils.UtilityContainer;
-import com.datamation.hmdsfa.view.ActivityVanSalesBR;
 import com.datamation.hmdsfa.view.DebtorDetailsActivity;
 import com.datamation.hmdsfa.view.VanSalesActivity;
 import com.github.clans.fab.FloatingActionButton;
@@ -304,7 +302,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
                         sHed.setFINVHED_REFNO1("");
                         sHed.setFINVHED_TOTQTY(lblQty.getText().toString());
                         sHed.setFINVHED_TOTFREEQTY(iTotFreeQty + "");
-                        sHed.setFINVHED_SETTING_CODE(invHed.getFINVHED_SETTING_CODE());
+                        sHed.setFINVHED_VAT_CODE(invHed.getFINVHED_VAT_CODE());
 
                         invHedList.add(sHed);
 

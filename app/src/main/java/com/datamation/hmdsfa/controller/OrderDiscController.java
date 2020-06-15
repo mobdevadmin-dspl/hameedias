@@ -128,7 +128,38 @@ public class OrderDiscController {
         }
 
     }
+    //20200615
+    public void UpdateOrderDiscount(OrderDisc orderDisc, String DiscPer) {
 
+        /* Remove record using order discount ref no & item code */
+        RemoveOrderDiscRecord(orderDisc.getRefNo(), orderDisc.getItemCode());
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        try {
+
+            ContentValues values = new ContentValues();
+
+            values.put(DatabaseHelper.REFNO, orderDisc.getRefNo());
+            values.put(DatabaseHelper.TXNDATE, orderDisc.getTxnDate());
+            values.put(FORDDISC_REFNO1, orderDisc.getRefNo());
+            values.put(FORDDISC_ITEMCODE, orderDisc.getItemCode());
+            values.put(FORDDISC_DISAMT, orderDisc.getDisAmt());
+            values.put(FORDDISC_DISPER, DiscPer);
+            dB.insert(TABLE_FORDDISC, null, values);
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+
+            dB.close();
+        }
+
+    }
 	/*-*-*-*-*-*-*-*-*Check record availability using RefNo and Itemcode in FORDDISC*-*-*-*-*-*-*-*-*-*-*-*/
 
     public boolean isRecordAvailable(String RefNo, String ItemCode) {
