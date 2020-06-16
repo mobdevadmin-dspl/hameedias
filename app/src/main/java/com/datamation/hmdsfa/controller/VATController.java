@@ -93,7 +93,7 @@ public class VATController {
 
 		ArrayList<TaxDet> list = new ArrayList<TaxDet>();
 
-		String selectQuery = "select * from " + TABLE_VAT + " WHERE " + VATCODE + "='" + taxCode + "' ORDER BY Seq DESC";
+		String selectQuery = "select * from " + TABLE_VAT + " WHERE " + VATCODE + "='" + taxCode + "' and VatPer <> '0'";
 		try {
 			Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -133,7 +133,7 @@ public class VATController {
 			}
 		}
 		//return String.format("%.2f", tax);
-		return String.valueOf(price);
+		return String.valueOf(tax);
 		//return String.format("%.2f", amt);
 	}
 	public String[] calculateTaxForward(String taxcode, double price) {

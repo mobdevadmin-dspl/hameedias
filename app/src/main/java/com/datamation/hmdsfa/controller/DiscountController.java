@@ -253,7 +253,12 @@ public class DiscountController {
                       mTranSODet.setFINVDET_SCHDISPER(discountdets.getProductDis());
                       mTranSODet.setFINVDET_DIS_AMT(String.valueOf(discPrice* (Double.parseDouble(mTranSODet.getFINVDET_QTY()))));
                       mTranSODet.setFINVDET_B_SELL_PRICE(String.valueOf((Double.parseDouble(mTranSODet.getFINVDET_SELL_PRICE())) - discPrice));//pass for calculate tax forqow
-                    }
+                    }else{
+                    mTranSODet.setFINVDET_SCHDISPER("0");
+                    mTranSODet.setFINVDET_DIS_AMT("0");
+                    mTranSODet.setFINVDET_B_SELL_PRICE("0");//pass for calculate tax forqow
+
+                }
                     newMetaList.add(mTranSODet);
 
                 }
