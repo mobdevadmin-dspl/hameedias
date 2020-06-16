@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.api.ApiCllient;
 import com.datamation.hmdsfa.api.ApiInterface;
+import com.datamation.hmdsfa.controller.BarcodeVarientController;
 import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.DayExpHedController;
 import com.datamation.hmdsfa.controller.DayNPrdHedController;
@@ -47,6 +48,7 @@ import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.helpers.NetworkFunctions;
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.model.BarcodeVariant;
 import com.datamation.hmdsfa.model.DayExpHed;
 import com.datamation.hmdsfa.model.DayNPrdHed;
 import com.datamation.hmdsfa.model.Debtor;
@@ -357,7 +359,12 @@ public class FragmentCategoryWiseDownload extends Fragment {
         protected Boolean doInBackground(String... arg0) {
             try {
                 if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
-
+                    BarcodeVarientController barcodeVarientController = new BarcodeVarientController(getActivity());
+                    barcodeVarientController.deleteAll_BarcodeVariant();
+                    ItemBundleController itemBundleController = new ItemBundleController(getActivity());
+                    itemBundleController.deleteAll();
+                    ItemController itemController = new ItemController(getActivity());
+                    itemController.deleteAll();
                     /*****************Item *****************************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -380,8 +387,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject itemJSON = new JSONObject(item);
                         JSONArray itemJSONArray = itemJSON.getJSONArray("fItemsResult");
                         ArrayList<Item> itemList = new ArrayList<Item>();
-                        ItemController itemController = new ItemController(getActivity());
-                        itemController.deleteAll();
+
                         for (int i = 0; i < itemJSONArray.length(); i++) {
                             itemList.add(Item.parseItem(itemJSONArray.getJSONObject(i)));
                         }
@@ -417,8 +423,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject itemBundleJSON = new JSONObject(itemBundle);
                         JSONArray itemBundleJSONArray = itemBundleJSON.getJSONArray("BundleBarCodeResult");
                         ArrayList<ItemBundle> itemBundleList = new ArrayList<ItemBundle>();
-                        ItemBundleController itemBundleController = new ItemBundleController(getActivity());
-                        itemBundleController.deleteAll();
+
                         for (int i = 0; i < itemBundleJSONArray.length(); i++) {
                             itemBundleList.add(ItemBundle.parseItemBundle(itemBundleJSONArray.getJSONObject(i)));
                         }
@@ -452,13 +457,11 @@ public class FragmentCategoryWiseDownload extends Fragment {
                     try {
                         JSONObject barcodeVJSON = new JSONObject(barcodeVariant);
                         JSONArray barcodeVJSONArray = barcodeVJSON.getJSONArray("BarCodeVarientResult");
-                        ArrayList<ItemBundle> barcodeVList = new ArrayList<ItemBundle>();
-                        ItemBundleController itemBundleController = new ItemBundleController(getActivity());
-                        itemBundleController.deleteAll_BarcodeVariant();
+                        ArrayList<BarcodeVariant> barcodeVList = new ArrayList<BarcodeVariant>();
                         for (int i = 0; i < barcodeVJSONArray.length(); i++) {
-                            barcodeVList.add(ItemBundle.parseBarcodevarient(barcodeVJSONArray.getJSONObject(i)));
+                            barcodeVList.add(BarcodeVariant.parseBarcodevarient(barcodeVJSONArray.getJSONObject(i)));
                         }
-                        itemBundleController.InsertOrReplaceBarcodeVariant(barcodeVList);
+                        barcodeVarientController.InsertOrReplaceBarcodeVariant(barcodeVList);
                     } catch (JSONException | NumberFormatException e) {
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",

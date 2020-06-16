@@ -43,6 +43,7 @@ import com.datamation.hmdsfa.controller.VATController;
 import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.helpers.NetworkFunctions;
 import com.datamation.hmdsfa.model.Bank;
+import com.datamation.hmdsfa.model.BarcodeVariant;
 import com.datamation.hmdsfa.model.CompanyBranch;
 import com.datamation.hmdsfa.model.CompanySetting;
 import com.datamation.hmdsfa.model.Control;
@@ -456,9 +457,9 @@ public class UtilityContainer {
             }
             break;
             case ItemBundle:{
-                final ItemBundleController bundleController = new ItemBundleController(context);
-                bundleController.deleteAll();
+
                 try {
+                    ItemBundleController bundleController = new ItemBundleController(context);
                     JSONArray jsonArray = jsonObject.getJSONArray("BundleBarCodeResult");
                     ArrayList<ItemBundle> downloadedList = new ArrayList<ItemBundle>();
 
@@ -498,10 +499,10 @@ public class UtilityContainer {
             }
             break;
             case Items:{
-                final ItemController itemController = new ItemController(context);
-                itemController.deleteAll();
+
 
                 try {
+                    ItemController itemController = new ItemController(context);
                     JSONArray jsonArray = jsonObject.getJSONArray("fItemsResult");
                     ArrayList<Item> downloadedList = new ArrayList<Item>();
 
@@ -884,19 +885,17 @@ public class UtilityContainer {
                 }
                     break;
                     case Barcodevarient: {
-                        BarcodeVarientController itemBundleController = new BarcodeVarientController(context);
-                        itemBundleController.deleteAll_BarcodeVariant();
 
                         try {
-
+                            BarcodeVarientController barcodeController = new BarcodeVarientController(context);
                             JSONArray jsonArray = jsonObject.getJSONArray("BarCodeVarientResult");
-                            ArrayList<ItemBundle> arrayList = new ArrayList<ItemBundle>();
+                            ArrayList<BarcodeVariant> arrayList = new ArrayList<BarcodeVariant>();
                             for (int i = 0; i < jsonArray.length(); i++) {
-                                  Log.d(">>itembundle", ">>>" + i);
-                                arrayList.add(ItemBundle.parseBarcodevarient(jsonArray.getJSONObject(i)));
+                                 // Log.d(">>BarcodeVariant", ">>>" + i);
+                                arrayList.add(BarcodeVariant.parseBarcodevarient(jsonArray.getJSONObject(i)));
                             }
-                             Log.d(">>itembundle", "size :" + arrayList.size());
-                            itemBundleController.InsertOrReplaceBarcodeVariant(arrayList);
+                             Log.d(">>BarcodeVariant", "size :" + arrayList.size());
+                            barcodeController.InsertOrReplaceBarcodeVariant(arrayList);
 
                         } catch (JSONException | NumberFormatException e) {
                             try {

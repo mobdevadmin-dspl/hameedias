@@ -955,6 +955,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing ItemBundle
 
+                    ItemBundleController itemBundleController = new ItemBundleController(getActivity());
+                    itemBundleController.deleteAll();
                     try{
                         UtilityContainer.download(getActivity(),TaskType.ItemBundle, networkFunctions.getItemBundles(repcode));
                     } catch (Exception e) {
@@ -990,7 +992,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
 
 //                    // Processing Items
-
+                    ItemController itemController = new ItemController(getActivity());
+                    itemController.deleteAll();
                     // Processing item price
                     try{
                         UtilityContainer.download(getActivity(),TaskType.Items, networkFunctions.getItems(repcode));
@@ -1048,22 +1051,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                    }
 
 
-                    // *****************fddbnote**********************************************************************/
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Outsatnding downloaded\nDownloading fddbnote...");
-                        }
-                    });
-                    // Processing fddbnote
 
-                    try {
-                        UtilityContainer.download(getActivity(),TaskType.fddbnote, networkFunctions.getFddbNotes(repcode));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errors.add(e.toString());
-                        throw e;
-                    }
                     /*****************end fddbnote**********************************************************************/
 
                     getActivity().runOnUiThread(new Runnable() {
@@ -1402,7 +1390,20 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                         throw e;
                     }
-
+                    /*****************stock - kaveesha - 10-06-2020**********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading ItemLoc....");
+                        }
+                    });
+                    // Processing discount
+                    try {
+                        UtilityContainer.download(getActivity(),TaskType.Stock, networkFunctions.getStock(repcode));
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
                     /*****************SalesPrice**********************************************************************/
 
 
@@ -1435,27 +1436,24 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         throw e;
                     }
 
+                    // *****************fddbnote**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pdialog.setMessage("Completed...");
+                            pdialog.setMessage("Downloading Outsatnding...");
                         }
                     });
+                    // Processing fddbnote
 
-                    /*****************stock - kaveesha - 10-06-2020**********************************************************************/
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pdialog.setMessage("Downloading ItemLoc....");
-                        }
-                    });
-                    // Processing discount
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Stock, networkFunctions.getStock(repcode));
-                    } catch (Exception e) {
+                        UtilityContainer.download(getActivity(),TaskType.fddbnote, networkFunctions.getFddbNotes(repcode));
+                    } catch (IOException e) {
+                        e.printStackTrace();
                         errors.add(e.toString());
                         throw e;
                     }
+
+
 
                     /*****************Van Stock  - kaveesha - 12-06-2020**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {

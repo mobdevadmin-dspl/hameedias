@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.model.BarcodeVariant;
 import com.datamation.hmdsfa.model.ItemBundle;
 
 import java.util.ArrayList;
@@ -110,7 +111,7 @@ public class BarcodeVarientController {
 //
 //    }
 
-    public void InsertOrReplaceBarcodeVariant(ArrayList<ItemBundle> list) {
+    public void InsertOrReplaceBarcodeVariant(ArrayList<BarcodeVariant> list) {
 
         deleteAll();
         Log.d(">>InsrtOrRepBarcodeVari", ">>" + list.size());
@@ -127,9 +128,9 @@ public class BarcodeVarientController {
 
             SQLiteStatement stmt = dB.compileStatement(sql);
 
-            for (ItemBundle barcodevariant : list) {
+            for (BarcodeVariant barcodevariant : list) {
 
-                Log.d(">>check item",">>"+barcodevariant.toString());
+               // Log.d(">>check item",">>"+barcodevariant.toString());
                 stmt.bindString(1, barcodevariant.getBarcode());
                 stmt.bindString(2, barcodevariant.getDescription());
                 stmt.bindString(3, barcodevariant.getItemNo());

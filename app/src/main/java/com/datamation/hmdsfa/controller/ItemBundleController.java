@@ -121,7 +121,7 @@ public class ItemBundleController {
 //
 //    }
     public void InsertOrReplaceItemBundle(ArrayList<ItemBundle> list) {
-        deleteAll();
+       // deleteAll();
         //Log.d(">>InsrtOrRepItemBundle", ">>" + list.size());
         Log.d(">>itemBundle", ">>InsrtOrRepItemBundle" + list.size());
         if (dB == null) {
@@ -175,45 +175,6 @@ public class ItemBundleController {
 
     }
 
-    public void InsertOrReplaceBarcodeVariant(ArrayList<ItemBundle> list) {
-
-        deleteAll();
-        Log.d(">>InsrtOrRepBarcodeVari", ">>" + list.size());
-
-        if (dB == null) {
-            open();
-        } else if (!dB.isOpen()) {
-            open();
-        }
-
-        try {
-            dB.beginTransactionNonExclusive();
-            String sql = "INSERT OR REPLACE INTO " + TABLE_BAR_CODE_VARIENT + " (Barcode_No,Description,Item_No,Size,Variant_Code) " + " VALUES (?,?,?,?,?)";
-
-            SQLiteStatement stmt = dB.compileStatement(sql);
-
-            for (ItemBundle barcodevariant : list) {
-
-                Log.d(">>check item",">>"+barcodevariant.toString());
-                stmt.bindString(1, barcodevariant.getBarcode());
-                stmt.bindString(2, barcodevariant.getDescription());
-                stmt.bindString(3, barcodevariant.getItemNo());
-                stmt.bindString(4, barcodevariant.getVariantSize());
-                stmt.bindString(5, barcodevariant.getVariantCode());
-
-                stmt.execute();
-                stmt.clearBindings();
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            dB.setTransactionSuccessful();
-            dB.endTransaction();
-            dB.close();
-        }
-
-    }
 
     public ItemBundle getItem(String itemCode) {
         if (dB == null) {
