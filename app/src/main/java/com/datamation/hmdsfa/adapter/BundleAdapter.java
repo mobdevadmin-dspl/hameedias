@@ -92,10 +92,10 @@ public class BundleAdapter extends BaseAdapter {
 
                 if (isChecked) {
                     viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
-                    new ProductController(context).updateBarCode(viewHolder.Price.getText().toString(),"1");
+                    //new ProductController(context).updateBarCode(viewHolder.Price.getText().toString(),"1");
                 } else {
                     viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));
-                    new ProductController(context).updateBarCode(viewHolder.Price.getText().toString(),"0");
+                   // new ProductController(context).updateBarCode(viewHolder.Price.getText().toString(),"0");
                 }
 
             }
@@ -103,7 +103,7 @@ public class BundleAdapter extends BaseAdapter {
 
         /*Change colors*/
         if (viewHolder.checkScan.isChecked()){
-            new ProductController(context).updateBarCode(viewHolder.Price.getText().toString(),"1");
+          //  new ProductController(context).updateBarCode(viewHolder.Price.getText().toString(),"1");
             viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
         }else{
             viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));

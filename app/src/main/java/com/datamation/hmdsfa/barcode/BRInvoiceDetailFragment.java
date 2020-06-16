@@ -540,10 +540,9 @@ public class BRInvoiceDetailFragment extends Fragment{
         selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
         try {
             orderList = new InvDetController(getActivity()).getAllInvDet(selectedInvHed.getFINVHED_REFNO());
-            orderListNew = new InvoiceDetBarcodeController(getActivity()).getAllInvDet(selectedInvHed.getFINVHED_REFNO());
 //            ArrayList<InvDet> freeList = new InvDetController(getActivity()).getAllFreeIssue(selectedInvHed.getFINVHED_REFNO());
            // lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));
-            lv_order_det.setAdapter(new InvDetAdapterNew(getActivity(), orderListNew));
+            lv_order_det.setAdapter(new InvDetAdapterNew(getActivity(), orderList));
            // lvFree.setAdapter(new FreeItemsAdapter(getActivity(), freeList));
         } catch (NullPointerException e) {
             Log.v("SA Error", e.toString());
@@ -731,13 +730,10 @@ public class BRInvoiceDetailFragment extends Fragment{
             protected Void doInBackground(Void... params) {
 
                 int i = 0;
-                new InvDetController(getActivity()).mDeleteRecords(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
-                new InvoiceDetBarcodeController(getActivity()).mDeleteRecords(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
-                for (Product product : list) {
+               for (Product product : list) {
                     i++;
-                    mUpdateInvoice("0", product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), i + "", product.getFPRODUCT_QTY(),"0.0");
-                    new InvoiceDetBarcodeController(getActivity()).mUpdateInvoice(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)),"Invoice",product.getFPRODUCT_ITEMCODE(),product.getFPRODUCT_Barcode(),product.getFPRODUCT_VariantCode(),product.getFPRODUCT_VariantCode(),Integer.parseInt(product.getFPRODUCT_QTY()),Double.parseDouble(product.getFPRODUCT_Price()));
-                }//id,itemcode,qty,price,seqno,qoh,changed price
+                    mUpdateInvoice(product.getFPRODUCT_Barcode(), product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), product.getFPRODUCT_VariantCode(), product.getFPRODUCT_QTY(),product.getFPRODUCT_ArticleNo());
+                    }//id,itemcode,qty,price,seqno,qoh,changed price
                 return null;
             }
 
@@ -796,7 +792,7 @@ public class BRInvoiceDetailFragment extends Fragment{
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-    public void mUpdateInvoice(String id, String itemCode, String Qty, String price, String seqno, String qoh, String changedPrice) {
+    public void mUpdateInvoice(String barcode, String itemCode, String Qty, String price, String variantcode, String qoh, String aricleno) {
 
         ArrayList<InvDet> arrList = new ArrayList<>();
 
@@ -832,7 +828,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         invDet.setFINVDET_QOH(qoh);
         invDet.setFINVDET_DISVALAMT("0");
         invDet.setFINVDET_PRICE(price);
-        invDet.setFINVDET_CHANGED_PRICE(changedPrice);
+        invDet.setFINVDET_CHANGED_PRICE("0");
         invDet.setFINVDET_AMT(String.format("%.2f", amt));
         invDet.setFINVDET_BAL_QTY(Qty);
         arrList.add(invDet);

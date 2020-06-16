@@ -189,9 +189,8 @@ public class BRInvoiceSummaryFragment extends Fragment {
                 if (!result.equals("")) {
                     new ProductController(getActivity()).mClearTables();
                     new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
-                    new InvoiceBarcodeController(getActivity()).InactiveStatusUpdate(RefNo);
                     new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
-                    new InvoiceDetBarcodeController(getActivity()).InactiveStatusUpdate(RefNo);
+
                 }
 
                 Toast.makeText(getActivity(), "Invoice details discarded successfully..!", Toast.LENGTH_SHORT).show();
@@ -223,12 +222,13 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
         //locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
 
-       // list = new InvDetController(getActivity()).getAllInvDet(RefNo);
-        listNew = new InvoiceDetBarcodeController(getActivity()).getAllInvDet(RefNo);
-        lines = listNew.size();
-        for (BarcodenvoiceDet ordDet : listNew) {
-            ftotAmt += ordDet.getPrice()*ordDet.getQty();
-            ftotQty += ordDet.getQty();
+        list = new InvDetController(getActivity()).getAllInvDet(RefNo);
+        //listNew = new InvoiceDetBarcodeController(getActivity()).getAllInvDet(RefNo);
+        lines = list.size();
+        for (InvDet ordDet : list) {
+            ftotAmt += Double.parseDouble(ordDet.getFINVDET_T_SELL_PRICE())*Double.parseDouble(ordDet.getFINVDET_QTY());
+            ftotQty += Integer.parseInt(ordDet.getFINVDET_QTY());
+            fTotSchDisc += Double.parseDouble(ordDet.getFINVDET_DISVALAMT());
 
         }
         iTotFreeQty = fTotFree;
@@ -243,7 +243,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 //
     public void saveSummaryDialog() {
-        if (new InvDetController(getActivity()).getItemCount(RefNo) > 0  && new InvoiceDetBarcodeController(getActivity()).getItemCount(RefNo) > 0)
+        if (new InvDetController(getActivity()).getItemCount(RefNo) > 0)
         {
                 LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
                 View promptView = layoutInflater.inflate(R.layout.sales_management_van_sales_summary_dialog, null);
@@ -306,13 +306,11 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
                         invHedList.add(sHed);
 
-                        if (new InvHedController(getActivity()).createOrUpdateInvHed(invHedList) > 0 &&  new InvoiceBarcodeController(getActivity()).insertOrUpdateBCInvHed(invHedList)>0)
+                        if (new InvHedController(getActivity()).createOrUpdateInvHed(invHedList) > 0)
        {
                             new ProductController(getActivity()).mClearTables();
                             new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
-                            new InvoiceBarcodeController(getActivity()).InactiveStatusUpdate(RefNo);
                             new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
-                            new InvoiceDetBarcodeController(getActivity()).InactiveStatusUpdate(RefNo);
                             new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
 
                             /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/

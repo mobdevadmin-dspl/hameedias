@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.VATController;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
@@ -247,7 +248,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             ArrayList<InvHed> ordHedList = new ArrayList<>();
             ordHedList.add(hed);
             new InvHedController(getActivity()).createOrUpdateInvHed(ordHedList);
-            new InvoiceBarcodeController(getActivity()).insertOrUpdateBCInvHed(ordHedList);
+
         }
     }
 
@@ -277,7 +278,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
         int id = item.getItemId();
         switch (id) {
             case R.id.sync:
-                if(new InvoiceDetBarcodeController(getActivity()).isAnyActiveInvoice()){
+                if(new InvDetController(getActivity()).isAnyActiveOrders()){
                     MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                             .content("You have active invoices. Cannot back without complete.")
                             .positiveText("OK")

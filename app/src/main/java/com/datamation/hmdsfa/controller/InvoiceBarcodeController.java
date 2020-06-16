@@ -135,8 +135,8 @@ public class InvoiceBarcodeController {
 
             String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
 
-            vanSalesMapper.setInvDets(new InvoiceDetBarcodeController(context).getAllInvDet(RefNo));
-           // vanSalesMapper.setInvDets(new InvDetController(context).getAllInvDet(RefNo));
+           // vanSalesMapper.setInvDets(new InvoiceDetBarcodeController(context).getAllInvDet(RefNo));
+            vanSalesMapper.setInvDets(new InvDetController(context).getAllInvDet(RefNo));
             vanSalesMapper.setInvTaxDTs(new InvTaxDTController(context).getAllTaxDT(RefNo));
             vanSalesMapper.setInvTaxRGs(new InvTaxRGController(context).getAllTaxRG(RefNo));
             vanSalesMapper.setOrderDiscs(new OrderDiscController(context).getAllOrderDiscs(RefNo));

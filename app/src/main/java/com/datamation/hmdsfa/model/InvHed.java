@@ -72,8 +72,8 @@ public class InvHed implements Serializable {
 
     private String NextNumVal;
 
-    //private ArrayList<InvDet> InvDets;
-    private ArrayList<BarcodenvoiceDet> InvDets;
+    private ArrayList<InvDet> InvDets;
+  //  private ArrayList<BarcodenvoiceDet> InvDets;
     private ArrayList<InvTaxDt> invTaxDTs;
     private ArrayList<InvTaxRg> invTaxRGs;
     private ArrayList<OrderDisc> orderDiscs;
@@ -83,21 +83,21 @@ public class InvHed implements Serializable {
     private ArrayList<DispDet> dispDets;
     private ArrayList<DispIss> dispIsses;
 
-//    public ArrayList<InvDet> getInvDets() {
-//        return InvDets;
-//    }
-//
-//    public void setInvDets(ArrayList<InvDet> invDets) {
-//        InvDets = invDets;
-//    }
-
-    public ArrayList<BarcodenvoiceDet> getInvDets() {
+    public ArrayList<InvDet> getInvDets() {
         return InvDets;
     }
 
-    public void setInvDets(ArrayList<BarcodenvoiceDet> invDets) {
+    public void setInvDets(ArrayList<InvDet> invDets) {
         InvDets = invDets;
     }
+
+//    public ArrayList<BarcodenvoiceDet> getInvDets() {
+//        return InvDets;
+//    }
+//
+//    public void setInvDets(ArrayList<BarcodenvoiceDet> invDets) {
+//        InvDets = invDets;
+//    }
 
     public ArrayList<InvTaxDt> getInvTaxDTs() {
         return invTaxDTs;

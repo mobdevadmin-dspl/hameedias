@@ -42,7 +42,34 @@ public class InvDet implements Serializable{
     private String FINVDET_PRICE;
     private String FINVDET_CHANGED_PRICE;
     private String FINVDET_DISCTYPE;
+    private String FINVDET_BARCODE;
+    private String FINVDET_ARTICLENO;
+    private String FINVDET_VARIANTCODE;
     private boolean FLAG;
+
+    public String getFINVDET_BARCODE() {
+        return FINVDET_BARCODE;
+    }
+
+    public void setFINVDET_BARCODE(String FINVDET_BARCODE) {
+        this.FINVDET_BARCODE = FINVDET_BARCODE;
+    }
+
+    public String getFINVDET_ARTICLENO() {
+        return FINVDET_ARTICLENO;
+    }
+
+    public void setFINVDET_ARTICLENO(String FINVDET_ARTICLENO) {
+        this.FINVDET_ARTICLENO = FINVDET_ARTICLENO;
+    }
+
+    public String getFINVDET_VARIANTCODE() {
+        return FINVDET_VARIANTCODE;
+    }
+
+    public void setFINVDET_VARIANTCODE(String FINVDET_VARIANTCODE) {
+        this.FINVDET_VARIANTCODE = FINVDET_VARIANTCODE;
+    }
 
     public String getFINVDET_CHANGED_PRICE() {
         return FINVDET_CHANGED_PRICE;

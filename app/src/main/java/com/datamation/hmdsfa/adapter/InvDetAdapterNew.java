@@ -17,12 +17,12 @@ import com.datamation.hmdsfa.model.InvDet;
 
 import java.util.ArrayList;
 
-public class InvDetAdapterNew extends ArrayAdapter<BarcodenvoiceDet> {
+public class InvDetAdapterNew extends ArrayAdapter<InvDet> {
     Context context;
-    ArrayList<BarcodenvoiceDet> list;
+    ArrayList<InvDet> list;
     ArrayList<FreeHed> arrayList;
 
-    public InvDetAdapterNew(Context context, ArrayList<BarcodenvoiceDet> list) {
+    public InvDetAdapterNew(Context context, ArrayList<InvDet> list) {
 
         super(context, R.layout.row_order_details, list);
         this.context = context;
@@ -49,20 +49,20 @@ public class InvDetAdapterNew extends ArrayAdapter<BarcodenvoiceDet> {
         //ItemController ds = new ItemController(getContext());
         ItemBundleController ds = new ItemBundleController(getContext());
         //item.setText(ds.getItemNameByCode(list.get(position).getFINVDET_ITEM_CODE()));
-        item.setText(list.get(position).getItemNo()+" - "+ds.getItemNameByCode(list.get(position).getItemNo()));
-        Qty.setText(""+list.get(position).getQty());
-        Amt.setText(list.get(position).getVariantCode());
-        barcode.setText(list.get(position).getBarcodeNo());
+        item.setText(list.get(position).getFINVDET_ITEM_CODE()+" - "+ds.getItemNameByCode(list.get(position).getFINVDET_ITEM_CODE()));
+        Qty.setText(""+list.get(position).getFINVDET_QTY());
+        Amt.setText(list.get(position).getFINVDET_AMT());
+        barcode.setText(list.get(position).getFINVDET_BARCODE());
 
 
         FreeHedController freeHedDS = new FreeHedController(context);
-        arrayList = freeHedDS.getFreeIssueItemDetailByRefno(list.get(position).getItemNo(),"" );
+        arrayList = freeHedDS.getFreeIssueItemDetailByRefno(list.get(position).getFINVDET_ITEM_CODE(),"" );
 
         //if(arrayList.size()>0){
             for(FreeHed freeHed:arrayList){
                 int itemQty = (int) Float.parseFloat(freeHed.getFFREEHED_ITEM_QTY());
-                //int enterQty = (int) Float.parseFloat(list.get(position).getFINVDET_QTY());
-                int enterQty = list.get(position).getQty();
+                int enterQty = (int) Float.parseFloat(list.get(position).getFINVDET_QTY());
+                //int enterQty = list.get(position).getFINVDET_QTY();
 
                 if(enterQty<itemQty){
                     //other products------this procut has't free items

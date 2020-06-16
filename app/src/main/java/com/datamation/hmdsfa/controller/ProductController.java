@@ -397,6 +397,7 @@ Log.d(">>ScannedList",">>"+list.toString());
                 product.setFPRODUCT_QTY(String.valueOf(itembundle.getQuantity()));
                 product.setFPRODUCT_Price(price);
 //                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
+                product.setFPRODUCT_ArticleNo(itembundle.getArticleNo());
                 product.setFPRODUCT_IsScan("1");
 
                 list.add(product);
@@ -428,6 +429,7 @@ Log.d(">>ScannedList",">>"+list.toString());
                 product.setFPRODUCT_VariantSize(itembundle.getVariantSize());
                 product.setFPRODUCT_QTY(String.valueOf(itembundle.getQuantity()));
                 product.setFPRODUCT_Price(price);
+                product.setFPRODUCT_ArticleNo(itembundle.getArticleNo());
 //                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
                 product.setFPRODUCT_IsScan("1");
 

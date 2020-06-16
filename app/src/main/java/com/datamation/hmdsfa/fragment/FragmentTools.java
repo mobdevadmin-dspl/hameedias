@@ -52,6 +52,7 @@ import com.datamation.hmdsfa.controller.FreeItemController;
 import com.datamation.hmdsfa.controller.FreeMslabController;
 import com.datamation.hmdsfa.controller.FreeSlabController;
 import com.datamation.hmdsfa.controller.InvDetController;
+import com.datamation.hmdsfa.controller.InvHedController;
 import com.datamation.hmdsfa.controller.InvoiceBarcodeController;
 import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
@@ -638,8 +639,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                                Log.v("Exception in sync order", e.toString());
 //                            }
                             try {//Van sale upload - 2020-03-24-rashmi
-                                //InvHedController hedDS = new InvHedController(getActivity());
-                                InvoiceBarcodeController hedDS = new InvoiceBarcodeController(getActivity());
+                                InvHedController hedDS = new InvHedController(getActivity());
+                               // InvoiceBarcodeController hedDS = new InvoiceBarcodeController(getActivity());
                                 ArrayList<InvHed> invHedList = hedDS.getAllUnsynced();
 //                    /* If records available for upload then */
                                 if (invHedList.size() <= 0)

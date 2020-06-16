@@ -61,9 +61,12 @@ public class InvDetController {
     public static final String FINVDET_SCHDISPER = "SchDisPer";
     public static final String FINVDET_PRICE = "Price";
     public static final String FINVDET_CHANGED_PRICE = "ChangedPrice";
+    public static final String FINVDET_VARIANTCODE = "VariantCode";
+    public static final String FINVDET_ARTICLENO = "ArticleNo";
+    public static final String FINVDET_BARCODE = "BarCode";
 
     public static final String CREATE_FINVDET_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVDET + " (" + FINVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDET_AMT + " TEXT, " + FINVDET_BAL_QTY + " TEXT, " + FINVDET_B_AMT + " TEXT, " + FINVDET_B_SELL_PRICE + " TEXT, " + FINVDET_BT_TAX_AMT + " TEXT, " + FINVDET_BT_SELL_PRICE + " TEXT, " + FINVDET_DIS_AMT + " TEXT, " + FINVDET_DIS_PER + " TEXT, " + FINVDET_ITEM_CODE + " TEXT, " + FINVDET_PRIL_CODE + " TEXT, " + FINVDET_QTY + " TEXT, " + FINVDET_PICE_QTY + " TEXT, " + FINVDET_TYPE + " TEXT, " + FINVDET_RECORD_ID + " TEXT, " + DatabaseHelper.REFNO + " TEXT, " + FINVDET_SELL_PRICE + " TEXT, " + FINVDET_SEQNO + " TEXT, " + FINVDET_TAX_AMT + " TEXT, " + FINVDET_TAX_COM_CODE + " TEXT, " + FINVDET_T_SELL_PRICE + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + FINVDET_IS_ACTIVE + " TEXT, " + FINVDET_TXN_TYPE + " TEXT," + FINVDET_COMDISPER + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISPER + " TEXT DEFAULT '0'," + FINVDET_DISVALAMT + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISC + " TEXT DEFAULT '0'," + FINVDET_QOH + " TEXT DEFAULT '0'," + FINVDET_FREEQTY + " TEXT DEFAULT '0'," + FINVDET_SCHDISPER + " TEXT DEFAULT '0',"
-            + FINVDET_PRICE + " TEXT," + FINVDET_CHANGED_PRICE + " TEXT DEFAULT '0' ,"+ FINVDET_COMPDISC + " TEXT DEFAULT '0'); ";
+            + FINVDET_VARIANTCODE + " TEXT,"    + FINVDET_ARTICLENO + " TEXT,"    + FINVDET_BARCODE + " TEXT,"    + FINVDET_PRICE + " TEXT," + FINVDET_CHANGED_PRICE + " TEXT DEFAULT '0' ,"+ FINVDET_COMPDISC + " TEXT DEFAULT '0'); ";
 
     public InvDetController(Context context) {
         this.context = context;
@@ -119,6 +122,9 @@ public class InvDetController {
                 values.put(DatabaseHelper.TXNDATE, invDet.getFINVDET_TXN_DATE());
                 values.put(FINVDET_TXN_TYPE, invDet.getFINVDET_TXN_TYPE());
                 values.put(FINVDET_IS_ACTIVE, invDet.getFINVDET_IS_ACTIVE());
+                values.put(FINVDET_ARTICLENO, invDet.getFINVDET_ARTICLENO());
+                values.put(FINVDET_VARIANTCODE, invDet.getFINVDET_VARIANTCODE());
+                values.put(FINVDET_BARCODE, invDet.getFINVDET_BARCODE());
 
               //  values.put(FINVDET_BRAND_DISC, invDet.getFINVDET_BRAND_DISC());
 //                values.put(FINVDET_COMDISPER, invDet.getFINVDET_COM_DISCPER());
@@ -195,6 +201,9 @@ public class InvDetController {
                 ordDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 ordDet.setFINVDET_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
                 ordDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVDET_IS_ACTIVE)));
+                ordDet.setFINVDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FINVDET_ARTICLENO)));
+                ordDet.setFINVDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FINVDET_VARIANTCODE)));
+                ordDet.setFINVDET_BARCODE(cursor.getString(cursor.getColumnIndex(FINVDET_BARCODE)));
 
                 list.add(ordDet);
 
@@ -323,6 +332,9 @@ public class InvDetController {
                 invdet.setFINVDET_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TYPE)));
                 invdet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_T_SELL_PRICE)));
                 invdet.setFINVDET_DISVALAMT(cursor.getString(cursor.getColumnIndex(FINVDET_DISVALAMT)));
+                invdet.setFINVDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FINVDET_ARTICLENO)));
+                invdet.setFINVDET_BARCODE(cursor.getString(cursor.getColumnIndex(FINVDET_BARCODE)));
+                invdet.setFINVDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FINVDET_VARIANTCODE)));
                 invdet.setFINVDET_REFNO(refno);
                 list.add(invdet);
             }
@@ -429,9 +441,10 @@ public class InvDetController {
                 invDet.setFINVDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TXN_TYPE)));
                 invDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVDET_IS_ACTIVE)));
 
-//                invDet.setFINVDET_DISVALAMT(cursor.getString(cursor.getColumnIndex(FINVDET_DISVALAMT)));
-//                invDet.setFINVDET_COM_DISCPER(cursor.getString(cursor.getColumnIndex(FINVDET_COMDISPER)));
-//                invDet.setFINVDET_BRAND_DISCPER(cursor.getString(cursor.getColumnIndex(FINVDET_BRAND_DISPER)));
+                invDet.setFINVDET_DISVALAMT(cursor.getString(cursor.getColumnIndex(FINVDET_DISVALAMT)));
+                invDet.setFINVDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FINVDET_VARIANTCODE)));
+                invDet.setFINVDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FINVDET_ARTICLENO)));
+                invDet.setFINVDET_BARCODE(cursor.getString(cursor.getColumnIndex(FINVDET_BARCODE)));
 //                invDet.setFINVDET_COMDISC(cursor.getString(cursor.getColumnIndex(FINVDET_COMPDISC)));
 //                invDet.setFINVDET_BRAND_DISC(cursor.getString(cursor.getColumnIndex(FINVDET_BRAND_DISC)));
 //                invDet.setFINVDET_QOH(cursor.getString(cursor.getColumnIndex(FINVDET_QOH)));

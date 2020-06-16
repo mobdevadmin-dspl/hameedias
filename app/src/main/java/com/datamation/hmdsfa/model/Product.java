@@ -14,6 +14,15 @@ public class Product {
     private String FPRODUCT_Price;
     private String FPRODUCT_QTY;
     private String FPRODUCT_QOH;
+    private String FPRODUCT_ArticleNo;
+
+    public String getFPRODUCT_ArticleNo() {
+        return FPRODUCT_ArticleNo;
+    }
+
+    public void setFPRODUCT_ArticleNo(String FPRODUCT_ArticleNo) {
+        this.FPRODUCT_ArticleNo = FPRODUCT_ArticleNo;
+    }
 
     public String getFPRODUCT_QOH() {
         return FPRODUCT_QOH;

@@ -18,6 +18,7 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.barcode.BRInvoiceDetailFragment;
 import com.datamation.hmdsfa.barcode.BRInvoiceHeaderFragment;
 import com.datamation.hmdsfa.barcode.BRInvoiceSummaryFragment;
+import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
 import com.datamation.hmdsfa.helpers.VanSalesResponseListener;
 import com.datamation.hmdsfa.model.Customer;
@@ -90,7 +91,7 @@ public class ActivityVanSalesBR extends AppCompatActivity implements VanSalesRes
             }
         });
 
-        status = new InvoiceDetBarcodeController(getApplicationContext()).isAnyActiveInvoice();
+        status = new InvDetController(getApplicationContext()).isAnyActiveOrders();
     }
 
     @Override
