@@ -256,7 +256,7 @@ public class DiscountController {
                     }else{
                     mTranSODet.setFINVDET_SCHDISPER("0");
                     mTranSODet.setFINVDET_DIS_AMT("0");
-                    mTranSODet.setFINVDET_B_SELL_PRICE("0");//pass for calculate tax forqow
+                    mTranSODet.setFINVDET_B_SELL_PRICE(mTranSODet.getFINVDET_SELL_PRICE());//pass for calculate tax forqow
 
                 }
                     newMetaList.add(mTranSODet);
