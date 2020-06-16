@@ -120,7 +120,7 @@ public class RouteCustomerFragment extends Fragment {
 
 
                     try {
-                        if (!debtor.getCusImage().isEmpty()) {
+                       // if (!debtor.getCusImage().isEmpty()) {
                             Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
                             intent.putExtra("outlet", debtor);
                             mSharedPref.clearPref();
@@ -131,53 +131,53 @@ public class RouteCustomerFragment extends Fragment {
                             startActivity(intent);
                             getActivity().finish();
 
-                        } else {
-                            mSharedPref.clearPref();
-                            mSharedPref.setSelectedDebCode(debtor.getCusCode());
-                            mSharedPref.setSelectedDebName(debtor.getCusName());
-                            mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
-                            mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
-                            MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
-                                    .content("This debtor have not set business image. Do you want to update image first?")
-                                    .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
-                                    .positiveText("Yes")
-                                    .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
-                                    .negativeText("No, Continue to order.")
-                                    .callback(new MaterialDialog.ButtonCallback() {
-
-                                        @Override
-                                        public void onPositive(MaterialDialog dialog) {
-                                            super.onPositive(dialog);
-
-                                            Intent intent = new Intent(getActivity(), NewCustomerActivity.class);
-                                            intent.putExtra("outlet", debtor);
-                                            intent.putExtra("allCusFrag",88);
-                                            startActivity(intent);
-                                            getActivity().finish();
-
-                                        }
-
-                                        @Override
-                                        public void onNegative(MaterialDialog dialog) {
-                                            super.onNegative(dialog);
-
-
-                                            Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                                            intent.putExtra("outlet", debtor);
-                                            mSharedPref.clearPref();
-                                            mSharedPref.setSelectedDebCode(debtor.getCusCode());
-                                            mSharedPref.setSelectedDebName(debtor.getCusName());
-                                            mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
-                                            mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
-                                            dialog.dismiss();
-                                            startActivity(intent);
-                                            getActivity().finish();
-                                        }
-                                    })
-                                    .build();
-                            materialDialog.setCanceledOnTouchOutside(false);
-                            materialDialog.show();
-                        }
+//                        } else {
+//                            mSharedPref.clearPref();
+//                            mSharedPref.setSelectedDebCode(debtor.getCusCode());
+//                            mSharedPref.setSelectedDebName(debtor.getCusName());
+//                            mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
+//                            mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
+//                            MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+//                                    .content("This debtor have not set business image. Do you want to update image first?")
+//                                    .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+//                                    .positiveText("Yes")
+//                                    .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+//                                    .negativeText("No, Continue to order.")
+//                                    .callback(new MaterialDialog.ButtonCallback() {
+//
+//                                        @Override
+//                                        public void onPositive(MaterialDialog dialog) {
+//                                            super.onPositive(dialog);
+//
+//                                            Intent intent = new Intent(getActivity(), NewCustomerActivity.class);
+//                                            intent.putExtra("outlet", debtor);
+//                                            intent.putExtra("allCusFrag",88);
+//                                            startActivity(intent);
+//                                            getActivity().finish();
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onNegative(MaterialDialog dialog) {
+//                                            super.onNegative(dialog);
+//
+//
+//                                            Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+//                                            intent.putExtra("outlet", debtor);
+//                                            mSharedPref.clearPref();
+//                                            mSharedPref.setSelectedDebCode(debtor.getCusCode());
+//                                            mSharedPref.setSelectedDebName(debtor.getCusName());
+//                                            mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
+//                                            mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
+//                                            dialog.dismiss();
+//                                            startActivity(intent);
+//                                            getActivity().finish();
+//                                        }
+//                                    })
+//                                    .build();
+//                            materialDialog.setCanceledOnTouchOutside(false);
+//                            materialDialog.show();
+//                        }
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
