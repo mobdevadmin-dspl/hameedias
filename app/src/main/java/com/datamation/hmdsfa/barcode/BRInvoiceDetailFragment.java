@@ -801,8 +801,8 @@ public class BRInvoiceDetailFragment extends Fragment{
         ArrayList<InvDet> arrList = new ArrayList<>();
 
        // String taxamt = new VATController(getActivity()).calculateTax(mSharedPref.getGlobalVal("KeyVat"),new BigDecimal(amt));
-        String taxRevPrice = new VATController(getActivity()).calculateReverse(mSharedPref.getGlobalVal("KeyVat"),new BigDecimal(price));
-        double unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevPrice);
+        String taxRevValue = new VATController(getActivity()).calculateReverse(mSharedPref.getGlobalVal("KeyVat"),new BigDecimal(price));
+        double unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
         double amt = unitprice * Double.parseDouble(Qty);
         //double amt = Double.parseDouble(price) * Double.parseDouble(Qty);
         InvDet invDet = new InvDet();
@@ -821,8 +821,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         invDet.setFINVDET_TAX_AMT("0");
         invDet.setFINVDET_RECORD_ID("");
         invDet.setFINVDET_SEQNO(seqno + "");
-        invDet.setFINVDET_T_SELL_PRICE(String.format("%.2f", amt / Double.parseDouble(invDet.getFINVDET_QTY())));
-        invDet.setFINVDET_BT_SELL_PRICE(String.format("%.2f", amt / Double.parseDouble(invDet.getFINVDET_QTY())));
+        invDet.setFINVDET_T_SELL_PRICE(price);
         invDet.setFINVDET_REFNO(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
         invDet.setFINVDET_BRAND_DISCPER("0");
         invDet.setFINVDET_BRAND_DISC("0");
