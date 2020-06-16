@@ -831,6 +831,9 @@ public class BRInvoiceDetailFragment extends Fragment{
         invDet.setFINVDET_CHANGED_PRICE("0");
         invDet.setFINVDET_AMT(String.format("%.2f", amt));
         invDet.setFINVDET_BAL_QTY(Qty);
+        invDet.setFINVDET_BARCODE(barcode);
+        invDet.setFINVDET_ARTICLENO(aricleno);
+        invDet.setFINVDET_VARIANTCODE(variantcode);
         arrList.add(invDet);
         new InvDetController(getActivity()).createOrUpdateInvDet(arrList);
     }
@@ -965,7 +968,9 @@ public class BRInvoiceDetailFragment extends Fragment{
                 String sArray[] = new VATController(getActivity()).calculateTaxForward( mSharedPref.getGlobalVal("KeyVat"), Double.parseDouble(invDet.getFINVDET_B_SELL_PRICE()));
                 String amt = String.format("%.2f",Double.parseDouble(sArray[0])* Double.parseDouble(invDet.getFINVDET_QTY()));
                 String tax = String.format("%.2f",Double.parseDouble(sArray[1])* Double.parseDouble(invDet.getFINVDET_QTY()));
-                new InvDetController(getActivity()).UpdateItemTaxInfo(tax,amt, RefNo);
+                String dis = String.format("%.2f",Double.parseDouble( invDet.getFINVDET_DIS_AMT()));
+                String barcode = invDet.getFINVDET_BARCODE();
+                new InvDetController(getActivity()).UpdateItemTaxInfo(tax,amt, RefNo,barcode,dis);
 
             }
 

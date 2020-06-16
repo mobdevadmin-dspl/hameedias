@@ -490,12 +490,40 @@ public class InvDetController {
             while (cursor.moveToNext()) {
 
                 InvDet invDet = new InvDet();
-
+//                Menaka Comment
+//                invDet.setFINVDET_ITEM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_ITEM_CODE)));
+//                invDet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
+//                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+//                invDet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
+//                Menaka Comment
+                invDet.setFINVDET_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_AMT)));
+                invDet.setFINVDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_BAL_QTY)));
+                invDet.setFINVDET_B_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_B_AMT)));
+                invDet.setFINVDET_B_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_B_SELL_PRICE)));
+                invDet.setFINVDET_BT_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_BT_TAX_AMT)));
+                invDet.setFINVDET_BT_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_BT_SELL_PRICE)));
+                invDet.setFINVDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_DIS_AMT)));
+                invDet.setFINVDET_DIS_PER(cursor.getString(cursor.getColumnIndex(FINVDET_DIS_PER)));
                 invDet.setFINVDET_ITEM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_ITEM_CODE)));
+                invDet.setFINVDET_PRIL_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_PRIL_CODE)));
                 invDet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
+                invDet.setFINVDET_PICE_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_PICE_QTY)));
+                invDet.setFINVDET_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TYPE)));
+                invDet.setFINVDET_RECORD_ID(cursor.getString(cursor.getColumnIndex(FINVDET_RECORD_ID)));
                 invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 invDet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
+                invDet.setFINVDET_SEQNO(cursor.getString(cursor.getColumnIndex(FINVDET_SEQNO)));
+                invDet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_AMT)));
+                invDet.setFINVDET_TAX_COM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_COM_CODE)));
+                invDet.setFINVDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_T_SELL_PRICE)));
+                invDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invDet.setFINVDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TXN_TYPE)));
+                invDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVDET_IS_ACTIVE)));
 
+                invDet.setFINVDET_DISVALAMT(cursor.getString(cursor.getColumnIndex(FINVDET_DISVALAMT)));
+                invDet.setFINVDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FINVDET_VARIANTCODE)));
+                invDet.setFINVDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FINVDET_ARTICLENO)));
+                invDet.setFINVDET_BARCODE(cursor.getString(cursor.getColumnIndex(FINVDET_BARCODE)));
                 list.add(invDet);
             }
             cursor.close();
@@ -1018,7 +1046,7 @@ public class InvDetController {
             dB.close();
         }
     }
-    public void UpdateItemTaxInfo(String taxamt, String amt, String refno) {
+    public void UpdateItemTaxInfo(String taxamt, String amt, String refno, String barcode, String disamt) {
 
         if (dB == null) {
             open();
@@ -1032,7 +1060,7 @@ public class InvDetController {
 
 
             /* Update Sales order Header TotalTax */
-            dB.execSQL("UPDATE finvdet SET taxamt='" + taxamt + "', amt='" + amt + "' WHERE refno='" + refno + "'");
+            dB.execSQL("UPDATE finvdet SET taxamt='" + taxamt + "', amt='" + amt + "', disamt='"+disamt+"' WHERE refno='" + refno + "' and barcode='"+barcode+"'");
 
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
