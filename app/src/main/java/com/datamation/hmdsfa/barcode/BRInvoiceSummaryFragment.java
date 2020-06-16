@@ -226,9 +226,9 @@ public class BRInvoiceSummaryFragment extends Fragment {
         //listNew = new InvoiceDetBarcodeController(getActivity()).getAllInvDet(RefNo);
         lines = list.size();
         for (InvDet ordDet : list) {
-            ftotAmt += Double.parseDouble(ordDet.getFINVDET_T_SELL_PRICE())*Double.parseDouble(ordDet.getFINVDET_QTY());
+            ftotAmt += Double.parseDouble(ordDet.getFINVDET_AMT());
             ftotQty += Integer.parseInt(ordDet.getFINVDET_QTY());
-            fTotSchDisc += Double.parseDouble(ordDet.getFINVDET_DISVALAMT());
+            fTotSchDisc += Double.parseDouble(ordDet.getFINVDET_DIS_AMT());
 
         }
         iTotFreeQty = fTotFree;
