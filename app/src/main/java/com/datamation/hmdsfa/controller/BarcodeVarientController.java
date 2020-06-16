@@ -113,7 +113,7 @@ public class BarcodeVarientController {
 
     public void InsertOrReplaceBarcodeVariant(ArrayList<BarcodeVariant> list) {
 
-        deleteAll();
+       // deleteAll();
         Log.d(">>InsrtOrRepBarcodeVari", ">>" + list.size());
 
         if (dB == null) {
