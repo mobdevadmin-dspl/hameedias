@@ -1164,7 +1164,22 @@ public class InvDetController {
             dB.close();
         }
     }
+    public void mDeleteProduct(String RefNo, String Itemcode, String barcode) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        try {
+            dB.delete(TABLE_FINVDET, DatabaseHelper.REFNO + " ='" + RefNo + "' AND " + FINVDET_ITEM_CODE + " ='" + Itemcode + "' AND " + FINVDET_BARCODE + " ='" + barcode + "'", null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+    }
 
     public void mUpdateProduct(String RefNo, String Itemcode, String Qty) {
 

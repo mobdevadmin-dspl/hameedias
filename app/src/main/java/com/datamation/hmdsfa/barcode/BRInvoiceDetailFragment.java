@@ -686,9 +686,9 @@ public class BRInvoiceDetailFragment extends Fragment{
         alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                new ProductController(getActivity()).updateBarCodeInDelete(orderListNew.get(position).getBarcodeNo(), "0");
+             //   new ProductController(getActivity()).updateBarCodeInDelete(orderListNew.get(position).getBarcodeNo(), "0");
                 //new ProductController(getActivity()).updateProductQty(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
-                new InvDetController(getActivity()).mDeleteProduct(selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE());
+                new InvDetController(getActivity()).mDeleteProduct(selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE(), orderList.get(position).getFINVDET_BARCODE());
                 android.widget.Toast.makeText(getActivity(), "Deleted successfully!", android.widget.Toast.LENGTH_SHORT).show();
                 showData();
 

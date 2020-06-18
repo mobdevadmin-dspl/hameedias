@@ -10,6 +10,7 @@ import android.util.Log;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.model.BarcodeVariant;
 import com.datamation.hmdsfa.model.ItemBundle;
+import com.datamation.hmdsfa.model.Product;
 
 import java.util.ArrayList;
 
@@ -183,6 +184,37 @@ public class BarcodeVarientController {
 
         }
 
+        return list;
+    }
+    public ArrayList<Product> getScannedtems(ItemBundle itembundle) {
+
+
+        ArrayList<Product> list = new ArrayList<>();
+        try {
+            Product product = new Product();
+            String price = new SalesPriceController(context).getPrice(itembundle.getItemNo(),itembundle.getVariantCode());
+            //   product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
+            product.setFPRODUCT_ITEMCODE(itembundle.getItemNo());
+            product.setFPRODUCT_ITEMNAME(itembundle.getDescription());
+            product.setFPRODUCT_Barcode(itembundle.getBarcode());
+            product.setFPRODUCT_DocumentNo(itembundle.getDocumentNo());
+            product.setFPRODUCT_VariantCode(itembundle.getVariantCode());
+            product.setFPRODUCT_VariantColour(itembundle.getVariantColour());
+            product.setFPRODUCT_VariantSize(itembundle.getVariantSize());
+            product.setFPRODUCT_QTY(String.valueOf(itembundle.getQuantity()));
+            product.setFPRODUCT_Price(price);
+//                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
+            product.setFPRODUCT_ArticleNo(itembundle.getArticleNo());
+            product.setFPRODUCT_IsScan("1");
+
+            list.add(product);
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d(">>ScannedList",">>"+list.toString());
         return list;
     }
     public ItemBundle getItem(String itemCode) {

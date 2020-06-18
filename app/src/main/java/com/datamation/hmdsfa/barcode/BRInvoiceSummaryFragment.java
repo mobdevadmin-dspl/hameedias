@@ -185,11 +185,12 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
                 String orRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
 
-                String result = new InvHedController(getActivity()).restData(RefNo);
-                if (!result.equals("")) {
-                    new ProductController(getActivity()).mClearTables();
+                int result = new InvHedController(getActivity()).restDataBC(RefNo);
+                if (result > 0) {
+                  //  new ProductController(getActivity()).mClearTables();
                     new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
                     new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
+                    new InvDetController(getActivity()).restData(RefNo);
 
                 }
 

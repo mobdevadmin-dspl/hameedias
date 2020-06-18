@@ -439,7 +439,40 @@ public class InvHedController {
         }
         return locCode;
     }
+    public int restDataBC(String refno) {
 
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            String selectQuery = "SELECT * FROM " + TABLE_FINVHED + " WHERE " + DatabaseHelper.REFNO + " = '"
+                    + refno + "'";
+            cursor = dB.rawQuery(selectQuery, null);
+            int cn = cursor.getCount();
+
+            if (cn > 0) {
+                count = dB.delete(TABLE_FINVHED, DatabaseHelper.REFNO + " ='" + refno + "'", null);
+                Log.v("Success", count + "");
+            }
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public ArrayList<InvHed> getAllUnsyncedInvHed(String newText, String uploaded) {
