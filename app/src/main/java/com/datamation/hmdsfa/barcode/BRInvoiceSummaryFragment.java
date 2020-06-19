@@ -309,7 +309,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
                         if (new InvHedController(getActivity()).createOrUpdateInvHed(invHedList) > 0)
        {
-                            new ProductController(getActivity()).mClearTables();
+                            //new ProductController(getActivity()).mClearTables();
                             new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
                             new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
                             new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
@@ -468,51 +468,6 @@ public class BRInvoiceSummaryFragment extends Fragment {
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
-    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
-    public void updateInvoice() {
-
-        ArrayList<Product> list = new ProductController(getActivity()).getSelectedItems();
-
-        int i = 0;
-
-        for (Product product : list) {
-
-            VanSalesActivity activity = (VanSalesActivity) getActivity();
-            double totAmt = Double.parseDouble(product.getFPRODUCT_Price()) * Double.parseDouble(product.getFPRODUCT_QTY());
-            String TaxedAmt = new TaxDetController(getActivity()).calculateTax(product.getFPRODUCT_ITEMCODE(), new BigDecimal(totAmt));
-
-            double brandDiscPer = new DebItemPriController(getActivity()).getBrandDiscount(new ItemController(getActivity()).getBrandCode(product.getFPRODUCT_ITEMCODE()), SharedPref.getInstance(getActivity()).getSelectedDebCode());
-            //   double compDiscPer = new ControlDS(getActivity()).getCompanyDisc();
-
-//            double Disc = (totAmt / 100) * compDiscPer;
-//            double compDisc = Disc;
-//            totAmt -= Disc;
-
-//            Disc = (totAmt / 100) * brandDiscPer;
-//            double brandDisc = Disc;
-//            totAmt -= Disc;
-
-            InvDet invDet = new InvDet();
-
-            invDet.setFINVDET_ID(String.valueOf(i++));
-            invDet.setFINVDET_AMT(String.format("%.2f", totAmt - Double.parseDouble(TaxedAmt)));
-            invDet.setFINVDET_BAL_QTY(product.getFPRODUCT_QTY());
-            invDet.setFINVDET_B_AMT(invDet.getFINVDET_AMT());
-            invDet.setFINVDET_B_SELL_PRICE(product.getFPRODUCT_Price());
-            invDet.setFINVDET_BT_SELL_PRICE(product.getFPRODUCT_Price());
-            //    invDet.setFINVDET_DIS_AMT(String.format("%.2f", compDisc + brandDisc));
-            invDet.setFINVDET_DIS_PER("0");
-            invDet.setFINVDET_ITEM_CODE(product.getFPRODUCT_ITEMCODE());
-            invDet.setFINVDET_PRIL_CODE(SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
-            invDet.setFINVDET_QTY(product.getFPRODUCT_QTY());
-            invDet.setFINVDET_PICE_QTY(product.getFPRODUCT_QTY());
-            invDet.setFINVDET_TYPE("SA");
-            invDet.setFINVDET_BT_TAX_AMT("");
-            invDet.setFINVDET_RECORD_ID("");
-
-
-        }
-    }
 
     private class MyReceiver extends BroadcastReceiver {
         @Override

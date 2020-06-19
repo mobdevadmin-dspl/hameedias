@@ -322,7 +322,7 @@
                             android:id="@+id/imgVideo"
                             android:layout_width="@dimen/finac_dashboard_image_height"
                             android:layout_height="@dimen/finac_dashboard_image_height"
-                            android:src="@drawable/circle_ic_video" />
+                            android:src="@drawable/circle_ic_printer" />
 
                         <com.datamation.hmdsfa.utils.CustomFont
                             android:layout_width="wrap_content"

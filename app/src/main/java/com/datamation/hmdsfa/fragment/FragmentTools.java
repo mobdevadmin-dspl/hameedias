@@ -344,8 +344,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 break;
 
             case R.id.imgVideo:
-                imgVideo.startAnimation(animScale);
-                vdoUrlList = fmc.getAllMediafromDb("VDO");
+               // imgVideo.startAnimation(animScale);
+               // vdoUrlList = fmc.getAllMediafromDb("VDO");
+                UtilityContainer.mPrinterDialogbox(getActivity());
                 //ViewVideoList();
                 break;
 
