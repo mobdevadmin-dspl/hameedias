@@ -327,7 +327,7 @@
                         <com.datamation.hmdsfa.utils.CustomFont
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="PROMO VIDEO"
+                            android:text="PRINTER MAC ADDRESS"
                             android:textAlignment="center"
                             android:textColor="#000"
                             android:textSize="@dimen/finac_dashboard_icon_text_size"
