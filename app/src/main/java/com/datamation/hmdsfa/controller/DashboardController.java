@@ -155,7 +155,7 @@ public class DashboardController {
         try {
 
 
-            String selectQuery = "select ifnull((sum(a.DisAmt)),0)  as totAmt from FOrdDisc a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
+            String selectQuery = "select ifnull((sum(a.DisAmt)),0)  as totAmt from finvDet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
 
             cursor = dB.rawQuery(selectQuery, null);
             // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
@@ -194,7 +194,8 @@ public class DashboardController {
         double monthAchieve = 0.0;
         Cursor cursor = null;
         try {
-            String selectQuery = "select ifnull((sum(a.Amt)),0)  as totAmt from Forddet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
+
+            String selectQuery = "select ifnull((sum(a.BAmt)),0)  as totAmt from finvDet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
 
             cursor = dB.rawQuery(selectQuery, null);
             // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
@@ -219,7 +220,49 @@ public class DashboardController {
         return monthAchieve;
 
     }
+    //current month tax
+    public Double getMonthTax() {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<String[]> list = new ArrayList<String[]>();
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        double monthTax = 0.0;
+        Cursor cursor = null;
+        try {
+            //BAmt = tax reverse amount
+            String selectQuery = "select ifnull((sum(a.TaxAmt)),0)  as totAmt from finvDet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+            // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
+
+            while (cursor.moveToNext()) {
+                monthTax = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totAmt")));
+
+            }
+
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Excep getMonthmonthTax", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return monthTax;
+
+    }
     //current month return
     public Double getTMReturn() {
 
@@ -449,7 +492,7 @@ public class DashboardController {
         Cursor cursor = null;
         int result = 0;
         try {
-            String selectQuery = "select count(DISTINCT DebCode) from FOrdHed where txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
+            String selectQuery = "select count(DISTINCT DebCode) from finvHed where txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -525,7 +568,7 @@ public class DashboardController {
         Cursor cursor = null;
         int result1 = 0;
         try {
-            String selectQuery = "select count(*) as amu from FOrdHed where AddDate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "%' ";
+            String selectQuery = "select count(*) as amu from finvHed where AddDate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "%' ";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -563,7 +606,7 @@ public class DashboardController {
         Cursor cursor = null;
         int result = 0;
         try {
-            String selectQuery = "select count(*) as amu from FOrddet where txndate Like '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "%' ";
+            String selectQuery = "select count(*) as amu from finvDet where txndate Like '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "%' ";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -636,7 +679,7 @@ public class DashboardController {
 
         try {
 
-            String selectQuery = "select ifnull((sum(a.DisAmt)),0)  as totAmt from FOrdDisc a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth - 1) + "-_%'";
+            String selectQuery = "select ifnull((sum(a.DisAmt)),0)  as totAmt from finvDet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth - 1) + "-_%'";
 
             cursor = dB.rawQuery(selectQuery, null);
             // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
@@ -660,6 +703,46 @@ public class DashboardController {
 
 
     }
+    public Double getPMTax() {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<String[]> list = new ArrayList<String[]>();
+
+        double tax = 0.0;
+        Cursor cursor = null;
+
+        try {
+
+            String selectQuery = "select ifnull((sum(a.TaxAmt)),0)  as totAmt from finvDet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth - 1) + "-_%'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+            // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
+
+            while (cursor.moveToNext()) {
+                tax = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totAmt")));
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Excep getPMtax", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return tax;
+
+
+    }
 
     //previous month gross
     public Double getPMonthAchievement() {
@@ -679,8 +762,8 @@ public class DashboardController {
 
         Cursor cursor = null;
         try {
-
-            String selectQuery = "select ifnull((sum(a.Amt)),0)  as totAmt from Forddet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth - 1) + "-_%'";
+//BAmt = tax reverse amount
+            String selectQuery = "select ifnull((sum(a.BAmt)),0)  as totAmt from finvDet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth - 1) + "-_%'";
 
             cursor = dB.rawQuery(selectQuery, null);
             // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
@@ -765,7 +848,7 @@ public class DashboardController {
         int result = 0;
 
         try {
-            String selectQuery = "select count(DISTINCT DebCode) from FOrdHed where txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth - 1) + "-_%'";
+            String selectQuery = "select count(DISTINCT DebCode) from finvHed where txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth - 1) + "-_%'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -985,7 +1068,7 @@ public class DashboardController {
         Cursor cursor = null;
 
         try {
-            String selectQuery = "select ifnull((sum(a.DisAmt)),0)  as totAmt from FOrdDisc a where a.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "'";
+            String selectQuery = "select ifnull((sum(a.DisAmt)),0)  as totAmt from finvDet a where a.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
             // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
@@ -1324,8 +1407,8 @@ public class DashboardController {
         double monthAchieve = 0.0;
         Cursor cursor = null;
         try {
-
-            String selectquery = "select ifnull((sum(a.Amt)),0)  as totAmt from Forddet a where a.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "'";
+//BAmt = tax reverse amount
+            String selectquery = "select ifnull((sum(a.BAmt)),0)  as totAmt from finvDet a where a.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "'";
             cursor = dB.rawQuery(selectquery, null);
             // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
 
@@ -1344,5 +1427,42 @@ public class DashboardController {
             dB.close();
         }
         return monthAchieve;
+    }
+    public Double getDailyTax() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<String[]> list = new ArrayList<String[]>();
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        double tax = 0.0;
+        Cursor cursor = null;
+        try {
+//BAmt = tax reverse amount
+            String selectquery = "select ifnull((sum(a.TaxAmt)),0)  as totAmt from finvDet a where a.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "'";
+            cursor = dB.rawQuery(selectquery, null);
+            // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
+
+            while (cursor.moveToNext()) {
+                tax = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totAmt")));
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + "getDailytax", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return tax;
     }
 }

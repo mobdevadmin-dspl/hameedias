@@ -114,6 +114,7 @@ public class DaySummaryFragment  extends Fragment {
         double dailyAchieve = new DashboardController(getActivity()).getDailyAchievement();
         double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
         double dailyDiscount = new DashboardController(getActivity()).getTodayDiscount();
+        double dailyTax = new DashboardController(getActivity()).getDailyTax();
         double dailyReturn = new DashboardController(getActivity()).getTodayReturn();
         double dayCash = new DashboardController(getActivity()).getTodayCashCollection();
         double dayCheque = new DashboardController(getActivity()).getTodayChequeCollection();
@@ -137,6 +138,8 @@ public class DaySummaryFragment  extends Fragment {
         double preMonthTarget = new DashboardController(getActivity()).getPMRepTarget();
         double thisMonthDiscount = new DashboardController(getActivity()).getTMDiscounts();
         double preMonthDiscount = new DashboardController(getActivity()).getPMDiscounts();
+        double thisMonthTax = new DashboardController(getActivity()).getMonthTax();
+        double preMonthTax = new DashboardController(getActivity()).getPMTax();
         double thisMonthAchieve = new DashboardController(getActivity()).getMonthAchievement();
         double preMonthAchieve = new DashboardController(getActivity()).getPMonthAchievement();
         double thisMonthReturn = new DashboardController(getActivity()).getTMReturn();
@@ -150,7 +153,7 @@ public class DaySummaryFragment  extends Fragment {
 
 
         tvTMGross.setText(""+format.format(thisMonthAchieve));
-        tvTMNet.setText(""+format.format(thisMonthAchieve-thisMonthDiscount-thisMonthReturn));
+        tvTMNet.setText(""+format.format(thisMonthAchieve-thisMonthDiscount-thisMonthReturn+thisMonthTax));
         tvTMReturn.setText(""+format.format(thisMonthReturn));
         tvTMDiscount.setText(""+format.format(thisMonthDiscount));
         tvTMTarget.setText(""+format.format(thisMonthTarget));
@@ -158,7 +161,7 @@ public class DaySummaryFragment  extends Fragment {
         tvTMNonProductive.setText(""+tMNpcount);
 
         tvPMGross.setText(""+format.format(preMonthAchieve));
-        tvPMNet.setText(""+format.format(preMonthAchieve-preMonthReturn-preMonthDiscount));
+        tvPMNet.setText(""+format.format(preMonthAchieve-preMonthReturn-preMonthDiscount+preMonthTax));
         tvPMReturn.setText(""+format.format(preMonthReturn));
         tvPMDiscount.setText(""+format.format(preMonthDiscount));
         tvPMTarget.setText(""+format.format(preMonthTarget));
@@ -168,7 +171,7 @@ public class DaySummaryFragment  extends Fragment {
 
 
         tvSalesGross.setText(""+format.format(dailyAchieve));
-        tvNetValue.setText(""+format.format(dailyAchieve));
+        tvNetValue.setText(""+format.format(dailyAchieve-dailyDiscount+dailyTax));
         tvTarget.setText(""+format.format(dailyTarget));
         tvDiscount.setText("" +format.format(dailyDiscount));
         tvSalesReturn.setText("" +format.format(dailyReturn));
