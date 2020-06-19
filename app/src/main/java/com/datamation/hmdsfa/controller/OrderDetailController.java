@@ -650,7 +650,7 @@ public class OrderDetailController {
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
        // String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE "
-        String selectQuery = "select * from FOrddet WHERE "
+        String selectQuery = "select * from Finvdet WHERE "
                 + dbHelper.REFNO + "='" + refno + "' and  txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);

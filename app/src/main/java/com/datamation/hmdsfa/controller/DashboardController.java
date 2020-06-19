@@ -844,7 +844,8 @@ public class DashboardController {
         int result = 0;
 
         try {
-            String selectQuery = "select count(DISTINCT DebCode) from FOrdHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "'";
+            String selectQuery = "select count(DISTINCT DebCode) from FInvHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "'";
+//            String selectQuery = "select count(DISTINCT DebCode) from FOrdHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 

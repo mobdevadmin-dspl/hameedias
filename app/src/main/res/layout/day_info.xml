@@ -161,7 +161,9 @@
                 android:layout_height="55dp"
                 android:layout_weight="1"
                 android:background="@drawable/edittextstyle"
-                android:inputType="number"
+                android:inputType="phone"
+                android:digits="0123456789"
+                android:textColor="@color/Black"
                 android:padding="5dp" />
         </TableRow>
 
@@ -254,7 +256,9 @@
                 android:layout_height="55dp"
                 android:layout_weight="1"
                 android:background="@drawable/edittextstyle"
-                android:inputType="textPersonName"
+                android:inputType="phone"
+                android:digits="0123456789"
+                android:textColor="@color/Black"
                 android:padding="5dp" />
         </TableRow>
 

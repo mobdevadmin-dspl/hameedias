@@ -343,11 +343,18 @@ public class SharedPref {
         editor.putString("MAC_Address", MacAddress);
         editor.apply();
     }
+    public void setPrinterMacAddress(String MacAddress) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("Print_MAC_Address", MacAddress);
+        editor.apply();
+    }
 
     public String getMacAddress() {
         return sharedPref.getString("MAC_Address", "");
     }
-
+    public String getPrinterMacAddress() {
+        return sharedPref.getString("Print_MAC_Address", "");
+    }
 
 
     public long getLoginTimeout() {

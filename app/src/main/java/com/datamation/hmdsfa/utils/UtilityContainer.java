@@ -80,6 +80,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -200,8 +201,20 @@ public class UtilityContainer {
 
     public static void mPrinterDialogbox(final Context context) {
 
+        SharedPref mSharedPref;
+        mSharedPref = new SharedPref(context);
+
         View promptView = LayoutInflater.from(context).inflate(R.layout.settings_printer_layout, null);
         final EditText serverURL = (EditText) promptView.findViewById(R.id.et_mac_address);
+
+        String printer_mac_shared_pref = "";
+        printer_mac_shared_pref = new SharedPref(context).getGlobalVal("printer_mac_address");
+
+        if(!TextUtils.isEmpty(printer_mac_shared_pref))
+        {
+            serverURL.setText(printer_mac_shared_pref);
+            Toast.makeText(context, "MAC Address Already Exists", Toast.LENGTH_LONG).show();
+        }
 
         final AlertDialog dialog = new AlertDialog.Builder(context)
                 .setView(promptView)
@@ -217,6 +230,8 @@ public class UtilityContainer {
                 Button bOk = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
                 Button bClose = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
 
+
+
                 bOk.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -224,14 +239,13 @@ public class UtilityContainer {
 
                         if (serverURL.length() > 0) {
 
-                            if (validate(serverURL.getText().toString().toUpperCase()))
-                            {
-                                SharedPref.getInstance(context).setMacAddress(serverURL.getText().toString().toUpperCase());
+                            if (validate(serverURL.getText().toString().toUpperCase())) {
+                                //SharedPreferencesClass.setLocalSharedPreference(context, "printer_mac_address", serverURL.getText().toString().toUpperCase());
+                                new SharedPref(context).setGlobalVal("printer_mac_address", serverURL.getText().toString().toUpperCase());
+                                Toast.makeText(context, "Saved Successfully", Toast.LENGTH_LONG).show();
                                 dialog.dismiss();
                             }
-
-                            else
-                            {
+                            else {
                                 Toast.makeText(context, "Enter Valid MAC Address", Toast.LENGTH_LONG).show();
                             }
                         } else

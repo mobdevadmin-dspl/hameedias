@@ -134,6 +134,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
         lblLines = (TextView) view.findViewById(R.id.lblLines);
         lblGross = (TextView) view.findViewById(R.id.lblGross_Inv);
         lblQty = (TextView) view.findViewById(R.id.lblQty_Inv);
+        PRINTER_MAC_ID = mSharedPref.getGlobalVal("printer_mac_address").toString();
 
         fam.setOnClickListener(new View.OnClickListener() {
             @Override
