@@ -484,8 +484,8 @@ public class VanSalePrintPreviewAlertBox {
         } else
             Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
 
-        String title_cb = "\r\nITEM CODE          QTY     PRICE     AMOUNT ";
-        String title_cc = "\r\nITEM NAME								   ";
+        String title_cb = "\r\nVARIANT CODE  ARTICLE_NO PRICE      DISC(%) ";
+        String title_cc = "\r\nITEM NAME      QTY    DISC.AMT  LINE AMOUNT ";
         String title_cd = "\r\n             INVOICE DETAILS                ";
 
         Heading_b = "\r\n" + printLineSeperatorNew + title_cb + title_cc + title_cd+ "\r\n" + printLineSeperatorNew+"\n";
@@ -510,6 +510,9 @@ public class VanSalePrintPreviewAlertBox {
             String sItemcode = det.getFINVDET_ITEM_CODE();
             String sItemname = new ItemController(context).getItemNameByCode(sItemcode);
             String sQty = det.getFINVDET_QTY();
+            String variantcode = det.getFINVDET_VARIANTCODE();
+            String articleno = det.getFINVDET_ARTICLENO();
+            String disper = det.getFINVDET_DIS_PER();
             // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
             // - 3);
 
@@ -518,12 +521,7 @@ public class VanSalePrintPreviewAlertBox {
             sTotal = det.getFINVDET_AMT();
             sPrice = det.getFINVDET_SELL_PRICE();
 
-            String sDiscount;
-
-            //sPrice = "";// iss.getPRICE();
-            //sTotal = "";// iss.getAMT();
-            sDiscount = "";// iss.getBrand();
-            sDiscount = det.getFINVDET_DISVALAMT();
+            String sDiscount = det.getFINVDET_DIS_AMT();
 
 
             int itemCodeLength = sItemcode.length();
