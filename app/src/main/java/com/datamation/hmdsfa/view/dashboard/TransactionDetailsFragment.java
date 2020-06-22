@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.datamation.hmdsfa.controller.OrderDetailController;
 import com.datamation.hmdsfa.controller.PreProductController;
 import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.SalesReturnDetController;
+import com.datamation.hmdsfa.dialog.VanSalePrintPreviewAlertBox;
 import com.datamation.hmdsfa.model.FInvRDet;
 import com.datamation.hmdsfa.model.FInvRHed;
 import com.datamation.hmdsfa.model.InvDet;
@@ -75,9 +77,9 @@ public class TransactionDetailsFragment extends Fragment {
         spnTrans = (Spinner)view.findViewById(R.id.spnMainTrans);
 
         ArrayList<String> otherList = new ArrayList<String>();
-        otherList.add("Pre Sales");
-        otherList.add("Van Sales");
-        otherList.add("Sales Return");
+        otherList.add("INVOICES");
+        otherList.add("ORDERS");
+        otherList.add("RETURNS");
 
         final ArrayAdapter<String> otherAdapter = new ArrayAdapter<String>(getActivity(),R.layout.reason_spinner_item, otherList);
         otherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -89,17 +91,17 @@ public class TransactionDetailsFragment extends Fragment {
 
         expListView = (ExpandableListView) view.findViewById(R.id.lvExp);
 
-        final int[] prevExpandPosition = {-1};
-        //Lisview on group expand listner... to close other expanded headers...
-        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int i) {
-                if (prevExpandPosition[0] >= 0) {
-                    expListView.collapseGroup(prevExpandPosition[0]);
-                }
-                prevExpandPosition[0] = i;
-            }
-        });
+//        final int[] prevExpandPosition = {-1};
+//        //Lisview on group expand listner... to close other expanded headers...
+//        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+//            @Override
+//            public void onGroupExpand(int i) {
+//                if (prevExpandPosition[0] >= 0) {
+//                    expListView.collapseGroup(prevExpandPosition[0]);
+//                }
+//                prevExpandPosition[0] = i;
+//            }
+//        });
 
         spnTrans.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -108,13 +110,14 @@ public class TransactionDetailsFragment extends Fragment {
                 {
                     expListView.setAdapter((BaseExpandableListAdapter)null);
                     //expListView.clearTextFilter();
-                    preparePreListData();
+                    prepareVanListData();
                 }
                 else if (position == 1)
                 {
+
                     expListView.setAdapter((BaseExpandableListAdapter)null);
                     //expListView.clearTextFilter();
-                    prepareVanListData();
+                    preparePreListData();
                 }
                 else
                 {
@@ -305,7 +308,6 @@ public class TransactionDetailsFragment extends Fragment {
                 delete.setBackground(getResources().getDrawable(R.drawable.icon_minus));
                 stats.setText("Not Synced");
                 stats.setTextColor(getResources().getColor(R.color.material_alert_negative_button));
-
             }
             //type.setText(headerTitle.getORDER_TXNTYPE());
             date.setText(headerTitle.getORDER_TXNDATE());
@@ -396,7 +398,84 @@ public class TransactionDetailsFragment extends Fragment {
         materialDialog.setCanceledOnTouchOutside(false);
         materialDialog.show();
     }
+    public void deleteInvoice(final String RefNo) {
+
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                .content("Do you want to delete this invoice ?")
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                .positiveText("Yes")
+                .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                .negativeText("No, Exit")
+                .callback(new MaterialDialog.ButtonCallback() {
+
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+
+                        int result = new InvHedController(getActivity()).restDataBC(RefNo);
+
+                        if (result>0) {
+                            new InvDetController(getActivity()).restData(RefNo);
+
+                            Toast.makeText(getActivity(), "Invoice deleted successfully..!", Toast.LENGTH_SHORT).show();
+
+                            prepareVanListData();
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), "Order delete unsuccess..!", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                        UtilityContainer.ClearReturnSharedPref(getActivity());
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+
+                        dialog.dismiss();
+
+
+                    }
+                })
+                .build();
+        materialDialog.setCanceledOnTouchOutside(false);
+        materialDialog.show();
+    }
+
+    public void printInvoice(final String RefNo) {
+
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                .content("Do you want to print this invoice ?")
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                .positiveText("Yes")
+                .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                .negativeText("No, Exit")
+                .callback(new MaterialDialog.ButtonCallback() {
+
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+
+                        int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+
+                        dialog.dismiss();
+
+
+                    }
+                })
+                .build();
+        materialDialog.setCanceledOnTouchOutside(false);
+        materialDialog.show();
+    }
     // adapter for van sale
+
 
     public class ExpandableVanListAdapter extends BaseExpandableListAdapter {
 
@@ -469,7 +548,7 @@ public class TransactionDetailsFragment extends Fragment {
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded,
                                  View convertView, ViewGroup parent) {
-            InvHed headerTitle = (InvHed) getGroup(groupPosition);
+            final InvHed headerTitle = (InvHed) getGroup(groupPosition);
             if (convertView == null) {
                 LayoutInflater infalInflater = (LayoutInflater) this._context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -482,7 +561,8 @@ public class TransactionDetailsFragment extends Fragment {
             TextView date = (TextView) convertView.findViewById(R.id.date);
             TextView tot = (TextView) convertView.findViewById(R.id.total);
             TextView stats = (TextView) convertView.findViewById(R.id.status);
-            TextView type = (TextView) convertView.findViewById(R.id.type);
+            ImageView type = (ImageView) convertView.findViewById(R.id.type);
+            ImageView print = (ImageView) convertView.findViewById(R.id.print);
             lblListHeader.setTypeface(null, Typeface.BOLD);
             lblListHeader.setText(headerTitle.getFINVHED_REFNO());
             deb.setText(headerTitle.getFINVHED_DEBCODE());
@@ -494,9 +574,20 @@ public class TransactionDetailsFragment extends Fragment {
                 stats.setTextColor(getResources().getColor(R.color.material_alert_negative_button));
 
             }
-            type.setText(headerTitle.getFINVHED_TXNTYPE());
             date.setText(headerTitle.getFINVHED_TXNDATE());
             tot.setText(headerTitle.getFINVHED_TOTALAMT());
+            type.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteInvoice(headerTitle.getFINVHED_REFNO());
+                }
+            });
+            print.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    printInvoice(headerTitle.getFINVHED_REFNO());
+                }
+            });
 
             return convertView;
         }
@@ -617,7 +708,6 @@ public class TransactionDetailsFragment extends Fragment {
             TextView date = (TextView) convertView.findViewById(R.id.date);
             TextView tot = (TextView) convertView.findViewById(R.id.total);
             TextView stats = (TextView) convertView.findViewById(R.id.status);
-            TextView type = (TextView) convertView.findViewById(R.id.type);
             lblListHeader.setTypeface(null, Typeface.BOLD);
             lblListHeader.setText(headerTitle.getFINVRHED_REFNO());
             deb.setText(headerTitle.getFINVRHED_DEBCODE());
@@ -629,7 +719,6 @@ public class TransactionDetailsFragment extends Fragment {
                 stats.setTextColor(getResources().getColor(R.color.material_alert_negative_button));
 
             }
-            type.setText(headerTitle.getFINVRHED_TXNTYPE());
             date.setText(headerTitle.getFINVRHED_TXN_DATE());
             tot.setText(headerTitle.getFINVRHED_TOTAL_AMT());
 

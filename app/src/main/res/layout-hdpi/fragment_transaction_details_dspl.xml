@@ -110,7 +110,7 @@
                     android:textSize="14sp"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:text="TxnType"
+                    android:text="Action"
                     android:paddingRight="16dp"
                     android:layout_weight="1"/>
 

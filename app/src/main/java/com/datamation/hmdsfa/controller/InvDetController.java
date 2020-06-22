@@ -316,7 +316,7 @@ public class InvDetController {
         Cursor cursor = null;
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
-        String selectQuery = "select itemcode,qty,amt,TSellPrice,types,disvalamt from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select itemcode,qty,amt,TSellPrice,types,disamt from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
 
         try {
 
@@ -331,7 +331,7 @@ public class InvDetController {
                 invdet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
                 invdet.setFINVDET_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TYPE)));
                 invdet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_T_SELL_PRICE)));
-                invdet.setFINVDET_DISVALAMT(cursor.getString(cursor.getColumnIndex(FINVDET_DISVALAMT)));
+                invdet.setFINVDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_DIS_AMT)));
                 invdet.setFINVDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FINVDET_ARTICLENO)));
                 invdet.setFINVDET_BARCODE(cursor.getString(cursor.getColumnIndex(FINVDET_BARCODE)));
                 invdet.setFINVDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FINVDET_VARIANTCODE)));

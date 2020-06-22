@@ -189,8 +189,8 @@ public class BRInvoiceSummaryFragment extends Fragment {
                 int result = new InvHedController(getActivity()).restDataBC(RefNo);
                 if (result > 0) {
                   //  new ProductController(getActivity()).mClearTables();
-                    new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
-                    new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
+//                    new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
+//                    new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
                     new InvDetController(getActivity()).restData(RefNo);
 
                 }

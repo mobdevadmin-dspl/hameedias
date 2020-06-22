@@ -56,6 +56,7 @@
     <string name="head_dist_address1">Address1</string>
     <string name="head_dist_address2">Address2</string>
     <string name="head_dist_phone">Phone #</string>
+    <string name="head_dist_vat">Vat No #</string>
 
 
     <!-- Print Preview Loading Descrption -->
