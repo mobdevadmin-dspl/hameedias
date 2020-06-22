@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.model.InvDet;
 
 import java.math.BigDecimal;
@@ -36,18 +37,24 @@ public class PrintVanSaleItemAdapter extends ArrayAdapter<InvDet> {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         row = inflater.inflate(R.layout.row_printitems_listview, parent, false);
 
-        TextView itemname = (TextView) row.findViewById(R.id.printitemnameVan);
-        TextView pieceqty = (TextView) row.findViewById(R.id.printpiecesQtyVan);
-        TextView amount = (TextView) row.findViewById(R.id.printamountVan);
+        TextView variantcode = (TextView) row.findViewById(R.id.printvariantcode);
+        TextView articleno = (TextView) row.findViewById(R.id.printarticleno);
+        TextView unitprice = (TextView) row.findViewById(R.id.unitprice);
         TextView printindex = (TextView) row.findViewById(R.id.printindexVan);
-        TextView Disc = (TextView) row.findViewById(R.id.printVanDisc);
-        TextView mrp = (TextView) row.findViewById(R.id.printVanMRP);
+        TextView disper = (TextView) row.findViewById(R.id.printdisper);
+        TextView description = (TextView) row.findViewById(R.id.printdescription);
+        TextView qty = (TextView) row.findViewById(R.id.printqty);
+        TextView discamt = (TextView) row.findViewById(R.id.printdiscamt);
+        TextView amount = (TextView) row.findViewById(R.id.printlineamount);
 
-        itemname.setText(list.get(position).getFINVDET_ITEM_CODE());
-        pieceqty.setText(list.get(position).getFINVDET_QTY());
-        mrp.setText(list.get(position).getFINVDET_SELL_PRICE());
-        Disc.setText(list.get(position).getFINVDET_DISVALAMT());
-        amount.setText(list.get(position).getFINVDET_AMT());
+        description.setText(""+new ItemController(context).getItemNameByCode(list.get(position).getFINVDET_ITEM_CODE()));
+        variantcode.setText(""+list.get(position).getFINVDET_VARIANTCODE());
+        articleno.setText(""+list.get(position).getFINVDET_ARTICLENO());
+        unitprice.setText(""+list.get(position).getFINVDET_SELL_PRICE());
+        amount.setText(""+list.get(position).getFINVDET_AMT());
+        disper.setText(""+list.get(position).getFINVDET_DIS_PER());
+        qty.setText(""+list.get(position).getFINVDET_QTY());
+        discamt.setText(""+list.get(position).getFINVDET_DIS_AMT());
 
         position = position + 1;
         String pos = Integer.toString(position);

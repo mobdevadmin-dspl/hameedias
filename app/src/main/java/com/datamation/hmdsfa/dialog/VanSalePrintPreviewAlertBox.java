@@ -189,13 +189,13 @@ public class VanSalePrintPreviewAlertBox {
             Companyaddress2.setText("Tel : 0112655024 Fax No : 112655102");
             CompanyTele.setText("Email : wholesales@hameedia.lk");
             Companyweb.setText("VAT Registration No : 114236314-7000");
-
+            Companyemail.setText("TAX INVOICE");
             String repCode = new SalRepController(context).getCurrentRepCode();
             SalRep salRep = new SalRepController(context).getSaleRepDet(repCode);
 
 //        User salrep = SharedPref.getInstance(context).getLoginUser();
             SalesRepname.setText(salRep.getRepCode() + "/ " + salRep.getNAME());
-            SalesRepPhone.setText("TAX INVOICE" );
+            SalesRepPhone.setText("" );
 
              // if van sale
 

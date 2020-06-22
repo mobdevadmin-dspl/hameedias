@@ -38,12 +38,12 @@ public class PrintPreSaleItemAdapter extends ArrayAdapter<OrderDetail> {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         row = inflater.inflate(R.layout.row_printitems_listview, parent, false);
 
-        TextView itemname = (TextView) row.findViewById(R.id.printitemnameVan);
-        TextView pieceqty = (TextView) row.findViewById(R.id.printpiecesQtyVan);
-        TextView amount = (TextView) row.findViewById(R.id.printamountVan);
+        TextView itemname = (TextView) row.findViewById(R.id.printdescription);
+        TextView pieceqty = (TextView) row.findViewById(R.id.printvariantcode);
+        TextView amount = (TextView) row.findViewById(R.id.printlineamount);
         TextView printindex = (TextView) row.findViewById(R.id.printindexVan);
-        TextView Disc = (TextView) row.findViewById(R.id.printVanDisc);
-        TextView mrp = (TextView) row.findViewById(R.id.printVanMRP);
+        TextView Disc = (TextView) row.findViewById(R.id.printdiscamt);
+        TextView mrp = (TextView) row.findViewById(R.id.unitprice);
 
         itemname.setText(list.get(position).getFORDERDET_ITEMCODE());
         pieceqty.setText(list.get(position).getFORDERDET_QTY());

@@ -250,8 +250,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_weight="2.5"
-                    android:text="PRODUCT"
+                    android:layout_weight="1"
+                    android:text="Variant Code"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
 
@@ -259,9 +259,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="MRP"
+                    android:text="Article No"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
 
@@ -269,12 +269,39 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="DISC"
+                    android:text="Unit Price"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
 
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Disc(%)"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="20dip"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="3.5"
+                    android:text="Description"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -289,14 +316,26 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="2"
-                    android:gravity="right"
-                    android:text="AMT"
+                    android:layout_gravity="center"
+                    android:layout_weight="2.5"
+                    android:gravity="center"
+                    android:text="Disc. Amt"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
-            </LinearLayout>
 
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2.5"
+                    android:gravity="center"
+                    android:text="Line Amount"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
