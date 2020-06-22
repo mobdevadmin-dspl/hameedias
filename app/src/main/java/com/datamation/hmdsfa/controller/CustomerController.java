@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.datamation.hmdsfa.helpers.DatabaseHelper.DEBCODE;
+import static com.datamation.hmdsfa.model.Customer.TABLE_FDEBTOR;
 
 public class CustomerController {
 
@@ -48,7 +49,7 @@ public class CustomerController {
 
         try {
             dB.beginTransactionNonExclusive();
-            String sql = "INSERT OR REPLACE INTO " + Customer.TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,AreaCode,DbGrCode,CrdPeriod,CrdLimit,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude,CusImage) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT OR REPLACE INTO " + TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,AreaCode,DbGrCode,CrdPeriod,CrdLimit,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude,CusImage) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 //            String sql = "INSERT OR REPLACE INTO " + DatabaseHelper.TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,TownCode,AreaCode,DbGrCode,Status,CrdPeriod,ChkCrdPrd,CrdLimit,ChkCrdLmt,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             SQLiteStatement stmt = dB.compileStatement(sql);
@@ -87,6 +88,35 @@ public class CustomerController {
         }
 
     }
+    //2020/06/22 by rashmi
+    public String getCustomerVatStatus(String debcode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT " + Customer.FDEBTOR_TAX_REG + " FROM " + TABLE_FDEBTOR+ " where DebCode = '"+debcode+"'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+
+                return cursor.getString(cursor.getColumnIndex( Customer.FDEBTOR_TAX_REG ));
+
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return "";
+    }
 
     public int deleteAll() {
 
@@ -100,10 +130,10 @@ public class CustomerController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + Customer.TABLE_FDEBTOR, null);
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FDEBTOR, null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(Customer.TABLE_FDEBTOR, null, null);
+                int success = dB.delete(TABLE_FDEBTOR, null, null);
                 Log.v("Success", success + "");
             }
         } catch (Exception e) {
@@ -172,7 +202,7 @@ public class CustomerController {
         ArrayList<Customer> list = new ArrayList<Customer>();
         Cursor cursor = null;
         try {
-            String selectQuery = "select * from " + Customer.TABLE_FDEBTOR;
+            String selectQuery = "select * from " + TABLE_FDEBTOR;
 
             cursor = dB.rawQuery(selectQuery, null);
             while (cursor.moveToNext()) {
@@ -221,7 +251,7 @@ public class CustomerController {
         ArrayList<Debtor> list = new ArrayList<Debtor>();
         Cursor cursor = null;
         try {
-            String selectQuery = "select * from " + Customer.TABLE_FDEBTOR + " where " + Customer.FDEBTOR_IS_CORDINATE_UPDATE + " = '1' and (" + Customer.FDEBTOR_IS_SYNC + " = '3' or " + Customer.FDEBTOR_IS_SYNC + " = '4' )";
+            String selectQuery = "select * from " + TABLE_FDEBTOR + " where " + Customer.FDEBTOR_IS_CORDINATE_UPDATE + " = '1' and (" + Customer.FDEBTOR_IS_SYNC + " = '3' or " + Customer.FDEBTOR_IS_SYNC + " = '4' )";
 
             cursor = dB.rawQuery(selectQuery, null);
             while (cursor.moveToNext()) {
@@ -262,7 +292,7 @@ public class CustomerController {
         ArrayList<Debtor> list = new ArrayList<Debtor>();
         Cursor cursor = null;
         try {
-            String selectQuery = "select * from " + Customer.TABLE_FDEBTOR + " where " + Customer.FDEBTOR_IMAGE + " <> '' and (" + Customer.FDEBTOR_IS_SYNC + " <> '1' )";
+            String selectQuery = "select * from " + TABLE_FDEBTOR + " where " + Customer.FDEBTOR_IMAGE + " <> '' and (" + Customer.FDEBTOR_IS_SYNC + " <> '1' )";
 
             cursor = dB.rawQuery(selectQuery, null);
             while (cursor.moveToNext()) {
@@ -294,7 +324,7 @@ public class CustomerController {
         ArrayList<Debtor> list = new ArrayList<Debtor>();
         Cursor cursor = null;
         try {
-            String selectQuery = "select * from " + Customer.TABLE_FDEBTOR + " where  (" + Customer.FDEBTOR_IS_SYNC + " = '3' or " + Customer.FDEBTOR_IS_SYNC + " = '4' )";
+            String selectQuery = "select * from " + TABLE_FDEBTOR + " where  (" + Customer.FDEBTOR_IS_SYNC + " = '3' or " + Customer.FDEBTOR_IS_SYNC + " = '4' )";
 
             cursor = dB.rawQuery(selectQuery, null);
             while (cursor.moveToNext()) {
@@ -329,7 +359,7 @@ public class CustomerController {
         ArrayList<Customer> list = new ArrayList<Customer>();
         Cursor cursor = null;
         try {
-            String selectQuery = "select * from " + Customer.TABLE_FDEBTOR + " Where " + Customer.REPCODE + "='"
+            String selectQuery = "select * from " + TABLE_FDEBTOR + " Where " + Customer.REPCODE + "='"
                     + RepCode + "' and DebCode || DebName LIKE '%" + key + "%'";
 
             cursor = dB.rawQuery(selectQuery, null);
@@ -384,7 +414,7 @@ public class CustomerController {
         ArrayList<Customer> list = new ArrayList<Customer>();
         Cursor cursor = null;
         try {
-            String selectQuery = "select * from " + Customer.TABLE_FDEBTOR + " Where " + Customer.REPCODE + "='"
+            String selectQuery = "select * from " + TABLE_FDEBTOR + " Where " + Customer.REPCODE + "='"
                     + RepCode + "' and DebCode || DebName LIKE '%" + key + "%'";
 
             cursor = dB.rawQuery(selectQuery, null);
@@ -572,7 +602,7 @@ public class CustomerController {
 
         Cursor cursor = null;
         try {
-            String selectQuery = "select * from " + Customer.TABLE_FDEBTOR + " Where " + Customer.DEBCODE + "='"
+            String selectQuery = "select * from " + TABLE_FDEBTOR + " Where " + Customer.DEBCODE + "='"
                     + code + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
@@ -617,7 +647,7 @@ public class CustomerController {
 
         Cursor cursor = null;
         try {
-            String selectQuery = "select * from " + Customer.TABLE_FDEBTOR + " Where " + Customer.DEBCODE + "='"
+            String selectQuery = "select * from " + TABLE_FDEBTOR + " Where " + Customer.DEBCODE + "='"
                     + code + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
@@ -661,7 +691,7 @@ public class CustomerController {
             open();
         }
 
-        String selectQuery = "SELECT " + Customer.FDEBTOR_AREA_CODE + " FROM " + Customer.TABLE_FDEBTOR + " where " + DatabaseHelper.DEBCODE + " = '" + debcode + "'";
+        String selectQuery = "SELECT " + Customer.FDEBTOR_AREA_CODE + " FROM " + TABLE_FDEBTOR + " where " + DatabaseHelper.DEBCODE + " = '" + debcode + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
@@ -688,7 +718,7 @@ public class CustomerController {
             open();
         }
 
-        String selectQuery = "SELECT " + Customer.FDEBTOR_NAME + " FROM " + Customer.TABLE_FDEBTOR + " where " + Customer.DEBCODE + " = '" + debcode + "'";
+        String selectQuery = "SELECT " + Customer.FDEBTOR_NAME + " FROM " + TABLE_FDEBTOR + " where " + Customer.DEBCODE + " = '" + debcode + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
@@ -723,7 +753,7 @@ public class CustomerController {
             values.put(Customer.FDEBTOR_LONGITUDE, nDeb.getFNEARDEBTOR_LONGI());
             values.put(Customer.FDEBTOR_IS_CORDINATE_UPDATE, "1");
             values.put(Customer.FDEBTOR_IS_SYNC, "3");
-            count = (int) dB.update(Customer.TABLE_FDEBTOR, values, Customer.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
+            count = (int) dB.update(TABLE_FDEBTOR, values, Customer.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
             Log.d("", "");
 
         } catch (Exception e) {
@@ -750,7 +780,7 @@ public class CustomerController {
             values.put(Customer.FDEBTOR_IS_CORDINATE_UPDATE, "1");
 
             if (res.equalsIgnoreCase("1")) {
-                count = dB.update(Customer.TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
+                count = dB.update(TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
             }
 
         } catch (Exception e) {
@@ -779,7 +809,7 @@ public class CustomerController {
             values.put(Customer.FDEBTOR_IS_SYNC, 0);
 
             if (!cus.equals(null)) {
-                count = dB.update(Customer.TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(cus.getCusCode())});
+                count = dB.update(TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(cus.getCusCode())});
             }
 
         } catch (Exception e) {
@@ -807,7 +837,7 @@ public class CustomerController {
             values.put(Customer.FDEBTOR_IS_SYNC, "4");
 
             if (!cus.equals(null)) {
-                count = dB.update(Customer.TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(cus.getCusCode())});
+                count = dB.update(TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(cus.getCusCode())});
             }
 
         } catch (Exception e) {
@@ -830,7 +860,7 @@ public class CustomerController {
         try {
             ContentValues values = new ContentValues();
             values.put(Customer.FDEBTOR_IS_SYNC, status);
-            count = dB.update(Customer.TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
+            count = dB.update(TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -857,7 +887,7 @@ public class CustomerController {
             values.put(Customer.FDEBTOR_LONGITUDE, lon);
             values.put(Customer.FDEBTOR_IS_CORDINATE_UPDATE, "1");
             values.put(Customer.FDEBTOR_IS_SYNC, "3");
-            count = (int) dB.update(Customer.TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
+            count = (int) dB.update(TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
             Log.d("", "");
 
         } catch (Exception e) {

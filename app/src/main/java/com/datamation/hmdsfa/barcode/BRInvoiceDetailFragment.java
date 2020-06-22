@@ -44,6 +44,7 @@ import com.datamation.hmdsfa.adapter.InvDetAdapterNew;
 import com.datamation.hmdsfa.adapter.InvoiceFreeItemAdapter;
 import com.datamation.hmdsfa.adapter.NewProduct_Adapter;
 import com.datamation.hmdsfa.controller.BarcodeVarientController;
+import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.DiscountController;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
@@ -795,16 +796,28 @@ public class BRInvoiceDetailFragment extends Fragment{
     public void mUpdateInvoice(String barcode, String itemCode, String Qty, String price, String variantcode, String qoh, String aricleno) {
 
         ArrayList<InvDet> arrList = new ArrayList<>();
-
+        InvDet invDet = new InvDet();
+        double unitprice = 0.0;
        // String taxamt = new VATController(getActivity()).calculateTax(mSharedPref.getGlobalVal("KeyVat"),new BigDecimal(amt));
         String taxRevValue = new VATController(getActivity()).calculateReverse(mSharedPref.getGlobalVal("KeyVat"),new BigDecimal(price));
-        double unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
+        unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
+
         double amt = unitprice * Double.parseDouble(Qty);
+//by rashmi 2020/06/22 according to meeting minute(2020/06/17) point 02
+        if(new CustomerController(getActivity()).getCustomerVatStatus(mSharedPref.getSelectedDebCode()).trim().equals("VAT")){
+            unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
+            invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", unitprice));
+        }else if(new CustomerController(getActivity()).getCustomerVatStatus(mSharedPref.getSelectedDebCode()).trim().equals("NOVAT")){
+            unitprice = Double.parseDouble(price);
+            invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", (unitprice- Double.parseDouble(taxRevValue))));
+        }else{
+            Toast.makeText(getActivity(),"This customer doesn't have VAT status(VAT?/NOVAT?)",Toast.LENGTH_SHORT).show();
+        }
         //double amt = Double.parseDouble(price) * Double.parseDouble(Qty);
-        InvDet invDet = new InvDet();
+
         invDet.setFINVDET_B_AMT(String.format("%.2f", amt));
         invDet.setFINVDET_SELL_PRICE(String.format("%.2f", unitprice));
-        invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", unitprice));
+
         invDet.setFINVDET_BT_SELL_PRICE(String.format("%.2f", unitprice));
         invDet.setFINVDET_DIS_AMT("0");
         invDet.setFINVDET_DIS_PER("0");
