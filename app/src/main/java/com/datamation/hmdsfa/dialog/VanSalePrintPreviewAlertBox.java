@@ -61,34 +61,18 @@ import java.util.ResourceBundle;
 public class VanSalePrintPreviewAlertBox {
 
     public static final String SETTINGS = "SETTINGS";
-    public static final int RESULT_CANCELED = 0;
-    public static final int RESULT_OK = -1;
-    public static final String SETTING = "SETTINGS";
-    public static SharedPreferences localSP;
-    ResourceBundle.Control control;
-    SalRep salRep;
-    Customer debtor;
-    VanSalPrintPre vansalprintpre;
-    String Fdealadd3 = "";
-    String Fdealmob = "";
-    String printLineSeperator = "____________________________________________";
     String printLineSeperatorNew = "--------------------------------------------";
-    String printSpaceName = "                    ";
-    String printSpaceQty = "     ";
     String Heading_a = "";
     String Heading_bmh = "";
     String Heading_b = "";
     String Heading_c = "";
     String Heading_d = "";
-    String Heading_e = "";
+   // String Heading_e = "";
     String buttomRaw = "";
     String BILL;
-    LinearLayout lnComp, lnCus, lnTerm;
     Dialog dialogProgress;
-    ListView lvItemDetails,lvReturnDetails;
+    ListView lvItemDetails;
     String PRefno = "";
-    String printMainInvDiscount, printMainInvDiscountVal, PrintNetTotalValuePrintVal, printCaseQuantity,
-            printPicesQuantity, TotalInvoiceDiscount;
     int countCountInv;
     BluetoothAdapter mBTAdapter;
     BluetoothSocket mBTSocket = null;
@@ -133,7 +117,6 @@ public class VanSalePrintPreviewAlertBox {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
 
             View promptView = layoutInflater.inflate(R.layout.sales_management_vansales_print_view, null);
-            localSP = context.getSharedPreferences(SETTINGS, 0);
 
             final TextView Companyname = (TextView) promptView.findViewById(R.id.headcompanyname);
             final TextView Companyaddress1 = (TextView) promptView.findViewById(R.id.headaddress1);
@@ -168,41 +151,20 @@ public class VanSalePrintPreviewAlertBox {
 
             alertDialogBuilder.setView(promptView);
 
-            ArrayList<Control> controlList;
-            controlList = new CompanyDetailsController(context).getAllControl();
-
             PRefno = refno;
-
-//            Companyname.setText(controlList.get(0).getFCONTROL_COM_NAME());
-//            Companyaddress1.setText(controlList.get(0).getFCONTROL_COM_ADD1());
-//            Companyaddress2.setText(controlList.get(0).getFCONTROL_COM_ADD2());
-//            CompanyTele.setText("Tele: " + controlList.get(0).getFCONTROL_COM_TEL1() + " / Fax: " + controlList.get(0).getFCONTROL_COM_FAX());
-//            Companyweb.setText(controlList.get(0).getFCONTROL_COM_WEB());
-//            Companyemail.setText(controlList.get(0).getFCONTROL_COM_EMAIL());
-//
-//            SalRep salrep = new SalRepController(context).getSaleRep(new SalRepController(context).getCurrentRepCode());
-//            SalesRepname.setText(salrep.getREPCODE() + "/ " + salrep.getNAME());
-//            SalesRepPhone.setText("Tele: " + salrep.getMOBILE());
 
             Companyname.setText("H S Marketing Private Limited");
             Companyaddress1.setText("22/2, Rawathawatta Rd, Rawathawatta, Moratuwa. Colombo");
             Companyaddress2.setText("Tel : 0112655024 Fax No : 112655102");
             CompanyTele.setText("Email : wholesales@hameedia.lk");
             Companyweb.setText("VAT Registration No : 114236314-7000");
-            Companyemail.setText("TAX INVOICE");
+
             String repCode = new SalRepController(context).getCurrentRepCode();
             SalRep salRep = new SalRepController(context).getSaleRepDet(repCode);
-
-//        User salrep = SharedPref.getInstance(context).getLoginUser();
-            SalesRepname.setText(salRep.getRepCode() + "/ " + salRep.getNAME());
-            SalesRepPhone.setText("" );
-
-             // if van sale
-
+            SalesRepname.setText("TAX INVOICE");
                 InvHed invhed = new InvHedController(context).getDetailsforPrint(refno);
 
                 ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrint(refno);
-                ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(refno.trim());
 
                 Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
                 outlet = debtor;
@@ -213,38 +175,28 @@ public class VanSalePrintPreviewAlertBox {
                 DebTele.setText(debtor.getCusMob());
                 Debvat.setText("<VAT NO>");
 
-                SalOrdDate.setText("Date: " + invhed.getFINVHED_TXNDATE() + " " + currentTime());
-                Remarks.setText("Remarks: " + invhed.getFINVHED_REMARKS());
-                OrderNo.setText("Ref No: " + refno);
+                SalOrdDate.setText("Invoice No: " + refno);
+                Remarks.setText(salRep.getRepCode() + "/ " + salRep.getNAME());
+                OrderNo.setText("Date: " + invhed.getFINVHED_TXNDATE() + " " + currentTime());
                 txtRoute.setText("<AREA CODE>");
 
-                int qty = 0, fiQty = 0, returnQty = 0;
-                double dDisc = 0, dTotAmt = 0, returnTot = 0;
+                int qty = 0 ;
+                double dDisc = 0, dTotAmt = 0;
 
                 for (InvDet det : list) {
-
-                        qty += Integer.parseInt(det.getFINVDET_QTY());
-                    //            else
-                    //                fiQty += Integer.parseInt(det.getFINVDET_QTY());
-
-                     dDisc += Double.parseDouble(det.getFINVDET_DIS_AMT());
+                    qty += Integer.parseInt(det.getFINVDET_QTY());
+                    dDisc += Double.parseDouble(det.getFINVDET_DIS_AMT());
                     dTotAmt += Double.parseDouble(det.getFINVDET_AMT());
                 }
 
                 lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
-              //  lvReturnDetails = (ListView) promptView.findViewById(R.id.returnList);
                 lvItemDetails.setAdapter(new PrintVanSaleItemAdapter(context, list));
-              //  lvReturnDetails.setAdapter(new PrintVanSaleReturnAdapter(context, Rlist));
-
                 /*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
                 TotalPieceQty.setText(String.valueOf(qty));
-                TotalNetValue.setText(String.format("%,.2f", (dTotAmt-returnTot)));
-                TotalDiscount.setText(String.format("%,.2f", returnTot));
-                txtfiQty.setText(String.valueOf(returnQty));
+                TotalNetValue.setText(String.format("%,.2f", (dTotAmt)));
                 txtTotVal.setText(String.format("%,.2f", dTotAmt));
 
-                localSP = context.getSharedPreferences(SETTINGS, 0);
                 PRINTER_MAC_ID =  new SharedPref(context).getGlobalVal("printer_mac_address").toString();
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
@@ -262,13 +214,8 @@ public class VanSalePrintPreviewAlertBox {
                 AlertDialog alertD = alertDialogBuilder.create();
                 alertD.show();
                 ListExpandHelper.getListViewSize(lvItemDetails);
-               // ListExpandHelper.getListViewSize(lvReturnDetails);
 
                 return 1;
-
-
-
-
         }
         catch (Exception ex)
         {
@@ -276,13 +223,6 @@ public class VanSalePrintPreviewAlertBox {
         }
     }
 
-    public void onCancelClick(DialogInterface dialog, int which) {
-        Intent intent = new Intent(context, DebtorDetailsActivity.class);
-        intent.putExtra("outlet", outlet);
-        //intent.putExtra("sales_order", false);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(intent);
-    }
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -356,22 +296,14 @@ public class VanSalePrintPreviewAlertBox {
 
         String printGapAdjust = "                        ";
 
-        String SalesRepNamestr = "Sales Rep: " + salrep.getRepCode() + "/ " + salrep.getNAME().trim();// +
-        // "/
-        // "
-        // +
-        // salrep.getLOCCODE();
+        String SalesRepNamestr = "<TAX INVOICE>";// +
+      //  String SalesRepNamestr = "Sales Rep: " + salrep.getRepCode() + "/ " + salrep.getNAME().trim();// +
 
         int lengthDealE = SalesRepNamestr.length();
         int lengthDealEB = (LINECHAR - lengthDealE) / 2;
         String printGapAdjustE = printGapAdjust.substring(0, Math.min(lengthDealEB, printGapAdjust.length()));
         String subTitleheadF = printGapAdjustE + SalesRepNamestr;
 
-        String SalesRepPhonestr = "Tele: " ;
-        int lengthDealF = SalesRepPhonestr.length();
-        int lengthDealFB = (LINECHAR - lengthDealF) / 2;
-        String printGapAdjustF = printGapAdjust.substring(0, Math.min(lengthDealFB, printGapAdjust.length()));
-        String subTitleheadG = printGapAdjustF + SalesRepPhonestr;
 
         String subTitleheadH = printLineSeperatorNew;
 
@@ -406,8 +338,6 @@ public class VanSalePrintPreviewAlertBox {
 //            cusVatNo = "TIN No: ".length() + debtor.getFDEBTOR_CUS_VATNO().length();
 //        }
 
-        //int lengthCusTIN = (LINECHAR - cusVatNo) / 2;
-        //String printGapCusTIn = printGapAdjust.substring(0, Math.min(lengthCusTIN, printGapAdjust.length()));
 
         String subTitleheadI = printGapAdjustI + debtor.getCusCode() + "-" + debtor.getCusName();
         String subTitleheadJ = printGapAdjustJ + debtor.getCusAdd1() + "," + debtor.getCusAdd2();
@@ -418,31 +348,23 @@ public class VanSalePrintPreviewAlertBox {
 
         String subTitleheadO = printLineSeperatorNew;
 
-        String subTitleheadM = "VJO Date: " + invHed.getFINVHED_TXNDATE() + " " + currentTime();
+        String subTitleheadM = "" + invHed.getFINVHED_TXNDATE() + " " + currentTime();//date
         int lengthDealM = subTitleheadM.length();
         int lengthDealMB = (LINECHAR - lengthDealM) / 2;
         String printGapAdjustM = printGapAdjust.substring(0, Math.min(lengthDealMB, printGapAdjust.length()));
 
-        String subTitleheadN = "VJO Number: " + PRefno;
+        String subTitleheadN = "" + PRefno;//refno
         int lengthDealN = subTitleheadN.length();
         int lengthDealNB = (LINECHAR - lengthDealN) / 2;
         String printGapAdjustN = printGapAdjust.substring(0, Math.min(lengthDealNB, printGapAdjust.length()));
 
-        // String TempsubTermCode = "Terms: " + invHed.getFINVHED_TERMCODE() +
-        // "/" + new
-        // TermDS(context).getTermDetails(invHed.getFINVHED_TERMCODE());
-        // int lenTerm = TempsubTermCode.length();
-        // String sp = String.format("%" + ((LINECHAR - lenTerm) / 2) + "s", "
-        // ");
-        // TempsubTermCode = sp + "Terms: " + invHed.getFINVHED_TERMCODE() + "/"
-        // + new TermDS(context).getTermDetails(invHed.getFINVHED_TERMCODE());
-
         String subTitleheadR;
-
-        if (invHed.getFINVHED_REMARKS().equals(""))
-            subTitleheadR = "Remarks : None";
-        else
-            subTitleheadR = "Remarks : " + invHed.getFINVHED_REMARKS();
+        String repCode = new SalRepController(context).getCurrentRepCode();
+        SalRep salRep = new SalRepController(context).getSaleRepDet(repCode);
+//        if (invHed.getFINVHED_REMARKS().equals(""))
+//            subTitleheadR = "Remarks : None";
+//        else
+            subTitleheadR = "" + salRep.getRepCode() + "/ " + salRep.getNAME();
 
         int lengthDealR = subTitleheadR.length();
         int lengthDealRB = (LINECHAR - lengthDealR) / 2;
@@ -453,7 +375,7 @@ public class VanSalePrintPreviewAlertBox {
         subTitleheadR = printGapAdjustR + subTitleheadR;
 
         String title_Print_F = "\r\n" + subTitleheadF;
-        String title_Print_G = "\r\n" + subTitleheadG;
+       // String title_Print_G = "\r\n" + subTitleheadG;
         String title_Print_H = "\r\n" + subTitleheadH;
 
         String title_Print_I = "\r\n" + subTitleheadI;
@@ -480,9 +402,9 @@ public class VanSalePrintPreviewAlertBox {
         countCountInv = 0;
 
         if (subTitleheadK.toString().equalsIgnoreCase(" ")) {
-            Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
+            Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
         } else
-            Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
+            Heading_bmh = "\r" + title_Print_F +  title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
 
         String title_cb = "\r\nVARIANT CODE  ARTICLE_NO PRICE      DISC(%) ";
         String title_cc = "\r\nITEM NAME      QTY    DISC.AMT  LINE AMOUNT ";
@@ -501,7 +423,8 @@ public class VanSalePrintPreviewAlertBox {
         }
 
         int nos = 1;
-        String SPACE0, SPACE1, SPACE2, SPACE3, SPACE4, SPACE5, SPACE6;
+        String SPACE1, SPACE2, SPACE3, SPACE4, SPACE5, SPACE6;
+        String SPACE11, SPACE22, SPACE33, SPACE44, SPACE55, SPACE66;
         SPACE6 = "                                            ";
 
         //for (StkIss iss : list) {
@@ -534,12 +457,16 @@ public class VanSalePrintPreviewAlertBox {
             //SPACE0 = String.format("%"+ (44 - (sItemname.length())) +(String.valueOf(nos).length() + 2)+ "s", " ");
             //SPACE1 = String.format("%" + (20 - (sItemcode.length() + (String.valueOf(nos).length() + 2))) + "s", " ");
             SPACE1 = padString("",(20 - (sItemcode.length() + (String.valueOf(nos).length() + 2))));
+            SPACE11 = padString("",(20 - (variantcode.length() + (String.valueOf(nos).length() + 2))));
             //SPACE2 = String.format("%" + (9 - (sPrice.length())) + "s", " ");
             SPACE2 = padString("",(9 - (sPrice.length())));
+            SPACE22 = padString("",(9 - (articleno.length())));
             //SPACE3 = String.format("%" + (3 - (sQty.length())) + "s", " ");
             SPACE3 = padString("",(3 - (sQty.length())));
+            SPACE33 = padString("",(3 - (disper.length())));
             //SPACE4 = String.format("%" + (12 - (sTotal.length())) + "s", " ");
             SPACE4 = padString("",(12 - (sTotal.length())));
+            SPACE44 = padString("",(12 - (sDiscount.length())));
             //SPACE5 = String.format("%" + (String.valueOf(nos).length() + 2) + "s", " ");
             SPACE5 = padString("",(String.valueOf(nos).length() + 2));
 
@@ -564,6 +491,7 @@ public class VanSalePrintPreviewAlertBox {
                         "\r\n" +SPACE5+doubleLineItemName2.trim()+
 
                         "\r\n"+SPACE6+"\r\n";
+                Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
             }
             else
             {
@@ -582,6 +510,8 @@ public class VanSalePrintPreviewAlertBox {
 
 
                         "\r\n"+SPACE6+"\r\n";
+                Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
+
             }
 
             nos++;
@@ -590,13 +520,9 @@ public class VanSalePrintPreviewAlertBox {
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
-		/*-*-*-*-*-*-*-*-*-*-*-*-*-*Return Header*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-        Heading_d = "";
-        String title_da = "\r\nITEM CODE          QTY     PRICE     AMOUNT ";
-        String title_db = "\r\nITEM NAME								   ";
-        String title_dc = "\r\n             RETURN DETAILS                 ";
 
-        Heading_d = "\r\n" + printLineSeperatorNew + title_da + title_db + title_dc+ "\r\n" + printLineSeperatorNew+"\r\n";
+
+
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -613,103 +539,10 @@ public class VanSalePrintPreviewAlertBox {
 
 
         int totReturnQty = 0;
-        Double returnTot = 0.00;
-
-        if(invRHed.getFINVRHED_REFNO() != null) {
-
-            sRetGross = String.format(Locale.US, "%,.2f",
-                    Double.parseDouble(invRHed.getFINVRHED_TOTAL_AMT()));
 
 
-            sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getFINVHED_TOTALAMT()) -  Double.parseDouble(invRHed.getFINVRHED_TOTAL_AMT()));
-        /*-*-*-*-*-*-*-*-*-*-*-*-*-*Individual Return Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-            Heading_e = "";
-            //Return Item Total
-            for (FInvRDet retrnDet1 : Rlist) {
-                totReturnQty += Integer.parseInt(retrnDet1.getFINVRDET_QTY());
-                returnTot += Double.parseDouble(retrnDet1.getFINVRDET_AMT());
-            }
-
-            int retNos = 1;
-
-            for (FInvRDet retrnDet : Rlist) {
-
-                String sRetItemcode = retrnDet.getFINVRDET_ITEMCODE();
-                String sRetItemname = new ItemController(context).getItemNameByCode(sRetItemcode);
-                String sRetQty = retrnDet.getFINVRDET_QTY();
-                // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
-                // - 3);
-
-                String sRetPrice = "", sRetTotal = "";
-
-                sRetTotal = retrnDet.getFINVRDET_AMT();
-                sRetPrice = String.format(Locale.US, "%,.2f",
-                        Double.parseDouble(retrnDet.getFINVRDET_SELL_PRICE()));
-
-                int itemCodeLength = sRetItemcode.length();
-
-                if(itemCodeLength > 15)
-                {
-                    sRetItemcode = sRetItemcode.substring(0,15);
-                }
-
-                //SPACE0 = String.format("%" + (44 - (sRetItemname.length())) + (String.valueOf(retNos).length() + 2) + "s", " ");
-                //SPACE1 = String.format("%" + (20 - (sRetItemcode.length() + (String.valueOf(retNos).length() + 2))) + "s", " ");
-                SPACE1 = padString("",(20 - (sRetItemcode.length() + (String.valueOf(retNos).length() + 2))));
-                //SPACE2 = String.format("%" + (9 - (sRetPrice.length())) + "s", " ");
-                SPACE2 = padString("",(9 - (sRetPrice.length())));
-                //SPACE3 = String.format("%" + (3 - (sRetQty.length())) + "s", " ");
-                SPACE3 = padString("",(3 - (sRetQty.length())));
-                //SPACE4 = String.format("%" + (12 - (sRetTotal.length())) + "s", " ");
-                SPACE4 = padString("",(12 - (sRetTotal.length())));
-                //SPACE5 = String.format("%" + (String.valueOf(retNos).length() + 2) + "s", " ");
-                SPACE5 = padString("",(String.valueOf(retNos).length() + 2));
-
-                String doubleLineItemName1 = "", doubleLineItemName2 = "";
-                int itemNameLength = sRetItemname.length();
-                if (itemNameLength > 40) {
-                    doubleLineItemName1 += sRetItemname.substring(0, 40);
-                    doubleLineItemName2 += sRetItemname.substring(41, sRetItemname.length());
-
-                    Heading_e += retNos + ". " + sRetItemcode + SPACE1
-
-                            // + SPACE2
-                            + sRetQty
-
-                            + SPACE3
-                            + SPACE2
-                            + sRetPrice + SPACE4 + sRetTotal
-                            +
-                            "\r\n" + SPACE5 + doubleLineItemName1.trim() +
-                            "\r\n" + SPACE5 + doubleLineItemName2.trim() +
-
-                            "\r\n"+SPACE6+"\r\n";
-                } else {
-                    doubleLineItemName1 += sRetItemname.substring(0, itemNameLength);
-
-                    Heading_e += retNos + ". " + sRetItemcode + SPACE1
-
-                            //+ SPACE2
-                            + sRetQty
-
-                            + SPACE3
-                            + SPACE2
-                            + sRetPrice + SPACE4 + sRetTotal
-                            +
-                            "\r\n" + SPACE5 + doubleLineItemName1.trim() +
-
-
-                            "\r\n"+SPACE6+"\r\n";
-                }
-
-                retNos++;
-            }
-
-		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
-        }else{
             sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getFINVHED_TOTALAMT()));
-        }
+
 
 
 
@@ -780,34 +613,14 @@ public class VanSalePrintPreviewAlertBox {
         int lengthsummarybottm = summaryBottom_cpoyline1.length();
         int lengthsummarybottmline1 = (LINECHAR - lengthsummarybottm) / 2;
         String printGapbottmline1 = printGapAdjust.substring(0, Math.min(lengthsummarybottmline1, printGapAdjust.length()));
-
-        // String summaryBottom_cpoyline3 = "www.datamation.lk";
-        // int lengthsummarybotline3 = summaryBottom_cpoyline3.length();
-        // int lengthsummarybottmline3 = (LINECHAR - lengthsummarybotline3) / 2;
-        // String printGapbottmline3 = printGapAdjust.substring(0,
-        // Math.min(lengthsummarybottmline3, printGapAdjust.length()));
-
-        // String summaryBottom_cpoyline2 = " +94 11 2 501202 / + 94 (0) 777
-        // 899899 ";
-        // int lengthsummarybotline2 = summaryBottom_cpoyline2.length();
-        // int lengthsummarybottmline2 = (LINECHAR - lengthsummarybotline2) / 2;
-        // String printGapbottmline2 = printGapAdjust.substring(0,
-        // Math.min(lengthsummarybottmline2, printGapAdjust.length()));
-
         String buttomTitlec = "\r\n" + summaryTitle_c_Val;
         String buttomTitled = "\r\n" + summaryTitle_RetVal;
         String buttomTitlee = "\r\n" + summaryTitle_e_Val;
-
-
-
         String buttomTitlef = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Customer               Sales Executive";
 
-        String buttomTitlefa = "\r\n\n\n" + "Please place the rubber stamp.";
+        String buttomTitlefa = "\r\n\n\n" + "All Cheques should be drawn In favour of H S Marketing Private\n" +
+                "Limited & crossed Account Payee Only.";
         String buttomTitlecopyw = "\r\n" + printGapbottmline1 + summaryBottom_cpoyline1;
-        // String buttomTitlecopywbottom = "\r\n" + printGapbottmline2 +
-        // summaryBottom_cpoyline2;
-        // String buttomTitlecopywbottom3 = "\r\n" + printGapbottmline3 +
-        // summaryBottom_cpoyline3;
         buttomRaw = printLineSeperatorNew + buttomTitlea + buttomTitleb + buttomTitlec + buttomTitled + "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
         callPrintDevice();
     }
@@ -846,7 +659,7 @@ public class VanSalePrintPreviewAlertBox {
     private void callPrintDevice() {
         BILL = " ";
 
-        BILL = Heading_a + Heading_bmh + Heading_b + Heading_c + Heading_d + Heading_e + buttomRaw;
+        BILL = Heading_a + Heading_bmh + Heading_b + Heading_c + Heading_d  + buttomRaw;
         Log.v("", "BILL :" + BILL);
         mBTAdapter = BluetoothAdapter.getDefaultAdapter();
 

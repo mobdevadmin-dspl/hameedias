@@ -68,6 +68,7 @@
 
             <TextView
                 android:id="@+id/heademail"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -93,13 +94,15 @@
                 android:maxLines="1"
                 android:text="@string/head_repname"
                 android:textColor="#000000"
-                android:textSize="15dip" />
+                android:textSize="15dip"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/salesrepphone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:maxLines="1"
                 android:text="@string/head_dist_phone"
                 android:textColor="#000000"
@@ -517,6 +520,7 @@
                 <TextView
                     android:id="@+id/printFiQty"
                     android:layout_width="0.0dip"
+                    android:visibility="gone"
                     android:layout_height="fill_parent"
                     android:layout_weight="1.0"
                     android:gravity="right"
@@ -593,6 +597,7 @@
                 <TextView
                     android:id="@+id/printtotaldisamt"
                     android:layout_width="0.0dip"
+                    android:visibility="gone"
                     android:layout_height="fill_parent"
                     android:layout_gravity="right"
                     android:layout_weight="1.0"
@@ -678,7 +683,7 @@
                 android:gravity="left"
                 android:lines="1"
                 android:maxLines="1"
-                android:text="---------------------------------                                  -----------------------------------"
+                android:text="------------------     ---------------------"
                 android:textColor="#000000"
                 android:textSize="15dip" />
 
@@ -688,7 +693,7 @@
                 android:gravity="left"
                 android:lines="1"
                 android:maxLines="1"
-                android:text="          Customer                                                       Sales Executive"
+                android:text="     Customer           Sales Executive     "
                 android:textColor="#000000"
                 android:textSize="15dip" />
 
@@ -698,7 +703,7 @@
                 android:layout_marginTop="25dip"
                 android:gravity="left"
                 android:paddingRight="60dip"
-                android:text="Please Place the Rubber Stamp."
+                android:text="@string/bottomrow"
                 android:textColor="#000000"
                 android:textSize="15dip" />
 
