@@ -806,9 +806,13 @@ public class BRInvoiceDetailFragment extends Fragment{
 //by rashmi 2020/06/22 according to meeting minute(2020/06/17) point 02
         if(new CustomerController(getActivity()).getCustomerVatStatus(mSharedPref.getSelectedDebCode()).trim().equals("VAT")){
             unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
+            //by rashmi 2020/06/23
+            //BSell price get for tax forward, if customer vat, set b sell price reversing tax
             invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", unitprice));
         }else if(new CustomerController(getActivity()).getCustomerVatStatus(mSharedPref.getSelectedDebCode()).trim().equals("NOVAT")){
             unitprice = Double.parseDouble(price);
+            //by rashmi 2020/06/23
+            //if customer novat, pass unit price without reversing tax, but b sell price set reversing tax for use to forward tax
             invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", (unitprice- Double.parseDouble(taxRevValue))));
         }else{
             Toast.makeText(getActivity(),"This customer doesn't have VAT status(VAT?/NOVAT?)",Toast.LENGTH_SHORT).show();
