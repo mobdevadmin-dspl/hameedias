@@ -305,6 +305,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
                         sHed.setFINVHED_TOTQTY(lblQty.getText().toString());
                         sHed.setFINVHED_TOTFREEQTY(iTotFreeQty + "");
                         sHed.setFINVHED_VAT_CODE(invHed.getFINVHED_VAT_CODE());
+                        sHed.setFINVHED_PAYTYPE(invHed.getFINVHED_PAYTYPE());
 
                         invHedList.add(sHed);
 

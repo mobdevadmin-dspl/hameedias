@@ -201,11 +201,12 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
         if (lblInvRefno.getText().length() > 0) {
 
             InvHed hed = new InvHed();
+            hed.setFINVHED_START_TIME_SO(currentTime());
             hed.setFINVHED_REFNO(lblInvRefno.getText().toString());
             hed.setFINVHED_ADDDATE(currnentDate.getText().toString());
             hed.setFINVHED_MANUREF(txtManual.getText().toString());
             hed.setFINVHED_REMARKS(txtRemakrs.getText().toString());
-            hed.setFINVHED_ADDMACH(localSP.getString("MAC_Address", "No MAC Address").toString());
+            hed.setFINVHED_ADDMACH(mSharedPref.getMacAddress());
             hed.setFINVHED_ADDUSER(new SalRepController(getActivity()).getCurrentRepCode());
             hed.setFINVHED_CURCODE("LKR");
             hed.setFINVHED_CURRATE("1.00");
@@ -240,7 +241,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             hed.setFINVHED_ROUTECODE(new SharedPref(getActivity()).getSelectedDebRouteCode());
             hed.setFINVHED_PAYTYPE(new SharedPref(getActivity()).getGlobalVal("KeyPayType"));
             hed.setFINVHED_COSTCODE("");
-            hed.setFINVHED_START_TIME_SO(currentTime());
+
             hed.setFINVHED_VAT_CODE(new SharedPref(getActivity()).getGlobalVal("KeyVat"));
 
 
