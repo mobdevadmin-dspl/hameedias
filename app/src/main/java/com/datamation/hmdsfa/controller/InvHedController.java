@@ -254,8 +254,8 @@ public class InvHedController {
                     //invHed.setFINVHED_ROUTECODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ROUTECODE)));
                     //  invHed.setFINVHED_TOURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOURCODE)));
                     ///  invHed.setFINVHED_AREACODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_AREACODE)));
-                    //invHed.setFINVHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_PAYTYPE)));
-                    //  invHed.setFINVHED_START_TIME_SO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_START_TIME_SO)));
+                    invHed.setFINVHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(FINVHED_PAYTYPE)));
+                      invHed.setFINVHED_START_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_START_TIME_SO)));
                     return invHed;
                 }
 
