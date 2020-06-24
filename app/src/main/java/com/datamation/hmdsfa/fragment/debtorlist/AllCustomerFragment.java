@@ -101,7 +101,7 @@ public class AllCustomerFragment extends Fragment {
                             mSharedPref.clearPref();
                             mSharedPref.setSelectedDebCode(debtor.getCusCode());
                             mSharedPref.setSelectedDebName(debtor.getCusName());
-                            mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode()));
+                            mSharedPref.setSelectedDebRouteCode(new RouteDetController(getActivity()).getRouteCodeByDebCode(new SharedPref(getActivity()).getSelectedDebCode()));
                             mSharedPref.setSelectedDebtorPrilCode(debtor.getCusPrilCode());
                             startActivity(intent);
                             getActivity().finish();

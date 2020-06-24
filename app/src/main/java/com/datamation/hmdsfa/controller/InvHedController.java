@@ -127,7 +127,7 @@ public class InvHedController {
                 values.put(FINVHED_IS_SYNCED, "0");
                 values.put(FINVHED_IS_ACTIVE, invHed.getFINVHED_IS_ACTIVE());
                 values.put(FINVHED_REFNO1, invHed.getFINVHED_REFNO1());
-                // values.put(FINVHED_AREACODE, invHed.getFINVHED_AREACODE());
+                 values.put(FINVHED_AREACODE, invHed.getFINVHED_AREACODE());
                 values.put(FINVHED_ROUTECODE, invHed.getFINVHED_ROUTECODE());
                 values.put(FINVHED_TOURCODE, invHed.getFINVHED_TOURCODE());
                 values.put(FINVHED_PAYTYPE, invHed.getFINVHED_PAYTYPE());
@@ -251,11 +251,11 @@ public class InvHedController {
 //                    invHed.setFINVHED_CUSADD3(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSADD3)));
 //                    invHed.setFINVHED_CUSTELE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSTELE)));
 
-                    //invHed.setFINVHED_ROUTECODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_ROUTECODE)));
+                    invHed.setFINVHED_ROUTECODE(cursor.getString(cursor.getColumnIndex(FINVHED_ROUTECODE)));
                     //  invHed.setFINVHED_TOURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOURCODE)));
-                    ///  invHed.setFINVHED_AREACODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_AREACODE)));
+                    invHed.setFINVHED_AREACODE(cursor.getString(cursor.getColumnIndex(FINVHED_AREACODE)));
                     invHed.setFINVHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(FINVHED_PAYTYPE)));
-                      invHed.setFINVHED_START_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_START_TIME_SO)));
+                    invHed.setFINVHED_START_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_START_TIME_SO)));
                     return invHed;
                 }
 

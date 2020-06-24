@@ -281,8 +281,8 @@ public class BRInvoiceSummaryFragment extends Fragment {
                         sHed.setFINVHED_IS_ACTIVE(invHed.getFINVHED_IS_ACTIVE());
                         sHed.setFINVHED_IS_SYNCED(invHed.getFINVHED_IS_SYNCED());
                         sHed.setFINVHED_LOCCODE(invHed.getFINVHED_LOCCODE());
-                        sHed.setFINVHED_AREACODE(invHed.getFINVHED_AREACODE());
                         sHed.setFINVHED_ROUTECODE(invHed.getFINVHED_ROUTECODE());
+                        sHed.setFINVHED_AREACODE(invHed.getFINVHED_AREACODE());
                         sHed.setFINVHED_COSTCODE(invHed.getFINVHED_COSTCODE());
                         sHed.setFINVHED_TAXREG(invHed.getFINVHED_TAXREG());
                         sHed.setFINVHED_TOURCODE(invHed.getFINVHED_TOURCODE());

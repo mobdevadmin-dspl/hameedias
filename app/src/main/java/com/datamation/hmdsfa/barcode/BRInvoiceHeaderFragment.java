@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.datamation.hmdsfa.controller.InvDetController;
+import com.datamation.hmdsfa.controller.RouteController;
+import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.VATController;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
@@ -235,12 +237,13 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             hed.setFINVHED_IS_SYNCED("0");
             hed.setFINVHED_TOURCODE(new SharedPref(getActivity()).getGlobalVal("KeyTouRef"));
             // hed.setFINVHED_AREACODE(new SharedPref(getActivity()).getGlobalVal("KeyAreaCode"));
-            hed.setFINVHED_AREACODE(SharedPref.getInstance(getActivity()).getSelectedDebName());
+           // hed.setFINVHED_AREACODE(SharedPref.getInstance(getActivity()).getSelectedDebName());
             // hed.setFINVHED_LOCCODE(new SharedPref(getActivity()).getGlobalVal("KeyLocCode"));
             hed.setFINVHED_LOCCODE("MS");
-            hed.setFINVHED_ROUTECODE(new SharedPref(getActivity()).getSelectedDebRouteCode());
+            hed.setFINVHED_ROUTECODE(new RouteDetController(getActivity()).getRouteCodeByDebCode(new SharedPref(getActivity()).getSelectedDebCode()));
             hed.setFINVHED_PAYTYPE(new SharedPref(getActivity()).getGlobalVal("KeyPayType"));
             hed.setFINVHED_COSTCODE("");
+            hed.setFINVHED_AREACODE(new RouteController(getActivity()).getAreaCodeByRouteCode(hed.getFINVHED_ROUTECODE()));
 
             hed.setFINVHED_VAT_CODE(new SharedPref(getActivity()).getGlobalVal("KeyVat"));
 
