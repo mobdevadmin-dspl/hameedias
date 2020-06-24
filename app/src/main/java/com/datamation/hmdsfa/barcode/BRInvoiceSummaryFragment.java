@@ -297,7 +297,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
                         sHed.setFINVHED_LONGITUDE(mSharedPref.getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
                         // sHed.setFINVHED_ADDRESS(localSP.getString("GPS_Address", "").toString());
                         sHed.setFINVHED_TOTALTAX("0");
-                        sHed.setFINVHED_TOTALDIS("0.0");
+                        sHed.setFINVHED_TOTALDIS(lblDiscount.getText().toString());
                         sHed.setFINVHED_TOTALAMT(lblNetVal.getText().toString());
                         sHed.setFINVHED_TXNDATE(invHed.getFINVHED_TXNDATE());
                         sHed.setFINVHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());

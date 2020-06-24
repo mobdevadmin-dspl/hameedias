@@ -919,11 +919,12 @@ public class InvDetController {
             orderDisc.setRefNo(invDet.getFINVDET_REFNO());
             orderDisc.setTxnDate(invDet.getFINVDET_TXN_DATE());
             orderDisc.setItemCode(invDet.getFINVDET_ITEM_CODE());
-            orderDisc.setDisAmt(String.format("%.2f",  invDet.getFINVDET_DIS_AMT()));
+            orderDisc.setDisAmt(String.format("%.2f",  (Double.parseDouble(invDet.getFINVDET_DIS_AMT()))));
 
-            new OrderDiscController(context).UpdateOrderDiscount(orderDisc,  invDet.getFINVDET_DISVALAMT());
-            String amt = String.format(String.format("%.2f", (Double.parseDouble(invDet.getFINVDET_AMT()) - Double.parseDouble(invDet.getFINVDET_DISVALAMT()))));
-            String updateQuery = "UPDATE finvdet SET SchDisPer='" + invDet.getFINVDET_SCHDISPER() + "', DisValAmt='" + invDet.getFINVDET_DISVALAMT() + "', amt='" + amt + "' where Itemcode ='" + invDet.getFINVDET_ITEM_CODE() + "' and RefNo = '"+ invDet.getFINVDET_REFNO()+"'";
+            new OrderDiscController(context).UpdateOrderDiscount(orderDisc,  invDet.getFINVDET_DIS_AMT());
+            double amount = (Double.parseDouble(invDet.getFINVDET_AMT()) - Double.parseDouble(invDet.getFINVDET_DIS_AMT()));
+            String amt = String.format("%.2f", amount);
+            String updateQuery = "UPDATE finvdet SET DisPer='" + invDet.getFINVDET_SCHDISPER() + "', DisAmt='" + invDet.getFINVDET_DIS_AMT() + "', amt='" + amt + "' where Itemcode ='" + invDet.getFINVDET_ITEM_CODE() + "' and RefNo = '"+ invDet.getFINVDET_REFNO()+"'";
             dB.execSQL(updateQuery);
 
         } catch (Exception e) {
