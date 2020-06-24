@@ -315,13 +315,14 @@ public class BRInvoiceSummaryFragment extends Fragment {
                             new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
                             new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
                             new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
-
+                            UpdateTaxDetails(RefNo);//2020-/06/24
                             /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/
                              //commented by rashmi 2020-03-23 till qoh get from fitemloc
-                            //UpdateTaxDetails(RefNo);
+
                            // UpdateQOH_FIFO();
                            // new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
                            // updateDispTables(sHed);
+
                             MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                                     .content("Do you want to get print?")
                                     .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
@@ -370,7 +371,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
     public void UpdateTaxDetails(String refNo) {
         ArrayList<InvDet> list = new InvDetController(activity).getAllInvDet(refNo);
-        new InvDetController(activity).UpdateItemTaxInfo(list);
+        new InvDetController(activity).UpdateItemTax(list);
         new InvTaxRGController(activity).UpdateInvTaxRG(list);
         new InvTaxDTController(activity).UpdateInvTaxDT(list);
     }

@@ -217,12 +217,12 @@ public class BRInvoiceDetailFragment extends Fragment{
             @Override
             public void onClick(View v) {
 
-//                if(new DiscountController(getActivity()).IsDiscountCustomer(mSharedPref.getSelectedDebCode())>0)
-//                {
+                if(new DiscountController(getActivity()).IsDiscountCustomer(mSharedPref.getSelectedDebCode())>0)
+                {
                     new CalculateDiscounts(mSharedPref.getSelectedDebCode()).execute();
-//                }else{
-//                    Toast.makeText(getActivity(),"Discount not allow for this customer",Toast.LENGTH_SHORT).show();
-//                }
+                }else{
+                    Toast.makeText(getActivity(),"Discount not allow for this customer",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -982,14 +982,7 @@ public class BRInvoiceDetailFragment extends Fragment{
             for(InvDet invDet : metaOrdList){
 
                 new InvDetController(getActivity()).updateDiscount(invDet);
-                String disper = invDet.getFINVDET_SCHDISPER();
 
-                String sArray[] = new VATController(getActivity()).calculateTaxForward( mSharedPref.getGlobalVal("KeyVat"), Double.parseDouble(invDet.getFINVDET_B_SELL_PRICE()));
-                String amt = String.format("%.2f",Double.parseDouble(sArray[0])* Double.parseDouble(invDet.getFINVDET_QTY()));
-                String tax = String.format("%.2f",Double.parseDouble(sArray[1])* Double.parseDouble(invDet.getFINVDET_QTY()));
-                String dis = String.format("%.2f",Double.parseDouble( invDet.getFINVDET_DIS_AMT()));
-                String barcode = invDet.getFINVDET_BARCODE();
-                new InvDetController(getActivity()).UpdateItemTaxInfo(tax,amt, RefNo,barcode,dis,disper);
 
             }
 

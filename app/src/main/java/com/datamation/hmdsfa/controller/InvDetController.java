@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.InvDet;
 import com.datamation.hmdsfa.model.OrderDisc;
 
@@ -1060,7 +1061,49 @@ public class InvDetController {
 
 
             /* Update Sales order Header TotalTax */
-            dB.execSQL("UPDATE finvdet SET taxamt='" + taxamt + "', amt='" + amt + "', disamt='"+disamt+"' WHERE refno='" + refno + "' and barcode='"+barcode+"' and DisPer = '"+disper+"'");
+            dB.execSQL("UPDATE finvdet SET taxamt='" + taxamt + "', amt='" + amt + "', disamt='"+disamt+"', DisPer = '"+disper+"' WHERE refno='" + refno + "' and barcode='"+barcode+"' ");
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+
+    }
+//2020/06/24 by rashmi for hameedias
+    public void UpdateItemTax(ArrayList<InvDet> list) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        double totTax = 0, totalAmt = 0;
+
+        try {
+
+            for (InvDet ordDet : list) {
+
+
+                String sArray[] = new VATController(context).calculateTaxForward( new SharedPref(context).getGlobalVal("KeyVat"), Double.parseDouble(ordDet.getFINVDET_B_SELL_PRICE()));
+                String amt = String.format("%.2f",Double.parseDouble(sArray[0])* Double.parseDouble(ordDet.getFINVDET_QTY()));
+                String tax = String.format("%.2f",Double.parseDouble(sArray[1])* Double.parseDouble(ordDet.getFINVDET_QTY()));
+                String dis = String.format("%.2f",Double.parseDouble( ordDet.getFINVDET_DIS_AMT()));
+
+
+                //no need to mega heaters.get only total of tax detail amounts - commented 2018-10-23
+                    // String sArray[] = new TaxDetDS(context).calculateTaxForward(ordDet.getFINVDET_ITEM_CODE(), Double.parseDouble(ordDet.getFINVDET_AMT()));
+
+                    totTax += Double.parseDouble(ordDet.getFINVDET_TAX_AMT());
+                    totalAmt += Double.parseDouble(ordDet.getFINVDET_AMT());
+
+                      String updateQuery = "UPDATE finvdet SET taxamt='" + tax + "', amt='" + amt + "', disamt='"+dis+"', DisPer = '"+ordDet.getFINVDET_SCHDISPER()+"' WHERE Itemcode='" + ordDet.getFINVDET_ITEM_CODE() + "' AND refno='" + ordDet.getFINVDET_REFNO() + "' and barcode='"+ordDet.getFINVDET_BARCODE()+"' ";
+                      dB.execSQL(updateQuery);
+
+            }
+            /* Update Sales order Header TotalTax */
+            dB.execSQL("UPDATE finvhed SET totaltax='" + totTax + "', totalamt='" + totalAmt + "' WHERE refno='" + list.get(0).getFINVDET_REFNO() + "'");
 
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
@@ -1070,6 +1113,7 @@ public class InvDetController {
 
     }
 //change by rashmi -2018-10-23 for mega heaters
+
     public void UpdateItemTaxInfo(ArrayList<InvDet> list) {
 
         if (dB == null) {
