@@ -216,12 +216,13 @@ public class BRInvoiceDetailFragment extends Fragment{
         btnDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(new DiscountController(getActivity()).IsDiscountCustomer(mSharedPref.getSelectedDebCode())>0)
-                {
+
+//                if(new DiscountController(getActivity()).IsDiscountCustomer(mSharedPref.getSelectedDebCode())>0)
+//                {
                     new CalculateDiscounts(mSharedPref.getSelectedDebCode()).execute();
-                }else{
-                    Toast.makeText(getActivity(),"Discount not allow for this customer",Toast.LENGTH_SHORT).show();
-                }
+//                }else{
+//                    Toast.makeText(getActivity(),"Discount not allow for this customer",Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 
