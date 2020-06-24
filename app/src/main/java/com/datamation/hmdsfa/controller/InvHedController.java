@@ -1054,7 +1054,6 @@ public class InvHedController {
             vanSalesMapper.setNextNumVal(new ReferenceController(context).getCurrentNextNumVal(context.getResources().getString(R.string.VanNumVal)));
 
             vanSalesMapper.setDistDB(SharedPref.getInstance(context).getDistDB().trim());
-            vanSalesMapper.setConsoleDB(SharedPref.getInstance(context).getConsoleDB().trim());
 
             vanSalesMapper.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(FINVHED_ID)));
             vanSalesMapper.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));

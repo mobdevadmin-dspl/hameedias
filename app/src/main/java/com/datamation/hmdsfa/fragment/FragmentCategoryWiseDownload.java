@@ -548,7 +548,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     String salespri = "";
                     try {
-                        salespri = networkFunctions.getSalesPrice();
+                        salespri = networkFunctions.getSalesPrice(repcode);
                         // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
                     } catch (IOException e) {
                         e.printStackTrace();

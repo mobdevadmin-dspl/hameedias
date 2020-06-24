@@ -221,7 +221,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
                 hed.setFINVHED_CUSADD2(selectedDebtor.getCusAdd2());
                 hed.setFINVHED_CUSADD3(selectedDebtor.getCusAdd1());
                 //  hed.setFINVHED_CUSTELE(activity.selectedDebtor.getCus);
-                //    hed.setFINVHED_TAXREG(activity.selectedDebtor.getFDEBTOR_TAX_REG());
+                    hed.setFINVHED_TAXREG(selectedDebtor.getTaxreg());
             }else{
                 selectedDebtor  = new CustomerController(getActivity()).getSelectedCustomerByCode(new SharedPref(getActivity()).getSelectedDebCode());
                 hed.setFINVHED_DEBCODE(new SharedPref(getActivity()).getSelectedDebCode());
@@ -229,6 +229,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
                 hed.setFINVHED_CUSADD1(selectedDebtor.getCusAdd1());
                 hed.setFINVHED_CUSADD2(selectedDebtor.getCusAdd2());
                 hed.setFINVHED_CUSADD3(selectedDebtor.getCusAdd1());
+                hed.setFINVHED_TAXREG(selectedDebtor.getTaxreg());
             }
 
             hed.setFINVHED_TXNTYPE("22");

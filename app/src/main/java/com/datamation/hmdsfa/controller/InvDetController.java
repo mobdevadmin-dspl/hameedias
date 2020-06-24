@@ -925,7 +925,7 @@ public class InvDetController {
             new OrderDiscController(context).UpdateOrderDiscount(orderDisc,  invDet.getFINVDET_DIS_AMT());
             double amount = (Double.parseDouble(invDet.getFINVDET_AMT()) - Double.parseDouble(invDet.getFINVDET_DIS_AMT()));
             String amt = String.format("%.2f", amount);
-            String updateQuery = "UPDATE finvdet SET DisPer='" + invDet.getFINVDET_SCHDISPER() + "', DisAmt='" + invDet.getFINVDET_DIS_AMT() + "', amt='" + amt + "' where Itemcode ='" + invDet.getFINVDET_ITEM_CODE() + "' and RefNo = '"+ invDet.getFINVDET_REFNO()+"'";
+            String updateQuery = "UPDATE finvdet SET DisPer='" + invDet.getFINVDET_SCHDISPER() + "', DisAmt='" + invDet.getFINVDET_DIS_AMT() + "', amt='" + amt + "' where Itemcode ='" + invDet.getFINVDET_ITEM_CODE() + "' and RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
             dB.execSQL(updateQuery);
 
         } catch (Exception e) {
@@ -1084,21 +1084,28 @@ public class InvDetController {
         try {
 
             for (InvDet ordDet : list) {
-
+                String amt = "";
 
                 String sArray[] = new VATController(context).calculateTaxForward( new SharedPref(context).getGlobalVal("KeyVat"), Double.parseDouble(ordDet.getFINVDET_B_SELL_PRICE()));
-                String amt = String.format("%.2f",Double.parseDouble(sArray[0])* Double.parseDouble(ordDet.getFINVDET_QTY()));
                 String tax = String.format("%.2f",Double.parseDouble(sArray[1])* Double.parseDouble(ordDet.getFINVDET_QTY()));
                 String dis = String.format("%.2f",Double.parseDouble( ordDet.getFINVDET_DIS_AMT()));
+                if(new SharedPref(context).getGlobalVal("KeyVat").equals("VAT")) {
+                     amt = String.format("%.2f", Double.parseDouble(sArray[0])* Double.parseDouble(ordDet.getFINVDET_QTY()));
+                }else{
+                     amt = String.format("%.2f", Double.parseDouble(ordDet.getFINVDET_AMT()));
+
+                }
+                totalAmt += Double.parseDouble(amt);
+
 
 
                 //no need to mega heaters.get only total of tax detail amounts - commented 2018-10-23
                     // String sArray[] = new TaxDetDS(context).calculateTaxForward(ordDet.getFINVDET_ITEM_CODE(), Double.parseDouble(ordDet.getFINVDET_AMT()));
 
                     totTax += Double.parseDouble(ordDet.getFINVDET_TAX_AMT());
-                    totalAmt += Double.parseDouble(ordDet.getFINVDET_AMT());
 
-                      String updateQuery = "UPDATE finvdet SET taxamt='" + tax + "', amt='" + amt + "', disamt='"+dis+"', DisPer = '"+ordDet.getFINVDET_SCHDISPER()+"' WHERE Itemcode='" + ordDet.getFINVDET_ITEM_CODE() + "' AND refno='" + ordDet.getFINVDET_REFNO() + "' and barcode='"+ordDet.getFINVDET_BARCODE()+"' ";
+
+                      String updateQuery = "UPDATE finvdet SET taxamt='" + tax + "', amt='" + amt + "' WHERE Itemcode='" + ordDet.getFINVDET_ITEM_CODE() + "' AND refno='" + ordDet.getFINVDET_REFNO() + "' and barcode='"+ordDet.getFINVDET_BARCODE()+"' ";
                       dB.execSQL(updateQuery);
 
             }

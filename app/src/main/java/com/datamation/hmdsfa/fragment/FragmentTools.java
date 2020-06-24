@@ -1416,7 +1416,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing SalesPrice
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Salesprice, networkFunctions.getSalesPrices());
+                        UtilityContainer.download(getActivity(),TaskType.Salesprice, networkFunctions.getSalesPrice(repcode));
 
                     } catch (Exception e) {
                         errors.add(e.toString());

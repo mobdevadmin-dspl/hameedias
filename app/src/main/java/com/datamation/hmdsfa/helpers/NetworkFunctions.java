@@ -162,13 +162,13 @@ public class NetworkFunctions {
 
     }
 
-    public String getSalesPrice() throws IOException {
+    public String getSalesPrice(String repCode) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting Salesprice : " + baseURL + "Salesprice" + restOfURL + "/" + params);
+        Log.d(LOG_TAG, "Getting Salesprice : " + baseURL + "Salesprice" + restOfURL + "/"+ repCode + params);
 
-        return getFromServer(baseURL + "Salesprice" + restOfURL , params);
+        return getFromServer(baseURL + "Salesprice" + restOfURL+ "/" + repCode , params);
 
     }
 
@@ -308,14 +308,6 @@ public class NetworkFunctions {
         return getFromServer(baseURL + "freason" + restOfURL, params);
     }
 
-    public String getSalesPrices() throws IOException {
-
-        List<CustomNameValuePair> params = new ArrayList<>();
-
-        Log.d(LOG_TAG, "Getting Salesprice  : " + baseURL + "Salesprice " + restOfURL + params);
-
-        return getFromServer(baseURL + "Salesprice" + restOfURL, params);
-    }
 
     public String getExpenses() throws IOException {
 

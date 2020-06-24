@@ -620,6 +620,7 @@ public class CustomerController {
                 customer.setCusImage(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_IMAGE)));
                 customer.setLatitude(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_LATITUDE)));
                 customer.setLongitude(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_LONGITUDE)));
+                customer.setTaxreg(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_TAX_REG)));
 
                 return customer;
 
