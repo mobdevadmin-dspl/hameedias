@@ -925,7 +925,7 @@ public class InvDetController {
             new OrderDiscController(context).UpdateOrderDiscount(orderDisc,  invDet.getFINVDET_DIS_AMT());
             double amount = (Double.parseDouble(invDet.getFINVDET_AMT()) - Double.parseDouble(invDet.getFINVDET_DIS_AMT()));
             String amt = String.format("%.2f", amount);
-            String updateQuery = "UPDATE finvdet SET DisPer='" + invDet.getFINVDET_SCHDISPER() + "', DisAmt='" + invDet.getFINVDET_DIS_AMT() + "', amt='" + amt + "' where Itemcode ='" + invDet.getFINVDET_ITEM_CODE() + "' and RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
+            String updateQuery = "UPDATE finvdet SET DisPer='" + invDet.getFINVDET_SCHDISPER() + "', DisAmt='" + invDet.getFINVDET_DIS_AMT() + "', amt='" + amt + "', BSellPrice = '"+invDet.getFINVDET_B_SELL_PRICE()+"' where Itemcode ='" + invDet.getFINVDET_ITEM_CODE() + "' and RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
             dB.execSQL(updateQuery);
 
         } catch (Exception e) {

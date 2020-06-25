@@ -48,6 +48,8 @@ import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.DiscountController;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
+import com.datamation.hmdsfa.controller.InvTaxDTController;
+import com.datamation.hmdsfa.controller.InvTaxRGController;
 import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
@@ -221,6 +223,7 @@ public class BRInvoiceDetailFragment extends Fragment{
                 {
                     new CalculateDiscounts(mSharedPref.getSelectedDebCode()).execute();
                 }else{
+                    UpdateTaxDetails(RefNo);
                     Toast.makeText(getActivity(),"Discount not allow for this customer",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -945,6 +948,12 @@ public class BRInvoiceDetailFragment extends Fragment{
         Log.e("BLUETOOTH CONNECTION>>",">>>ERROR");
        // textStatus.setBackgroundResource(R.color.blue_c);
     }
+    public void UpdateTaxDetails(String refNo) {
+        ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(refNo);
+        new InvDetController(getActivity()).UpdateItemTax(list);
+        new InvTaxRGController(getActivity()).UpdateInvTaxRG(list);
+        new InvTaxDTController(getActivity()).UpdateInvTaxDT(list);
+    }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public class CalculateDiscounts extends AsyncTask<Object, Object, Boolean> {
         CustomProgressDialog pdialog;
@@ -981,10 +990,18 @@ public class BRInvoiceDetailFragment extends Fragment{
             for(InvDet invDet : metaOrdList){
 
                 new InvDetController(getActivity()).updateDiscount(invDet);
+                String disper = invDet.getFINVDET_SCHDISPER();
+
+                String sArray[] = new VATController(getActivity()).calculateTaxForward( mSharedPref.getGlobalVal("KeyVat"), Double.parseDouble(invDet.getFINVDET_B_SELL_PRICE()));
+                String amt = String.format("%.2f",Double.parseDouble(sArray[0])* Double.parseDouble(invDet.getFINVDET_QTY()));
+                String tax = String.format("%.2f",Double.parseDouble(sArray[1])* Double.parseDouble(invDet.getFINVDET_QTY()));
+                String dis = String.format("%.2f",Double.parseDouble( invDet.getFINVDET_DIS_AMT()));
+                String barcode = invDet.getFINVDET_BARCODE();
+                new InvDetController(getActivity()).UpdateItemTaxInfo(tax,amt, RefNo,barcode,dis,disper);
+
 
 
             }
-
 
 
 

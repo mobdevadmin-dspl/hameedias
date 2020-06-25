@@ -315,7 +315,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
                             new InvHedController(getActivity()).InactiveStatusUpdate(RefNo);
                             new InvDetController(getActivity()).InactiveStatusUpdate(RefNo);
                             new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.VanNumVal));
-                            UpdateTaxDetails(RefNo);//2020-/06/24
+                          //  UpdateTaxDetails(RefNo);//2020-/06/24
                             /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/
                              //commented by rashmi 2020-03-23 till qoh get from fitemloc
 
