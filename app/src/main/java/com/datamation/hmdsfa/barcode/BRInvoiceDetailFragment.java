@@ -129,6 +129,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         ArrayList<String> strList = new ArrayList<String>();
         strList.add("ITEM WISE");
         strList.add("BUNDLE WISE");
+        clickCount = 0;
 
         final ArrayAdapter<String> txnTypeAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.return_spinner_item, strList);
@@ -143,7 +144,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         etSearchField.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
+                clickCount = 0;
                // Log.v("ENTER CODE","Working.... ");
                 if(spnScanType.getSelectedItemPosition() == 0) {
 //                        .getAllItem(etSearchField.getText().toString());
@@ -219,14 +220,21 @@ public class BRInvoiceDetailFragment extends Fragment{
         btnDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(clickCount == 0) {
 
-                if(new DiscountController(getActivity()).IsDiscountCustomer(mSharedPref.getSelectedDebCode())>0)
-                {
-                    new CalculateDiscounts(mSharedPref.getSelectedDebCode()).execute();
+                    if(new DiscountController(getActivity()).IsDiscountCustomer(mSharedPref.getSelectedDebCode())>0)
+                    {
+                        new CalculateDiscounts(mSharedPref.getSelectedDebCode()).execute();
+                    }else{
+                        UpdateTaxDetails(RefNo);
+                        Toast.makeText(getActivity(),"Discount not allow for this customer",Toast.LENGTH_SHORT).show();
+                    }
+                    clickCount++;
                 }else{
-                    UpdateTaxDetails(RefNo);
-                    Toast.makeText(getActivity(),"Discount not allow for this customer",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Already clicked",Toast.LENGTH_LONG).show();
+                    Log.v("Freeclick Count", mSharedPref.getGlobalVal("preKeyIsFreeClicked"));
                 }
+
             }
         });
 
