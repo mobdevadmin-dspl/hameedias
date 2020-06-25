@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.Discdeb;
 import com.datamation.hmdsfa.model.Disched;
 import com.datamation.hmdsfa.model.Discount;
@@ -253,7 +254,10 @@ public class DiscountController {
                         mTranSODet.setFINVDET_SCHDISPER(discountdets.getProductDis());
                         mTranSODet.setFINVDET_DIS_PER(discountdets.getProductDis());
                         mTranSODet.setFINVDET_DIS_AMT(String.valueOf(discPrice* (Double.parseDouble(mTranSODet.getFINVDET_QTY()))));
+                        if( new SharedPref(context).getGlobalVal("KeyVat").equals("VAT"))
                         mTranSODet.setFINVDET_B_SELL_PRICE(String.valueOf((Double.parseDouble(mTranSODet.getFINVDET_B_SELL_PRICE())) - discPrice));//pass for calculate tax forqow
+                        else
+                        mTranSODet.setFINVDET_B_SELL_PRICE(String.valueOf(Double.parseDouble(mTranSODet.getFINVDET_B_SELL_PRICE())));//pass for calculate tax forqow
                     }else{
                         mTranSODet.setFINVDET_SCHDISPER("0");
                         mTranSODet.setFINVDET_DIS_PER("0");

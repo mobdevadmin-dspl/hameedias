@@ -107,6 +107,7 @@ public class BRInvoiceDetailFragment extends Fragment{
     TextView textStatus;
     EditText etSearchField;
     ThreadConnectBTdevice threadConnectBTdevice;
+    int clickCount = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
