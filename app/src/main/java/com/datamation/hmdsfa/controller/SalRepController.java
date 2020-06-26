@@ -131,6 +131,35 @@ public class SalRepController {
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+    public String getCurrentLoccode() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT " + FSALREP_LOCCODE + " FROM " + TABLE_FSALREP;
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+
+                return cursor.getString(cursor.getColumnIndex(FSALREP_LOCCODE));
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return "";
+    }
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public SalRep getSaleRep(String Repcode) {
 
         if (dB == null) {
