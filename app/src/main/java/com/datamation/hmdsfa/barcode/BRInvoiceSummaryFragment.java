@@ -45,6 +45,7 @@ import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.SalesReturnDetController;
 import com.datamation.hmdsfa.controller.TaxDetController;
+import com.datamation.hmdsfa.helpers.PreSalesResponseListener;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.BarcodenvoiceDet;
 import com.datamation.hmdsfa.model.Control;
@@ -77,6 +78,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
     public static final String SETTINGS = "VanSalesSummary";
     public static SharedPreferences localSP;
     View view;
+    PreSalesResponseListener responseListener;
     TextView lblGross, lblFreeQty, lblDiscount, lblNetVal, lblLines, lblQty;
     SharedPref mSharedPref;
     String RefNo = null,ReturnRefNo = null;
@@ -217,6 +219,10 @@ public class BRInvoiceSummaryFragment extends Fragment {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-Save primary & secondary invoice-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*/
 
     public void mRefreshData() {
+        if (mSharedPref.getDiscountClicked().equals("0")) {
+            responseListener.moveBackToCustomer_pre(1);
+            Toast.makeText(getActivity(), "Please tap on Free Issue Button", Toast.LENGTH_LONG).show();
+        }
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
 
         String orRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
@@ -394,6 +400,11 @@ public class BRInvoiceSummaryFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
+        try {
+            responseListener = (PreSalesResponseListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
+        }
     }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
     private void UpdateQOH_FIFO() {

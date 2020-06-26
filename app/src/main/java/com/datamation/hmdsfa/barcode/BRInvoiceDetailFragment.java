@@ -130,7 +130,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         strList.add("ITEM WISE");
         strList.add("BUNDLE WISE");
         clickCount = 0;
-
+        mSharedPref.setDiscountClicked("0");
         final ArrayAdapter<String> txnTypeAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.return_spinner_item, strList);
         txnTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -145,6 +145,7 @@ public class BRInvoiceDetailFragment extends Fragment{
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 clickCount = 0;
+                mSharedPref.setDiscountClicked("0");
                // Log.v("ENTER CODE","Working.... ");
                 if(spnScanType.getSelectedItemPosition() == 0) {
 //                        .getAllItem(etSearchField.getText().toString());
@@ -220,6 +221,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         btnDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mSharedPref.setDiscountClicked("1");
                 if(clickCount == 0) {
 
                     if(new DiscountController(getActivity()).IsDiscountCustomer(mSharedPref.getSelectedDebCode())>0)
@@ -252,6 +254,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         lv_order_det.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mSharedPref.setDiscountClicked("0");
                 new InvDetController(getActivity()).restFreeIssueData(RefNo);
                 //new OrdFreeIssueDS(getActivity()).ClearFreeIssues(RefNo);
                 newDeleteOrderDialog(position);
