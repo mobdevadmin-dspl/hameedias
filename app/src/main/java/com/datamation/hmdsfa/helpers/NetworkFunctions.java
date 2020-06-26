@@ -273,13 +273,13 @@ public class NetworkFunctions {
         return getFromServer(baseURL + "VanStock" + restOfURL + "/" + repCode, params);
     }
 
-    public String getBarcodeVariant() throws IOException {
+    public String getBarcodeVariant(String repCode) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting barcodevarient : " + baseURL + "barcodevarient" + restOfURL + params);
+        Log.d(LOG_TAG, "Getting barcodevarient : " + baseURL + "barcodevarient" + restOfURL+ "/" + repCode  + params);
 
-        return getFromServer(baseURL + "barcodevarient" + restOfURL, params);
+        return getFromServer(baseURL + "barcodevarient" + restOfURL + "/" + repCode, params);
     }
 
     public String getReferenceSettings() throws IOException {

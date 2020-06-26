@@ -1481,7 +1481,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing Barcode Varient
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Barcodevarient, networkFunctions.getBarcodeVariant());
+                        UtilityContainer.download(getActivity(),TaskType.Barcodevarient, networkFunctions.getBarcodeVariant(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
