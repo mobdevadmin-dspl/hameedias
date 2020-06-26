@@ -593,13 +593,13 @@ public class VanSalePrintPreviewAlertBox {
 
     public void PrintCurrentview() {
          checkPrinter();
-//        if (PRINTER_MAC_ID.equals("404")) {
-//        Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
-//        Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
-//        }
-//        else {
-        printItems();
-   //0      }
+        if (PRINTER_MAC_ID.equals("404")) {
+        Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
+        Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
+        }
+       else {
+         printItems();
+        }
     }
 
 	/*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*/
