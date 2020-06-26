@@ -39,6 +39,8 @@ import com.datamation.hmdsfa.controller.InvoiceBarcodeController;
 import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ProductController;
+import com.datamation.hmdsfa.controller.RouteController;
+import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.SalesReturnDetController;
@@ -511,7 +513,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
         ArrayList<Control> controlList;
         controlList = new CompanyDetailsController(getActivity()).getAllControl();
 
-        SalRep salrep = SharedPref.getInstance(getActivity()).getLoginUser();
+        SalRep salrep = new SalRepController(getActivity()).getSaleRep(new SalRepController(getActivity()).getCurrentRepCode());
 
         int lengthDealACom = controlList.get(0).getFCONTROL_COM_NAME().length();
         int lengthDealABCom = (LINECHAR - lengthDealACom) / 2;
@@ -521,8 +523,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
         int lengthDealBBCom = (LINECHAR - lengthDealBCom) / 2;
         String printGapAdjustBCom = printGapAdjustCom.substring(0, Math.min(lengthDealBBCom, printGapAdjustCom.length()));
 
-        //String addressCCom = controlList.get(0).getFCONTROL_COM_ADD2().trim() + ", " + controlList.get(0).getFCONTROL_COM_ADD3().trim() + ".";
-        String addressCCom = controlList.get(0).getFCONTROL_COM_ADD3().trim() + ".";
+        String addressCCom = controlList.get(0).getFCONTROL_COM_ADD2().trim() + ", " + controlList.get(0).getFCONTROL_COM_ADD3().trim() + ".";
         int lengthDealCCom = addressCCom.length();
         int lengthDealCBCom = (LINECHAR - lengthDealCCom) / 2;
         String printGapAdjustCCom = printGapAdjustCom.substring(0, Math.min(lengthDealCBCom, printGapAdjustCom.length()));
@@ -561,36 +562,26 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
         String printGapAdjust = "                        ";
 
-        String SalesRepNamestr = "Sales Rep: " + salrep.getRepCode() + "/ " + salrep.getNAME().trim();// +
-        // "/
-        // "
-        // +
-        // salrep.getLOCCODE();
+        String SalesRepNamestr = "<TAX INVOICE>";// +
+        //  String SalesRepNamestr = "Sales Rep: " + salrep.getRepCode() + "/ " + salrep.getNAME().trim();// +
 
         int lengthDealE = SalesRepNamestr.length();
         int lengthDealEB = (LINECHAR - lengthDealE) / 2;
         String printGapAdjustE = printGapAdjust.substring(0, Math.min(lengthDealEB, printGapAdjust.length()));
         String subTitleheadF = printGapAdjustE + SalesRepNamestr;
 
-        String SalesRepPhonestr = "Tele: " ;
-        int lengthDealF = SalesRepPhonestr.length();
-        int lengthDealFB = (LINECHAR - lengthDealF) / 2;
-        String printGapAdjustF = printGapAdjust.substring(0, Math.min(lengthDealFB, printGapAdjust.length()));
-        String subTitleheadG = printGapAdjustF + SalesRepPhonestr;
 
         String subTitleheadH = printLineSeperatorNew;
 
         InvHed invHed = new InvHedController(getActivity()).getDetailsforPrint(RefNo);
         FInvRHed invRHed = new SalesReturnController(getActivity()).getDetailsforPrint(RefNo);
-        Customer debtor = new CustomerController(getActivity()).getSelectedCustomerByCode(SharedPref.getInstance(getActivity()).getSelectedDebCode());
+        Customer debtor = new CustomerController(getActivity()).getSelectedCustomerByCode(invHed.getFINVHED_DEBCODE());
 
-        int lengthDealI = debtor.getCusCode().length();
-        // int lengthDealI = debtor.getCusCode().length() + "-".length() + debtor.getCusName().length();
+        int lengthDealI = debtor.getCusCode().length() + "-".length() + debtor.getCusName().length();
         int lengthDealIB = (LINECHAR - lengthDealI) / 2;
         String printGapAdjustI = printGapAdjust.substring(0, Math.min(lengthDealIB, printGapAdjust.length()));
 
-        //String customerAddressStr = debtor.getCusAdd1() + "," + debtor.getCusAdd2();
-        String customerAddressStr = debtor.getCusAdd1() ;
+        String customerAddressStr = debtor.getCusAdd1() + "," + debtor.getCusAdd2();
         int lengthDealJ = customerAddressStr.length();
         int lengthDealJB = (LINECHAR - lengthDealJ) / 2;
         String printGapAdjustJ = printGapAdjust.substring(0, Math.min(lengthDealJB, printGapAdjust.length()));
@@ -613,8 +604,6 @@ public class BRInvoiceSummaryFragment extends Fragment {
 //            cusVatNo = "TIN No: ".length() + debtor.getFDEBTOR_CUS_VATNO().length();
 //        }
 
-        //int lengthCusTIN = (LINECHAR - cusVatNo) / 2;
-        //String printGapCusTIn = printGapAdjust.substring(0, Math.min(lengthCusTIN, printGapAdjust.length()));
 
         String subTitleheadI = printGapAdjustI + debtor.getCusCode() + "-" + debtor.getCusName();
         String subTitleheadJ = printGapAdjustJ + debtor.getCusAdd1() + "," + debtor.getCusAdd2();
@@ -625,42 +614,40 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
         String subTitleheadO = printLineSeperatorNew;
 
-        String subTitleheadM = "VJO Date: " + invHed.getFINVHED_TXNDATE() + " " + currentTime();
+        String subTitleheadM = "" +RefNo ;//date
         int lengthDealM = subTitleheadM.length();
         int lengthDealMB = (LINECHAR - lengthDealM) / 2;
         String printGapAdjustM = printGapAdjust.substring(0, Math.min(lengthDealMB, printGapAdjust.length()));
 
-        String subTitleheadN = "VJO Number: " + RefNo;
+        String subTitleheadN = "" + invHed.getFINVHED_TXNDATE() + " " + currentTime();//refno
         int lengthDealN = subTitleheadN.length();
         int lengthDealNB = (LINECHAR - lengthDealN) / 2;
         String printGapAdjustN = printGapAdjust.substring(0, Math.min(lengthDealNB, printGapAdjust.length()));
 
-        // String TempsubTermCode = "Terms: " + invHed.getFINVHED_TERMCODE() +
-        // "/" + new
-        // TermDS(context).getTermDetails(invHed.getFINVHED_TERMCODE());
-        // int lenTerm = TempsubTermCode.length();
-        // String sp = String.format("%" + ((LINECHAR - lenTerm) / 2) + "s", "
-        // ");
-        // TempsubTermCode = sp + "Terms: " + invHed.getFINVHED_TERMCODE() + "/"
-        // + new TermDS(context).getTermDetails(invHed.getFINVHED_TERMCODE());
-
         String subTitleheadR;
-
-        if (invHed.getFINVHED_REMARKS().equals(""))
-            subTitleheadR = "Remarks : None";
-        else
-            subTitleheadR = "Remarks : " + invHed.getFINVHED_REMARKS();
+        String subTitleheadArea;
+        String repCode = new SalRepController(getActivity()).getCurrentRepCode();
+        SalRep salRep = new SalRepController(getActivity()).getSaleRepDet(repCode);
+//        if (invHed.getFINVHED_REMARKS().equals(""))
+//            subTitleheadR = "Remarks : None";
+//        else
+        subTitleheadR = "" + salRep.getRepCode() + "/ " + salRep.getNAME();
+        String routecode = new RouteDetController(getActivity()).getRouteCodeByDebCode(debtor.getCusCode());
+        subTitleheadArea = ""+new RouteController(getActivity()).getAreaCodeByRouteCode(routecode);
 
         int lengthDealR = subTitleheadR.length();
         int lengthDealRB = (LINECHAR - lengthDealR) / 2;
         String printGapAdjustR = printGapAdjust.substring(0, Math.min(lengthDealRB, printGapAdjust.length()));
-
+        int lengthArea = subTitleheadArea.length();
+        int lengthAreaRB = (LINECHAR - lengthArea) / 2;
+        String printGapAdjustArea = printGapAdjust.substring(0, Math.min(lengthAreaRB, printGapAdjust.length()));
         subTitleheadM = printGapAdjustM + subTitleheadM;
         subTitleheadN = printGapAdjustN + subTitleheadN;
         subTitleheadR = printGapAdjustR + subTitleheadR;
+        subTitleheadArea = printGapAdjustArea + subTitleheadArea;
 
         String title_Print_F = "\r\n" + subTitleheadF;
-        String title_Print_G = "\r\n" + subTitleheadG;
+        // String title_Print_G = "\r\n" + subTitleheadG;
         String title_Print_H = "\r\n" + subTitleheadH;
 
         String title_Print_I = "\r\n" + subTitleheadI;
@@ -670,7 +657,8 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
         String title_Print_M = "\r\n" + subTitleheadM;
         String title_Print_N = "\r\n" + subTitleheadN;
-        String title_Print_R = "\r\n";// + TempsubTermCode + "\r\n" +
+        String title_Print_R = "\r\n" + subTitleheadR;
+        String title_Print_Area = "\r\n" + subTitleheadArea;
         // subTitleheadR;
 
         ArrayList<InvDet> itemList = new InvDetController(getActivity()).getAllItemsforPrint(RefNo);
@@ -687,15 +675,15 @@ public class BRInvoiceSummaryFragment extends Fragment {
         countCountInv = 0;
 
         if (subTitleheadK.toString().equalsIgnoreCase(" ")) {
-            Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
+            Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
         } else
-            Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
+            Heading_bmh = "\r" + title_Print_F +  title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R+title_Print_Area;
 
-        String title_cb = "\r\nITEM CODE          QTY     PRICE     AMOUNT ";
-        String title_cc = "\r\nITEM NAME								   ";
-        String title_cd = "\r\n             INVOICE DETAILS                ";
+        String title_cb = "\r\nVARIANT CODE  ARTICLE_NO PRICE      DISC(%) ";
+        String title_cc = "\r\nITEM NAME      QTY    DISC.AMT  LINE AMOUNT ";
+        // String title_cd = "\r\n             INVOICE DETAILS                ";
 
-        Heading_b = "\r\n" + printLineSeperatorNew + title_cb + title_cc + title_cd+ "\r\n" + printLineSeperatorNew+"\n";
+        Heading_b = "\r\n" + printLineSeperatorNew + title_cb + title_cc + "\r\n" + printLineSeperatorNew+"\n";
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*Individual Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -708,7 +696,8 @@ public class BRInvoiceSummaryFragment extends Fragment {
         }
 
         int nos = 1;
-        String SPACE0, SPACE1, SPACE2, SPACE3, SPACE4, SPACE5, SPACE6;
+        String SPACE1, SPACE2, SPACE3, SPACE4, SPACE5, SPACE6;
+        String SPACE11, SPACE22, SPACE33, SPACE44, SPACE55, SPACE66;
         SPACE6 = "                                            ";
 
         //for (StkIss iss : list) {
@@ -717,6 +706,9 @@ public class BRInvoiceSummaryFragment extends Fragment {
             String sItemcode = det.getFINVDET_ITEM_CODE();
             String sItemname = new ItemController(getActivity()).getItemNameByCode(sItemcode);
             String sQty = det.getFINVDET_QTY();
+            String variantcode = det.getFINVDET_VARIANTCODE();
+            String articleno = det.getFINVDET_ARTICLENO();
+            String disper = det.getFINVDET_DIS_PER();
             // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
             // - 3);
 
@@ -725,12 +717,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
             sTotal = det.getFINVDET_AMT();
             sPrice = det.getFINVDET_SELL_PRICE();
 
-            String sDiscount;
-
-            //sPrice = "";// iss.getPRICE();
-            //sTotal = "";// iss.getAMT();
-            sDiscount = "";// iss.getBrand();
-            sDiscount = det.getFINVDET_DISVALAMT();
+            String sDiscount = det.getFINVDET_DIS_AMT();
 
 
             int itemCodeLength = sItemcode.length();
@@ -743,12 +730,16 @@ public class BRInvoiceSummaryFragment extends Fragment {
             //SPACE0 = String.format("%"+ (44 - (sItemname.length())) +(String.valueOf(nos).length() + 2)+ "s", " ");
             //SPACE1 = String.format("%" + (20 - (sItemcode.length() + (String.valueOf(nos).length() + 2))) + "s", " ");
             SPACE1 = padString("",(20 - (sItemcode.length() + (String.valueOf(nos).length() + 2))));
+            SPACE11 = padString("",(20 - (variantcode.length() + (String.valueOf(nos).length() + 2))));
             //SPACE2 = String.format("%" + (9 - (sPrice.length())) + "s", " ");
             SPACE2 = padString("",(9 - (sPrice.length())));
+            SPACE22 = padString("",(9 - (articleno.length())));
             //SPACE3 = String.format("%" + (3 - (sQty.length())) + "s", " ");
             SPACE3 = padString("",(3 - (sQty.length())));
+            SPACE33 = padString("",(3 - (disper.length())));
             //SPACE4 = String.format("%" + (12 - (sTotal.length())) + "s", " ");
             SPACE4 = padString("",(12 - (sTotal.length())));
+            SPACE44 = padString("",(12 - (sDiscount.length())));
             //SPACE5 = String.format("%" + (String.valueOf(nos).length() + 2) + "s", " ");
             SPACE5 = padString("",(String.valueOf(nos).length() + 2));
 
@@ -760,37 +751,20 @@ public class BRInvoiceSummaryFragment extends Fragment {
                 doubleLineItemName1 += sItemname.substring(0,40);
                 doubleLineItemName2 += sItemname.substring(41,sItemname.length());
 
-                Heading_c += nos + ". " + sItemcode +	SPACE1
-
-                        // + SPACE2
-                        + sQty
-
-                        + SPACE3
-                        +SPACE2
-                        + sPrice +SPACE4+ sTotal
-                        +
-                        "\r\n" +SPACE5+doubleLineItemName1.trim()+
-                        "\r\n" +SPACE5+doubleLineItemName2.trim()+
-
-                        "\r\n"+SPACE6+"\r\n";
+                Heading_c += nos + ". "  + variantcode +SPACE22+articleno +SPACE3+SPACE2+ sPrice +SPACE11 + disper
+                        +"\r\n"+ SPACE5+ sItemcode +SPACE1+ sQty+SPACE33+SPACE44+sDiscount +SPACE4+ sTotal
+                        +"\r\n" +SPACE5+doubleLineItemName1.trim()
+                        +"\r\n" +SPACE5+doubleLineItemName2.trim()+"\r\n\r\n";
+                // Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
             }
             else
             {
                 doubleLineItemName1 += sItemname.substring(0,itemNameLength);
 
-                Heading_c += nos + ". " + sItemcode +	SPACE1
+                Heading_c += nos + ". " + variantcode +SPACE22+articleno +SPACE3+SPACE2+ sPrice +SPACE11 + disper
+                        +"\r\n"+ SPACE5+ sItemcode +SPACE1+ sQty+SPACE33+SPACE44+sDiscount +SPACE4+ sTotal
+                        +"\r\n" +SPACE5+doubleLineItemName1.trim()+"\r\n\r\n";//   Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
 
-                        //+ SPACE2
-                        + sQty
-
-                        + SPACE3
-                        +SPACE2
-                        + sPrice +SPACE4+ sTotal
-                        +
-                        "\r\n" +SPACE5+doubleLineItemName1.trim()+
-
-
-                        "\r\n"+SPACE6+"\r\n";
             }
 
             nos++;
@@ -799,13 +773,9 @@ public class BRInvoiceSummaryFragment extends Fragment {
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
-        /*-*-*-*-*-*-*-*-*-*-*-*-*-*Return Header*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-        Heading_d = "";
-        String title_da = "\r\nITEM CODE          QTY     PRICE     AMOUNT ";
-        String title_db = "\r\nITEM NAME								   ";
-        String title_dc = "\r\n             RETURN DETAILS                 ";
 
-        Heading_d = "\r\n" + printLineSeperatorNew + title_da + title_db + title_dc+ "\r\n" + printLineSeperatorNew+"\r\n";
+
+
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -816,145 +786,27 @@ public class BRInvoiceSummaryFragment extends Fragment {
         // if (invHed.getFINVHED_INV_TYPE().equals("NON")) {
 
 
-        sGross = String.format(Locale.US, "%,.2f",
-                Double.parseDouble(invHed.getFINVHED_TOTALAMT()) +
-                        Double.parseDouble(invHed.getFINVHED_TOTALDIS()));
+//        sGross = ""+( Double.parseDouble(invHed.getFINVHED_TOTALAMT()) +
+//                Double.parseDouble(invHed.getFINVHED_TOTALDIS()));
 
 
-        int totReturnQty = 0;
-        Double returnTot = 0.00;
-
-        if(invRHed.getFINVRHED_REFNO() != null) {
-
-            sRetGross = String.format(Locale.US, "%,.2f",
-                    Double.parseDouble(invRHed.getFINVRHED_TOTAL_AMT()));
+        //   int totReturnQty = 0;
 
 
-            sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getFINVHED_TOTALAMT()) -  Double.parseDouble(invRHed.getFINVRHED_TOTAL_AMT()));
-            /*-*-*-*-*-*-*-*-*-*-*-*-*-*Individual Return Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-            Heading_e = "";
-            //Return Item Total
-            for (FInvRDet retrnDet1 : Rlist) {
-                totReturnQty += Integer.parseInt(retrnDet1.getFINVRDET_QTY());
-                returnTot += Double.parseDouble(retrnDet1.getFINVRDET_AMT());
-            }
+        //     sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getFINVHED_TOTALAMT()));
 
-            int retNos = 1;
-
-            for (FInvRDet retrnDet : Rlist) {
-
-                String sRetItemcode = retrnDet.getFINVRDET_ITEMCODE();
-                String sRetItemname = new ItemController(getActivity()).getItemNameByCode(sRetItemcode);
-                String sRetQty = retrnDet.getFINVRDET_QTY();
-                // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
-                // - 3);
-
-                String sRetPrice = "", sRetTotal = "";
-
-                sRetTotal = retrnDet.getFINVRDET_AMT();
-                sRetPrice = String.format(Locale.US, "%,.2f",
-                        Double.parseDouble(retrnDet.getFINVRDET_SELL_PRICE()));
-
-                int itemCodeLength = sRetItemcode.length();
-
-                if(itemCodeLength > 15)
-                {
-                    sRetItemcode = sRetItemcode.substring(0,15);
-                }
-
-                //SPACE0 = String.format("%" + (44 - (sRetItemname.length())) + (String.valueOf(retNos).length() + 2) + "s", " ");
-                //SPACE1 = String.format("%" + (20 - (sRetItemcode.length() + (String.valueOf(retNos).length() + 2))) + "s", " ");
-                SPACE1 = padString("",(20 - (sRetItemcode.length() + (String.valueOf(retNos).length() + 2))));
-                //SPACE2 = String.format("%" + (9 - (sRetPrice.length())) + "s", " ");
-                SPACE2 = padString("",(9 - (sRetPrice.length())));
-                //SPACE3 = String.format("%" + (3 - (sRetQty.length())) + "s", " ");
-                SPACE3 = padString("",(3 - (sRetQty.length())));
-                //SPACE4 = String.format("%" + (12 - (sRetTotal.length())) + "s", " ");
-                SPACE4 = padString("",(12 - (sRetTotal.length())));
-                //SPACE5 = String.format("%" + (String.valueOf(retNos).length() + 2) + "s", " ");
-                SPACE5 = padString("",(String.valueOf(retNos).length() + 2));
-
-                String doubleLineItemName1 = "", doubleLineItemName2 = "";
-                int itemNameLength = sRetItemname.length();
-                if (itemNameLength > 40) {
-                    doubleLineItemName1 += sRetItemname.substring(0, 40);
-                    doubleLineItemName2 += sRetItemname.substring(41, sRetItemname.length());
-
-                    Heading_e += retNos + ". " + sRetItemcode + SPACE1
-
-                            // + SPACE2
-                            + sRetQty
-
-                            + SPACE3
-                            + SPACE2
-                            + sRetPrice + SPACE4 + sRetTotal
-                            +
-                            "\r\n" + SPACE5 + doubleLineItemName1.trim() +
-                            "\r\n" + SPACE5 + doubleLineItemName2.trim() +
-
-                            "\r\n"+SPACE6+"\r\n";
-                } else {
-                    doubleLineItemName1 += sRetItemname.substring(0, itemNameLength);
-
-                    Heading_e += retNos + ". " + sRetItemcode + SPACE1
-
-                            //+ SPACE2
-                            + sRetQty
-
-                            + SPACE3
-                            + SPACE2
-                            + sRetPrice + SPACE4 + sRetTotal
-                            +
-                            "\r\n" + SPACE5 + doubleLineItemName1.trim() +
-
-
-                            "\r\n"+SPACE6+"\r\n";
-                }
-
-                retNos++;
-            }
-
-            /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
-        }else{
-            sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getFINVHED_TOTALAMT()));
-        }
 
 
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-Discounts*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         //  BigDecimal TotalAmt = new BigDecimal(Double.parseDouble(invHed.getFINVHED_TOTALAMT()) + Double.parseDouble(invHed.getFINVHED_TOTALDIS()));
-        BigDecimal TotalAmt = new BigDecimal(Double.parseDouble(invHed.getFINVHED_TOTALAMT()));
+        //   BigDecimal TotalAmt = new BigDecimal(Double.parseDouble(invHed.getFINVHED_TOTALAMT()));
 
-        String sComDisc, sCusdisc = "0", sTermDisc = "0";
+        String sComDisc, sCusdisc = "0", sTermDisc = "0", totDiscount = "0.00";
         String fullDisc_String = "";
 
-        if (compDisc.doubleValue() > 0) {
-            // sComDisc = String.format(Locale.US, "%,.2f", (TotalAmt.divide(new
-            // BigDecimal("100"))).multiply(compDisc));
-            TotalAmt = TotalAmt.divide(new BigDecimal("100")).multiply(new BigDecimal("100").subtract(compDisc));
-            sGross = String.format(Locale.US, "%,.2f", TotalAmt);
-            // space = String.format("%" + (LINECHAR -
-            // (" Company Discount @ ".length() + compDisc.toString().length()
-            // + "%".length() + sComDisc.length())) + "s", " ");
-            // fullDisc_String += " Company Discount @ " + compDisc.toString()
-            // + "%" + space + sComDisc + "\r\n";
-        }
 
-        if (cusDisc.doubleValue() > 0) {
-            sCusdisc = String.format(Locale.US, "%,.2f", (TotalAmt.divide(new BigDecimal("100"))).multiply(cusDisc));
-            TotalAmt = TotalAmt.divide(new BigDecimal("100")).multiply(new BigDecimal("100").subtract(cusDisc));
-            space = String.format("%" + (LINECHAR - ("   Customer Discount @ ".length() + cusDisc.toString().length() + "%".length() + sCusdisc.length())) + "s", " ");
-            fullDisc_String += "   Customer Discount @ " + cusDisc.toString() + "%" + space + sCusdisc + "\r\n";
-        }
-
-        if (termDisc.doubleValue() > 0) {
-            sTermDisc = String.format(Locale.US, "%,.2f", (TotalAmt.divide(new BigDecimal("100"))).multiply(termDisc));
-            TotalAmt = TotalAmt.divide(new BigDecimal("100")).multiply(new BigDecimal("100").subtract(termDisc));
-            space = String.format("%" + (LINECHAR - ("   Term Discount @ ".length() + termDisc.toString().length() + "%".length() + sTermDisc.length())) + "s", " ");
-            fullDisc_String += "   Term Discount @ " + termDisc.toString() + "%" + space + sTermDisc + "\r\n";
-        }
 
         String sDisc = String.format(Locale.US, "%,.2f", Double.parseDouble(sTermDisc.replace(",", "")) + Double.parseDouble(sCusdisc.replace(",", "")));
 
@@ -969,15 +821,15 @@ public class BRInvoiceSummaryFragment extends Fragment {
         String buttomTitlea = "\r\n\n\n" + "Total Quantity" + space + String.valueOf(totQty);
 
         //Total Return Item Qty
-        space = String.format("%" + (LINECHAR - ("Total Return Quantity".length() + String.valueOf(totReturnQty).length())) + "s", " ");
-        String buttomTitleb = "\r\n"+"Total Return Quantity" + space + String.valueOf(totReturnQty);
+//        space = String.format("%" + (LINECHAR - ("Total Discount".length() + String.valueOf(totDiscount).length())) + "s", " ");
+//        String buttomTitleb = "\r\n"+"Total Return Quantity" + space + String.valueOf(totDiscount);
 
         /* print gross amount */
         space = String.format("%" + (LINECHAR - ("Total Value".length() + sGross.length())) + "s", " ");
         String summaryTitle_c_Val = "Total Value" + space + sGross;
 
-        space = String.format("%" + (LINECHAR - ("Total Return Value".length() + sRetGross.length())) + "s", " ");
-        String summaryTitle_RetVal = "Total Return Value" + space + sRetGross;
+        space = String.format("%" + (LINECHAR - ("Total Discount Value".length() + sRetGross.length())) + "s", " ");
+        String summaryTitle_RetVal = "Total Discount Value" + space + sRetGross;
 
         /* print net total */
         space = String.format("%" + (LINECHAR - ("Net Total".length() + sNetTot.length())) + "s", " ");
@@ -989,35 +841,15 @@ public class BRInvoiceSummaryFragment extends Fragment {
         int lengthsummarybottm = summaryBottom_cpoyline1.length();
         int lengthsummarybottmline1 = (LINECHAR - lengthsummarybottm) / 2;
         String printGapbottmline1 = printGapAdjust.substring(0, Math.min(lengthsummarybottmline1, printGapAdjust.length()));
-
-        // String summaryBottom_cpoyline3 = "www.datamation.lk";
-        // int lengthsummarybotline3 = summaryBottom_cpoyline3.length();
-        // int lengthsummarybottmline3 = (LINECHAR - lengthsummarybotline3) / 2;
-        // String printGapbottmline3 = printGapAdjust.substring(0,
-        // Math.min(lengthsummarybottmline3, printGapAdjust.length()));
-
-        // String summaryBottom_cpoyline2 = " +94 11 2 501202 / + 94 (0) 777
-        // 899899 ";
-        // int lengthsummarybotline2 = summaryBottom_cpoyline2.length();
-        // int lengthsummarybottmline2 = (LINECHAR - lengthsummarybotline2) / 2;
-        // String printGapbottmline2 = printGapAdjust.substring(0,
-        // Math.min(lengthsummarybottmline2, printGapAdjust.length()));
-
         String buttomTitlec = "\r\n" + summaryTitle_c_Val;
         String buttomTitled = "\r\n" + summaryTitle_RetVal;
         String buttomTitlee = "\r\n" + summaryTitle_e_Val;
-
-
-
         String buttomTitlef = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Customer               Sales Executive";
 
-        String buttomTitlefa = "\r\n\n\n" + "Please place the rubber stamp.";
+        String buttomTitlefa = "\r\n\n\n" + "All Cheques should be drawn In favour of H S Marketing Private\n" +
+                "Limited & crossed Account Payee Only.";
         String buttomTitlecopyw = "\r\n" + printGapbottmline1 + summaryBottom_cpoyline1;
-        // String buttomTitlecopywbottom = "\r\n" + printGapbottmline2 +
-        // summaryBottom_cpoyline2;
-        // String buttomTitlecopywbottom3 = "\r\n" + printGapbottmline3 +
-        // summaryBottom_cpoyline3;
-        buttomRaw = printLineSeperatorNew + buttomTitlea + buttomTitleb + buttomTitlec + buttomTitled + "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
+        buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec  + "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
         callPrintDevice();
     }
     public static String padString(String str, int leng) {
