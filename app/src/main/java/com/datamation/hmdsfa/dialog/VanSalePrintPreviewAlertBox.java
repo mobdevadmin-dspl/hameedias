@@ -30,6 +30,8 @@ import com.datamation.hmdsfa.controller.InvHedController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.OrderController;
 import com.datamation.hmdsfa.controller.OrderDetailController;
+import com.datamation.hmdsfa.controller.RouteController;
+import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.SalesReturnDetController;
@@ -348,31 +350,37 @@ public class VanSalePrintPreviewAlertBox {
 
         String subTitleheadO = printLineSeperatorNew;
 
-        String subTitleheadM = "" + invHed.getFINVHED_TXNDATE() + " " + currentTime();//date
+        String subTitleheadM = "" +PRefno ;//date
         int lengthDealM = subTitleheadM.length();
         int lengthDealMB = (LINECHAR - lengthDealM) / 2;
         String printGapAdjustM = printGapAdjust.substring(0, Math.min(lengthDealMB, printGapAdjust.length()));
 
-        String subTitleheadN = "" + PRefno;//refno
+        String subTitleheadN = "" + invHed.getFINVHED_TXNDATE() + " " + currentTime();//refno
         int lengthDealN = subTitleheadN.length();
         int lengthDealNB = (LINECHAR - lengthDealN) / 2;
         String printGapAdjustN = printGapAdjust.substring(0, Math.min(lengthDealNB, printGapAdjust.length()));
 
         String subTitleheadR;
+        String subTitleheadArea;
         String repCode = new SalRepController(context).getCurrentRepCode();
         SalRep salRep = new SalRepController(context).getSaleRepDet(repCode);
 //        if (invHed.getFINVHED_REMARKS().equals(""))
 //            subTitleheadR = "Remarks : None";
 //        else
             subTitleheadR = "" + salRep.getRepCode() + "/ " + salRep.getNAME();
+            String routecode = new RouteDetController(context).getRouteCodeByDebCode(debtor.getCusCode());
+            subTitleheadArea = ""+new RouteController(context).getAreaCodeByRouteCode(routecode);
 
         int lengthDealR = subTitleheadR.length();
         int lengthDealRB = (LINECHAR - lengthDealR) / 2;
         String printGapAdjustR = printGapAdjust.substring(0, Math.min(lengthDealRB, printGapAdjust.length()));
-
+        int lengthArea = subTitleheadArea.length();
+        int lengthAreaRB = (LINECHAR - lengthArea) / 2;
+        String printGapAdjustArea = printGapAdjust.substring(0, Math.min(lengthAreaRB, printGapAdjust.length()));
         subTitleheadM = printGapAdjustM + subTitleheadM;
         subTitleheadN = printGapAdjustN + subTitleheadN;
         subTitleheadR = printGapAdjustR + subTitleheadR;
+        subTitleheadArea = printGapAdjustArea + subTitleheadArea;
 
         String title_Print_F = "\r\n" + subTitleheadF;
        // String title_Print_G = "\r\n" + subTitleheadG;
@@ -385,7 +393,8 @@ public class VanSalePrintPreviewAlertBox {
 
         String title_Print_M = "\r\n" + subTitleheadM;
         String title_Print_N = "\r\n" + subTitleheadN;
-        String title_Print_R = "\r\n";// + TempsubTermCode + "\r\n" +
+        String title_Print_R = "\r\n" + subTitleheadR;
+        String title_Print_Area = "\r\n" + subTitleheadArea;
         // subTitleheadR;
 
         ArrayList<InvDet> itemList = new InvDetController(context).getAllItemsforPrint(PRefno);
@@ -404,13 +413,13 @@ public class VanSalePrintPreviewAlertBox {
         if (subTitleheadK.toString().equalsIgnoreCase(" ")) {
             Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
         } else
-            Heading_bmh = "\r" + title_Print_F +  title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
+            Heading_bmh = "\r" + title_Print_F +  title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R+title_Print_Area;
 
         String title_cb = "\r\nVARIANT CODE  ARTICLE_NO PRICE      DISC(%) ";
         String title_cc = "\r\nITEM NAME      QTY    DISC.AMT  LINE AMOUNT ";
-        String title_cd = "\r\n             INVOICE DETAILS                ";
+       // String title_cd = "\r\n             INVOICE DETAILS                ";
 
-        Heading_b = "\r\n" + printLineSeperatorNew + title_cb + title_cc + title_cd+ "\r\n" + printLineSeperatorNew+"\n";
+        Heading_b = "\r\n" + printLineSeperatorNew + title_cb + title_cc + "\r\n" + printLineSeperatorNew+"\n";
 
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*Individual Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -478,39 +487,19 @@ public class VanSalePrintPreviewAlertBox {
                 doubleLineItemName1 += sItemname.substring(0,40);
                 doubleLineItemName2 += sItemname.substring(41,sItemname.length());
 
-                Heading_c += nos + ". " + sItemcode +	SPACE1
-
-                       // + SPACE2
-                        + sQty
-
-                        + SPACE3
-                        +SPACE2
-                        + sPrice +SPACE4+ sTotal
-                        +
-                        "\r\n" +SPACE5+doubleLineItemName1.trim()+
-                        "\r\n" +SPACE5+doubleLineItemName2.trim()+
-
-                        "\r\n"+SPACE6+"\r\n";
-                Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
+                Heading_c += nos + ". "  + variantcode +SPACE22+articleno +SPACE3+SPACE2+ sPrice +SPACE11 + disper
+                                +"\r\n"+ SPACE5+ sItemcode +SPACE1+ sQty+SPACE33+SPACE44+sDiscount +SPACE4+ sTotal
+                                +"\r\n" +SPACE5+doubleLineItemName1.trim()
+                                +"\r\n" +SPACE5+doubleLineItemName2.trim()+"\r\n\r\n";
+               // Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
             }
             else
             {
                 doubleLineItemName1 += sItemname.substring(0,itemNameLength);
 
-                Heading_c += nos + ". " + sItemcode +	SPACE1
-
-                        //+ SPACE2
-                        + sQty
-
-                        + SPACE3
-                        +SPACE2
-                        + sPrice +SPACE4+ sTotal
-                        +
-                        "\r\n" +SPACE5+doubleLineItemName1.trim()+
-
-
-                        "\r\n"+SPACE6+"\r\n";
-                Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
+                Heading_c += nos + ". " + variantcode +SPACE22+articleno +SPACE3+SPACE2+ sPrice +SPACE11 + disper
+                        +"\r\n"+ SPACE5+ sItemcode +SPACE1+ sQty+SPACE33+SPACE44+sDiscount +SPACE4+ sTotal
+                        +"\r\n" +SPACE5+doubleLineItemName1.trim()+"\r\n\r\n";//   Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
 
             }
 
@@ -533,15 +522,14 @@ public class VanSalePrintPreviewAlertBox {
         // if (invHed.getFINVHED_INV_TYPE().equals("NON")) {
 
 
-        sGross = String.format(Locale.US, "%,.2f",
-        Double.parseDouble(invHed.getFINVHED_TOTALAMT()) +
-        Double.parseDouble(invHed.getFINVHED_TOTALDIS()));
+//        sGross = ""+( Double.parseDouble(invHed.getFINVHED_TOTALAMT()) +
+//                Double.parseDouble(invHed.getFINVHED_TOTALDIS()));
 
 
-        int totReturnQty = 0;
+     //   int totReturnQty = 0;
 
 
-            sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getFINVHED_TOTALAMT()));
+       //     sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getFINVHED_TOTALAMT()));
 
 
 
@@ -549,36 +537,12 @@ public class VanSalePrintPreviewAlertBox {
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-Discounts*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
       //  BigDecimal TotalAmt = new BigDecimal(Double.parseDouble(invHed.getFINVHED_TOTALAMT()) + Double.parseDouble(invHed.getFINVHED_TOTALDIS()));
-        BigDecimal TotalAmt = new BigDecimal(Double.parseDouble(invHed.getFINVHED_TOTALAMT()));
+     //   BigDecimal TotalAmt = new BigDecimal(Double.parseDouble(invHed.getFINVHED_TOTALAMT()));
 
-        String sComDisc, sCusdisc = "0", sTermDisc = "0";
+        String sComDisc, sCusdisc = "0", sTermDisc = "0", totDiscount = "0.00";
         String fullDisc_String = "";
 
-        if (compDisc.doubleValue() > 0) {
-            // sComDisc = String.format(Locale.US, "%,.2f", (TotalAmt.divide(new
-            // BigDecimal("100"))).multiply(compDisc));
-            TotalAmt = TotalAmt.divide(new BigDecimal("100")).multiply(new BigDecimal("100").subtract(compDisc));
-            sGross = String.format(Locale.US, "%,.2f", TotalAmt);
-            // space = String.format("%" + (LINECHAR -
-            // (" Company Discount @ ".length() + compDisc.toString().length()
-            // + "%".length() + sComDisc.length())) + "s", " ");
-            // fullDisc_String += " Company Discount @ " + compDisc.toString()
-            // + "%" + space + sComDisc + "\r\n";
-        }
 
-        if (cusDisc.doubleValue() > 0) {
-            sCusdisc = String.format(Locale.US, "%,.2f", (TotalAmt.divide(new BigDecimal("100"))).multiply(cusDisc));
-            TotalAmt = TotalAmt.divide(new BigDecimal("100")).multiply(new BigDecimal("100").subtract(cusDisc));
-            space = String.format("%" + (LINECHAR - ("   Customer Discount @ ".length() + cusDisc.toString().length() + "%".length() + sCusdisc.length())) + "s", " ");
-            fullDisc_String += "   Customer Discount @ " + cusDisc.toString() + "%" + space + sCusdisc + "\r\n";
-        }
-
-        if (termDisc.doubleValue() > 0) {
-            sTermDisc = String.format(Locale.US, "%,.2f", (TotalAmt.divide(new BigDecimal("100"))).multiply(termDisc));
-            TotalAmt = TotalAmt.divide(new BigDecimal("100")).multiply(new BigDecimal("100").subtract(termDisc));
-            space = String.format("%" + (LINECHAR - ("   Term Discount @ ".length() + termDisc.toString().length() + "%".length() + sTermDisc.length())) + "s", " ");
-            fullDisc_String += "   Term Discount @ " + termDisc.toString() + "%" + space + sTermDisc + "\r\n";
-        }
 
         String sDisc = String.format(Locale.US, "%,.2f", Double.parseDouble(sTermDisc.replace(",", "")) + Double.parseDouble(sCusdisc.replace(",", "")));
 
@@ -593,15 +557,15 @@ public class VanSalePrintPreviewAlertBox {
         String buttomTitlea = "\r\n\n\n" + "Total Quantity" + space + String.valueOf(totQty);
 
         //Total Return Item Qty
-        space = String.format("%" + (LINECHAR - ("Total Return Quantity".length() + String.valueOf(totReturnQty).length())) + "s", " ");
-        String buttomTitleb = "\r\n"+"Total Return Quantity" + space + String.valueOf(totReturnQty);
+//        space = String.format("%" + (LINECHAR - ("Total Discount".length() + String.valueOf(totDiscount).length())) + "s", " ");
+//        String buttomTitleb = "\r\n"+"Total Return Quantity" + space + String.valueOf(totDiscount);
 
 		/* print gross amount */
         space = String.format("%" + (LINECHAR - ("Total Value".length() + sGross.length())) + "s", " ");
         String summaryTitle_c_Val = "Total Value" + space + sGross;
 
-        space = String.format("%" + (LINECHAR - ("Total Return Value".length() + sRetGross.length())) + "s", " ");
-        String summaryTitle_RetVal = "Total Return Value" + space + sRetGross;
+        space = String.format("%" + (LINECHAR - ("Total Discount Value".length() + sRetGross.length())) + "s", " ");
+        String summaryTitle_RetVal = "Total Discount Value" + space + sRetGross;
 
 		/* print net total */
         space = String.format("%" + (LINECHAR - ("Net Total".length() + sNetTot.length())) + "s", " ");
@@ -621,7 +585,7 @@ public class VanSalePrintPreviewAlertBox {
         String buttomTitlefa = "\r\n\n\n" + "All Cheques should be drawn In favour of H S Marketing Private\n" +
                 "Limited & crossed Account Payee Only.";
         String buttomTitlecopyw = "\r\n" + printGapbottmline1 + summaryBottom_cpoyline1;
-        buttomRaw = printLineSeperatorNew + buttomTitlea + buttomTitleb + buttomTitlec + buttomTitled + "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
+        buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec  + "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
         callPrintDevice();
     }
 
@@ -629,13 +593,13 @@ public class VanSalePrintPreviewAlertBox {
 
     public void PrintCurrentview() {
          checkPrinter();
-        if (PRINTER_MAC_ID.equals("404")) {
-        Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
-        Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
-        }
-        else {
+//        if (PRINTER_MAC_ID.equals("404")) {
+//        Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
+//        Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
+//        }
+//        else {
         printItems();
-         }
+   //0      }
     }
 
 	/*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*/
@@ -660,7 +624,7 @@ public class VanSalePrintPreviewAlertBox {
         BILL = " ";
 
         BILL = Heading_a + Heading_bmh + Heading_b + Heading_c + Heading_d  + buttomRaw;
-        Log.v("", "BILL :" + BILL);
+        Log.d("BILL>>>", "BILL >>>:" + BILL);
         mBTAdapter = BluetoothAdapter.getDefaultAdapter();
 
         try {
@@ -704,6 +668,7 @@ public class VanSalePrintPreviewAlertBox {
                 mBTAdapter.cancelDiscovery();
         } catch (Exception e) {
             android.widget.Toast.makeText(context, "Printer Device Disable Or Invalid MAC.Please Enable the Printer or MAC Address.", android.widget.Toast.LENGTH_LONG).show();
+            Log.d(">>>BILL",">>>"+BILL);
             e.printStackTrace();
             this.PrintDetailsDialogbox(context, "", PRefno);
         }
