@@ -919,5 +919,38 @@ public class NetworkFunctions {
         }
         return false;
     }
+    public static boolean mHttpManagerInvoice(String url, String sJsonObject) throws Exception {
+        Log.v(url + "## Json ##", sJsonObject);
+        HttpPost requestfDam = new HttpPost(url);
+        StringEntity entityfDam = new StringEntity(sJsonObject, "UTF-8");
+        entityfDam.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        entityfDam.setContentType("application/json");
+        requestfDam.setEntity(entityfDam);
+        DefaultHttpClient httpClientfDamRec = new DefaultHttpClient();
+
+        HttpResponse responsefDamRec = httpClientfDamRec.execute(requestfDam);
+        HttpEntity entityfDamEntity = responsefDamRec.getEntity();
+        InputStream is = entityfDamEntity.getContent();
+        try {
+            if (is != null) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+
+                is.close();
+                String result = sb.toString();
+                String result_fDamRec = result.replace("\"", "");
+                Log.e("response", "connect:" + result_fDamRec);
+                if (result_fDamRec.trim().equals("202"))
+                    return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

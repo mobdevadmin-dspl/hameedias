@@ -59,7 +59,7 @@ public class UploadVanSales extends AsyncTask<ArrayList<InvHed>, Integer, ArrayL
                 List.add(sJsonHed);
                 // String sURL = URL + context.getResources().getString(R.string.ConnectionURL) + "/insertFInvHed";
                 //boolean bStatus = UtilityContainer.mHttpManager(sURL, new Gson().toJson(c));
-                boolean bStatus = NetworkFunctions.mHttpManager(networkFunctions.syncInvoice(),List.toString());
+                boolean bStatus = NetworkFunctions.mHttpManagerInvoice(networkFunctions.syncInvoice(),List.toString());
 
                 if (bStatus)
                     c.setFINVHED_IS_SYNCED("1");

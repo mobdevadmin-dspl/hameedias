@@ -33,9 +33,10 @@ public class SalRepController {
     public static final String FSALREP_PREFIX = "prefix";
     public static final String FSALREP_PASSWORD = "password";
     public static final String FSALREP_EMAIL = "email";
+    public static final String FSALREP_LOCCODE = "loccode";
     // create String
     public static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + DatabaseHelper.REPCODE + " TEXT, "+ FSALREP_NAME + " TEXT, "+ FSALREP_PASSWORD + " TEXT, " +FSALREP_EMAIL + " TEXT, " + FSALREP_PREFIX + " TEXT, "
+            + FSALREP_LOCCODE + " TEXT, "     + DatabaseHelper.REPCODE + " TEXT, "+ FSALREP_NAME + " TEXT, "+ FSALREP_PASSWORD + " TEXT, " +FSALREP_EMAIL + " TEXT, " + FSALREP_PREFIX + " TEXT, "
             + FSALREP_MACID + " TEXT); ";
 
     public SalRepController(Context context) {
@@ -73,6 +74,7 @@ public class SalRepController {
                 values.put(FSALREP_PASSWORD, rep.getPASSWORD());
                 values.put(DatabaseHelper.REPCODE, rep.getRepCode());
                 values.put(FSALREP_MACID, rep.getMACID());
+                values.put(FSALREP_LOCCODE, rep.getCurrentVanLoc());
 
 
                 if (cursor.getCount() > 0) {
@@ -155,6 +157,7 @@ public class SalRepController {
                 newRep.setRepCode(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
                 newRep.setEMAIL(cursor.getString(cursor.getColumnIndex(FSALREP_EMAIL)));
                 newRep.setPASSWORD(cursor.getString(cursor.getColumnIndex(FSALREP_PASSWORD)));
+                newRep.setCurrentVanLoc(cursor.getString(cursor.getColumnIndex(FSALREP_LOCCODE)));
 
             }
 
@@ -214,6 +217,7 @@ public class SalRepController {
                 newRep.setPREFIX(curRep.getString(curRep.getColumnIndex(FSALREP_PREFIX)));
                 newRep.setRepCode(curRep.getString(curRep.getColumnIndex(DatabaseHelper.REPCODE)));
                 newRep.setMACID(curRep.getString(curRep.getColumnIndex(FSALREP_MACID)));
+                newRep.setCurrentVanLoc(curRep.getString(curRep.getColumnIndex(FSALREP_LOCCODE)));
 
 
             }

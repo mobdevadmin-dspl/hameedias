@@ -201,7 +201,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(InvoiceDetBarcodeController.CREATE_TABLE_BCINCOICEDET);
 
         try {
-            arg0.execSQL("ALTER TABLE bcInvHed ADD COLUMN IsSync TEXT DEFAULT '0'");
+            arg0.execSQL("ALTER TABLE fSalRep ADD COLUMN loccode TEXT DEFAULT '0'");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
         }
