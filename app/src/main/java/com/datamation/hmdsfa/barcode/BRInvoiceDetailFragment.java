@@ -705,7 +705,11 @@ public class BRInvoiceDetailFragment extends Fragment{
 
              //   new ProductController(getActivity()).updateBarCodeInDelete(orderListNew.get(position).getBarcodeNo(), "0");
                 //new ProductController(getActivity()).updateProductQty(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
-                new InvDetController(getActivity()).mDeleteProduct(selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE(), orderList.get(position).getFINVDET_BARCODE());
+                if(orderList.get(position).getFINVDET_PRIL_CODE().equals("")) {
+                    new InvDetController(getActivity()).mDeleteProduct(selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE(), orderList.get(position).getFINVDET_BARCODE());
+                }else{
+                    new InvDetController(getActivity()).mDeleteBundle(selectedInvHed.getFINVHED_REFNO(),  orderList.get(position).getFINVDET_PRIL_CODE());
+                }
                 android.widget.Toast.makeText(getActivity(), "Deleted successfully!", android.widget.Toast.LENGTH_SHORT).show();
                 showData();
 
@@ -749,7 +753,7 @@ public class BRInvoiceDetailFragment extends Fragment{
                 int i = 0;
                for (Product product : list) {
                     i++;
-                    mUpdateInvoice(product.getFPRODUCT_Barcode(), product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), product.getFPRODUCT_VariantCode(), product.getFPRODUCT_QTY(),product.getFPRODUCT_ArticleNo());
+                    mUpdateInvoice(product.getFPRODUCT_Barcode(), product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), product.getFPRODUCT_VariantCode(), product.getFPRODUCT_QTY(),product.getFPRODUCT_ArticleNo(),product.getFPRODUCT_DocumentNo());
                     }//id,itemcode,qty,price,seqno,qoh,changed price
                 return null;
             }
@@ -809,7 +813,7 @@ public class BRInvoiceDetailFragment extends Fragment{
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-    public void mUpdateInvoice(String barcode, String itemCode, String Qty, String price, String variantcode, String qoh, String aricleno) {
+    public void mUpdateInvoice(String barcode, String itemCode, String Qty, String price, String variantcode, String qoh, String aricleno, String documentNo) {
 
         ArrayList<InvDet> arrList = new ArrayList<>();
         InvDet invDet = new InvDet();
@@ -866,6 +870,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         invDet.setFINVDET_BARCODE(barcode);
         invDet.setFINVDET_ARTICLENO(aricleno);
         invDet.setFINVDET_VARIANTCODE(variantcode);
+        invDet.setFINVDET_PRIL_CODE(documentNo);
         arrList.add(invDet);
         new InvDetController(getActivity()).createOrUpdateInvDet(arrList);
     }

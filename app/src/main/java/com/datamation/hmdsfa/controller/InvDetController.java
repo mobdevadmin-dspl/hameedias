@@ -1231,7 +1231,22 @@ public class InvDetController {
             dB.close();
         }
     }
+    public void mDeleteBundle(String RefNo, String documentno) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        try {
+            dB.delete(TABLE_FINVDET, DatabaseHelper.REFNO + " ='" + RefNo + "' AND "  + FINVDET_PRIL_CODE + " ='" + documentno + "'", null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+    }
     public void mUpdateProduct(String RefNo, String Itemcode, String Qty) {
 
         if (dB == null) {
