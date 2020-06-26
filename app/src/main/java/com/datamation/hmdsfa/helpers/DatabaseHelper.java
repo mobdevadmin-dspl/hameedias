@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.datamation.hmdsfa.controller.BankController;
+import com.datamation.hmdsfa.controller.BarcodeVarientController;
 import com.datamation.hmdsfa.controller.CompanyDetailsController;
 import com.datamation.hmdsfa.controller.DayExpDetController;
 import com.datamation.hmdsfa.controller.DayNPrdDetController;
@@ -189,7 +190,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(IteaneryDebController.CREATE_TABLE_ITEDEB);
         arg0.execSQL(SalesPriceController.CREATE_TABLE_FSALESPRICE);
         arg0.execSQL(DiscountController.CREATE_TABLE_DISCOUNT);
-        arg0.execSQL(ItemBundleController.CREATE_TABLE_BAR_CODE_VARIENT);
+        arg0.execSQL(BarcodeVarientController.CREATE_TABLE_BAR_CODE_VARIENT);
         arg0.execSQL(VanStockController.CREATE_TABLE_FVANSTOCK);
 
     }
@@ -201,12 +202,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(InvoiceDetBarcodeController.CREATE_TABLE_BCINCOICEDET);
 
         try {
-            arg0.execSQL("ALTER TABLE fSalRep ADD COLUMN loccode TEXT DEFAULT '0'");
+            arg0.execSQL("ALTER TABLE fSalRep ADD COLUMN loccode TEXT DEFAULT ''");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
         }
         try {
-            arg0.execSQL("ALTER TABLE bcInvHed ADD COLUMN IsActive TEXT DEFAULT ''");
+            arg0.execSQL("ALTER TABLE BarCodeVarient ADD COLUMN Article_No TEXT DEFAULT ''");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
         }  try {
@@ -280,7 +281,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(IteaneryDebController.CREATE_TABLE_ITEDEB);
             arg0.execSQL(SalesPriceController.CREATE_TABLE_FSALESPRICE);
             arg0.execSQL(DiscountController.CREATE_TABLE_DISCOUNT);
-            arg0.execSQL(ItemBundleController.CREATE_TABLE_BAR_CODE_VARIENT);
+            arg0.execSQL(BarcodeVarientController.CREATE_TABLE_BAR_CODE_VARIENT);
             arg0.execSQL(VanStockController.CREATE_TABLE_FVANSTOCK);
 
         } catch (SQLiteException e) {

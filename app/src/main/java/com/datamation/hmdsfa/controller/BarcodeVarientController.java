@@ -44,11 +44,12 @@ public class BarcodeVarientController {
     public static final String BARCODE_NO = "Barcode_No";
     public static final String DOCUMENT_NO = "Description";
     public static final String ITEM_NO = "Item_No";
+    public static final String ARTICLE_NO = "Article_No";
     public static final String VARIANT_SIZE = "Size";
     public static final String VARIANT_CODE = "Variant_Code";
 
     public static final String  CREATE_TABLE_BAR_CODE_VARIENT = "CREATE TABLE IF NOT EXISTS " + TABLE_BAR_CODE_VARIENT + " (" + BARCODE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            BARCODE_NO + " TEXT, " + DOCUMENT_NO + " TEXT, " + ITEM_NO + " TEXT, " +
+            ARTICLE_NO + " TEXT, " +   BARCODE_NO + " TEXT, " + DOCUMENT_NO + " TEXT, " + ITEM_NO + " TEXT, " +
             VARIANT_SIZE + " TEXT, "+ VARIANT_CODE + " TEXT ); ";
 
     public BarcodeVarientController(Context context) {
@@ -125,7 +126,7 @@ public class BarcodeVarientController {
 
         try {
             dB.beginTransactionNonExclusive();
-            String sql = "INSERT OR REPLACE INTO " + TABLE_BAR_CODE_VARIENT + " (Barcode_No,Description,Item_No,Size,Variant_Code) " + " VALUES (?,?,?,?,?)";
+            String sql = "INSERT OR REPLACE INTO " + TABLE_BAR_CODE_VARIENT + " (Barcode_No,Description,Item_No,Size,Variant_Code,Article_No) " + " VALUES (?,?,?,?,?,?)";
 
             SQLiteStatement stmt = dB.compileStatement(sql);
 
@@ -137,6 +138,7 @@ public class BarcodeVarientController {
                 stmt.bindString(3, barcodevariant.getItemNo());
                 stmt.bindString(4, barcodevariant.getVariantSize());
                 stmt.bindString(5, barcodevariant.getVariantCode());
+                stmt.bindString(6, barcodevariant.getArticleNo());
 
                 stmt.execute();
                 stmt.clearBindings();
@@ -177,7 +179,7 @@ public class BarcodeVarientController {
             items.setVariantSize(cursor.getString(cursor.getColumnIndex(VARIANT_SIZE)));
             items.setQuantity(1);
             items.setDescription(DOCUMENT_NO);
-            items.setArticleNo("");
+            items.setArticleNo(cursor.getString(cursor.getColumnIndex(ARTICLE_NO)));
 
 
             list.add(items);
