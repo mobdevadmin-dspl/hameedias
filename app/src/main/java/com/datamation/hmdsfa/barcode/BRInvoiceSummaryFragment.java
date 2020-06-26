@@ -221,7 +221,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
     public void mRefreshData() {
         if (mSharedPref.getDiscountClicked().equals("0")) {
             responseListener.moveBackToCustomer_pre(1);
-            Toast.makeText(getActivity(), "Please tap on Free Issue Button", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Please tap on Discount Button", Toast.LENGTH_LONG).show();
         }
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
 
