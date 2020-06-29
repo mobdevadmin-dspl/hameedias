@@ -47,6 +47,7 @@ import com.datamation.hmdsfa.controller.SalesReturnDetController;
 import com.datamation.hmdsfa.controller.TaxDetController;
 import com.datamation.hmdsfa.helpers.PreSalesResponseListener;
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.helpers.VanSalesResponseListener;
 import com.datamation.hmdsfa.model.BarcodenvoiceDet;
 import com.datamation.hmdsfa.model.Control;
 import com.datamation.hmdsfa.model.Customer;
@@ -78,7 +79,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
     public static final String SETTINGS = "VanSalesSummary";
     public static SharedPreferences localSP;
     View view;
-    PreSalesResponseListener responseListener;
+    VanSalesResponseListener responseListener;
     TextView lblGross, lblFreeQty, lblDiscount, lblNetVal, lblLines, lblQty;
     SharedPref mSharedPref;
     String RefNo = null,ReturnRefNo = null;
@@ -220,7 +221,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
     public void mRefreshData() {
         if (mSharedPref.getDiscountClicked().equals("0")) {
-            responseListener.moveBackToCustomer_pre(1);
+            responseListener.moveBackToCustomer(1);
             Toast.makeText(getActivity(), "Please tap on Discount Button", Toast.LENGTH_LONG).show();
         }
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
@@ -401,7 +402,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
         super.onAttach(activity);
         this.activity = activity;
         try {
-            responseListener = (PreSalesResponseListener) getActivity();
+            responseListener = (VanSalesResponseListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
         }
