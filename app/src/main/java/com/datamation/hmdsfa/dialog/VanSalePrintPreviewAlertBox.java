@@ -183,7 +183,8 @@ public class VanSalePrintPreviewAlertBox {
                 SalOrdDate.setText("Invoice No: " + refno);
                 Remarks.setText(salRep.getRepCode() + "/ " + salRep.getNAME());
                 OrderNo.setText("Date: " + invhed.getFINVHED_TXNDATE() + " " + currentTime());
-                txtRoute.setText("<AREA CODE>");
+                String routecode = new RouteDetController(context).getRouteCodeByDebCode(debtor.getCusCode());
+                txtRoute.setText(""+new RouteController(context).getAreaCodeByRouteCode(routecode));
 
                 int qty = 0 ;
                 double dDisc = 0, dTotAmt = 0, dTax = 0;
