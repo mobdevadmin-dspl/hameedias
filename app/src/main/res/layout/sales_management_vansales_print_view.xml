@@ -681,10 +681,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginLeft="18dp"
                 android:text="(amount in word)"
-                android:textColor="@color/greenColor"
-                android:textStyle="italic" />
+                android:textColor="#040d19"
+                android:textStyle="bold" />
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
