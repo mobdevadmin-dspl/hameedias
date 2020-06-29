@@ -683,6 +683,7 @@
                 android:gravity="center"
                 android:text="(amount in word)"
                 android:textColor="#040d19"
+                android:textSize="15dip"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="fill_parent"
