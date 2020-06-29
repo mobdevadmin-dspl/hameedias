@@ -49,6 +49,7 @@ import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.StkIss;
 import com.datamation.hmdsfa.model.VanSalPrintPre;
+import com.datamation.hmdsfa.utils.EnglishNumberToWords;
 import com.datamation.hmdsfa.view.DebtorDetailsActivity;
 
 import java.io.OutputStream;
@@ -143,6 +144,8 @@ public class VanSalePrintPreviewAlertBox {
             final TextView txtfiQty = (TextView) promptView.findViewById(R.id.printFiQty);
             final TextView TotalDiscount = (TextView) promptView.findViewById(R.id.printtotaldisamt);
             final TextView TotalNetValue = (TextView) promptView.findViewById(R.id.printnettotal);
+            final TextView AmtInWord = (TextView) promptView.findViewById(R.id.amtinwrd);
+            final TextView noteofbill = (TextView) promptView.findViewById(R.id.note);
 
             final TextView txtTotVal = (TextView) promptView.findViewById(R.id.printTotalVal);
             final TextView TotalPieceQty = (TextView) promptView.findViewById(R.id.printpiecesqty);
@@ -183,12 +186,13 @@ public class VanSalePrintPreviewAlertBox {
                 txtRoute.setText("<AREA CODE>");
 
                 int qty = 0 ;
-                double dDisc = 0, dTotAmt = 0;
+                double dDisc = 0, dTotAmt = 0, dTax = 0;
 
                 for (InvDet det : list) {
                     qty += Integer.parseInt(det.getFINVDET_QTY());
                     dDisc += Double.parseDouble(det.getFINVDET_DIS_AMT());
                     dTotAmt += Double.parseDouble(det.getFINVDET_AMT());
+                    dTax += Double.parseDouble(det.getFINVDET_TAX_AMT());
                 }
 
                 lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
@@ -196,8 +200,14 @@ public class VanSalePrintPreviewAlertBox {
                 /*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
                 TotalPieceQty.setText(String.valueOf(qty));
-                TotalNetValue.setText(String.format("%,.2f", (dTotAmt)));
+                TotalNetValue.setText(String.format("%,.2f", (dTotAmt-dDisc)));
                 txtTotVal.setText(String.format("%,.2f", dTotAmt));
+                txtfiQty.setText(String.format("%,.2f", dDisc));
+                TotalDiscount.setText(String.format("%,.2f", dTax));
+                double netval = dTotAmt-dDisc;
+                String net_val_in_english =   EnglishNumberToWords.convert((int)netval);
+                AmtInWord.setText("("+net_val_in_english+")");
+
 
                 PRINTER_MAC_ID =  new SharedPref(context).getGlobalVal("printer_mac_address").toString();
 
@@ -522,14 +532,14 @@ public class VanSalePrintPreviewAlertBox {
         // if (invHed.getFINVHED_INV_TYPE().equals("NON")) {
 
 
-//        sGross = ""+( Double.parseDouble(invHed.getFINVHED_TOTALAMT()) +
-//                Double.parseDouble(invHed.getFINVHED_TOTALDIS()));
+        sGross = ""+( Double.parseDouble(invHed.getFINVHED_TOTALAMT()) +
+                Double.parseDouble(invHed.getFINVHED_TOTALDIS()));
 
 
      //   int totReturnQty = 0;
 
 
-       //     sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getFINVHED_TOTALAMT()));
+            sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getFINVHED_TOTALAMT()));
 
 
 
@@ -561,11 +571,11 @@ public class VanSalePrintPreviewAlertBox {
 //        String buttomTitleb = "\r\n"+"Total Return Quantity" + space + String.valueOf(totDiscount);
 
 		/* print gross amount */
-        space = String.format("%" + (LINECHAR - ("Total Value".length() + sGross.length())) + "s", " ");
-        String summaryTitle_c_Val = "Total Value" + space + sGross;
+        space = String.format("%" + (LINECHAR - ("Gross Total".length() + sGross.length())) + "s", " ");
+        String summaryTitle_c_Val = "Gross Total" + space + sGross;
 
-        space = String.format("%" + (LINECHAR - ("Total Discount Value".length() + sRetGross.length())) + "s", " ");
-        String summaryTitle_RetVal = "Total Discount Value" + space + sRetGross;
+        space = String.format("%" + (LINECHAR - ("Bulk Discount".length() + sRetGross.length())) + "s", " ");
+        String summaryTitle_RetVal = "Bulk Discount" + space + sRetGross;
 
 		/* print net total */
         space = String.format("%" + (LINECHAR - ("Net Total".length() + sNetTot.length())) + "s", " ");
@@ -582,8 +592,9 @@ public class VanSalePrintPreviewAlertBox {
         String buttomTitlee = "\r\n" + summaryTitle_e_Val;
         String buttomTitlef = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Customer               Sales Executive";
 
-        String buttomTitlefa = "\r\n\n\n" + "All Cheques should be drawn In favour of H S Marketing Private\n" +
-                "Limited & crossed Account Payee Only.";
+        String buttomTitlefa = "\r\n\n\n" + "All Cheques should be drawn In favour of \n"+
+                "H S Marketing Private Limited &\n" +
+                " crossed Account Payee Only.";
         String buttomTitlecopyw = "\r\n" + printGapbottmline1 + summaryBottom_cpoyline1;
         buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec  + "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
         callPrintDevice();

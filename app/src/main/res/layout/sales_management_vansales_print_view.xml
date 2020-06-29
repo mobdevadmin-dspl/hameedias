@@ -253,7 +253,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_weight="1"
+                    android:layout_weight="3.5"
                     android:text="Variant Code"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
@@ -263,7 +263,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="Article No"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
@@ -310,8 +310,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1.5"
-                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:text="QTY"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
@@ -320,7 +320,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="2.5"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="Disc. Amt"
                     android:textColor="#040d19"
@@ -331,7 +331,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="2.5"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="Line Amount"
                     android:textColor="#040d19"
@@ -472,6 +472,7 @@
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:maxLines="1"
@@ -513,14 +514,13 @@
                     android:layout_width="0.0dip"
                     android:layout_height="fill_parent"
                     android:layout_weight="2.3"
-                    android:text="Total Return Quantity"
+                    android:text="Bulk Discount"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/printFiQty"
                     android:layout_width="0.0dip"
-                    android:visibility="gone"
                     android:layout_height="fill_parent"
                     android:layout_weight="1.0"
                     android:gravity="right"
@@ -564,7 +564,7 @@
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="Total Value"
+                    android:text="Gross Total"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
 
@@ -584,20 +584,19 @@
                 android:layout_height="28dip"
                 android:layout_marginTop="0dp"
                 android:orientation="horizontal"
-                android:visibility="gone">
+               >
 
                 <TextView
                     android:layout_width="0.0dip"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:text="Total Return"
+                    android:text="Tax"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/printtotaldisamt"
                     android:layout_width="0.0dip"
-                    android:visibility="gone"
                     android:layout_height="fill_parent"
                     android:layout_gravity="right"
                     android:layout_weight="1.0"
@@ -611,7 +610,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="gone"
+              >
 
                 <TextView
                     android:layout_width="0.0dip"
@@ -675,7 +675,16 @@
                 android:text="@string/printheadingline"
                 android:textColor="#000000"
                 android:textSize="15dip" />
-
+            <TextView
+                android:id="@+id/amtinwrd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginLeft="18dp"
+                android:text="(amount in word)"
+                android:textColor="@color/greenColor"
+                android:textStyle="italic" />
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -683,7 +692,7 @@
                 android:gravity="left"
                 android:lines="1"
                 android:maxLines="1"
-                android:text="------------------     ---------------------"
+                android:text="     -----------------------------          ---------------------------------"
                 android:textColor="#000000"
                 android:textSize="15dip" />
 
@@ -693,7 +702,7 @@
                 android:gravity="left"
                 android:lines="1"
                 android:maxLines="1"
-                android:text="     Customer           Sales Executive     "
+                android:text="                            Customer                                       Sales Executive        "
                 android:textColor="#000000"
                 android:textSize="15dip" />
 
@@ -701,7 +710,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dip"
-                android:gravity="left"
+                android:gravity="center"
                 android:paddingRight="60dip"
                 android:text="@string/bottomrow"
                 android:textColor="#000000"
@@ -718,13 +727,17 @@
                 android:textSize="15dip" />
 
             <TextView
+                android:id="@+id/note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_marginLeft="18dp"
                 android:text="Developed by Datamation Systems. \n +94 11 2 501202 .\n www.datamation.lk"
                 android:textColor="@color/greenColor"
                 android:textStyle="italic" />
+
+
         </LinearLayout>
     </ScrollView>
 
