@@ -666,15 +666,6 @@
                     android:textColor="#040d19"
                     android:textStyle="bold" />
             </LinearLayout>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="@string/printheadingline"
-                android:textColor="#000000"
-                android:textSize="15dip" />
             <TextView
                 android:id="@+id/amtinwrd"
                 android:layout_width="wrap_content"
@@ -685,6 +676,15 @@
                 android:textColor="#040d19"
                 android:textSize="15dip"
                 android:textStyle="bold" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/printheadingline"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
