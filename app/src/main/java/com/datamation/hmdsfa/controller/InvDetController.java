@@ -160,7 +160,88 @@ public class InvDetController {
         return count;
 
     }
+    public int createOrUpdateBCInvDet(ArrayList<InvDet> list) {
 
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            for (InvDet invDet : list) {
+
+                ContentValues values = new ContentValues();
+
+                String selectQuery = "SELECT * FROM " + TABLE_FINVDET + " WHERE " + FINVDET_BARCODE
+                        + " = '" + invDet.getFINVDET_BARCODE() + "' and "+DatabaseHelper.REFNO+" = '"+invDet.getFINVDET_REFNO()+"'";
+                cursor = dB.rawQuery(selectQuery, null);
+
+                //  values.put(FINVDET_ID, invDet.getFINVDET_ID());
+                values.put(FINVDET_AMT, invDet.getFINVDET_AMT());
+                values.put(FINVDET_BAL_QTY, invDet.getFINVDET_BAL_QTY());
+                values.put(FINVDET_B_AMT, invDet.getFINVDET_B_AMT());
+                values.put(FINVDET_B_SELL_PRICE, invDet.getFINVDET_B_SELL_PRICE());
+                values.put(FINVDET_BT_TAX_AMT, invDet.getFINVDET_TAX_AMT());
+                values.put(FINVDET_BT_SELL_PRICE, invDet.getFINVDET_BT_SELL_PRICE());
+                values.put(FINVDET_DIS_AMT, invDet.getFINVDET_DIS_AMT());
+                values.put(FINVDET_DIS_PER, invDet.getFINVDET_DIS_PER());
+                values.put(FINVDET_ITEM_CODE, invDet.getFINVDET_ITEM_CODE());
+                values.put(FINVDET_PRIL_CODE, invDet.getFINVDET_PRIL_CODE());
+                values.put(FINVDET_QTY, invDet.getFINVDET_QTY());
+                values.put(FINVDET_PICE_QTY, invDet.getFINVDET_PICE_QTY());
+                values.put(FINVDET_TYPE, invDet.getFINVDET_TYPE());
+                values.put(FINVDET_RECORD_ID, invDet.getFINVDET_RECORD_ID());
+                values.put(DatabaseHelper.REFNO, invDet.getFINVDET_REFNO());
+                values.put(FINVDET_SELL_PRICE, invDet.getFINVDET_SELL_PRICE());
+                values.put(FINVDET_SEQNO, invDet.getFINVDET_SEQNO());
+                values.put(FINVDET_TAX_AMT, invDet.getFINVDET_TAX_AMT());
+                values.put(FINVDET_TAX_COM_CODE, invDet.getFINVDET_TAX_COM_CODE());
+                values.put(FINVDET_T_SELL_PRICE, invDet.getFINVDET_T_SELL_PRICE());
+                values.put(DatabaseHelper.TXNDATE, invDet.getFINVDET_TXN_DATE());
+                values.put(FINVDET_TXN_TYPE, invDet.getFINVDET_TXN_TYPE());
+                values.put(FINVDET_IS_ACTIVE, invDet.getFINVDET_IS_ACTIVE());
+                values.put(FINVDET_ARTICLENO, invDet.getFINVDET_ARTICLENO());
+                values.put(FINVDET_VARIANTCODE, invDet.getFINVDET_VARIANTCODE());
+                values.put(FINVDET_BARCODE, invDet.getFINVDET_BARCODE());
+
+                //  values.put(FINVDET_BRAND_DISC, invDet.getFINVDET_BRAND_DISC());
+//                values.put(FINVDET_COMDISPER, invDet.getFINVDET_COM_DISCPER());
+//                values.put(FINVDET_BRAND_DISPER, invDet.getFINVDET_BRAND_DISCPER());
+//                values.put(FINVDET_COMPDISC, invDet.getFINVDET_COMDISC());
+//                values.put(FINVDET_DISVALAMT, invDet.getFINVDET_DISVALAMT());
+//                values.put(FINVDET_QOH, invDet.getFINVDET_QOH());
+//                values.put(FINVDET_PRICE, invDet.getFINVDET_PRICE());
+//                values.put(FINVDET_CHANGED_PRICE, invDet.getFINVDET_CHANGED_PRICE());
+
+                int cn = cursor.getCount();
+                if (cn > 0) {
+
+                    count = dB.update(TABLE_FINVDET, values, FINVDET_ID + " =?", new String[]{String.valueOf(invDet.getFINVDET_ID())});
+
+                } else {
+                    count = (int) dB.insert(TABLE_FINVDET, null, values);
+                }
+
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
     public ArrayList<InvDet> getTodayOrderDets(String refno) {
 
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));

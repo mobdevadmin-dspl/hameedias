@@ -206,7 +206,8 @@ public class VanSalePrintPreviewAlertBox {
                 txtfiQty.setText(String.format("%,.2f", dDisc));
                 TotalDiscount.setText(String.format("%,.2f", dTax));
                 double netval = dTotAmt-dDisc;
-                String net_val_in_english =   EnglishNumberToWords.convert(""+netval);
+                String net_val_in_english =  ""+ EnglishNumberToWords.convert((int)netval);
+             //   String net_val_in_english =   "";
                 AmtInWord.setText("("+net_val_in_english+")");
 
 
@@ -537,13 +538,13 @@ public class VanSalePrintPreviewAlertBox {
         // if (invHed.getFINVHED_INV_TYPE().equals("NON")) {
 
 
-        sGross = ""+( totalamt + totaldis);
+        sGross = String.format(Locale.US, "%,.2f", totalamt);
 
 
      //   int totReturnQty = 0;
 
 
-            sNetTot = String.format(Locale.US, "%,.2f", totalamt);
+            sNetTot = String.format(Locale.US, "%,.2f", (totalamt-totaldis));
             sDiscount = String.format(Locale.US, "%,.2f", totaldis);
             stax = String.format(Locale.US, "%,.2f", totaltax);
 
@@ -571,7 +572,7 @@ public class VanSalePrintPreviewAlertBox {
 
         //Total Return Item Qty
         space = String.format("%" + (LINECHAR - ("Tax".length() + stax.length())) + "s", " ");
-        String buttomTitleb = "\r\n"+"Tax" + space + stax;
+        String buttomTitleb = "Tax" + space + stax;
 
 		/* print gross amount */
         space = String.format("%" + (LINECHAR - ("Gross Total".length() + sGross.length())) + "s", " ");
@@ -583,7 +584,7 @@ public class VanSalePrintPreviewAlertBox {
 		/* print net total */
         space = String.format("%" + (LINECHAR - ("Net Total".length() + sNetTot.length())) + "s", " ");
         String summaryTitle_e_Val = "Net Total" + space + sNetTot;
-        String summaryTitle_amtinword = "(" + EnglishNumberToWords.convert(sNetTot)+")" ;
+        String summaryTitle_amtinword = "(" +EnglishNumberToWords.convert(sNetTot)+")" ;
 
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 

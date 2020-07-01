@@ -872,7 +872,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         invDet.setFINVDET_VARIANTCODE(variantcode);
         invDet.setFINVDET_PRIL_CODE(documentNo);
         arrList.add(invDet);
-        new InvDetController(getActivity()).createOrUpdateInvDet(arrList);
+        new InvDetController(getActivity()).createOrUpdateBCInvDet(arrList);
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
