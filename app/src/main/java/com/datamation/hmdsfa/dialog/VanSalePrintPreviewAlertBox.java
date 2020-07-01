@@ -206,7 +206,7 @@ public class VanSalePrintPreviewAlertBox {
                 txtfiQty.setText(String.format("%,.2f", dDisc));
                 TotalDiscount.setText(String.format("%,.2f", dTax));
                 double netval = dTotAmt-dDisc;
-                String net_val_in_english =   EnglishNumberToWords.convert((int)netval);
+                String net_val_in_english =   EnglishNumberToWords.convert(""+netval);
                 AmtInWord.setText("("+net_val_in_english+")");
 
 
@@ -435,11 +435,15 @@ public class VanSalePrintPreviewAlertBox {
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*Individual Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         int totQty = 0 ;
+        double totalamt = 0,totaldis = 0,totaltax = 0;
         ArrayList<StkIss> list = new ArrayList<StkIss>();
 
         //Order Item total
         for (InvDet det : itemList) {
             totQty += Integer.parseInt(det.getFINVDET_QTY());
+            totalamt += Double.parseDouble(det.getFINVDET_AMT());
+            totaldis += Double.parseDouble(det.getFINVDET_DIS_AMT());
+            totaltax += Double.parseDouble(det.getFINVDET_TAX_AMT());
         }
 
         int nos = 1;
@@ -528,19 +532,20 @@ public class VanSalePrintPreviewAlertBox {
 
 
         String space = "";
-        String sNetTot = "", sGross = "", sRetGross = "0.00";
+        String sNetTot = "", sGross = "", sRetGross = "0.00", sDiscount = "0.00", stax = "0.00";
 
         // if (invHed.getFINVHED_INV_TYPE().equals("NON")) {
 
 
-        sGross = ""+( Double.parseDouble(invHed.getFINVHED_TOTALAMT()) +
-                Double.parseDouble(invHed.getFINVHED_TOTALDIS()));
+        sGross = ""+( totalamt + totaldis);
 
 
      //   int totReturnQty = 0;
 
 
-            sNetTot = String.format(Locale.US, "%,.2f", Double.parseDouble(invHed.getFINVHED_TOTALAMT()));
+            sNetTot = String.format(Locale.US, "%,.2f", totalamt);
+            sDiscount = String.format(Locale.US, "%,.2f", totaldis);
+            stax = String.format(Locale.US, "%,.2f", totaltax);
 
 
 
@@ -559,28 +564,26 @@ public class VanSalePrintPreviewAlertBox {
 
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*Gross Net values-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-        String printSpaceSumName = "                    ";
-        String summaryTitle_a = "Total Quantity" + printSpaceSumName;
-        summaryTitle_a = summaryTitle_a.substring(0, Math.min(20, summaryTitle_a.length()));
 
         //Total Order Item Qty
         space = String.format("%" + (LINECHAR - ("Total Quantity".length() + String.valueOf(totQty).length())) + "s", " ");
-        String buttomTitlea = "\r\n\n\n" + "Total Quantity" + space + String.valueOf(totQty);
+        String buttomTitlea = "\r\n" + "Total Quantity" + space + String.valueOf(totQty);
 
         //Total Return Item Qty
-//        space = String.format("%" + (LINECHAR - ("Total Discount".length() + String.valueOf(totDiscount).length())) + "s", " ");
-//        String buttomTitleb = "\r\n"+"Total Return Quantity" + space + String.valueOf(totDiscount);
+        space = String.format("%" + (LINECHAR - ("Tax".length() + stax.length())) + "s", " ");
+        String buttomTitleb = "\r\n"+"Tax" + space + stax;
 
 		/* print gross amount */
         space = String.format("%" + (LINECHAR - ("Gross Total".length() + sGross.length())) + "s", " ");
         String summaryTitle_c_Val = "Gross Total" + space + sGross;
 
-        space = String.format("%" + (LINECHAR - ("Bulk Discount".length() + sRetGross.length())) + "s", " ");
-        String summaryTitle_RetVal = "Bulk Discount" + space + sRetGross;
+        space = String.format("%" + (LINECHAR - ("Bulk Discount".length() + sDiscount.length())) + "s", " ");
+        String summaryTitle_RetVal = "Bulk Discount" + space + sDiscount;
 
 		/* print net total */
         space = String.format("%" + (LINECHAR - ("Net Total".length() + sNetTot.length())) + "s", " ");
         String summaryTitle_e_Val = "Net Total" + space + sNetTot;
+        String summaryTitle_amtinword = "(" + EnglishNumberToWords.convert(sNetTot)+")" ;
 
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -590,14 +593,15 @@ public class VanSalePrintPreviewAlertBox {
         String printGapbottmline1 = printGapAdjust.substring(0, Math.min(lengthsummarybottmline1, printGapAdjust.length()));
         String buttomTitlec = "\r\n" + summaryTitle_c_Val;
         String buttomTitled = "\r\n" + summaryTitle_RetVal;
+        String buttomTitletax = "\r\n" + buttomTitleb;
         String buttomTitlee = "\r\n" + summaryTitle_e_Val;
         String buttomTitlef = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Customer               Sales Executive";
-
+        String buttomTitlenote = "\r\n" + summaryTitle_amtinword;
         String buttomTitlefa = "\r\n\n\n" + "All Cheques should be drawn In favour of \n"+
                 "H S Marketing Private Limited &\n" +
                 " crossed Account Payee Only.";
         String buttomTitlecopyw = "\r\n" + printGapbottmline1 + summaryBottom_cpoyline1;
-        buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec  + "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
+        buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec +buttomTitled  +buttomTitletax+ "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n"+buttomTitlenote+ "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
         callPrintDevice();
     }
 
@@ -605,13 +609,13 @@ public class VanSalePrintPreviewAlertBox {
 
     public void PrintCurrentview() {
          checkPrinter();
-        if (PRINTER_MAC_ID.equals("404")) {
-        Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
-        Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
-        }
-       else {
+//        if (PRINTER_MAC_ID.equals("404")) {
+//        Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
+//        Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
+//        }
+//       else {
          printItems();
-        }
+  //      }
     }
 
 	/*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*/
