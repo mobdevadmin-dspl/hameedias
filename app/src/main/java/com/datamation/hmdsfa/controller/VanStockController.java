@@ -122,7 +122,26 @@ public class VanStockController {
         return count;
 
     }
+    public String getQOH(String LocCode,String barcode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
 
+        String selectQuery = "select * from fVanStock where Barcode = '"+barcode+"' and To_Location_Code = '" + LocCode + "'";
 
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+                return cursor.getString(cursor.getColumnIndex("Quantity_Issued"));
+            }
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+        return "0";
+    }
 
 }

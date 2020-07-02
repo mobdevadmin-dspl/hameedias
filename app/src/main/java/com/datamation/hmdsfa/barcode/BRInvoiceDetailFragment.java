@@ -56,8 +56,10 @@ import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemPriController;
 import com.datamation.hmdsfa.controller.OrdFreeIssueController;
 import com.datamation.hmdsfa.controller.ProductController;
+import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.TaxDetController;
 import com.datamation.hmdsfa.controller.VATController;
+import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.freeissue.FreeIssue;
 import com.datamation.hmdsfa.helpers.BluetoothConnectionHelper;
@@ -290,6 +292,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         alertDialogBuilder.setCancelable(false).setPositiveButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 selectedItemList = new ProductController(getActivity()).getBundleScannedtems(itemDetails);
+
                 updateInvoiceDet(selectedItemList);
                 showData();
 
@@ -734,41 +737,26 @@ public class BRInvoiceDetailFragment extends Fragment{
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void updateInvoiceDet(final ArrayList<Product> list) {
+        int count = 0;
+        //rashmi - 2020-07-02
+                    for (Product product : list) {
 
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected void onPreExecute() {
-                pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                pDialog.setTitleText("Updating products...");
-                pDialog.setCancelable(false);
-                pDialog.show();
-                super.onPreExecute();
-            }
-
-            @Override
-            protected Void doInBackground(Void... params) {
-
-                int i = 0;
-               for (Product product : list) {
-                    i++;
-                    mUpdateInvoice(product.getFPRODUCT_Barcode(), product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), product.getFPRODUCT_VariantCode(), product.getFPRODUCT_QTY(),product.getFPRODUCT_ArticleNo(),product.getFPRODUCT_DocumentNo());
-                    }//id,itemcode,qty,price,seqno,qoh,changed price
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                if(pDialog.isShowing()){
-                    pDialog.dismiss();
-                }
-
-                showData();
-            }
-
-        }.execute();
+                        double qoh = Double.parseDouble(new VanStockController(getActivity()).getQOH(new SalRepController(getActivity()).getCurrentLoccode().trim(),product.getFPRODUCT_Barcode()));
+                       // Log.d("QOH>>>",">>>listsize"+list.size()+"count>>>"+qoh);
+                        if(qoh >= Double.parseDouble(product.getFPRODUCT_QTY())) {
+                            count++;
+                        //    Log.d("QOH>>>","insideqohvalidation>>>listsize"+list.size()+"count>>>"+count);
+                        }
+                      //  Log.d("QOH>>>","first prdct loop>>>listsize"+list.size()+"count>>>"+count);
+                    }
+                   // Log.d("QOH>>>","before scnd for loop listsize>>>"+list.size()+"count>>>"+count);
+                    if(count == list.size()) {
+                        for (Product product : list) {
+                            mUpdateInvoice(product.getFPRODUCT_Barcode(), product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), product.getFPRODUCT_VariantCode(), product.getFPRODUCT_QTY(), product.getFPRODUCT_ArticleNo(), product.getFPRODUCT_DocumentNo());
+                        }
+                    }else{
+                        Toast.makeText(getActivity(),"Not enough stock",Toast.LENGTH_LONG).show();
+                    }
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
