@@ -22,9 +22,11 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
+import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.OrderController;
 import com.datamation.hmdsfa.controller.OrderDetailController;
 import com.datamation.hmdsfa.controller.PreProductController;
+import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.SalesReturnDetController;
 import com.datamation.hmdsfa.dialog.VanSalePrintPreviewAlertBox;
@@ -416,6 +418,7 @@ public class TransactionDetailsFragment extends Fragment {
 
                         if (result>0) {
                             new InvDetController(getActivity()).restData(RefNo);
+                            new ItemLocController(getActivity()).UpdateVanStock(RefNo,"+",new SalRepController(getActivity()).getCurrentLoccode().trim());
 
                             Toast.makeText(getActivity(), "Invoice deleted successfully..!", Toast.LENGTH_SHORT).show();
 

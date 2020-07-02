@@ -22,7 +22,7 @@ public class VanStockController {
     private String TAG = "VanStockController";
 
     //table
-    private static final String TABLE_FVANSTOCK = "fVanStock";
+    public static final String TABLE_FVANSTOCK = "fVanStock";
 
     //table attributes
     public static final String FVAN_STOCK_ID = "fVanStock_id";

@@ -38,6 +38,7 @@ import com.datamation.hmdsfa.controller.InvTaxRGController;
 import com.datamation.hmdsfa.controller.InvoiceBarcodeController;
 import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
 import com.datamation.hmdsfa.controller.ItemController;
+import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.ProductController;
 import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.RouteDetController;
@@ -232,7 +233,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
         int ftotQty = 0, fTotFree = 0, returnQty = 0, lines = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
 
-        //locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
+        locCode = new SalRepController(getActivity()).getCurrentLoccode().trim();
 
         list = new InvDetController(getActivity()).getAllInvDet(RefNo);
         //listNew = new InvoiceDetBarcodeController(getActivity()).getAllInvDet(RefNo);
@@ -329,7 +330,8 @@ public class BRInvoiceSummaryFragment extends Fragment {
                             /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/
                              //commented by rashmi 2020-03-23 till qoh get from fitemloc
 
-                           // UpdateQOH_FIFO();
+                            //UpdateQOH_FIFO();
+           new ItemLocController(getActivity()).UpdateVanStock(RefNo,"-",locCode);
                            // new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
                            // updateDispTables(sHed);
 
@@ -418,26 +420,6 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
             int Qty = (int) Double.parseDouble(item.getFINVDET_QTY());
 
-            // ArrayList<StkIn> GRNList = new STKInController(activity).getAscendingGRNList(item.getFINVDET_ITEM_CODE(), locCode);
-
-            /*-*-*-*-*-*-*-*-*-*-multiple GRN for each sizecode-*-*-*-*-*-*-*-*-*-*-*/
-//            for (StkIn size : GRNList) {
-//                int balQty = (int) Double.parseDouble(size.getBALQTY());
-//
-//                if (balQty > 0) {
-//                    if (Qty > balQty) {
-//                        Qty = Qty - balQty;
-//                        size.setBALQTY("0");
-//                 //       new StkIssController(activity).InsertSTKIssData(size, RefNo, String.valueOf(balQty), locCode);
-//
-//                    } else {
-//                        size.setBALQTY(String.valueOf(balQty - Qty));
-//                     //   new StkIssController(activity).InsertSTKIssData(size, RefNo, String.valueOf(Qty), locCode);
-//                        break;
-//                    }
-//                }
-//            }
-//            new STKInController(activity).UpdateBalQtyByFIFO(GRNList);
         }
     }
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
