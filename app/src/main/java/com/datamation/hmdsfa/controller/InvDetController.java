@@ -139,6 +139,7 @@ public class InvDetController {
                 int cn = cursor.getCount();
                 if (cn > 0) {
 
+
                     count = dB.update(TABLE_FINVDET, values, FINVDET_ID + " =?", new String[]{String.valueOf(invDet.getFINVDET_ID())});
 
                 } else {
@@ -176,7 +177,7 @@ public class InvDetController {
             for (InvDet invDet : list) {
 
                 ContentValues values = new ContentValues();
-
+                ContentValues values1 = new ContentValues();
                 String selectQuery = "SELECT * FROM " + TABLE_FINVDET + " WHERE " + FINVDET_BARCODE
                         + " = '" + invDet.getFINVDET_BARCODE() + "' and "+DatabaseHelper.REFNO+" = '"+invDet.getFINVDET_REFNO()+"'";
                 cursor = dB.rawQuery(selectQuery, null);
@@ -220,8 +221,10 @@ public class InvDetController {
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
-
-                    count = dB.update(TABLE_FINVDET, values, FINVDET_ID + " =?", new String[]{String.valueOf(invDet.getFINVDET_ID())});
+                    String updateQuery = "UPDATE finvdet SET Qty= Qty+'" + invDet.getFINVDET_QTY() + "', amt= amt+'" + invDet.getFINVDET_AMT() + "' where RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
+                    dB.execSQL(updateQuery);
+                    count = 1;
+                  //  count = dB.update(TABLE_FINVDET, values, FINVDET_BARCODE + " = '"+invDet.getFINVDET_BARCODE()+"' and "+ DatabaseHelper.REFNO+ " = '"+invDet.getFINVDET_REFNO()+"'", new String[]{String.valueOf(invDet.getFINVDET_ID())});
 
                 } else {
                     count = (int) dB.insert(TABLE_FINVDET, null, values);
