@@ -422,11 +422,19 @@ public class VanSalePrintPreviewAlertBox {
         Heading_c = "";
         countCountInv = 0;
 
-        if (subTitleheadK.toString().equalsIgnoreCase(" ")) {
-            Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
-        } else
-            Heading_bmh = "\r" + title_Print_F +  title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R+title_Print_Area;
-
+        if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+            if (subTitleheadK.toString().equalsIgnoreCase(" ")) {
+                Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
+            } else {
+                Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R + title_Print_Area;
+            }
+        }else{
+            if (subTitleheadK.toString().equalsIgnoreCase(" ")) {
+                Heading_bmh = "\r"   + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
+            } else {
+                Heading_bmh = "\r"   + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R + title_Print_Area;
+            }
+        }
         String title_cb = "\r\nVARIANT CODE  ARTICLE_NO PRICE      DISC(%) ";
         String title_cc = "\r\nITEM NAME      QTY    DISC.AMT  LINE AMOUNT ";
        // String title_cd = "\r\n             INVOICE DETAILS                ";
@@ -610,13 +618,13 @@ public class VanSalePrintPreviewAlertBox {
 
     public void PrintCurrentview() {
          checkPrinter();
-        if (PRINTER_MAC_ID.equals("404")) {
-        Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
-        Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
-        }
-       else {
+//        if (PRINTER_MAC_ID.equals("404")) {
+//        Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
+//        Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
+//        }
+//       else {
          printItems();
-        }
+//        }
     }
 
 	/*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*/
