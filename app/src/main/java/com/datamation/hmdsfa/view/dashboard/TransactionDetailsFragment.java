@@ -413,7 +413,11 @@ public class TransactionDetailsFragment extends Fragment {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
-
+                        ArrayList<InvHed> logHedList = new InvHedController(getActivity()).getAllUnsyncedforLog();
+                        new InvHedController(getActivity()).createOrUpdateInvHedLog(logHedList);
+                        ArrayList<InvDet> logDetList = new InvDetController(getActivity()).getAllInvDet(RefNo);
+                        new InvDetController(getActivity()).createOrUpdateBCInvDetLog(logDetList);
+                        prepareVanListData();
                         int result = new InvHedController(getActivity()).restDataBC(RefNo);
 
                         if (result>0) {
@@ -426,7 +430,8 @@ public class TransactionDetailsFragment extends Fragment {
                         }
                         else
                         {
-                            Toast.makeText(getActivity(), "Order delete unsuccess..!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Invoice delete unsuccess..!", Toast.LENGTH_SHORT).show();
+                            prepareVanListData();
                         }
 
 

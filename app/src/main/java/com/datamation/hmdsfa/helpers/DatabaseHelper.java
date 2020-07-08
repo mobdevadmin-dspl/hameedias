@@ -192,6 +192,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(DiscountController.CREATE_TABLE_DISCOUNT);
         arg0.execSQL(BarcodeVarientController.CREATE_TABLE_BAR_CODE_VARIENT);
         arg0.execSQL(VanStockController.CREATE_TABLE_FVANSTOCK);
+        arg0.execSQL(InvHedController.CREATE_FINVHED_TABLE);
+        arg0.execSQL(InvHedController.CREATE_FINVHED_TABLE_LOG);
+        arg0.execSQL(InvDetController.CREATE_FINVDET_TABLE);
+        arg0.execSQL(InvDetController.CREATE_FINVDET_TABLE_LOG);
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -259,7 +263,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(Customer.CREATE_FDEBTOR_TABLE);
             arg0.execSQL(ProductController.CREATE_FPRODUCT_TABLE);
             arg0.execSQL(InvHedController.CREATE_FINVHED_TABLE);
+            arg0.execSQL(InvHedController.CREATE_FINVHED_TABLE_LOG);
             arg0.execSQL(InvDetController.CREATE_FINVDET_TABLE);
+            arg0.execSQL(InvDetController.CREATE_FINVDET_TABLE_LOG);
             arg0.execSQL(SalesReturnController.CREATE_FINVRHED_TABLE);
             arg0.execSQL(SalesReturnDetController.CREATE_FINVRDET_TABLE);
             arg0.execSQL(OrderDetailController.CREATE_ORDDET_TABLE);
