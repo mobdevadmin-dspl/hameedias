@@ -14,6 +14,9 @@ import android.util.TypedValue;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.barcode.BROrderDetailFragment;
+import com.datamation.hmdsfa.barcode.BROrderHeaderFragment;
+import com.datamation.hmdsfa.barcode.BROrderSummaryFragment;
 import com.datamation.hmdsfa.controller.OrderDetailController;
 import com.datamation.hmdsfa.helpers.PreSalesResponseListener;
 import com.datamation.hmdsfa.model.Customer;
@@ -27,9 +30,9 @@ import com.datamation.hmdsfa.presale.OrderReturnFragment;
 import com.datamation.hmdsfa.presale.OrderSummaryFragment;
 
 public class PreSalesActivity extends AppCompatActivity implements PreSalesResponseListener{
-    private OrderHeaderFragment orderHeaderFragment;
-    private OrderDetailFragment orderDetailFragment;
-    private OrderSummaryFragment orderSummaryFragment;
+    private BROrderHeaderFragment orderHeaderFragment;
+    private BROrderDetailFragment orderDetailFragment;
+    private BROrderSummaryFragment orderSummaryFragment;
     private OrderReturnFragment orderReturnFragment;
     private ViewPager viewPager;
     public Customer selectedDebtor = null;
@@ -119,13 +122,13 @@ public class PreSalesActivity extends AppCompatActivity implements PreSalesRespo
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    if(orderHeaderFragment == null) orderHeaderFragment = new OrderHeaderFragment();
+                    if(orderHeaderFragment == null) orderHeaderFragment = new BROrderHeaderFragment();
                     return orderHeaderFragment;
                 case 1:
-                    if(orderDetailFragment == null) orderDetailFragment = new OrderDetailFragment();
+                    if(orderDetailFragment == null) orderDetailFragment = new BROrderDetailFragment();
                     return orderDetailFragment;
                 case 2:
-                    if(orderSummaryFragment == null) orderSummaryFragment = new OrderSummaryFragment();
+                    if(orderSummaryFragment == null) orderSummaryFragment = new BROrderSummaryFragment();
                     return orderSummaryFragment;
                 default:
                     return null;

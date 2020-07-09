@@ -117,12 +117,18 @@ public class OrderDetailController {
     public static final String FORDDET_ITEMNAME = "ItemName";
     public static final String FORDDET_PACKSIZE = "PackSize";
     public static final String FORDDET_COSTPRICE = "CostPrice";
+    public static final String FORDDET_BARCODE = "BarCode";
+    public static final String FORDDET_VARIANTCODE = "VariantCode";
+    public static final String FORDDET_ARTICLENO = "ArticleNo";
     /////
     // create String
     public static final String CREATE_FORDDET_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDDET + " (" + FORDDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FORDDET_AMT + " TEXT, " + FORDDET_BAL_QTY + " TEXT, " + FORDDET_B_AMT + " TEXT, " + FORDDET_B_DIS_AMT + " TEXT, " + FORDDET_BP_DIS_AMT + " TEXT, " + FORDDET_B_SELL_PRICE + " TEXT, " + FORDDET_BT_TAX_AMT + " TEXT, " + FORDDET_BT_SELL_PRICE + " TEXT, " + FORDDET_CASE + " TEXT, " + FORDDET_CASE_QTY + " TEXT, " + FORDDET_DIS_AMT + " TEXT, " + FORDDET_DIS_PER + " TEXT, " + FORDDET_FREE_QTY + " TEXT, " + FORDDET_ITEM_CODE + " TEXT, " + FORDDET_P_DIS_AMT + " TEXT, " + FORDDET_PRIL_CODE + " TEXT, " + FORDDET_QTY + " TEXT, " + FORDDET_DIS_VAL_AMT + " TEXT, " + FORDDET_PICE_QTY + " TEXT, " + FORDDET_REA_CODE + " TEXT, " + FORDDET_TYPE + " TEXT, " + FORDDET_RECORD_ID + " TEXT, " + REFNO + " TEXT, " + FORDDET_SELL_PRICE + " TEXT, " + FORDDET_SEQNO + " TEXT, " + FORDDET_TAX_AMT + " TEXT, " + FORDDET_TAX_COM_CODE + " TEXT, " + FORDDET_TIMESTAMP_COLUMN + " TEXT, " + FORDDET_T_SELL_PRICE + " TEXT, "
             + FORDDET_ITEMNAME + " TEXT, "
             + FORDDET_PACKSIZE + " TEXT, "
             + FORDDET_COSTPRICE + " TEXT, "
+            + FORDDET_BARCODE + " TEXT, "
+            + FORDDET_VARIANTCODE + " TEXT, "
+            + FORDDET_ARTICLENO + " TEXT, "
             + FORDDET_DISCTYPE + " TEXT, " + FORDDET_SCH_DISPER + " TEXT, "+ FORDDET_DISFLAG + " TEXT, " + TXNDATE + " TEXT, " + FORDDET_IS_ACTIVE + " TEXT, "+ FORDDET_TXN_TYPE + " TEXT); ";
 
     // create String
@@ -198,14 +204,9 @@ public class OrderDetailController {
                 Cursor cursor = null;
                 ContentValues values = new ContentValues();
 
-//                String selectQuery = "SELECT * FROM " + dbHelper.TABLE_FORDDET + " WHERE " + dbHelper.FORDDET_ITEM_CODE
-//                        + " = '" + ordDet.getFORDERDET_ITEMCODE() + "' and "+ dbHelper.FORDDET_TYPE
-//                        + " = '" + ordDet.getFORDERDET_TYPE() +  "' ";
+                String selectQuery = "SELECT * FROM " + TABLE_FORDDET + " WHERE " + FORDDET_BARCODE
+                        + " = '" + ordDet.getFORDERDET_BARCODE() + "' and "+DatabaseHelper.REFNO+" = '"+ordDet.getFORDERDET_REFNO()+"'";
 
-                String selectQuery = "SELECT * FROM " + TABLE_FORDDET + " WHERE " + FORDDET_ITEM_CODE
-                        + " = '" + ordDet.getFORDERDET_ITEMCODE() + "' and "+ FORDDET_TYPE
-                        + " = '" + ordDet.getFORDERDET_TYPE() +  "' and "+ REFNO
-                        + " = '" + ordDet.getFORDERDET_REFNO() + "' ";
 
                 cursor = dB.rawQuery(selectQuery, null);
                 // commented due to table changed
@@ -244,11 +245,16 @@ public class OrderDetailController {
                 values.put(FORDDET_DISFLAG, ordDet.getFORDERDET_DISFLAG());
                 values.put(FORDDET_REA_CODE, ordDet.getFORDERDET_REACODE());
                 values.put(FORDDET_DIS_VAL_AMT, ordDet.getFORDERDET_DIS_VAL_AMT());
+                values.put(FORDDET_BARCODE, ordDet.getFORDERDET_BARCODE());
+                values.put(FORDDET_VARIANTCODE, ordDet.getFORDERDET_VARIANTCODE());
+                values.put(FORDDET_ARTICLENO, ordDet.getFORDERDET_ARTICLENO());
 
                 int cn = cursor.getCount();
 
                 if (cn > 0) {
-                    count = dB.update(TABLE_FORDDET, values, FORDDET_TYPE+ " = '"+ordDet.getFORDERDET_TYPE()+"' and "+REFNO+ " = '"+ordDet.getFORDERDET_REFNO()+"' and "+FORDDET_ITEM_CODE+ " = '"+ordDet.getFORDERDET_ITEMCODE()+"'", null);
+                    String updateQuery = "UPDATE FOrddet SET Qty= Qty+'" + ordDet.getFORDERDET_QTY() + "', amt= amt+'" + ordDet.getFORDERDET_AMT() + "' where RefNo = '"+ ordDet.getFORDERDET_REFNO()+"' and BarCode = '"+ordDet.getFORDERDET_BARCODE()+"'";
+                    dB.execSQL(updateQuery);
+                    count = 1;
                 } else {
                     count = (int) dB.insert(TABLE_FORDDET, null, values);
                 }

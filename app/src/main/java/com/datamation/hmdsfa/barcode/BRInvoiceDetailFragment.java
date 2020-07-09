@@ -102,7 +102,7 @@ public class BRInvoiceDetailFragment extends Fragment{
     ActivityVanSalesBR mainActivity;
     MyReceiver r;
     ArrayList<Product> productList = null, selectedItemList = null, selectedItem = null;
-    ArrayList<ItemBundle> itemArrayList = null, selectedBundleItemList = null;;
+    ArrayList<ItemBundle> itemArrayList = null;
     ImageButton ibtProduct, ibtDiscount;
     private  SweetAlertDialog pDialog;
     private InvHed selectedInvHed;

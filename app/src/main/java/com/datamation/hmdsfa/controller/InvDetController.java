@@ -180,7 +180,6 @@ public class InvDetController {
             for (InvDet invDet : list) {
 
                 ContentValues values = new ContentValues();
-                ContentValues values1 = new ContentValues();
                 String selectQuery = "SELECT * FROM " + TABLE_FINVDET + " WHERE " + FINVDET_BARCODE
                         + " = '" + invDet.getFINVDET_BARCODE() + "' and "+DatabaseHelper.REFNO+" = '"+invDet.getFINVDET_REFNO()+"'";
                 cursor = dB.rawQuery(selectQuery, null);

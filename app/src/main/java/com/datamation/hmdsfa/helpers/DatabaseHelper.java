@@ -204,6 +204,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.onCreate(arg0);
         arg0.execSQL(InvoiceBarcodeController.CREATE_TABLE_BCINCOICEHED);
         arg0.execSQL(InvoiceDetBarcodeController.CREATE_TABLE_BCINCOICEDET);
+        arg0.execSQL(OrderDetailController.CREATE_FORDDET_TABLE);
 
         try {
             arg0.execSQL("ALTER TABLE fSalRep ADD COLUMN loccode TEXT DEFAULT ''");
