@@ -61,7 +61,7 @@ public class InvTaxDTController {
 
             for (InvDet invDet : list) {
 
-                if (invDet.getFINVDET_TYPE().equals("SA")) {
+             //   if (invDet.getFINVDET_TYPE().equals("SA")) {
 
                     BigDecimal amt = new BigDecimal(invDet.getFINVDET_AMT());
 
@@ -91,7 +91,7 @@ public class InvTaxDTController {
                         count = (int) dB.insert(TABLE_INVTAXDT, null, values);
 
                     }
-                }
+              //  }
             }
 
         } catch (Exception e) {

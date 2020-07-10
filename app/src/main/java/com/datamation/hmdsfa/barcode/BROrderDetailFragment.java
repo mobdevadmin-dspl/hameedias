@@ -3,6 +3,8 @@ package com.datamation.hmdsfa.barcode;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +21,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,6 +41,7 @@ import com.datamation.hmdsfa.adapter.OrderFreeItemAdapter;
 import com.datamation.hmdsfa.adapter.PreOrderAdapter;
 import com.datamation.hmdsfa.controller.BarcodeVarientController;
 import com.datamation.hmdsfa.controller.CustomerController;
+import com.datamation.hmdsfa.controller.DiscountController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemPriController;
@@ -49,8 +53,10 @@ import com.datamation.hmdsfa.controller.PreProductController;
 import com.datamation.hmdsfa.controller.ProductController;
 import com.datamation.hmdsfa.controller.TaxDetController;
 import com.datamation.hmdsfa.controller.VATController;
+import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.discount.Discount;
 import com.datamation.hmdsfa.freeissue.FreeIssueModified;
+import com.datamation.hmdsfa.helpers.BluetoothConnectionHelper;
 import com.datamation.hmdsfa.helpers.PreSalesResponseListener;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.Customer;
@@ -66,6 +72,9 @@ import com.datamation.hmdsfa.settings.ReferenceNum;
 import com.datamation.hmdsfa.view.PreSalesActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -98,7 +107,7 @@ public class BROrderDetailFragment extends Fragment{
     ArrayList<OrderDetail> exOrderDet;
     ArrayList<ItemBundle> itemArrayList = null;
     EditText etSearchField;
-
+    ThreadConnectBTdevice threadConnectBTdevice;
     FloatingActionButton btnDiscount;
     public BROrderDetailFragment() {
     }
@@ -189,25 +198,29 @@ public class BROrderDetailFragment extends Fragment{
             Toast.makeText(getActivity(), "Cannot proceed,Please click arrow button to save header details...", Toast.LENGTH_LONG).show();
         }
 
-//        ibtDiscount.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mSharedPref.setDiscountClicked("1");
-//                showData();
-//
-//                mSharedPref.setGlobalVal("preKeyIsFreeClicked", ""+clickCount);
-//                if(clickCount == 0) {
-//
-//                    calculateFreeIssue(mSharedPref.getSelectedDebCode());
-//                    calculateDiscounts(mSharedPref.getSelectedDebCode());
-//                    clickCount++;
-//                }else{
-//                    Toast.makeText(getActivity(),"Already clicked",Toast.LENGTH_LONG).show();
-//                    Log.v("Freeclick Count", mSharedPref.getGlobalVal("preKeyIsFreeClicked"));
-//                }
-//
-//            }
-//        });
+        btnDiscount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mSharedPref.setDiscountClicked("1");
+                if(clickCount == 0) {
+
+                    if(new DiscountController(getActivity()).IsDiscountCustomer(mSharedPref.getSelectedDebCode())>0)
+                    {
+                        new CalculateDiscounts(mSharedPref.getSelectedDebCode()).execute();
+                    }else{
+                        UpdateTaxDetails(RefNo);
+                        Toast.makeText(getActivity(),"Discount not allow for this customer",Toast.LENGTH_SHORT).show();
+                    }
+                    clickCount++;
+                }else{
+                    Toast.makeText(getActivity(),"Already clicked",Toast.LENGTH_LONG).show();
+                    Log.v("Freeclick Count", mSharedPref.getGlobalVal("preKeyIsFreeClicked"));
+                }
+                showData();
+
+            }
+        });
 
         lv_order_det.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -220,7 +233,15 @@ public class BROrderDetailFragment extends Fragment{
                 return true;
             }
         });
+        if(!new BluetoothConnectionHelper(getActivity()).isSupportBluetooth()){
+            Toast.makeText(getActivity(),"FEATURE_BLUETOOTH NOT SUPPORTED", Toast.LENGTH_LONG).show();
+            connectionError();
+        }
 
+        if(!new BluetoothConnectionHelper(getActivity()).isBluetoothHardwareSupport()){
+            Toast.makeText(getActivity(),"Bluetooth is not supported on this hardware platform", Toast.LENGTH_LONG).show();
+            connectionError();
+        }
         return view;
     }
     private boolean BundleItemsDialogBox(final ArrayList<ItemBundle> itemDetails) {
@@ -265,69 +286,27 @@ public class BROrderDetailFragment extends Fragment{
 
         //Clear discount in Orddisc
         new OrderDiscController(getActivity()).ClearDiscountForPreSale(RefNo);
-        ArrayList<OrderDetail> dets = new OrderDetailController(getActivity()).getSAForFreeIssueCalc(RefNo);
-
-        Discount issue = new Discount(getActivity());
-
-        /* Get discounts for assorted items */
-        ArrayList<ArrayList<OrderDetail>> metaOrdList = issue.SortDiscount(dets, debCode);
-
-        Log.d("PRE_SALES_ORDER_DETAILS", "LIST_SIZE: " + metaOrdList.size());
+        ArrayList<OrderDetail> dets = new OrderDetailController(getActivity()).getSAForDiscountCalc(RefNo);
+        DiscountController issue = new DiscountController(getActivity());
+        //getting discount list by debcode
+        ArrayList<OrderDetail> metaOrdList = issue.updateOrdDiscount(dets,debCode);
+        Log.d("PRE_SALES_ORDER_DETAILS", "LIST_SIZE: " + dets.size());
 
         /* Iterate through for discounts for items */
-        for (ArrayList<OrderDetail> OrderList : metaOrdList) {
+        for(OrderDetail orderDetail : metaOrdList){
 
-            double totAmt = 0;
-            String discPer,discType,discRef;
-            double freeVal = Double.parseDouble(OrderList.get(0).getFORDERDET_BAMT());
-            if(OrderList.get(0).getFORDERDET_SCHDISPER() != null)
-                discPer = OrderList.get(0).getFORDERDET_SCHDISPER();
-            else
-                discPer = "";
-            if(OrderList.get(0).getFORDERDET_DISCTYPE() != null)
-                discType = OrderList.get(0).getFORDERDET_DISCTYPE();
-            else
-                discType = "";
-            if(OrderList.get(0).getFORDERDET_DISC_REF() != null)
-                discRef = OrderList.get(0).getFORDERDET_DISC_REF();
-            else
-                discRef = "";
+            new OrderDetailController(getActivity()).updateDiscount(orderDetail);
+            String disper = orderDetail.getFORDERDET_SCHDISPER();
+
+            String sArray[] = new VATController(getActivity()).calculateTaxForward( mSharedPref.getGlobalVal("KeyVat"), Double.parseDouble(orderDetail.getFORDERDET_BSELLPRICE()));
+            String amt = String.format("%.2f",Double.parseDouble(sArray[0])* Double.parseDouble(orderDetail.getFORDERDET_QTY()));
+            String tax = String.format("%.2f",Double.parseDouble(sArray[1])* Double.parseDouble(orderDetail.getFORDERDET_QTY()));
+            String dis = String.format("%.2f",Double.parseDouble( orderDetail.getFORDERDET_DISAMT()));
+            String barcode = orderDetail.getFORDERDET_BARCODE();
+            new OrderDetailController(getActivity()).UpdateItemTaxInfo(tax,amt, RefNo,barcode,dis,disper);
 
 
-            OrderList.get(0).setFORDERDET_BAMT("0");
 
-            for (OrderDetail det : OrderList)
-                totAmt += Double.parseDouble(det.getFORDERDET_PRICE()) * (Double.parseDouble(det.getFORDERDET_QTY()));
-            // commented cue to getFTRANSODET_PRICE() is not set
-            //totAmt += Double.parseDouble(det.getFTRANSODET_PRICE()) * (Double.parseDouble(det.getFTRANSODET_QTY()));
-
-            for (OrderDetail det : OrderList) {
-                det.setFORDERDET_SCHDISPER(discPer);
-                det.setFORDERDET_DISCTYPE(discType);
-                det.setFORDERDET_DISC_REF(discRef);
-
-                double disc;
-                /*
-                 * For value, calculate amount portion & for percentage ,
-                 * calculate percentage portion
-                 */
-                disc = (freeVal / totAmt) * Double.parseDouble(det.getFORDERDET_PRICE()) * (Double.parseDouble(det.getFORDERDET_QTY()));
-
-                //commented due to
-                // disc = (Double.parseDouble(det.getFTRANSODET_AMT()) / 100) * disc not correct
-
-                /* Calculate discount amount from disc percentage portion */
-//					if (discType != null)
-//                    {
-//                        if (discType.equals("P"))
-////                            disc = (Double.parseDouble(det.getFTRANSODET_AMT()) / 100) * disc;
-//                            disc = (Double.parseDouble(det.getFTRANSODET_AMT()) / 100);
-//                    }
-
-
-                //new OrderDetailController(getActivity()).updateDiscount(det, disc, det.getFORDERDET_DISCTYPE());
-
-            }
         }
         //amount is update , after the tap free issue button
         showData();
@@ -499,7 +478,31 @@ public class BROrderDetailFragment extends Fragment{
 
     public void mToggleTextbox()
     {
+        if(!new BluetoothConnectionHelper(getActivity()).isSupportBluetooth()){
+            Toast.makeText(getActivity(),"FEATURE_BLUETOOTH NOT SUPPORTED", Toast.LENGTH_LONG).show();
+            connectionError();
+        }
+
+        if(!new BluetoothConnectionHelper(getActivity()).isBluetoothHardwareSupport()){
+            Toast.makeText(getActivity(),"Bluetooth is not supported on this hardware platform", Toast.LENGTH_LONG).show();
+            connectionError();
+        }
         showData();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        new BluetoothConnectionHelper(getActivity()).enableBluetooth(getActivity());
+        try {
+            //MAC ADDRESS BT AUTO CONNECT.
+            threadConnectBTdevice = new ThreadConnectBTdevice(new BluetoothConnectionHelper(getActivity()).getDevice());
+            threadConnectBTdevice.start();
+
+        }catch ( Exception ex ){
+            Toast.makeText(getActivity(),ex.toString(), Toast.LENGTH_LONG).show();
+            connectionError();
+        }
     }
 
     public void onPause() {
@@ -563,7 +566,12 @@ public class BROrderDetailFragment extends Fragment{
         alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                new PreProductController(getActivity()).updateProductQty(orderList.get(position).getFORDERDET_ITEMCODE(), "0");
+              //  new PreProductController(getActivity()).updateProductQty(orderList.get(position).getFORDERDET_ITEMCODE(), "0");
+                if(orderList.get(position).getFORDERDET_PRILCODE().equals("")) {
+                    new OrderDetailController(getActivity()).mDeleteProduct(orderList.get(position).getFORDERDET_REFNO(), orderList.get(position).getFORDERDET_ITEMCODE(), orderList.get(position).getFORDERDET_BARCODE());
+                }else{
+                    new OrderDetailController(getActivity()).mDeleteBundle(orderList.get(position).getFORDERDET_REFNO(),  orderList.get(position).getFORDERDET_PRILCODE());
+                }
                 new OrderDetailController(getActivity()).mDeleteRecords(RefNo, orderList.get(position).getFORDERDET_ITEMCODE());
                 Toast.makeText(getActivity(), "Deleted successfully!", Toast.LENGTH_SHORT).show();
                 showData();
@@ -662,5 +670,175 @@ public class BROrderDetailFragment extends Fragment{
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
         }
+        new BluetoothConnectionHelper(getActivity()).enableBluetooth(getActivity());
+        try {
+            //MAC ADDRESS BT AUTO CONNECT.
+            threadConnectBTdevice = new BROrderDetailFragment.ThreadConnectBTdevice(new BluetoothConnectionHelper(getActivity()).getDevice());
+            threadConnectBTdevice.start();
+
+        }catch ( Exception ex ){
+            Toast.makeText(getActivity(),ex.toString(), Toast.LENGTH_LONG).show();
+            connectionError();
+        }
+    }
+
+    private class ThreadConnectBTdevice extends Thread {
+
+        private BluetoothSocket bluetoothSocket = null;
+        private final BluetoothDevice bluetoothDevice;
+
+
+        private ThreadConnectBTdevice(BluetoothDevice device) {
+            bluetoothDevice = device;
+            try {
+                Method m = device.getClass().getMethod("createRfcommSocket", new Class[] { int.class });
+                bluetoothSocket = (BluetoothSocket) m.invoke(device, 1);
+            }
+
+            catch (NoSuchMethodException e) {
+                //e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                //  e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                // e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void run() {
+            boolean success = false;
+            try {
+                bluetoothSocket.connect();
+                success = true;
+            } catch (IOException e) {
+                //e.printStackTrace();
+
+//                final String eMessage = e.getMessage();
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+                connectionError();
+//                    }
+//                });
+
+                try {
+                    bluetoothSocket.close();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    //textStatus.setText("STATUS : CONNECTION ERROR!");
+                    e1.printStackTrace();
+                }
+
+            }
+
+            if(success){
+                //connect successful
+                final String msgconnected = "Connected.";
+                Log.d("Bluetooth scanner",msgconnected);
+
+            }else{
+                //fail
+                Log.e("Bltth scanr<<ERROR>>", "Failed to connect.");
+//                getActivity().runOnUiThread(new Runnable(){
+//                    @Override
+//                    public void run() {
+                connectionError();
+                //     }});
+                //connectionError();
+            }
+        }
+
+        public void cancel() {
+            try {
+                bluetoothSocket.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                // e.printStackTrace();
+            }
+
+        }
+    }
+
+    private void connectionError(){
+        //textStatus.setText("STATUS : BLUETOOTH CONNECTION ERROR!");
+        Log.e("BLUETOOTH CONNECTION>>",">>>ERROR");
+        // textStatus.setBackgroundResource(R.color.blue_c);
+    }
+    public class CalculateDiscounts extends AsyncTask<Object, Object, Boolean> {
+        CustomProgressDialog pdialog;
+        private String debcode;
+
+        public CalculateDiscounts(String debcode) {
+            this.pdialog = new CustomProgressDialog(getActivity());
+            this.debcode = debcode;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            pdialog.setMessage("Calculating discounts.. Please Wait.");
+            pdialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Object... objects) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    pdialog.setMessage("Calculating Discounts...");
+                }
+            });
+            //getting current order
+            ArrayList<OrderDetail> dets = new OrderDetailController(getActivity()).getSAForDiscountCalc(RefNo);
+            DiscountController issue = new DiscountController(getActivity());
+            //getting discount list by debcode
+            ArrayList<OrderDetail> metaOrdList = issue.updateOrdDiscount(dets,debcode);
+            Log.d("PRE_SALES_ORDER_DETAILS", "LIST_SIZE: " + dets.size());
+
+            /* Iterate through for discounts for items */
+            for(OrderDetail orderDetail : metaOrdList){
+
+                new OrderDetailController(getActivity()).updateDiscount(orderDetail);
+                String disper = orderDetail.getFORDERDET_SCHDISPER();
+
+                String sArray[] = new VATController(getActivity()).calculateTaxForward( mSharedPref.getGlobalVal("KeyVat"), Double.parseDouble(orderDetail.getFORDERDET_BSELLPRICE()));
+                String amt = String.format("%.2f",Double.parseDouble(sArray[0])* Double.parseDouble(orderDetail.getFORDERDET_QTY()));
+                String tax = String.format("%.2f",Double.parseDouble(sArray[1])* Double.parseDouble(orderDetail.getFORDERDET_QTY()));
+                String dis = String.format("%.2f",Double.parseDouble( orderDetail.getFORDERDET_DISAMT()));
+                String barcode = orderDetail.getFORDERDET_BARCODE();
+                new OrderDetailController(getActivity()).UpdateItemTaxInfo(tax,amt, RefNo,barcode,dis,disper);
+
+
+
+            }
+
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    pdialog.setMessage("Calculed Discounts...");
+                }
+            });
+            return true;
+        }
+
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+            if(pdialog.isShowing()){
+                pdialog.dismiss();
+            }
+
+            showData();
+
+        }
+    }
+    public void UpdateTaxDetails(String refNo) {
+        ArrayList<OrderDetail> list = new OrderDetailController(getActivity()).getAllOrderDetails(refNo);
+        new OrderDetailController(getActivity()).UpdateItemTax(list);
     }
 }

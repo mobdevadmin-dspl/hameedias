@@ -292,7 +292,7 @@ public class BROrderSummaryFragment extends Fragment {
             //else
             //fTotFree += Integer.parseInt(ordDet.getFORDERDET_QTY());
 
-            //    fTotLineDisc += Double.parseDouble(ordDet.getFINVDET_DIS_AMT());
+                fTotLineDisc += Double.parseDouble(ordDet.getFORDERDET_DISAMT());
             //    fTotSchDisc += Double.parseDouble(ordDet.getFINVDET_DISVALAMT());
         }
         for (FInvRDet returnDet : returnList){
@@ -314,12 +314,12 @@ public class BROrderSummaryFragment extends Fragment {
         String amt = String.format("%.2f",Double.parseDouble(sArray[0]));
 
 
-        lblGross.setText(String.format("%.2f", Double.parseDouble(amt)));
+        lblGross.setText(String.format("%.2f", Double.parseDouble(amt)+fTotLineDisc));
         lblReturn.setText(String.format("%.2f", totalReturn));
         lblNetVal.setText(String.format("%.2f", (Double.parseDouble(amt)-totalReturn)));
 
         lblReturnQty.setText(String.valueOf(returnQty));
-        lblReplacements.setText(String.valueOf(replacements));
+        lblReplacements.setText(String.format("%.2f",  fTotLineDisc));
 
 
     }

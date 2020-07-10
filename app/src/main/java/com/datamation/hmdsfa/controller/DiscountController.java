@@ -17,6 +17,7 @@ import com.datamation.hmdsfa.model.Discount;
 import com.datamation.hmdsfa.model.Discslab;
 import com.datamation.hmdsfa.model.InvDet;
 import com.datamation.hmdsfa.model.ItemBundle;
+import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.SalesPrice;
 
 import java.text.SimpleDateFormat;
@@ -268,6 +269,44 @@ public class DiscountController {
                     newMetaList.add(mTranSODet);
 
                 }
+
+
+
+
+        return newMetaList;
+
+    }
+    public ArrayList<OrderDetail> updateOrdDiscount(ArrayList<OrderDetail> ordArrList, String debcode) {
+
+        ArrayList<OrderDetail> newMetaList = new ArrayList<OrderDetail>();
+
+        /* For each invoice object inside ordeArrList ArrayList */
+        for (OrderDetail mTranSODet : ordArrList) {
+            ItemBundle item = new ItemBundleController(context).getItem(mTranSODet.getFORDERDET_ITEMCODE());
+
+            Discount discountdets = getSchemeByItemCode(mTranSODet.getFORDERDET_ITEMCODE(),item.getDocumentNo(),item.getBarcode(),debcode);
+
+
+            if (discountdets.getProductDis() != null) {
+                /* Update table directly */
+                double discPrice = ((Double.parseDouble(mTranSODet.getFORDERDET_SELLPRICE()) / 100) * (Double.parseDouble(discountdets.getProductDis())));
+                mTranSODet.setFORDERDET_SCHDISPER(discountdets.getProductDis());
+                mTranSODet.setFORDERDET_DISPER(discountdets.getProductDis());
+                mTranSODet.setFORDERDET_DISAMT(String.valueOf(discPrice* (Double.parseDouble(mTranSODet.getFORDERDET_QTY()))));
+                if(new CustomerController(context).getCustomerVatStatus(new SharedPref(context).getSelectedDebCode()).trim().equals("VAT"))
+                    mTranSODet.setFORDERDET_BSELLPRICE(String.valueOf((Double.parseDouble(mTranSODet.getFORDERDET_BSELLPRICE())) - discPrice));//pass for calculate tax forqow
+                else
+                    mTranSODet.setFORDERDET_BSELLPRICE(String.valueOf(Double.parseDouble(mTranSODet.getFORDERDET_BSELLPRICE())));//pass for calculate tax forqow
+            }else{
+                mTranSODet.setFORDERDET_SCHDISPER("0");
+                mTranSODet.setFORDERDET_DISPER("0");
+                mTranSODet.setFORDERDET_DISAMT("0");
+                mTranSODet.setFORDERDET_BSELLPRICE(mTranSODet.getFORDERDET_BSELLPRICE());//pass for calculate tax forqow
+
+            }
+            newMetaList.add(mTranSODet);
+
+        }
 
 
 

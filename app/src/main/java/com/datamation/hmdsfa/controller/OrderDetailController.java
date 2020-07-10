@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.model.OrderDisc;
@@ -489,7 +490,6 @@ public class OrderDetailController {
 
         String selectQuery = "select * from " + TABLE_FORDDET + " WHERE "
                 + REFNO + "='" + refno + "' and "
-                + FORDDET_TYPE + "='" + "SA" + "' and "
                 + FORDDET_IS_ACTIVE +" = '1'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -521,6 +521,8 @@ public class OrderDetailController {
                 ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FORDDET_IS_ACTIVE)));
                 ordDet.setFORDERDET_ITEMNAME(cursor.getString(cursor.getColumnIndex(FORDDET_ITEMNAME)));
                 ordDet.setFORDERDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(FORDDET_TAX_COM_CODE)));
+                ordDet.setFORDERDET_BARCODE(cursor.getString(cursor.getColumnIndex(FORDDET_BARCODE)));
+                ordDet.setFORDERDET_DISAMT(cursor.getString(cursor.getColumnIndex(FORDDET_DIS_AMT)));
 
                 list.add(ordDet);
 
@@ -535,7 +537,55 @@ public class OrderDetailController {
 
         return list;
     }
+    //2020/07/10 by rashmi for hameedias
+    public void UpdateItemTax(ArrayList<OrderDetail> list) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        double totTax = 0, totalAmt = 0;
+
+        try {
+
+            for (OrderDetail ordDet : list) {
+                String amt = "";
+
+                String sArray[] = new VATController(context).calculateTaxForward( new SharedPref(context).getGlobalVal("KeyVat"), Double.parseDouble(ordDet.getFORDERDET_BSELLPRICE()));
+                String tax = String.format("%.2f",Double.parseDouble(sArray[1])* Double.parseDouble(ordDet.getFORDERDET_QTY()));
+                String dis = String.format("%.2f",Double.parseDouble( ordDet.getFORDERDET_DISAMT()));
+                if(new SharedPref(context).getGlobalVal("KeyVat").equals("VAT")) {
+                    amt = String.format("%.2f", Double.parseDouble(sArray[0])* Double.parseDouble(ordDet.getFORDERDET_QTY()));
+                }else{
+                    amt = String.format("%.2f", Double.parseDouble(ordDet.getFORDERDET_AMT()));
+
+                }
+                totalAmt += Double.parseDouble(amt);
+
+
+
+                //no need to mega heaters.get only total of tax detail amounts - commented 2018-10-23
+                // String sArray[] = new TaxDetDS(context).calculateTaxForward(ordDet.getFINVDET_ITEM_CODE(), Double.parseDouble(ordDet.getFINVDET_AMT()));
+
+                totTax += Double.parseDouble(ordDet.getFORDERDET_TAXAMT());
+
+
+                String updateQuery = "UPDATE FOrddet SET taxamt='" + tax + "', amt='" + amt + "' WHERE Itemcode='" + ordDet.getFORDERDET_ITEMCODE()+ "' AND refno='" + ordDet.getFORDERDET_REFNO() + "' and barcode='"+ordDet.getFORDERDET_BARCODE()+"' ";
+                dB.execSQL(updateQuery);
+
+            }
+            /* Update Sales order Header TotalTax */
+            dB.execSQL("UPDATE FOrdhed SET totaltax='" + totTax + "', totalamt='" + totalAmt + "' WHERE refno='" + list.get(0).getFORDERDET_REFNO() + "'");
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+
+    }
     public ArrayList<OrderDetail> getAllOrderDetailsForTaxUpdate(String refno) {
 
         if (dB == null) {
@@ -641,7 +691,118 @@ public class OrderDetailController {
 
         return list;
     }
+    //rashmi 20200710
+    public ArrayList<OrderDetail> getSAForDiscountCalc(String refno) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
 
+        ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
+
+        String selectQuery = "select * from " + TABLE_FORDDET + " WHERE " + dbHelper.REFNO + "='" + refno + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                OrderDetail ordDet = new OrderDetail();
+
+                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(FORDDET_ID)));
+                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(FORDDET_AMT)));
+                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FORDDET_ITEM_CODE)));
+                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(FORDDET_PRIL_CODE)));
+                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(FORDDET_QTY)));
+                ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(FORDDET_SELL_PRICE)));
+                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FORDDET_IS_ACTIVE)));
+                ordDet.setFORDERDET_TYPE(cursor.getString(cursor.getColumnIndex(FORDDET_TYPE)));
+                ordDet.setFORDERDET_TXNTYPE(cursor.getString(cursor.getColumnIndex(FORDDET_TXN_TYPE)));
+                ordDet.setFORDERDET_BSELLPRICE(cursor.getString(cursor.getColumnIndex(FORDDET_B_SELL_PRICE)));
+                ordDet.setFORDERDET_SELLPRICE(cursor.getString(cursor.getColumnIndex(FORDDET_SELL_PRICE)));
+
+                // this line add due to SortDiscount needs SCHDISPER for the calculation line no 123
+                ordDet.setFORDERDET_SCHDISPER(cursor.getString(cursor.getColumnIndex(FORDDET_DIS_PER)));
+                //added by rashmi because due to SortDiscount needs - 2019-11-14
+                ordDet.setFORDERDET_SCHDISC(cursor.getString(cursor.getColumnIndex(FORDDET_DIS_AMT)));
+                // this line add due to no txndate set
+                ordDet.setFORDERDET_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
+
+                list.add(ordDet);
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
+    //20200710 rashmi
+    public void updateDiscount(OrderDetail orderDetail) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            OrderDisc orderDisc = new OrderDisc();
+            orderDisc.setRefNo(orderDetail.getFORDERDET_REFNO());
+            orderDisc.setTxnDate(orderDetail.getFORDERDET_TXNDATE());
+            orderDisc.setItemCode(orderDetail.getFORDERDET_ITEMCODE());
+            orderDisc.setDisAmt(String.format("%.2f",  (Double.parseDouble(orderDetail.getFORDERDET_DISAMT()))));
+
+            new OrderDiscController(context).UpdateOrderDiscount(orderDisc,  orderDetail.getFORDERDET_DISAMT());
+            double amount = (Double.parseDouble(orderDetail.getFORDERDET_AMT()) - Double.parseDouble(orderDetail.getFORDERDET_DISAMT()));
+            String amt = String.format("%.2f", amount);
+            String updateQuery = "UPDATE FOrddet SET DisPer='" + orderDetail.getFORDERDET_SCHDISPER() + "', DisAmt='" + orderDetail.getFORDERDET_DISAMT() + "', amt='" + amt + "', BSellPrice = '"+orderDetail.getFORDERDET_BSELLPRICE()+"' where Itemcode ='" + orderDetail.getFORDERDET_ITEMCODE() + "' and RefNo = '"+ orderDetail.getFORDERDET_REFNO()+"' and BarCode = '"+orderDetail.getFORDERDET_BARCODE()+"'";
+            dB.execSQL(updateQuery);
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+    }
+    //20200710 by rashmi hameedias
+    public void UpdateItemTaxInfo(String taxamt, String amt, String refno, String barcode, String disamt, String disper) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+
+        try {
+
+
+            /* Update Sales order Header TotalTax */
+            dB.execSQL("UPDATE FOrddet SET taxamt='" + taxamt + "', amt='" + amt + "', disamt='"+disamt+"', DisPer = '"+disper+"' WHERE refno='" + refno + "' and barcode='"+barcode+"' ");
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+
+    }
     public ArrayList<OrderDetail> getTodayOrderDets(String refno) {
 
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
@@ -918,7 +1079,38 @@ public class OrderDetailController {
 
         return list;
     }
+    public void mDeleteProduct(String RefNo, String Itemcode, String barcode) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        try {
+            dB.delete(TABLE_FORDDET, DatabaseHelper.REFNO + " ='" + RefNo + "' AND " + FORDDET_ITEM_CODE + " ='" + Itemcode + "' AND " + FORDDET_BARCODE + " ='" + barcode + "'", null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+    }
+    public void mDeleteBundle(String RefNo, String documentno) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        try {
+            dB.delete(TABLE_FORDDET, DatabaseHelper.REFNO + " ='" + RefNo + "' AND "  + FORDDET_PRIL_CODE + " ='" + documentno + "'", null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+    }
     public void mDeleteRecords(String RefNo, String itemCode) {
 
         if (dB == null) {

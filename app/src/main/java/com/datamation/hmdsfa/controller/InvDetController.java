@@ -11,6 +11,7 @@ import android.util.Log;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.InvDet;
+import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.OrderDisc;
 
 import java.math.BigDecimal;
@@ -1104,6 +1105,7 @@ public class InvDetController {
         }
 
     }
+
     public void updateDiscount(InvDet invDet, double discount, String discType) {
 
         if (dB == null) {
@@ -1213,6 +1215,7 @@ public class InvDetController {
             dB.close();
         }
     }
+    //rashmi for hameedias
     public void UpdateItemTaxInfo(String taxamt, String amt, String refno, String barcode, String disamt, String disper) {
 
         if (dB == null) {
@@ -1221,7 +1224,6 @@ public class InvDetController {
             open();
         }
 
-        double totTax = 0, totalAmt = 0;
 
         try {
 

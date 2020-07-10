@@ -54,7 +54,7 @@ public class InvTaxRGController {
             Cursor cursor = null;
             for (InvDet invDet : list) {
 
-                if (invDet.getFINVDET_TYPE().equals("SA")) {
+              //  if (invDet.getFINVDET_TYPE().equals("SA")) {
 
                     ArrayList<TaxDet> taxcodelist = new TaxDetController(context).getTaxInfoByComCode(invDet.getFINVDET_TAX_COM_CODE());
 
@@ -73,7 +73,7 @@ public class InvTaxRGController {
                             count = (int) dB.insert(TABLE_INVTAXRG, null, values);
 
                     }
-                }
+            //    }
             }
             cursor.close();
         } catch (Exception e) {

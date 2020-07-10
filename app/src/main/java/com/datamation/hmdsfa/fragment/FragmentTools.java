@@ -193,20 +193,20 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
        // getImgDataFromFirebase(rootRef);
        // getVdoDataFromFirebase(rootRef);
 
-        isAnyActiveImages = new InvDetController(getActivity()).isAnyActiveOrders();
-        isAnyActiveVideos = new ReceiptDetController(getActivity()).isAnyActiveReceipt();
-
-        if (isAnyActiveImages) {
-            imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_image));
-        } else {
-            imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_image));
-        }
-
-        if (isAnyActiveVideos) {
-            imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video));
-        } else {
-            imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video));
-        }
+//        isAnyActiveImages = new InvDetController(getActivity()).isAnyActiveOrders();
+//        isAnyActiveVideos = new ReceiptDetController(getActivity()).isAnyActiveReceipt();
+//
+//        if (isAnyActiveImages) {
+//            imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_image));
+//        } else {
+//            imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_image));
+//        }
+//
+//        if (isAnyActiveVideos) {
+//            imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video));
+//        } else {
+//            imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video));
+//        }
         networkFunctions = new NetworkFunctions(getActivity());
         imgTour.setOnClickListener(this);
         imgStockInq.setOnClickListener(this);
@@ -226,17 +226,17 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         Log.d("FRAGMENT_TOOL", "IMAGE_FLAG: " + pref.getImageFlag());
 
 
-        if (fmc.getAllMediaforCheckIfIsExist("IMG") > 0) {
-            imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_img_notification));
-        } else {
-            imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_image));
-        }
+//        if (fmc.getAllMediaforCheckIfIsExist("IMG") > 0) {
+//            imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_img_notification));
+//        } else {
+//            imgImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_image));
+ //       }
 
-        if (fmc.getAllMediaforCheckIfIsExist("VDO") > 0) {
-            imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video_notification));
-        } else {
-            imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video));
-        }
+//        if (fmc.getAllMediaforCheckIfIsExist("VDO") > 0) {
+//            imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video_notification));
+//        } else {
+//            imgVideo.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_video));
+//        }
 
         return view;
     }
@@ -339,7 +339,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
             case R.id.imgImage:
                 imgImage.startAnimation(animScale);
-                imgUrlList = fmc.getAllMediafromDb("IMG");
+               // imgUrlList = fmc.getAllMediafromDb("IMG");
                // ViewImageList();
                 break;
 
