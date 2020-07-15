@@ -39,13 +39,14 @@ public class DiscountController {
     public static final String  DISCOUNT_DEBNAME= "DebName";
     public static final String  DISCOUNT_LOCCODE = "LocCode";
     public static final String  DISCOUNT_PRODUCT_DIS = "ProductDis";
+    public static final String  DISCOUNT_PRODUCT_CASH_DIS = "ProductCashDis";
     public static final String  DISCOUNT_PRODUCT_GROUP= "ProductGroup";
     public static final String  DISCOUNT_REPCODE = "RepCode";
 
     // create String
     public static final String CREATE_TABLE_DISCOUNT = "CREATE  TABLE IF NOT EXISTS " + TABLE_DISCOUNT + " ("
 
-            + DISCOUNT_REPCODE + " TEXT, " + DISCOUNT_PRODUCT_GROUP + " TEXT, "      + DISCOUNT_DEBCODE + " TEXT, " + DISCOUNT_DEBNAME + " TEXT, " + DISCOUNT_LOCCODE + " TEXT, " + DISCOUNT_PRODUCT_DIS + " TEXT); ";
+            + DISCOUNT_PRODUCT_CASH_DIS + " TEXT, "    + DISCOUNT_REPCODE + " TEXT, " + DISCOUNT_PRODUCT_GROUP + " TEXT, "      + DISCOUNT_DEBCODE + " TEXT, " + DISCOUNT_DEBNAME + " TEXT, " + DISCOUNT_LOCCODE + " TEXT, " + DISCOUNT_PRODUCT_DIS + " TEXT); ";
 
 
 
@@ -69,7 +70,7 @@ public class DiscountController {
 
         try {
             dB.beginTransactionNonExclusive();
-            String sql = "INSERT OR REPLACE INTO " + TABLE_DISCOUNT + " (DebCode,DebName,LocCode,ProductDis,ProductGroup,RepCode) " + " VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT OR REPLACE INTO " + TABLE_DISCOUNT + " (DebCode,DebName,LocCode,ProductDis,ProductGroup,RepCode,ProductCashDis) " + " VALUES (?,?,?,?,?,?,?)";
 
             SQLiteStatement stmt = dB.compileStatement(sql);
 
@@ -80,6 +81,7 @@ public class DiscountController {
                 stmt.bindString(4, discount.getProductDis());
                 stmt.bindString(5, discount.getProductGroup());
                 stmt.bindString(6, discount.getRepCode());
+                stmt.bindString(7, discount.getProductCashDis());
                 stmt.execute();
                 stmt.clearBindings();
             }
@@ -202,7 +204,7 @@ public class DiscountController {
 
         return discounts;
     }
-    public Discount getSchemeByItemCode(String itemCode,String DocumentNo, String barcode,String debcode) {
+    public Discount getSchemeByItemCode(String productgroup,String debcode,String discountClmIndex) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -212,7 +214,7 @@ public class DiscountController {
 
         // commented due to date format issue and M:D:Y format is available in DB
         //String selectQuery = "select * from fdisched where refno in (select refno from fdiscdet where itemcode='" + itemCode + "') and date('now') between vdatef and vdatet";
-        String selectQuery = "select * from discount where ProductGroup in (select VariantColour from ItemBundle where ItemNo = '" + itemCode + "' and Barcode = '"+barcode+"' and DocumentNo = '"+DocumentNo+"') and DebCode = '" + debcode + "'";
+        String selectQuery = "select * from discount where ProductGroup  = '" + productgroup + "'  and DebCode = '" + debcode + "'";
 
         Discount discount = new Discount();
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -220,7 +222,7 @@ public class DiscountController {
         try {
             while (cursor.moveToNext()) {
 
-                discount.setProductDis(cursor.getString(cursor.getColumnIndex(DISCOUNT_PRODUCT_DIS)));
+                discount.setProductDis(cursor.getString(cursor.getColumnIndex(discountClmIndex)));
 
             }
         } catch (Exception e) {
@@ -245,8 +247,22 @@ public class DiscountController {
             /* For each invoice object inside ordeArrList ArrayList */
             for (InvDet mTranSODet : ordArrList) {
                 ItemBundle item = new ItemBundleController(context).getItem(mTranSODet.getFINVDET_ITEM_CODE());
+                Discount discountdets = null;
+                String productgroup = new ItemBundleController(context).getProductGroup(mTranSODet.getFINVDET_ITEM_CODE(),mTranSODet.getFINVDET_BARCODE());
 
-                Discount discountdets = getSchemeByItemCode(mTranSODet.getFINVDET_ITEM_CODE(),item.getDocumentNo(),item.getBarcode(),debcode);
+                if(new SharedPref(context).getGlobalVal("KeyPayType").equals("CASH")){
+                    if(productgroup.equals("")) {
+                        discountdets = getSchemeByItemCode("OTHERS", debcode, "ProductCashDis");
+                    }else{
+                        discountdets = getSchemeByItemCode(productgroup, debcode, "ProductCashDis");
+                    }
+                }else{
+                    if(productgroup.equals("")) {
+                         discountdets = getSchemeByItemCode("OTHERS",debcode,"ProductDis");
+                    }else{
+                        discountdets = getSchemeByItemCode(productgroup,debcode,"ProductDis");
+                    }
+                }
 
 
                 if (discountdets.getProductDis() != null) {
@@ -282,9 +298,22 @@ public class DiscountController {
 
         /* For each invoice object inside ordeArrList ArrayList */
         for (OrderDetail mTranSODet : ordArrList) {
-            ItemBundle item = new ItemBundleController(context).getItem(mTranSODet.getFORDERDET_ITEMCODE());
-
-            Discount discountdets = getSchemeByItemCode(mTranSODet.getFORDERDET_ITEMCODE(),item.getDocumentNo(),item.getBarcode(),debcode);
+            Discount discountdets = null;
+            String productgroup = new ItemBundleController(context).getProductGroup(mTranSODet.getFORDERDET_ITEMCODE(),mTranSODet.getFORDERDET_BARCODE());
+//2020-07-15 by rashmi
+            if(new SharedPref(context).getGlobalVal("KeyPayType").equals("CASH")){
+                if(productgroup.equals("")) {
+                    discountdets = getSchemeByItemCode("OTHERS", debcode, "ProductCashDis");
+                }else{
+                    discountdets = getSchemeByItemCode(productgroup, debcode, "ProductCashDis");
+                }
+            }else{
+                if(productgroup.equals("")) {
+                    discountdets = getSchemeByItemCode("OTHERS",debcode,"ProductDis");
+                }else{
+                    discountdets = getSchemeByItemCode(productgroup,debcode,"ProductDis");
+                }
+            }
 
 
             if (discountdets.getProductDis() != null) {
