@@ -102,6 +102,7 @@ import com.datamation.hmdsfa.model.SalesPrice;
 import com.datamation.hmdsfa.model.User;
 import com.datamation.hmdsfa.model.VatMaster;
 import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
+import com.datamation.hmdsfa.presale.UploadPreSales;
 import com.datamation.hmdsfa.settings.TaskType;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.utils.UtilityContainer;
@@ -624,21 +625,21 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                            } catch (Exception e) {
 //                                Log.v("Exception in sync De", e.toString());
 //                            }
-//                            try { // upload pre sale order
-//                                OrderController orderHed = new OrderController(getActivity());
-//                                ArrayList<Order> ordHedList = orderHed.getAllUnSyncOrdHed();
-////                    /* If records available for upload then */
-//                                if (ordHedList.size() <= 0)
-//                                    Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
-//                                else {
-//
-//                                    new UploadPreSales(getActivity(), FragmentTools.this).execute(ordHedList);
-//                                    Log.v(">>8>>", "UploadPreSales execute finish");
-//                                    // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
-//                                }
-//                            } catch (Exception e) {
-//                                Log.v("Exception in sync order", e.toString());
-//                            }
+                            try { // upload pre sale order
+                                OrderController orderHed = new OrderController(getActivity());
+                                ArrayList<Order> ordHedList = orderHed.getAllUnSyncOrdHed();
+//                    /* If records available for upload then */
+                                if (ordHedList.size() <= 0)
+                                    Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
+                                else {
+
+                                    new UploadPreSales(getActivity(), FragmentTools.this).execute(ordHedList);
+                                    Log.v(">>8>>", "UploadPreSales execute finish");
+                                    // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
+                                }
+                            } catch (Exception e) {
+                                Log.v("Exception in sync order", e.toString());
+                            }
                             try {//Van sale upload - 2020-03-24-rashmi
                                 InvHedController hedDS = new InvHedController(getActivity());
                                // InvoiceBarcodeController hedDS = new InvoiceBarcodeController(getActivity());
