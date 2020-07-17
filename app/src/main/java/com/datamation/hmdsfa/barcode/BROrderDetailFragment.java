@@ -168,6 +168,32 @@ public class BROrderDetailFragment extends Fragment{
                 }else{
                     etSearchField.setVisibility(View.GONE);
                     textSearchField.setVisibility(View.VISIBLE);
+                    ArrayList<String> itemBundle = new BarcodeVarientController(getActivity()).getItems();
+                    ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, itemBundle);
+                    itemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    textSearchField.setAdapter(itemAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        //////////////@rashmi search by article no********************************************//////////
+
+        textSearchField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<ItemBundle> itemBundle = new BarcodeVarientController(getActivity())
+                        .getItemsInBundle(textSearchField.getSelectedItem().toString().split("-")[0]);
+                Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
+                if(itemBundle.size()==1) {
+                    selectedItem = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
+                    updateOrderDet(selectedItem);
+                    showData();
+                }else{
+                    Toast.makeText(getActivity(),"No matching item or duplicate items",Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -231,13 +257,13 @@ public class BROrderDetailFragment extends Fragment{
                 }
             });
 
-            textSearchField.setOnClickListener(new View.OnClickListener() {//@rashmi-item select by searching via article no
-
-                @Override
-                    public void onClick(View v) {
-
-                    }
-            });
+//            textSearchField.setOnClickListener(new View.OnClickListener() {//@rashmi-item select by searching via article no
+//
+//                @Override
+//                    public void onClick(View v) {
+//
+//                    }
+//            });
 
         }else{
             preSalesResponseListener.moveBackToCustomer_pre(0);

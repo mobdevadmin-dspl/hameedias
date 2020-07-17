@@ -159,17 +159,18 @@ public class BarcodeVarientController {
         } else if (!dB.isOpen()) {
             open();
         }
-
-        ArrayList<ItemBundle> list = new ArrayList<ItemBundle>();
+        Cursor cursor = null;
+        ArrayList<ItemBundle> list = new ArrayList<>();
+        try {
 
         //  String selectQuery = "SELECT *  FROM fItem WHERE ItemCode LIKE '%"+itemCode+"%'";
         String selectQuery =  "SELECT * FROM BarCodeVarient WHERE  Barcode_No = '" + itemCode + "' ";
 
 
-        Cursor cursor = dB.rawQuery(selectQuery, null);
-        while(cursor.moveToNext()){
+      cursor = dB.rawQuery(selectQuery, null);
+        while(cursor.moveToNext()) {
 
-            ItemBundle items=new ItemBundle();
+            ItemBundle items = new ItemBundle();
 
             items.setBarcode(cursor.getString(cursor.getColumnIndex(BARCODE_NO)));
             items.setDocumentNo("");
@@ -183,7 +184,88 @@ public class BarcodeVarientController {
 
 
             list.add(items);
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            dB.close();
+        }
 
+        return list;
+    }
+    public ArrayList<ItemBundle> getItemsByArticleNo(String articleno) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<ItemBundle> list = new ArrayList<>();
+        try {
+            //cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FPRODUCT_PRE + " WHERE itemcode || itemname LIKE '%" + newText + "%' and TxnType = '"+txntype+"' ORDER BY QOH DESC", null);
+            cursor = dB.rawQuery("SELECT * FROM  BarCodeVarient WHERE Article_No LIKE '%" + articleno + "%'", null);
+
+            while (cursor.moveToNext()) {
+                ItemBundle items=new ItemBundle();
+
+                items.setBarcode(cursor.getString(cursor.getColumnIndex(BARCODE_NO)));
+                items.setDocumentNo("");
+                items.setItemNo(cursor.getString(cursor.getColumnIndex(ITEM_NO)));
+                items.setVariantCode(cursor.getString(cursor.getColumnIndex(VARIANT_CODE)));
+                items.setVariantColour("");
+                items.setVariantSize(cursor.getString(cursor.getColumnIndex(VARIANT_SIZE)));
+                items.setQuantity(1);
+                items.setDescription(DOCUMENT_NO);
+                items.setArticleNo(cursor.getString(cursor.getColumnIndex(ARTICLE_NO)));
+
+
+                list.add(items);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            dB.close();
+        }
+
+        return list;
+    }
+    public ArrayList<String> getItems() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<String> list = new ArrayList<String>();
+        try {
+            //cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FPRODUCT_PRE + " WHERE itemcode || itemname LIKE '%" + newText + "%' and TxnType = '"+txntype+"' ORDER BY QOH DESC", null);
+            cursor = dB.rawQuery("SELECT * FROM  BarCodeVarient ", null);
+
+            while (cursor.moveToNext()) {
+
+                String item = cursor.getString(cursor.getColumnIndex(BARCODE_NO))+" - "+cursor.getString(cursor.getColumnIndex(ARTICLE_NO));
+//                items.setBarcode(cursor.getString(cursor.getColumnIndex(BARCODE_NO)));
+//                items.setDocumentNo("");
+//                items.setItemNo(cursor.getString(cursor.getColumnIndex(ITEM_NO)));
+//                items.setVariantCode(cursor.getString(cursor.getColumnIndex(VARIANT_CODE)));
+//                items.setVariantColour("");
+//                items.setVariantSize(cursor.getString(cursor.getColumnIndex(VARIANT_SIZE)));
+//                items.setQuantity(1);
+//                items.setDescription(DOCUMENT_NO);
+//                items.setArticleNo(cursor.getString(cursor.getColumnIndex(ARTICLE_NO)));
+
+
+                list.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            dB.close();
         }
 
         return list;
