@@ -499,16 +499,6 @@ public class OrderDetailController {
 
                 OrderDetail ordDet = new OrderDetail();
 
-//                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ID)));
-//                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_AMT)));
-//                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
-//                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
-//                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
-//                ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-//                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
-//                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
-//                ordDet.setFORDERDET_ITEMNAME(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_NAME)));
-
                 //commented due to table changed
 
                 ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(FORDDET_ID)));
@@ -803,7 +793,7 @@ public class OrderDetailController {
         }
 
     }
-    public ArrayList<OrderDetail> getTodayOrderDets(String refno) {
+    public ArrayList<OrderDetail> getTodayInvoiceDets(String refno) {
 
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
         int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
@@ -819,6 +809,58 @@ public class OrderDetailController {
        // String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE "
         String selectQuery = "select * from Finvdet WHERE "
                 + dbHelper.REFNO + "='" + refno + "' and  txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                OrderDetail ordDet = new OrderDetail();
+
+                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(FORDDET_ID)));
+                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(FORDDET_AMT)));
+                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FORDDET_ITEM_CODE)));
+                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(FORDDET_PRIL_CODE)));
+                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(FORDDET_QTY)));
+                ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(FORDDET_SELL_PRICE)));
+                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FORDDET_IS_ACTIVE)));
+                ordDet.setFORDERDET_TYPE(cursor.getString(cursor.getColumnIndex(FORDDET_TYPE)));
+                ordDet.setFORDERDET_TXNTYPE(cursor.getString(cursor.getColumnIndex(FORDDET_TXN_TYPE)));
+
+                list.add(ordDet);
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
+    public ArrayList<OrderDetail> getTodayOrderDets(String refno) {
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
+
+        // String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE "
+        String selectQuery = "select * from Forddet WHERE "
+                + dbHelper.REFNO + "='" + refno + "' "
+                + " and  txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -1062,6 +1104,9 @@ public class OrderDetailController {
                 ordDet.setFORDERDET_DISFLAG(cursor.getString(cursor.getColumnIndex(FORDDET_DISFLAG)));
                 ordDet.setFORDERDET_DIS_VAL_AMT(cursor.getString(cursor.getColumnIndex(FORDDET_DIS_VAL_AMT)));
                 ordDet.setFORDERDET_REACODE(cursor.getString(cursor.getColumnIndex(FORDDET_REA_CODE)));
+                ordDet.setFORDERDET_BARCODE(cursor.getString(cursor.getColumnIndex(FORDDET_BARCODE)));
+                ordDet.setFORDERDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FORDDET_ARTICLENO)));
+                ordDet.setFORDERDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FORDDET_VARIANTCODE)));
 
                 list.add(ordDet);
 

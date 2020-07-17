@@ -71,6 +71,7 @@ import com.datamation.hmdsfa.model.Product;
 import com.datamation.hmdsfa.settings.ReferenceNum;
 import com.datamation.hmdsfa.view.PreSalesActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -107,6 +108,7 @@ public class BROrderDetailFragment extends Fragment{
     ArrayList<OrderDetail> exOrderDet;
     ArrayList<ItemBundle> itemArrayList = null;
     EditText etSearchField;
+    SearchableSpinner textSearchField;
     ThreadConnectBTdevice threadConnectBTdevice;
     FloatingActionButton btnDiscount;
     public BROrderDetailFragment() {
@@ -114,8 +116,8 @@ public class BROrderDetailFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.activity_bar_code_reader, container, false);
+        ///****************initializations @rashmi*****************************************************//
         seqno = 0;
         totPieces = 0;
         mSharedPref =SharedPref.getInstance(getActivity());
@@ -123,25 +125,63 @@ public class BROrderDetailFragment extends Fragment{
         lvFree = (ListView) view.findViewById(R.id.lvFreeIssue_Inv);
         mainActivity = (PreSalesActivity)getActivity();
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
-
-        etSearchField = view.findViewById(R.id.etSearchField);
+        etSearchField = (EditText) view.findViewById(R.id.etSearchField);
+        textSearchField = (SearchableSpinner) view.findViewById(R.id.txtSearchField);
         spnScanType = (Spinner) view.findViewById(R.id.spnScan);
         btnDiscount = (FloatingActionButton)  view.findViewById(R.id.btn_discount);
         itemArrayList = new ArrayList<>();
         tmpsoHed = new Order();
-        showData();
-        ArrayList<String> strList = new ArrayList<String>();
+        ///*****************************@rashmi******************************************************//
+        showData();//@rashmi - show data when oncreate
+        ArrayList<String> strList = new ArrayList<String>();//@rashmi - arraylist for transaction selection spinner
         strList.add("ITEM WISE");
         strList.add("BUNDLE WISE");
+        strList.add("SEARCH BY ARTICLE NO");
+        textSearchField.setTitle("SEARCH BY ARTICLE NO");
         final ArrayAdapter<String> txnTypeAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.return_spinner_item, strList);
         txnTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnScanType.setAdapter(txnTypeAdapter);
-        showData();
+        //@rashmi - first time spinner selection layout visibility handle
+        if(spnScanType.getSelectedItemPosition() == 0) {
+            etSearchField.setVisibility(View.VISIBLE);
+            textSearchField.setVisibility(View.GONE);
+
+        }else if(spnScanType.getSelectedItemPosition() == 1){
+            etSearchField.setVisibility(View.VISIBLE);
+            textSearchField.setVisibility(View.GONE);
+        }else{
+            etSearchField.setVisibility(View.GONE);
+            textSearchField.setVisibility(View.VISIBLE);
+        }
+        //@rashmi - when change spinner selection layout visibility handle
+        spnScanType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(spnScanType.getSelectedItemPosition() == 0) {
+                    etSearchField.setVisibility(View.VISIBLE);
+                    textSearchField.setVisibility(View.GONE);
+
+                }else if(spnScanType.getSelectedItemPosition() == 1){
+                    etSearchField.setVisibility(View.VISIBLE);
+                    textSearchField.setVisibility(View.GONE);
+                }else{
+                    etSearchField.setVisibility(View.GONE);
+                    textSearchField.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ///*****************************@rashmi******************************************************//
         if(new OrderController(getActivity()).IsSavedHeader(RefNo)>0){
             etSearchField.setOnEditorActionListener(new EditText.OnEditorActionListener() {
                 @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {//@rashmi-itemwise or bundle wise scan via edittext
                     clickCount = 0;
                     mSharedPref.setDiscountClicked("0");
                     if(spnScanType.getSelectedItemPosition() == 0) {
@@ -167,7 +207,6 @@ public class BROrderDetailFragment extends Fragment{
                         }
                         etSearchField.setText("");
                         etSearchField.setFocusable(true);
-
                     }
                     return false;
                 }
@@ -192,6 +231,13 @@ public class BROrderDetailFragment extends Fragment{
                 }
             });
 
+            textSearchField.setOnClickListener(new View.OnClickListener() {//@rashmi-item select by searching via article no
+
+                @Override
+                    public void onClick(View v) {
+
+                    }
+            });
 
         }else{
             preSalesResponseListener.moveBackToCustomer_pre(0);
@@ -266,205 +312,6 @@ public class BROrderDetailFragment extends Fragment{
             }
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alertD = alertDialogBuilder.create();
-
-        alertD.show();
-        return true;
-    }
-
-    public void calculateDiscounts(String debCode){
-
-        // get active order details to reset before calculate the discount
-        exOrderDet = new OrderDetailController(getActivity()).getExOrderDetails(RefNo);
-
-        // update the order detail with active order details
-        new OrderDetailController(getActivity()).resetOrderDetWithoutDiscountData(RefNo, exOrderDet);
-
-        //Clear discount in Orddisc
-        new OrderDiscController(getActivity()).ClearDiscountForPreSale(RefNo);
-        ArrayList<OrderDetail> dets = new OrderDetailController(getActivity()).getSAForDiscountCalc(RefNo);
-        DiscountController issue = new DiscountController(getActivity());
-        //getting discount list by debcode
-        ArrayList<OrderDetail> metaOrdList = issue.updateOrdDiscount(dets,debCode);
-        Log.d("PRE_SALES_ORDER_DETAILS", "LIST_SIZE: " + dets.size());
-
-        /* Iterate through for discounts for items */
-        for(OrderDetail orderDetail : metaOrdList){
-
-            new OrderDetailController(getActivity()).updateDiscount(orderDetail);
-            String disper = orderDetail.getFORDERDET_SCHDISPER();
-
-            String sArray[] = new VATController(getActivity()).calculateTaxForward( mSharedPref.getGlobalVal("KeyVat"), Double.parseDouble(orderDetail.getFORDERDET_BSELLPRICE()));
-            String amt = String.format("%.2f",Double.parseDouble(sArray[0])* Double.parseDouble(orderDetail.getFORDERDET_QTY()));
-            String tax = String.format("%.2f",Double.parseDouble(sArray[1])* Double.parseDouble(orderDetail.getFORDERDET_QTY()));
-            String dis = String.format("%.2f",Double.parseDouble( orderDetail.getFORDERDET_DISAMT()));
-            String barcode = orderDetail.getFORDERDET_BARCODE();
-            new OrderDetailController(getActivity()).UpdateItemTaxInfo(tax,amt, RefNo,barcode,dis,disper);
-
-
-
-        }
-        //amount is update , after the tap free issue button
-        showData();
-    }
-
-    public void calculateFreeIssue(String debCode) {
-        /* GET CURRENT ORDER DETAILS FROM TABLE */
-        ArrayList<OrderDetail> dets = new OrderDetailController(getActivity()).getSAForFreeIssueCalc(RefNo);
-        /* CLEAR ORDERDET TABLE RECORD IF FREE ITEMS ARE ALREADY ADDED. */
-        new OrderDetailController(getActivity()).restFreeIssueData(RefNo);
-        /* Clear free issues in OrdFreeIss */
-        new OrdFreeIssueController(getActivity()).ClearFreeIssuesForPreSale(RefNo);
-        // // Menaka on 09-12-2019
-        FreeIssueModified freeIssue = new FreeIssueModified(getActivity());
-        // GET ARRAY OF FREE ITEMS BY PASSING IN ORDER DETAILS
-        //ArrayList<FreeItemDetails> list = issue.getFreeItemsBySalesItem(dets);
-        ArrayList<FreeItemDetails> list = freeIssue.getFreeItemsBySalesItem(dets);
-        //ArrayList<FreeItemDetails> list = issue.getFreeItemsBySalesItem(dets, new SharedPref(getActivity()).getGlobalVal("preKeyCostCode"));
-        // PASS EACH ITEM IN TO DIALOG BOX FOR USER SELECTION
-        //       if(count == 1) {
-        // Log.v("Click count before loop", ">>>"+count);
-        for (FreeItemDetails freeItemDetails : list) {
-            if(freeItemDetails.getFreeQty()>0) {
-                freeIssueDialogBox(freeItemDetails);
-            }
-        }
-//        NewFreeIssue free = new NewFreeIssue(getActivity());
-//
-//        ArrayList<FreeItemDetails> newlist = free.New_FreeIssue();
-//                for (FreeItemDetails freeItemDetails : newlist) {
-//            freeIssueDialogBox(freeItemDetails);
-//
-//        }
-
-        Log.v("Click count after loop", ">>>"+clickCount);
-//        }
-
-    }
-    //------------------------------------------------------------show ---------------Free issue Dailog box--------------------------------------------------------------------------
-
-    private boolean freeIssueDialogBox(final FreeItemDetails itemDetails) {
-
-        final ArrayList<ItemFreeIssue> itemFreeIssues;
-        final ArrayList<String> saleItemList;
-        final String FIRefNo = itemDetails.getRefno();
-        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-        View promptView = layoutInflater.inflate(R.layout.free_issues_items_dialog, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setTitle("Free Issue Schemes");
-        alertDialogBuilder.setView(promptView);
-
-        final ListView listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
-        final ListView listViewsale = (ListView) promptView.findViewById(R.id.lv_free_issue_items);
-        final TextView itemName = (TextView) promptView.findViewById(R.id.tv_free_issue_item_name);
-        final TextView itemNamefree = (TextView) promptView.findViewById(R.id.tv_free_issued_item_name);
-        final TextView freeQty = (TextView) promptView.findViewById(R.id.tv_free_qty);
-
-        freeQty.setText("Free Quantity : " + itemDetails.getFreeQty());
-        //itemName.setText("Products : " + new ItemController(getActivity()).getItemNameByCode(itemDetails.getFreeIssueSelectedItem()));
-        // itemName.setText("Products : ");
-        //itemNamefree.setText("Free Products : " + new ItemController(getActivity()).getItemNameByCode(itemDetails.getFreeIssueSelectedItem()));
-        itemNamefree.setText("Free Products : ");
-
-        final ItemController itemsDS = new ItemController(getActivity());
-        itemFreeIssues = itemsDS.getAllFreeItemNameByRefno(itemDetails.getRefno());
-        saleItemList = itemsDS.getFreeIssueItemDetailsByItem(itemDetails.getSaleItemList());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, saleItemList);
-        listViewsale.setAdapter(adapter);
-        listView.setAdapter(new FreeIssueAdapter(getActivity(), itemFreeIssues,itemDetails));
-
-
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-                for (ItemFreeIssue itemFreeIssue : itemFreeIssues) {
-
-                    if (Integer.parseInt(itemFreeIssue.getAlloc()) > 0) {
-
-                        seqno++;
-                        OrderDetail ordDet = new OrderDetail();
-                        OrderDetailController detDS = new OrderDetailController(getActivity());
-                        ArrayList<OrderDetail> ordList = new ArrayList<OrderDetail>();
-
-                        ordDet.setFORDERDET_ID("0");
-                        ordDet.setFORDERDET_AMT("0");
-                        ordDet.setFORDERDET_BALQTY(itemFreeIssue.getAlloc());
-                        ordDet.setFORDERDET_BAMT("0");
-                        ordDet.setFORDERDET_BDISAMT("0");
-                        ordDet.setFORDERDET_BPDISAMT("0");
-                        String unitPrice = new ItemPriController(getActivity()).getProductPriceByCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE(), mSharedPref.getSelectedDebtorPrilCode());
-                        ordDet.setFORDERDET_BSELLPRICE("0");
-                        ordDet.setFORDERDET_BTSELLPRICE("0.00");
-                        ordDet.setFORDERDET_DISAMT("0");
-                        ordDet.setFORDERDET_SCHDISPER("0");
-                        ordDet.setFORDERDET_FREEQTY("0");
-                        ordDet.setFORDERDET_ITEMCODE(itemFreeIssue.getItems().getFITEM_ITEM_CODE());
-                        ordDet.setFORDERDET_PDISAMT("0");
-                        ordDet.setFORDERDET_PRILCODE("WSP001");
-                        ordDet.setFORDERDET_QTY(itemFreeIssue.getAlloc());
-                        ordDet.setFORDERDET_PICE_QTY(itemFreeIssue.getAlloc());
-                        ordDet.setFORDERDET_CASES("0");//because free issue not issued cases wise-2019-10-21 menaka said
-                        ordDet.setFORDERDET_TYPE("FD");
-                        ordDet.setFORDERDET_RECORDID("");
-                        ordDet.setFORDERDET_REFNO(RefNo);
-                        ordDet.setFORDERDET_SELLPRICE("0");
-                        ordDet.setFORDERDET_SEQNO(seqno + "");
-                        ordDet.setFORDERDET_TAXAMT("0");
-                        ordDet.setFORDERDET_TAXCOMCODE(new ItemController(getActivity()).getTaxComCodeByItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE()));
-                        //ordDet.setFTRANSODET_TAXCOMCODE(new ItemsDS(getActivity()).getTaxComCodeByItemCodeFromDebTax(itemFreeIssue.getItems().getFITEM_ITEM_CODE(), mainActivity.selectedDebtor.getFDEBTOR_CODE()));
-                        ordDet.setFORDERDET_TIMESTAMP_COLUMN("");
-                        ordDet.setFORDERDET_TSELLPRICE("0.00");
-                        ordDet.setFORDERDET_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                        ordDet.setFORDERDET_TXNTYPE("27");
-                        ordDet.setFORDERDET_IS_ACTIVE("1");
-                        ordDet.setFORDERDET_LOCCODE(mSharedPref.getGlobalVal("PrekeyLocCode").trim());
-                        ordDet.setFORDERDET_COSTPRICE(new ItemController(getActivity()).getCostPriceItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE()));
-                        ordDet.setFORDERDET_BTAXAMT("0");
-                        ordDet.setFORDERDET_IS_SYNCED("0");
-                        ordDet.setFORDERDET_QOH("0");
-                        ordDet.setFORDERDET_SCHDISC("0");
-                        ordDet.setFORDERDET_BRAND_DISC("0");
-                        ordDet.setFORDERDET_BRAND_DISPER("0");
-                        ordDet.setFORDERDET_COMP_DISC("0");
-                        ordDet.setFORDERDET_COMP_DISPER("0");
-                        ordDet.setFORDERDET_DISCTYPE("");
-                        ordDet.setFORDERDET_PRICE("0.00");
-                        ordDet.setFORDERDET_ORG_PRICE("0");
-                        ordDet.setFORDERDET_DISFLAG("0");
-                        ordDet.setFORDERDET_REACODE("");
-
-                        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*OrdFreeIssue table update*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
-                        OrdFreeIssue ordFreeIssue = new OrdFreeIssue();
-                        ordFreeIssue.setOrdFreeIssue_ItemCode(itemFreeIssue.getItems().getFITEM_ITEM_CODE());
-                        ordFreeIssue.setOrdFreeIssue_Qty(itemFreeIssue.getAlloc());
-                        ordFreeIssue.setOrdFreeIssue_RefNo(FIRefNo);
-                        ordFreeIssue.setOrdFreeIssue_RefNo1(RefNo);
-                        ordFreeIssue.setOrdFreeIssue_TxnDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                        new OrdFreeIssueController(getActivity()).UpdateOrderFreeIssue(ordFreeIssue);
-
-                        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*/
-
-                        ordList.add(ordDet);
-
-                        if (detDS.createOrUpdateOrdDet(ordList) > 0) {
-                            Toast.makeText(getActivity(), "Added successfully", Toast.LENGTH_SHORT).show();
-                            showData();
-
-//                            lvFree.setAdapter(null);
-//                            ArrayList<OrderDetail> freeList=new OrderDetailController(getActivity()).getAllFreeIssue(RefNo);
-//                            lvFree.setAdapter(new OrderFreeItemAdapter(getActivity(), freeList));
-                        }
-                    }
-                }
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                mSharedPref.setGlobalVal("preKeyIsFreeClicked", "0");
                 dialog.cancel();
             }
         });

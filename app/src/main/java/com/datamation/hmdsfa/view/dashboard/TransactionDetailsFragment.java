@@ -29,6 +29,7 @@ import com.datamation.hmdsfa.controller.PreProductController;
 import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.SalesReturnDetController;
+import com.datamation.hmdsfa.dialog.PreSalePrintPreviewAlertBox;
 import com.datamation.hmdsfa.dialog.VanSalePrintPreviewAlertBox;
 import com.datamation.hmdsfa.model.FInvRDet;
 import com.datamation.hmdsfa.model.FInvRHed;
@@ -288,7 +289,7 @@ public class TransactionDetailsFragment extends Fragment {
             if (convertView == null) {
                 LayoutInflater infalInflater = (LayoutInflater) this._context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = infalInflater.inflate(R.layout.transaction_details_list_group, null);
+                convertView = infalInflater.inflate(R.layout.list_group, null);
                 //convertView = infalInflater.inflate(R.layout.list_group, null);
             }
 
@@ -298,16 +299,17 @@ public class TransactionDetailsFragment extends Fragment {
             TextView date = (TextView) convertView.findViewById(R.id.date);
             TextView tot = (TextView) convertView.findViewById(R.id.total);
             TextView stats = (TextView) convertView.findViewById(R.id.status);
-            TextView delete = (TextView) convertView.findViewById(R.id.type);
+            ImageView type = (ImageView) convertView.findViewById(R.id.type);
+            ImageView print = (ImageView) convertView.findViewById(R.id.print);
             lblListHeader.setTypeface(null, Typeface.BOLD);
             lblListHeader.setText(headerTitle.getORDER_REFNO());
             deb.setText(headerTitle.getORDER_DEBCODE());
             if(headerTitle.getORDER_IS_SYNCED().equals("1")){
-                delete.setBackground(null);
+            //    delete.setBackground(null);
                 stats.setText("Synced");
                 stats.setTextColor(getResources().getColor(R.color.material_alert_positive_button));
             }else{
-                delete.setBackground(getResources().getDrawable(R.drawable.icon_minus));
+              //  delete.setBackground(getResources().getDrawable(R.drawable.icon_minus));
                 stats.setText("Not Synced");
                 stats.setTextColor(getResources().getColor(R.color.material_alert_negative_button));
             }
@@ -315,13 +317,18 @@ public class TransactionDetailsFragment extends Fragment {
             date.setText(headerTitle.getORDER_TXNDATE());
             tot.setText(headerTitle.getORDER_TOTALAMT());
 
-            delete.setOnClickListener(new View.OnClickListener() {
+            type.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     deleteOrder(headerTitle.getORDER_REFNO());
                 }
             });
-
+            print.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    printOrder(headerTitle.getORDER_REFNO());
+                }
+            });
             return convertView;
         }
 
@@ -467,6 +474,37 @@ public class TransactionDetailsFragment extends Fragment {
                         super.onPositive(dialog);
 
                         int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+
+                        dialog.dismiss();
+
+
+                    }
+                })
+                .build();
+        materialDialog.setCanceledOnTouchOutside(false);
+        materialDialog.show();
+    }
+
+    public void printOrder(final String RefNo) {
+
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                .content("Do you want to print this order ?")
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                .positiveText("Yes")
+                .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                .negativeText("No, Exit")
+                .callback(new MaterialDialog.ButtonCallback() {
+
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+
+                        int a = new PreSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
                     }
 
                     @Override

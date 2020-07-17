@@ -214,9 +214,59 @@ public class OrderController {
         return count;
 
     }
-
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public ArrayList<Order> getTodayOrders() {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<Order> list = new ArrayList<Order>();
+
+        try {
+            //String selectQuery = "select DebCode, RefNo from fordHed " +
+            String selectQuery = "select DebCode, RefNo, isSynced, TxnDate, TotalAmt from fOrdHed "
+                    +"  where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"' and isActive = '" +"0"+"'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                Order recDet = new Order();
+
+//
+                recDet.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(REFNO)));
+                recDet.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DEBCODE)));
+                recDet.setORDER_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FORDHED_IS_SYNCED)));
+                recDet.setORDER_TXNTYPE("Order");
+                recDet.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(TXNDATE)));
+                recDet.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(FORDHED_TOTAL_AMT)));
+                //TODO :set  discount, free
+
+                list.add(recDet);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+
+    }
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public ArrayList<Order> getTodayInvoices() {
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
         int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
         int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
@@ -732,22 +782,37 @@ public class OrderController {
             open();
         }
 
-        Order SOHed = new Order();
+        Order presale = new Order();
 
         try {
-            String selectQuery = "SELECT TxnDate,DebCode,Remarks,RouteCode,TotalAmt,TotalDis FROM " + TABLE_FORDHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_FORDHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
 
-                SOHed.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(TXNDATE)));
-                SOHed.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DEBCODE)));
-                SOHed.setORDER_REMARKS(cursor.getString(cursor.getColumnIndex(FORDHED_REMARKS)));
-//                SOHed.setFINVHED_TOURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOURCODE)));
-                SOHed.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(FORDHED_ROUTE_CODE)));
-                SOHed.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(FORDHED_TOTAL_AMT)));
-                SOHed.setORDER_TOTALDIS(cursor.getString(cursor.getColumnIndex(FORDHED_TOTALDIS)));
+                presale.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(REFNO)));
+                presale.setORDER_ADDDATE(cursor.getString(cursor.getColumnIndex(FORDHED_ADD_DATE)));
+                presale.setORDER_ADDMACH(cursor.getString(cursor.getColumnIndex(FORDHED_ADD_MACH)));
+                presale.setORDER_ADDUSER(cursor.getString(cursor.getColumnIndex(FORDHED_ADD_USER)));
+                presale.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DEBCODE)));
+                // presale.setORDER_ADDTIME(cursor.getString(cursor.getColumnIndex(FORDHED_START_TIME_SO)));
+                presale.setORDER_START_TIMESO(cursor.getString(cursor.getColumnIndex(FORDHED_START_TIME_SO)));
+                presale.setORDER_END_TIMESO(cursor.getString(cursor.getColumnIndex(FORDHED_END_TIME_SO)));
+                presale.setORDER_AREACODE(cursor.getString(cursor.getColumnIndex(FORDHED_AREA_CODE)));
+                presale.setORDER_DEALCODE(cursor.getString(cursor.getColumnIndex(DEALCODE)));
+                presale.setORDER_LONGITUDE(cursor.getString(cursor.getColumnIndex(FORDHED_LONGITUDE)));
+                presale.setORDER_LATITUDE(cursor.getString(cursor.getColumnIndex(FORDHED_LATITUDE)));
+                presale.setORDER_MANUREF(cursor.getString(cursor.getColumnIndex(FORDHED_MANU_REF)));
+                presale.setORDER_REMARKS(cursor.getString(cursor.getColumnIndex(FORDHED_REMARKS)));
+                presale.setORDER_REPCODE(cursor.getString(cursor.getColumnIndex(REPCODE)));
+                presale.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(FORDHED_TOTAL_AMT)));
+                presale.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(TXNDATE)));
+                presale.setORDER_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FORDHED_IS_ACTIVE)));
+                presale.setORDER_ROUTECODE(cursor.getString(cursor.getColumnIndex(FORDHED_ROUTE_CODE)));
+                presale.setORDER_DELIVERY_DATE(cursor.getString(cursor.getColumnIndex(FORDHED_DELV_DATE)));
+                presale.setORDER_PAYTYPE(cursor.getString(cursor.getColumnIndex(FORDHED_PAYMENT_TYPE)));
+                presale.setORDER_FEEDBACK(cursor.getString(cursor.getColumnIndex(FORDHED_FEEDBACK)));
             }
             cursor.close();
 
@@ -759,7 +824,7 @@ public class OrderController {
             dB.close();
         }
 
-        return SOHed;
+        return presale;
 
     }
 

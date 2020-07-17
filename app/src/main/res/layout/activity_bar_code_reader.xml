@@ -58,11 +58,38 @@
         android:drawableRight="@android:drawable/ic_menu_search"
         android:maxLines="1"
         android:paddingLeft="10dp" />
-
-
+    <!--<EditText-->
+        <!--android:id="@+id/txtSearchField"-->
+        <!--android:layout_below="@+id/etSearchField"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="2dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:drawablePadding="10dp"-->
+        <!--android:hint="SEARCH BY ARTICLE NO..."-->
+        <!--android:background="@android:color/background_light"-->
+        <!--android:inputType="text"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:gravity="center"-->
+        <!--android:drawableRight="@android:drawable/ic_menu_search"-->
+        <!--android:maxLines="1"-->
+        <!--android:paddingLeft="10dp" />-->
+    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+        android:id="@+id/txtSearchField"
+        android:layout_below="@+id/etSearchField"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="20dp"
+        android:drawablePadding="10dp"
+        android:inputType="text"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:maxLines="1"
+        android:paddingLeft="10dp" />
 
     <ListView
-        android:layout_below="@+id/etSearchField"
+        android:layout_below="@+id/txtSearchField"
         android:id="@+id/lvProducts_Inv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
