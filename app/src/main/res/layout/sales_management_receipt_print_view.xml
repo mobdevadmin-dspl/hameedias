@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/headcompanyname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/head_comp_name"
+                android:textColor="#000000"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/headaddress1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/head_address1"
+                android:textColor="#000000"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/headaddress2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/head_address2"
+                android:textColor="#000000"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/headteleno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/head_comp_tele"
+                android:textColor="#000000"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/headwebsite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/head_comp_website"
+                android:textColor="#000000"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/heademail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/head_comp_email"
+                android:textColor="#000000"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/docdelaerLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/printheadingline"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/salesrepname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_repname"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/salesrepphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_dist_phone"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/docrepline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/printheadingline"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/headcusname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_cusname"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/headcusaddress1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_dist_address1"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/headcusaddress2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_dist_address2"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/headcustele"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_dist_phone"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+            
+            <TextView
+                android:id="@+id/headcusroute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_dist_phone"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+            
+            <TextView
+                android:id="@+id/headcustown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_dist_phone"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/docheadcustomer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/printheadingline"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/printsalorddate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_van_sal_date"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/printrefno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="Sal  Refno"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/printremark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_sal_remarks"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/docheadtitledd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/printheadingline"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="20dip"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal"
+                android:weightSum="9.5"
+                >
+
+                <TextView
+                    android:id="@+id/transdetProductname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="2.0"
+                    android:text="INVNO"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+                
+
+
+                 <TextView
+                    android:id="@+id/receinvdate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1.5"
+                    android:text="INV DATE"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+                <!--<TextView
+                    android:id="@+id/receinvrepname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1.0"
+                    android:text="REP"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+                         
+                <TextView
+                    android:id="@+id/receinvdatediff"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.5"
+                    android:text="DD"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />-->
+                                
+                <TextView
+                    android:id="@+id/txtprices"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="2.5"
+                    android:gravity="center"
+                    android:text="TOT DUE"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/printcspsheading"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="2.5"
+                    android:gravity="center"
+                    android:text="PAID"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/receinvdays"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="DAYS"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+                                
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/docdetailline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/printheadingline"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal" >
+
+                <ListView
+                    android:id="@+id/vansaleList"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:divider="#8b8b83"
+                    android:dividerHeight="1dp"
+                    android:drawSelectorOnTop="false"></ListView>
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/detoverline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/printheadingline"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="28dip"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/transsummarytotalvalue"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="2.3"
+                    android:text="Total Allocation"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/recTotalAlloc"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:text="@string/trans_summary_previewvalue"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="28dip"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/transsummarytotaldisc"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="Pay Mode"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/recPayMode"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="right"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:text="@string/trans_summary_previewvalue"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearBank"
+                android:layout_width="fill_parent"
+                android:layout_height="28dip"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/textview02"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="Bank - Branch"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/recBank"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="right"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:text="@string/trans_summary_previewvalue"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearChqNo"
+                android:layout_width="fill_parent"
+                android:layout_height="28dip"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/recChequeOrCard"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="2.3"
+                    android:text="Cheque No"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/recChqNo"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="2.0"
+                    android:gravity="right"
+                    android:text="@string/trans_summary_previewvalue"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+            </LinearLayout>
+		<LinearLayout
+                android:id="@+id/linearChqDate"
+                android:layout_width="fill_parent"
+                android:layout_height="28dip"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/txtview23"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="2.3"
+                    android:text="Cheque Date"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/recChqDate"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:text="@string/trans_summary_previewvalue"
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/docheadtitledp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dip"
+                android:gravity="left"
+                android:maxLines="1"
+                android:paddingRight="40dip"
+                android:text="Receipt Accepted ........................."
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/docheadtitledq"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dip"
+                android:gravity="left"
+                android:paddingRight="60dip"
+                android:text="Please Place the Rubber Stamp."
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/docheadtitledr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dip"
+                android:maxLines="1"
+                android:text="@string/printheadingline"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Developed by Datamation Systems. \n +94 11 2 501202 .\n www.datamation.lk"
+                android:textColor="@color/greenColor"
+                android:textStyle="italic" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
