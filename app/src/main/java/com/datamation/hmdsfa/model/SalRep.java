@@ -21,7 +21,16 @@ public class SalRep {
     private String firebaseTokenID;
     @SerializedName("macid")
     private String MACID;
+    @SerializedName("CurrentVanLoc")
+    private String CurrentVanLoc;
 
+    public String getCurrentVanLoc() {
+        return CurrentVanLoc;
+    }
+
+    public void setCurrentVanLoc(String currentVanLoc) {
+        CurrentVanLoc = currentVanLoc;
+    }
 
     public String getPASSWORD() {
         return PASSWORD;

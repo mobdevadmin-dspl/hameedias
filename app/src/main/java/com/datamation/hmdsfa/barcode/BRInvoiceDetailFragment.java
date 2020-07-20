@@ -48,14 +48,18 @@ import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.DiscountController;
 import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
+import com.datamation.hmdsfa.controller.InvTaxDTController;
+import com.datamation.hmdsfa.controller.InvTaxRGController;
 import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemPriController;
 import com.datamation.hmdsfa.controller.OrdFreeIssueController;
 import com.datamation.hmdsfa.controller.ProductController;
+import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.TaxDetController;
 import com.datamation.hmdsfa.controller.VATController;
+import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.freeissue.FreeIssue;
 import com.datamation.hmdsfa.helpers.BluetoothConnectionHelper;
@@ -98,13 +102,14 @@ public class BRInvoiceDetailFragment extends Fragment{
     ActivityVanSalesBR mainActivity;
     MyReceiver r;
     ArrayList<Product> productList = null, selectedItemList = null, selectedItem = null;
-    ArrayList<ItemBundle> itemArrayList = null, selectedBundleItemList = null;;
+    ArrayList<ItemBundle> itemArrayList = null;
     ImageButton ibtProduct, ibtDiscount;
     private  SweetAlertDialog pDialog;
     private InvHed selectedInvHed;
     TextView textStatus;
     EditText etSearchField;
     ThreadConnectBTdevice threadConnectBTdevice;
+    int clickCount = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -126,7 +131,8 @@ public class BRInvoiceDetailFragment extends Fragment{
         ArrayList<String> strList = new ArrayList<String>();
         strList.add("ITEM WISE");
         strList.add("BUNDLE WISE");
-
+        clickCount = 0;
+        mSharedPref.setDiscountClicked("0");
         final ArrayAdapter<String> txnTypeAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.return_spinner_item, strList);
         txnTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -140,7 +146,8 @@ public class BRInvoiceDetailFragment extends Fragment{
         etSearchField.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
+                clickCount = 0;
+                mSharedPref.setDiscountClicked("0");
                // Log.v("ENTER CODE","Working.... ");
                 if(spnScanType.getSelectedItemPosition() == 0) {
 //                        .getAllItem(etSearchField.getText().toString());
@@ -216,12 +223,22 @@ public class BRInvoiceDetailFragment extends Fragment{
         btnDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(new DiscountController(getActivity()).IsDiscountCustomer(mSharedPref.getSelectedDebCode())>0)
-                {
-                    new CalculateDiscounts(mSharedPref.getSelectedDebCode()).execute();
+                mSharedPref.setDiscountClicked("1");
+                if(clickCount == 0) {
+
+                    if(new DiscountController(getActivity()).IsDiscountCustomer(mSharedPref.getSelectedDebCode())>0)
+                    {
+                        new CalculateDiscounts(mSharedPref.getSelectedDebCode()).execute();
+                    }else{
+                        UpdateTaxDetails(RefNo);
+                        Toast.makeText(getActivity(),"Discount not allow for this customer",Toast.LENGTH_SHORT).show();
+                    }
+                    clickCount++;
                 }else{
-                    Toast.makeText(getActivity(),"Discount not allow for this customer",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Already clicked",Toast.LENGTH_LONG).show();
+                    Log.v("Freeclick Count", mSharedPref.getGlobalVal("preKeyIsFreeClicked"));
                 }
+
             }
         });
 
@@ -239,6 +256,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         lv_order_det.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mSharedPref.setDiscountClicked("0");
                 new InvDetController(getActivity()).restFreeIssueData(RefNo);
                 //new OrdFreeIssueDS(getActivity()).ClearFreeIssues(RefNo);
                 newDeleteOrderDialog(position);
@@ -274,6 +292,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         alertDialogBuilder.setCancelable(false).setPositiveButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 selectedItemList = new ProductController(getActivity()).getBundleScannedtems(itemDetails);
+
                 updateInvoiceDet(selectedItemList);
                 showData();
 
@@ -689,7 +708,11 @@ public class BRInvoiceDetailFragment extends Fragment{
 
              //   new ProductController(getActivity()).updateBarCodeInDelete(orderListNew.get(position).getBarcodeNo(), "0");
                 //new ProductController(getActivity()).updateProductQty(orderList.get(position).getFINVDET_ITEM_CODE(), "0");
-                new InvDetController(getActivity()).mDeleteProduct(selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE(), orderList.get(position).getFINVDET_BARCODE());
+                if(orderList.get(position).getFINVDET_PRIL_CODE().equals("")) {
+                    new InvDetController(getActivity()).mDeleteProduct(selectedInvHed.getFINVHED_REFNO(), orderList.get(position).getFINVDET_ITEM_CODE(), orderList.get(position).getFINVDET_BARCODE());
+                }else{
+                    new InvDetController(getActivity()).mDeleteBundle(selectedInvHed.getFINVHED_REFNO(),  orderList.get(position).getFINVDET_PRIL_CODE());
+                }
                 android.widget.Toast.makeText(getActivity(), "Deleted successfully!", android.widget.Toast.LENGTH_SHORT).show();
                 showData();
 
@@ -714,41 +737,26 @@ public class BRInvoiceDetailFragment extends Fragment{
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void updateInvoiceDet(final ArrayList<Product> list) {
+        int count = 0;
+        //rashmi - 2020-07-02
+                    for (Product product : list) {
 
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected void onPreExecute() {
-                pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                pDialog.setTitleText("Updating products...");
-                pDialog.setCancelable(false);
-                pDialog.show();
-                super.onPreExecute();
-            }
-
-            @Override
-            protected Void doInBackground(Void... params) {
-
-                int i = 0;
-               for (Product product : list) {
-                    i++;
-                    mUpdateInvoice(product.getFPRODUCT_Barcode(), product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), product.getFPRODUCT_VariantCode(), product.getFPRODUCT_QTY(),product.getFPRODUCT_ArticleNo());
-                    }//id,itemcode,qty,price,seqno,qoh,changed price
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                if(pDialog.isShowing()){
-                    pDialog.dismiss();
-                }
-
-                showData();
-            }
-
-        }.execute();
+                        double qoh = Double.parseDouble(new VanStockController(getActivity()).getQOH(new SalRepController(getActivity()).getCurrentLoccode().trim(),product.getFPRODUCT_Barcode()));
+                       // Log.d("QOH>>>",">>>listsize"+list.size()+"count>>>"+qoh);
+                        if(qoh >= Double.parseDouble(product.getFPRODUCT_QTY())) {
+                            count++;
+                        //    Log.d("QOH>>>","insideqohvalidation>>>listsize"+list.size()+"count>>>"+count);
+                        }
+                      //  Log.d("QOH>>>","first prdct loop>>>listsize"+list.size()+"count>>>"+count);
+                    }
+                   // Log.d("QOH>>>","before scnd for loop listsize>>>"+list.size()+"count>>>"+count);
+                    if(count == list.size()) {
+                        for (Product product : list) {
+                            mUpdateInvoice(product.getFPRODUCT_Barcode(), product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), product.getFPRODUCT_VariantCode(), product.getFPRODUCT_QTY(), product.getFPRODUCT_ArticleNo(), product.getFPRODUCT_DocumentNo());
+                        }
+                    }else{
+                        Toast.makeText(getActivity(),"Not enough stock",Toast.LENGTH_LONG).show();
+                    }
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
@@ -793,28 +801,31 @@ public class BRInvoiceDetailFragment extends Fragment{
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-    public void mUpdateInvoice(String barcode, String itemCode, String Qty, String price, String variantcode, String qoh, String aricleno) {
+    public void mUpdateInvoice(String barcode, String itemCode, String Qty, String price, String variantcode, String qoh, String aricleno, String documentNo) {
 
         ArrayList<InvDet> arrList = new ArrayList<>();
         InvDet invDet = new InvDet();
         double unitprice = 0.0;
        // String taxamt = new VATController(getActivity()).calculateTax(mSharedPref.getGlobalVal("KeyVat"),new BigDecimal(amt));
         String taxRevValue = new VATController(getActivity()).calculateReverse(mSharedPref.getGlobalVal("KeyVat"),new BigDecimal(price));
-        unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
+       // unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
 
-        double amt = unitprice * Double.parseDouble(Qty);
+
 //by rashmi 2020/06/22 according to meeting minute(2020/06/17) point 02
         if(new CustomerController(getActivity()).getCustomerVatStatus(mSharedPref.getSelectedDebCode()).trim().equals("VAT")){
             unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
+            //by rashmi 2020/06/23
+            //BSell price get for tax forward, if customer vat, set b sell price reversing tax
             invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", unitprice));
         }else if(new CustomerController(getActivity()).getCustomerVatStatus(mSharedPref.getSelectedDebCode()).trim().equals("NOVAT")){
             unitprice = Double.parseDouble(price);
+            //by rashmi 2020/06/23
+            //if customer novat, pass unit price without reversing tax, but b sell price set reversing tax for use to forward tax
             invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", (unitprice- Double.parseDouble(taxRevValue))));
         }else{
             Toast.makeText(getActivity(),"This customer doesn't have VAT status(VAT?/NOVAT?)",Toast.LENGTH_SHORT).show();
         }
-        //double amt = Double.parseDouble(price) * Double.parseDouble(Qty);
-
+        double amt = unitprice * Double.parseDouble(Qty);
         invDet.setFINVDET_B_AMT(String.format("%.2f", amt));
         invDet.setFINVDET_SELL_PRICE(String.format("%.2f", unitprice));
 
@@ -847,8 +858,9 @@ public class BRInvoiceDetailFragment extends Fragment{
         invDet.setFINVDET_BARCODE(barcode);
         invDet.setFINVDET_ARTICLENO(aricleno);
         invDet.setFINVDET_VARIANTCODE(variantcode);
+        invDet.setFINVDET_PRIL_CODE(documentNo);
         arrList.add(invDet);
-        new InvDetController(getActivity()).createOrUpdateInvDet(arrList);
+        new InvDetController(getActivity()).createOrUpdateBCInvDet(arrList);
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
@@ -941,6 +953,12 @@ public class BRInvoiceDetailFragment extends Fragment{
         Log.e("BLUETOOTH CONNECTION>>",">>>ERROR");
        // textStatus.setBackgroundResource(R.color.blue_c);
     }
+    public void UpdateTaxDetails(String refNo) {
+        ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(refNo);
+        new InvDetController(getActivity()).UpdateItemTax(list);
+        new InvTaxRGController(getActivity()).UpdateInvTaxRG(list);
+        new InvTaxDTController(getActivity()).UpdateInvTaxDT(list);
+    }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public class CalculateDiscounts extends AsyncTask<Object, Object, Boolean> {
         CustomProgressDialog pdialog;
@@ -986,8 +1004,9 @@ public class BRInvoiceDetailFragment extends Fragment{
                 String barcode = invDet.getFINVDET_BARCODE();
                 new InvDetController(getActivity()).UpdateItemTaxInfo(tax,amt, RefNo,barcode,dis,disper);
 
-            }
 
+
+            }
 
 
 

@@ -54,8 +54,35 @@ public class OrderDetail implements Serializable {
     private String FORDERDET_ITEMNAME;
     private String FORDERDET_CASES;
     private String FORDERDET_REACODE;
+    private String FORDERDET_BARCODE;
+    private String FORDERDET_ARTICLENO;
+    private String FORDERDET_VARIANTCODE;
     private boolean assortItem;
     private int assortQty;
+
+    public String getFORDERDET_BARCODE() {
+        return FORDERDET_BARCODE;
+    }
+
+    public void setFORDERDET_BARCODE(String FORDERDET_BARCODE) {
+        this.FORDERDET_BARCODE = FORDERDET_BARCODE;
+    }
+
+    public String getFORDERDET_ARTICLENO() {
+        return FORDERDET_ARTICLENO;
+    }
+
+    public void setFORDERDET_ARTICLENO(String FORDERDET_ARTICLENO) {
+        this.FORDERDET_ARTICLENO = FORDERDET_ARTICLENO;
+    }
+
+    public String getFORDERDET_VARIANTCODE() {
+        return FORDERDET_VARIANTCODE;
+    }
+
+    public void setFORDERDET_VARIANTCODE(String FORDERDET_VARIANTCODE) {
+        this.FORDERDET_VARIANTCODE = FORDERDET_VARIANTCODE;
+    }
 
     public String getFORDERDET_DIS_VAL_AMT() {
         return FORDERDET_DIS_VAL_AMT;

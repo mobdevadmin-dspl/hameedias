@@ -26,7 +26,6 @@ public class BarcodeVariant {
     private String VariantSize;
     @SerializedName("Quantity")
     private int Quantity;
-
     private int isChecked;
 
     public String getArticleNo() {
@@ -119,6 +118,7 @@ public class BarcodeVariant {
             barcodevarient.setItemNo(instance.getString("Item_No"));
             barcodevarient.setVariantSize(instance.getString("Size"));
             barcodevarient.setVariantCode(instance.getString("Variant_Code"));
+            barcodevarient.setArticleNo(instance.getString("ArticleNo"));
 
             return barcodevarient;
         }

@@ -446,7 +446,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     String barcodeVariant = "";
                     try {
-                        barcodeVariant = networkFunctions.getBarcodeVariant();
+                        barcodeVariant = networkFunctions.getBarcodeVariant(repcode);
                         // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -548,7 +548,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     String salespri = "";
                     try {
-                        salespri = networkFunctions.getSalesPrice();
+                        salespri = networkFunctions.getSalesPrice(repcode);
                         // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.datamation.hmdsfa.controller.FreeHedController;
+import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.TaxDetController;
 import com.datamation.hmdsfa.model.FreeHed;
@@ -61,11 +62,11 @@ public class OrderDetailsAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
-        viewHolder.lblItem.setText(list.get(position).getFORDERDET_ITEMCODE()+ " - " +new ItemController(convertView.getContext()).getItemNameByCode(list.get(position).getFORDERDET_ITEMCODE()));
+        ItemBundleController ds = new ItemBundleController(context);
+        viewHolder.lblItem.setText(list.get(position).getFORDERDET_BARCODE()+ " - "+list.get(position).getFORDERDET_ITEMCODE()+ " - " +ds.getItemNameByCode(list.get(position).getFORDERDET_ITEMCODE()));
         viewHolder.lblQty.setText(list.get(position).getFORDERDET_QTY());
-        String sArray[] = new TaxDetController(context).calculateTaxForwardFromDebTax(debCode, list.get(position).getFORDERDET_ITEMCODE(), Double.parseDouble(list.get(position).getFORDERDET_AMT()));
-        String amt = String.format("%.2f",Double.parseDouble(sArray[0]));
+     //   String sArray[] = new TaxDetController(context).calculateTaxForwardFromDebTax(debCode, list.get(position).getFORDERDET_ITEMCODE(), Double.parseDouble(list.get(position).getFORDERDET_AMT()));
+        String amt = String.format("%.2f",Double.parseDouble(list.get(position).getFORDERDET_AMT()));
         viewHolder.lblAMt.setText(amt);
 
         return convertView;

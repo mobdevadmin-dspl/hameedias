@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.datamation.hmdsfa.controller.BankController;
+import com.datamation.hmdsfa.controller.BarcodeVarientController;
 import com.datamation.hmdsfa.controller.CompanyDetailsController;
 import com.datamation.hmdsfa.controller.DayExpDetController;
 import com.datamation.hmdsfa.controller.DayNPrdDetController;
@@ -189,8 +190,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(IteaneryDebController.CREATE_TABLE_ITEDEB);
         arg0.execSQL(SalesPriceController.CREATE_TABLE_FSALESPRICE);
         arg0.execSQL(DiscountController.CREATE_TABLE_DISCOUNT);
-        arg0.execSQL(ItemBundleController.CREATE_TABLE_BAR_CODE_VARIENT);
+        arg0.execSQL(BarcodeVarientController.CREATE_TABLE_BAR_CODE_VARIENT);
         arg0.execSQL(VanStockController.CREATE_TABLE_FVANSTOCK);
+        arg0.execSQL(InvHedController.CREATE_FINVHED_TABLE);
+        arg0.execSQL(InvHedController.CREATE_FINVHED_TABLE_LOG);
+        arg0.execSQL(InvDetController.CREATE_FINVDET_TABLE);
+        arg0.execSQL(InvDetController.CREATE_FINVDET_TABLE_LOG);
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -199,14 +204,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.onCreate(arg0);
         arg0.execSQL(InvoiceBarcodeController.CREATE_TABLE_BCINCOICEHED);
         arg0.execSQL(InvoiceDetBarcodeController.CREATE_TABLE_BCINCOICEDET);
+        arg0.execSQL(OrderDetailController.CREATE_FORDDET_TABLE);
 
         try {
-            arg0.execSQL("ALTER TABLE bcInvHed ADD COLUMN IsSync TEXT DEFAULT '0'");
+            arg0.execSQL("ALTER TABLE fSalRep ADD COLUMN loccode TEXT DEFAULT ''");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
         }
         try {
-            arg0.execSQL("ALTER TABLE bcInvHed ADD COLUMN IsActive TEXT DEFAULT ''");
+            arg0.execSQL("ALTER TABLE BarCodeVarient ADD COLUMN Article_No TEXT DEFAULT ''");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
         }  try {
@@ -258,7 +264,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(Customer.CREATE_FDEBTOR_TABLE);
             arg0.execSQL(ProductController.CREATE_FPRODUCT_TABLE);
             arg0.execSQL(InvHedController.CREATE_FINVHED_TABLE);
+            arg0.execSQL(InvHedController.CREATE_FINVHED_TABLE_LOG);
             arg0.execSQL(InvDetController.CREATE_FINVDET_TABLE);
+            arg0.execSQL(InvDetController.CREATE_FINVDET_TABLE_LOG);
             arg0.execSQL(SalesReturnController.CREATE_FINVRHED_TABLE);
             arg0.execSQL(SalesReturnDetController.CREATE_FINVRDET_TABLE);
             arg0.execSQL(OrderDetailController.CREATE_ORDDET_TABLE);
@@ -280,7 +288,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(IteaneryDebController.CREATE_TABLE_ITEDEB);
             arg0.execSQL(SalesPriceController.CREATE_TABLE_FSALESPRICE);
             arg0.execSQL(DiscountController.CREATE_TABLE_DISCOUNT);
-            arg0.execSQL(ItemBundleController.CREATE_TABLE_BAR_CODE_VARIENT);
+            arg0.execSQL(BarcodeVarientController.CREATE_TABLE_BAR_CODE_VARIENT);
             arg0.execSQL(VanStockController.CREATE_TABLE_FVANSTOCK);
 
         } catch (SQLiteException e) {

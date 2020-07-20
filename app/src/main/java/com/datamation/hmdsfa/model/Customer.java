@@ -27,7 +27,16 @@ public class Customer implements Serializable{
 	private String creditPeriod;
 	private String cusPrilCode;
 	private String cusImage;
+	private String taxreg;
 	private String latitude,longitude;
+
+	public String getTaxreg() {
+		return taxreg;
+	}
+
+	public void setTaxreg(String taxreg) {
+		this.taxreg = taxreg;
+	}
 
 	/**
 	 * ############################ fDebtor table Details

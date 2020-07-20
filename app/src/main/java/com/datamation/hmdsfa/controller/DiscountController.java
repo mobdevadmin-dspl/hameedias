@@ -10,12 +10,14 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.Discdeb;
 import com.datamation.hmdsfa.model.Disched;
 import com.datamation.hmdsfa.model.Discount;
 import com.datamation.hmdsfa.model.Discslab;
 import com.datamation.hmdsfa.model.InvDet;
 import com.datamation.hmdsfa.model.ItemBundle;
+import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.SalesPrice;
 
 import java.text.SimpleDateFormat;
@@ -37,13 +39,14 @@ public class DiscountController {
     public static final String  DISCOUNT_DEBNAME= "DebName";
     public static final String  DISCOUNT_LOCCODE = "LocCode";
     public static final String  DISCOUNT_PRODUCT_DIS = "ProductDis";
+    public static final String  DISCOUNT_PRODUCT_CASH_DIS = "ProductCashDis";
     public static final String  DISCOUNT_PRODUCT_GROUP= "ProductGroup";
     public static final String  DISCOUNT_REPCODE = "RepCode";
 
     // create String
     public static final String CREATE_TABLE_DISCOUNT = "CREATE  TABLE IF NOT EXISTS " + TABLE_DISCOUNT + " ("
 
-            + DISCOUNT_REPCODE + " TEXT, " + DISCOUNT_PRODUCT_GROUP + " TEXT, "      + DISCOUNT_DEBCODE + " TEXT, " + DISCOUNT_DEBNAME + " TEXT, " + DISCOUNT_LOCCODE + " TEXT, " + DISCOUNT_PRODUCT_DIS + " TEXT); ";
+            + DISCOUNT_PRODUCT_CASH_DIS + " TEXT, "    + DISCOUNT_REPCODE + " TEXT, " + DISCOUNT_PRODUCT_GROUP + " TEXT, "      + DISCOUNT_DEBCODE + " TEXT, " + DISCOUNT_DEBNAME + " TEXT, " + DISCOUNT_LOCCODE + " TEXT, " + DISCOUNT_PRODUCT_DIS + " TEXT); ";
 
 
 
@@ -67,7 +70,7 @@ public class DiscountController {
 
         try {
             dB.beginTransactionNonExclusive();
-            String sql = "INSERT OR REPLACE INTO " + TABLE_DISCOUNT + " (DebCode,DebName,LocCode,ProductDis,ProductGroup,RepCode) " + " VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT OR REPLACE INTO " + TABLE_DISCOUNT + " (DebCode,DebName,LocCode,ProductDis,ProductGroup,RepCode,ProductCashDis) " + " VALUES (?,?,?,?,?,?,?)";
 
             SQLiteStatement stmt = dB.compileStatement(sql);
 
@@ -78,6 +81,7 @@ public class DiscountController {
                 stmt.bindString(4, discount.getProductDis());
                 stmt.bindString(5, discount.getProductGroup());
                 stmt.bindString(6, discount.getRepCode());
+                stmt.bindString(7, discount.getProductCashDis());
                 stmt.execute();
                 stmt.clearBindings();
             }
@@ -200,7 +204,7 @@ public class DiscountController {
 
         return discounts;
     }
-    public Discount getSchemeByItemCode(String itemCode,String DocumentNo, String barcode,String debcode) {
+    public Discount getSchemeByItemCode(String productgroup,String debcode,String discountClmIndex) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -210,7 +214,7 @@ public class DiscountController {
 
         // commented due to date format issue and M:D:Y format is available in DB
         //String selectQuery = "select * from fdisched where refno in (select refno from fdiscdet where itemcode='" + itemCode + "') and date('now') between vdatef and vdatet";
-        String selectQuery = "select * from discount where ProductGroup in (select VariantColour from ItemBundle where ItemNo = '" + itemCode + "' and Barcode = '"+barcode+"' and DocumentNo = '"+DocumentNo+"') and DebCode = '" + debcode + "'";
+        String selectQuery = "select * from discount where ProductGroup  = '" + productgroup + "'  and DebCode = '" + debcode + "'";
 
         Discount discount = new Discount();
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -218,7 +222,7 @@ public class DiscountController {
         try {
             while (cursor.moveToNext()) {
 
-                discount.setProductDis(cursor.getString(cursor.getColumnIndex(DISCOUNT_PRODUCT_DIS)));
+                discount.setProductDis(cursor.getString(cursor.getColumnIndex(discountClmIndex)));
 
             }
         } catch (Exception e) {
@@ -243,25 +247,95 @@ public class DiscountController {
             /* For each invoice object inside ordeArrList ArrayList */
             for (InvDet mTranSODet : ordArrList) {
                 ItemBundle item = new ItemBundleController(context).getItem(mTranSODet.getFINVDET_ITEM_CODE());
+                Discount discountdets = null;
+                String productgroup = new ItemBundleController(context).getProductGroup(mTranSODet.getFINVDET_ITEM_CODE(),mTranSODet.getFINVDET_BARCODE());
 
-                Discount discountdets = getSchemeByItemCode(mTranSODet.getFINVDET_ITEM_CODE(),item.getDocumentNo(),item.getBarcode(),debcode);
+                if(new SharedPref(context).getGlobalVal("KeyPayType").equals("CASH")){
+                    if(productgroup.equals("")) {
+                        discountdets = getSchemeByItemCode("OTHERS", debcode, "ProductCashDis");
+                    }else{
+                        discountdets = getSchemeByItemCode(productgroup, debcode, "ProductCashDis");
+                    }
+                }else{
+                    if(productgroup.equals("")) {
+                         discountdets = getSchemeByItemCode("OTHERS",debcode,"ProductDis");
+                    }else{
+                        discountdets = getSchemeByItemCode(productgroup,debcode,"ProductDis");
+                    }
+                }
 
 
                 if (discountdets.getProductDis() != null) {
                                             /* Update table directly */
                         double discPrice = ((Double.parseDouble(mTranSODet.getFINVDET_SELL_PRICE()) / 100) * (Double.parseDouble(discountdets.getProductDis())));
                         mTranSODet.setFINVDET_SCHDISPER(discountdets.getProductDis());
+                        mTranSODet.setFINVDET_DIS_PER(discountdets.getProductDis());
                         mTranSODet.setFINVDET_DIS_AMT(String.valueOf(discPrice* (Double.parseDouble(mTranSODet.getFINVDET_QTY()))));
-                        mTranSODet.setFINVDET_B_SELL_PRICE(String.valueOf((Double.parseDouble(mTranSODet.getFINVDET_SELL_PRICE())) - discPrice));//pass for calculate tax forqow
+                        if(new CustomerController(context).getCustomerVatStatus(new SharedPref(context).getSelectedDebCode()).trim().equals("VAT"))
+                        mTranSODet.setFINVDET_B_SELL_PRICE(String.valueOf((Double.parseDouble(mTranSODet.getFINVDET_B_SELL_PRICE())) - discPrice));//pass for calculate tax forqow
+                        else
+                        mTranSODet.setFINVDET_B_SELL_PRICE(String.valueOf(Double.parseDouble(mTranSODet.getFINVDET_B_SELL_PRICE())));//pass for calculate tax forqow
                     }else{
                         mTranSODet.setFINVDET_SCHDISPER("0");
+                        mTranSODet.setFINVDET_DIS_PER("0");
                         mTranSODet.setFINVDET_DIS_AMT("0");
-                        mTranSODet.setFINVDET_B_SELL_PRICE(mTranSODet.getFINVDET_SELL_PRICE());//pass for calculate tax forqow
+                        mTranSODet.setFINVDET_B_SELL_PRICE(mTranSODet.getFINVDET_B_SELL_PRICE());//pass for calculate tax forqow
 
                 }
                     newMetaList.add(mTranSODet);
 
                 }
+
+
+
+
+        return newMetaList;
+
+    }
+    public ArrayList<OrderDetail> updateOrdDiscount(ArrayList<OrderDetail> ordArrList, String debcode) {
+
+        ArrayList<OrderDetail> newMetaList = new ArrayList<OrderDetail>();
+
+        /* For each invoice object inside ordeArrList ArrayList */
+        for (OrderDetail mTranSODet : ordArrList) {
+            Discount discountdets = null;
+            String productgroup = new ItemBundleController(context).getProductGroup(mTranSODet.getFORDERDET_ITEMCODE(),mTranSODet.getFORDERDET_BARCODE());
+//2020-07-15 by rashmi
+            if(new SharedPref(context).getGlobalVal("KeyPayType").equals("CASH")){
+                if(productgroup.equals("")) {
+                    discountdets = getSchemeByItemCode("OTHERS", debcode, "ProductCashDis");
+                }else{
+                    discountdets = getSchemeByItemCode(productgroup, debcode, "ProductCashDis");
+                }
+            }else{
+                if(productgroup.equals("")) {
+                    discountdets = getSchemeByItemCode("OTHERS",debcode,"ProductDis");
+                }else{
+                    discountdets = getSchemeByItemCode(productgroup,debcode,"ProductDis");
+                }
+            }
+
+
+            if (discountdets.getProductDis() != null) {
+                /* Update table directly */
+                double discPrice = ((Double.parseDouble(mTranSODet.getFORDERDET_SELLPRICE()) / 100) * (Double.parseDouble(discountdets.getProductDis())));
+                mTranSODet.setFORDERDET_SCHDISPER(discountdets.getProductDis());
+                mTranSODet.setFORDERDET_DISPER(discountdets.getProductDis());
+                mTranSODet.setFORDERDET_DISAMT(String.valueOf(discPrice* (Double.parseDouble(mTranSODet.getFORDERDET_QTY()))));
+                if(new CustomerController(context).getCustomerVatStatus(new SharedPref(context).getSelectedDebCode()).trim().equals("VAT"))
+                    mTranSODet.setFORDERDET_BSELLPRICE(String.valueOf((Double.parseDouble(mTranSODet.getFORDERDET_BSELLPRICE())) - discPrice));//pass for calculate tax forqow
+                else
+                    mTranSODet.setFORDERDET_BSELLPRICE(String.valueOf(Double.parseDouble(mTranSODet.getFORDERDET_BSELLPRICE())));//pass for calculate tax forqow
+            }else{
+                mTranSODet.setFORDERDET_SCHDISPER("0");
+                mTranSODet.setFORDERDET_DISPER("0");
+                mTranSODet.setFORDERDET_DISAMT("0");
+                mTranSODet.setFORDERDET_BSELLPRICE(mTranSODet.getFORDERDET_BSELLPRICE());//pass for calculate tax forqow
+
+            }
+            newMetaList.add(mTranSODet);
+
+        }
 
 
 

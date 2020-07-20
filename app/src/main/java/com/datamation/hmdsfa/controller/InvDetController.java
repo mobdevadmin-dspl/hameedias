@@ -9,7 +9,9 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.InvDet;
+import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.OrderDisc;
 
 import java.math.BigDecimal;
@@ -25,6 +27,7 @@ public class InvDetController {
     private String TAG = "InvDet DS";
 
     public static final String TABLE_FINVDET = "finvDet";
+    public static final String TABLE_FINVDET_LOG = "fLinvDet";
     public static final String FINVDET_ID = "id";
 
     public static final String FINVDET_PICE_QTY = "PiceQty";
@@ -66,6 +69,8 @@ public class InvDetController {
     public static final String FINVDET_BARCODE = "BarCode";
 
     public static final String CREATE_FINVDET_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVDET + " (" + FINVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDET_AMT + " TEXT, " + FINVDET_BAL_QTY + " TEXT, " + FINVDET_B_AMT + " TEXT, " + FINVDET_B_SELL_PRICE + " TEXT, " + FINVDET_BT_TAX_AMT + " TEXT, " + FINVDET_BT_SELL_PRICE + " TEXT, " + FINVDET_DIS_AMT + " TEXT, " + FINVDET_DIS_PER + " TEXT, " + FINVDET_ITEM_CODE + " TEXT, " + FINVDET_PRIL_CODE + " TEXT, " + FINVDET_QTY + " TEXT, " + FINVDET_PICE_QTY + " TEXT, " + FINVDET_TYPE + " TEXT, " + FINVDET_RECORD_ID + " TEXT, " + DatabaseHelper.REFNO + " TEXT, " + FINVDET_SELL_PRICE + " TEXT, " + FINVDET_SEQNO + " TEXT, " + FINVDET_TAX_AMT + " TEXT, " + FINVDET_TAX_COM_CODE + " TEXT, " + FINVDET_T_SELL_PRICE + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + FINVDET_IS_ACTIVE + " TEXT, " + FINVDET_TXN_TYPE + " TEXT," + FINVDET_COMDISPER + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISPER + " TEXT DEFAULT '0'," + FINVDET_DISVALAMT + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISC + " TEXT DEFAULT '0'," + FINVDET_QOH + " TEXT DEFAULT '0'," + FINVDET_FREEQTY + " TEXT DEFAULT '0'," + FINVDET_SCHDISPER + " TEXT DEFAULT '0',"
+            + FINVDET_VARIANTCODE + " TEXT,"    + FINVDET_ARTICLENO + " TEXT,"    + FINVDET_BARCODE + " TEXT,"    + FINVDET_PRICE + " TEXT," + FINVDET_CHANGED_PRICE + " TEXT DEFAULT '0' ,"+ FINVDET_COMPDISC + " TEXT DEFAULT '0'); ";
+    public static final String CREATE_FINVDET_TABLE_LOG = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVDET_LOG + " (" + FINVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDET_AMT + " TEXT, " + FINVDET_BAL_QTY + " TEXT, " + FINVDET_B_AMT + " TEXT, " + FINVDET_B_SELL_PRICE + " TEXT, " + FINVDET_BT_TAX_AMT + " TEXT, " + FINVDET_BT_SELL_PRICE + " TEXT, " + FINVDET_DIS_AMT + " TEXT, " + FINVDET_DIS_PER + " TEXT, " + FINVDET_ITEM_CODE + " TEXT, " + FINVDET_PRIL_CODE + " TEXT, " + FINVDET_QTY + " TEXT, " + FINVDET_PICE_QTY + " TEXT, " + FINVDET_TYPE + " TEXT, " + FINVDET_RECORD_ID + " TEXT, " + DatabaseHelper.REFNO + " TEXT, " + FINVDET_SELL_PRICE + " TEXT, " + FINVDET_SEQNO + " TEXT, " + FINVDET_TAX_AMT + " TEXT, " + FINVDET_TAX_COM_CODE + " TEXT, " + FINVDET_T_SELL_PRICE + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + FINVDET_IS_ACTIVE + " TEXT, " + FINVDET_TXN_TYPE + " TEXT," + FINVDET_COMDISPER + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISPER + " TEXT DEFAULT '0'," + FINVDET_DISVALAMT + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISC + " TEXT DEFAULT '0'," + FINVDET_QOH + " TEXT DEFAULT '0'," + FINVDET_FREEQTY + " TEXT DEFAULT '0'," + FINVDET_SCHDISPER + " TEXT DEFAULT '0',"
             + FINVDET_VARIANTCODE + " TEXT,"    + FINVDET_ARTICLENO + " TEXT,"    + FINVDET_BARCODE + " TEXT,"    + FINVDET_PRICE + " TEXT," + FINVDET_CHANGED_PRICE + " TEXT DEFAULT '0' ,"+ FINVDET_COMPDISC + " TEXT DEFAULT '0'); ";
 
     public InvDetController(Context context) {
@@ -138,6 +143,7 @@ public class InvDetController {
                 int cn = cursor.getCount();
                 if (cn > 0) {
 
+
                     count = dB.update(TABLE_FINVDET, values, FINVDET_ID + " =?", new String[]{String.valueOf(invDet.getFINVDET_ID())});
 
                 } else {
@@ -159,7 +165,173 @@ public class InvDetController {
         return count;
 
     }
+    public int createOrUpdateBCInvDet(ArrayList<InvDet> list) {
 
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            for (InvDet invDet : list) {
+
+                ContentValues values = new ContentValues();
+                String selectQuery = "SELECT * FROM " + TABLE_FINVDET + " WHERE " + FINVDET_BARCODE
+                        + " = '" + invDet.getFINVDET_BARCODE() + "' and "+DatabaseHelper.REFNO+" = '"+invDet.getFINVDET_REFNO()+"'";
+                cursor = dB.rawQuery(selectQuery, null);
+
+                //  values.put(FINVDET_ID, invDet.getFINVDET_ID());
+                values.put(FINVDET_AMT, invDet.getFINVDET_AMT());
+                values.put(FINVDET_BAL_QTY, invDet.getFINVDET_BAL_QTY());
+                values.put(FINVDET_B_AMT, invDet.getFINVDET_B_AMT());
+                values.put(FINVDET_B_SELL_PRICE, invDet.getFINVDET_B_SELL_PRICE());
+                values.put(FINVDET_BT_TAX_AMT, invDet.getFINVDET_TAX_AMT());
+                values.put(FINVDET_BT_SELL_PRICE, invDet.getFINVDET_BT_SELL_PRICE());
+                values.put(FINVDET_DIS_AMT, invDet.getFINVDET_DIS_AMT());
+                values.put(FINVDET_DIS_PER, invDet.getFINVDET_DIS_PER());
+                values.put(FINVDET_ITEM_CODE, invDet.getFINVDET_ITEM_CODE());
+                values.put(FINVDET_PRIL_CODE, invDet.getFINVDET_PRIL_CODE());
+                values.put(FINVDET_QTY, invDet.getFINVDET_QTY());
+                values.put(FINVDET_PICE_QTY, invDet.getFINVDET_PICE_QTY());
+                values.put(FINVDET_TYPE, invDet.getFINVDET_TYPE());
+                values.put(FINVDET_RECORD_ID, invDet.getFINVDET_RECORD_ID());
+                values.put(DatabaseHelper.REFNO, invDet.getFINVDET_REFNO());
+                values.put(FINVDET_SELL_PRICE, invDet.getFINVDET_SELL_PRICE());
+                values.put(FINVDET_SEQNO, invDet.getFINVDET_SEQNO());
+                values.put(FINVDET_TAX_AMT, invDet.getFINVDET_TAX_AMT());
+                values.put(FINVDET_TAX_COM_CODE, invDet.getFINVDET_TAX_COM_CODE());
+                values.put(FINVDET_T_SELL_PRICE, invDet.getFINVDET_T_SELL_PRICE());
+                values.put(DatabaseHelper.TXNDATE, invDet.getFINVDET_TXN_DATE());
+                values.put(FINVDET_TXN_TYPE, invDet.getFINVDET_TXN_TYPE());
+                values.put(FINVDET_IS_ACTIVE, invDet.getFINVDET_IS_ACTIVE());
+                values.put(FINVDET_ARTICLENO, invDet.getFINVDET_ARTICLENO());
+                values.put(FINVDET_VARIANTCODE, invDet.getFINVDET_VARIANTCODE());
+                values.put(FINVDET_BARCODE, invDet.getFINVDET_BARCODE());
+
+                //  values.put(FINVDET_BRAND_DISC, invDet.getFINVDET_BRAND_DISC());
+//                values.put(FINVDET_COMDISPER, invDet.getFINVDET_COM_DISCPER());
+//                values.put(FINVDET_BRAND_DISPER, invDet.getFINVDET_BRAND_DISCPER());
+//                values.put(FINVDET_COMPDISC, invDet.getFINVDET_COMDISC());
+//                values.put(FINVDET_DISVALAMT, invDet.getFINVDET_DISVALAMT());
+//                values.put(FINVDET_QOH, invDet.getFINVDET_QOH());
+//                values.put(FINVDET_PRICE, invDet.getFINVDET_PRICE());
+//                values.put(FINVDET_CHANGED_PRICE, invDet.getFINVDET_CHANGED_PRICE());
+
+                int cn = cursor.getCount();
+                if (cn > 0) {
+                    String updateQuery = "UPDATE finvdet SET Qty= Qty+'" + invDet.getFINVDET_QTY() + "', amt= amt+'" + invDet.getFINVDET_AMT() + "' where RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
+                    dB.execSQL(updateQuery);
+                    count = 1;
+                  //  count = dB.update(TABLE_FINVDET, values, FINVDET_BARCODE + " = '"+invDet.getFINVDET_BARCODE()+"' and "+ DatabaseHelper.REFNO+ " = '"+invDet.getFINVDET_REFNO()+"'", new String[]{String.valueOf(invDet.getFINVDET_ID())});
+
+                } else {
+                    count = (int) dB.insert(TABLE_FINVDET, null, values);
+                }
+
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
+    public int createOrUpdateBCInvDetLog(ArrayList<InvDet> list) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            for (InvDet invDet : list) {
+
+                ContentValues values = new ContentValues();
+                ContentValues values1 = new ContentValues();
+                String selectQuery = "SELECT * FROM " + TABLE_FINVDET_LOG + " WHERE " + FINVDET_BARCODE
+                        + " = '" + invDet.getFINVDET_BARCODE() + "' and "+DatabaseHelper.REFNO+" = '"+invDet.getFINVDET_REFNO()+"'";
+                cursor = dB.rawQuery(selectQuery, null);
+
+                //  values.put(FINVDET_ID, invDet.getFINVDET_ID());
+                values.put(FINVDET_AMT, invDet.getFINVDET_AMT());
+                values.put(FINVDET_BAL_QTY, invDet.getFINVDET_BAL_QTY());
+                values.put(FINVDET_B_AMT, invDet.getFINVDET_B_AMT());
+                values.put(FINVDET_B_SELL_PRICE, invDet.getFINVDET_B_SELL_PRICE());
+                values.put(FINVDET_BT_TAX_AMT, invDet.getFINVDET_TAX_AMT());
+                values.put(FINVDET_BT_SELL_PRICE, invDet.getFINVDET_BT_SELL_PRICE());
+                values.put(FINVDET_DIS_AMT, invDet.getFINVDET_DIS_AMT());
+                values.put(FINVDET_DIS_PER, invDet.getFINVDET_DIS_PER());
+                values.put(FINVDET_ITEM_CODE, invDet.getFINVDET_ITEM_CODE());
+                values.put(FINVDET_PRIL_CODE, invDet.getFINVDET_PRIL_CODE());
+                values.put(FINVDET_QTY, invDet.getFINVDET_QTY());
+                values.put(FINVDET_PICE_QTY, invDet.getFINVDET_PICE_QTY());
+                values.put(FINVDET_TYPE, invDet.getFINVDET_TYPE());
+                values.put(FINVDET_RECORD_ID, invDet.getFINVDET_RECORD_ID());
+                values.put(DatabaseHelper.REFNO, invDet.getFINVDET_REFNO());
+                values.put(FINVDET_SELL_PRICE, invDet.getFINVDET_SELL_PRICE());
+                values.put(FINVDET_SEQNO, invDet.getFINVDET_SEQNO());
+                values.put(FINVDET_TAX_AMT, invDet.getFINVDET_TAX_AMT());
+                values.put(FINVDET_TAX_COM_CODE, invDet.getFINVDET_TAX_COM_CODE());
+                values.put(FINVDET_T_SELL_PRICE, invDet.getFINVDET_T_SELL_PRICE());
+                values.put(DatabaseHelper.TXNDATE, invDet.getFINVDET_TXN_DATE());
+                values.put(FINVDET_TXN_TYPE, invDet.getFINVDET_TXN_TYPE());
+                values.put(FINVDET_IS_ACTIVE, invDet.getFINVDET_IS_ACTIVE());
+                values.put(FINVDET_ARTICLENO, invDet.getFINVDET_ARTICLENO());
+                values.put(FINVDET_VARIANTCODE, invDet.getFINVDET_VARIANTCODE());
+                values.put(FINVDET_BARCODE, invDet.getFINVDET_BARCODE());
+
+                //  values.put(FINVDET_BRAND_DISC, invDet.getFINVDET_BRAND_DISC());
+//                values.put(FINVDET_COMDISPER, invDet.getFINVDET_COM_DISCPER());
+//                values.put(FINVDET_BRAND_DISPER, invDet.getFINVDET_BRAND_DISCPER());
+//                values.put(FINVDET_COMPDISC, invDet.getFINVDET_COMDISC());
+//                values.put(FINVDET_DISVALAMT, invDet.getFINVDET_DISVALAMT());
+//                values.put(FINVDET_QOH, invDet.getFINVDET_QOH());
+//                values.put(FINVDET_PRICE, invDet.getFINVDET_PRICE());
+//                values.put(FINVDET_CHANGED_PRICE, invDet.getFINVDET_CHANGED_PRICE());
+
+                int cn = cursor.getCount();
+                if (cn > 0) {
+                    String updateQuery = "UPDATE fLinvDet SET Qty= Qty+'" + invDet.getFINVDET_QTY() + "', amt= amt+'" + invDet.getFINVDET_AMT() + "' where RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
+                    dB.execSQL(updateQuery);
+                    count = 1;
+                    //  count = dB.update(TABLE_FINVDET, values, FINVDET_BARCODE + " = '"+invDet.getFINVDET_BARCODE()+"' and "+ DatabaseHelper.REFNO+ " = '"+invDet.getFINVDET_REFNO()+"'", new String[]{String.valueOf(invDet.getFINVDET_ID())});
+
+                } else {
+                    count = (int) dB.insert(TABLE_FINVDET_LOG, null, values);
+                }
+
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
     public ArrayList<InvDet> getTodayOrderDets(String refno) {
 
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
@@ -335,6 +507,7 @@ public class InvDetController {
                 invdet.setFINVDET_BARCODE(cursor.getString(cursor.getColumnIndex(FINVDET_BARCODE)));
                 invdet.setFINVDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FINVDET_VARIANTCODE)));
                 invdet.setFINVDET_DIS_PER(cursor.getString(cursor.getColumnIndex(FINVDET_DIS_PER)));
+                invdet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_AMT)));
                 invdet.setFINVDET_REFNO(refno);
                 list.add(invdet);
             }
@@ -444,11 +617,6 @@ public class InvDetController {
                 invDet.setFINVDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FINVDET_VARIANTCODE)));
                 invDet.setFINVDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FINVDET_ARTICLENO)));
                 invDet.setFINVDET_BARCODE(cursor.getString(cursor.getColumnIndex(FINVDET_BARCODE)));
-//                invDet.setFINVDET_COMDISC(cursor.getString(cursor.getColumnIndex(FINVDET_COMPDISC)));
-//                invDet.setFINVDET_BRAND_DISC(cursor.getString(cursor.getColumnIndex(FINVDET_BRAND_DISC)));
-//                invDet.setFINVDET_QOH(cursor.getString(cursor.getColumnIndex(FINVDET_QOH)));
-//                invDet.setFINVDET_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_PRICE)));
-//                invDet.setFINVDET_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_CHANGED_PRICE)));
 
                 list.add(invDet);
 
@@ -919,11 +1087,12 @@ public class InvDetController {
             orderDisc.setRefNo(invDet.getFINVDET_REFNO());
             orderDisc.setTxnDate(invDet.getFINVDET_TXN_DATE());
             orderDisc.setItemCode(invDet.getFINVDET_ITEM_CODE());
-            orderDisc.setDisAmt(String.format("%.2f",  invDet.getFINVDET_DIS_AMT()));
+            orderDisc.setDisAmt(String.format("%.2f",  (Double.parseDouble(invDet.getFINVDET_DIS_AMT()))));
 
-            new OrderDiscController(context).UpdateOrderDiscount(orderDisc,  invDet.getFINVDET_DISVALAMT());
-            String amt = String.format(String.format("%.2f", (Double.parseDouble(invDet.getFINVDET_AMT()) - Double.parseDouble(invDet.getFINVDET_DISVALAMT()))));
-            String updateQuery = "UPDATE finvdet SET SchDisPer='" + invDet.getFINVDET_SCHDISPER() + "', DisValAmt='" + invDet.getFINVDET_DISVALAMT() + "', amt='" + amt + "' where Itemcode ='" + invDet.getFINVDET_ITEM_CODE() + "' and RefNo = '"+ invDet.getFINVDET_REFNO()+"'";
+            new OrderDiscController(context).UpdateOrderDiscount(orderDisc,  invDet.getFINVDET_DIS_AMT());
+            double amount = (Double.parseDouble(invDet.getFINVDET_AMT()) - Double.parseDouble(invDet.getFINVDET_DIS_AMT()));
+            String amt = String.format("%.2f", amount);
+            String updateQuery = "UPDATE finvdet SET DisPer='" + invDet.getFINVDET_SCHDISPER() + "', DisAmt='" + invDet.getFINVDET_DIS_AMT() + "', amt='" + amt + "', BSellPrice = '"+invDet.getFINVDET_B_SELL_PRICE()+"' where Itemcode ='" + invDet.getFINVDET_ITEM_CODE() + "' and RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
             dB.execSQL(updateQuery);
 
         } catch (Exception e) {
@@ -936,6 +1105,7 @@ public class InvDetController {
         }
 
     }
+
     public void updateDiscount(InvDet invDet, double discount, String discType) {
 
         if (dB == null) {
@@ -1045,7 +1215,31 @@ public class InvDetController {
             dB.close();
         }
     }
+    //rashmi for hameedias
     public void UpdateItemTaxInfo(String taxamt, String amt, String refno, String barcode, String disamt, String disper) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+
+        try {
+
+
+            /* Update Sales order Header TotalTax */
+            dB.execSQL("UPDATE finvdet SET taxamt='" + taxamt + "', amt='" + amt + "', disamt='"+disamt+"', DisPer = '"+disper+"' WHERE refno='" + refno + "' and barcode='"+barcode+"' ");
+
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+
+    }
+//2020/06/24 by rashmi for hameedias
+    public void UpdateItemTax(ArrayList<InvDet> list) {
 
         if (dB == null) {
             open();
@@ -1057,9 +1251,34 @@ public class InvDetController {
 
         try {
 
+            for (InvDet ordDet : list) {
+                String amt = "";
 
+                String sArray[] = new VATController(context).calculateTaxForward( new SharedPref(context).getGlobalVal("KeyVat"), Double.parseDouble(ordDet.getFINVDET_B_SELL_PRICE()));
+                String tax = String.format("%.2f",Double.parseDouble(sArray[1])* Double.parseDouble(ordDet.getFINVDET_QTY()));
+                String dis = String.format("%.2f",Double.parseDouble( ordDet.getFINVDET_DIS_AMT()));
+                if(new SharedPref(context).getGlobalVal("KeyVat").equals("VAT")) {
+                     amt = String.format("%.2f", Double.parseDouble(sArray[0])* Double.parseDouble(ordDet.getFINVDET_QTY()));
+                }else{
+                     amt = String.format("%.2f", Double.parseDouble(ordDet.getFINVDET_AMT()));
+
+                }
+                totalAmt += Double.parseDouble(amt);
+
+
+
+                //no need to mega heaters.get only total of tax detail amounts - commented 2018-10-23
+                    // String sArray[] = new TaxDetDS(context).calculateTaxForward(ordDet.getFINVDET_ITEM_CODE(), Double.parseDouble(ordDet.getFINVDET_AMT()));
+
+                    totTax += Double.parseDouble(ordDet.getFINVDET_TAX_AMT());
+
+
+                      String updateQuery = "UPDATE finvdet SET taxamt='" + tax + "', amt='" + amt + "' WHERE Itemcode='" + ordDet.getFINVDET_ITEM_CODE() + "' AND refno='" + ordDet.getFINVDET_REFNO() + "' and barcode='"+ordDet.getFINVDET_BARCODE()+"' ";
+                      dB.execSQL(updateQuery);
+
+            }
             /* Update Sales order Header TotalTax */
-            dB.execSQL("UPDATE finvdet SET taxamt='" + taxamt + "', amt='" + amt + "', disamt='"+disamt+"' WHERE refno='" + refno + "' and barcode='"+barcode+"' and DisPer = '"+disper+"'");
+            dB.execSQL("UPDATE finvhed SET totaltax='" + totTax + "', totalamt='" + totalAmt + "' WHERE refno='" + list.get(0).getFINVDET_REFNO() + "'");
 
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
@@ -1069,6 +1288,7 @@ public class InvDetController {
 
     }
 //change by rashmi -2018-10-23 for mega heaters
+
     public void UpdateItemTaxInfo(ArrayList<InvDet> list) {
 
         if (dB == null) {
@@ -1179,7 +1399,22 @@ public class InvDetController {
             dB.close();
         }
     }
+    public void mDeleteBundle(String RefNo, String documentno) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        try {
+            dB.delete(TABLE_FINVDET, DatabaseHelper.REFNO + " ='" + RefNo + "' AND "  + FINVDET_PRIL_CODE + " ='" + documentno + "'", null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dB.close();
+        }
+    }
     public void mUpdateProduct(String RefNo, String Itemcode, String Qty) {
 
         if (dB == null) {

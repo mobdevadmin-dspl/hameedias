@@ -57,6 +57,8 @@
     <string name="head_dist_address2">Address2</string>
     <string name="head_dist_phone">Phone #</string>
     <string name="head_dist_vat">Vat No #</string>
+    <string name="bottomrow">All Cheques should be drawn In favour of H S Marketing Private
+                Limited &amp; crossed Account Payee Only..</string>
 
 
     <!-- Print Preview Loading Descrption -->

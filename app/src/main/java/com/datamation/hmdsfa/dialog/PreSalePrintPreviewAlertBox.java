@@ -10,19 +10,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.hmdsfa.R;
-import com.datamation.hmdsfa.adapter.PrintPreSaleItemAdapter;
+import com.datamation.hmdsfa.adapter.PrintOrderItemAdapter;
 import com.datamation.hmdsfa.adapter.PrintVanSaleItemAdapter;
-import com.datamation.hmdsfa.adapter.PrintVanSaleReturnAdapter;
 import com.datamation.hmdsfa.controller.CompanyDetailsController;
 import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.InvDetController;
@@ -35,7 +32,6 @@ import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.SalesReturnDetController;
-import com.datamation.hmdsfa.controller.TaxDetController;
 import com.datamation.hmdsfa.helpers.ListExpandHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.Control;
@@ -44,13 +40,11 @@ import com.datamation.hmdsfa.model.FInvRDet;
 import com.datamation.hmdsfa.model.FInvRHed;
 import com.datamation.hmdsfa.model.InvDet;
 import com.datamation.hmdsfa.model.InvHed;
-import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.Order;
+import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.StkIss;
-import com.datamation.hmdsfa.model.VanSalPrintPre;
 import com.datamation.hmdsfa.utils.EnglishNumberToWords;
-import com.datamation.hmdsfa.view.DebtorDetailsActivity;
 
 import java.io.OutputStream;
 import java.lang.reflect.Method;
@@ -59,9 +53,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
-public class VanSalePrintPreviewAlertBox {
+public class PreSalePrintPreviewAlertBox {
 
     public static final String SETTINGS = "SETTINGS";
     String printLineSeperatorNew = "--------------------------------------------";
@@ -107,7 +100,7 @@ public class VanSalePrintPreviewAlertBox {
         }
     };
 
-    public VanSalePrintPreviewAlertBox(Context context) {
+    public PreSalePrintPreviewAlertBox(Context context) {
         this.context = context;
     }
 
@@ -166,12 +159,12 @@ public class VanSalePrintPreviewAlertBox {
 
             String repCode = new SalRepController(context).getCurrentRepCode();
             SalRep salRep = new SalRepController(context).getSaleRepDet(repCode);
-            SalesRepname.setText("TAX INVOICE");
-                InvHed invhed = new InvHedController(context).getDetailsforPrint(refno);
+            SalesRepname.setText("TAX ORDER");
+                Order invhed = new OrderController(context).getDetailsForPrint(refno);
 
-                ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrint(refno);
+                ArrayList<OrderDetail> list = new OrderDetailController(context).getAllUnSync(refno);
 
-                Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
+                Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getORDER_DEBCODE());
                 outlet = debtor;
 
                 Debname.setText(debtor.getCusCode() + "-" + debtor.getCusName());
@@ -180,24 +173,24 @@ public class VanSalePrintPreviewAlertBox {
                 DebTele.setText(debtor.getCusMob());
                 Debvat.setText("<VAT NO>");
 
-                SalOrdDate.setText("Invoice No: " + refno);
+                SalOrdDate.setText("Order No: " + refno);
                 Remarks.setText(salRep.getRepCode() + "/ " + salRep.getNAME());
-                OrderNo.setText("Date: " + invhed.getFINVHED_TXNDATE() + " " + currentTime());
+                OrderNo.setText("Date: " + invhed.getORDER_TXNDATE() + " " + currentTime());
                 String routecode = new RouteDetController(context).getRouteCodeByDebCode(debtor.getCusCode());
                 txtRoute.setText(""+new RouteController(context).getAreaCodeByRouteCode(routecode));
 
                 int qty = 0 ;
                 double dDisc = 0, dTotAmt = 0, dTax = 0;
 
-                for (InvDet det : list) {
-                    qty += Integer.parseInt(det.getFINVDET_QTY());
-                    dDisc += Double.parseDouble(det.getFINVDET_DIS_AMT());
-                    dTotAmt += Double.parseDouble(det.getFINVDET_AMT());
-                    dTax += Double.parseDouble(det.getFINVDET_TAX_AMT());
+                for (OrderDetail det : list) {
+                    qty += Integer.parseInt(det.getFORDERDET_QTY());
+                    dDisc += Double.parseDouble(det.getFORDERDET_DISAMT());
+                    dTotAmt += Double.parseDouble(det.getFORDERDET_AMT());
+                    dTax += Double.parseDouble(det.getFORDERDET_TAXAMT());
                 }
 
                 lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
-                lvItemDetails.setAdapter(new PrintVanSaleItemAdapter(context, list));
+                lvItemDetails.setAdapter(new PrintOrderItemAdapter(context, list));
                 /*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
                 TotalPieceQty.setText(String.valueOf(qty));
@@ -310,7 +303,7 @@ public class VanSalePrintPreviewAlertBox {
 
         String printGapAdjust = "                        ";
 
-        String SalesRepNamestr = "<TAX INVOICE>";// +
+        String SalesRepNamestr = "<TAX ORDER>";// +
       //  String SalesRepNamestr = "Sales Rep: " + salrep.getRepCode() + "/ " + salrep.getNAME().trim();// +
 
         int lengthDealE = SalesRepNamestr.length();
@@ -321,9 +314,8 @@ public class VanSalePrintPreviewAlertBox {
 
         String subTitleheadH = printLineSeperatorNew;
 
-        InvHed invHed = new InvHedController(context).getDetailsforPrint(PRefno);
-        FInvRHed invRHed = new SalesReturnController(context).getDetailsforPrint(PRefno);
-        Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invHed.getFINVHED_DEBCODE());
+        Order invHed = new OrderController(context).getDetailsForPrint(PRefno);
+        Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invHed.getORDER_DEBCODE());
 
         int lengthDealI = debtor.getCusCode().length() + "-".length() + debtor.getCusName().length();
         int lengthDealIB = (LINECHAR - lengthDealI) / 2;
@@ -367,7 +359,7 @@ public class VanSalePrintPreviewAlertBox {
         int lengthDealMB = (LINECHAR - lengthDealM) / 2;
         String printGapAdjustM = printGapAdjust.substring(0, Math.min(lengthDealMB, printGapAdjust.length()));
 
-        String subTitleheadN = "" + invHed.getFINVHED_TXNDATE() + " " + currentTime();//refno
+        String subTitleheadN = "" + invHed.getORDER_TXNDATE() + " " + currentTime();//refno
         int lengthDealN = subTitleheadN.length();
         int lengthDealNB = (LINECHAR - lengthDealN) / 2;
         String printGapAdjustN = printGapAdjust.substring(0, Math.min(lengthDealNB, printGapAdjust.length()));
@@ -409,7 +401,7 @@ public class VanSalePrintPreviewAlertBox {
         String title_Print_Area = "\r\n" + subTitleheadArea;
         // subTitleheadR;
 
-        ArrayList<InvDet> itemList = new InvDetController(context).getAllItemsforPrint(PRefno);
+        ArrayList<OrderDetail> itemList = new OrderDetailController(context).getAllUnSync(PRefno);
         ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(PRefno);
 
         BigDecimal compDisc = BigDecimal.ZERO;// new
@@ -448,11 +440,11 @@ public class VanSalePrintPreviewAlertBox {
         ArrayList<StkIss> list = new ArrayList<StkIss>();
 
         //Order Item total
-        for (InvDet det : itemList) {
-            totQty += Integer.parseInt(det.getFINVDET_QTY());
-            totalamt += Double.parseDouble(det.getFINVDET_AMT());
-            totaldis += Double.parseDouble(det.getFINVDET_DIS_AMT());
-            totaltax += Double.parseDouble(det.getFINVDET_TAX_AMT());
+        for (OrderDetail det : itemList) {
+            totQty += Integer.parseInt(det.getFORDERDET_QTY());
+            totalamt += Double.parseDouble(det.getFORDERDET_AMT());
+            totaldis += Double.parseDouble(det.getFORDERDET_DISAMT());
+            totaltax += Double.parseDouble(det.getFORDERDET_TAXAMT());
         }
 
         int nos = 1;
@@ -461,23 +453,23 @@ public class VanSalePrintPreviewAlertBox {
         SPACE6 = "                                            ";
 
         //for (StkIss iss : list) {
-        for (InvDet det : itemList) {
+        for (OrderDetail det : itemList) {
 
-            String sItemcode = det.getFINVDET_ITEM_CODE();
+            String sItemcode = det.getFORDERDET_ITEMCODE();
             String sItemname = new ItemController(context).getItemNameByCode(sItemcode);
-            String sQty = det.getFINVDET_QTY();
-            String variantcode = det.getFINVDET_VARIANTCODE();
-            String articleno = det.getFINVDET_ARTICLENO();
-            String disper = det.getFINVDET_DIS_PER();
+            String sQty = det.getFORDERDET_QTY();
+            String variantcode = det.getFORDERDET_VARIANTCODE();
+            String articleno = det.getFORDERDET_ARTICLENO();
+            String disper = det.getFORDERDET_DISPER();
             // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
             // - 3);
 
             String sPrice = "", sTotal = "";
 
-            sTotal = det.getFINVDET_AMT();
-            sPrice = det.getFINVDET_SELL_PRICE();
+            sTotal = det.getFORDERDET_AMT();
+            sPrice = det.getFORDERDET_SELLPRICE();
 
-            String sDiscount = det.getFINVDET_DIS_AMT();
+            String sDiscount = det.getFORDERDET_DISAMT();
 
 
             int itemCodeLength = sItemcode.length();
@@ -663,7 +655,7 @@ public class VanSalePrintPreviewAlertBox {
         System.out.println("BT Searching status :" + mBTAdapter.isDiscovering());
 
         if (mBTAdapter == null) {
-            android.widget.Toast.makeText(context, "Device has no bluetooth		 capability...", android.widget.Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Device has no bluetooth		 capability...", Toast.LENGTH_SHORT).show();
         } else {
             if (!mBTAdapter.isEnabled()) {
                 Intent intentBtEnabled = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -692,7 +684,7 @@ public class VanSalePrintPreviewAlertBox {
             if (mBTAdapter != null)
                 mBTAdapter.cancelDiscovery();
         } catch (Exception e) {
-            android.widget.Toast.makeText(context, "Printer Device Disable Or Invalid MAC.Please Enable the Printer or MAC Address.", android.widget.Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Printer Device Disable Or Invalid MAC.Please Enable the Printer or MAC Address.", Toast.LENGTH_LONG).show();
             Log.d(">>>BILL",">>>"+BILL);
             e.printStackTrace();
             this.PrintDetailsDialogbox(context, "", PRefno);

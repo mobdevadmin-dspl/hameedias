@@ -600,46 +600,46 @@ public class OrderDetailFragment extends Fragment{
 
     public void ProductDialogBox() {
 
-        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-        View promptView = layoutInflater.inflate(R.layout.product_dialog_layout, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setView(promptView);
+                    LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+                    View promptView = layoutInflater.inflate(R.layout.product_dialog_layout, null);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                    alertDialogBuilder.setView(promptView);
 
-        final ListView lvProducts = (ListView) promptView.findViewById(R.id.lv_product_list);
-        final SearchView search = (SearchView) promptView.findViewById(R.id.et_search);
+                    final ListView lvProducts = (ListView) promptView.findViewById(R.id.lv_product_list);
+                    final SearchView search = (SearchView) promptView.findViewById(R.id.et_search);
 
-        lvProducts.clearTextFilter();
-        productList.clear();
-        productList = new PreProductController(getActivity()).getAllItems("");
-        lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList));
+                    lvProducts.clearTextFilter();
+                    productList.clear();
+                    productList = new PreProductController(getActivity()).getAllItems("");
+                    lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList));
 
-        alertDialogBuilder.setCancelable(false).setNegativeButton("DONE", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+                    alertDialogBuilder.setCancelable(false).setNegativeButton("DONE", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
 
-                selectedItemList = new PreProductController(getActivity()).getSelectedItems();
-                updateOrderDet(selectedItemList);
-                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                dialog.cancel();
-            }
-        });
+                            selectedItemList = new PreProductController(getActivity()).getSelectedItems();
+                            updateOrderDet(selectedItemList);
+                            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                            dialog.cancel();
+                        }
+                    });
 
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-        alertDialog.getWindow().setLayout(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                    alertDialog.getWindow().setLayout(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                productList = new PreProductController(getActivity()).getAllItems(query);//Rashmi 2018-10-26
-                lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList));
-                return true;
-            }
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            productList = new PreProductController(getActivity()).getAllItems(query);//Rashmi 2018-10-26
+                            lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList));
+                            return true;
+                        }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
 
-                productList.clear();
+                            productList.clear();
                 productList = new PreProductController(getActivity()).getAllItems(newText);//rashmi-2018-10-26
                 lvProducts.setAdapter(new PreOrderAdapter(getActivity(), productList));
                 return true;

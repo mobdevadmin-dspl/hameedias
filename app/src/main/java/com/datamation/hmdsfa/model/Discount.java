@@ -15,10 +15,20 @@ public class Discount {
     private String LocCode;
     @SerializedName("ProductDis")
     private String ProductDis;
+    @SerializedName("ProductDisCash")
+    private String ProductCashDis;
     @SerializedName("ProductGroup")
     private String ProductGroup;
     @SerializedName("RepCode")
     private String RepCode;
+
+    public String getProductCashDis() {
+        return ProductCashDis;
+    }
+
+    public void setProductCashDis(String productCashDis) {
+        ProductCashDis = productCashDis;
+    }
 
     public String getDebCode() {
         return DebCode;

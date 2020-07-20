@@ -127,11 +127,11 @@ public class OrderDetailsFragment extends Fragment {
     }
     //https://github.com/Rishijay/Dynamic-Expandable-ListView
     private void prepareListData() {
-        listDataHeader = new OrderController(getActivity()).getTodayOrders();
+        listDataHeader = new OrderController(getActivity()).getTodayInvoices();
         listDataChild = new HashMap<Order, List<OrderDetail>>();
 
         for(Order free : listDataHeader){
-            listDataChild.put(free,new OrderDetailController(getActivity()).getTodayOrderDets(free.getORDER_REFNO()));
+            listDataChild.put(free,new OrderDetailController(getActivity()).getTodayInvoiceDets(free.getORDER_REFNO()));
         }
 
     }

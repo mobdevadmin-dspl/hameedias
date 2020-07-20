@@ -214,4 +214,24 @@ public class RouteController {
 
         return list;
     }
+    public String getAreaCodeByRouteCode(String routecode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT * FROM " + TABLE_FROUTE +  " WHERE "  + ROUTE_CODE + "='" + routecode + "'";
+
+        Cursor cursor = null;
+        cursor = dB.rawQuery(selectQuery, null);
+
+        while (cursor.moveToNext()) {
+
+            return cursor.getString(cursor.getColumnIndex(FROUTE_AREACODE));
+
+        }
+
+        return "";
+    }
 }
