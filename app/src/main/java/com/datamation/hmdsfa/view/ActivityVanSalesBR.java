@@ -15,11 +15,10 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.hmdsfa.R;
-import com.datamation.hmdsfa.barcode.BRInvoiceDetailFragment;
-import com.datamation.hmdsfa.barcode.BRInvoiceHeaderFragment;
-import com.datamation.hmdsfa.barcode.BRInvoiceSummaryFragment;
+import com.datamation.hmdsfa.barcode.invoce.BRInvoiceDetailFragment;
+import com.datamation.hmdsfa.barcode.invoce.BRInvoiceHeaderFragment;
+import com.datamation.hmdsfa.barcode.invoce.BRInvoiceSummaryFragment;
 import com.datamation.hmdsfa.controller.InvDetController;
-import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
 import com.datamation.hmdsfa.helpers.VanSalesResponseListener;
 import com.datamation.hmdsfa.model.Customer;
 import com.datamation.hmdsfa.model.FInvRDet;

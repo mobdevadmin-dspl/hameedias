@@ -63,6 +63,15 @@ public class Order {
     private String ORDER_DEALCODE;
     private String ORDER_TOTALMKRAMT;
     private String ORDER_FEEDBACK;
+    private String ORDER_VATCODE;
+
+    public String getORDER_VATCODE() {
+        return ORDER_VATCODE;
+    }
+
+    public void setORDER_VATCODE(String ORDER_VATCODE) {
+        this.ORDER_VATCODE = ORDER_VATCODE;
+    }
 
     public String getORDER_FEEDBACK() {
         return ORDER_FEEDBACK;

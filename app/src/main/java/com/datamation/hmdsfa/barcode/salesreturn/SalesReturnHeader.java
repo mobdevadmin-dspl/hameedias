@@ -1,4 +1,4 @@
-package com.datamation.hmdsfa.salesreturn;
+package com.datamation.hmdsfa.barcode.salesreturn;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -10,9 +10,6 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,11 +37,15 @@ import com.datamation.hmdsfa.model.Reason;
 import com.datamation.hmdsfa.settings.ReferenceNum;
 import com.datamation.hmdsfa.utils.LocationProvider;
 import com.datamation.hmdsfa.view.SalesReturnActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 
 public class SalesReturnHeader extends Fragment implements View.OnClickListener{

@@ -96,10 +96,12 @@ public class OrderController {
     public static final String FORDHED_PAYMENT_TYPE = "PaymentType";
     public static final String FORDHED_UPLOAD_TIME = "UploadTime";
     public static final String FORDHED_FEEDBACK = "Feedback";
+    public static final String FORDHED_VATCODE = "VatCode";
     // create String
     public static final String CREATE_FORDHED_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDHED + " (" + FORDHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + FORDHED_ADD_MACH + " TEXT, " +
             FORDHED_ADD_DATE + " TEXT," +
+            FORDHED_VATCODE + " TEXT," +
             FORDHED_ADD_USER + " TEXT, "  + DEALCODE + " TEXT, " + FORDHED_AREA_CODE + " TEXT, " +
             FORDHED_APP_DATE + " TEXT, " + FORDHED_ADDRESS + " TEXT, " + FORDHED_APPSTS + " TEXT, " + FORDHED_APP_USER +
             " TEXT, " + FORDHED_BP_TOTAL_DIS + " TEXT, " + FORDHED_B_TOTAL_AMT + " TEXT, " +
@@ -190,6 +192,11 @@ public class OrderController {
                 values.put(FORDHED_LOC_CODE, ordHed.getORDER_LOCCODE());
                 values.put(FORDHED_AREA_CODE, ordHed.getORDER_AREACODE());
                 values.put(DEALCODE, ordHed.getORDER_DEALCODE());
+                values.put(FORDHED_CUR_CODE, ordHed.getORDER_CURCODE());
+                values.put(FORDHED_CUR_RATE, ordHed.getORDER_CURRATE());
+                values.put(FORDHED_TXN_TYPE, ordHed.getORDER_TXNTYPE());
+                values.put(FORDHED_TOTAL_TAX, ordHed.getORDER_TOTALTAX());
+                values.put(FORDHED_VATCODE, ordHed.getORDER_VATCODE());
 
 
                 int cn = cursor.getCount();
@@ -537,6 +544,12 @@ public class OrderController {
                 order.setORDER_END_TIMESO(cursor.getString(cursor.getColumnIndex(FORDHED_END_TIME_SO)));
                 order.setORDER_ADDRESS(cursor.getString(cursor.getColumnIndex(FORDHED_ADDRESS)));
                 order.setORDER_FEEDBACK(cursor.getString(cursor.getColumnIndex(FORDHED_FEEDBACK)));
+                order.setORDER_CURCODE(cursor.getString(cursor.getColumnIndex(FORDHED_CUR_CODE)));
+                order.setORDER_CURRATE(cursor.getString(cursor.getColumnIndex(FORDHED_CUR_RATE)));
+                order.setORDER_TXNTYPE(cursor.getString(cursor.getColumnIndex(FORDHED_TXN_TYPE)));
+                order.setORDER_TOTALDIS(cursor.getString(cursor.getColumnIndex(FORDHED_TOTALDIS)));
+                order.setORDER_TOTALTAX(cursor.getString(cursor.getColumnIndex(FORDHED_TOTAL_TAX)));
+                order.setORDER_VATCODE(cursor.getString(cursor.getColumnIndex(FORDHED_VATCODE)));
 
                 order.setOrdDet(detDS.getAllUnSync(cursor.getString(cursor.getColumnIndex(REFNO))));
 ////            preSalesMapper.setIssuList(
@@ -654,6 +667,12 @@ public class OrderController {
             presale.setORDER_DELIVERY_DATE(cursor.getString(cursor.getColumnIndex(FORDHED_DELV_DATE)));
             presale.setORDER_PAYTYPE(cursor.getString(cursor.getColumnIndex(FORDHED_PAYMENT_TYPE)));
             presale.setORDER_FEEDBACK(cursor.getString(cursor.getColumnIndex(FORDHED_FEEDBACK)));
+            presale.setORDER_LOCCODE(cursor.getString(cursor.getColumnIndex(FORDHED_LOC_CODE)));
+            presale.setORDER_CURCODE(cursor.getString(cursor.getColumnIndex(FORDHED_CUR_CODE)));
+            presale.setORDER_CURRATE(cursor.getString(cursor.getColumnIndex(FORDHED_CUR_RATE)));
+            presale.setORDER_TXNTYPE(cursor.getString(cursor.getColumnIndex(FORDHED_TXN_TYPE)));
+            presale.setORDER_VATCODE(cursor.getString(cursor.getColumnIndex(FORDHED_VATCODE)));
+
             presale.setOrdDet(detDS.getAllActives(cursor.getString(cursor.getColumnIndex(REFNO))));
 
         }

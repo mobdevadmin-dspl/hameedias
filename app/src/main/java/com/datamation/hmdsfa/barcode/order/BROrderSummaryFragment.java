@@ -1,4 +1,4 @@
-package com.datamation.hmdsfa.barcode;
+package com.datamation.hmdsfa.barcode.order;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -410,6 +410,10 @@ public class BROrderSummaryFragment extends Fragment {
                     ordHed.setORDER_COSTCODE(presale.getORDER_COSTCODE());
                     ordHed.setORDER_TAXREG(presale.getORDER_TAXREG());
                     ordHed.setORDER_TOURCODE(presale.getORDER_TOURCODE());
+                    ordHed.setORDER_CURCODE(presale.getORDER_CURCODE());
+                    ordHed.setORDER_CURRATE(presale.getORDER_CURRATE());
+                    ordHed.setORDER_CURRATE(presale.getORDER_TXNTYPE());
+                    ordHed.setORDER_VATCODE(presale.getORDER_VATCODE());
                     ordHed.setORDER_DELIVERY_DATE(presale.getORDER_DELIVERY_DATE());
                     ordHed.setORDER_PAYTYPE(presale.getORDER_PAYTYPE());
                     ordHed.setORDER_LATITUDE(presale.getORDER_LATITUDE());
@@ -417,7 +421,7 @@ public class BROrderSummaryFragment extends Fragment {
                     ordHed.setORDER_BPTOTALDIS("0");
                     ordHed.setORDER_BTOTALAMT("0");
                     ordHed.setORDER_TOTALTAX("0");
-                    ordHed.setORDER_TOTALDIS("0.0");
+                    ordHed.setORDER_TOTALDIS(lblReplacements.getText().toString());
                     ordHed.setORDER_TOTALAMT(lblNetVal.getText().toString());
                     ordHed.setORDER_TXNDATE(presale.getORDER_TXNDATE());
                     ordHed.setORDER_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());
@@ -439,7 +443,7 @@ public class BROrderSummaryFragment extends Fragment {
                         /*-*-*-*-*-*-*-*-*-*-QOH update-*-*-*-*-*-*-*-*-*/
 
                         new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
-                        UpdateTaxDetails(RefNo);
+                 //       UpdateTaxDetails(RefNo);
                         new ItemLocController(getActivity()).UpdateOrderQOH(RefNo, "-", locCode);
                         Toast.makeText(getActivity(), "Order saved successfully..!", Toast.LENGTH_SHORT).show();
                         activity.selectedReturnHed = null;

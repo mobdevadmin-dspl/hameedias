@@ -14,9 +14,9 @@ import android.util.TypedValue;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.hmdsfa.R;
-import com.datamation.hmdsfa.barcode.BROrderDetailFragment;
-import com.datamation.hmdsfa.barcode.BROrderHeaderFragment;
-import com.datamation.hmdsfa.barcode.BROrderSummaryFragment;
+import com.datamation.hmdsfa.barcode.order.BROrderDetailFragment;
+import com.datamation.hmdsfa.barcode.order.BROrderHeaderFragment;
+import com.datamation.hmdsfa.barcode.order.BROrderSummaryFragment;
 import com.datamation.hmdsfa.controller.OrderDetailController;
 import com.datamation.hmdsfa.helpers.PreSalesResponseListener;
 import com.datamation.hmdsfa.model.Customer;
@@ -24,10 +24,7 @@ import com.datamation.hmdsfa.model.FInvRDet;
 import com.datamation.hmdsfa.model.FInvRHed;
 import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.Order;
-import com.datamation.hmdsfa.presale.OrderDetailFragment;
-import com.datamation.hmdsfa.presale.OrderHeaderFragment;
 import com.datamation.hmdsfa.presale.OrderReturnFragment;
-import com.datamation.hmdsfa.presale.OrderSummaryFragment;
 
 public class PreSalesActivity extends AppCompatActivity implements PreSalesResponseListener{
     private BROrderHeaderFragment orderHeaderFragment;

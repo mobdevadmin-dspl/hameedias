@@ -7,133 +7,133 @@
 
 
 
-            <!--<TableRow-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="10dp"-->
-                <!--android:weightSum="2">-->
+    <!--<TableRow-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="10dp"-->
+    <!--android:weightSum="2">-->
 
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1.5"-->
-                    <!--android:text="Date" />-->
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1.5"-->
+    <!--android:text="Date" />-->
 
-                <!--<EditText-->
-                    <!--android:id="@+id/editTextRtnDate"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="45dp"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:background="@drawable/edittextstyle"-->
-                    <!--android:layout_weight="0.5"-->
-                    <!--android:inputType="textPersonName" />-->
-            <!--</TableRow>-->
-
-
-            <!--<TableRow-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="10dp"-->
-                <!--android:weightSum="2">-->
+    <!--<EditText-->
+    <!--android:id="@+id/editTextRtnDate"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="45dp"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:background="@drawable/edittextstyle"-->
+    <!--android:layout_weight="0.5"-->
+    <!--android:inputType="textPersonName" />-->
+    <!--</TableRow>-->
 
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1.5"-->
-                    <!--android:text="Manual Ref No" />-->
-
-                <!--<EditText-->
-                    <!--android:id="@+id/editTextRtnManualNo"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="45dp"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:background="@drawable/edittextstyle"-->
-                    <!--android:layout_weight="0.5"-->
-                    <!--android:inputType="textPersonName" />-->
-            <!--</TableRow>-->
-
-            <!--<TableRow-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="10dp"-->
-                <!--android:weightSum="2">-->
+    <!--<TableRow-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="10dp"-->
+    <!--android:weightSum="2">-->
 
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1.5"-->
-                    <!--android:text="Remarks" />-->
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1.5"-->
+    <!--android:text="Manual Ref No" />-->
 
-                <!--<EditText-->
-                    <!--android:id="@+id/editTextRtnRemarks"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="80dp"-->
-                    <!--android:background="@drawable/edittextstyle"-->
-                    <!--android:layout_weight="0.5"-->
-                    <!--android:gravity="top"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:singleLine="false"-->
-                    <!--android:maxLines="3"-->
-                    <!--android:inputType="textPersonName" />-->
-            <!--</TableRow>-->
+    <!--<EditText-->
+    <!--android:id="@+id/editTextRtnManualNo"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="45dp"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:background="@drawable/edittextstyle"-->
+    <!--android:layout_weight="0.5"-->
+    <!--android:inputType="textPersonName" />-->
+    <!--</TableRow>-->
 
-        <!---->
-
-            <!--<TableRow-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="10dp"-->
-                <!--android:weightSum="2"-->
-                <!--android:clickable="false">-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1.5"-->
-                    <!--android:text="Reason"/>-->
-
-                <!--<EditText-->
-                    <!--android:id="@+id/editTextReason"-->
-                    <!--android:layout_width="510dp"-->
-                    <!--android:layout_height="45dp"-->
-                    <!--android:layout_marginLeft="0dp"-->
-                    <!--android:layout_weight="0.5"-->
-                    <!--android:background="@drawable/edittextstyle"-->
-                    <!--android:clickable="false"-->
-                    <!--android:inputType="textPersonName">-->
-
-                <!--</EditText>-->
-
-                <!--<Button-->
-                    <!--android:id="@+id/btn_reason_search"-->
-                    <!--android:layout_width="45dp"-->
-                    <!--android:layout_height="45dp"-->
-                    <!--android:layout_marginLeft="3dp"-->
-                    <!--android:background="@drawable/search_button" />-->
-
-            <!--</TableRow>-->
+    <!--<TableRow-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="10dp"-->
+    <!--android:weightSum="2">-->
 
 
-      <!---->
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1.5"-->
+    <!--android:text="Remarks" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/editTextRtnRemarks"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:background="@drawable/edittextstyle"-->
+    <!--android:layout_weight="0.5"-->
+    <!--android:gravity="top"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:singleLine="false"-->
+    <!--android:maxLines="3"-->
+    <!--android:inputType="textPersonName" />-->
+    <!--</TableRow>-->
+
+    <!---->
+
+    <!--<TableRow-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="10dp"-->
+    <!--android:weightSum="2"-->
+    <!--android:clickable="false">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1.5"-->
+    <!--android:text="Reason"/>-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/editTextReason"-->
+    <!--android:layout_width="510dp"-->
+    <!--android:layout_height="45dp"-->
+    <!--android:layout_marginLeft="0dp"-->
+    <!--android:layout_weight="0.5"-->
+    <!--android:background="@drawable/edittextstyle"-->
+    <!--android:clickable="false"-->
+    <!--android:inputType="textPersonName">-->
+
+    <!--</EditText>-->
+
+    <!--<Button-->
+    <!--android:id="@+id/btn_reason_search"-->
+    <!--android:layout_width="45dp"-->
+    <!--android:layout_height="45dp"-->
+    <!--android:layout_marginLeft="3dp"-->
+    <!--android:background="@drawable/search_button" />-->
+
+    <!--</TableRow>-->
 
 
-        <!--</LinearLayout>-->
+    <!---->
 
 
-        <!--<com.google.android.material.floatingactionbutton.FloatingActionButton-->
-            <!--android:id="@+id/fab"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="bottom|right"-->
-            <!--android:layout_margin="16dp"-->
-            <!--android:clickable="true"-->
-            <!--app:srcCompat="@drawable/ic_next" />-->
+    <!--</LinearLayout>-->
+
+
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--android:id="@+id/fab"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|right"-->
+    <!--android:layout_margin="16dp"-->
+    <!--android:clickable="true"-->
+    <!--app:srcCompat="@drawable/ic_next" />-->
     <!--</androidx.cardview.widget.CardView>-->
 
-<!--</FrameLayout>-->
+    <!--</FrameLayout>-->
 
 
 

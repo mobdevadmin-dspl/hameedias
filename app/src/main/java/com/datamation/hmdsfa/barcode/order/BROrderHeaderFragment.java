@@ -1,4 +1,4 @@
-package com.datamation.hmdsfa.barcode;
+package com.datamation.hmdsfa.barcode.order;
 
 
 import android.app.Activity;
@@ -397,9 +397,14 @@ public class BROrderHeaderFragment extends Fragment implements DatePickerDialog.
             hed.setORDER_REPCODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
             hed.setORDER_LONGITUDE(""+pref.getGlobalVal("Longitude"));
             hed.setORDER_LATITUDE(""+pref.getGlobalVal("Latitude"));
+            hed.setORDER_VATCODE(""+pref.getGlobalVal("KeyVat"));
             hed.setORDER_AREACODE(new CustomerController(getActivity()).getAreaByDebCode(pref.getSelectedDebCode()));
+            hed.setORDER_LOCCODE(new SalRepController(getActivity()).getCurrentLoccode());
             hed.setORDER_ADDRESS(address);
             hed.setORDER_ADDUSER(new SalRepController(getActivity()).getCurrentRepCode().trim());
+            hed.setORDER_CURCODE("LKR");
+            hed.setORDER_CURRATE("1.00");
+            hed.setORDER_TXNTYPE("Order");
 
             activity.selectedPreHed = hed;
 

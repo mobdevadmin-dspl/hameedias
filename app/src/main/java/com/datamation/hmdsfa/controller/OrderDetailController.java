@@ -1341,7 +1341,7 @@ public class OrderDetailController {
             for (OrderDetail soDet : list) {
 
                 /* Calculate only for MR or UR */
-                if (soDet.getFORDERDET_TYPE().equals("SA")) {
+              //  if (soDet.getFORDERDET_TYPE().equals("SA")) {
 
                     String sArray[] = new TaxDetController(context).calculateTaxForwardFromDebTax(debtorCode, soDet.getFORDERDET_ITEMCODE(), Double.parseDouble(soDet.getFORDERDET_AMT()));
 
@@ -1360,9 +1360,9 @@ public class OrderDetailController {
                     totTax += Double.parseDouble(sArray[1]);
                     totalAmt += Double.parseDouble(sArray[0]);
 
-                    String updateQuery = "UPDATE FOrddet SET TaxAmt='" + sArray[1] + "', Amt='" + sArray[0] + "', BAmt='" + sArray[0] + "', DisAmt='" + String.valueOf(disR) + "', TSellPrice='" + tSellPrice + "', BTSellPrice ='" + tSellPrice + "' where ItemCode ='" + soDet.getFORDERDET_ITEMCODE() + "' AND refno='" + soDet.getFORDERDET_REFNO() + "' AND Type = 'SA' ";
+                    String updateQuery = "UPDATE FOrddet SET TaxAmt='" + sArray[1] + "', Amt='" + sArray[0] + "', BAmt='" + sArray[0] + "', DisAmt='" + String.valueOf(disR) + "', TSellPrice='" + tSellPrice + "', BTSellPrice ='" + tSellPrice + "' where ItemCode ='" + soDet.getFORDERDET_ITEMCODE() + "' AND refno='" + soDet.getFORDERDET_REFNO() + "'";
                     dB.execSQL(updateQuery);
-                }
+              //  }
             }
             /* Update sales return Header TotalTax */
             dB.execSQL("UPDATE FOrdHed SET TotalTax='" + totTax + "',TotalDis='" + totDisc + "',TotalAmt='" + totalAmt + "' WHERE refno='" + list.get(0).getFORDERDET_REFNO() + "'");

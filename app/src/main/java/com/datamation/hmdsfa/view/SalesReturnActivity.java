@@ -15,12 +15,13 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.barcode.salesreturn.SalesReturnDetails;
+import com.datamation.hmdsfa.barcode.salesreturn.SalesReturnHeader;
+import com.datamation.hmdsfa.barcode.salesreturn.SalesReturnSummary;
 import com.datamation.hmdsfa.controller.SalesReturnDetController;
 import com.datamation.hmdsfa.helpers.SalesReturnResponseListener;
 import com.datamation.hmdsfa.model.FInvRHed;
-import com.datamation.hmdsfa.salesreturn.SalesReturnHeader;
-import com.datamation.hmdsfa.salesreturn.SalesReturnDetails;
-import com.datamation.hmdsfa.salesreturn.SalesReturnSummary;
+
 import com.datamation.hmdsfa.settings.ReferenceNum;
 
 public class SalesReturnActivity extends AppCompatActivity implements SalesReturnResponseListener{
