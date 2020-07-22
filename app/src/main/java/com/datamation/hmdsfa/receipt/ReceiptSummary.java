@@ -10,6 +10,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -23,12 +25,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.adapter.ReceiptAdapter;
 import com.datamation.hmdsfa.controller.OutstandingController;
 import com.datamation.hmdsfa.controller.ReceiptController;
 import com.datamation.hmdsfa.controller.ReceiptDetController;
 import com.datamation.hmdsfa.controller.SalRepController;
+import com.datamation.hmdsfa.dialog.ReceiptPreviewAlertBox;
+import com.datamation.hmdsfa.dialog.VanSalePrintPreviewAlertBox;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.FddbNote;
 import com.datamation.hmdsfa.model.ReceiptDet;
@@ -328,9 +333,38 @@ public class ReceiptSummary extends Fragment {
                 dialog.dismiss();
                 ClearSharedPref();/* Clear shared preference */
 
-                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+                MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                        .content("Do you want to print this receipt ?")
+                        .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                        .positiveText("Yes")
+                        .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                        .negativeText("No, Exit")
+                        .callback(new MaterialDialog.ButtonCallback() {
+
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                super.onPositive(dialog);
+
+                                int a = new ReceiptPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+                                //int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+                            }
+
+                            @Override
+                            public void onNegative(MaterialDialog dialog) {
+                                super.onNegative(dialog);
+                                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                                startActivity(intent);
+                                getActivity().finish();
+                                dialog.dismiss();
+                            }
+                        })
+                        .build();
+                materialDialog.setCanceledOnTouchOutside(false);
+                materialDialog.show();
+
+//                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+//                startActivity(intent);
+//                getActivity().finish();
 
             }
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -338,6 +372,7 @@ public class ReceiptSummary extends Fragment {
                 dialog.cancel();
             }
         });
+
         AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
     }

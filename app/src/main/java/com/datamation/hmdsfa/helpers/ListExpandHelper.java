@@ -27,6 +27,6 @@ public class ListExpandHelper
                 + (myListView.getDividerHeight() * (myListAdapter.getCount() - 1));
         myListView.setLayoutParams(params);
         // print height of adapter on log
-        Log.i("height of listItem:", String.valueOf(totalHeight));
+        Log.d("height of listItem:", String.valueOf(totalHeight));
     }
 }

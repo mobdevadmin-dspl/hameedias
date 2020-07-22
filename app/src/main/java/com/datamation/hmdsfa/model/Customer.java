@@ -16,6 +16,7 @@ public class Customer implements Serializable{
 	private String cusNIC;
 	private String cusAdd1;
 	private String cusAdd2;
+	private String cusAdd3;
 	private String cusMob;
 	private String cusRoute;
 	private String cusStatus;
@@ -142,6 +143,14 @@ public class Customer implements Serializable{
 	public static final String INDEX_DEBTOR = "CREATE UNIQUE INDEX IF NOT EXISTS ui_debtor ON " + TABLE_FDEBTOR + " (DebCode);";
 	public static final String TABLE_TEMP_FDEBTOR = "FTempDebtor";
 	public static final String CREATE_TABLE_TEMP_FDEBTOR = "CREATE  TABLE IF NOT EXISTS " + TABLE_TEMP_FDEBTOR + " (" + FDEBTOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DEBCODE + " TEXT, " + FDEBTOR_NAME + " TEXT); ";
+
+	public String getCusAdd3() {
+		return cusAdd3;
+	}
+
+	public void setCusAdd3(String cusAdd3) {
+		this.cusAdd3 = cusAdd3;
+	}
 
 	public String getLatitude() {
 		return latitude;
