@@ -66,6 +66,7 @@ public class InvHed implements Serializable {
     private String FINVHED_AREACODE;
     private String FINVHED_PAYTYPE;
     private String FINVHED_VAT_CODE;
+    private String FINVHED_REASON;
 
     private String ConsoleDB;
     private String DistDB;
@@ -82,6 +83,14 @@ public class InvHed implements Serializable {
     private ArrayList<DispHed> dispHeds;
     private ArrayList<DispDet> dispDets;
     private ArrayList<DispIss> dispIsses;
+
+    public String getFINVHED_REASON() {
+        return FINVHED_REASON;
+    }
+
+    public void setFINVHED_REASON(String FINVHED_REASON) {
+        this.FINVHED_REASON = FINVHED_REASON;
+    }
 
     public ArrayList<InvDet> getInvDets() {
         return InvDets;

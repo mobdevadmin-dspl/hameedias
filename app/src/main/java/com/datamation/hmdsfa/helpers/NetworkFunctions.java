@@ -617,7 +617,9 @@ public class NetworkFunctions {
     public String syncInvoice() {
         return baseURL + "insertFInvHed";
     }
-
+    public String syncDeletedInvoice() {
+        return baseURL + "insertDeletedInvoices";
+    }
     public String syncReceipt() {
         return baseURL + "insertFrecHed";
     }

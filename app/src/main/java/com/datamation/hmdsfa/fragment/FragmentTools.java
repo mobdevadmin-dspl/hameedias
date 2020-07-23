@@ -106,6 +106,7 @@ import com.datamation.hmdsfa.presale.UploadPreSales;
 import com.datamation.hmdsfa.settings.TaskType;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.utils.UtilityContainer;
+import com.datamation.hmdsfa.vansale.UploadDeletedInvoices;
 import com.datamation.hmdsfa.vansale.UploadVanSales;
 import com.datamation.hmdsfa.view.DayExpenseActivity;
 import com.google.firebase.database.DataSnapshot;
@@ -649,7 +650,21 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                                     Toast.makeText(getActivity(), "No Van Sale Records to upload !", Toast.LENGTH_LONG).show();
                                 else{
                                     new UploadVanSales(getActivity(), FragmentTools.this).execute(invHedList);
-                                    Log.v(">>8>>","UploadPreSales execute finish");
+                                    Log.v(">>8>>","Uploadinvoices execute finish");
+                                }
+                            }catch(Exception e){
+                                Log.v("Exception in sync order",e.toString());
+                            }
+                            try {//Van sale upload - 2020-03-24-rashmi
+                                InvHedController hedDS = new InvHedController(getActivity());
+                                // InvoiceBarcodeController hedDS = new InvoiceBarcodeController(getActivity());
+                                ArrayList<InvHed> invHedList = hedDS.getAllUnsyncedDeleteInvoices();
+//                    /* If records available for upload then */
+                                if (invHedList.size() <= 0)
+                                    Toast.makeText(getActivity(), "No deleted invoices to upload !", Toast.LENGTH_LONG).show();
+                                else{
+                                    new UploadDeletedInvoices(getActivity(), FragmentTools.this).execute(invHedList);
+                                    Log.v(">>8>>","Uploaddeleteinvoices execute finish");
                                 }
                             }catch(Exception e){
                                 Log.v("Exception in sync order",e.toString());

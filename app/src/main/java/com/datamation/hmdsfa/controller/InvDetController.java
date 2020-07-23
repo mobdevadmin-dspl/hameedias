@@ -577,7 +577,7 @@ public class InvDetController {
 
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
-       // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' AND types='SA'";
+        // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' AND types='SA'";
         String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' ";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -588,7 +588,7 @@ public class InvDetController {
 
                 InvDet invDet = new InvDet();
 
-             //   invDet.setFINVDET_ID(cursor.getString(cursor.getColumnIndex(FINVDET_ID)));
+                //   invDet.setFINVDET_ID(cursor.getString(cursor.getColumnIndex(FINVDET_ID)));
                 invDet.setFINVDET_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_AMT)));
                 invDet.setFINVDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_BAL_QTY)));
                 invDet.setFINVDET_B_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_B_AMT)));
@@ -636,7 +636,76 @@ public class InvDetController {
         return list;
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public ArrayList<InvDet> getAllDltInvDet(String refno) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<InvDet> list = new ArrayList<InvDet>();
+
+        // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' AND types='SA'";
+        String selectQuery = "select * from " + TABLE_FINVDET_LOG + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' ";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+
+            while (cursor.moveToNext()) {
+
+                InvDet invDet = new InvDet();
+
+                //   invDet.setFINVDET_ID(cursor.getString(cursor.getColumnIndex(FINVDET_ID)));
+                invDet.setFINVDET_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_AMT)));
+                invDet.setFINVDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_BAL_QTY)));
+                invDet.setFINVDET_B_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_B_AMT)));
+                invDet.setFINVDET_B_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_B_SELL_PRICE)));
+                invDet.setFINVDET_BT_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_BT_TAX_AMT)));
+                invDet.setFINVDET_BT_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_BT_SELL_PRICE)));
+                invDet.setFINVDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_DIS_AMT)));
+                invDet.setFINVDET_DIS_PER(cursor.getString(cursor.getColumnIndex(FINVDET_DIS_PER)));
+                invDet.setFINVDET_ITEM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_ITEM_CODE)));
+                invDet.setFINVDET_PRIL_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_PRIL_CODE)));
+                invDet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
+                invDet.setFINVDET_PICE_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_PICE_QTY)));
+                invDet.setFINVDET_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TYPE)));
+                invDet.setFINVDET_RECORD_ID(cursor.getString(cursor.getColumnIndex(FINVDET_RECORD_ID)));
+                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                invDet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
+                invDet.setFINVDET_SEQNO(cursor.getString(cursor.getColumnIndex(FINVDET_SEQNO)));
+                invDet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_AMT)));
+                invDet.setFINVDET_TAX_COM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_COM_CODE)));
+                invDet.setFINVDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_T_SELL_PRICE)));
+                invDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invDet.setFINVDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TXN_TYPE)));
+                invDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVDET_IS_ACTIVE)));
+
+                invDet.setFINVDET_DISVALAMT(cursor.getString(cursor.getColumnIndex(FINVDET_DISVALAMT)));
+                invDet.setFINVDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FINVDET_VARIANTCODE)));
+                invDet.setFINVDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FINVDET_ARTICLENO)));
+                invDet.setFINVDET_BARCODE(cursor.getString(cursor.getColumnIndex(FINVDET_BARCODE)));
+
+                list.add(invDet);
+
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public ArrayList<InvDet> getCurrentInvoiceDetails(String refno) {
 
         if (dB == null) {
