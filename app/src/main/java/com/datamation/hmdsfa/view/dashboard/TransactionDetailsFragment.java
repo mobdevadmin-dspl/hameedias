@@ -481,6 +481,7 @@ public class TransactionDetailsFragment extends Fragment {
             public void onClick(View view) {
                 if (reason.length() > 0) {
                     new InvHedController(getActivity()).updateDeleteReason(refno,reason.getText().toString());
+                    prepareVanListData();
                     dltReasonDialog.dismiss();
 
                 } else {

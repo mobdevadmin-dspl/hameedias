@@ -88,6 +88,7 @@ public class Discount {
             discount.setProductDis(instance.getString("ProductDis"));
             discount.setProductGroup(instance.getString("ProductGroup"));
             discount.setRepCode(instance.getString("RepCode"));
+            discount.setProductCashDis(instance.getString("ProductDisCash"));
             return discount;
         }
 
