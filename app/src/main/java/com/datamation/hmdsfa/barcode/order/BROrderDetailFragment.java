@@ -166,7 +166,7 @@ public class BROrderDetailFragment extends Fragment{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ArrayList<ItemBundle> itemBundle = new BarcodeVarientController(getActivity())
-                        .getItemsInBundle(textSearchField.getSelectedItem().toString().split("-")[0]);
+                        .getItemsInBundle(textSearchField.getSelectedItem().toString().split("-")[0].trim());
                 Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
                 if(itemBundle.size()==1) {
                     selectedItem = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
