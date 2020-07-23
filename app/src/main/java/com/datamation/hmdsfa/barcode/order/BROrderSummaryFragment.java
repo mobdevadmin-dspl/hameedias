@@ -230,7 +230,7 @@ public class BROrderSummaryFragment extends Fragment {
 //                mainActivity.selectedRetDebtor = null;
 //                mainActivity.selectedPreHed = null;
 //                mainActivity.selectedReturnHed = null;
-                        Toast.makeText(getActivity(), "Order and return details discarded successfully..!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Order discarded successfully..!", Toast.LENGTH_SHORT).show();
                         // UtilityContainer.ClearVanSharedPref(getActivity());
                         UtilityContainer.ClearReturnSharedPref(getActivity());
 
@@ -412,7 +412,6 @@ public class BROrderSummaryFragment extends Fragment {
                     ordHed.setORDER_TOURCODE(presale.getORDER_TOURCODE());
                     ordHed.setORDER_CURCODE(presale.getORDER_CURCODE());
                     ordHed.setORDER_CURRATE(presale.getORDER_CURRATE());
-                    ordHed.setORDER_CURRATE(presale.getORDER_TXNTYPE());
                     ordHed.setORDER_VATCODE(presale.getORDER_VATCODE());
                     ordHed.setORDER_DELIVERY_DATE(presale.getORDER_DELIVERY_DATE());
                     ordHed.setORDER_PAYTYPE(presale.getORDER_PAYTYPE());

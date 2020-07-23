@@ -90,6 +90,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
     ArrayList<FInvRDet> returnList;
     Activity activity;
     String locCode;
+    private Customer outlet;
     FloatingActionButton fabPause, fabDiscard, fabSave;
     FloatingActionMenu fam;
     MyReceiver r;
@@ -187,7 +188,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
         alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
         alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-
+                outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
 
                 RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
 
@@ -205,6 +206,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
                 Toast.makeText(getActivity(), "Invoice details discarded successfully..!", Toast.LENGTH_SHORT).show();
 
                 Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+                intnt.putExtra("outlet", outlet);
                 startActivity(intnt);
                 getActivity().finish();
 
@@ -347,16 +349,21 @@ public class BRInvoiceSummaryFragment extends Fragment {
                                             super.onPositive(dialog);
 
                                             printItems();
-                                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
-                                            startActivity(intent);
+                                            outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
+                                            Intent intnt = new Intent(getActivity(), DebtorDetailsActivity.class);
+                                            intnt.putExtra("outlet", outlet);
+                                            startActivity(intnt);
+
                                             getActivity().finish();
 
                                         }
                                         @Override
                                         public void onNegative(MaterialDialog dialog) {
                                             super.onNegative(dialog);
-                                            Intent intent = new Intent(getActivity(),DebtorDetailsActivity.class);
-                                            startActivity(intent);
+                                            outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
+                                            Intent intnt = new Intent(getActivity(), DebtorDetailsActivity.class);
+                                            intnt.putExtra("outlet", outlet);
+                                            startActivity(intnt);
                                             getActivity().finish();
                                             dialog.dismiss();
                                         }
@@ -449,7 +456,9 @@ public class BRInvoiceSummaryFragment extends Fragment {
                 new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.salRet));
                 //--------------------------------------
             }
-            Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+            outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
+            Intent intnt = new Intent(getActivity(), DebtorDetailsActivity.class);
+            intnt.putExtra("outlet", outlet);
             startActivity(intnt);
             getActivity().finish();
         } else

@@ -1,7 +1,10 @@
 package com.datamation.hmdsfa.view.dashboard;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
@@ -9,9 +12,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -430,7 +435,7 @@ public class TransactionDetailsFragment extends Fragment {
                         if (result>0) {
                             new InvDetController(getActivity()).restData(RefNo);
                             new ItemLocController(getActivity()).UpdateVanStock(RefNo,"+",new SalRepController(getActivity()).getCurrentLoccode().trim());
-
+                            InsertDeleteReason(RefNo);
                             Toast.makeText(getActivity(), "Invoice deleted successfully..!", Toast.LENGTH_SHORT).show();
 
                             prepareVanListData();
@@ -458,7 +463,33 @@ public class TransactionDetailsFragment extends Fragment {
         materialDialog.setCanceledOnTouchOutside(false);
         materialDialog.show();
     }
+    public void InsertDeleteReason(final String refno) {
+        final Dialog dltReasonDialog = new Dialog(getActivity());
+        dltReasonDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dltReasonDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dltReasonDialog.setCancelable(false);
+        dltReasonDialog.setCanceledOnTouchOutside(false);
+        dltReasonDialog.setContentView(R.layout.delete_reason);
 
+        //initializations
+        final EditText reason = (EditText) dltReasonDialog.findViewById(R.id.reason);
+
+
+        //close
+        dltReasonDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (reason.length() > 0) {
+                    new InvHedController(getActivity()).updateDeleteReason(refno,reason.getText().toString());
+                    dltReasonDialog.dismiss();
+
+                } else {
+                    dltReasonDialog.dismiss();
+                }
+            }
+        });
+        dltReasonDialog.show();
+    }
     public void printInvoice(final String RefNo) {
 
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
