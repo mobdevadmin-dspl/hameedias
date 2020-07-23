@@ -312,7 +312,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tr6"
                         android:visibility="gone"
-                        android:layout_below="@+id/tr3"
+                        android:layout_below="@+id/tr_vat"
                         android:layout_marginTop="10dp"
                         android:weightSum="2"
                         android:gravity="center_vertical">
@@ -347,8 +347,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tr_vat"
-                        android:visibility="gone"
-                        android:layout_below="@+id/tr6"
+                        android:layout_below="@+id/tr3"
                         android:layout_marginTop="10dp"
                         android:weightSum="2"
                         android:gravity="center_vertical">
