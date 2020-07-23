@@ -41,6 +41,7 @@ public class FInvRHed implements Serializable{
     private String FINVRHED_RETURN_TYPE;
     private String FINVRHED_TOURCODE;
     private String FINVRHED_AREACODE;
+    private String FINVRHED_VATCODE;
     private String FINVRHED_LORRYCODE;
     private String FINVRHED_HELPERCODE;
     private String FINVRHED_DRIVERCODE;
@@ -48,6 +49,14 @@ public class FInvRHed implements Serializable{
     private ArrayList<FInvRDet> FinvrtDets;
     private ArrayList<TaxDT> taxDTs;
     private ArrayList<TaxRG> taxRGs;
+
+    public String getFINVRHED_VATCODE() {
+        return FINVRHED_VATCODE;
+    }
+
+    public void setFINVRHED_VATCODE(String FINVRHED_VATCODE) {
+        this.FINVRHED_VATCODE = FINVRHED_VATCODE;
+    }
 
     public String getFINVRHED_ORD_REFNO() {
         return FINVRHED_ORD_REFNO;

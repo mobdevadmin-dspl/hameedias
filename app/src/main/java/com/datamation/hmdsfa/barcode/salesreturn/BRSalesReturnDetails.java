@@ -52,7 +52,7 @@ import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class SalesReturnDetails extends Fragment implements View.OnClickListener{
+public class BRSalesReturnDetails extends Fragment implements View.OnClickListener{
 
     View view;
     Button itemSearch, bAdd, bFreeIssue;
@@ -543,7 +543,7 @@ public class SalesReturnDetails extends Fragment implements View.OnClickListener
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            SalesReturnDetails.this.mRefreshData();
+            BRSalesReturnDetails.this.mRefreshData();
         }
     }
 

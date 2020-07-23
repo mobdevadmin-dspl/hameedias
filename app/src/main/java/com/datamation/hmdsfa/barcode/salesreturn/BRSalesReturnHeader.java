@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.datamation.hmdsfa.controller.ReasonController;
 import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.SalesReturnController;
+import com.datamation.hmdsfa.controller.VATController;
 import com.datamation.hmdsfa.helpers.SalesReturnResponseListener;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.FInvRHed;
@@ -48,7 +50,7 @@ import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 
-public class SalesReturnHeader extends Fragment implements View.OnClickListener{
+public class BRSalesReturnHeader extends Fragment implements View.OnClickListener{
     public static final String SETTINGS = "SETTINGS";
     View view;
     private FloatingActionButton next;
@@ -59,6 +61,7 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
     private Location finalLocation;
     private Button reasonSearch;
     SharedPref pref;
+    Spinner spnVat;
     public static SharedPreferences localSP;
     SalesReturnResponseListener salesReturnResponseListener;
     MyReceiver r;
@@ -69,7 +72,7 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
     private String directRetRefNo;
     //SharedPreferencesClass localSP;
 
-    public SalesReturnHeader()
+    public BRSalesReturnHeader()
     {
 
     }
@@ -87,7 +90,7 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy"); //change this
         String formattedDate = simpleDateFormat.format(d);
         ReferenceNum referenceNum = new ReferenceNum(getActivity());
-
+        spnVat = (Spinner) view.findViewById(R.id.spnnervat);
         ordno = (TextView) view.findViewById(R.id.editTextRtnOrdno);
         date = (EditText) view.findViewById(R.id.editTextRtnDate);
         mNo        = (EditText) view.findViewById(R.id.editTextRtnManualNo);
@@ -103,7 +106,25 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
         cusName.setText(pref.getSelectedDebName());
         route.setText(new RouteController(getActivity()).getRouteNameByCode(pref.getSelectedDebRouteCode()));
         date.setText(formattedDate);
+        ArrayList<String> vatDetails = new VATController(getActivity()).getVatDetails();
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, vatDetails);
+        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnVat.setAdapter(dataAdapter2);
 
+        spnVat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                new SharedPref(getActivity()).setGlobalVal("KeyVat", spnVat.getSelectedItem().toString().split("-")[0].trim());
+                Log.v("VAT", spnVat.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
         if (new SalesReturnController(getActivity()).getDirectSalesReturnRefNo().equals(""))
         {
             directRetRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet));
@@ -251,6 +272,7 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
             hed.setFINVRHED_ROUTE_CODE(pref.getSelectedDebRouteCode());
             hed.setFINVRHED_MANUREF(mNo.getText().toString());
             hed.setFINVRHED_REMARKS(remarks.getText().toString());
+            hed.setFINVRHED_VATCODE(new SharedPref(getActivity()).getGlobalVal("KeyVat"));
 //            hed.setFINVRHED_TXNTYPE("Return");
             hed.setFINVRHED_IS_ACTIVE("1");
             hed.setFINVRHED_IS_SYNCED("0");
@@ -380,7 +402,7 @@ public class SalesReturnHeader extends Fragment implements View.OnClickListener{
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            SalesReturnHeader.this.mRefreshHeader();
+            BRSalesReturnHeader.this.mRefreshHeader();
         }
     }
 

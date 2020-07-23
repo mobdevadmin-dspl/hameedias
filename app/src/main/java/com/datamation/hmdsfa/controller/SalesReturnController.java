@@ -37,6 +37,7 @@ public class SalesReturnController
     public static final String FINVRHED_TXNTYPE = "TxnType";
     public static final String FINVRHED_INV_REFNO= "InvRefNo";
     public static final String FINVRHED_ORD_REFNO= "OrdRefNo";
+    public static final String FINVRHED_VATCODE= "VatCode";
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public static final String FINVRHED_LOCCODE = "LOCCode";
@@ -67,6 +68,7 @@ public class SalesReturnController
             + DatabaseHelper.DEBCODE + " TEXT, "
             + FINVRHED_REMARKS + " TEXT, "
             + FINVRHED_TXNTYPE + " TEXT, "
+            + FINVRHED_VATCODE+ " TEXT, "
             + FINVRHED_INV_REFNO + " TEXT, "
             + FINVRHED_ORD_REFNO + " TEXT, "
             + FINVRHED_ADD_DATE + " TEXT, "
@@ -325,7 +327,7 @@ public class SalesReturnController
             invrHed.setFINVRHED_START_TIME(cursor.getString(cursor.getColumnIndex(FINVRHED_START_TIME)));
             invrHed.setFINVRHED_END_TIME(cursor.getString(cursor.getColumnIndex(FINVRHED_END_TIME)));
             invrHed.setFINVRHED_REP_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
-//            invrHed.setFINVRHED_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(FINVRHED_RETURN_TYPE)));
+            invrHed.setFINVRHED_VATCODE(cursor.getString(cursor.getColumnIndex(FINVRHED_VATCODE)));
 //            invrHed.setFINVRHED_TOURCODE(cursor.getString(cursor.getColumnIndex(FINVRHED_TOURCODE)));
 //            invrHed.setFINVRHED_AREACODE(cursor.getString(cursor.getColumnIndex(FINVRHED_AREACODE)));
 //            invrHed.setFINVRHED_DRIVERCODE(cursor.getString(cursor.getColumnIndex(FINVRHED_DRIVERCODE)));

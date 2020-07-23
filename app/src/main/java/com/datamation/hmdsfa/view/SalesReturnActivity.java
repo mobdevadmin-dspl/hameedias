@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.datamation.hmdsfa.R;
-import com.datamation.hmdsfa.barcode.salesreturn.SalesReturnDetails;
-import com.datamation.hmdsfa.barcode.salesreturn.SalesReturnHeader;
-import com.datamation.hmdsfa.barcode.salesreturn.SalesReturnSummary;
+import com.datamation.hmdsfa.barcode.salesreturn.BRSalesReturnDetails;
+import com.datamation.hmdsfa.barcode.salesreturn.BRSalesReturnHeader;
+import com.datamation.hmdsfa.barcode.salesreturn.BRSalesReturnSummary;
 import com.datamation.hmdsfa.controller.SalesReturnDetController;
 import com.datamation.hmdsfa.helpers.SalesReturnResponseListener;
 import com.datamation.hmdsfa.model.FInvRHed;
@@ -27,9 +27,9 @@ import com.datamation.hmdsfa.settings.ReferenceNum;
 public class SalesReturnActivity extends AppCompatActivity implements SalesReturnResponseListener{
 
     ViewPager viewPager;
-    private SalesReturnHeader salesRetrunHeader;
-    private SalesReturnDetails salesReturnDetails;
-    private SalesReturnSummary salesReturnSummary;
+    private BRSalesReturnHeader salesRetrunHeader;
+    private BRSalesReturnDetails salesReturnDetails;
+    private BRSalesReturnSummary salesReturnSummary;
     Context context;
     public FInvRHed selectedReturnHed = null;
     boolean status = false;
@@ -145,13 +145,13 @@ public class SalesReturnActivity extends AppCompatActivity implements SalesRetur
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    if(salesRetrunHeader == null) salesRetrunHeader = new SalesReturnHeader();
+                    if(salesRetrunHeader == null) salesRetrunHeader = new BRSalesReturnHeader();
                     return salesRetrunHeader;
                 case 1:
-                    if(salesReturnDetails == null) salesReturnDetails = new SalesReturnDetails();
+                    if(salesReturnDetails == null) salesReturnDetails = new BRSalesReturnDetails();
                     return salesReturnDetails;
                 case 2:
-                    if(salesReturnSummary == null) salesReturnSummary = new SalesReturnSummary();
+                    if(salesReturnSummary == null) salesReturnSummary = new BRSalesReturnSummary();
                     return salesReturnSummary;
                 default:
                     return null;

@@ -58,7 +58,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-public class SalesReturnSummary extends Fragment {
+public class BRSalesReturnSummary extends Fragment {
 
     View view;
     TextView lblNetVal, lblGross;
@@ -376,6 +376,7 @@ public class SalesReturnSummary extends Fragment {
                         mainHead.setFINVRHED_HELPERCODE(HedList.get(0).getFINVRHED_HELPERCODE());
                         mainHead.setFINVRHED_AREACODE(HedList.get(0).getFINVRHED_AREACODE());
                         mainHead.setFINVRHED_LORRYCODE(HedList.get(0).getFINVRHED_LORRYCODE());
+                        mainHead.setFINVRHED_VATCODE(HedList.get(0).getFINVRHED_VATCODE());
 
                         Log.d("SALES_RETURN_SUMMARY", "REP_CODE: " + mainHead.getFINVRHED_REP_CODE());
 
@@ -503,7 +504,7 @@ public class SalesReturnSummary extends Fragment {
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            SalesReturnSummary.this.mRefreshData();
+            BRSalesReturnSummary.this.mRefreshData();
         }
     }
 
