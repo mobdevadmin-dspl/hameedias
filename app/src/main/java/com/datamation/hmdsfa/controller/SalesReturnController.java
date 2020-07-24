@@ -396,6 +396,41 @@ public class SalesReturnController
 
         return invrHed;
     }
+    public int IsSavedHeader(String refno) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+
+        try {
+
+            String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+
+            int cn = cursor.getCount();
+            count = cn;
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
 
     public int restData(String refno) {
 

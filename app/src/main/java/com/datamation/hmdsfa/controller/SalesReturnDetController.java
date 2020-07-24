@@ -442,7 +442,7 @@ public class SalesReturnDetController
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
         //String selectQuery = "select * from " + DatabaseHelper.TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
-        String selectQuery = "select * from FInvRDet where RefNo in (select Refno from FInvRHed where IsActive = 1 and IsSync = 0 and OrdRefNo IS NULL AND InvRefNo IS NULL)";
+        String selectQuery = "select * from FInvRDet where RefNo in (select Refno from FInvRHed where IsActive = 1 and IsSync = 0)";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {

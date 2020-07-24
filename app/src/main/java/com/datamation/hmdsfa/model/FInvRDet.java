@@ -23,6 +23,33 @@ public class FInvRDet {
     private String FINVRDET_RETURN_REASON_CODE;
     private String FINVRDET_RETURN_TYPE;
     private String FINVRDET_CHANGED_PRICE;
+    private String FINVRDET_BARCODE;
+    private String FINVRDET_ARTICLENO;
+    private String FINVRDET_VARIANTCODE;
+
+    public String getFINVRDET_BARCODE() {
+        return FINVRDET_BARCODE;
+    }
+
+    public void setFINVRDET_BARCODE(String FINVRDET_BARCODE) {
+        this.FINVRDET_BARCODE = FINVRDET_BARCODE;
+    }
+
+    public String getFINVRDET_ARTICLENO() {
+        return FINVRDET_ARTICLENO;
+    }
+
+    public void setFINVRDET_ARTICLENO(String FINVRDET_ARTICLENO) {
+        this.FINVRDET_ARTICLENO = FINVRDET_ARTICLENO;
+    }
+
+    public String getFINVRDET_VARIANTCODE() {
+        return FINVRDET_VARIANTCODE;
+    }
+
+    public void setFINVRDET_VARIANTCODE(String FINVRDET_VARIANTCODE) {
+        this.FINVRDET_VARIANTCODE = FINVRDET_VARIANTCODE;
+    }
 
     public String getFINVRDET_CHANGED_PRICE() {
         return FINVRDET_CHANGED_PRICE;

@@ -182,7 +182,7 @@ public class BRSalesReturnSummary extends Fragment {
 
             for (FInvRDet retDet : returnDetList) {
                 ftotAmt += Double.parseDouble(retDet.getFINVRDET_AMT());
-                totReturnDiscount += Double.parseDouble(retDet.getFINVRDET_DIS_AMT());
+             //   totReturnDiscount += Double.parseDouble(retDet.getFINVRDET_DIS_AMT());
                 fTotQty += Double.parseDouble(retDet.getFINVRDET_QTY());
                 itemCode = retDet.getFINVRDET_ITEMCODE();
             }
