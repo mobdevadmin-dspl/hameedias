@@ -166,12 +166,16 @@ public class VanSalePrintPreviewAlertBox {
 
             String repCode = new SalRepController(context).getCurrentRepCode();
             SalRep salRep = new SalRepController(context).getSaleRepDet(repCode);
-            SalesRepname.setText("TAX INVOICE");
-                InvHed invhed = new InvHedController(context).getDetailsforPrint(refno);
+            InvHed invhed = new InvHedController(context).getDetailsforPrint(refno);
+            Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
+            if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+                SalesRepname.setText("TAX INVOICE");
+            }else{
+                SalesRepname.setText("INVOICE");
+            }
+
 
                 ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrint(refno);
-
-                Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
                 outlet = debtor;
 
                 Debname.setText(debtor.getCusCode() + "-" + debtor.getCusName());
@@ -309,8 +313,15 @@ public class VanSalePrintPreviewAlertBox {
         Heading_a = title_Print_ACom + title_Print_BCom + title_Print_CCom + title_Print_DCom + title_Print_ECom + title_Print_FCom + title_Print_GCom;
 
         String printGapAdjust = "                        ";
-
-        String SalesRepNamestr = "<TAX INVOICE>";// +
+        InvHed invHed = new InvHedController(context).getDetailsforPrint(PRefno);
+        FInvRHed invRHed = new SalesReturnController(context).getDetailsforPrint(PRefno);
+        Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invHed.getFINVHED_DEBCODE());
+        String SalesRepNamestr = "";// +
+        if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+            SalesRepNamestr = "<TAX INVOICE>";
+        }else{
+            SalesRepNamestr = "<INVOICE>";
+        }
       //  String SalesRepNamestr = "Sales Rep: " + salrep.getRepCode() + "/ " + salrep.getNAME().trim();// +
 
         int lengthDealE = SalesRepNamestr.length();
@@ -321,9 +332,7 @@ public class VanSalePrintPreviewAlertBox {
 
         String subTitleheadH = printLineSeperatorNew;
 
-        InvHed invHed = new InvHedController(context).getDetailsforPrint(PRefno);
-        FInvRHed invRHed = new SalesReturnController(context).getDetailsforPrint(PRefno);
-        Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invHed.getFINVHED_DEBCODE());
+
 
         int lengthDealI = debtor.getCusCode().length() + "-".length() + debtor.getCusName().length();
         int lengthDealIB = (LINECHAR - lengthDealI) / 2;
@@ -422,19 +431,19 @@ public class VanSalePrintPreviewAlertBox {
         Heading_c = "";
         countCountInv = 0;
 
-        if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+     //   if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
             if (subTitleheadK.toString().equalsIgnoreCase(" ")) {
                 Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
             } else {
                 Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R + title_Print_Area;
             }
-        }else{
-            if (subTitleheadK.toString().equalsIgnoreCase(" ")) {
-                Heading_bmh = "\r"   + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
-            } else {
-                Heading_bmh = "\r"   + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R + title_Print_Area;
-            }
-        }
+//        }else{
+//            if (subTitleheadK.toString().equalsIgnoreCase(" ")) {
+//                Heading_bmh = "\r"   + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
+//            } else {
+//                Heading_bmh = "\r"   + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R + title_Print_Area;
+//            }
+//        }
         String title_cb = "\r\nVARIANT CODE  ARTICLE_NO PRICE      DISC(%) ";
         String title_cc = "\r\nITEM NAME      QTY    DISC.AMT  LINE AMOUNT ";
        // String title_cd = "\r\n             INVOICE DETAILS                ";
@@ -554,7 +563,10 @@ public class VanSalePrintPreviewAlertBox {
 
             sNetTot = String.format(Locale.US, "%,.2f", (totalamt-totaldis));
             sDiscount = String.format(Locale.US, "%,.2f", totaldis);
+        if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
             stax = String.format(Locale.US, "%,.2f", totaltax);
+        }
+
 
 
 
