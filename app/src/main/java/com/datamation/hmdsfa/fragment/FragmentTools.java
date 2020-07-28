@@ -66,6 +66,7 @@ import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.SalesPriceController;
+import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.VATController;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.dialog.StockInquiryDialog;
@@ -80,6 +81,7 @@ import com.datamation.hmdsfa.model.DayExpHed;
 import com.datamation.hmdsfa.model.DayNPrdHed;
 import com.datamation.hmdsfa.model.Debtor;
 import com.datamation.hmdsfa.model.Expense;
+import com.datamation.hmdsfa.model.FInvRHed;
 import com.datamation.hmdsfa.model.FItenrDet;
 import com.datamation.hmdsfa.model.FItenrHed;
 import com.datamation.hmdsfa.model.FirebaseData;
@@ -103,6 +105,7 @@ import com.datamation.hmdsfa.model.User;
 import com.datamation.hmdsfa.model.VatMaster;
 import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
 import com.datamation.hmdsfa.presale.UploadPreSales;
+import com.datamation.hmdsfa.salesreturn.UploadSalesReturn;
 import com.datamation.hmdsfa.settings.TaskType;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.utils.UtilityContainer;
@@ -669,23 +672,23 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             }catch(Exception e){
                                 Log.v("Exception in sync order",e.toString());
                             }
-//                            try//Sales return upload -  2020-01-28-kaveesha
-//                            {
-//                                SalesReturnController retHed = new SalesReturnController(getActivity());
-//                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
-//                                if(retHedList.size() <= 0)
-//                                {
-//                                    Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
-//                                }else
-//                                {
-//                                    new UploadSalesReturn(getActivity(),FragmentTools.this,"insertReturns").execute(retHedList);
-//                                    Log.v(">>8>>","Upload sales return execute finish");
-//                                }
-//                            }
-//                            catch (Exception e)
-//                            {
-//                                Log.v("Exception in sync return" , e.toString());
-//                            }
+                            try//Sales return upload -  2020-01-28-kaveesha
+                            {
+                                SalesReturnController retHed = new SalesReturnController(getActivity());
+                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
+                                if(retHedList.size() <= 0)
+                                {
+                                    Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
+                                }else
+                                {
+                                    new UploadSalesReturn(getActivity(),FragmentTools.this,"insertReturns").execute(retHedList);
+                                    Log.v(">>8>>","Upload sales return execute finish");
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Log.v("Exception in sync return" , e.toString());
+                            }
 //                            try { // upload Non productive 2019-10-23MMS
 //                                DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
 //                                ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();

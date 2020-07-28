@@ -448,7 +448,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
 
         try {
             lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(RetRefNo);
+            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(RetRefNo);
             lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
 
         } catch (NullPointerException e) {
@@ -584,7 +584,7 @@ public class InnerReturnDetails extends Fragment implements OnClickListener {
 
         try {
             lv_return_det.setAdapter(null);
-            returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(RetRefNo);
+            returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(RetRefNo);
             lv_return_det.setAdapter(new SalesReturnDetailsAdapter(getActivity(), returnList));
 
         } catch (NullPointerException e) {

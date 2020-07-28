@@ -155,7 +155,7 @@ public class VATController {
 		return sArray;
 	}
 
-	public ArrayList<String> getVatDetails() {
+	public ArrayList<String> getVatDetails(String CusVatCode) {
 		if (dB == null) {
 			open();
 		} else if (!dB.isOpen()) {
@@ -164,7 +164,7 @@ public class VATController {
 
 		ArrayList<String> list = new ArrayList<String>();
 
-		String selectQuery = "SELECT * FROM " + TABLE_VAT + " WHERE trim(" + VATCODE + ") <> ''";
+		String selectQuery = "SELECT * FROM " + TABLE_VAT + " WHERE trim(" + VATDESCRIPTION + ") = '"+CusVatCode+"'";
 
 		Cursor cursor = dB.rawQuery(selectQuery, null);
 

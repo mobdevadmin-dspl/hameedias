@@ -395,7 +395,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
         new InvTaxDTController(activity).UpdateInvTaxDT(list);
     }
     public void UpdateReturnTotal(String refNo) {
-        ArrayList<FInvRDet> list = new SalesReturnDetController(activity).getAllInvRDetForInvoice(refNo);
+        ArrayList<FInvRDet> list = new SalesReturnDetController(activity).getAllInvRDet(refNo);
         new SalesReturnDetController(activity).UpdateReturnTot(list);
 
     }

@@ -337,7 +337,7 @@ public class SalesReturnDetController
         return list;
     }
 
-    public ArrayList<FInvRDet> getAllInvRDetForInvoice(String refno) { // only for inner return of invoice
+    public ArrayList<FInvRDet> getAllInvRDets(String refno) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -346,7 +346,7 @@ public class SalesReturnDetController
 
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
-        String selectQuery = "select * from FInvRDet where RefNo in (select Refno from FInvRHed where IsActive = 1 and InvRefNo IS NOT NULL AND OrdRefNo IS NULL)";
+        String selectQuery = "select * from FInvRDet where RefNo in (select Refno from FInvRHed where IsActive = 1 and RefNo = '"+refno+"')";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {

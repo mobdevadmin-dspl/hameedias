@@ -157,7 +157,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             }
         });
 
-        ArrayList<String> vatDetails = new VATController(getActivity()).getVatDetails();
+        ArrayList<String> vatDetails = new VATController(getActivity()).getVatDetails(new CustomerController(getContext()).getCustomerVatStatus(mSharedPref.getSelectedDebCode()));
         ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, vatDetails);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

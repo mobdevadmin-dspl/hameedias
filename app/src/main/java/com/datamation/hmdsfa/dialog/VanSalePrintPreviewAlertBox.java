@@ -208,7 +208,12 @@ public class VanSalePrintPreviewAlertBox {
                 TotalNetValue.setText(String.format("%,.2f", (dTotAmt-dDisc)));
                 txtTotVal.setText(String.format("%,.2f", dTotAmt));
                 txtfiQty.setText(String.format("%,.2f", dDisc));
+            if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
                 TotalDiscount.setText(String.format("%,.2f", dTax));
+            }else{
+                TotalDiscount.setText("0.00");
+            }
+
                 double netval = dTotAmt-dDisc;
                 String net_val_in_english =  ""+ EnglishNumberToWords.convert((int)netval);
              //   String net_val_in_english =   "";
@@ -622,8 +627,13 @@ public class VanSalePrintPreviewAlertBox {
                 "H S Marketing Private Limited &\n" +
                 " crossed Account Payee Only.";
         String buttomTitlecopyw = "\r\n" + printGapbottmline1 + summaryBottom_cpoyline1;
-        buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec +buttomTitled  +buttomTitletax+ "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n"+buttomTitlenote+ "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
-        callPrintDevice();
+        if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+            buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec +buttomTitled  +buttomTitletax+ "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n"+buttomTitlenote+ "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
+        }else{
+            buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec +buttomTitled  + "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n"+buttomTitlenote+ "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
+
+        }
+       callPrintDevice();
     }
 
 	/*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*/

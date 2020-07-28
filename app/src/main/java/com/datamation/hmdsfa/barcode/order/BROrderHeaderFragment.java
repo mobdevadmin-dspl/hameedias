@@ -209,7 +209,7 @@ public class BROrderHeaderFragment extends Fragment implements DatePickerDialog.
 
                     }
                 });
-        ArrayList<String> vatDetails = new VATController(getActivity()).getVatDetails();
+        ArrayList<String> vatDetails = new VATController(getActivity()).getVatDetails(new CustomerController(getContext()).getCustomerVatStatus(pref.getSelectedDebCode()));
         ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, vatDetails);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

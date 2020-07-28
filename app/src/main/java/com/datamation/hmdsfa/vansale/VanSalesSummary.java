@@ -248,7 +248,7 @@ public class VanSalesSummary extends Fragment {
         locCode = "";
 
         list = new InvDetController(getActivity()).getAllInvDet(RefNo);
-        returnList = new SalesReturnDetController(getActivity()).getAllInvRDetForInvoice(ReturnRefNo);
+        returnList = new SalesReturnDetController(getActivity()).getAllInvRDet(ReturnRefNo);
 
         for (InvDet ordDet : list) {
             ftotAmt += Double.parseDouble(ordDet.getFINVDET_AMT());
@@ -679,7 +679,7 @@ public class VanSalesSummary extends Fragment {
         new InvTaxDTController(activity).UpdateInvTaxDT(list);
     }
     public void UpdateReturnTotal(String refNo) {
-        ArrayList<FInvRDet> list = new SalesReturnDetController(activity).getAllInvRDetForInvoice(refNo);
+        ArrayList<FInvRDet> list = new SalesReturnDetController(activity).getAllInvRDet(refNo);
         new SalesReturnDetController(activity).UpdateReturnTot(list);
 
     }

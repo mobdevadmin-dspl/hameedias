@@ -790,7 +790,7 @@ public class SalesReturnController
 
     // Sales Return with invoice Upload Method
 // sales return without invoice(direct returns and returns with order)
-    public ArrayList<FInvRHed> getUnSyncedReturnWithoutInvoice() {
+    public ArrayList<FInvRHed> getUnSyncedReturns() {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -803,7 +803,7 @@ public class SalesReturnController
         @SuppressWarnings("static-access")
         String selectQuery = "select * from " + TABLE_FINVRHED
                 + " Where " + FINVRHED_IS_ACTIVE + "='0' and " +
-                FINVRHED_IS_SYNCED + " = '0' and "+ FINVRHED_INV_REFNO+ " = 'NON' ";
+                FINVRHED_IS_SYNCED + " = '0' ";
 
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -849,7 +849,7 @@ public class SalesReturnController
             salesReturnMapper.setFINVRHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVRHED_IS_SYNCED)));
             salesReturnMapper.setFINVRHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVRHED_IS_ACTIVE)));
             salesReturnMapper.setFINVRHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(FINVRHED_ROUTE_CODE)));
-            salesReturnMapper.setFINVRHED_INV_REFNO(cursor.getString(cursor.getColumnIndex(FINVRHED_ORD_REFNO)));
+           // salesReturnMapper.setFINVRHED_INV_REFNO(cursor.getString(cursor.getColumnIndex(FINVRHED_ORD_REFNO)));
             //salesReturnMapper.setFINVRHED_INV_REFNO(cursor.getString(cursor.getColumnIndex(FINVRHED_INV_REFNO)));
 
             salesReturnMapper.setFinvrtDets(new SalesReturnDetController(context).getAllInvRDet(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO))));
@@ -873,7 +873,7 @@ public class SalesReturnController
         @SuppressWarnings("static-access")
         String selectQuery = "select * from " + TABLE_FINVRHED
                 + " Where " + FINVRHED_IS_ACTIVE + "='0' and " +
-                FINVRHED_ORD_REFNO + "='NON'"+" and "+FINVRHED_IS_SYNCED + "='0'";
+         FINVRHED_IS_SYNCED + "='0'";
 
 
         Cursor cursor = dB.rawQuery(selectQuery, null);

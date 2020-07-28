@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.adapter.ReturnReasonAdapter;
+import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.ReasonController;
 import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.SalRepController;
@@ -106,7 +107,7 @@ public class BRSalesReturnHeader extends Fragment implements View.OnClickListene
         cusName.setText(pref.getSelectedDebName());
         route.setText(new RouteController(getActivity()).getRouteNameByCode(pref.getSelectedDebRouteCode()));
         date.setText(formattedDate);
-        ArrayList<String> vatDetails = new VATController(getActivity()).getVatDetails();
+        ArrayList<String> vatDetails = new VATController(getActivity()).getVatDetails(new CustomerController(getContext()).getCustomerVatStatus(pref.getSelectedDebCode()));
         ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, vatDetails);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
