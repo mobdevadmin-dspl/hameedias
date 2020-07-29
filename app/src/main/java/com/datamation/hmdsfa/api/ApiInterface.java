@@ -2,6 +2,7 @@ package com.datamation.hmdsfa.api;
 
 import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import retrofit2.Callback;
 import retrofit2.http.Body;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -143,5 +145,33 @@ public interface ApiInterface {
 
     @GET("CusProductDis/mobile123/{dbname}/{repcode}")//38
     Call<ReadJsonList> getDiscountResult(@Path("dbname") String dbname,@Path("repcode") String repcode);
+    @POST("insertFOrdHedNew")
+    Call<String> uploadOrder(@Body JsonArray orderlist, @Header("Content-Type") String cont_type);
+    //Call<String> uploadOrder(@Body String orderlist, @Header("Content-Type") String cont_type);
 
+    //******rashmi 29-07-2020********
+    @POST("insertFDaynPrdHed")
+    Call<String> uploadNonProd(@Body JsonArray nonpList, @Header("Content-Type") String cont_type);
+
+    @POST("updateDebtorCordinates")
+    Call<String> uploadDebtorCordinates(@Body JsonArray debtorCordinateList,@Header("Content_Type") String cont_type);
+
+    @POST("updateDebtorImageURL")
+    Call<String> uploadDebtorImg(@Body JsonArray debtorImgList, @Header("Content_Type")String cont_type);
+    @POST("updateEditedDebtors")
+    Call<String> uploadEditedDebtors(@Body JsonArray debtorList, @Header("Content_Type")String cont_type);
+    @POST("updateEmailUpdatedSalRep")
+    Call<String> uploadRepEmail(@Body JsonArray repList, @Header("Content_Type") String cont_type);
+
+    @POST("insertCustomer")
+    Call<String> uploadNCustomer(@Body JsonArray customerList, @Header("Content_Type") String cont_type);
+
+    @POST("insertTourInfo")
+    Call<String> uploadAttendence(@Body JsonArray attendenceList, @Header("Content_Type") String cont_type);
+
+    @POST("insertDayExpense")
+    Call<String> uploadExpense(@Body JsonArray expenseList, @Header("Content_Type") String cont_type);
+
+    @POST("updateFirebaseTokenID")
+    Call<String> uploadfTokenID(@Body JsonArray tokenIdList, @Header("Content_Type") String cont_type);
 }

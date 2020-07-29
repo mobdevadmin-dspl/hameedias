@@ -37,8 +37,6 @@ import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
-import com.datamation.hmdsfa.controller.ItemPriceController;
-import com.datamation.hmdsfa.controller.LocationsController;
 import com.datamation.hmdsfa.controller.OrderController;
 import com.datamation.hmdsfa.controller.OutstandingController;
 import com.datamation.hmdsfa.controller.RouteController;
@@ -64,15 +62,13 @@ import com.datamation.hmdsfa.model.FreeSlab;
 import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.ItemLoc;
-import com.datamation.hmdsfa.model.ItemPri;
 import com.datamation.hmdsfa.model.ItenrDeb;
-import com.datamation.hmdsfa.model.Locations;
 import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.Route;
 import com.datamation.hmdsfa.model.RouteDet;
 import com.datamation.hmdsfa.model.SalesPrice;
 import com.datamation.hmdsfa.model.VanStock;
-import com.datamation.hmdsfa.settings.TaskType;
+import com.datamation.hmdsfa.settings.TaskTypeDownload;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.utils.UtilityContainer;
 import com.datamation.hmdsfa.view.ActivityHome;
@@ -1568,7 +1564,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     // Processing controls
                     try {
-                        UtilityContainer.download(getActivity(), TaskType.Controllist, networkFunctions.getCompanyDetails(repcode));
+                        UtilityContainer.download(getActivity(), TaskTypeDownload.Controllist, networkFunctions.getCompanyDetails(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1585,7 +1581,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     // Processing outlets
                     try {
-                        UtilityContainer.download(getActivity(), TaskType.Customers, networkFunctions.getCustomer(repcode));
+                        UtilityContainer.download(getActivity(), TaskTypeDownload.Customers, networkFunctions.getCustomer(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1601,7 +1597,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     // Processing company settings
                     try {
-                        UtilityContainer.download(getActivity(), TaskType.Settings, networkFunctions.getReferenceSettings());
+                        UtilityContainer.download(getActivity(), TaskTypeDownload.Settings, networkFunctions.getReferenceSettings());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1618,7 +1614,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                     // Processing Branches
 
                     try {
-                        UtilityContainer.download(getActivity(), TaskType.Reference, networkFunctions.getReferences(repcode));
+                        UtilityContainer.download(getActivity(), TaskTypeDownload.Reference, networkFunctions.getReferences(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1634,7 +1630,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                     // Processing VAT
 
                     try {
-                        UtilityContainer.download(getActivity(), TaskType.VAT, networkFunctions.getVAT());
+                        UtilityContainer.download(getActivity(), TaskTypeDownload.VAT, networkFunctions.getVAT());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1650,7 +1646,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                     // Processing reasons
 
                     try {
-                        UtilityContainer.download(getActivity(), TaskType.Reason, networkFunctions.getReasons());
+                        UtilityContainer.download(getActivity(), TaskTypeDownload.Reason, networkFunctions.getReasons());
                     } catch (IOException e) {
                         errors.add(e.toString());
                         throw e;
@@ -1667,7 +1663,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     // Processing banks
                     try {
-                        UtilityContainer.download(getActivity(), TaskType.Bank, networkFunctions.getBanks());
+                        UtilityContainer.download(getActivity(), TaskTypeDownload.Bank, networkFunctions.getBanks());
                     } catch (IOException e) {
                         errors.add(e.toString());
                         throw e;
@@ -1684,7 +1680,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     // Processing expense
                     try {
-                        UtilityContainer.download(getActivity(), TaskType.Expense, networkFunctions.getExpenses());
+                        UtilityContainer.download(getActivity(), TaskTypeDownload.Expense, networkFunctions.getExpenses());
                     } catch (IOException e) {
                         errors.add(e.toString());
                         e.printStackTrace();
@@ -1701,7 +1697,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     // Processing discount
                     try {
-                        UtilityContainer.download(getActivity(), TaskType.Discount, networkFunctions.getDiscounts(repcode));
+                        UtilityContainer.download(getActivity(), TaskTypeDownload.Discount, networkFunctions.getDiscounts(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;

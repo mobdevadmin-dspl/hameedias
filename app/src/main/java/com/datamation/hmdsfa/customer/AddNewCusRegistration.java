@@ -41,7 +41,7 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.settings.GPSTracker;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.settings.ReferenceNum;
-import com.datamation.hmdsfa.settings.TaskType;
+import com.datamation.hmdsfa.settings.TaskTypeDownload;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -701,7 +701,7 @@ public class AddNewCusRegistration extends Fragment implements AsyncTaskListener
     }
 
     @Override
-    public void onTaskCompleted(TaskType taskType) {
+    public void onTaskCompleted(TaskTypeDownload taskType) {
         Toast.makeText(getActivity(), "New Customer Uploaded Successfuly", Toast.LENGTH_SHORT).show();
 
 

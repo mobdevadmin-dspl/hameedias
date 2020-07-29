@@ -32,95 +32,46 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.bumptech.glide.Glide;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.api.ApiCllient;
 import com.datamation.hmdsfa.api.ApiInterface;
-import com.datamation.hmdsfa.controller.BankController;
-import com.datamation.hmdsfa.controller.CompanyDetailsController;
+import com.datamation.hmdsfa.api.TaskTypeUpload;
+import com.datamation.hmdsfa.settings.TaskTypeDownload;
+import com.datamation.hmdsfa.barcode.upload.UploadPreSales;
 import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.DayExpHedController;
 import com.datamation.hmdsfa.controller.DayNPrdHedController;
-import com.datamation.hmdsfa.controller.ExpenseController;
-import com.datamation.hmdsfa.controller.FItenrDetController;
 import com.datamation.hmdsfa.controller.FItenrHedController;
 import com.datamation.hmdsfa.controller.FirebaseMediaController;
-import com.datamation.hmdsfa.controller.FreeDebController;
-import com.datamation.hmdsfa.controller.FreeDetController;
-import com.datamation.hmdsfa.controller.FreeHedController;
-import com.datamation.hmdsfa.controller.FreeItemController;
-import com.datamation.hmdsfa.controller.FreeMslabController;
-import com.datamation.hmdsfa.controller.FreeSlabController;
-import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.InvHedController;
-import com.datamation.hmdsfa.controller.InvoiceBarcodeController;
-import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.OrderController;
-import com.datamation.hmdsfa.controller.ReasonController;
-import com.datamation.hmdsfa.controller.ReceiptDetController;
-import com.datamation.hmdsfa.controller.ReferenceDetailDownloader;
-import com.datamation.hmdsfa.controller.ReferenceSettingController;
-import com.datamation.hmdsfa.controller.RouteController;
-import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalRepController;
-import com.datamation.hmdsfa.controller.SalesPriceController;
 import com.datamation.hmdsfa.controller.SalesReturnController;
-import com.datamation.hmdsfa.controller.VATController;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.dialog.StockInquiryDialog;
 import com.datamation.hmdsfa.helpers.NetworkFunctions;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.helpers.UploadTaskListener;
-import com.datamation.hmdsfa.model.Bank;
-import com.datamation.hmdsfa.model.CompanyBranch;
-import com.datamation.hmdsfa.model.CompanySetting;
-import com.datamation.hmdsfa.model.Control;
 import com.datamation.hmdsfa.model.DayExpHed;
 import com.datamation.hmdsfa.model.DayNPrdHed;
 import com.datamation.hmdsfa.model.Debtor;
-import com.datamation.hmdsfa.model.Expense;
 import com.datamation.hmdsfa.model.FInvRHed;
-import com.datamation.hmdsfa.model.FItenrDet;
-import com.datamation.hmdsfa.model.FItenrHed;
 import com.datamation.hmdsfa.model.FirebaseData;
-import com.datamation.hmdsfa.model.FreeDeb;
-import com.datamation.hmdsfa.model.FreeDet;
-import com.datamation.hmdsfa.model.FreeHed;
-import com.datamation.hmdsfa.model.FreeItem;
-import com.datamation.hmdsfa.model.FreeMslab;
-import com.datamation.hmdsfa.model.FreeSlab;
 import com.datamation.hmdsfa.model.InvHed;
-import com.datamation.hmdsfa.model.Item;
-import com.datamation.hmdsfa.model.ItemBundle;
-import com.datamation.hmdsfa.model.ItenrDeb;
 import com.datamation.hmdsfa.model.Order;
-import com.datamation.hmdsfa.model.Reason;
-import com.datamation.hmdsfa.model.Route;
-import com.datamation.hmdsfa.model.RouteDet;
 import com.datamation.hmdsfa.model.SalRep;
-import com.datamation.hmdsfa.model.SalesPrice;
 import com.datamation.hmdsfa.model.User;
-import com.datamation.hmdsfa.model.VatMaster;
 import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
-import com.datamation.hmdsfa.presale.UploadPreSales;
 import com.datamation.hmdsfa.salesreturn.UploadSalesReturn;
-import com.datamation.hmdsfa.settings.TaskType;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.utils.UtilityContainer;
 import com.datamation.hmdsfa.vansale.UploadDeletedInvoices;
-import com.datamation.hmdsfa.vansale.UploadVanSales;
+import com.datamation.hmdsfa.barcode.upload.UploadVanSales;
 import com.datamation.hmdsfa.view.DayExpenseActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -637,58 +588,18 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                                     Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
                                 else {
 
-                                    new UploadPreSales(getActivity(), FragmentTools.this).execute(ordHedList);
+                                    new UploadPreSales(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_ORDER).execute(ordHedList);
                                     Log.v(">>8>>", "UploadPreSales execute finish");
                                     // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
                                 }
                             } catch (Exception e) {
                                 Log.v("Exception in sync order", e.toString());
                             }
-                            try {//Van sale upload - 2020-03-24-rashmi
-                                InvHedController hedDS = new InvHedController(getActivity());
-                               // InvoiceBarcodeController hedDS = new InvoiceBarcodeController(getActivity());
-                                ArrayList<InvHed> invHedList = hedDS.getAllUnsynced();
-//                    /* If records available for upload then */
-                                if (invHedList.size() <= 0)
-                                    Toast.makeText(getActivity(), "No Van Sale Records to upload !", Toast.LENGTH_LONG).show();
-                                else{
-                                    new UploadVanSales(getActivity(), FragmentTools.this).execute(invHedList);
-                                    Log.v(">>8>>","Uploadinvoices execute finish");
-                                }
-                            }catch(Exception e){
-                                Log.v("Exception in sync order",e.toString());
-                            }
-                            try {//Van sale upload - 2020-03-24-rashmi
-                                InvHedController hedDS = new InvHedController(getActivity());
-                                // InvoiceBarcodeController hedDS = new InvoiceBarcodeController(getActivity());
-                                ArrayList<InvHed> invHedList = hedDS.getAllUnsyncedDeleteInvoices();
-//                    /* If records available for upload then */
-                                if (invHedList.size() <= 0)
-                                    Toast.makeText(getActivity(), "No deleted invoices to upload !", Toast.LENGTH_LONG).show();
-                                else{
-                                    new UploadDeletedInvoices(getActivity(), FragmentTools.this).execute(invHedList);
-                                    Log.v(">>8>>","Uploaddeleteinvoices execute finish");
-                                }
-                            }catch(Exception e){
-                                Log.v("Exception in sync order",e.toString());
-                            }
-                            try//Sales return upload -  2020-01-28-kaveesha
-                            {
-                                SalesReturnController retHed = new SalesReturnController(getActivity());
-                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
-                                if(retHedList.size() <= 0)
-                                {
-                                    Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
-                                }else
-                                {
-                                    new UploadSalesReturn(getActivity(),FragmentTools.this,"insertReturns").execute(retHedList);
-                                    Log.v(">>8>>","Upload sales return execute finish");
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                Log.v("Exception in sync return" , e.toString());
-                            }
+
+
+
+
+
 //                            try { // upload Non productive 2019-10-23MMS
 //                                DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
 //                                ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();
@@ -847,6 +758,121 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //    }
 
     @Override
+    public void onTaskCompleted(TaskTypeUpload taskType, List<String> list) {
+        resultList.addAll(list);
+        switch (taskType) {
+            case UPLOAD_ORDER: {
+                try {//Van sale upload - 2020-03-24-rashmi
+                    InvHedController hedDS = new InvHedController(getActivity());
+                    // InvoiceBarcodeController hedDS = new InvoiceBarcodeController(getActivity());
+                    ArrayList<InvHed> invHedList = hedDS.getAllUnsynced();
+//                    /* If records available for upload then */
+                    if (invHedList.size() <= 0)
+                        Toast.makeText(getActivity(), "No Van Sale Records to upload !", Toast.LENGTH_LONG).show();
+                    else{
+                        new UploadVanSales(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_INVOICE).execute(invHedList);
+                        Log.v(">>8>>","Uploadinvoices execute finish");
+                    }
+                }catch(Exception e){
+                    Log.v("Exception in sync order",e.toString());
+                }
+
+            }
+            break;
+            case UPLOAD_INVOICE: {
+                //                            try {//Van sale upload - 2020-03-24-rashmi
+//                                InvHedController hedDS = new InvHedController(getActivity());
+//                                // InvoiceBarcodeController hedDS = new InvoiceBarcodeController(getActivity());
+//                                ArrayList<InvHed> invHedList = hedDS.getAllUnsyncedDeleteInvoices();
+////                    /* If records available for upload then */
+//                                if (invHedList.size() <= 0)
+//                                    Toast.makeText(getActivity(), "No deleted invoices to upload !", Toast.LENGTH_LONG).show();
+//                                else{
+//                                    new UploadDeletedInvoices(getActivity(), FragmentTools.this).execute(invHedList);
+//                                    Log.v(">>8>>","Uploaddeleteinvoices execute finish");
+//                                }
+//                            }catch(Exception e){
+//                                Log.v("Exception in sync order",e.toString());
+//                            }
+            }
+            break;
+            case UPLOAD_DELETED_INVOICE: {
+//                            try//Sales return upload -
+//                            {
+//                                SalesReturnController retHed = new SalesReturnController(getActivity());
+//                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
+//                                if(retHedList.size() <= 0)
+//                                {
+//                                    Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
+//                                }else
+//                                {
+//                                    new UploadSalesReturn(getActivity(),FragmentTools.this,"insertReturns").execute(retHedList);
+//                                    Log.v(">>8>>","Upload sales return execute finish");
+//                                }
+//                            }
+//                            catch (Exception e)
+//                            {
+//                                Log.v("Exception in sync return" , e.toString());
+//                            }
+            }
+            break;
+            case UPLOAD_RETURNS: {
+//                DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
+//                final ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();
+//                if(npHedList.size()>0){
+//                    Toast.makeText(getActivity(), "Nonproductive data upload completed..!", Toast.LENGTH_LONG).show();
+//                }
+//                new UploadNonProd(getActivity(), FragmentTools.this, TaskType.UPLOAD_NONPROD).execute(npHedList);
+//
+//                Log.v(">>upload>>", "Upload non productive execute finish");
+            }
+            break;
+            case UPLOAD_NONPROD: {
+//                DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
+//                final ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();
+//                if(npHedList.size()>0){
+//                    Toast.makeText(getActivity(), "Nonproductive data upload completed..!", Toast.LENGTH_LONG).show();
+//                }
+//                new UploadNonProd(getActivity(), FragmentTools.this, TaskType.UPLOAD_NONPROD).execute(npHedList);
+//
+//                Log.v(">>upload>>", "Upload non productive execute finish");
+            }
+            break;
+            case UPLOAD_RECEIPT:{
+//                AttendanceController attendanceController = new AttendanceController(getActivity());//4
+//                ArrayList<Attendance> attendList = attendanceController.getUnsyncedTourData();
+//                new UploadAttendance(getActivity(), FragmentTools.this,attendList, TaskType.UPLOAD_ATTENDANCE).execute(attendList);
+//                Log.v(">>upload>>", "Upload attendance execute finish");
+            }
+            break;
+            case UPLOAD_ATTENDANCE:{
+//                DayExpHedController exHed = new DayExpHedController(getActivity());
+//                final ArrayList<DayExpHed> exHedList = exHed.getUnSyncedData();//8
+//                if(exHedList.size()>0){
+//                    Toast.makeText(getActivity(), "Expense data upload completed..!", Toast.LENGTH_LONG).show();
+//                }
+//                new UploadExpenses(getActivity(), FragmentTools.this, TaskType.UPLOAD_EXPENSE).execute(exHedList);
+//                Log.v(">>upload>>", "Upload expense execute finish");
+            }
+            break;
+            case UPLOAD_EXPENSE:{
+
+                Log.v(">>upload>>", "all upload finish");
+
+                String msg = "";
+                for (String s : resultList) {
+                    msg += s;
+                }
+                resultList.clear();
+                mUploadResult(msg);
+            }
+            break;
+            default:
+                break;
+        }
+    }
+
+    @Override
     public void onTaskCompleted(List<String> list) {
         resultList.addAll(list);
         String msg = "";
@@ -895,7 +921,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
                     try{
-                        UtilityContainer.download(getActivity(),TaskType.ItenrDeb,networkFunctions.getItenaryDebDet(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.ItenrDeb,networkFunctions.getItenaryDebDet(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -909,7 +935,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing controls
                     try{
-                        UtilityContainer.download(getActivity(),TaskType.Controllist, networkFunctions.getCompanyDetails(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Controllist, networkFunctions.getCompanyDetails(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -923,7 +949,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
 
                     try{
-                        UtilityContainer.download(getActivity(),TaskType.Customers, networkFunctions.getCustomer(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Customers, networkFunctions.getCustomer(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -937,7 +963,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing company settings
                     try{
-                        UtilityContainer.download(getActivity(),TaskType.Settings, networkFunctions.getReferenceSettings());
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Settings, networkFunctions.getReferenceSettings());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -959,7 +985,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing Branches
 
                     try{
-                        UtilityContainer.download(getActivity(),TaskType.Reference, networkFunctions.getReferences(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Reference, networkFunctions.getReferences(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -978,7 +1004,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     ItemBundleController itemBundleController = new ItemBundleController(getActivity());
                     itemBundleController.deleteAll();
                     try{
-                        UtilityContainer.download(getActivity(),TaskType.ItemBundle, networkFunctions.getItemBundles(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.ItemBundle, networkFunctions.getItemBundles(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -996,7 +1022,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing Branches
 
                     try{
-                        UtilityContainer.download(getActivity(),TaskType.VAT, networkFunctions.getVAT());
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.VAT, networkFunctions.getVAT());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1016,7 +1042,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     itemController.deleteAll();
                     // Processing item price
                     try{
-                        UtilityContainer.download(getActivity(),TaskType.Items, networkFunctions.getItems(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Items, networkFunctions.getItems(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1033,7 +1059,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing reasons
 
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Reason, networkFunctions.getReasons());
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Reason, networkFunctions.getReasons());
                     } catch (IOException e) {
                         e.printStackTrace();
                         errors.add(e.toString());
@@ -1083,7 +1109,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                    /*****************banks**********************************************************************/
 
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Bank, networkFunctions.getBanks());
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Bank, networkFunctions.getBanks());
                     } catch (IOException e) {
                         e.printStackTrace();
                         errors.add(e.toString());
@@ -1100,7 +1126,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing expense
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Expense, networkFunctions.getExpenses());
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Expense, networkFunctions.getExpenses());
                     } catch (IOException e) {
                         errors.add(e.toString());
                         e.printStackTrace();
@@ -1118,7 +1144,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing route
 
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Route, networkFunctions.getRoutes(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Route, networkFunctions.getRoutes(repcode));
                     } catch (IOException e) {
                         e.printStackTrace();
                         errors.add(e.toString());
@@ -1213,7 +1239,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing route
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.RouteDet, networkFunctions.getRouteDets(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.RouteDet, networkFunctions.getRouteDets(repcode));
                     } catch (IOException e) {
                         e.printStackTrace();
                         errors.add(e.toString());
@@ -1277,7 +1303,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing freeslab
                     try {
 
-                        UtilityContainer.download(getActivity(),TaskType.Freeslab, networkFunctions.getFreeSlab());
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Freeslab, networkFunctions.getFreeSlab());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1292,7 +1318,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing freeMslab
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Freemslab, networkFunctions.getFreeMslab());
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Freemslab, networkFunctions.getFreeMslab());
                     } catch (Exception e) {
                         errors.add(e.toString());
 
@@ -1308,7 +1334,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing freehed
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Freehed, networkFunctions.getFreeHed(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Freehed, networkFunctions.getFreeHed(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
 
@@ -1326,7 +1352,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing freedet
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Freedet, networkFunctions.getFreeDet());
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Freedet, networkFunctions.getFreeDet());
 
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1345,7 +1371,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing freedeb
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Freedeb, networkFunctions.getFreeDebs());
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Freedeb, networkFunctions.getFreeDebs());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1362,7 +1388,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing freeItem
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Freeitem, networkFunctions.getFreeItems());
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Freeitem, networkFunctions.getFreeItems());
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1383,7 +1409,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         int cyear = c.get(Calendar.YEAR);
                         int cmonth = c.get(Calendar.MONTH) + 1;
                         DecimalFormat df_month = new DecimalFormat("00");
-                        UtilityContainer.download(getActivity(),TaskType.Iteneryhed, networkFunctions.getItenaryHed(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Iteneryhed, networkFunctions.getItenaryHed(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1403,7 +1429,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         int cyear = c.get(Calendar.YEAR);
                         int cmonth = c.get(Calendar.MONTH) + 1;
                         DecimalFormat df_month = new DecimalFormat("00");
-                        UtilityContainer.download(getActivity(),TaskType.Itenerydet, networkFunctions.getItenaryDet(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Itenerydet, networkFunctions.getItenaryDet(repcode));
 
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1419,7 +1445,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing discount
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Stock, networkFunctions.getStock(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Stock, networkFunctions.getStock(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1435,7 +1461,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing SalesPrice
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Salesprice, networkFunctions.getSalesPrice(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Salesprice, networkFunctions.getSalesPrice(repcode));
 
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1450,7 +1476,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing discount
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Discount, networkFunctions.getDiscounts(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Discount, networkFunctions.getDiscounts(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1466,7 +1492,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing fddbnote
 
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.fddbnote, networkFunctions.getFddbNotes(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.fddbnote, networkFunctions.getFddbNotes(repcode));
                     } catch (IOException e) {
                         e.printStackTrace();
                         errors.add(e.toString());
@@ -1484,7 +1510,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing van stock
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.VanStock, networkFunctions.getVanStock(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.VanStock, networkFunctions.getVanStock(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1500,7 +1526,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing Barcode Varient
                     try {
-                        UtilityContainer.download(getActivity(),TaskType.Barcodevarient, networkFunctions.getBarcodeVariant(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Barcodevarient, networkFunctions.getBarcodeVariant(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1685,4 +1711,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             }
         }
     }
+
+
 }

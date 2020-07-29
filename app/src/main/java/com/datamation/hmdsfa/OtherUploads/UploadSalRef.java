@@ -10,7 +10,7 @@ import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.helpers.NetworkFunctions;
 import com.datamation.hmdsfa.helpers.UploadTaskListener;
 import com.datamation.hmdsfa.model.SalRep;
-import com.datamation.hmdsfa.settings.TaskType;
+import com.datamation.hmdsfa.settings.TaskTypeDownload;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class UploadSalRef extends AsyncTask<ArrayList<SalRep>, Integer, ArrayLis
     Context context;
     public static final String SETTINGS = "SETTINGS";
     UploadTaskListener taskListener;
-    TaskType taskType;
+    TaskTypeDownload taskType;
     ProgressDialog pDialog;
     int totalRecords;
     NetworkFunctions networkFunctions;

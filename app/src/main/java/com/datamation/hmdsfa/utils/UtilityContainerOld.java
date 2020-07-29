@@ -46,7 +46,7 @@ import com.datamation.hmdsfa.helpers.SQLiteRestore;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
-import com.datamation.hmdsfa.settings.TaskType;
+import com.datamation.hmdsfa.settings.TaskTypeDownload;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.regex.Matcher;
@@ -282,7 +282,7 @@ public class UtilityContainerOld {
 
         dialog.show();
     }
-    public static void download(final Context context, Call<ReadJsonList> resultCall, TaskType task) {
+    public static void download(final Context context, Call<ReadJsonList> resultCall, TaskTypeDownload task) {
 
         switch (task) {
             case ItenrDeb: {

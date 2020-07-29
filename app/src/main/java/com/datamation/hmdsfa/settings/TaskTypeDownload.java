@@ -1,7 +1,7 @@
 package com.datamation.hmdsfa.settings;
 
 
-public enum TaskType {
+public enum TaskTypeDownload {
 
     ItenrDeb(1),
     Controllist(2),
@@ -33,7 +33,7 @@ public enum TaskType {
 
     int value;
 
-    private TaskType(int value) {
+    private TaskTypeDownload(int value) {
         this.value = value;
     }
 

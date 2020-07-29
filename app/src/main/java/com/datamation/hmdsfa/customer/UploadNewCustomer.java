@@ -12,7 +12,7 @@ import com.datamation.hmdsfa.helpers.UploadTaskListener;
 import com.google.gson.Gson;
 import com.datamation.hmdsfa.controller.NewCustomerController;
 import com.datamation.hmdsfa.model.NewCustomer;
-import com.datamation.hmdsfa.settings.TaskType;
+import com.datamation.hmdsfa.settings.TaskTypeDownload;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class UploadNewCustomer extends AsyncTask<ArrayList<NewCustomer>, Integer
     public static final String SETTINGS = "SETTINGS";
 
     UploadTaskListener taskListener;
-    TaskType taskType;
+    TaskTypeDownload taskType;
     ProgressDialog pDialog;
     int totalRecords;
     NetworkFunctions networkFunctions;

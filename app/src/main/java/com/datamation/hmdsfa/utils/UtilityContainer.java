@@ -12,8 +12,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 
-import com.datamation.hmdsfa.api.ApiCllient;
-import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.controller.BankController;
 import com.datamation.hmdsfa.controller.BarcodeVarientController;
 import com.datamation.hmdsfa.controller.CompanyDetailsController;
@@ -69,16 +67,12 @@ import com.datamation.hmdsfa.model.RouteDet;
 import com.datamation.hmdsfa.model.SalesPrice;
 import com.datamation.hmdsfa.model.VanStock;
 import com.datamation.hmdsfa.model.VatMaster;
-import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
-import com.datamation.hmdsfa.settings.TaskType;
+import com.datamation.hmdsfa.settings.TaskTypeDownload;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -102,7 +96,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -342,7 +335,7 @@ public class UtilityContainer {
 
         dialog.show();
     }
-    public static void download(final Context context, TaskType task , String jsonString) {
+    public static void download(final Context context, TaskTypeDownload task , String jsonString) {
         NetworkFunctions networkFunctions = new NetworkFunctions(context);
         JSONObject jsonObject = null;
         try {
