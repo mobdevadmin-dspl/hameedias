@@ -19,6 +19,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.datamation.hmdsfa.helpers.DatabaseHelper.REFNO;
+import static com.datamation.hmdsfa.model.DayNPrdHed.FDAYEXPHED_ISSYNC;
+import static com.datamation.hmdsfa.model.DayNPrdHed.TABLE_DAYEXPHED;
+
 public class DayExpHedController {
     public static final String SETTINGS = "SETTINGS";
     public static SharedPreferences localSP;
@@ -59,7 +63,7 @@ public class DayExpHedController {
                 values.put(DatabaseHelper.REPCODE, exphed.getEXP_REPCODE());
                 values.put(DayNPrdHed.FDAYEXPHED_REMARKS, exphed.getEXP_REMARK());
                 values.put(DayNPrdHed.FDAYEXPHED_ADDDATE, exphed.getEXP_ADDDATE());
-                values.put(DayNPrdHed.FDAYEXPHED_ISSYNC, exphed.getEXP_IS_SYNCED());
+                values.put(FDAYEXPHED_ISSYNC, exphed.getEXP_IS_SYNCED());
                 values.put(DayNPrdHed.FDAYEXPHED_TOTAMT, exphed.getEXP_TOTAMT());
                 values.put(DayNPrdHed.FDAYEXPHED_ACTIVESTATE, exphed.getEXP_ACTIVESTATE());
                 values.put(DayNPrdHed.FDAYEXPHED_LATITUDE, exphed.getEXP_LATITUDE());
@@ -69,7 +73,7 @@ public class DayExpHedController {
                 values.put(DayNPrdHed.FDAYEXPHED_ADDMATCH, exphed.getEXP_ADDMACH());
                 values.put(DayNPrdHed.FDAYEXPHED_AREACODE, exphed.getEXP_AREACODE());
 
-                count = (int) dB.insert(DayNPrdHed.TABLE_DAYEXPHED, null, values);
+                count = (int) dB.insert(TABLE_DAYEXPHED, null, values);
 
             }
         } catch (Exception e) {
@@ -96,7 +100,7 @@ public class DayExpHedController {
         }
 
         ArrayList<DayExpHed> list = new ArrayList<DayExpHed>();
-        String selectQuery = "select * from " + DayNPrdHed.TABLE_DAYEXPHED + " WHERE TxnDate LIKE '%" + newTExt + "%'";
+        String selectQuery = "select * from " + TABLE_DAYEXPHED + " WHERE TxnDate LIKE '%" + newTExt + "%'";
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
         while (cursor.moveToNext()) {
@@ -124,10 +128,10 @@ public class DayExpHedController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + DayNPrdHed.TABLE_DAYEXPHED + " WHERE " + DatabaseHelper.REFNO + "='" + RefNo + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_DAYEXPHED + " WHERE " + DatabaseHelper.REFNO + "='" + RefNo + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(DayNPrdHed.TABLE_DAYEXPHED, DatabaseHelper.REFNO + "='" + RefNo + "'", null);
+                int success = dB.delete(TABLE_DAYEXPHED, DatabaseHelper.REFNO + "='" + RefNo + "'", null);
 
             }
         } catch (Exception e) {
@@ -214,12 +218,12 @@ public class DayExpHedController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + DayNPrdHed.TABLE_DAYEXPHED + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_DAYEXPHED + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.delete(DayNPrdHed.TABLE_DAYEXPHED, DatabaseHelper.REFNO + " ='" + refno + "'", null);
+                count = dB.delete(TABLE_DAYEXPHED, DatabaseHelper.REFNO + " ='" + refno + "'", null);
                 Log.v("Success Stauts", count + "");
             }
         } catch (Exception e) {
@@ -247,7 +251,7 @@ public class DayExpHedController {
 
         while (cursor.moveToNext()) {
 
-            String result = cursor.getString(cursor.getColumnIndex(DayNPrdHed.FDAYEXPHED_ISSYNC));
+            String result = cursor.getString(cursor.getColumnIndex(FDAYEXPHED_ISSYNC));
 
             if (result.equals("1"))
                 return true;
@@ -284,7 +288,7 @@ public class DayExpHedController {
                 deHed.setEXP_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
                 deHed.setEXP_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
                 deHed.setEXP_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
-                deHed.setEXP_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DayNPrdHed.FDAYEXPHED_ISSYNC)));
+                deHed.setEXP_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FDAYEXPHED_ISSYNC)));
                 //TODO :set  discount, free
 
                 list.add(deHed);
@@ -304,7 +308,36 @@ public class DayExpHedController {
         return list;
 
     }
+    public int updateIsSynced(String refno,String res) {
 
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put(FDAYEXPHED_ISSYNC, res);
+            count = dB.update(TABLE_DAYEXPHED, values, REFNO + " =?", new String[] { refno });
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
     public int updateIsSynced(DayExpHed hed) {
 
         int count = 0;
@@ -319,10 +352,10 @@ public class DayExpHedController {
         try {
             ContentValues values = new ContentValues();
 
-            values.put(DayNPrdHed.FDAYEXPHED_ISSYNC, "1");
+            values.put(FDAYEXPHED_ISSYNC, "1");
 
             if (hed.getEXP_IS_SYNCED().equals("1")) {
-                count = dB.update(DayNPrdHed.TABLE_DAYEXPHED, values, dbHelper.REFNO + " =?", new String[] { String.valueOf(hed.getEXP_REFNO()) });
+                count = dB.update(TABLE_DAYEXPHED, values, dbHelper.REFNO + " =?", new String[] { String.valueOf(hed.getEXP_REFNO()) });
             }
 
         } catch (Exception e) {
@@ -351,7 +384,7 @@ public class DayExpHedController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + DayNPrdHed.TABLE_DAYEXPHED + " WHERE " + DayNPrdHed.FDAYEXPHED_ISSYNC + "='0'";
+            String selectQuery = "SELECT * FROM " + TABLE_DAYEXPHED + " WHERE " + FDAYEXPHED_ISSYNC + "='0'";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 //            localSP = context.getSharedPreferences(SETTINGS, Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
             localSP = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE + Context.MODE_PRIVATE);
@@ -373,7 +406,7 @@ public class DayExpHedController {
                 mapper.setEXP_REMARK(cursor.getString(cursor.getColumnIndex(DayNPrdHed.FDAYEXPHED_REMARKS)));
                 mapper.setEXP_ADDUSER(cursor.getString(cursor.getColumnIndex(DayNPrdHed.FDAYEXPHED_ADDUSER)));
                 mapper.setEXP_ADDMACH(cursor.getString(cursor.getColumnIndex(DayNPrdHed.FDAYEXPHED_ADDMATCH)));
-                mapper.setEXP_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DayNPrdHed.FDAYEXPHED_ISSYNC)));
+                mapper.setEXP_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FDAYEXPHED_ISSYNC)));
                 mapper.setEXP_LONGITUDE(cursor.getString(cursor.getColumnIndex(DayNPrdHed.FDAYEXPHED_LONGITUDE)));
                 mapper.setEXP_LATITUDE(cursor.getString(cursor.getColumnIndex(DayNPrdHed.FDAYEXPHED_LATITUDE)));
                 mapper.setEXP_TOTAMT(cursor.getString(cursor.getColumnIndex(DayNPrdHed.FDAYEXPHED_TOTAMT)));

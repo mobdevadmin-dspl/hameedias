@@ -36,6 +36,8 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.api.ApiCllient;
 import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.api.TaskTypeUpload;
+import com.datamation.hmdsfa.barcode.upload.UploadExpenses;
+import com.datamation.hmdsfa.barcode.upload.UploadNonProd;
 import com.datamation.hmdsfa.controller.AttendanceController;
 import com.datamation.hmdsfa.controller.NewCustomerController;
 import com.datamation.hmdsfa.model.Attendance;
@@ -834,45 +836,33 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             }
             break;
             case UPLOAD_DELETED_INVOICE: {
-//                DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
-//                final ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();
-//                if(npHedList.size()>0){
-//                    Toast.makeText(getActivity(), "Nonproductive data upload completed..!", Toast.LENGTH_LONG).show();
-//                }
-//                new UploadNonProd(getActivity(), FragmentTools.this, TaskType.UPLOAD_NONPROD).execute(npHedList);
-//
-//                Log.v(">>upload>>", "Upload non productive execute finish");
+                DayExpHedController exHed = new DayExpHedController(getActivity());
+                final ArrayList<DayExpHed> exHedList = exHed.getUnSyncedData();//8
+                new UploadExpenses(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_EXPENSE).execute(exHedList);
+                Log.v(">>upload>>", "Upload expense execute finish");
+
             }
             break;
-            case UPLOAD_NONPROD: {
-//                DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
-//                final ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();
-//                if(npHedList.size()>0){
-//                    Toast.makeText(getActivity(), "Nonproductive data upload completed..!", Toast.LENGTH_LONG).show();
-//                }
-//                new UploadNonProd(getActivity(), FragmentTools.this, TaskType.UPLOAD_NONPROD).execute(npHedList);
-//
-//                Log.v(">>upload>>", "Upload non productive execute finish");
+            case UPLOAD_EXPENSE: {
+                DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
+                final ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();
+                new UploadNonProd(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_NONPROD).execute(npHedList);
+                Log.v(">>upload>>", "Upload non productive execute finish");
             }
             break;
-            case UPLOAD_RECEIPT:{
-//                AttendanceController attendanceController = new AttendanceController(getActivity());//4
+            case UPLOAD_NONPROD:{
+
+            }
+            break;
+            case UPLOAD_RECEIPT: {
+
+                //                AttendanceController attendanceController = new AttendanceController(getActivity());//4
 //                ArrayList<Attendance> attendList = attendanceController.getUnsyncedTourData();
 //                new UploadAttendance(getActivity(), FragmentTools.this,attendList, TaskType.UPLOAD_ATTENDANCE).execute(attendList);
 //                Log.v(">>upload>>", "Upload attendance execute finish");
             }
             break;
             case UPLOAD_ATTENDANCE:{
-//                DayExpHedController exHed = new DayExpHedController(getActivity());
-//                final ArrayList<DayExpHed> exHedList = exHed.getUnSyncedData();//8
-//                if(exHedList.size()>0){
-//                    Toast.makeText(getActivity(), "Expense data upload completed..!", Toast.LENGTH_LONG).show();
-//                }
-//                new UploadExpenses(getActivity(), FragmentTools.this, TaskType.UPLOAD_EXPENSE).execute(exHedList);
-//                Log.v(">>upload>>", "Upload expense execute finish");
-            }
-            break;
-            case UPLOAD_EXPENSE:{
 
                 Log.v(">>upload>>", "all upload finish");
 
