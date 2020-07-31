@@ -36,6 +36,10 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.api.ApiCllient;
 import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.api.TaskTypeUpload;
+import com.datamation.hmdsfa.controller.AttendanceController;
+import com.datamation.hmdsfa.controller.NewCustomerController;
+import com.datamation.hmdsfa.model.Attendance;
+import com.datamation.hmdsfa.model.NewCustomer;
 import com.datamation.hmdsfa.settings.TaskTypeDownload;
 import com.datamation.hmdsfa.barcode.upload.UploadPreSales;
 import com.datamation.hmdsfa.controller.CustomerController;
@@ -64,7 +68,7 @@ import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.SalRep;
 import com.datamation.hmdsfa.model.User;
 import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
-import com.datamation.hmdsfa.salesreturn.UploadSalesReturn;
+import com.datamation.hmdsfa.barcode.upload.UploadSalesReturn;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.utils.UtilityContainer;
 import com.datamation.hmdsfa.vansale.UploadDeletedInvoices;
@@ -501,6 +505,28 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         super.onPositive(dialog);
                         boolean connectionStatus = NetworkUtil.isNetworkAvailable(context);
                         if (connectionStatus == true) {
+                            OrderController orderHed = new OrderController(getActivity());
+                            final ArrayList<Order> ordHedList = orderHed.getAllUnSyncOrdHed();//1
+                            DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
+                            final ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();//2
+                            AttendanceController attendanceController = new AttendanceController(getActivity());//4
+                            ArrayList<Attendance> attendList = attendanceController.getUnsyncedTourData();
+                            CustomerController customerDS = new CustomerController(getActivity());
+                            ArrayList<Debtor> debtorlist = customerDS.getAllDebtorsToCordinatesUpdate();//5
+                            ArrayList<Debtor> updExistingDebtors = customerDS.getAllUpdatedDebtors();//6
+                            ArrayList<Debtor> imgDebtorList = customerDS.getAllImagUpdatedDebtors();//7
+                            DayExpHedController exHed = new DayExpHedController(getActivity());
+                            final ArrayList<DayExpHed> exHedList = exHed.getUnSyncedData();//8
+                            NewCustomerController customerNwDS = new NewCustomerController(getActivity());
+                            ArrayList<NewCustomer> newCustomersList = customerNwDS.getAllNewCustomersForSync();//9
+                            SalesReturnController retHed = new SalesReturnController(getActivity());
+                            ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
+                            // firebasetokenid - 10
+//                    /* If records available for upload then */
+                            if (retHedList.size() <= 0 && ordHedList.size() <= 0 && npHedList.size() <= 0  && attendList.size()<= 0 && debtorlist.size()<=0 && updExistingDebtors.size() <= 0 && imgDebtorList.size()<= 0 && exHedList.size()<=0)
+                            {
+                                Toast.makeText(getActivity(), "No Records to upload !", Toast.LENGTH_LONG).show();
+                            }else {
 //                            try { // new customer upload 2019-10-17MMS
 //                                ArrayList<SalRep> fblist = new ArrayList<>();
 //                                SalRep salRep = new SalRep();
@@ -580,23 +606,19 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                            } catch (Exception e) {
 //                                Log.v("Exception in sync De", e.toString());
 //                            }
-                            try { // upload pre sale order
-                                OrderController orderHed = new OrderController(getActivity());
-                                ArrayList<Order> ordHedList = orderHed.getAllUnSyncOrdHed();
+                                try { // upload pre sale order
+
 //                    /* If records available for upload then */
-                                if (ordHedList.size() <= 0)
-                                    Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
-                                else {
-
-                                    new UploadPreSales(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_ORDER).execute(ordHedList);
-                                    Log.v(">>8>>", "UploadPreSales execute finish");
-                                    // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
+                                    if (ordHedList.size() <= 0)
+                                        Toast.makeText(getActivity(), "No Pre Sale Records to upload !", Toast.LENGTH_LONG).show();
+                                        new UploadPreSales(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_ORDER).execute(ordHedList);
+                                        Log.v(">>8>>", "UploadPreSales execute finish");
+                                        // new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.NumVal));
+                                } catch (Exception e) {
+                                    Log.v("Exception in sync order", e.toString());
                                 }
-                            } catch (Exception e) {
-                                Log.v("Exception in sync order", e.toString());
+
                             }
-
-
 
 
 
@@ -769,10 +791,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                    /* If records available for upload then */
                     if (invHedList.size() <= 0)
                         Toast.makeText(getActivity(), "No Van Sale Records to upload !", Toast.LENGTH_LONG).show();
-                    else{
                         new UploadVanSales(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_INVOICE).execute(invHedList);
                         Log.v(">>8>>","Uploadinvoices execute finish");
-                    }
+
                 }catch(Exception e){
                     Log.v("Exception in sync order",e.toString());
                 }
@@ -780,6 +801,24 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             }
             break;
             case UPLOAD_INVOICE: {
+                try//Sales return upload -
+                {
+                    SalesReturnController retHed = new SalesReturnController(getActivity());
+                    ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
+                    if(retHedList.size() <= 0) {
+                        Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
+                        new UploadSalesReturn(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_RETURNS).execute(retHedList);
+                        Log.v(">>8>>", "Upload sales return execute finish");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.v("Exception in syncretrn" , e.toString());
+                }
+
+            }
+            break;
+            case UPLOAD_RETURNS: {
                 //                            try {//Van sale upload - 2020-03-24-rashmi
 //                                InvHedController hedDS = new InvHedController(getActivity());
 //                                // InvoiceBarcodeController hedDS = new InvoiceBarcodeController(getActivity());
@@ -797,26 +836,6 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             }
             break;
             case UPLOAD_DELETED_INVOICE: {
-//                            try//Sales return upload -
-//                            {
-//                                SalesReturnController retHed = new SalesReturnController(getActivity());
-//                                ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
-//                                if(retHedList.size() <= 0)
-//                                {
-//                                    Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
-//                                }else
-//                                {
-//                                    new UploadSalesReturn(getActivity(),FragmentTools.this,"insertReturns").execute(retHedList);
-//                                    Log.v(">>8>>","Upload sales return execute finish");
-//                                }
-//                            }
-//                            catch (Exception e)
-//                            {
-//                                Log.v("Exception in sync return" , e.toString());
-//                            }
-            }
-            break;
-            case UPLOAD_RETURNS: {
 //                DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
 //                final ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();
 //                if(npHedList.size()>0){

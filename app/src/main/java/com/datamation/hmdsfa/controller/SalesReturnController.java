@@ -753,7 +753,37 @@ public class SalesReturnController
 
         return REHed;
     }
+    public int updateIsSynced(String refno,String res) {
 
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put(FINVRHED_IS_SYNCED, res);
+            count = dB.update(TABLE_FINVRHED, values, dbHelper.REFNO + " =?", new String[] { refno });
+
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
     public int updateIsSynced(FInvRHed hed) {
 
         int count = 0;

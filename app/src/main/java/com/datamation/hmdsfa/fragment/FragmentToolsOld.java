@@ -817,7 +817,7 @@ public class FragmentToolsOld extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onTaskCompleted(TaskTypeUpload taskType, List<String> list) {
-        
+
     }
 
     @Override
