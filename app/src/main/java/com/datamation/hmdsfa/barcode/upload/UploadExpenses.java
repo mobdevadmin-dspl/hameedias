@@ -81,28 +81,29 @@ public class UploadExpenses extends AsyncTask<ArrayList<DayExpHed>, Integer, Arr
                 resultCall.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        int status = response.code();
-                        Log.d(">>>response code", ">>>res " + status);
-                        Log.d(">>>response message", ">>>res " + response.message());
-                        Log.d(">>>response body", ">>>res " + response.body().toString());
-                        int resLength = response.body().toString().trim().length();
-                        String resmsg = ""+response.body().toString();
-                        if (status == 200 && !resmsg.equals("") && !resmsg.equals(null)) {
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    c.setEXP_IS_SYNCED("1");
-                                    addRefNoResults(c.getEXP_REFNO() +" --> Success\n",RCSList.size());
-                                    new DayExpHedController(context).updateIsSynced(c.getEXP_REFNO(),"1");
-                                }
-                            });
-                        } else {
-                            Log.d( ">>response"+status,""+c.getEXP_REFNO() );
-                            c.setEXP_IS_SYNCED("0");
-                            new DayExpHedController(context).updateIsSynced(c.getEXP_REFNO(),"0");
-                            addRefNoResults(c.getEXP_REFNO() +" --> Failed\n",RCSList.size());
+                        if (response != null && response.body() != null) {
+                            int status = response.code();
+                            Log.d(">>>response code", ">>>res " + status);
+                            Log.d(">>>response message", ">>>res " + response.message());
+                            Log.d(">>>response body", ">>>res " + response.body().toString());
+                            int resLength = response.body().toString().trim().length();
+                            String resmsg = "" + response.body().toString();
+                            if (status == 200 && !resmsg.equals("") && !resmsg.equals(null)) {
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        c.setEXP_IS_SYNCED("1");
+                                        addRefNoResults(c.getEXP_REFNO() + " --> Success\n", RCSList.size());
+                                        new DayExpHedController(context).updateIsSynced(c.getEXP_REFNO(), "1");
+                                    }
+                                });
+                            } else {
+                                Log.d(">>response" + status, "" + c.getEXP_REFNO());
+                                c.setEXP_IS_SYNCED("0");
+                                new DayExpHedController(context).updateIsSynced(c.getEXP_REFNO(), "0");
+                                addRefNoResults(c.getEXP_REFNO() + " --> Failed\n", RCSList.size());
+                            }
                         }
-
                     }
 
                     @Override

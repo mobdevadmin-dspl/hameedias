@@ -10,16 +10,27 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import com.datamation.hmdsfa.api.ApiCllient;
+import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.api.TaskTypeUpload;
 import com.datamation.hmdsfa.controller.DayNPrdHedController;
+import com.datamation.hmdsfa.controller.InvHedController;
 import com.datamation.hmdsfa.helpers.NetworkFunctions;
 import com.datamation.hmdsfa.helpers.UploadTaskListener;
 import com.datamation.hmdsfa.model.DayNPrdHed;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UploadNonProd extends AsyncTask<ArrayList<DayNPrdHed>, Integer, ArrayList<DayNPrdHed>> {
 
@@ -54,11 +65,55 @@ public class UploadNonProd extends AsyncTask<ArrayList<DayNPrdHed>, Integer, Arr
         publishProgress(recordCount);
         networkFunctions = new NetworkFunctions(context);
 
-        ArrayList<DayNPrdHed> RCSList = params[0];
+        final ArrayList<DayNPrdHed> RCSList = params[0];
         totalRecords = RCSList.size();
 
-        for (DayNPrdHed c : RCSList) {
+        for (final DayNPrdHed c : RCSList) {
+            try {
+                String content_type = "application/json";
+                ApiInterface apiInterface = ApiCllient.getClient(context).create(ApiInterface.class);
+                JsonParser jsonParser = new JsonParser();
+                String orderJson = new Gson().toJson(c);
+                JsonObject objectFromString = jsonParser.parse(orderJson).getAsJsonObject();
+                JsonArray jsonArray = new JsonArray();
+                jsonArray.add(objectFromString);
+                Call<String> resultCall = apiInterface.uploadNonProd(jsonArray, content_type);
+                resultCall.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response != null && response.body() != null) {
+                            int status = response.code();
+                            Log.d(">>>response code", ">>>res " + status);
+                            Log.d(">>>response message", ">>>res " + response.message());
+                            Log.d(">>>response body", ">>>res " + response.body().toString());
+                            int resLength = response.body().toString().trim().length();
+                            String resmsg = "" + response.body().toString();
+                            if (status == 200 && !resmsg.equals("") && !resmsg.equals(null)) {
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        c.setNONPRDHED_IS_SYNCED("1");
+                                        addRefNoResults(c.getNONPRDHED_REFNO() + " --> Success\n", RCSList.size());
+                                        new InvHedController(context).updateIsSynced(c.getNONPRDHED_REFNO(), "1");
+                                    }
+                                });
+                            } else {
+                                Log.d(">>response" + status, "" + c.getNONPRDHED_REFNO());
+                                c.setNONPRDHED_IS_SYNCED("0");
+                                new InvHedController(context).updateIsSynced(c.getNONPRDHED_REFNO(), "0");
+                                addRefNoResults(c.getNONPRDHED_REFNO() + " --> Failed\n", RCSList.size());
+                            }
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(context, "Error response "+t.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
             ++recordCount;

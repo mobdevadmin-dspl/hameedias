@@ -83,37 +83,38 @@ public class UploadVanSales extends AsyncTask<ArrayList<InvHed>, Integer, ArrayL
                 resultCall.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        int status = response.code();
-                        Log.d(">>>response code", ">>>res " + status);
-                        Log.d(">>>response message", ">>>res " + response.message());
-                        Log.d(">>>response body", ">>>res " + response.body().toString());
-                        int resLength = response.body().toString().trim().length();
-                        String resmsg = ""+response.body().toString();
-                        if (status == 200 && !resmsg.equals("") && !resmsg.equals(null)) {
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // resultListNonProduct.add(np.getNONPRDHED_REFNO()+ "--->SUCCESS");
-                                    //    addRefNoResults_Non(np.getNONPRDHED_REFNO() + " --> Success\n",RCSList.size());
-                                    //  Log.d( ">>response"+status,""+c.getORDER_REFNO() );
-                                    c.setFINVHED_IS_SYNCED("1");
-                                    addRefNoResults(c.getFINVHED_REFNO() +" --> Success\n",RCSList.size());
-                                    // new OrderController(context).updateIsSynced(c);
-                                    new InvHedController(context).updateIsSynced(c.getFINVHED_REFNO(),"1");
-                                    //  Toast.makeText(context,np.getNONPRDHED_REFNO()+"-Non-productive uploded Successfully" , Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            //addRefNoResults(c.getORDER_REFNO() +" --> Success\n",RCSList.size());
+                        if (response != null && response.body() != null) {
+                            int status = response.code();
+                            Log.d(">>>response code", ">>>res " + status);
+                            Log.d(">>>response message", ">>>res " + response.message());
+                            Log.d(">>>response body", ">>>res " + response.body().toString());
+                            int resLength = response.body().toString().trim().length();
+                            String resmsg = "" + response.body().toString();
+                            if (status == 200 && !resmsg.equals("") && !resmsg.equals(null)) {
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // resultListNonProduct.add(np.getNONPRDHED_REFNO()+ "--->SUCCESS");
+                                        //    addRefNoResults_Non(np.getNONPRDHED_REFNO() + " --> Success\n",RCSList.size());
+                                        //  Log.d( ">>response"+status,""+c.getORDER_REFNO() );
+                                        c.setFINVHED_IS_SYNCED("1");
+                                        addRefNoResults(c.getFINVHED_REFNO() + " --> Success\n", RCSList.size());
+                                        // new OrderController(context).updateIsSynced(c);
+                                        new InvHedController(context).updateIsSynced(c.getFINVHED_REFNO(), "1");
+                                        //  Toast.makeText(context,np.getNONPRDHED_REFNO()+"-Non-productive uploded Successfully" , Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                //addRefNoResults(c.getORDER_REFNO() +" --> Success\n",RCSList.size());
 
-                            //  Toast.makeText(context, c.getORDER_REFNO()+" - Order uploded Successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Log.d( ">>response"+status,""+c.getFINVHED_REFNO() );
-                            c.setFINVHED_IS_SYNCED("0");
-                            new InvHedController(context).updateIsSynced(c.getFINVHED_REFNO(),"0");
-                            addRefNoResults(c.getFINVHED_REFNO() +" --> Failed\n",RCSList.size());
-                            //   Toast.makeText(context, c.getORDER_REFNO()+" - Order uplod Failed", Toast.LENGTH_SHORT).show();
+                                //  Toast.makeText(context, c.getORDER_REFNO()+" - Order uploded Successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Log.d(">>response" + status, "" + c.getFINVHED_REFNO());
+                                c.setFINVHED_IS_SYNCED("0");
+                                new InvHedController(context).updateIsSynced(c.getFINVHED_REFNO(), "0");
+                                addRefNoResults(c.getFINVHED_REFNO() + " --> Failed\n", RCSList.size());
+                                //   Toast.makeText(context, c.getORDER_REFNO()+" - Order uplod Failed", Toast.LENGTH_SHORT).show();
+                            }
                         }
-
                     }
 
                     @Override

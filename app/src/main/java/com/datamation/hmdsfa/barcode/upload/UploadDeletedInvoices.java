@@ -81,28 +81,29 @@ public class UploadDeletedInvoices extends AsyncTask<ArrayList<InvHed>, Integer,
                 resultCall.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        int status = response.code();
-                        Log.d(">>>response code", ">>>res " + status);
-                        Log.d(">>>response message", ">>>res " + response.message());
-                        Log.d(">>>response body", ">>>res " + response.body().toString());
-                        int resLength = response.body().toString().trim().length();
-                        String resmsg = ""+response.body().toString();
-                        if (status == 200 && !resmsg.equals("") && !resmsg.equals(null)) {
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    c.setFINVHED_IS_SYNCED("1");
-                                    addRefNoResults(c.getFINVHED_REFNO() +" --> Success\n",RCSList.size());
-                                    new InvHedController(context).updateIsSynced(c.getFINVHED_REFNO(),"1");
-                                               }
-                            });
-                           } else {
-                            Log.d( ">>response"+status,""+c.getFINVHED_REFNO() );
-                            c.setFINVHED_IS_SYNCED("0");
-                            new InvHedController(context).updateIsSynced(c.getFINVHED_REFNO(),"0");
-                            addRefNoResults(c.getFINVHED_REFNO() +" --> Failed\n",RCSList.size());
+                        if (response != null && response.body() != null) {
+                            int status = response.code();
+                            Log.d(">>>response code", ">>>res " + status);
+                            Log.d(">>>response message", ">>>res " + response.message());
+                            Log.d(">>>response body", ">>>res " + response.body().toString());
+                            int resLength = response.body().toString().trim().length();
+                            String resmsg = "" + response.body().toString();
+                            if (status == 200 && !resmsg.equals("") && !resmsg.equals(null)) {
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        c.setFINVHED_IS_SYNCED("1");
+                                        addRefNoResults(c.getFINVHED_REFNO() + " --> Success\n", RCSList.size());
+                                        new InvHedController(context).updateIsSynced(c.getFINVHED_REFNO(), "1");
+                                    }
+                                });
+                            } else {
+                                Log.d(">>response" + status, "" + c.getFINVHED_REFNO());
+                                c.setFINVHED_IS_SYNCED("0");
+                                new InvHedController(context).updateIsSynced(c.getFINVHED_REFNO(), "0");
+                                addRefNoResults(c.getFINVHED_REFNO() + " --> Failed\n", RCSList.size());
                             }
-
+                        }
                     }
 
                     @Override

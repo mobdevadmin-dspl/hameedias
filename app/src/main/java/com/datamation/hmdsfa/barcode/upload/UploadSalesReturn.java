@@ -81,28 +81,29 @@ public class UploadSalesReturn extends AsyncTask<ArrayList<FInvRHed>, Integer, A
                 resultCall.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        int status = response.code();
-                        Log.d(">>>response code", ">>>res " + status);
-                        Log.d(">>>response message", ">>>res " + response.message());
-                        Log.d(">>>response body", ">>>res " + response.body().toString());
-                        int resLength = response.body().toString().trim().length();
-                        String resmsg = ""+response.body().toString();
-                        if (status == 200 && !resmsg.equals("") && !resmsg.equals(null)) {
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    c.setFINVRHED_IS_SYNCED("1");
-                                    addRefNoResults(c.getFINVRHED_REFNO() +" --> Success\n",RCSList.size());
-                                    new SalesReturnController(context).updateIsSynced(c.getFINVRHED_REFNO(),"1");
-                                }
-                            });
-                        } else {
-                            Log.d( ">>response"+status,""+c.getFINVRHED_REFNO() );
-                            c.setFINVRHED_IS_SYNCED("0");
-                            new SalesReturnController(context).updateIsSynced(c.getFINVRHED_REFNO(),"0");
-                            addRefNoResults(c.getFINVRHED_REFNO() +" --> Failed\n",RCSList.size());
+                        if (response != null && response.body() != null) {
+                            int status = response.code();
+                            Log.d(">>>response code", ">>>res " + status);
+                            Log.d(">>>response message", ">>>res " + response.message());
+                            Log.d(">>>response body", ">>>res " + response.body().toString());
+                            int resLength = response.body().toString().trim().length();
+                            String resmsg = "" + response.body().toString();
+                            if (status == 200 && !resmsg.equals("") && !resmsg.equals(null)) {
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        c.setFINVRHED_IS_SYNCED("1");
+                                        addRefNoResults(c.getFINVRHED_REFNO() + " --> Success\n", RCSList.size());
+                                        new SalesReturnController(context).updateIsSynced(c.getFINVRHED_REFNO(), "1");
+                                    }
+                                });
+                            } else {
+                                Log.d(">>response" + status, "" + c.getFINVRHED_REFNO());
+                                c.setFINVRHED_IS_SYNCED("0");
+                                new SalesReturnController(context).updateIsSynced(c.getFINVRHED_REFNO(), "0");
+                                addRefNoResults(c.getFINVRHED_REFNO() + " --> Failed\n", RCSList.size());
+                            }
                         }
-
                     }
 
                     @Override
