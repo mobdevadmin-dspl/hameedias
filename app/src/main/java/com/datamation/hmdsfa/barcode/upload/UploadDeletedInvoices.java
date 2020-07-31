@@ -15,10 +15,10 @@ import android.widget.Toast;
 import com.datamation.hmdsfa.api.ApiCllient;
 import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.api.TaskTypeUpload;
-import com.datamation.hmdsfa.controller.SalesReturnController;
+import com.datamation.hmdsfa.controller.InvHedController;
 import com.datamation.hmdsfa.helpers.NetworkFunctions;
 import com.datamation.hmdsfa.helpers.UploadTaskListener;
-import com.datamation.hmdsfa.model.FInvRHed;
+import com.datamation.hmdsfa.model.InvHed;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -31,7 +31,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UploadSalesReturn extends AsyncTask<ArrayList<FInvRHed>, Integer, ArrayList<FInvRHed>> {
+
+public class UploadDeletedInvoices extends AsyncTask<ArrayList<InvHed>, Integer, ArrayList<InvHed>> {
 
     Context context;
     ProgressDialog dialog;
@@ -39,11 +40,10 @@ public class UploadSalesReturn extends AsyncTask<ArrayList<FInvRHed>, Integer, A
     NetworkFunctions networkFunctions;
     int totalRecords;
     private Handler mHandler;
-    List<String> resultListSalesReturn;
+    List<String> resultListDeletedIvoices;
     TaskTypeUpload taskType;
 
-    public UploadSalesReturn(Context context, UploadTaskListener taskListener, TaskTypeUpload taskType) {
-        resultListSalesReturn = new ArrayList<>();
+    public UploadDeletedInvoices(Context context, UploadTaskListener taskListener, TaskTypeUpload taskType) {
         this.context = context;
         this.taskListener = taskListener;
         mHandler = new Handler(Looper.getMainLooper());
@@ -54,20 +54,20 @@ public class UploadSalesReturn extends AsyncTask<ArrayList<FInvRHed>, Integer, A
     protected void onPreExecute() {
         super.onPreExecute();
         dialog = new ProgressDialog(context);
-        dialog.setTitle("Uploading return records");
+        dialog.setTitle("Uploading deleted invoice records");
         dialog.show();
     }
 
     @Override
-    protected ArrayList<FInvRHed> doInBackground(ArrayList<FInvRHed>... params) {
+    protected ArrayList<InvHed> doInBackground(ArrayList<InvHed>... params) {
 
         int recordCount = 0;
         publishProgress(recordCount);
         networkFunctions = new NetworkFunctions(context);
-        final ArrayList<FInvRHed> RCSList = params[0];
+        final ArrayList<InvHed> RCSList = params[0];
         totalRecords = RCSList.size();
 
-        for (final FInvRHed c : RCSList) {
+        for (final InvHed c : RCSList) {
 
             try {
                 String content_type = "application/json";
@@ -77,7 +77,7 @@ public class UploadSalesReturn extends AsyncTask<ArrayList<FInvRHed>, Integer, A
                 JsonObject objectFromString = jsonParser.parse(orderJson).getAsJsonObject();
                 JsonArray jsonArray = new JsonArray();
                 jsonArray.add(objectFromString);
-                Call<String> resultCall = apiInterface.uploadReturns(jsonArray, content_type);
+                Call<String> resultCall = apiInterface.uploadDeletedInvoice(jsonArray, content_type);
                 resultCall.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
@@ -91,17 +91,17 @@ public class UploadSalesReturn extends AsyncTask<ArrayList<FInvRHed>, Integer, A
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    c.setFINVRHED_IS_SYNCED("1");
-                                    addRefNoResults(c.getFINVRHED_REFNO() +" --> Success\n",RCSList.size());
-                                    new SalesReturnController(context).updateIsSynced(c.getFINVRHED_REFNO(),"1");
-                                }
+                                    c.setFINVHED_IS_SYNCED("1");
+                                    addRefNoResults(c.getFINVHED_REFNO() +" --> Success\n",RCSList.size());
+                                    new InvHedController(context).updateIsSynced(c.getFINVHED_REFNO(),"1");
+                                               }
                             });
-                        } else {
-                            Log.d( ">>response"+status,""+c.getFINVRHED_REFNO() );
-                            c.setFINVRHED_IS_SYNCED("0");
-                            new SalesReturnController(context).updateIsSynced(c.getFINVRHED_REFNO(),"0");
-                            addRefNoResults(c.getFINVRHED_REFNO() +" --> Failed\n",RCSList.size());
-                        }
+                           } else {
+                            Log.d( ">>response"+status,""+c.getFINVHED_REFNO() );
+                            c.setFINVHED_IS_SYNCED("0");
+                            new InvHedController(context).updateIsSynced(c.getFINVHED_REFNO(),"0");
+                            addRefNoResults(c.getFINVHED_REFNO() +" --> Failed\n",RCSList.size());
+                            }
 
                     }
 
@@ -123,20 +123,20 @@ public class UploadSalesReturn extends AsyncTask<ArrayList<FInvRHed>, Integer, A
     @Override
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
-        dialog.setMessage("Uploading.. Sales Return Record " + values[0] + "/" + totalRecords);
+        dialog.setMessage("Uploading.. Deleted Invoices Record " + values[0] + "/" + totalRecords);
     }
 
     @Override
-    protected void onPostExecute(ArrayList<FInvRHed> RCSList) {
+    protected void onPostExecute(ArrayList<InvHed> RCSList) {
 
         super.onPostExecute(RCSList);
         dialog.dismiss();
-        taskListener.onTaskCompleted(taskType,resultListSalesReturn);
+        taskListener.onTaskCompleted(taskType,resultListDeletedIvoices);
     }
     private void addRefNoResults(String ref, int count) {
-        resultListSalesReturn.add(ref);
-        if(count == resultListSalesReturn.size()) {
-            mUploadResult(resultListSalesReturn);
+        resultListDeletedIvoices.add(ref);
+        if(count == resultListDeletedIvoices.size()) {
+            mUploadResult(resultListDeletedIvoices);
         }
     }
 
@@ -147,7 +147,7 @@ public class UploadSalesReturn extends AsyncTask<ArrayList<FInvRHed>, Integer, A
         }
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setMessage(msg);
-        alertDialogBuilder.setTitle("Upload Return Summary");
+        alertDialogBuilder.setTitle("Upload deleted invoice summary");
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
@@ -160,4 +160,3 @@ public class UploadSalesReturn extends AsyncTask<ArrayList<FInvRHed>, Integer, A
         alertD.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 }
-

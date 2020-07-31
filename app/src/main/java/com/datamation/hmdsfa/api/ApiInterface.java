@@ -154,6 +154,8 @@ public interface ApiInterface {
     //******rashmi 29-07-2020********
     @POST("insertReturns")
     Call<String> uploadReturns(@Body JsonArray orderlist, @Header("Content-Type") String cont_type);
+    @POST("insertDeletedFInvHed")
+    Call<String> uploadDeletedInvoice(@Body JsonArray orderlist, @Header("Content-Type") String cont_type);
     @POST("insertFDaynPrdHed")
     Call<String> uploadNonProd(@Body JsonArray nonpList, @Header("Content-Type") String cont_type);
 
