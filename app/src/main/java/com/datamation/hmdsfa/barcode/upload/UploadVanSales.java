@@ -79,7 +79,7 @@ public class UploadVanSales extends AsyncTask<ArrayList<InvHed>, Integer, ArrayL
                 JsonObject objectFromString = jsonParser.parse(orderJson).getAsJsonObject();
                 JsonArray jsonArray = new JsonArray();
                 jsonArray.add(objectFromString);
-                Call<String> resultCall = apiInterface.uploadOrder(jsonArray, content_type);
+                Call<String> resultCall = apiInterface.uploadInvoice(jsonArray, content_type);
                 resultCall.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {

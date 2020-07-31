@@ -149,6 +149,8 @@ public interface ApiInterface {
     Call<String> uploadOrder(@Body JsonArray orderlist, @Header("Content-Type") String cont_type);
     //Call<String> uploadOrder(@Body String orderlist, @Header("Content-Type") String cont_type);
 
+    @POST("insertFInvHed")
+    Call<String> uploadInvoice(@Body JsonArray orderlist, @Header("Content-Type") String cont_type);
     //******rashmi 29-07-2020********
     @POST("insertFDaynPrdHed")
     Call<String> uploadNonProd(@Body JsonArray nonpList, @Header("Content-Type") String cont_type);
