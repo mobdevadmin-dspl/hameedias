@@ -85,7 +85,7 @@ public class UploadPreSales extends AsyncTask<ArrayList<Order>, Integer, ArrayLi
                 resultCall.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        if (response != null) {
+                        if (response != null && response.body() != null) {
                             int status = response.code();
                             Log.d(">>>response code", ">>>res " + status);
                             Log.d(">>>response message", ">>>res " + response.message());
