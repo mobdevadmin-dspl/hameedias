@@ -31,6 +31,7 @@ import com.bumptech.glide.Glide;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.api.ApiCllient;
 import com.datamation.hmdsfa.api.ApiInterface;
+import com.datamation.hmdsfa.api.TaskTypeUpload;
 import com.datamation.hmdsfa.controller.BankController;
 import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.DayExpHedController;
@@ -812,6 +813,11 @@ public class FragmentToolsOld extends Fragment implements View.OnClickListener, 
             }
         };
         chatSpaceRef.addListenerForSingleValueEvent(eventListener);
+    }
+
+    @Override
+    public void onTaskCompleted(TaskTypeUpload taskType, List<String> list) {
+        
     }
 
     @Override
