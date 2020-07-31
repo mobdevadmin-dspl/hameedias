@@ -172,7 +172,7 @@ public class VATController {
 
 			String vat = "";
 
-			vat =  cursor.getString(cursor.getColumnIndex(VATCODE))+" - "+cursor.getString(cursor.getColumnIndex(VATDESCRIPTION))+"("+cursor.getString(cursor.getColumnIndex(VATPER))+"%)";
+			vat =  cursor.getString(cursor.getColumnIndex(VATDESCRIPTION))+" - "+cursor.getString(cursor.getColumnIndex(VATCODE))+"("+cursor.getString(cursor.getColumnIndex(VATPER))+"%)";
 
 			list.add(vat);
 
