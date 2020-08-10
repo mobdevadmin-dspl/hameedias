@@ -94,13 +94,13 @@ public class UploadNonProd extends AsyncTask<ArrayList<DayNPrdHed>, Integer, Arr
                                     public void run() {
                                         c.setNONPRDHED_IS_SYNCED("1");
                                         addRefNoResults(c.getNONPRDHED_REFNO() + " --> Success\n", RCSList.size());
-                                        new InvHedController(context).updateIsSynced(c.getNONPRDHED_REFNO(), "1");
+                                        new DayNPrdHedController(context).updateIsSynced(c.getNONPRDHED_REFNO(), "1");
                                     }
                                 });
                             } else {
                                 Log.d(">>response" + status, "" + c.getNONPRDHED_REFNO());
                                 c.setNONPRDHED_IS_SYNCED("0");
-                                new InvHedController(context).updateIsSynced(c.getNONPRDHED_REFNO(), "0");
+                                new DayNPrdHedController(context).updateIsSynced(c.getNONPRDHED_REFNO(), "0");
                                 addRefNoResults(c.getNONPRDHED_REFNO() + " --> Failed\n", RCSList.size());
                             }
                         }

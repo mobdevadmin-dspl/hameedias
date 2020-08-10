@@ -325,7 +325,13 @@ public class TransactionDetailsFragment extends Fragment {
             type.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    deleteOrder(headerTitle.getORDER_REFNO());
+                    if(headerTitle.getORDER_IS_SYNCED().equals("0")){
+                        deleteOrder(headerTitle.getORDER_REFNO());
+                    }else{
+                        Toast.makeText(getActivity(),"Cannot delete synced orders",Toast.LENGTH_LONG).show();
+
+                    }
+
                 }
             });
             print.setOnClickListener(new View.OnClickListener() {
@@ -425,29 +431,9 @@ public class TransactionDetailsFragment extends Fragment {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
-                        ArrayList<InvHed> logHedList = new InvHedController(getActivity()).getAllUnsyncedforLog();
-                        new InvHedController(getActivity()).createOrUpdateInvHedLog(logHedList);
-                        ArrayList<InvDet> logDetList = new InvDetController(getActivity()).getAllInvDet(RefNo);
-                        new InvDetController(getActivity()).createOrUpdateBCInvDetLog(logDetList);
-                        prepareVanListData();
-                        int result = new InvHedController(getActivity()).restDataBC(RefNo);
-
-                        if (result>0) {
-                            new InvDetController(getActivity()).restData(RefNo);
-                            new ItemLocController(getActivity()).UpdateVanStock(RefNo,"+",new SalRepController(getActivity()).getCurrentLoccode().trim());
-                            InsertDeleteReason(RefNo);
-                            Toast.makeText(getActivity(), "Invoice deleted successfully..!", Toast.LENGTH_SHORT).show();
-
-                            prepareVanListData();
-                        }
-                        else
-                        {
-                            Toast.makeText(getActivity(), "Invoice delete unsuccess..!", Toast.LENGTH_SHORT).show();
-                            prepareVanListData();
-                        }
+                        InsertDeleteReason(RefNo);
 
 
-                        UtilityContainer.ClearReturnSharedPref(getActivity());
                     }
 
                     @Override
@@ -473,18 +459,34 @@ public class TransactionDetailsFragment extends Fragment {
 
         //initializations
         final EditText reason = (EditText) dltReasonDialog.findViewById(R.id.reason);
-
-
+        
         //close
         dltReasonDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (reason.length() > 0) {
+                if (reason.length() > 0 && !reason.getText().toString().equals("")) {
                     new InvHedController(getActivity()).updateDeleteReason(refno,reason.getText().toString());
+                    ArrayList<InvHed> logHedList = new InvHedController(getActivity()).getAllUnsyncedforLog();
+                    new InvHedController(getActivity()).createOrUpdateInvHedLog(logHedList);
+                    ArrayList<InvDet> logDetList = new InvDetController(getActivity()).getAllInvDet(refno);
+                    new InvDetController(getActivity()).createOrUpdateBCInvDetLog(logDetList);
                     prepareVanListData();
+                    int result = new InvHedController(getActivity()).restDataBC(refno);
+                    if (result>0) {
+                        new InvDetController(getActivity()).restData(refno);
+                        new ItemLocController(getActivity()).UpdateVanStock(refno,"+",new SalRepController(getActivity()).getCurrentLoccode().trim());
+                        Toast.makeText(getActivity(), "Invoice deleted successfully..!", Toast.LENGTH_SHORT).show();
+                        prepareVanListData();
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), "Invoice delete unsuccess..!", Toast.LENGTH_SHORT).show();
+                        prepareVanListData();
+                    }
                     dltReasonDialog.dismiss();
 
                 } else {
+                    Toast.makeText(getActivity(), "Please enter delete reason..!", Toast.LENGTH_SHORT).show();
                     dltReasonDialog.dismiss();
                 }
             }
@@ -657,7 +659,11 @@ public class TransactionDetailsFragment extends Fragment {
             type.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    deleteInvoice(headerTitle.getFINVHED_REFNO());
+                    if(headerTitle.getFINVHED_IS_SYNCED().equals("0")) {
+                        deleteInvoice(headerTitle.getFINVHED_REFNO());
+                    }else{
+                        Toast.makeText(getActivity(),"Cannot delete synced invoices",Toast.LENGTH_LONG).show();
+                    }
                 }
             });
             print.setOnClickListener(new View.OnClickListener() {

@@ -158,6 +158,8 @@ public interface ApiInterface {
     Call<String> uploadDeletedInvoice(@Body JsonArray orderlist, @Header("Content-Type") String cont_type);
     @POST("insertFDaynPrdHed")
     Call<String> uploadNonProd(@Body JsonArray nonpList, @Header("Content-Type") String cont_type);
+    @POST("insertFrecHed")
+    Call<String> uploadReceipt(@Body JsonArray nonpList, @Header("Content-Type") String cont_type);
 
     @POST("updateDebtorCordinates")
     Call<String> uploadDebtorCordinates(@Body JsonArray debtorCordinateList,@Header("Content_Type") String cont_type);

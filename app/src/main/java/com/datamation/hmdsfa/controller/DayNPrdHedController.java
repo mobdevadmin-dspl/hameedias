@@ -17,6 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.datamation.hmdsfa.helpers.DatabaseHelper.REFNO;
+
 public class DayNPrdHedController {
     public static final String SETTINGS = "SETTINGS";
     public static SharedPreferences localSP;
@@ -114,7 +116,43 @@ public class DayNPrdHedController {
         return count;
 
     }
+    public int updateIsSynced(String refno,String res) {
 
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+            ContentValues values = new ContentValues();
+
+
+
+            //if (hed.getORDER_IS_SYNCED().equals("1")) {
+            values.put(NONPRDHED_IS_SYNCED, res);
+            count = dB.update(TABLE_NONPRDHED, values, REFNO + " =?", new String[] { refno });
+//            }else{
+//                values.put(FORDHED_IS_SYNCED, "0");
+//                count = dB.update(TABLE_FORDHED, values, REFNO + " =?", new String[] { String.valueOf(hed.getORDER_REFNO()) });
+//            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public ArrayList<DayNPrdHed> getTodayNPHeds() {
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));

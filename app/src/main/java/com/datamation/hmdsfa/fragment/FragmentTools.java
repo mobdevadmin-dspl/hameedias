@@ -38,10 +38,13 @@ import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.api.TaskTypeUpload;
 import com.datamation.hmdsfa.barcode.upload.UploadExpenses;
 import com.datamation.hmdsfa.barcode.upload.UploadNonProd;
+import com.datamation.hmdsfa.barcode.upload.UploadReceipt;
 import com.datamation.hmdsfa.controller.AttendanceController;
 import com.datamation.hmdsfa.controller.NewCustomerController;
+import com.datamation.hmdsfa.controller.ReceiptController;
 import com.datamation.hmdsfa.model.Attendance;
 import com.datamation.hmdsfa.model.NewCustomer;
+import com.datamation.hmdsfa.model.ReceiptHed;
 import com.datamation.hmdsfa.settings.TaskTypeDownload;
 import com.datamation.hmdsfa.barcode.upload.UploadPreSales;
 import com.datamation.hmdsfa.controller.CustomerController;
@@ -523,9 +526,10 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             ArrayList<NewCustomer> newCustomersList = customerNwDS.getAllNewCustomersForSync();//9
                             SalesReturnController retHed = new SalesReturnController(getActivity());
                             ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
-                            // firebasetokenid - 10
+                            ArrayList<ReceiptHed> receiptlist = new ReceiptController(getActivity()).getAllUnsyncedRecHed();
+                                   // firebasetokenid - 10
 //                    /* If records available for upload then */
-                            if (retHedList.size() <= 0 && ordHedList.size() <= 0 && npHedList.size() <= 0  && attendList.size()<= 0 && debtorlist.size()<=0 && updExistingDebtors.size() <= 0 && imgDebtorList.size()<= 0 && exHedList.size()<=0)
+                            if (receiptlist.size() <= 0 && retHedList.size() <= 0 && ordHedList.size() <= 0 && npHedList.size() <= 0  && attendList.size()<= 0 && debtorlist.size()<=0 && updExistingDebtors.size() <= 0 && imgDebtorList.size()<= 0 && exHedList.size()<=0)
                             {
                                 Toast.makeText(getActivity(), "No Records to upload !", Toast.LENGTH_LONG).show();
                             }else {
@@ -851,12 +855,11 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             }
             break;
             case UPLOAD_NONPROD:{
-
+                ArrayList<ReceiptHed> receiplist = new ReceiptController(getActivity()).getAllUnsyncedRecHed();
+                new UploadReceipt(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_RECEIPT).execute(receiplist);
             }
             break;
-            case UPLOAD_RECEIPT: {
-
-                //                AttendanceController attendanceController = new AttendanceController(getActivity());//4
+            case UPLOAD_RECEIPT: {//                AttendanceController attendanceController = new AttendanceController(getActivity());//4
 //                ArrayList<Attendance> attendList = attendanceController.getUnsyncedTourData();
 //                new UploadAttendance(getActivity(), FragmentTools.this,attendList, TaskType.UPLOAD_ATTENDANCE).execute(attendList);
 //                Log.v(">>upload>>", "Upload attendance execute finish");
