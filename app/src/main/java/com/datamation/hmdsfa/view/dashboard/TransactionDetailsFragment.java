@@ -459,7 +459,7 @@ public class TransactionDetailsFragment extends Fragment {
 
         //initializations
         final EditText reason = (EditText) dltReasonDialog.findViewById(R.id.reason);
-        
+
         //close
         dltReasonDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
             @Override

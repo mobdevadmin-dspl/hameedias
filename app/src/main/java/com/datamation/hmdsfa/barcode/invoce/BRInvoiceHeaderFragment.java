@@ -355,7 +355,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
         try {
             listener = (VanSalesResponseListener) getActivity();
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement onButtonPressed");
+            throw new ClassCastException(e.toString() + " must implement onButtonPressed");
         }
     }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/

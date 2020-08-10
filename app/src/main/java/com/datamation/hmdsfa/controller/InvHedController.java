@@ -84,7 +84,50 @@ public class InvHedController {
     public void open() throws SQLException {
         dB = dbHelper.getWritableDatabase();
     }
+    public int IsSavedHeader(String refno) {
 
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+
+        try {
+
+            String selectQuery = "SELECT * FROM " + TABLE_FINVHED + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            ContentValues values = new ContentValues();
+
+            //  values.put(DatabaseHelper.FINVHED_IS_ACTIVE, "0");
+
+            int cn = cursor.getCount();
+            count = cn;
+
+//            if (cn > 0) {
+//                count = dB.update(DatabaseHelper.TABLE_FINVHED, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(refno)});
+//            } else {
+//                count = (int) dB.insert(DatabaseHelper.TABLE_FINVHED, null, values);
+//            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
     public int createOrUpdateInvHed(ArrayList<InvHed> list) {
 
         int count = 0;

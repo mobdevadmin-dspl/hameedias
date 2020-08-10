@@ -64,6 +64,7 @@ import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.freeissue.FreeIssue;
 import com.datamation.hmdsfa.helpers.BluetoothConnectionHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.helpers.VanSalesResponseListener;
 import com.datamation.hmdsfa.model.BarcodenvoiceDet;
 import com.datamation.hmdsfa.model.Discount;
 import com.datamation.hmdsfa.model.FreeItemDetails;
@@ -110,6 +111,7 @@ public class BRInvoiceDetailFragment extends Fragment{
     EditText etSearchField;
     ThreadConnectBTdevice threadConnectBTdevice;
     int clickCount = 0;
+    VanSalesResponseListener listener;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -583,16 +585,24 @@ public class BRInvoiceDetailFragment extends Fragment{
     }
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public void mToggleTextbox() {
-        if(!new BluetoothConnectionHelper(getActivity()).isSupportBluetooth()){
-            Toast.makeText(getActivity(),"FEATURE_BLUETOOTH NOT SUPPORTED", Toast.LENGTH_LONG).show();
-            connectionError();
+        new BluetoothConnectionHelper(getActivity()).enableBluetooth(getActivity());
+        if(new InvHedController(getActivity()).IsSavedHeader(RefNo)>0){
+            if(!new BluetoothConnectionHelper(getActivity()).isSupportBluetooth()){
+                Toast.makeText(getActivity(),"FEATURE_BLUETOOTH NOT SUPPORTED", Toast.LENGTH_LONG).show();
+                connectionError();
+            }
+
+            if(!new BluetoothConnectionHelper(getActivity()).isBluetoothHardwareSupport()){
+                Toast.makeText(getActivity(),"Bluetooth is not supported on this hardware platform", Toast.LENGTH_LONG).show();
+                connectionError();
+            }
+            showData();
+
+        }else{
+            listener.moveBackToCustomer(0);
+            Toast.makeText(getActivity(), "Cannot proceed,Please click arrow button to save header details...", Toast.LENGTH_LONG).show();
         }
 
-        if(!new BluetoothConnectionHelper(getActivity()).isBluetoothHardwareSupport()){
-            Toast.makeText(getActivity(),"Bluetooth is not supported on this hardware platform", Toast.LENGTH_LONG).show();
-            connectionError();
-        }
-        showData();
     }
 
     @Override
@@ -613,6 +623,11 @@ public class BRInvoiceDetailFragment extends Fragment{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            listener = (VanSalesResponseListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(e.toString() + " must implement onButtonPressed");
+        }
         new BluetoothConnectionHelper(getActivity()).enableBluetooth(getActivity());
         try {
             //MAC ADDRESS BT AUTO CONNECT.
