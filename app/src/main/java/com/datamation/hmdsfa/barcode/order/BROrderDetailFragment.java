@@ -111,6 +111,7 @@ public class BROrderDetailFragment extends Fragment{
         btnDiscount = (FloatingActionButton)  view.findViewById(R.id.btn_discount);
         itemArrayList = new ArrayList<>();
         tmpsoHed = new Order();
+        etSearchField.setFocusable(true);
         ///*****************************@rashmi******************************************************//
         showData();//@rashmi - show data when oncreate
         ArrayList<String> strList = new ArrayList<String>();//@rashmi - arraylist for transaction selection spinner

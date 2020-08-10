@@ -55,6 +55,7 @@
         android:background="@android:color/background_light"
         android:inputType="text"
         android:layout_gravity="center"
+        android:focusable="true"
         android:gravity="center"
         android:drawableRight="@android:drawable/ic_menu_search"
         android:maxLines="1"

@@ -129,6 +129,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         btnDiscount = (FloatingActionButton)  view.findViewById(R.id.btn_discount);
         itemArrayList = new ArrayList<>();
         setHasOptionsMenu(true);
+        etSearchField.setFocusable(true);
 
         ArrayList<String> strList = new ArrayList<String>();
         strList.add("ITEM WISE");
