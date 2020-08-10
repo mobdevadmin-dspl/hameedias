@@ -457,7 +457,8 @@ public class NewCustomerActivity extends AppCompatActivity {
 
                         } else {
                             ArrayList<TextInputEditText> fieldsList = new ArrayList<TextInputEditText>(Arrays.asList(customerName, Reg_date, town, route, addressline1, addressline2, city, contactPerson, contactNumber));
-                            String[] fieldsNmList = {"Customer Name", "Date", "Town", "Route", "Address line 1", "Address line 2", "City", "Contact person", "Contact Number"};
+                            //String[] fieldsNmList = {"Customer Name", "Date", "Town", "Route", "Address line 1", "Address line 2", "City", "Contact person", "Contact Number"};
+                            String[] fieldsNmList = {"Customer Name", "Date", "Address line 1", "Address line 2", "City", "Contact person", "Contact Number"};
                             int i = 0;
                             while (fieldsList.size() > i && fieldsNmList.length > i) {
                                 validateCusName(fieldsList.get(i), fieldsNmList[i]);
@@ -502,7 +503,8 @@ public class NewCustomerActivity extends AppCompatActivity {
 
                         } else {
                             ArrayList<TextInputEditText> fieldsList = new ArrayList<TextInputEditText>(Arrays.asList(customerName, Reg_date, town, route, addressline1, addressline2, city, contactPerson, contactNumber));
-                            String[] fieldsNmList = {"Customer Name", "Date", "Town", "Route", "Address line 1", "Address line 2", "City", "Contact person", "Contact Number"};
+                            //String[] fieldsNmList = {"Customer Name", "Date", "Town", "Route", "Address line 1", "Address line 2", "City", "Contact person", "Contact Number"};
+                            String[] fieldsNmList = {"Customer Name", "Date", "Address line 1", "Address line 2", "City", "Contact person", "Contact Number"};
                             int i = 0;
                             while (fieldsList.size() > i && fieldsNmList.length > i) {
                                 validateCusName(fieldsList.get(i), fieldsNmList[i]);

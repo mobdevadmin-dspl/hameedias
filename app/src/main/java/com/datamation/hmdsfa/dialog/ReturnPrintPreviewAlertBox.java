@@ -61,7 +61,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class VanSalePrintPreviewAlertBox {
+public class ReturnPrintPreviewAlertBox {
 
     public static final String SETTINGS = "SETTINGS";
     String printLineSeperatorNew = "--------------------------------------------";
@@ -107,7 +107,7 @@ public class VanSalePrintPreviewAlertBox {
         }
     };
 
-    public VanSalePrintPreviewAlertBox(Context context) {
+    public ReturnPrintPreviewAlertBox(Context context) {
         this.context = context;
     }
 
