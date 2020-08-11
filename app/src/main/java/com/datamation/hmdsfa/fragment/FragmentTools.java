@@ -734,10 +734,16 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         DayExpHedController exHed = new DayExpHedController(getActivity());
         ArrayList<DayExpHed> exHedList = exHed.getUnSyncedData();
 
-        ArrayList<Debtor> imgUpdDebtors = new CustomerController(getActivity()).getAllImagUpdatedDebtors();
-        // ArrayList<ReceiptHed> rcptHedList = receipts.getAllCompletedRecHed();
+        InvHedController hedDS = new InvHedController(getActivity());
+        ArrayList<InvHed> invHedList = hedDS.getAllUnsynced();
 
-        if (ordHedList.isEmpty() && npHedList.isEmpty() && exHedList.isEmpty()) {
+        SalesReturnController retHed = new SalesReturnController(getActivity());
+        ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
+
+        ArrayList<InvHed> invHedDltList = hedDS.getAllUnsyncedDeleteInvoices();
+        ArrayList<ReceiptHed> receiplist = new ReceiptController(getActivity()).getAllUnsyncedRecHed();
+
+        if (ordHedList.isEmpty() && npHedList.isEmpty() && receiplist.isEmpty() && exHedList.isEmpty() && invHedList.isEmpty() && retHedList.isEmpty() && invHedDltList.isEmpty()) {
             allUpload = true;
         } else {
             allUpload = false;
@@ -795,10 +801,11 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // InvoiceBarcodeController hedDS = new InvoiceBarcodeController(getActivity());
                     ArrayList<InvHed> invHedList = hedDS.getAllUnsynced();
 //                    /* If records available for upload then */
-                    if (invHedList.size() <= 0)
+                    if (invHedList.size() <= 0) {
                         Toast.makeText(getActivity(), "No Van Sale Records to upload !", Toast.LENGTH_LONG).show();
-                        new UploadVanSales(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_INVOICE).execute(invHedList);
-                        Log.v(">>8>>","Uploadinvoices execute finish");
+                    }
+                    new UploadVanSales(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_INVOICE).execute(invHedList);
+                    Log.v(">>8>>","Uploadinvoices execute finish");
 
                 }catch(Exception e){
                     Log.v("Exception in sync order",e.toString());
@@ -813,9 +820,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
                     if(retHedList.size() <= 0) {
                         Toast.makeText(getActivity(), "No Non Productive Records to upload !", Toast.LENGTH_LONG).show();
-                        new UploadSalesReturn(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_RETURNS).execute(retHedList);
-                        Log.v(">>8>>", "Upload sales return execute finish");
                     }
+                    new UploadSalesReturn(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_RETURNS).execute(retHedList);
+                    Log.v(">>8>>", "Upload sales return execute finish");
                 }
                 catch (Exception e)
                 {
@@ -831,9 +838,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                    /* If records available for upload then */
                     if (invHedList.size() <= 0){
                         Toast.makeText(getActivity(), "No deleted invoices to upload !", Toast.LENGTH_LONG).show();
-                        new UploadDeletedInvoices(getActivity(), FragmentTools.this,TaskTypeUpload.UPLOAD_DELETED_INVOICE).execute(invHedList);
-                        Log.v(">>8>>","Uploaddeleteinvoices execute finish");
                     }
+                    new UploadDeletedInvoices(getActivity(), FragmentTools.this,TaskTypeUpload.UPLOAD_DELETED_INVOICE).execute(invHedList);
+                    Log.v(">>8>>","Uploaddeleteinvoices execute finish");
                 }catch(Exception e){
                     Log.v("Exception in sync order",e.toString());
                 }
@@ -842,6 +849,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             case UPLOAD_DELETED_INVOICE: {
                 DayExpHedController exHed = new DayExpHedController(getActivity());
                 final ArrayList<DayExpHed> exHedList = exHed.getUnSyncedData();//8
+                if (exHedList.size() <= 0){
+                    Toast.makeText(getActivity(), "No expenses to upload !", Toast.LENGTH_LONG).show();
+                }
                 new UploadExpenses(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_EXPENSE).execute(exHedList);
                 Log.v(">>upload>>", "Upload expense execute finish");
 
@@ -850,12 +860,19 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
             case UPLOAD_EXPENSE: {
                 DayNPrdHedController npHed = new DayNPrdHedController(getActivity());
                 final ArrayList<DayNPrdHed> npHedList = npHed.getUnSyncedData();
+                if (npHedList.size() <= 0){
+                    Toast.makeText(getActivity(), "No nonproductives to upload !", Toast.LENGTH_LONG).show();
+                }
                 new UploadNonProd(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_NONPROD).execute(npHedList);
                 Log.v(">>upload>>", "Upload non productive execute finish");
             }
             break;
             case UPLOAD_NONPROD:{
+
                 ArrayList<ReceiptHed> receiplist = new ReceiptController(getActivity()).getAllUnsyncedRecHed();
+                if (receiplist.size() <= 0){
+                    Toast.makeText(getActivity(), "No receipts to upload !", Toast.LENGTH_LONG).show();
+                }
                 new UploadReceipt(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_RECEIPT).execute(receiplist);
             }
             break;
