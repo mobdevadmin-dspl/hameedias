@@ -36,6 +36,7 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.api.ApiCllient;
 import com.datamation.hmdsfa.api.ApiInterface;
 import com.datamation.hmdsfa.api.TaskTypeUpload;
+import com.datamation.hmdsfa.barcode.upload.UploadDeletedInvoices;
 import com.datamation.hmdsfa.barcode.upload.UploadExpenses;
 import com.datamation.hmdsfa.barcode.upload.UploadNonProd;
 import com.datamation.hmdsfa.barcode.upload.UploadReceipt;
@@ -76,7 +77,6 @@ import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
 import com.datamation.hmdsfa.barcode.upload.UploadSalesReturn;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.utils.UtilityContainer;
-import com.datamation.hmdsfa.vansale.UploadDeletedInvoices;
 import com.datamation.hmdsfa.barcode.upload.UploadVanSales;
 import com.datamation.hmdsfa.view.DayExpenseActivity;
 import com.google.firebase.database.DatabaseReference;
@@ -831,7 +831,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                    /* If records available for upload then */
                     if (invHedList.size() <= 0){
                         Toast.makeText(getActivity(), "No deleted invoices to upload !", Toast.LENGTH_LONG).show();
-                        new UploadDeletedInvoices(getActivity(), FragmentTools.this).execute(invHedList);
+                        new UploadDeletedInvoices(getActivity(), FragmentTools.this,TaskTypeUpload.UPLOAD_DELETED_INVOICE).execute(invHedList);
                         Log.v(">>8>>","Uploaddeleteinvoices execute finish");
                     }
                 }catch(Exception e){
