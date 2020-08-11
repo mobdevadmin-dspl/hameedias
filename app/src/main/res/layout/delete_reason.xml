@@ -45,16 +45,33 @@
             android:hint="Enter delete reason" />
 
     </TableRow>
-
-    <com.datamation.hmdsfa.utils.CustomBtn
+    <TableRow
         android:layout_width="match_parent"
-        android:id="@+id/close"
+        android:layout_height="match_parent"
+        android:padding="15dp"
         android:background="@drawable/bottom_button_bg"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="20sp"
-        android:textColor="#fff"
-        android:text="OK" />
+        android:weightSum="2">
+
+        <com.datamation.hmdsfa.utils.CustomBtn
+            android:layout_width="match_parent"
+            android:id="@+id/close"
+            android:background="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:text="OK" />
+        <com.datamation.hmdsfa.utils.CustomBtn
+            android:layout_width="match_parent"
+            android:id="@+id/exit"
+            android:background="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:text="CLOSE" />
+    </TableRow>
+
 
 
 </LinearLayout>

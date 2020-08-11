@@ -99,17 +99,6 @@ public class TransactionDetailsFragment extends Fragment {
 
         expListView = (ExpandableListView) view.findViewById(R.id.lvExp);
 
-//        final int[] prevExpandPosition = {-1};
-//        //Lisview on group expand listner... to close other expanded headers...
-//        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-//            @Override
-//            public void onGroupExpand(int i) {
-//                if (prevExpandPosition[0] >= 0) {
-//                    expListView.collapseGroup(prevExpandPosition[0]);
-//                }
-//                prevExpandPosition[0] = i;
-//            }
-//        });
 
         spnTrans.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -459,7 +448,13 @@ public class TransactionDetailsFragment extends Fragment {
 
         //initializations
         final EditText reason = (EditText) dltReasonDialog.findViewById(R.id.reason);
-
+        //exit
+        dltReasonDialog.findViewById(R.id.exit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    dltReasonDialog.dismiss();
+            }
+        });
         //close
         dltReasonDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
             @Override

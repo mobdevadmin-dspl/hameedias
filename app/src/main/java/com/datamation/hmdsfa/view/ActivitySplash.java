@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import android.util.Log;
@@ -39,6 +41,7 @@ import com.datamation.hmdsfa.model.apimodel.ReadJsonList;
 import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.utils.GetMacAddress;
+import com.karan.churi.PermissionManager.PermissionManager;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.util.ArrayList;
@@ -57,6 +60,7 @@ public class ActivitySplash extends AppCompatActivity{
     DatabaseHelper db;
     private SharedPref pref;
     private NetworkFunctions networkFunctions;
+    PermissionManager permissionManager;
     private String TAG = "ActivitySplash";
     private TextView tryAgain;
     private SearchableSpinner DBList;
@@ -68,7 +72,8 @@ public class ActivitySplash extends AppCompatActivity{
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View v = layoutInflater.inflate(R.layout.activity_splash, null);
         setContentView(v);
-
+        permissionManager = new PermissionManager() {};
+        permissionManager.checkAndRequestPermissions(this);
         db=new DatabaseHelper(getApplicationContext());
         SQLiteDatabase SFA;
         SFA = db.getWritableDatabase();
@@ -260,7 +265,12 @@ public class ActivitySplash extends AppCompatActivity{
 
 
     //without console database- implement 2020-02-28 by rashmi for hameedia
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+        permissionManager.checkResult(requestCode,permissions,grantResults);
+    }
     private void validateDialog() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         final View promptView = layoutInflater.inflate(R.layout.ip_connection_dailog, null);

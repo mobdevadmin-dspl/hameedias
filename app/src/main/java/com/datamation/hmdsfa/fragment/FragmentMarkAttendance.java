@@ -194,7 +194,7 @@ public class FragmentMarkAttendance extends Fragment implements View.OnClickList
         switch (id) {
             case R.id.buttonStart:
                 if (TextUtils.isDigitsOnly(editTextEkm.getText())) {
-                    if (editTextDate.length() > 0 && editTextStime.length() > 0 && editTextVehicle.length() > 0 && editTextDriver.length() > 0 && editTextAsst.length() > 0) {
+                    if (editTextDate.length() > 0 && editTextStime.length() > 0 && editTextVehicle.length() > 0 && editTextDriver.length() > 0 ) {
                         AttendanceController tourDS = new AttendanceController(getActivity());
 
                         Attendance tour = new Attendance();
@@ -202,7 +202,8 @@ public class FragmentMarkAttendance extends Fragment implements View.OnClickList
                         tour.setFTOUR_S_TIME(editTextStime.getText().toString());
                         tour.setFTOUR_VEHICLE(editTextVehicle.getText().toString());
                         tour.setFTOUR_DRIVER(editTextDriver.getText().toString());
-                        tour.setFTOUR_ASSIST(editTextAsst.getText().toString());
+                       // tour.setFTOUR_ASSIST(editTextAsst.getText().toString());
+                        tour.setFTOUR_ASSIST("No assistant for hameedias");
                         tour.setFTOUR_S_KM(editTextSkm.getText().toString());
                         tour.setFTOUR_ROUTE(editTextRoute.getText().toString());
                         tour.setFTOUR_IS_SYNCED("0");
