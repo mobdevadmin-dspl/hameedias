@@ -93,7 +93,11 @@ public class VATController {
 
 		ArrayList<TaxDet> list = new ArrayList<TaxDet>();
 
-		String selectQuery = "select * from " + TABLE_VAT + " WHERE " + VATCODE + "='" + taxCode + "' and VatPer <> '0'";
+// Old Code		String selectQuery = "select * from " + TABLE_VAT + " WHERE " + VATCODE + "='" + taxCode + "' and VatPer <> '0'";
+
+		// Edited by Menaka
+		String selectQuery = "select * from " + TABLE_VAT + " WHERE Trim(" + VATDESCRIPTION + ")='" + taxCode + "' and VatPer <> '0'";
+		// Edited by Menaka
 		try {
 			Cursor cursor = dB.rawQuery(selectQuery, null);
 
