@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import com.datamation.hmdsfa.helpers.BluetoothConnectionHelper;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
@@ -130,7 +132,7 @@ public class ActivitySplash extends AppCompatActivity{
 //                }
 //            }
 //        });
-
+        new BluetoothConnectionHelper(this).enableBluetooth(ActivitySplash.this);
     }
 
     //with console database - commented rashmi 2020-02-28 {this is need for distributor systems like magnes , swadeshi..hide for hameedia}

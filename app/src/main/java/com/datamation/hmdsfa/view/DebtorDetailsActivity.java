@@ -36,6 +36,7 @@ import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.SalesReturnDetController;
 import com.datamation.hmdsfa.fragment.debtordetails.HistoryDetailsFragment;
 import com.datamation.hmdsfa.fragment.debtordetails.NearDebtorFragment;
+import com.datamation.hmdsfa.helpers.BluetoothConnectionHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.Customer;
 import com.datamation.hmdsfa.fragment.debtordetails.CompetitorDetailsFragment;
@@ -105,7 +106,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
 
         dbHandler = new DatabaseHelper(this);
         sharedPref = SharedPref.getInstance(DebtorDetailsActivity.this);
-
+        new BluetoothConnectionHelper(this).enableBluetooth(this);
         user = sharedPref.getLoginUser();
         context = this;
         gpsTracker = new GPSTracker(context);
