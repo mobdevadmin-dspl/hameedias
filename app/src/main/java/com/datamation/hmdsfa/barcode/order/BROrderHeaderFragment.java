@@ -341,7 +341,7 @@ public class BROrderHeaderFragment extends Fragment implements DatePickerDialog.
                                 public void onPositive(MaterialDialog dialog) {
                                     super.onPositive(dialog);
                                     Intent back = new Intent(getActivity(), DebtorDetailsActivity.class);
-                                    back.putExtra("outlet",new CustomerController(getActivity()).getSelectedCustomerByCode(SharedPref.getInstance(getActivity()).getSelectedDebCode()));
+                                    back.putExtra("outlet",new CustomerController(getActivity()).getSelectedCustomerByCode(pref.getSelectedDebCode()));
                                     startActivity(back);
                                     getActivity().finish();
                                     dialog.dismiss();
@@ -470,7 +470,7 @@ public class BROrderHeaderFragment extends Fragment implements DatePickerDialog.
     public void onResume() {
         super.onResume();
         r = new BROrderHeaderFragment.MyReceiver();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_HEADER"));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_PRE_HEADER"));
         checkdate();
     }
 

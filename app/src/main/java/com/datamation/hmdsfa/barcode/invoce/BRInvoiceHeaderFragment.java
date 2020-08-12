@@ -321,6 +321,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
                                 public void onPositive(MaterialDialog dialog) {
                                     super.onPositive(dialog);
                                     Intent back = new Intent(getActivity(), DebtorDetailsActivity.class);
+                                    back.putExtra("outlet",new CustomerController(getActivity()).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode()));
                                     startActivity(back);
                                     getActivity().finish();
                                     dialog.dismiss();

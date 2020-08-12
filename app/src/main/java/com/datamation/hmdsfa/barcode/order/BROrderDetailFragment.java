@@ -16,6 +16,9 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -112,6 +115,7 @@ public class BROrderDetailFragment extends Fragment{
         itemArrayList = new ArrayList<>();
         tmpsoHed = new Order();
         etSearchField.setFocusable(true);
+        setHasOptionsMenu(true);
         ///*****************************@rashmi******************************************************//
         showData();//@rashmi - show data when oncreate
         ArrayList<String> strList = new ArrayList<String>();//@rashmi - arraylist for transaction selection spinner
@@ -328,7 +332,42 @@ public class BROrderDetailFragment extends Fragment{
         alertD.show();
         return true;
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getActivity().getMenuInflater().inflate(R.menu.menu_barcode, menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                getActivity().finish();
+                return true;
 
+            case R.id.menu_item2: { // REFRESH BLUETOOTH CONNECTION
+                try {
+                    threadConnectBTdevice.cancel();
+                }catch ( Exception e ){
+                    // e.printStackTrace();
+                }finally {
+                    try {
+                        threadConnectBTdevice = new ThreadConnectBTdevice(new BluetoothConnectionHelper(getActivity()).getDevice());
+                        threadConnectBTdevice.start();
+                    } catch (Exception e) {
+                        // e.printStackTrace();
+                    }
+
+
+                }
+
+            }
+
+            return true;
+
+
+        }
+        return(super.onOptionsItemSelected(item));
+    }
 
     public void mToggleTextbox()
     {
@@ -362,6 +401,9 @@ public class BROrderDetailFragment extends Fragment{
     public void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
+        if(threadConnectBTdevice!=null){
+            threadConnectBTdevice.cancel();
+        }
     }
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
@@ -369,7 +411,7 @@ public class BROrderDetailFragment extends Fragment{
     public void onResume() {
         super.onResume();
         r = new MyReceiver();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_DETAILS"));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_PRE_DETAILS"));
     }
 
     private class MyReceiver extends BroadcastReceiver {
@@ -533,6 +575,14 @@ public class BROrderDetailFragment extends Fragment{
         }catch ( Exception ex ){
             Toast.makeText(getActivity(),ex.toString(), Toast.LENGTH_LONG).show();
             connectionError();
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if(threadConnectBTdevice!=null){
+            threadConnectBTdevice.cancel();
         }
     }
 
