@@ -189,7 +189,6 @@ public class BROrderDetailFragment extends Fragment{
         });
 
         ///*****************************@rashmi******************************************************//
-        if(new OrderController(getActivity()).IsSavedHeader(RefNo)>0){
             etSearchField.setOnEditorActionListener(new EditText.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {//@rashmi-itemwise or bundle wise scan via edittext
@@ -250,10 +249,7 @@ public class BROrderDetailFragment extends Fragment{
 //                    }
 //            });
 
-        }else{
-            preSalesResponseListener.moveBackToCustomer_pre(0);
-            Toast.makeText(getActivity(), "Cannot proceed,Please click arrow button to save header details...", Toast.LENGTH_LONG).show();
-        }
+
 
         btnDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -371,16 +367,21 @@ public class BROrderDetailFragment extends Fragment{
 
     public void mToggleTextbox()
     {
-        if(!new BluetoothConnectionHelper(getActivity()).isSupportBluetooth()){
-            Toast.makeText(getActivity(),"FEATURE_BLUETOOTH NOT SUPPORTED", Toast.LENGTH_LONG).show();
-            connectionError();
-        }
+        if(new OrderController(getActivity()).IsSavedHeader(RefNo)>0) {
+            if (!new BluetoothConnectionHelper(getActivity()).isSupportBluetooth()) {
+                Toast.makeText(getActivity(), "FEATURE_BLUETOOTH NOT SUPPORTED", Toast.LENGTH_LONG).show();
+                connectionError();
+            }
 
-        if(!new BluetoothConnectionHelper(getActivity()).isBluetoothHardwareSupport()){
-            Toast.makeText(getActivity(),"Bluetooth is not supported on this hardware platform", Toast.LENGTH_LONG).show();
-            connectionError();
+            if (!new BluetoothConnectionHelper(getActivity()).isBluetoothHardwareSupport()) {
+                Toast.makeText(getActivity(), "Bluetooth is not supported on this hardware platform", Toast.LENGTH_LONG).show();
+                connectionError();
+            }
+            showData();
+        }else{
+            preSalesResponseListener.moveBackToCustomer_pre(0);
+            Toast.makeText(getActivity(), "Cannot proceed,Please click arrow button to save header details...", Toast.LENGTH_LONG).show();
         }
-        showData();
     }
 
     @Override
