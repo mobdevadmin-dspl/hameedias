@@ -165,11 +165,12 @@ public class BROrderSummaryFragment extends Fragment {
                 Log.d("<<<current Longi<<<<", " " + currentLongitude);
                 Log.d("<<<current Lati<<<<", " " + currentLatitude);
                 Log.d("<<<Distance<<<<", " " + distance);
-                if (distance <= 50) {
-                    popupFeedBack(getActivity());
-                } else {
-                    Toast.makeText(getActivity(), "You are out of customer location.Please go to customer's location to continue..", Toast.LENGTH_SHORT).show();
-                }
+            //    if (distance <= 50) {
+                   // popupFeedBack(getActivity());commented for hameedias bcs this is swadeshi requirement
+                saveSummaryDialog();
+//                } else {
+//                    Toast.makeText(getActivity(), "You are out of customer location.Please go to customer's location to continue..", Toast.LENGTH_SHORT).show();
+//                }
 
             }
         });

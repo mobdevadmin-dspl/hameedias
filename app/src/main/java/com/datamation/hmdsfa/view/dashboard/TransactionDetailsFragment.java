@@ -106,20 +106,20 @@ public class TransactionDetailsFragment extends Fragment {
                 if (position==0)
                 {
                     expListView.setAdapter((BaseExpandableListAdapter)null);
-                    //expListView.clearTextFilter();
+                    expListView.clearTextFilter();
                     prepareVanListData();
                 }
                 else if (position == 1)
                 {
 
                     expListView.setAdapter((BaseExpandableListAdapter)null);
-                    //expListView.clearTextFilter();
+                    expListView.clearTextFilter();
                     preparePreListData();
                 }
                 else
                 {
                     expListView.setAdapter((BaseExpandableListAdapter)null);
-                    //expListView.clearTextFilter();
+                    expListView.clearTextFilter();
                     prepareRetListData();
                 }
             }
@@ -171,6 +171,14 @@ public class TransactionDetailsFragment extends Fragment {
         if (listVanDataHeader.size()== 0)
         {
             Toast.makeText(getActivity(), "No data to display", Toast.LENGTH_LONG).show();
+            listVanDataChild = new HashMap<InvHed, List<InvDet>>();
+
+            for(InvHed free : listVanDataHeader){
+                listVanDataChild.put(free,new InvDetController(getActivity()).getTodayOrderDets(free.getFINVHED_REFNO()));
+            }
+
+            listVanAdapter = new ExpandableVanListAdapter(getActivity(), listVanDataHeader, listVanDataChild);
+            expListView.setAdapter(listVanAdapter);
         }
         else
         {
@@ -421,8 +429,7 @@ public class TransactionDetailsFragment extends Fragment {
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
                         InsertDeleteReason(RefNo);
-
-
+                        listVanAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -453,30 +460,31 @@ public class TransactionDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                     dltReasonDialog.dismiss();
+                prepareVanListData();
             }
         });
         //close
         dltReasonDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (reason.length() > 0 && !reason.getText().toString().equals("")) {
                     new InvHedController(getActivity()).updateDeleteReason(refno,reason.getText().toString());
                     ArrayList<InvHed> logHedList = new InvHedController(getActivity()).getAllUnsyncedforLog();
                     new InvHedController(getActivity()).createOrUpdateInvHedLog(logHedList);
                     ArrayList<InvDet> logDetList = new InvDetController(getActivity()).getAllInvDet(refno);
                     new InvDetController(getActivity()).createOrUpdateBCInvDetLog(logDetList);
-                    prepareVanListData();
                     int result = new InvHedController(getActivity()).restDataBC(refno);
                     if (result>0) {
                         new InvDetController(getActivity()).restData(refno);
                         new ItemLocController(getActivity()).UpdateVanStock(refno,"+",new SalRepController(getActivity()).getCurrentLoccode().trim());
-                        Toast.makeText(getActivity(), "Invoice deleted successfully..!", Toast.LENGTH_SHORT).show();
                         prepareVanListData();
+                        Toast.makeText(getActivity(), "Invoice deleted successfully..!", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
                         Toast.makeText(getActivity(), "Invoice delete unsuccess..!", Toast.LENGTH_SHORT).show();
-                        prepareVanListData();
+
                     }
                     dltReasonDialog.dismiss();
 
