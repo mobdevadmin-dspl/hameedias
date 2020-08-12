@@ -57,14 +57,16 @@ public class OrderDetailsAdapter extends BaseAdapter {
             viewHolder.lblItem = (TextView) convertView.findViewById(R.id.row_item);
             viewHolder.lblQty = (TextView) convertView.findViewById(R.id.row_cases);
             viewHolder.lblAMt = (TextView) convertView.findViewById(R.id.row_piece);
+            viewHolder.lblBarcode = (TextView) convertView.findViewById(R.id.row_pieces);
             viewHolder.showStatus=(TextView)convertView.findViewById(R.id.row_free_status);
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         ItemBundleController ds = new ItemBundleController(context);
-        viewHolder.lblItem.setText(list.get(position).getFORDERDET_BARCODE()+ " - "+list.get(position).getFORDERDET_ITEMCODE()+ " - " +ds.getItemNameByCode(list.get(position).getFORDERDET_ITEMCODE()));
+        viewHolder.lblItem.setText(list.get(position).getFORDERDET_ITEMCODE()+ " - " +ds.getItemNameByCode(list.get(position).getFORDERDET_ITEMCODE()));
         viewHolder.lblQty.setText(list.get(position).getFORDERDET_QTY());
+        viewHolder.lblBarcode.setText(list.get(position).getFORDERDET_BARCODE());
      //   String sArray[] = new TaxDetController(context).calculateTaxForwardFromDebTax(debCode, list.get(position).getFORDERDET_ITEMCODE(), Double.parseDouble(list.get(position).getFORDERDET_AMT()));
         String amt = String.format("%.2f",Double.parseDouble(list.get(position).getFORDERDET_AMT()));
         viewHolder.lblAMt.setText(amt);
@@ -83,6 +85,7 @@ public class OrderDetailsAdapter extends BaseAdapter {
         TextView lblItem;
         TextView lblQty;
         TextView lblAMt;
+        TextView lblBarcode;
         TextView showStatus;
 
     }

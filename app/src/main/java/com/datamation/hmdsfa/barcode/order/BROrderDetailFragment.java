@@ -189,31 +189,32 @@ public class BROrderDetailFragment extends Fragment{
         });
 
         ///*****************************@rashmi******************************************************//
+        if(new OrderController(getActivity()).IsSavedHeader(RefNo)>0) {
             etSearchField.setOnEditorActionListener(new EditText.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {//@rashmi-itemwise or bundle wise scan via edittext
                     clickCount = 0;
                     mSharedPref.setDiscountClicked("0");
-                    if(spnScanType.getSelectedItemPosition() == 0) {
+                    if (spnScanType.getSelectedItemPosition() == 0) {
                         ArrayList<ItemBundle> itemBundle = new BarcodeVarientController(getActivity())
                                 .getItemsInBundle(etSearchField.getText().toString());
                         Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
-                        if(itemBundle.size()==1) {
+                        if (itemBundle.size() == 1) {
                             selectedItem = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
                             updateOrderDet(selectedItem);
                             showData();
-                        }else{
-                            Toast.makeText(getActivity(),"No matching item",Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), "No matching item", Toast.LENGTH_LONG).show();
                         }
                         etSearchField.setText("");
                         etSearchField.setFocusable(true);
-                    }else{
+                    } else {
                         ArrayList<ItemBundle> itemBundle = new ItemBundleController(getActivity())
                                 .getItemsInBundle(etSearchField.getText().toString());
-                        if(itemBundle.size()>0) {
+                        if (itemBundle.size() > 0) {
                             BundleItemsDialogBox(itemBundle);
-                        }else{
-                            Toast.makeText(getActivity(),"No matching bundle",Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), "No matching bundle", Toast.LENGTH_LONG).show();
                         }
                         etSearchField.setText("");
                         etSearchField.setFocusable(true);
@@ -221,6 +222,7 @@ public class BROrderDetailFragment extends Fragment{
                     return false;
                 }
             });
+        }
             etSearchField.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
