@@ -189,7 +189,7 @@ public class BROrderDetailFragment extends Fragment{
         });
 
         ///*****************************@rashmi******************************************************//
-        if(new OrderController(getActivity()).IsSavedHeader(RefNo)>0) {
+
             etSearchField.setOnEditorActionListener(new EditText.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {//@rashmi-itemwise or bundle wise scan via edittext
@@ -222,7 +222,7 @@ public class BROrderDetailFragment extends Fragment{
                     return false;
                 }
             });
-        }
+
             etSearchField.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
