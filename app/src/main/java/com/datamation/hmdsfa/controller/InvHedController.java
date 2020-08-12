@@ -238,6 +238,43 @@ public class InvHedController {
         return count;
 
     }
+    public int updateIsSyncedLogTbl(String refno,String res) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+            ContentValues values = new ContentValues();
+
+
+
+            //if (hed.getORDER_IS_SYNCED().equals("1")) {
+            values.put(FINVHED_IS_SYNCED, res);
+            count = dB.update(TABLE_FINVHED_LOG, values, REFNO + " =?", new String[] { refno });
+//            }else{
+//                values.put(FORDHED_IS_SYNCED, "0");
+//                count = dB.update(TABLE_FORDHED, values, REFNO + " =?", new String[] { String.valueOf(hed.getORDER_REFNO()) });
+//            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
     public int createOrUpdateInvHedLog(ArrayList<InvHed> list) {
 
         int count = 0;

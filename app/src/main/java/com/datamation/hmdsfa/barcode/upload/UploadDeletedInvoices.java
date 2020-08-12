@@ -94,13 +94,13 @@ public class UploadDeletedInvoices extends AsyncTask<ArrayList<InvHed>, Integer,
                                     public void run() {
                                         c.setFINVHED_IS_SYNCED("1");
                                         addRefNoResults(c.getFINVHED_REFNO() + " --> Success\n", RCSList.size());
-                                        new InvHedController(context).updateIsSynced(c.getFINVHED_REFNO(), "1");
+                                        new InvHedController(context).updateIsSyncedLogTbl(c.getFINVHED_REFNO(), "1");
                                     }
                                 });
                             } else {
                                 Log.d(">>response" + status, "" + c.getFINVHED_REFNO());
                                 c.setFINVHED_IS_SYNCED("0");
-                                new InvHedController(context).updateIsSynced(c.getFINVHED_REFNO(), "0");
+                                new InvHedController(context).updateIsSyncedLogTbl(c.getFINVHED_REFNO(), "0");
                                 addRefNoResults(c.getFINVHED_REFNO() + " --> Failed\n", RCSList.size());
                             }
                         }

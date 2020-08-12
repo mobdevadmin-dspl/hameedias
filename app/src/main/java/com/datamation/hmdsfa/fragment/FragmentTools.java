@@ -793,7 +793,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
     @Override
     public void onTaskCompleted(TaskTypeUpload taskType, List<String> list) {
-        resultList.addAll(list);
+        if(list != null) {
+            resultList.addAll(list);
+        }
         switch (taskType) {
             case UPLOAD_ORDER: {
                 try {//Van sale upload - 2020-03-24-rashmi
@@ -876,13 +878,13 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 new UploadReceipt(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_RECEIPT).execute(receiplist);
             }
             break;
-            case UPLOAD_RECEIPT: {//                AttendanceController attendanceController = new AttendanceController(getActivity());//4
-//                ArrayList<Attendance> attendList = attendanceController.getUnsyncedTourData();
-//                new UploadAttendance(getActivity(), FragmentTools.this,attendList, TaskType.UPLOAD_ATTENDANCE).execute(attendList);
-//                Log.v(">>upload>>", "Upload attendance execute finish");
-            }
-            break;
-            case UPLOAD_ATTENDANCE:{
+//            case UPLOAD_RECEIPT: {//                AttendanceController attendanceController = new AttendanceController(getActivity());//4
+////                ArrayList<Attendance> attendList = attendanceController.getUnsyncedTourData();
+////                new UploadAttendance(getActivity(), FragmentTools.this,attendList, TaskType.UPLOAD_ATTENDANCE).execute(attendList);
+////                Log.v(">>upload>>", "Upload attendance execute finish");
+//            }
+//            break;
+            case UPLOAD_RECEIPT:{
 
                 Log.v(">>upload>>", "all upload finish");
 
@@ -892,6 +894,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 }
                 resultList.clear();
                 mUploadResult(msg);
+
             }
             break;
             default:
@@ -901,13 +904,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
     @Override
     public void onTaskCompleted(List<String> list) {
-        resultList.addAll(list);
-        String msg = "";
-        for (String s : list) {
-            msg += s;
-        }
-        resultList.clear();
-        mUploadResult(msg);
+
     }
 
     //**********************secondary sysnc start***********************************************/
