@@ -366,7 +366,7 @@ public class BRSalesReturnSummary extends Fragment {
                         mainHead.setFINVRHED_LONGITUDE(HedList.get(0).getFINVRHED_LONGITUDE());
                         mainHead.setFINVRHED_LATITUDE(HedList.get(0).getFINVRHED_LATITUDE());
                         mainHead.setFINVRHED_START_TIME(HedList.get(0).getFINVRHED_START_TIME());
-                        mainHead.setFINVRHED_END_TIME(HedList.get(0).getFINVRHED_END_TIME());
+                        mainHead.setFINVRHED_END_TIME(currentTime());
                         mainHead.setFINVRHED_IS_ACTIVE("0");
                         mainHead.setFINVRHED_IS_SYNCED("0");
                         mainHead.setFINVRHED_REP_CODE(HedList.get(0).getFINVRHED_REP_CODE());

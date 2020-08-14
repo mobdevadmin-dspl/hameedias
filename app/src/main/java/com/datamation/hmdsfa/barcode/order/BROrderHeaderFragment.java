@@ -225,6 +225,7 @@ public class BROrderHeaderFragment extends Fragment implements DatePickerDialog.
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
+                new SharedPref(getActivity()).setGlobalVal("KeyVat", spnVat.getSelectedItem().toString().split("-")[0].trim());
 
             }
         });
@@ -267,7 +268,8 @@ public class BROrderHeaderFragment extends Fragment implements DatePickerDialog.
                     Log.d("<<<txtRoute<<<<", " " + txtRoute.getText().toString());
                     preSalesResponseListener.moveBackToCustomer_pre(0);
                     Toast.makeText(getActivity(), "Can not proceed without Route...", Toast.LENGTH_LONG).show();
-  checkdate();              }
+                    checkdate();
+                }
                 else
                 {
                     //preSalesResponseListener.moveNextToCustomer_pre(1);

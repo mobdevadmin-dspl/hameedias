@@ -42,6 +42,9 @@ public class SalesReturnDetController
     public static final String FINVRDET_REASON_CODE = "ReasonCode";
     public static final String FINVRDET_REASON_NAME = "ReasonName";
     public static final String FINVRDET_RETURN_TYPE = "ReturnType";
+    public static final String FINVRDET_BARCODE = "Barcode";
+    public static final String FINVRDET_ARICLENO = "Articleno";
+    public static final String FINVRDET_VARIANT_CODE = "Variantcode";
     public static final String FINVRDET_CHANGED_PRICE = "ChangedPrice";
     public static final String CREATE_FINVRDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVRDET + " ( "
             + FINVRDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -63,6 +66,9 @@ public class SalesReturnDetController
             + FINVRDET_REASON_CODE + " TEXT, "
             + FINVRDET_REASON_NAME + " TEXT, "
             + FINVRDET_RETURN_TYPE + " TEXT, "
+            + FINVRDET_BARCODE + " TEXT, "
+            + FINVRDET_ARICLENO + " TEXT, "
+            + FINVRDET_VARIANT_CODE + " TEXT, "
             + FINVRDET_CHANGED_PRICE + " TEXT DEFAULT 0, "
             + FINVRDET_SEQNO + " TEXT); ";
     public SalesReturnDetController(Context context) {
@@ -92,7 +98,9 @@ public class SalesReturnDetController
 
                 ContentValues values = new ContentValues();
 
-                String selectQuery = "SELECT * FROM " + TABLE_FINVRDET + " WHERE " + FINVRDET_ID + " = '" + invrDet.getFINVRDET_ID() + "'";
+                //String selectQuery = "SELECT * FROM " + TABLE_FINVRDET + " WHERE " + FINVRDET_ID + " = '" + invrDet.getFINVRDET_ID() + "'";
+                String selectQuery = "SELECT * FROM " + TABLE_FINVRDET + " WHERE " + FINVRDET_BARCODE
+                        + " = '" + invrDet.getFINVRDET_BARCODE() + "' and "+DatabaseHelper.REFNO+" = '"+invrDet.getFINVRDET_REFNO()+"'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
@@ -115,20 +123,21 @@ public class SalesReturnDetController
                 values.put(FINVRDET_REASON_NAME, invrDet.getFINVRDET_RETURN_REASON());
                 values.put(FINVRDET_REASON_CODE, invrDet.getFINVRDET_RETURN_REASON_CODE());
                 values.put(FINVRDET_RETURN_TYPE, invrDet.getFINVRDET_RETURN_TYPE());
+                values.put(FINVRDET_BARCODE, invrDet.getFINVRDET_BARCODE());
+                values.put(FINVRDET_ARICLENO, invrDet.getFINVRDET_ARTICLENO());
+                values.put(FINVRDET_VARIANT_CODE, invrDet.getFINVRDET_VARIANTCODE());
                 //values.put(FINVRDET_FREE_QTY, invrDet.getFr());
                 // values.put(FINVRDET_PRICE, invrDet.getFINVRDET_SELL_PRICE());
                 values.put(FINVRDET_CHANGED_PRICE, invrDet.getFINVRDET_CHANGED_PRICE());
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
-
-                    count = dB.update(TABLE_FINVRDET, values, FINVRDET_ID + " =?", new String[]{String
-                            .valueOf(invrDet.getFINVRDET_ID())});
-
+                    String updateQuery = "UPDATE FInvRDet SET Qty= Qty+'" + invrDet.getFINVRDET_QTY() + "', Amt= Amt+'" + invrDet.getFINVRDET_AMT() + "' where RefNo = '"+ invrDet.getFINVRDET_REFNO()+"' and Barcode = '"+invrDet.getFINVRDET_BARCODE()+"'";
+                    dB.execSQL(updateQuery);
+                    count = 1;
                 } else {
                     count = (int) dB.insert(TABLE_FINVRDET, null, values);
                 }
-
             }
 
         } catch (Exception e) {
@@ -422,9 +431,10 @@ public class SalesReturnDetController
                 invrDet.setFINVRDET_RETURN_REASON(cursor.getString(cursor.getColumnIndex(FINVRDET_REASON_NAME)));
                 invrDet.setFINVRDET_RETURN_REASON_CODE(cursor.getString(cursor.getColumnIndex(FINVRDET_REASON_CODE)));
                 invrDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(FINVRDET_RETURN_TYPE)));
-                //invrDet.setFINVRDET_PRICE(cursor.getString(cursor.getColumnIndex(FINVRDET_PRICE)));
+                invrDet.setFINVRDET_BARCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_BARCODE)));
                 invrDet.setFINVRDET_CHANGED_PRICE(cursor.getString(cursor.getColumnIndex(FINVRDET_CHANGED_PRICE)));
-                //invrDet.setFINVRDET_DIS_RATE(cursor.getString(cursor.getColumnIndex(FINVRDET_DIS_RATE)));
+                invrDet.setFINVRDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_VARIANT_CODE)));
+                invrDet.setFINVRDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FINVRDET_ARICLENO)));
                 list.add(invrDet);
             }
         }

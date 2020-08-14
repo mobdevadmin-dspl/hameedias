@@ -88,7 +88,7 @@ public class BRSalesReturnHeader extends Fragment implements View.OnClickListene
         pref = SharedPref.getInstance(getActivity());
 
         Date d = Calendar.getInstance().getTime();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy"); //change this
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy"); //change this
         String formattedDate = simpleDateFormat.format(d);
         ReferenceNum referenceNum = new ReferenceNum(getActivity());
         spnVat = (Spinner) view.findViewById(R.id.spnnervat);
@@ -123,6 +123,7 @@ public class BRSalesReturnHeader extends Fragment implements View.OnClickListene
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
+                new SharedPref(getActivity()).setGlobalVal("KeyVat", spnVat.getSelectedItem().toString().split("-")[0].trim());
 
             }
         });
@@ -274,7 +275,8 @@ public class BRSalesReturnHeader extends Fragment implements View.OnClickListene
             hed.setFINVRHED_MANUREF(mNo.getText().toString());
             hed.setFINVRHED_REMARKS(remarks.getText().toString());
             hed.setFINVRHED_VATCODE(new SharedPref(getActivity()).getGlobalVal("KeyVat"));
-//            hed.setFINVRHED_TXNTYPE("Return");
+            hed.setFINVRHED_TXNTYPE("Return");
+            hed.setFINVRHED_LOCCODE(new SalRepController(getActivity()).getCurrentLoccode());
             hed.setFINVRHED_IS_ACTIVE("1");
             hed.setFINVRHED_IS_SYNCED("0");
             hed.setFINVRHED_ADD_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
@@ -321,23 +323,6 @@ public class BRSalesReturnHeader extends Fragment implements View.OnClickListene
             mNo.setEnabled(true);
             cusName.setText(SharedPref.getInstance(getActivity()).getGlobalVal("PrekeyCusName"));
             ordno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet)));
-
-//            if (home.selectedOrdHed != null) {
-//                //if (home.selectedDebtor == null)
-//                // home.selectedDebtor = new FmDebtorDS(getActivity()).getSelectedCustomerByCode(home.selectedOrdHed.getFORDHED_DEB_CODE());
-//
-////                cusName.setText(home.selectedDebtor.getCusName());
-////                ordno.setText(home.selectedOrdHed.getORDHED_REFNO());
-////                deldate.setText(home.selectedOrdHed.getORDHED_DELV_DATE());
-////                mNo.setText(home.selectedOrdHed.getORDHED_MANU_REF());
-////                remarks.setText(home.selectedOrdHed.getORDHED_REMARKS());
-//
-//            } else {
-//
-//                ordno.setText(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.salRet)));
-//                deldate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-//                SaveReturnHeader();
-//            }
 
         } else {
             Toast.makeText(getActivity(), "Select a customer to continue...", Toast.LENGTH_SHORT).show();
