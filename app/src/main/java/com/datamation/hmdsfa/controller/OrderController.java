@@ -11,6 +11,7 @@ import android.util.Log;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.Order;
 
 import java.text.SimpleDateFormat;
@@ -591,7 +592,7 @@ public class OrderController {
 ////            preSalesMapper.setIssuList(
 ////                    issueDS.getActiveIssues(cursor.getString(cursor.getColumnIndex(ORDER_CUSCODE))));
 
-                String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                String RefNo = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
 
                 order.setTaxDTs(new PreSaleTaxDTController(context).getAllTaxDT(RefNo));
                 order.setTaxRGs(new PreSaleTaxRGController(context).getAllTaxRG(RefNo));
@@ -627,21 +628,21 @@ public class OrderController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + TABLE_FORDHED + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_FORDHED + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
             ContentValues values = new ContentValues();
 
-            //  values.put(DatabaseHelper.FINVHED_IS_ACTIVE, "0");
+            //  values.put(ValueHolder.FINVHED_IS_ACTIVE, "0");
 
             int cn = cursor.getCount();
             count = cn;
 
 //            if (cn > 0) {
-//                count = dB.update(DatabaseHelper.TABLE_FINVHED, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(refno)});
+//                count = dB.update(ValueHolder.TABLE_FINVHED, values, ValueHolder.REFNO + " =?", new String[]{String.valueOf(refno)});
 //            } else {
-//                count = (int) dB.insert(DatabaseHelper.TABLE_FINVHED, null, values);
+//                count = (int) dB.insert(ValueHolder.TABLE_FINVHED, null, values);
 //            }
 
         } catch (Exception e) {
@@ -840,7 +841,7 @@ public class OrderController {
         Order presale = new Order();
 
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_FORDHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_FORDHED + " WHERE " + ValueHolder.REFNO + " = '" + Refno + "'";
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.FInvRDet;
 import com.datamation.hmdsfa.model.TaxDT;
 import com.datamation.hmdsfa.model.TaxDet;
@@ -35,7 +36,7 @@ public class SalesReturnTaxDTController {
     public static final String INVRTAXDT_BDETAMT = "BTaxDetAmt";
     public static final String INVRTAXDT_TAXTYPE = "TaxType";
 
-    public static final String CREATE_FINVRTAXDT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVRTAXDT + " (" + INVRTAXDT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + INVRTAXDT_ITEMCODE + " TEXT, " + INVRTAXDT_TAXCOMCODE + " TEXT, " + INVRTAXDT_TAXCODE + " TEXT, " + INVRTAXDT_TAXPER + " TEXT, " + INVRTAXDT_RATE + " TEXT, " + INVRTAXDT_SEQ + " TEXT, " + INVRTAXDT_DETAMT + " TEXT, " + INVRTAXDT_TAXTYPE + " TEXT, " + INVRTAXDT_BDETAMT + " TEXT ); ";
+    public static final String CREATE_FINVRTAXDT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVRTAXDT + " (" + INVRTAXDT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + INVRTAXDT_ITEMCODE + " TEXT, " + INVRTAXDT_TAXCOMCODE + " TEXT, " + INVRTAXDT_TAXCODE + " TEXT, " + INVRTAXDT_TAXPER + " TEXT, " + INVRTAXDT_RATE + " TEXT, " + INVRTAXDT_SEQ + " TEXT, " + INVRTAXDT_DETAMT + " TEXT, " + INVRTAXDT_TAXTYPE + " TEXT, " + INVRTAXDT_BDETAMT + " TEXT ); ";
 
     public SalesReturnTaxDTController(Context context) {
         this.context = context;
@@ -74,7 +75,7 @@ public class SalesReturnTaxDTController {
 
                             values.put(INVRTAXDT_ITEMCODE, invRDet.getFINVRDET_ITEMCODE());
                             values.put(INVRTAXDT_RATE, taxcodelist.get(i).getRATE());
-                            values.put(DatabaseHelper.REFNO, invRDet.getFINVRDET_REFNO());
+                            values.put(ValueHolder.REFNO, invRDet.getFINVRDET_REFNO());
                             values.put(INVRTAXDT_SEQ, taxcodelist.get(i).getSEQ());
                             values.put(INVRTAXDT_TAXCODE, taxcodelist.get(i).getTAXCODE());
                             values.put(INVRTAXDT_TAXCOMCODE, taxcodelist.get(i).getTAXCOMCODE());
@@ -123,7 +124,7 @@ public class SalesReturnTaxDTController {
             while (cursor.moveToNext()) {
                 TaxDT tax = new TaxDT();
 
-                tax.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                tax.setREFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 tax.setTAXCODE(cursor.getString(cursor.getColumnIndex(INVRTAXDT_TAXCODE)));
                 tax.setBTAXDETAMT(cursor.getString(cursor.getColumnIndex(INVRTAXDT_BDETAMT)));
                 tax.setTAXCOMCODE(cursor.getString(cursor.getColumnIndex(INVRTAXDT_TAXCOMCODE)));
@@ -159,7 +160,7 @@ public class SalesReturnTaxDTController {
         }
         try {
 
-            dB.delete(TABLE_INVRTAXDT, DatabaseHelper.REFNO + "='" + RefNo + "'", null);
+            dB.delete(TABLE_INVRTAXDT, ValueHolder.REFNO + "='" + RefNo + "'", null);
         } catch (Exception e) {
 
             Log.v(TAG + " Exception", e.toString());

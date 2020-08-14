@@ -11,6 +11,7 @@ import android.util.Log;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.FInvRHed;
 
 import java.text.SimpleDateFormat;
@@ -61,11 +62,11 @@ public class SalesReturnController
     public static final String FINVRHED_END_TIME = "EndTime";
     public static final String CREATE_FINVRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVRHED + " ("
             + FINVRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " //1
-            + DatabaseHelper.REFNO + " TEXT, "
-            + DatabaseHelper.TXNDATE + " TEXT, "
+            + ValueHolder.REFNO + " TEXT, "
+            + ValueHolder.TXNDATE + " TEXT, "
             + FINVRHED_MANUREF + " TEXT, "
             + FINVRHED_COSTCODE + " TEXT, "
-            + DatabaseHelper.DEBCODE + " TEXT, "
+            + ValueHolder.DEBCODE + " TEXT, "
             + FINVRHED_REMARKS + " TEXT, "
             + FINVRHED_TXNTYPE + " TEXT, "
             + FINVRHED_VATCODE+ " TEXT, "
@@ -77,7 +78,7 @@ public class SalesReturnController
             + FINVRHED_LOCCODE + " TEXT, "
             + FINVRHED_IS_ACTIVE + " TEXT, "
             + FINVRHED_IS_SYNCED + " TEXT, "
-            + DatabaseHelper.REPCODE + " TEXT, "
+            + ValueHolder.REPCODE + " TEXT, "
             + FINVRHED_REASON_CODE + " TEXT, "
             + FINVRHED_TAX_REG + " TEXT, "
             + FINVRHED_TOTAL_AMT + " TEXT, "
@@ -114,16 +115,16 @@ public class SalesReturnController
 
             for (FInvRHed invrHed : list) {
 
-                String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE " + dbHelper.REFNO + " = '" + invrHed.getFINVRHED_REFNO() + "'";
+                String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE " + ValueHolder.REFNO + " = '" + invrHed.getFINVRHED_REFNO() + "'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.REFNO, invrHed.getFINVRHED_REFNO());
-                values.put(dbHelper.TXNDATE, invrHed.getFINVRHED_TXN_DATE());
+                values.put(ValueHolder.REFNO, invrHed.getFINVRHED_REFNO());
+                values.put(ValueHolder.TXNDATE, invrHed.getFINVRHED_TXN_DATE());
                 values.put(FINVRHED_REMARKS, invrHed.getFINVRHED_REMARKS());
-                values.put(dbHelper.DEBCODE, invrHed.getFINVRHED_DEBCODE());
+                values.put(ValueHolder.DEBCODE, invrHed.getFINVRHED_DEBCODE());
                 values.put(FINVRHED_TOTAL_AMT, invrHed.getFINVRHED_TOTAL_AMT());
                 values.put(FINVRHED_ADD_DATE, invrHed.getFINVRHED_ADD_DATE());
                 values.put(FINVRHED_ADD_MACH, invrHed.getFINVRHED_ADD_MACH());
@@ -141,7 +142,7 @@ public class SalesReturnController
                 values.put(FINVRHED_LATITUDE, invrHed.getFINVRHED_LATITUDE());
                 values.put(FINVRHED_START_TIME, invrHed.getFINVRHED_START_TIME());
                 values.put(FINVRHED_END_TIME, invrHed.getFINVRHED_END_TIME());
-                values.put(dbHelper.REPCODE, invrHed.getFINVRHED_REP_CODE());
+                values.put(ValueHolder.REPCODE, invrHed.getFINVRHED_REP_CODE());
                 values.put(FINVRHED_ORD_REFNO, invrHed.getFINVRHED_ORD_REFNO());
                 values.put(FINVRHED_TXNTYPE, invrHed.getFINVRHED_TXNTYPE());
                 values.put(FINVRHED_INV_REFNO, invrHed.getFINVRHED_INV_REFNO());
@@ -156,7 +157,7 @@ public class SalesReturnController
                 int cn = cursor.getCount();
                 if (cn > 0) {
 
-                    count = dB.update(TABLE_FINVRHED, values, dbHelper.REFNO + " =?",
+                    count = dB.update(TABLE_FINVRHED, values, ValueHolder.REFNO + " =?",
                             new String[]{String.valueOf(invrHed.getFINVRHED_REFNO())});
                 } else {
 
@@ -191,7 +192,7 @@ public class SalesReturnController
 
         Cursor cursor = null;
         try {
-//            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FINVRHED + " WHERE " + DatabaseHelper.FINVRHED_IS_ACTIVE + "='1'";
+//            String selectQuery = "SELECT * FROM " + ValueHolder.TABLE_FINVRHED + " WHERE " + ValueHolder.FINVRHED_IS_ACTIVE + "='1'";
             String selectQuery = "select * from FInvRHed where IsActive = 1 and OrdRefNo IS NULL and InvRefNo IS NULL";
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -232,7 +233,7 @@ public class SalesReturnController
             {
                 while(cursor.moveToNext())
                 {
-                    refNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                    refNo = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
                 }
             }
         } catch (Exception e) {
@@ -266,7 +267,7 @@ public class SalesReturnController
             {
                 while(cursor.moveToNext())
                 {
-                    refNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                    refNo = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
                 }
             }
         } catch (Exception e) {
@@ -302,15 +303,15 @@ public class SalesReturnController
             FInvRHed invrHed = new FInvRHed();
 
             // invHed.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(FINVRHED_ID)));
-            invrHed.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-            invrHed.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            invrHed.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+            invrHed.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
             invrHed.setFINVRHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(FINVRHED_ROUTE_CODE)));
             invrHed.setFINVRHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FINVRHED_TXNTYPE)));
             invrHed.setFINVRHED_ADD_MACH(cursor.getString(cursor.getColumnIndex(FINVRHED_ADD_MACH)));
             invrHed.setFINVRHED_ADD_USER(cursor.getString(cursor.getColumnIndex(FINVRHED_ADD_USER)));
             invrHed.setFINVRHED_MANUREF(cursor.getString(cursor.getColumnIndex(FINVRHED_MANUREF)));
             invrHed.setFINVRHED_REMARKS(cursor.getString(cursor.getColumnIndex(FINVRHED_REMARKS)));
-            invrHed.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+            invrHed.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
             invrHed.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(FINVRHED_TOTAL_AMT)));
             invrHed.setFINVRHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVRHED_IS_SYNCED)));
             invrHed.setFINVRHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVRHED_IS_ACTIVE)));
@@ -326,7 +327,7 @@ public class SalesReturnController
             invrHed.setFINVRHED_LATITUDE(cursor.getString(cursor.getColumnIndex(FINVRHED_LATITUDE)));
             invrHed.setFINVRHED_START_TIME(cursor.getString(cursor.getColumnIndex(FINVRHED_START_TIME)));
             invrHed.setFINVRHED_END_TIME(cursor.getString(cursor.getColumnIndex(FINVRHED_END_TIME)));
-            invrHed.setFINVRHED_REP_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+            invrHed.setFINVRHED_REP_CODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
             invrHed.setFINVRHED_VATCODE(cursor.getString(cursor.getColumnIndex(FINVRHED_VATCODE)));
 //            invrHed.setFINVRHED_TOURCODE(cursor.getString(cursor.getColumnIndex(FINVRHED_TOURCODE)));
 //            invrHed.setFINVRHED_AREACODE(cursor.getString(cursor.getColumnIndex(FINVRHED_AREACODE)));
@@ -351,22 +352,22 @@ public class SalesReturnController
         FInvRHed invrHed = new FInvRHed();
 
         @SuppressWarnings("static-access")
-        String selectQuery = "select * from " + TABLE_FINVRHED + " Where " + FINVRHED_IS_ACTIVE + "='1' and " + FINVRHED_IS_SYNCED + "='0'" + " AND " + DatabaseHelper.REFNO + " = '" + RefNo + "'";
+        String selectQuery = "select * from " + TABLE_FINVRHED + " Where " + FINVRHED_IS_ACTIVE + "='1' and " + FINVRHED_IS_SYNCED + "='0'" + " AND " + ValueHolder.REFNO + " = '" + RefNo + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
         while (cursor.moveToNext()) {
 
             // invHed.setFINVHED_ID(cursor.getString(cursor.getColumnIndex(FINVRHED_ID)));
-            invrHed.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-            invrHed.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            invrHed.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+            invrHed.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
             invrHed.setFINVRHED_ROUTE_CODE(cursor.getString(cursor.getColumnIndex(FINVRHED_ROUTE_CODE)));
             invrHed.setFINVRHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FINVRHED_TXNTYPE)));
             invrHed.setFINVRHED_ADD_MACH(cursor.getString(cursor.getColumnIndex(FINVRHED_ADD_MACH)));
             invrHed.setFINVRHED_ADD_USER(cursor.getString(cursor.getColumnIndex(FINVRHED_ADD_USER)));
             invrHed.setFINVRHED_MANUREF(cursor.getString(cursor.getColumnIndex(FINVRHED_MANUREF)));
             invrHed.setFINVRHED_REMARKS(cursor.getString(cursor.getColumnIndex(FINVRHED_REMARKS)));
-            invrHed.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+            invrHed.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
             invrHed.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(FINVRHED_TOTAL_AMT)));
             invrHed.setFINVRHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVRHED_IS_SYNCED)));
             invrHed.setFINVRHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVRHED_IS_ACTIVE)));
@@ -382,7 +383,7 @@ public class SalesReturnController
             invrHed.setFINVRHED_LATITUDE(cursor.getString(cursor.getColumnIndex(FINVRHED_LATITUDE)));
             invrHed.setFINVRHED_START_TIME(cursor.getString(cursor.getColumnIndex(FINVRHED_START_TIME)));
             invrHed.setFINVRHED_END_TIME(cursor.getString(cursor.getColumnIndex(FINVRHED_END_TIME)));
-            invrHed.setFINVRHED_REP_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+            invrHed.setFINVRHED_REP_CODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
 //            invrHed.setFINVRHED_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(FINVRHED_RETURN_TYPE)));
 //            invrHed.setFINVRHED_TOURCODE(cursor.getString(cursor.getColumnIndex(FINVRHED_TOURCODE)));
 //            invrHed.setFINVRHED_AREACODE(cursor.getString(cursor.getColumnIndex(FINVRHED_AREACODE)));
@@ -410,7 +411,7 @@ public class SalesReturnController
 
         try {
 
-            String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -446,13 +447,13 @@ public class SalesReturnController
         try {
 
             String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE "
-                    + DatabaseHelper.REFNO + " = '" + refno + "'";
+                    + ValueHolder.REFNO + " = '" + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
             count = cursor.getCount();
 
             if (count > 0) {
                 int success = dB.delete(TABLE_FINVRHED,
-                        DatabaseHelper.REFNO + " ='" + refno + "'", null);
+                        ValueHolder.REFNO + " ='" + refno + "'", null);
                 Log.v("Success", success + "");
             }
 
@@ -483,7 +484,7 @@ public class SalesReturnController
 
         try {
 
-            //String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE "  + DatabaseHelper.REFNO + " = '" + refno + "'";
+            //String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE "  + ValueHolder.REFNO + " = '" + refno + "'";
             String selectQuery = "select * from FInvRHed where IsActive = 1 and OrdRefNo IS NULL and InvRefNo IS NULL";
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -491,12 +492,12 @@ public class SalesReturnController
             {
                 while (cursor.moveToNext())
                 {
-                    isRefExisting = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                    isRefExisting = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
 
                     if (isRefExisting.equals(refno))
                     {
                         count = dB.delete(TABLE_FINVRHED,
-                                DatabaseHelper.REFNO + " ='" + refno + "'", null);
+                                ValueHolder.REFNO + " ='" + refno + "'", null);
                         Log.v("Success", count + "");
                     }
                 }
@@ -529,7 +530,7 @@ public class SalesReturnController
 
         try {
 
-            //String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE "  + DatabaseHelper.REFNO + " = '" + refno + "'";
+            //String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE "  + ValueHolder.REFNO + " = '" + refno + "'";
             String selectQuery = "select * from FInvRHed where IsActive = 1 and OrdRefNo IS NULL and InvRefNo IS NULL ";
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -537,7 +538,7 @@ public class SalesReturnController
             {
                 while (cursor.moveToNext())
                 {
-                    isRefExisting = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                    isRefExisting = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
                 }
             }
 
@@ -573,7 +574,7 @@ public class SalesReturnController
             {
                 while (cursor.moveToNext())
                 {
-                    isRefExisting = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                    isRefExisting = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
                 }
             }
 
@@ -604,7 +605,7 @@ public class SalesReturnController
 
         try {
 
-            //String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE "  + DatabaseHelper.REFNO + " = '" + refno + "'";
+            //String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE "  + ValueHolder.REFNO + " = '" + refno + "'";
             String selectQuery = "select * from FInvRHed where IsActive = 1 and OrdRefNo IS NOT NULL and InvRefNo IS NULL";
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -612,12 +613,12 @@ public class SalesReturnController
             {
                 while (cursor.moveToNext())
                 {
-                    isRefExisting = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+                    isRefExisting = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
 
                     if (isRefExisting.equals(refno))
                     {
                         count = dB.delete(TABLE_FINVRHED,
-                                DatabaseHelper.REFNO + " ='" + refno + "'", null);
+                                ValueHolder.REFNO + " ='" + refno + "'", null);
                         Log.v("Success", count + "");
                     }
                 }
@@ -646,13 +647,13 @@ public class SalesReturnController
         FInvRHed SRHed = new FInvRHed();
 
         try {
-            String selectQuery = "SELECT RefNo,TotalAmt FROM " + TABLE_FINVRHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
+            String selectQuery = "SELECT RefNo,TotalAmt FROM " + TABLE_FINVRHED + " WHERE " + ValueHolder.REFNO + " = '" + Refno + "'";
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
 
-                SRHed.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                SRHed.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 SRHed.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(FINVRHED_TOTAL_AMT)));
 
             }
@@ -683,7 +684,7 @@ public class SalesReturnController
         try {
 
             String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE "
-                    + DatabaseHelper.REFNO + " = '" + refno + "'";
+                    + ValueHolder.REFNO + " = '" + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -694,7 +695,7 @@ public class SalesReturnController
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.update(TABLE_FINVRHED, values, DatabaseHelper.REFNO + " =?",
+                count = dB.update(TABLE_FINVRHED, values, ValueHolder.REFNO + " =?",
                         new String[]{String.valueOf(refno)});
             } else {
                 count = (int) dB.insert(TABLE_FINVRHED, null, values);
@@ -725,15 +726,15 @@ public class SalesReturnController
         FInvRHed REHed = new FInvRHed();
 
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_FINVRHED + " WHERE " + ValueHolder.REFNO + " = '" + Refno + "'";
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
 
-                REHed.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                REHed.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 REHed.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(FINVRHED_TOTAL_AMT)));
-                REHed.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+                REHed.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
                 REHed.setFINVRHED_REMARKS(cursor.getString(cursor.getColumnIndex(FINVRHED_REMARKS)));
                 REHed.setFINVRHED_TAX_REG(cursor.getString(cursor.getColumnIndex(FINVRHED_TAX_REG)));
                 REHed.setFINVRHED_TOTAL_TAX(cursor.getString(cursor.getColumnIndex(FINVRHED_TOTAL_TAX)));
@@ -768,7 +769,7 @@ public class SalesReturnController
             ContentValues values = new ContentValues();
 
             values.put(FINVRHED_IS_SYNCED, res);
-            count = dB.update(TABLE_FINVRHED, values, dbHelper.REFNO + " =?", new String[] { refno });
+            count = dB.update(TABLE_FINVRHED, values, ValueHolder.REFNO + " =?", new String[] { refno });
 
 
         } catch (Exception e) {
@@ -801,7 +802,7 @@ public class SalesReturnController
             values.put(FINVRHED_IS_SYNCED, "1");
 
             if (hed.getFINVRHED_IS_SYNCED().equals("1")) {
-                count = dB.update(TABLE_FINVRHED, values, dbHelper.REFNO + " =?", new String[] { String.valueOf(hed.getFINVRHED_REFNO()) });
+                count = dB.update(TABLE_FINVRHED, values, ValueHolder.REFNO + " =?", new String[] { String.valueOf(hed.getFINVRHED_REFNO()) });
             }
 
         } catch (Exception e) {
@@ -854,7 +855,7 @@ public class SalesReturnController
             salesReturnMapper.setConsoleDB(SharedPref.getInstance(context).getConsoleDB().trim());
 
             salesReturnMapper.setFINVRHED_ID(cursor.getString(cursor.getColumnIndex(FINVRHED_ID)));
-            salesReturnMapper.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+            salesReturnMapper.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
             salesReturnMapper.setFINVRHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(FINVRHED_ADD_DATE)));
             salesReturnMapper.setFINVRHED_ADD_MACH(cursor.getString(cursor.getColumnIndex(FINVRHED_ADD_MACH)));
             salesReturnMapper.setFINVRHED_ADD_USER(cursor.getString(cursor.getColumnIndex(FINVRHED_ADD_USER)));
@@ -864,7 +865,7 @@ public class SalesReturnController
             salesReturnMapper.setFINVRHED_TOTAL_TAX(cursor.getString(cursor.getColumnIndex(FINVRHED_TOTAL_TAX)));
             salesReturnMapper.setFINVRHED_COSTCODE(cursor.getString(cursor.getColumnIndex(FINVRHED_COSTCODE)));
             salesReturnMapper.setFINVRHED_REASON_CODE(cursor.getString(cursor.getColumnIndex(FINVRHED_REASON_CODE)));
-            salesReturnMapper.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+            salesReturnMapper.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
             salesReturnMapper.setFINVRHED_START_TIME(cursor.getString(cursor.getColumnIndex(FINVRHED_START_TIME)));
             salesReturnMapper.setFINVRHED_END_TIME(cursor.getString(cursor.getColumnIndex(FINVRHED_END_TIME)));
             salesReturnMapper.setFINVRHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(FINVRHED_LONGITUDE)));
@@ -874,7 +875,7 @@ public class SalesReturnController
             // salesReturnMapper.setFINVRHED_REPCODE(cursor.getString(cursor.getColumnIndex(FINVRHED_REPCODE)));
             salesReturnMapper.setFINVRHED_TAX_REG(cursor.getString(cursor.getColumnIndex(FINVRHED_TAX_REG)));
             salesReturnMapper.setFINVRHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FINVRHED_TXNTYPE)));
-            salesReturnMapper.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            salesReturnMapper.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
             salesReturnMapper.setFINVRHED_ADDRESS(cursor.getString(cursor.getColumnIndex(FINVRHED_ADDRESS)));
             salesReturnMapper.setFINVRHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVRHED_IS_SYNCED)));
             salesReturnMapper.setFINVRHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVRHED_IS_ACTIVE)));
@@ -882,7 +883,7 @@ public class SalesReturnController
            // salesReturnMapper.setFINVRHED_INV_REFNO(cursor.getString(cursor.getColumnIndex(FINVRHED_ORD_REFNO)));
             //salesReturnMapper.setFINVRHED_INV_REFNO(cursor.getString(cursor.getColumnIndex(FINVRHED_INV_REFNO)));
 
-            salesReturnMapper.setFinvrtDets(new SalesReturnDetController(context).getAllInvRDet(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO))));
+            salesReturnMapper.setFinvrtDets(new SalesReturnDetController(context).getAllInvRDet(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO))));
 
             list.add(salesReturnMapper);
 
@@ -924,7 +925,7 @@ public class SalesReturnController
 //                    "").toString());
 
             salesReturnMapper.setFINVRHED_ID(cursor.getString(cursor.getColumnIndex(FINVRHED_ID)));
-            salesReturnMapper.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+            salesReturnMapper.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
             salesReturnMapper.setFINVRHED_ADD_DATE(cursor.getString(cursor.getColumnIndex(FINVRHED_ADD_DATE)));
             salesReturnMapper.setFINVRHED_ADD_MACH(cursor.getString(cursor.getColumnIndex(FINVRHED_ADD_MACH)));
             salesReturnMapper.setFINVRHED_ADD_USER(cursor.getString(cursor.getColumnIndex(FINVRHED_ADD_USER)));
@@ -934,17 +935,17 @@ public class SalesReturnController
             salesReturnMapper.setFINVRHED_TOTAL_TAX(cursor.getString(cursor.getColumnIndex(FINVRHED_TOTAL_TAX)));
             salesReturnMapper.setFINVRHED_COSTCODE(cursor.getString(cursor.getColumnIndex(FINVRHED_COSTCODE)));
             salesReturnMapper.setFINVRHED_REASON_CODE(cursor.getString(cursor.getColumnIndex(FINVRHED_REASON_CODE)));
-            salesReturnMapper.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+            salesReturnMapper.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
             salesReturnMapper.setFINVRHED_START_TIME(cursor.getString(cursor.getColumnIndex(FINVRHED_START_TIME)));
             salesReturnMapper.setFINVRHED_END_TIME(cursor.getString(cursor.getColumnIndex(FINVRHED_END_TIME)));
             salesReturnMapper.setFINVRHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(FINVRHED_LONGITUDE)));
             salesReturnMapper.setFINVRHED_LATITUDE(cursor.getString(cursor.getColumnIndex(FINVRHED_LATITUDE)));
             salesReturnMapper.setFINVRHED_LOCCODE(cursor.getString(cursor.getColumnIndex(FINVRHED_LOCCODE)));
             salesReturnMapper.setFINVRHED_MANUREF(cursor.getString(cursor.getColumnIndex(FINVRHED_MANUREF)));
-            salesReturnMapper.setFINVRHED_REP_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+            salesReturnMapper.setFINVRHED_REP_CODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
             salesReturnMapper.setFINVRHED_TAX_REG(cursor.getString(cursor.getColumnIndex(FINVRHED_TAX_REG)));
             salesReturnMapper.setFINVRHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FINVRHED_TXNTYPE)));
-            salesReturnMapper.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            salesReturnMapper.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
             salesReturnMapper.setFINVRHED_ADDRESS(cursor.getString(cursor.getColumnIndex(FINVRHED_ADDRESS)));
             salesReturnMapper.setFINVRHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVRHED_IS_SYNCED)));
             salesReturnMapper.setFINVRHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVRHED_IS_ACTIVE)));
@@ -953,9 +954,9 @@ public class SalesReturnController
 
 
 
-            String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+            String RefNo = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
 
-            salesReturnMapper.setFinvrtDets(new SalesReturnDetController(context).getAllInvRDet(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO))));
+            salesReturnMapper.setFinvrtDets(new SalesReturnDetController(context).getAllInvRDet(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO))));
             //salesReturnMapper.setFinvrtDets(new FInvRDetDS(context).getAllInvRDet(RefNo));
             salesReturnMapper.setTaxDTs(new SalesReturnTaxDTController(context).getAllTaxDT(RefNo));
             salesReturnMapper.setTaxRGs(new SalesReturnTaxRGController(context).getAllTaxRG(RefNo));
@@ -989,11 +990,11 @@ public class SalesReturnController
 
                 FInvRHed retDet = new FInvRHed();
 //
-                retDet.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                retDet.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+                retDet.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+                retDet.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
                 retDet.setFINVRHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVRHED_IS_SYNCED)));
                 retDet.setFINVRHED_TXNTYPE("Return");
-                retDet.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                retDet.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 retDet.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(FINVRHED_TOTAL_AMT)));
 
                 list.add(retDet);

@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.BarcodenvoiceDet;
 import com.datamation.hmdsfa.model.InvDet;
 import com.datamation.hmdsfa.model.OrderDisc;
@@ -38,7 +39,7 @@ public class InvoiceDetBarcodeController {
 
 
     public static final String CREATE_TABLE_BCINCOICEDET = "CREATE TABLE IF NOT EXISTS "
-            + TABLE_BCINCOICEDET + " (" + DatabaseHelper.REFNO + " TEXT, " +
+            + TABLE_BCINCOICEDET + " (" + ValueHolder.REFNO + " TEXT, " +
             BCINCOICEDET_TYPE + " TEXT, "
             + BCINCOICEDET_ITEMNO + " TEXT, " + BCINCOICEDET_BARCODE + " TEXT, "
             + BCINCOICEDET_QUANTITY + " TEXT, " + BCINCOICEDET_PRICE + " TEXT, "
@@ -67,7 +68,7 @@ public class InvoiceDetBarcodeController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + TABLE_BCINCOICEDET + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_BCINCOICEDET + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -78,7 +79,7 @@ public class InvoiceDetBarcodeController {
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.update(TABLE_BCINCOICEDET, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(refno)});
+                count = dB.update(TABLE_BCINCOICEDET, values, ValueHolder.REFNO + " =?", new String[]{String.valueOf(refno)});
             } else {
                 count = (int) dB.insert(TABLE_BCINCOICEDET, null, values);
             }
@@ -105,7 +106,7 @@ public class InvoiceDetBarcodeController {
         }
 
         try {
-            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + TABLE_BCINCOICEDET + " WHERE  " + DatabaseHelper.REFNO + " = '" + refNo + "'";
+            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + TABLE_BCINCOICEDET + " WHERE  " + ValueHolder.REFNO + " = '" + refNo + "'";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
@@ -138,7 +139,7 @@ public class InvoiceDetBarcodeController {
 
                 ContentValues values = new ContentValues();
 
-                String selectQuery = "SELECT * FROM " + TABLE_BCINCOICEDET + " WHERE " + DatabaseHelper.REFNO
+                String selectQuery = "SELECT * FROM " + TABLE_BCINCOICEDET + " WHERE " + ValueHolder.REFNO
                         + " = '" + invDet.getRefno() + "' and "+BCINCOICEDET_BARCODE+" = '"+invDet.getBarcodeNo()+"'";
                 cursor = dB.rawQuery(selectQuery, null);
 
@@ -150,12 +151,12 @@ public class InvoiceDetBarcodeController {
                 values.put(BCINCOICEDET_VARIANT_CODE, invDet.getVariantCode());
                 values.put(BCINCOICEDET_ARTICLE_NO, invDet.getArticleNo());
                 values.put(BCINCOICEDET_ISACTIVE, invDet.getIsActive());
-                values.put(DatabaseHelper.REFNO, invDet.getRefno());
+                values.put(ValueHolder.REFNO, invDet.getRefno());
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
 
-                    count = dB.update(TABLE_BCINCOICEDET, values, DatabaseHelper.REFNO + " = '"+invDet.getRefno()+"' and "+BCINCOICEDET_BARCODE+ " = '"+invDet.getBarcodeNo()+"'",null);
+                    count = dB.update(TABLE_BCINCOICEDET, values, ValueHolder.REFNO + " = '"+invDet.getRefno()+"' and "+BCINCOICEDET_BARCODE+ " = '"+invDet.getBarcodeNo()+"'",null);
 
                 } else {
                     count = (int) dB.insert(TABLE_BCINCOICEDET, null, values);
@@ -184,7 +185,7 @@ public class InvoiceDetBarcodeController {
             open();
         }
         try {
-            dB.delete(TABLE_BCINCOICEDET, DatabaseHelper.REFNO + " ='" + RefNo + "'", null);
+            dB.delete(TABLE_BCINCOICEDET, ValueHolder.REFNO + " ='" + RefNo + "'", null);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -221,8 +222,8 @@ public class InvoiceDetBarcodeController {
 
         ArrayList<BarcodenvoiceDet> list = new ArrayList<BarcodenvoiceDet>();
 
-        // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' AND types='SA'";
-        String selectQuery = "select * from " + TABLE_BCINCOICEDET + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+        // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "' AND types='SA'";
+        String selectQuery = "select * from " + TABLE_BCINCOICEDET + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -239,7 +240,7 @@ public class InvoiceDetBarcodeController {
                 invDet.setQty(cursor.getInt(cursor.getColumnIndex(BCINCOICEDET_QUANTITY)));
                 invDet.setPrice(cursor.getDouble(cursor.getColumnIndex(BCINCOICEDET_PRICE)));
                 invDet.setType(cursor.getString(cursor.getColumnIndex(BCINCOICEDET_TYPE)));
-                invDet.setRefno(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                invDet.setRefno(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
 
 
                 list.add(invDet);

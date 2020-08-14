@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.Discslab;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class DiscslabController {
     public static final String FDISCSLAB_TIMESTAMP_COLUMN = "timestamp_column";
 
     // create String
-    public static final String CREATE_FDISCSLAB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCSLAB + " (" + FDISCSLAB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + FDISCSLAB_SEQ_NO + " TEXT, " + FDISCSLAB_QTY_F + " TEXT, " + FDISCSLAB_QTY_T + " TEXT, " + FDISCSLAB_DIS_PER + " TEXT, " + FDISCSLAB_DIS_AMUT + " TEXT, " + FDISCSLAB_RECORD_ID + " TEXT, " + FDISCSLAB_TIMESTAMP_COLUMN + " TEXT); ";
+    public static final String CREATE_FDISCSLAB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCSLAB + " (" + FDISCSLAB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + FDISCSLAB_SEQ_NO + " TEXT, " + FDISCSLAB_QTY_F + " TEXT, " + FDISCSLAB_QTY_T + " TEXT, " + FDISCSLAB_DIS_PER + " TEXT, " + FDISCSLAB_DIS_AMUT + " TEXT, " + FDISCSLAB_RECORD_ID + " TEXT, " + FDISCSLAB_TIMESTAMP_COLUMN + " TEXT); ";
 
     public DiscslabController(Context context) {
 
@@ -63,7 +64,7 @@ public class DiscslabController {
 
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.REFNO, discslab.getFDISCSLAB_REF_NO());
+                values.put(ValueHolder.REFNO, discslab.getFDISCSLAB_REF_NO());
                 values.put(FDISCSLAB_SEQ_NO, discslab.getFDISCSLAB_SEQ_NO());
                 values.put(FDISCSLAB_QTY_F, discslab.getFDISCSLAB_QTY_F());
                 values.put(FDISCSLAB_QTY_T, discslab.getFDISCSLAB_QTY_T());
@@ -133,7 +134,7 @@ public class DiscslabController {
             while (cursor.moveToNext()) {
 
                 discSlab.setFDISCSLAB_ID(cursor.getString(cursor.getColumnIndex(FDISCSLAB_ID)));
-                discSlab.setFDISCSLAB_REF_NO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+                discSlab.setFDISCSLAB_REF_NO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 discSlab.setFDISCSLAB_QTY_F(cursor.getString(cursor.getColumnIndex(FDISCSLAB_QTY_F)));
                 discSlab.setFDISCSLAB_QTY_T(cursor.getString(cursor.getColumnIndex(FDISCSLAB_QTY_T)));
                 discSlab.setFDISCSLAB_SEQ_NO(cursor.getString(cursor.getColumnIndex(FDISCSLAB_SEQ_NO)));

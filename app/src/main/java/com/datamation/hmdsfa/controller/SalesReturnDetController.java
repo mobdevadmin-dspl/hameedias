@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.FInvRDet;
 
 import java.text.SimpleDateFormat;
@@ -48,7 +49,7 @@ public class SalesReturnDetController
     public static final String FINVRDET_CHANGED_PRICE = "ChangedPrice";
     public static final String CREATE_FINVRDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVRDET + " ( "
             + FINVRDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + DatabaseHelper.REFNO + " TEXT, "
+            + ValueHolder.REFNO + " TEXT, "
             + FINVRDET_ITEMCODE + " TEXT, "
             + FINVRDET_TAXCOMCODE + " TEXT, "
             + FINVRDET_PRILCODE + " TEXT, "
@@ -100,12 +101,12 @@ public class SalesReturnDetController
 
                 //String selectQuery = "SELECT * FROM " + TABLE_FINVRDET + " WHERE " + FINVRDET_ID + " = '" + invrDet.getFINVRDET_ID() + "'";
                 String selectQuery = "SELECT * FROM " + TABLE_FINVRDET + " WHERE " + FINVRDET_BARCODE
-                        + " = '" + invrDet.getFINVRDET_BARCODE() + "' and "+DatabaseHelper.REFNO+" = '"+invrDet.getFINVRDET_REFNO()+"'";
+                        + " = '" + invrDet.getFINVRDET_BARCODE() + "' and "+ValueHolder.REFNO+" = '"+invrDet.getFINVRDET_REFNO()+"'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
-                values.put(dbHelper.REFNO, invrDet.getFINVRDET_REFNO());
-                values.put(dbHelper.TXNDATE, invrDet.getFINVRDET_TXN_DATE());
+                values.put(ValueHolder.REFNO, invrDet.getFINVRDET_REFNO());
+                values.put(ValueHolder.TXNDATE, invrDet.getFINVRDET_TXN_DATE());
                 values.put(FINVRDET_QTY, invrDet.getFINVRDET_QTY());
                 values.put(FINVRDET_BAL_QTY, invrDet.getFINVRDET_BAL_QTY());
                 values.put(FINVRDET_ITEMCODE, invrDet.getFINVRDET_ITEMCODE());
@@ -161,11 +162,11 @@ public class SalesReturnDetController
 
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
-        String selectQuery = "select * from " + TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' ";
+        String selectQuery = "select * from " + TABLE_FINVRDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "' ";
 
 //        String selectQuery = "select * from " + TABLE_FINVRDET
 //                + " WHERE "
-//                + DatabaseHelper.REFNO + " in (select RefNo from FInvRHed where InvRefNo = '" + refno + "')";
+//                + ValueHolder.REFNO + " in (select RefNo from FInvRHed where InvRefNo = '" + refno + "')";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
@@ -181,8 +182,8 @@ public class SalesReturnDetController
             invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_ITEMCODE)));
             invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_QTY)));
             invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_BAL_QTY)));
-            invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-            invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+            invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
             invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_TAXCOMCODE)));
             invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_PRILCODE)));
             invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(FINVRDET_DIS_AMT)));
@@ -210,7 +211,7 @@ public class SalesReturnDetController
 
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
-        String selectQuery = "select ItemCode,Qty,ReasonName from " + TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refNo + "' "         ;
+        String selectQuery = "select ItemCode,Qty,ReasonName from " + TABLE_FINVRDET + " WHERE " + ValueHolder.REFNO + "='" + refNo + "' "         ;
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -290,7 +291,7 @@ public class SalesReturnDetController
         }
         try
         {
-            return retVla = dB.delete(TABLE_FINVRDET, DatabaseHelper.REFNO + " ='" + RefNo.trim() + "' AND " + FINVRDET_ITEMCODE + " ='" + Itemcode.trim() + "'", null);
+            return retVla = dB.delete(TABLE_FINVRDET, ValueHolder.REFNO + " ='" + RefNo.trim() + "' AND " + FINVRDET_ITEMCODE + " ='" + Itemcode.trim() + "'", null);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -310,7 +311,7 @@ public class SalesReturnDetController
 
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
-        String selectQuery = "select * from " + TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'" + " AND " + SalesReturnController.FINVRHED_INV_REFNO + " IS NOT NULL AND " + SalesReturnController.FINVRHED_ORD_REFNO + " IS  NOT NULL";
+        String selectQuery = "select * from " + TABLE_FINVRDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'" + " AND " + SalesReturnController.FINVRHED_INV_REFNO + " IS NOT NULL AND " + SalesReturnController.FINVRHED_ORD_REFNO + " IS  NOT NULL";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
@@ -326,8 +327,8 @@ public class SalesReturnDetController
             invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_ITEMCODE)));
             invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_QTY)));
             invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_BAL_QTY)));
-            invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-            invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+            invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
             invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_TAXCOMCODE)));
             invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_PRILCODE)));
             invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(FINVRDET_DIS_AMT)));
@@ -360,7 +361,7 @@ public class SalesReturnDetController
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
 
-            if (cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)).equals(refno))
+            if (cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)).equals(refno))
             {
                 FInvRDet invrDet = new FInvRDet();
 
@@ -373,8 +374,8 @@ public class SalesReturnDetController
                 invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_ITEMCODE)));
                 invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_QTY)));
                 invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_BAL_QTY)));
-                invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+                invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_TAXCOMCODE)));
                 invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_PRILCODE)));
                 invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(FINVRDET_DIS_AMT)));
@@ -402,12 +403,12 @@ public class SalesReturnDetController
 
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
-        String selectQuery = "select * from " + TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + TABLE_FINVRDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
 
-            if (cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)).equals(refno))
+            if (cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)).equals(refno))
             {
                 FInvRDet invrDet = new FInvRDet();
 
@@ -420,8 +421,8 @@ public class SalesReturnDetController
                 invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_ITEMCODE)));
                 invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_QTY)));
                 invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_BAL_QTY)));
-                invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+                invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_TAXCOMCODE)));
                 invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_PRILCODE)));
                 invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(FINVRDET_DIS_AMT)));
@@ -451,13 +452,13 @@ public class SalesReturnDetController
 
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
-        //String selectQuery = "select * from " + DatabaseHelper.TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+        //String selectQuery = "select * from " + ValueHolder.TABLE_FINVRDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'";
         String selectQuery = "select * from FInvRDet where RefNo in (select Refno from FInvRHed where IsActive = 1 and IsSync = 0)";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
 
-            if (cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)).equals(refno))
+            if (cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)).equals(refno))
             {
                 FInvRDet invrDet = new FInvRDet();
 
@@ -470,8 +471,8 @@ public class SalesReturnDetController
                 invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_ITEMCODE)));
                 invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_QTY)));
                 invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_BAL_QTY)));
-                invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+                invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_TAXCOMCODE)));
                 invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_PRILCODE)));
                 invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(FINVRDET_DIS_AMT)));
@@ -505,7 +506,7 @@ public class SalesReturnDetController
         Cursor cursor = dB.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
 
-            if (cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)).equals(refno))
+            if (cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)).equals(refno))
             {
                 FInvRDet invrDet = new FInvRDet();
 
@@ -518,8 +519,8 @@ public class SalesReturnDetController
                 invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_ITEMCODE)));
                 invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_QTY)));
                 invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_BAL_QTY)));
-                invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+                invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_TAXCOMCODE)));
                 invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_PRILCODE)));
                 invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(FINVRDET_DIS_AMT)));
@@ -575,7 +576,7 @@ public class SalesReturnDetController
 
         try {
 
-            count = dB.delete(TABLE_FINVRDET, DatabaseHelper.REFNO + " ='" + refno + "'", null);
+            count = dB.delete(TABLE_FINVRDET, ValueHolder.REFNO + " ='" + refno + "'", null);
 
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
@@ -602,7 +603,7 @@ public class SalesReturnDetController
 
         try {
 
-            count = dB.delete(TABLE_FINVRDET, DatabaseHelper.REFNO + " ='" + refno + "'", null);
+            count = dB.delete(TABLE_FINVRDET, ValueHolder.REFNO + " ='" + refno + "'", null);
 
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
@@ -625,7 +626,7 @@ public class SalesReturnDetController
         }
 
         try {
-            String selectQuery = "SELECT count(RefNo) as RefNoCount FROM " + TABLE_FINVRDET + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
+            String selectQuery = "SELECT count(RefNo) as RefNoCount FROM " + TABLE_FINVRDET + " WHERE  " + ValueHolder.REFNO + "='" + refNo + "'";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
@@ -655,7 +656,7 @@ public class SalesReturnDetController
 
         try {
 
-            String selectQuery = "SELECT * FROM " + TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_FINVRDET + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -666,7 +667,7 @@ public class SalesReturnDetController
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.update(TABLE_FINVRDET, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(refno)});
+                count = dB.update(TABLE_FINVRDET, values, ValueHolder.REFNO + " =?", new String[]{String.valueOf(refno)});
             } else {
                 count = (int) dB.insert(TABLE_FINVRDET, null, values);
             }
@@ -695,7 +696,7 @@ public class SalesReturnDetController
         Cursor cursor = null;
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
-        String selectQuery = "select * from " + TABLE_FINVRDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + TABLE_FINVRDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'";
 
         try {
 
@@ -760,8 +761,8 @@ public class SalesReturnDetController
                 invrDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_ITEMCODE)));
                 invrDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_QTY)));
                 invrDet.setFINVRDET_BAL_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_BAL_QTY)));
-                invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invrDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+                invrDet.setFINVRDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 invrDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_TAXCOMCODE)));
                 invrDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_PRILCODE)));
                 invrDet.setFINVRDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(FINVRDET_DIS_AMT)));
@@ -809,7 +810,7 @@ public class SalesReturnDetController
             while (cursor.moveToNext()) {
 
                 ordDet.setFINVRDET_ID(cursor.getString(cursor.getColumnIndex(FINVRDET_ID)));
-                ordDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+                ordDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 ordDet.setFINVRDET_RETURN_REASON_CODE(cursor.getString(cursor.getColumnIndex(FINVRDET_REASON_CODE)));
                 ordDet.setFINVRDET_RETURN_TYPE(cursor.getString(cursor.getColumnIndex(FINVRDET_RETURN_TYPE)));
                 ordDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_QTY)));
@@ -839,7 +840,7 @@ public class SalesReturnDetController
             open();
         }
 
-        String selectQuery = "select * from " + TABLE_FINVRDET + " WHERE " + FINVRDET_IS_ACTIVE + "='" + "1" + "'" + " AND " + dbHelper.REFNO + "='" + RefNo + "'";
+        String selectQuery = "select * from " + TABLE_FINVRDET + " WHERE " + FINVRDET_IS_ACTIVE + "='" + "1" + "'" + " AND " + ValueHolder.REFNO + "='" + RefNo + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -877,7 +878,7 @@ public class SalesReturnDetController
 
         String status = "";
 
-        String selectQuery = "select * from " + SalesReturnController.TABLE_FINVRHED + " WHERE " + SalesReturnController.FINVRHED_IS_ACTIVE + "='" + "1" + "'" + " AND " + dbHelper.REFNO + "='" + refNo + "'" + " AND " + SalesReturnController.FINVRHED_INV_REFNO + " IS NULL AND " + SalesReturnController.FINVRHED_ORD_REFNO + " IS NULL";  ;
+        String selectQuery = "select * from " + SalesReturnController.TABLE_FINVRHED + " WHERE " + SalesReturnController.FINVRHED_IS_ACTIVE + "='" + "1" + "'" + " AND " + ValueHolder.REFNO + "='" + refNo + "'" + " AND " + SalesReturnController.FINVRHED_INV_REFNO + " IS NULL AND " + SalesReturnController.FINVRHED_ORD_REFNO + " IS NULL";  ;
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -886,12 +887,12 @@ public class SalesReturnDetController
             {
                 while (cursor.moveToNext())
                 {
-                    status = cursor.getString(cursor.getColumnIndex(dbHelper.REFNO));
+                    status = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
                 }
 
                 cursor.close();
 
-//                //String hedQuery = "select * from " + TABLE_FINVRHED + " WHERE " + FINVRHED_INV_REFNO + "='" + null + "'" + " AND " + FINVRHED_ORD_REFNO + "='" + null + "'" + FINVRDET_IS_ACTIVE + "='" + "1" + "'" + " AND " + dbHelper.REFNO + "='" + RefNo + "'";
+//                //String hedQuery = "select * from " + TABLE_FINVRHED + " WHERE " + FINVRHED_INV_REFNO + "='" + null + "'" + " AND " + FINVRHED_ORD_REFNO + "='" + null + "'" + FINVRDET_IS_ACTIVE + "='" + "1" + "'" + " AND " + ValueHolder.REFNO + "='" + RefNo + "'";
 //                String hedQuery = "select * from FInvRHed where RefNo in (select RefNo from FInvRDet where IsActive = 1) and IsActive = 1 and InvRefNo is Null and OrdRefNo is Null";
 //
 //                Cursor c = dB.rawQuery(hedQuery, null);
@@ -1007,7 +1008,7 @@ public class SalesReturnDetController
                 FInvRDet IRDet = new FInvRDet();
 
                 IRDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_ITEMCODE)));
-                IRDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                IRDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 IRDet.setFINVRDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_TAXCOMCODE)));
                 IRDet.setFINVRDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVRDET_SELL_PRICE)));
                 IRDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_QTY)));
@@ -1047,7 +1048,7 @@ public class SalesReturnDetController
         ArrayList<FInvRDet> list = new ArrayList<FInvRDet>();
 
         String selectQuery = "select * from FInvRDet WHERE "
-                + dbHelper.REFNO + "='" + refno + "' and  txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+                + ValueHolder.REFNO + "='" + refno + "' and  txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -1061,7 +1062,7 @@ public class SalesReturnDetController
                 retDet.setFINVRDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_ITEMCODE)));
                 retDet.setFINVRDET_PRILCODE(cursor.getString(cursor.getColumnIndex(FINVRDET_PRILCODE)));
                 retDet.setFINVRDET_QTY(cursor.getString(cursor.getColumnIndex(FINVRDET_QTY)));
-                retDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+                retDet.setFINVRDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 retDet.setFINVRDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVRDET_SELL_PRICE)));
                 retDet.setFINVRDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVRDET_IS_ACTIVE)));
 

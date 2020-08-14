@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.OrderDisc;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class OrderDiscController {
     public void open() throws SQLException {
         dB = dbHelper.getWritableDatabase();
     }
-    public static final String CREATE_FORDDISC_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDDISC + " (" + DatabaseHelper.REFNO + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + FORDDISC_REFNO1 + " TEXT, " + FORDDISC_ITEMCODE + " TEXT, " + FORDDISC_DISAMT + " TEXT, " + FORDDISC_DISPER + " TEXT ); ";
+    public static final String CREATE_FORDDISC_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDDISC + " (" + ValueHolder.REFNO + " TEXT, " + ValueHolder.TXNDATE + " TEXT, " + FORDDISC_REFNO1 + " TEXT, " + FORDDISC_ITEMCODE + " TEXT, " + FORDDISC_DISAMT + " TEXT, " + FORDDISC_DISPER + " TEXT ); ";
 
     @SuppressWarnings("static-access")
     public int createOrUpdateOrdDisc(ArrayList<OrderDisc> list) {
@@ -60,12 +61,12 @@ public class OrderDiscController {
 
                 ContentValues values = new ContentValues();
 
-                String selectQuery = "SELECT * FROM " + TABLE_FORDDISC + " WHERE " + DatabaseHelper.REFNO + " = '" + orderDisc.getRefNo() + "'";
+                String selectQuery = "SELECT * FROM " + TABLE_FORDDISC + " WHERE " + ValueHolder.REFNO + " = '" + orderDisc.getRefNo() + "'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
-                values.put(DatabaseHelper.REFNO, orderDisc.getRefNo());
-                values.put(DatabaseHelper.TXNDATE, orderDisc.getTxnDate());
+                values.put(ValueHolder.REFNO, orderDisc.getRefNo());
+                values.put(ValueHolder.TXNDATE, orderDisc.getTxnDate());
                 values.put(FORDDISC_REFNO1, orderDisc.getRefNo1());
                 values.put(FORDDISC_ITEMCODE, orderDisc.getItemCode());
                 values.put(FORDDISC_DISAMT, orderDisc.getDisAmt());
@@ -74,7 +75,7 @@ public class OrderDiscController {
                 int cn = cursor.getCount();
                 if (cn > 0) {
 
-                    count = dB.update(TABLE_FORDDISC, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(orderDisc.getRefNo())});
+                    count = dB.update(TABLE_FORDDISC, values, ValueHolder.REFNO + " =?", new String[]{String.valueOf(orderDisc.getRefNo())});
 
                 } else {
                     count = (int) dB.insert(TABLE_FORDDISC, null, values);
@@ -112,8 +113,8 @@ public class OrderDiscController {
 
             ContentValues values = new ContentValues();
 
-            values.put(DatabaseHelper.REFNO, orderDisc.getRefNo());
-            values.put(DatabaseHelper.TXNDATE, orderDisc.getTxnDate());
+            values.put(ValueHolder.REFNO, orderDisc.getRefNo());
+            values.put(ValueHolder.TXNDATE, orderDisc.getTxnDate());
             values.put(FORDDISC_REFNO1, DiscRef);
             values.put(FORDDISC_ITEMCODE, orderDisc.getItemCode());
             values.put(FORDDISC_DISAMT, orderDisc.getDisAmt());
@@ -144,8 +145,8 @@ public class OrderDiscController {
 
             ContentValues values = new ContentValues();
 
-            values.put(DatabaseHelper.REFNO, orderDisc.getRefNo());
-            values.put(DatabaseHelper.TXNDATE, orderDisc.getTxnDate());
+            values.put(ValueHolder.REFNO, orderDisc.getRefNo());
+            values.put(ValueHolder.TXNDATE, orderDisc.getTxnDate());
             values.put(FORDDISC_REFNO1, orderDisc.getRefNo());
             values.put(FORDDISC_ITEMCODE, orderDisc.getItemCode());
             values.put(FORDDISC_DISAMT, orderDisc.getDisAmt());
@@ -175,7 +176,7 @@ public class OrderDiscController {
         Cursor cursor = null;
         try {
 
-            String selectQuery = "SELECT * FROM " + TABLE_FORDDISC + " WHERE " + DatabaseHelper.REFNO + " = '" + RefNo + "' AND " + FORDDISC_ITEMCODE + " = '" + ItemCode + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_FORDDISC + " WHERE " + ValueHolder.REFNO + " = '" + RefNo + "' AND " + FORDDISC_ITEMCODE + " = '" + ItemCode + "'";
             cursor = dB.rawQuery(selectQuery, null);
             count = cursor.getCount();
 
@@ -212,10 +213,10 @@ public class OrderDiscController {
 
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FORDDISC + " WHERE " + DatabaseHelper.REFNO + " = '" + RefNo + "' AND " + FORDDISC_ITEMCODE + " = '" + ItemCode + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FORDDISC + " WHERE " + ValueHolder.REFNO + " = '" + RefNo + "' AND " + FORDDISC_ITEMCODE + " = '" + ItemCode + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                dB.delete(TABLE_FORDDISC, DatabaseHelper.REFNO + " = '" + RefNo + "' AND " + FORDDISC_ITEMCODE + " = '" + ItemCode + "'", null);
+                dB.delete(TABLE_FORDDISC, ValueHolder.REFNO + " = '" + RefNo + "' AND " + FORDDISC_ITEMCODE + " = '" + ItemCode + "'", null);
             }
 
         } catch (Exception e) {
@@ -242,10 +243,10 @@ public class OrderDiscController {
 
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FORDDISC + " WHERE " + DatabaseHelper.REFNO + " = '" + RefNo + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FORDDISC + " WHERE " + ValueHolder.REFNO + " = '" + RefNo + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                dB.delete(TABLE_FORDDISC, DatabaseHelper.REFNO + " = '" + RefNo + "'", null);
+                dB.delete(TABLE_FORDDISC, ValueHolder.REFNO + " = '" + RefNo + "'", null);
             }
 
         } catch (Exception e) {
@@ -317,9 +318,9 @@ public class OrderDiscController {
                 orderDisc.setDisAmt(cursor.getString(cursor.getColumnIndex(FORDDISC_DISAMT)));
                 orderDisc.setDisPer(cursor.getString(cursor.getColumnIndex(FORDDISC_DISPER)));
                 orderDisc.setItemCode(cursor.getString(cursor.getColumnIndex(FORDDISC_ITEMCODE)));
-                orderDisc.setRefNo(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                orderDisc.setRefNo(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 orderDisc.setRefNo1(cursor.getString(cursor.getColumnIndex(FORDDISC_REFNO1)));
-                orderDisc.setTxnDate(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                orderDisc.setTxnDate(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 list.add(orderDisc);
             }
 
@@ -347,10 +348,10 @@ public class OrderDiscController {
 
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FORDDISC + " WHERE " + DatabaseHelper.REFNO + " = '" + RefNo + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FORDDISC + " WHERE " + ValueHolder.REFNO + " = '" + RefNo + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                dB.delete(TABLE_FORDDISC, DatabaseHelper.REFNO + " = '" + RefNo + "'", null);
+                dB.delete(TABLE_FORDDISC, ValueHolder.REFNO + " = '" + RefNo + "'", null);
             }
 
         } catch (Exception e) {

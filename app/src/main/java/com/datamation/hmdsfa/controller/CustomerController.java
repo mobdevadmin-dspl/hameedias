@@ -10,6 +10,7 @@ import android.location.Location;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.Customer;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.model.Debtor;
@@ -20,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.datamation.hmdsfa.helpers.DatabaseHelper.DEBCODE;
+import static com.datamation.hmdsfa.helpers.ValueHolder.DEBCODE;
 import static com.datamation.hmdsfa.model.Customer.TABLE_FDEBTOR;
 
 public class CustomerController {
@@ -50,7 +51,7 @@ public class CustomerController {
         try {
             dB.beginTransactionNonExclusive();
             String sql = "INSERT OR REPLACE INTO " + TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,AreaCode,DbGrCode,CrdPeriod,CrdLimit,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude,CusImage) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-//            String sql = "INSERT OR REPLACE INTO " + DatabaseHelper.TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,TownCode,AreaCode,DbGrCode,Status,CrdPeriod,ChkCrdPrd,CrdLimit,ChkCrdLmt,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+//            String sql = "INSERT OR REPLACE INTO " + ValueHolder.TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,TownCode,AreaCode,DbGrCode,Status,CrdPeriod,ChkCrdPrd,CrdLimit,ChkCrdLmt,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             SQLiteStatement stmt = dB.compileStatement(sql);
 
@@ -692,7 +693,7 @@ public class CustomerController {
             open();
         }
 
-        String selectQuery = "SELECT " + Customer.FDEBTOR_AREA_CODE + " FROM " + TABLE_FDEBTOR + " where " + DatabaseHelper.DEBCODE + " = '" + debcode + "'";
+        String selectQuery = "SELECT " + Customer.FDEBTOR_AREA_CODE + " FROM " + TABLE_FDEBTOR + " where " + ValueHolder.DEBCODE + " = '" + debcode + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
@@ -781,7 +782,7 @@ public class CustomerController {
             values.put(Customer.FDEBTOR_IS_CORDINATE_UPDATE, "1");
 
             if (res.equalsIgnoreCase("1")) {
-                count = dB.update(TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
+                count = dB.update(TABLE_FDEBTOR, values, ValueHolder.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
             }
 
         } catch (Exception e) {
@@ -810,7 +811,7 @@ public class CustomerController {
             values.put(Customer.FDEBTOR_IS_SYNC, 0);
 
             if (!cus.equals(null)) {
-                count = dB.update(TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(cus.getCusCode())});
+                count = dB.update(TABLE_FDEBTOR, values, ValueHolder.DEBCODE + " =?", new String[]{String.valueOf(cus.getCusCode())});
             }
 
         } catch (Exception e) {
@@ -838,7 +839,7 @@ public class CustomerController {
             values.put(Customer.FDEBTOR_IS_SYNC, "4");
 
             if (!cus.equals(null)) {
-                count = dB.update(TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(cus.getCusCode())});
+                count = dB.update(TABLE_FDEBTOR, values, ValueHolder.DEBCODE + " =?", new String[]{String.valueOf(cus.getCusCode())});
             }
 
         } catch (Exception e) {
@@ -861,7 +862,7 @@ public class CustomerController {
         try {
             ContentValues values = new ContentValues();
             values.put(Customer.FDEBTOR_IS_SYNC, status);
-            count = dB.update(TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
+            count = dB.update(TABLE_FDEBTOR, values, ValueHolder.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -888,7 +889,7 @@ public class CustomerController {
             values.put(Customer.FDEBTOR_LONGITUDE, lon);
             values.put(Customer.FDEBTOR_IS_CORDINATE_UPDATE, "1");
             values.put(Customer.FDEBTOR_IS_SYNC, "3");
-            count = (int) dB.update(TABLE_FDEBTOR, values, DatabaseHelper.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
+            count = (int) dB.update(TABLE_FDEBTOR, values, ValueHolder.DEBCODE + " =?", new String[]{String.valueOf(debCode)});
             Log.d("", "");
 
         } catch (Exception e) {

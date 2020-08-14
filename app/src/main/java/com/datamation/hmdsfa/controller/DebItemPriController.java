@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.DebItemPri;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class DebItemPriController {
     public static final String DEBITEMPRI_BRANDCODE = "BrandCode";
     public static final String DEBITEMPRI_DISPER = "Disper";
 
-    public static final String CREATE_DEBITEMPRI_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_DEBITEMPRI + " (" + DEBITEMPRI_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DEBITEMPRI_BRANDCODE + " TEXT, " + DatabaseHelper.DEBCODE + " TEXT, " + DEBITEMPRI_DISPER + " TEXT); ";
+    public static final String CREATE_DEBITEMPRI_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_DEBITEMPRI + " (" + DEBITEMPRI_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DEBITEMPRI_BRANDCODE + " TEXT, " + ValueHolder.DEBCODE + " TEXT, " + DEBITEMPRI_DISPER + " TEXT); ";
 
     public DebItemPriController(Context context) {
         this.context = context;
@@ -57,7 +58,7 @@ public class DebItemPriController {
                 ContentValues values = new ContentValues();
 
                 values.put(DEBITEMPRI_BRANDCODE, hed.getBRANDCODE());
-                values.put(DatabaseHelper.DEBCODE, hed.getDEBCODE());
+                values.put(ValueHolder.DEBCODE, hed.getDEBCODE());
                 values.put(DEBITEMPRI_DISPER, hed.getDISPER());
 
                 if (cursor.getCount() > 0) {
@@ -88,7 +89,7 @@ public class DebItemPriController {
             open();
         }
 
-        String s = "SELECT disper FROM " + TABLE_DEBITEMPRI + " WHERE " + DEBITEMPRI_BRANDCODE + "='" + brand + "' AND " + DatabaseHelper.DEBCODE + "='" + debcode + "'";
+        String s = "SELECT disper FROM " + TABLE_DEBITEMPRI + " WHERE " + DEBITEMPRI_BRANDCODE + "='" + brand + "' AND " + ValueHolder.DEBCODE + "='" + debcode + "'";
         Cursor cursor = dB.rawQuery(s, null);
 
         while (cursor.moveToNext()) {

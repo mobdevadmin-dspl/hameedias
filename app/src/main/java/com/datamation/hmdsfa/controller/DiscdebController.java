@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.Discdeb;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class DiscdebController {
     public static final String FDISCDEB_TIEMSTAMP_COLUMN = "timestamp_column";
 
     // create String
-    public static final String CREATE_FDISCDEB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCDEB + " (" + FDISCDEB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + FDISCDEB_DEB_CODE + " TEXT, " + DiscdetController.FDISCDET_RECORD_ID + " TEXT, " + DiscdetController.FDISCHED_TIEMSTAMP_COLUMN + " TEXT); ";
+    public static final String CREATE_FDISCDEB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCDEB + " (" + FDISCDEB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + FDISCDEB_DEB_CODE + " TEXT, " + DiscdetController.FDISCDET_RECORD_ID + " TEXT, " + DiscdetController.FDISCHED_TIEMSTAMP_COLUMN + " TEXT); ";
 
     public DiscdebController(Context context) {
 
@@ -61,18 +62,18 @@ public class DiscdebController {
 
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.REFNO, discdeb.getFDISCDEB_REF_NO());
+                values.put(ValueHolder.REFNO, discdeb.getFDISCDEB_REF_NO());
                 values.put(FDISCDEB_DEB_CODE, discdeb.getFDISCDEB_DEB_CODE());
                 values.put(FDISCDEB_RECORD_ID, discdeb.getFDISCDEB_RECORD_ID());
                 values.put(FDISCDEB_TIEMSTAMP_COLUMN, discdeb.getFDISCDEB_TIEMSTAMP_COLUMN());
 
 
                 if (cursor_ini.getCount() > 0) {
-                    String selectQuery = "SELECT * FROM " + TABLE_FDISCDEB + " WHERE " + dbHelper.REFNO + "='" + discdeb.getFDISCDEB_REF_NO() + "' AND " + FDISCDEB_DEB_CODE + " = '" + discdeb.getFDISCDEB_DEB_CODE() + "'";
+                    String selectQuery = "SELECT * FROM " + TABLE_FDISCDEB + " WHERE " + ValueHolder.REFNO + "='" + discdeb.getFDISCDEB_REF_NO() + "' AND " + FDISCDEB_DEB_CODE + " = '" + discdeb.getFDISCDEB_DEB_CODE() + "'";
                     cursor = dB.rawQuery(selectQuery, null);
 
                     if (cursor.getCount() > 0) {
-                        count = (int) dB.update(TABLE_FDISCDEB, values, dbHelper.REFNO + "='" + discdeb.getFDISCDEB_REF_NO() + "' AND " + FDISCDEB_DEB_CODE + " = '" + discdeb.getFDISCDEB_DEB_CODE() + "'", null);
+                        count = (int) dB.update(TABLE_FDISCDEB, values, ValueHolder.REFNO + "='" + discdeb.getFDISCDEB_REF_NO() + "' AND " + FDISCDEB_DEB_CODE + " = '" + discdeb.getFDISCDEB_DEB_CODE() + "'", null);
                     } else {
                         count = (int) dB.insert(TABLE_FDISCDEB, null, values);
                     }

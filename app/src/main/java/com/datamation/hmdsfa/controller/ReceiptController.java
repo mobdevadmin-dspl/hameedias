@@ -13,9 +13,8 @@ import android.util.Log;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.ReceiptHed;
-
-import static com.datamation.hmdsfa.helpers.DatabaseHelper.REFNO;
 
 
 public class ReceiptController {
@@ -64,11 +63,11 @@ public class ReceiptController {
 	public static final String FPRECHED_BRANCHCODE = "BranchCode";
 	public static final String CREATE_FPRECHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRECHED + " (" + FPRECHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-			DatabaseHelper.REFNO + " TEXT, " + FPRECHED_REFNO1 + " TEXT, " + FPRECHED_MANUREF + " TEXT, " + FPRECHED_SALEREFNO + " TEXT, " +
+			ValueHolder.REFNO + " TEXT, " + FPRECHED_REFNO1 + " TEXT, " + FPRECHED_MANUREF + " TEXT, " + FPRECHED_SALEREFNO + " TEXT, " +
 
-			DatabaseHelper.REPCODE + " TEXT, " + FPRECHED_TXNTYPE + " TEXT, " + FPRECHED_CHQNO + " TEXT, " + FPRECHED_CHQDATE + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + FPRECHED_CURCODE + " TEXT, " +
+			ValueHolder.REPCODE + " TEXT, " + FPRECHED_TXNTYPE + " TEXT, " + FPRECHED_CHQNO + " TEXT, " + FPRECHED_CHQDATE + " TEXT, " + ValueHolder.TXNDATE + " TEXT, " + FPRECHED_CURCODE + " TEXT, " +
 
-			FPRECHED_CURRATE1 + " TEXT, " + DatabaseHelper.DEBCODE + " TEXT, " + FPRECHED_TOTALAMT + " TEXT, " + FPRECHED_BANKCODE + " TEXT, " + FPRECHED_BRANCHCODE + " TEXT, " +
+			FPRECHED_CURRATE1 + " TEXT, " + ValueHolder.DEBCODE + " TEXT, " + FPRECHED_TOTALAMT + " TEXT, " + FPRECHED_BANKCODE + " TEXT, " + FPRECHED_BRANCHCODE + " TEXT, " +
 
 			FPRECHED_BTOTALAMT + " TEXT, " + FPRECHED_PAYTYPE + " TEXT, " + FPRECHED_PRTCOPY + " TEXT, " + FPRECHED_REMARKS + " TEXT, " + FPRECHED_ADDUSER + " TEXT, " + FPRECHED_ADDMACH + " TEXT, " + FPRECHED_ADDDATE + " TEXT, " +
 
@@ -81,11 +80,11 @@ public class ReceiptController {
 
 	public static final String CREATE_FPRECHEDS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRECHEDS + " (" + FPRECHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-			DatabaseHelper.REFNO + " TEXT, " + FPRECHED_REFNO1 + " TEXT, " + FPRECHED_MANUREF + " TEXT, " + FPRECHED_SALEREFNO + " TEXT, " +
+			ValueHolder.REFNO + " TEXT, " + FPRECHED_REFNO1 + " TEXT, " + FPRECHED_MANUREF + " TEXT, " + FPRECHED_SALEREFNO + " TEXT, " +
 
-			DatabaseHelper.REPCODE + " TEXT, " + FPRECHED_TXNTYPE + " TEXT, " + FPRECHED_CHQNO + " TEXT, " + FPRECHED_CHQDATE + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + FPRECHED_CURCODE + " TEXT, " +
+			ValueHolder.REPCODE + " TEXT, " + FPRECHED_TXNTYPE + " TEXT, " + FPRECHED_CHQNO + " TEXT, " + FPRECHED_CHQDATE + " TEXT, " + ValueHolder.TXNDATE + " TEXT, " + FPRECHED_CURCODE + " TEXT, " +
 
-			FPRECHED_CURRATE1 + " TEXT, " + DatabaseHelper.DEBCODE + " TEXT, " + FPRECHED_TOTALAMT + " TEXT, " + FPRECHED_BANKCODE + " TEXT, " + FPRECHED_BRANCHCODE + " TEXT, " +
+			FPRECHED_CURRATE1 + " TEXT, " + ValueHolder.DEBCODE + " TEXT, " + FPRECHED_TOTALAMT + " TEXT, " + FPRECHED_BANKCODE + " TEXT, " + FPRECHED_BRANCHCODE + " TEXT, " +
 
 			FPRECHED_BTOTALAMT + " TEXT, " + FPRECHED_PAYTYPE + " TEXT, " + FPRECHED_PRTCOPY + " TEXT, " + FPRECHED_REMARKS + " TEXT, " + FPRECHED_ADDUSER + " TEXT, " + FPRECHED_ADDMACH + " TEXT, " + FPRECHED_ADDDATE + " TEXT, " +
 
@@ -118,27 +117,27 @@ public class ReceiptController {
 			for (ReceiptHed recHed : list) {
 
 				String selectQuery = "SELECT * FROM " + TABLE_FPRECHED + " WHERE "
-						+ DatabaseHelper.REFNO + " = '" + recHed.getFPRECHED_REFNO() + "'";
+						+ ValueHolder.REFNO + " = '" + recHed.getFPRECHED_REFNO() + "'";
 
 				cursor = dB.rawQuery(selectQuery, null);
 
 				ContentValues values = new ContentValues();
 
 				values.put(FPRECHED_ID, recHed.getFPRECHED_ID());
-				values.put(DatabaseHelper.REFNO, recHed.getFPRECHED_REFNO());
+				values.put(ValueHolder.REFNO, recHed.getFPRECHED_REFNO());
 				values.put(FPRECHED_REFNO1, recHed.getFPRECHED_REFNO1());
-				//values.put(DatabaseHelper.REFNO2, recHed.getFPRECHED_REFNO2());
+				//values.put(ValueHolder.REFNO2, recHed.getFPRECHED_REFNO2());
 				values.put(FPRECHED_MANUREF, recHed.getFPRECHED_MANUREF());
 				values.put(FPRECHED_SALEREFNO, recHed.getFPRECHED_SALEREFNO());
-				values.put(DatabaseHelper.REPCODE, recHed.getFPRECHED_REPCODE());
+				values.put(ValueHolder.REPCODE, recHed.getFPRECHED_REPCODE());
 				values.put(FPRECHED_TXNTYPE, recHed.getFPRECHED_TXNTYPE());
 				values.put(FPRECHED_CHQNO, recHed.getFPRECHED_CHQNO());
 				values.put(FPRECHED_CHQDATE, recHed.getFPRECHED_CHQDATE());
-				values.put(DatabaseHelper.TXNDATE, recHed.getFPRECHED_TXNDATE());
+				values.put(ValueHolder.TXNDATE, recHed.getFPRECHED_TXNDATE());
 				values.put(FPRECHED_CURCODE, recHed.getFPRECHED_CURCODE());
 				values.put(FPRECHED_CURRATE1, "");
 
-				values.put(DatabaseHelper.DEBCODE, recHed.getFPRECHED_DEBCODE());
+				values.put(ValueHolder.DEBCODE, recHed.getFPRECHED_DEBCODE());
 				values.put(FPRECHED_TOTALAMT, recHed.getFPRECHED_TOTALAMT());
 				values.put(FPRECHED_BTOTALAMT, recHed.getFPRECHED_BTOTALAMT());
 				values.put(FPRECHED_PAYTYPE, recHed.getFPRECHED_PAYTYPE());
@@ -162,7 +161,7 @@ public class ReceiptController {
 
 				int cn = cursor.getCount();
 				if (cn > 0) {
-					count = dB.update(TABLE_FPRECHED, values, DatabaseHelper.REFNO + " =?",
+					count = dB.update(TABLE_FPRECHED, values, ValueHolder.REFNO + " =?",
 							new String[] { String.valueOf(recHed.getFPRECHED_REFNO()) });
 				} else {
 					count = (int) dB.insert(TABLE_FPRECHED, null, values);
@@ -200,7 +199,7 @@ public class ReceiptController {
 
 			//if (hed.getORDER_IS_SYNCED().equals("1")) {
 			values.put(FPRECHED_ISSYNCED, res);
-			count = dB.update(TABLE_FPRECHED, values, REFNO + " =?", new String[] { refno });
+			count = dB.update(TABLE_FPRECHED, values, ValueHolder.REFNO + " =?", new String[] { refno });
 //            }else{
 //                values.put(FORDHED_IS_SYNCED, "0");
 //                count = dB.update(TABLE_FORDHED, values, REFNO + " =?", new String[] { String.valueOf(hed.getORDER_REFNO()) });
@@ -238,25 +237,25 @@ public class ReceiptController {
 			for (ReceiptHed recHed : list) {
 
 				String selectQuery = "SELECT * FROM " + TABLE_FPRECHEDS + " WHERE "
-						+ DatabaseHelper.REFNO + " = '" + recHed.getFPRECHED_REFNO() + "'";
+						+ ValueHolder.REFNO + " = '" + recHed.getFPRECHED_REFNO() + "'";
 
 				cursor = dB.rawQuery(selectQuery, null);
 
 				ContentValues values = new ContentValues();
 
 				//values.put(FPRECHED_ID, recHed.getFPRECHED_ID());
-				values.put(DatabaseHelper.REFNO, recHed.getFPRECHED_REFNO());
+				values.put(ValueHolder.REFNO, recHed.getFPRECHED_REFNO());
 				values.put(ReceiptDetController.FPRECDET_REFNO1, recHed.getFPRECHED_REFNO1());
 				values.put(FPRECHED_MANUREF, recHed.getFPRECHED_MANUREF());
 				values.put(FPRECHED_SALEREFNO, recHed.getFPRECHED_SALEREFNO());
-				values.put(DatabaseHelper.REPCODE, recHed.getFPRECHED_REPCODE());
+				values.put(ValueHolder.REPCODE, recHed.getFPRECHED_REPCODE());
 				values.put(FPRECHED_TXNTYPE, recHed.getFPRECHED_TXNTYPE());
 				values.put(FPRECHED_CHQNO, recHed.getFPRECHED_CHQNO());
 				values.put(FPRECHED_CHQDATE, recHed.getFPRECHED_CHQDATE());
-				values.put(DatabaseHelper.TXNDATE, recHed.getFPRECHED_TXNDATE());
+				values.put(ValueHolder.TXNDATE, recHed.getFPRECHED_TXNDATE());
 				values.put(FPRECHED_CURCODE, recHed.getFPRECHED_CURCODE());
 				values.put(FPRECHED_CURRATE1, "");
-				values.put(DatabaseHelper.DEBCODE, recHed.getFPRECHED_DEBCODE());
+				values.put(ValueHolder.DEBCODE, recHed.getFPRECHED_DEBCODE());
 				values.put(FPRECHED_TOTALAMT, recHed.getFPRECHED_TOTALAMT());
 				values.put(FPRECHED_BTOTALAMT, recHed.getFPRECHED_BTOTALAMT());
 				values.put(FPRECHED_PAYTYPE, recHed.getFPRECHED_PAYTYPE());
@@ -283,7 +282,7 @@ public class ReceiptController {
 
 				int cn = cursor.getCount();
 				if (cn > 0) {
-					count = dB.update(TABLE_FPRECHEDS, values, DatabaseHelper.REFNO + " =?",
+					count = dB.update(TABLE_FPRECHEDS, values, ValueHolder.REFNO + " =?",
 							new String[] { String.valueOf(recHed.getFPRECHED_REFNO()) });
 				} else {
 					count = (int) dB.insert(TABLE_FPRECHEDS, null, values);
@@ -322,13 +321,13 @@ public class ReceiptController {
 
 				selectQuery = "select * from " + TABLE_FPRECHEDS + " Where "
 						+ FPRECHED_ISDELETE + "='0' and "+ FPRECHED_ISACTIVE
-						+ "='0' Order by "+FPRECHED_ISSYNCED + "," +DatabaseHelper.REFNO + " DESC";
+						+ "='0' Order by "+FPRECHED_ISSYNCED + "," +ValueHolder.REFNO + " DESC";
 
 			} else {
 
 				selectQuery = "select * from " + TABLE_FPRECHEDS + " Where "
-						+ FPRECHED_ISDELETE + "='0' and "+ FPRECHED_ISACTIVE + "='0' and " + DatabaseHelper.REFNO + "='" + refno
-						+ "' Order by "+FPRECHED_ISSYNCED + "," +DatabaseHelper.REFNO + " DESC";
+						+ FPRECHED_ISDELETE + "='0' and "+ FPRECHED_ISACTIVE + "='0' and " + ValueHolder.REFNO + "='" + refno
+						+ "' Order by "+FPRECHED_ISSYNCED + "," +ValueHolder.REFNO + " DESC";
 			}
 
 			Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -351,7 +350,7 @@ public class ReceiptController {
 				recHed.setFPRECHED_CURRATE(cursor.getString(cursor.getColumnIndex(FPRECHED_CURRATE)));
 				recHed.setFPRECHED_CURRATE1(cursor.getString(cursor.getColumnIndex(FPRECHED_CURRATE1)));
 				recHed.setFPRECHED_CUSBANK(cursor.getString(cursor.getColumnIndex(FPRECHED_CUSBANK)));
-				recHed.setFPRECHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+				recHed.setFPRECHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
 				recHed.setFPRECHED_END_TIME(cursor.getString(cursor.getColumnIndex(FPRECHED_END_TIME)));
 				recHed.setFPRECHED_ID(cursor.getString(cursor.getColumnIndex(FPRECHED_ID)));
 				recHed.setFPRECHED_ISACTIVE(cursor.getString(cursor.getColumnIndex(FPRECHED_ISACTIVE)));
@@ -362,15 +361,15 @@ public class ReceiptController {
 				recHed.setFPRECHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(FPRECHED_PAYTYPE)));
 				recHed.setFPRECHED_PRTCOPY(cursor.getString(cursor.getColumnIndex(FPRECHED_PRTCOPY)));
 				recHed.setFPRECHED_RECORDID(cursor.getString(cursor.getColumnIndex(FPRECHED_RECORDID)));
-				recHed.setFPRECHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+				recHed.setFPRECHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
 				recHed.setFPRECHED_REFNO1(cursor.getString(cursor.getColumnIndex(ReceiptDetController.FPRECDET_REFNO1)));
 				recHed.setFPRECHED_REMARKS(cursor.getString(cursor.getColumnIndex(FPRECHED_REMARKS)));
-				recHed.setFPRECHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+				recHed.setFPRECHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
 				recHed.setFPRECHED_SALEREFNO(cursor.getString(cursor.getColumnIndex(FPRECHED_SALEREFNO)));
 				recHed.setFPRECHED_START_TIME(cursor.getString(cursor.getColumnIndex(FPRECHED_START_TIME)));
 				recHed.setFPRECHED_TIMESTAMP(cursor.getString(cursor.getColumnIndex(FPRECHED_TIMESTAMP)));
 				recHed.setFPRECHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FPRECHED_TOTALAMT)));
-				recHed.setFPRECHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+				recHed.setFPRECHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
 				recHed.setFPRECHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FPRECHED_TXNTYPE)));
 				//	recHed.setFPRECHED_ADDUSER_NEW(cursor.getString(cursor.getColumnIndex(FPRECHED_ADDUSER_NEW)));
 
@@ -413,7 +412,7 @@ public class ReceiptController {
 				selectQuery = "select * from " + TABLE_FPRECHED + " Where "
 						+ FPRECHED_ISDELETE + "='0' and " + FPRECHED_ISACTIVE
 						+ "='0' and " + FPRECHED_TOTALAMT
-						+ ">'0' and " + DatabaseHelper.REFNO + "='" + refno + "'";
+						+ ">'0' and " + ValueHolder.REFNO + "='" + refno + "'";
 			}
 
 			Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -433,7 +432,7 @@ public class ReceiptController {
 				recHed.setFPRECHED_CURRATE(cursor.getString(cursor.getColumnIndex(FPRECHED_CURRATE)));
 				recHed.setFPRECHED_CURRATE1(cursor.getString(cursor.getColumnIndex(FPRECHED_CURRATE1)));
 				recHed.setFPRECHED_CUSBANK(cursor.getString(cursor.getColumnIndex(FPRECHED_CUSBANK)));
-				recHed.setFPRECHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+				recHed.setFPRECHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
 				recHed.setFPRECHED_END_TIME(cursor.getString(cursor.getColumnIndex(FPRECHED_END_TIME)));
 				recHed.setFPRECHED_ID(cursor.getString(cursor.getColumnIndex(FPRECHED_ID)));
 				recHed.setFPRECHED_ISACTIVE(cursor.getString(cursor.getColumnIndex(FPRECHED_ISACTIVE)));
@@ -445,10 +444,10 @@ public class ReceiptController {
 				recHed.setFPRECHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(FPRECHED_PAYTYPE)));
 				recHed.setFPRECHED_PRTCOPY(cursor.getString(cursor.getColumnIndex(FPRECHED_PRTCOPY)));
 				recHed.setFPRECHED_RECORDID(cursor.getString(cursor.getColumnIndex(FPRECHED_RECORDID)));
-				recHed.setFPRECHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+				recHed.setFPRECHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
 				recHed.setFPRECHED_REFNO1(cursor.getString(cursor.getColumnIndex(FPRECHED_REFNO1)));
 				recHed.setFPRECHED_REMARKS(cursor.getString(cursor.getColumnIndex(FPRECHED_REMARKS)));
-				recHed.setFPRECHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+				recHed.setFPRECHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
 				recHed.setFPRECHED_SALEREFNO(
 						cursor.getString(cursor.getColumnIndex(FPRECHED_SALEREFNO)));
 				recHed.setFPRECHED_START_TIME(
@@ -456,7 +455,7 @@ public class ReceiptController {
 				recHed.setFPRECHED_TIMESTAMP(
 						cursor.getString(cursor.getColumnIndex(FPRECHED_TIMESTAMP)));
 				recHed.setFPRECHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FPRECHED_TOTALAMT)));
-				recHed.setFPRECHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+				recHed.setFPRECHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
 				recHed.setFPRECHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FPRECHED_TXNTYPE)));
 				recHed.setFPRECHED_ISDELETE(cursor.getString(cursor.getColumnIndex(FPRECHED_ISDELETE)));
 
@@ -487,7 +486,7 @@ public class ReceiptController {
 		ReceiptHed recHed = new ReceiptHed();
 		try {
 
-			selectQuery = "select * from " + TABLE_FPRECHEDS + " Where " + DatabaseHelper.REFNO
+			selectQuery = "select * from " + TABLE_FPRECHEDS + " Where " + ValueHolder.REFNO
 					+ "='" + refno + "'";
 
 			Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -507,7 +506,7 @@ public class ReceiptController {
 				recHed.setFPRECHED_CURRATE(cursor.getString(cursor.getColumnIndex(FPRECHED_CURRATE)));
 				recHed.setFPRECHED_CURRATE1(cursor.getString(cursor.getColumnIndex(FPRECHED_CURRATE1)));
 				recHed.setFPRECHED_CUSBANK(cursor.getString(cursor.getColumnIndex(FPRECHED_CUSBANK)));
-				recHed.setFPRECHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+				recHed.setFPRECHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
 				recHed.setFPRECHED_END_TIME(cursor.getString(cursor.getColumnIndex(FPRECHED_END_TIME)));
 				recHed.setFPRECHED_ID(cursor.getString(cursor.getColumnIndex(FPRECHED_ID)));
 				recHed.setFPRECHED_ISACTIVE(cursor.getString(cursor.getColumnIndex(FPRECHED_ISACTIVE)));
@@ -518,14 +517,14 @@ public class ReceiptController {
 				recHed.setFPRECHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(FPRECHED_PAYTYPE)));
 				recHed.setFPRECHED_PRTCOPY(cursor.getString(cursor.getColumnIndex(FPRECHED_PRTCOPY)));
 				recHed.setFPRECHED_RECORDID(cursor.getString(cursor.getColumnIndex(FPRECHED_RECORDID)));
-				recHed.setFPRECHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+				recHed.setFPRECHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
 				recHed.setFPRECHED_REMARKS(cursor.getString(cursor.getColumnIndex(FPRECHED_REMARKS)));
-				recHed.setFPRECHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+				recHed.setFPRECHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
 				recHed.setFPRECHED_SALEREFNO(cursor.getString(cursor.getColumnIndex(FPRECHED_SALEREFNO)));
 				recHed.setFPRECHED_START_TIME(cursor.getString(cursor.getColumnIndex(FPRECHED_START_TIME)));
 				recHed.setFPRECHED_TIMESTAMP(cursor.getString(cursor.getColumnIndex(FPRECHED_TIMESTAMP)));
 				recHed.setFPRECHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FPRECHED_TOTALAMT)));
-				recHed.setFPRECHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+				recHed.setFPRECHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
 				recHed.setFPRECHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FPRECHED_TXNTYPE)));
 				//	recHed.setFPRECHED_ADDUSER_NEW(cursor.getString(cursor.getColumnIndex(FPRECHED_ADDUSER_NEW)));
 
@@ -553,7 +552,7 @@ public class ReceiptController {
 		}
 		int result = 0;
 		try {
-			result = dB.delete(TABLE_FPRECHED, DatabaseHelper.REFNO + "=?",
+			result = dB.delete(TABLE_FPRECHED, ValueHolder.REFNO + "=?",
 					new String[] { Refno });
 
 		} catch (Exception e) {
@@ -576,7 +575,7 @@ public class ReceiptController {
 		}
 		int result = 0;
 		try {
-			result = dB.delete(TABLE_FPRECHEDS, DatabaseHelper.REFNO + "=?",
+			result = dB.delete(TABLE_FPRECHEDS, ValueHolder.REFNO + "=?",
 					new String[] { Refno });
 
 		} catch (Exception e) {
@@ -606,7 +605,7 @@ public class ReceiptController {
 		try {
 
 			String selectQuery = "SELECT * FROM " + TABLE_FPRECHEDS + " WHERE "
-					+ DatabaseHelper.REFNO + " = '" + refno + "'";
+					+ ValueHolder.REFNO + " = '" + refno + "'";
 
 			cursor = dB.rawQuery(selectQuery, null);
 
@@ -617,7 +616,7 @@ public class ReceiptController {
 			int cn = cursor.getCount();
 
 			if (cn > 0) {
-				count = dB.update(TABLE_FPRECHEDS, values, DatabaseHelper.REFNO + " =?",
+				count = dB.update(TABLE_FPRECHEDS, values, ValueHolder.REFNO + " =?",
 						new String[] { String.valueOf(refno) });
 			} else {
 				count = (int) dB.insert(TABLE_FPRECHEDS, null, values);
@@ -741,7 +740,7 @@ public class ReceiptController {
 		try {
 
 			String selectQuery = "SELECT * FROM " + TABLE_FPRECHEDS + " WHERE "
-					+ DatabaseHelper.REFNO + " = '" + refno + "'";
+					+ ValueHolder.REFNO + " = '" + refno + "'";
 
 			cursor = dB.rawQuery(selectQuery, null);
 
@@ -752,7 +751,7 @@ public class ReceiptController {
 			int cn = cursor.getCount();
 
 			if (cn > 0) {
-				count = dB.update(TABLE_FPRECHEDS, values, DatabaseHelper.REFNO + " =?",
+				count = dB.update(TABLE_FPRECHEDS, values, ValueHolder.REFNO + " =?",
 						new String[] { String.valueOf(refno) });
 			}
 
@@ -815,7 +814,7 @@ public class ReceiptController {
 			values.put(FPRECHED_ADDRESS, recHed.getFPRECHED_ADDRESS());
 			values.put(FPRECHED_COST_CODE, recHed.getFPRECHED_COSTCODE());
 
-			dB.update(TABLE_FPRECHEDS, values, DatabaseHelper.REFNO + " =?",
+			dB.update(TABLE_FPRECHEDS, values, ValueHolder.REFNO + " =?",
 					new String[] { String.valueOf(Refno) });
 
 		} catch (Exception e) {
@@ -845,14 +844,14 @@ public class ReceiptController {
 			open();
 		}
 
-		String selectQuery = "SELECT * FROM " + TABLE_FPRECHED + " WHERE " + DatabaseHelper.DEBCODE
+		String selectQuery = "SELECT * FROM " + TABLE_FPRECHED + " WHERE " + ValueHolder.DEBCODE
 				+ " = '" + code + "' AND " + FPRECHED_ISACTIVE + " = '" + status + "'";
 
 		Cursor cursor = dB.rawQuery(selectQuery, null);
 
 		while (cursor.moveToNext()) {
 
-			return cursor.getString(cursor.getColumnIndex(dbHelper.REFNO));
+			return cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
 
 		}
 
@@ -868,7 +867,7 @@ public class ReceiptController {
 			open();
 		}
 
-		String selectQuery = "SELECT * FROM " + TABLE_FPRECHEDS + " WHERE " + DatabaseHelper.REFNO
+		String selectQuery = "SELECT * FROM " + TABLE_FPRECHEDS + " WHERE " + ValueHolder.REFNO
 				+ " = '" + refno + "'";
 
 		Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -891,7 +890,7 @@ public class ReceiptController {
 			open();
 		}
 
-		String selectQuery = "SELECT * FROM " + TABLE_FPRECHEDS + " WHERE " + DatabaseHelper.REFNO
+		String selectQuery = "SELECT * FROM " + TABLE_FPRECHEDS + " WHERE " + ValueHolder.REFNO
 				+ " = '" + refno + "'";
 
 		Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -990,7 +989,7 @@ public class ReceiptController {
 			cursor = dB.rawQuery(selectQuery, null);
 
 			while (cursor.moveToNext()) {
-				String refno = cursor.getString(cursor.getColumnIndex(dbHelper.REFNO));
+				String refno = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
 
 				String query = "Update " + TABLE_FPRECHED
 						+ " set TotalAmt = (select sum(AloAmt) Aloamt from fprecdet where refno='" + refno
@@ -1030,8 +1029,8 @@ public class ReceiptController {
 
 			while(!cursor.isAfterLast()) {
 
-				String refno = cursor.getString(cursor.getColumnIndex(dbHelper.REFNO));
-				result = dB.delete(TABLE_FPRECHED, DatabaseHelper.REFNO + "=?",
+				String refno = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
+				result = dB.delete(TABLE_FPRECHED, ValueHolder.REFNO + "=?",
 						new String[] { refno });
 
 				result2=result2+1;
@@ -1042,10 +1041,10 @@ public class ReceiptController {
 //			while (cursor.moveToNext()) {
 //				String refno = cursor.getString(cursor.getColumnIndex(dbHelper.REFNO));
 //				
-//				result = dB.delete(DatabaseHelper.TABLE_FPRECHED, DatabaseHelper.REFNO + "=?",
+//				result = dB.delete(ValueHolder.TABLE_FPRECHED, ValueHolder.REFNO + "=?",
 //						new String[] { refno });
 //				result2=result2+1;
-//				//String query = "Delete FROM " + DatabaseHelper.TABLE_FPRECHED + " where refno='" + refno + "'";
+//				//String query = "Delete FROM " + ValueHolder.TABLE_FPRECHED + " where refno='" + refno + "'";
 //				//dB.execSQL(query);
 //			}
 
@@ -1053,7 +1052,7 @@ public class ReceiptController {
 		}
 //		try {
 //
-//				String query = "Delete from " + DatabaseHelper.TABLE_FPRECHED+ " where totalamt is null ";
+//				String query = "Delete from " + ValueHolder.TABLE_FPRECHED+ " where totalamt is null ";
 //				dB.execSQL(query);						
 //
 //		}
@@ -1082,7 +1081,7 @@ public class ReceiptController {
 			values.put(FPRECHED_ISSYNCED, "1");
 
 			if (mapper.getFPRECHED_ISSYNCED().equals("1")) {
-				count = dB.update(TABLE_FPRECHED, values, dbHelper.REFNO + " =?",
+				count = dB.update(TABLE_FPRECHED, values, ValueHolder.REFNO + " =?",
 						new String[] { String.valueOf(mapper.getFPRECHED_REFNO()) });
 			}
 
@@ -1145,7 +1144,7 @@ public class ReceiptController {
 				mapper.setFPRECHED_CURRATE1(cursor.getString(cursor.getColumnIndex(FPRECHED_CURRATE1)));
 				mapper.setFPRECHED_CUSBANK(cursor.getString(cursor.getColumnIndex(FPRECHED_CUSBANK)));
 				mapper.setFPRECHED_COSTCODE(cursor.getString(cursor.getColumnIndex(FPRECHED_COST_CODE)));
-				mapper.setFPRECHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+				mapper.setFPRECHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
 				mapper.setFPRECHED_END_TIME(cursor.getString(cursor.getColumnIndex(FPRECHED_END_TIME)));
 				mapper.setFPRECHED_ID(cursor.getString(cursor.getColumnIndex(FPRECHED_ID)));
 				mapper.setFPRECHED_ISACTIVE(cursor.getString(cursor.getColumnIndex(FPRECHED_ISACTIVE)));
@@ -1156,19 +1155,19 @@ public class ReceiptController {
 				mapper.setFPRECHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(FPRECHED_PAYTYPE)));
 				mapper.setFPRECHED_PRTCOPY(cursor.getString(cursor.getColumnIndex(FPRECHED_PRTCOPY)));
 				mapper.setFPRECHED_RECORDID(cursor.getString(cursor.getColumnIndex(FPRECHED_RECORDID)));
-				mapper.setFPRECHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+				mapper.setFPRECHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
 				mapper.setFPRECHED_REMARKS(cursor.getString(cursor.getColumnIndex(FPRECHED_REMARKS)));
-				mapper.setFPRECHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+				mapper.setFPRECHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
 				mapper.setFPRECHED_SALEREFNO(cursor.getString(cursor.getColumnIndex(FPRECHED_SALEREFNO)));
 				mapper.setFPRECHED_START_TIME(cursor.getString(cursor.getColumnIndex(FPRECHED_START_TIME)));
 				mapper.setFPRECHED_TIMESTAMP(cursor.getString(cursor.getColumnIndex(FPRECHED_TIMESTAMP)));
 				mapper.setFPRECHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FPRECHED_TOTALAMT)));
-				mapper.setFPRECHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+				mapper.setFPRECHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
 				mapper.setFPRECHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FPRECHED_TXNTYPE)));
 				mapper.setFPRECHED_BANKCODE(cursor.getString(cursor.getColumnIndex(FPRECHED_BANKCODE)));
 				mapper.setFPRECHED_BRANCHCODE(cursor.getString(cursor.getColumnIndex(FPRECHED_BRANCHCODE)));
 
-				mapper.setRecDetList(new ReceiptDetController(context).GetReceiptByRefno(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO))));
+				mapper.setRecDetList(new ReceiptDetController(context).GetReceiptByRefno(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO))));
 
 				list.add(mapper);
 

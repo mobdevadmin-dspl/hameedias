@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.TourHed;
 
 import java.text.SimpleDateFormat;
@@ -43,7 +44,7 @@ public class  TourController
     public static final String TOURHED_FROMDATE = "DateFrom";
     public static final String TOURHED_TODATE = "DateTo";
 
-    public static final String CREATE_FTOURHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FTOURHED + " (" + TOURHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + TOURHED_MANUREF + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + TOURHED_LORRYCODE + " TEXT, " + TOURHED_ROUTECODE + " TEXT, " + TOURHED_AREACODE + " TEXT, " + TOURHED_COSTCODE + " TEXT, " + TOURHED_REMARKS + " TEXT, " + TOURHED_LOCCODEF + " TEXT, " + TOURHED_LOCCODE + " TEXT, " + DatabaseHelper.REPCODE + " TEXT, " + TOURHED_HELPERCODE + " TEXT, " + TOURHED_ADDUSER + " TEXT, " + TOURHED_ADDMACH + " TEXT, " + TOURHED_DRIVERCODE + " TEXT, " + TOURHED_VANLOADFLG + " TEXT, " + TOURHED_CLSFLG + " TEXT, " + TOURHED_FROMDATE + " TEXT, " + TOURHED_TODATE + " TEXT, " + TOURHED_TOURTYPE + " TEXT); ";
+    public static final String CREATE_FTOURHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FTOURHED + " (" + TOURHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + TOURHED_MANUREF + " TEXT, " + ValueHolder.TXNDATE + " TEXT, " + TOURHED_LORRYCODE + " TEXT, " + TOURHED_ROUTECODE + " TEXT, " + TOURHED_AREACODE + " TEXT, " + TOURHED_COSTCODE + " TEXT, " + TOURHED_REMARKS + " TEXT, " + TOURHED_LOCCODEF + " TEXT, " + TOURHED_LOCCODE + " TEXT, " + ValueHolder.REPCODE + " TEXT, " + TOURHED_HELPERCODE + " TEXT, " + TOURHED_ADDUSER + " TEXT, " + TOURHED_ADDMACH + " TEXT, " + TOURHED_DRIVERCODE + " TEXT, " + TOURHED_VANLOADFLG + " TEXT, " + TOURHED_CLSFLG + " TEXT, " + TOURHED_FROMDATE + " TEXT, " + TOURHED_TODATE + " TEXT, " + TOURHED_TOURTYPE + " TEXT); ";
 
 
     public TourController(Context context) {
@@ -69,7 +70,7 @@ public class  TourController
 
             for (TourHed hed : list) {
 
-                Cursor cursor = dB.rawQuery("SELECT * FROM " + TABLE_FTOURHED + " WHERE " + DatabaseHelper.REFNO + "='" + hed.getTOURHED_REFNO() + "'", null);
+                Cursor cursor = dB.rawQuery("SELECT * FROM " + TABLE_FTOURHED + " WHERE " + ValueHolder.REFNO + "='" + hed.getTOURHED_REFNO() + "'", null);
                 ContentValues values = new ContentValues();
 
                 values.put(TOURHED_ADDMACH, hed.getTOURHED_ADDMACH());
@@ -84,18 +85,18 @@ public class  TourController
                 values.put(TOURHED_LOCCODEF, hed.getTOURHED_LOCCODEF());
                 values.put(TOURHED_LORRYCODE, hed.getTOURHED_LORRYCODE());
                 values.put(TOURHED_MANUREF, hed.getTOURHED_MANUREF());
-                values.put(DatabaseHelper.REFNO, hed.getTOURHED_REFNO());
+                values.put(ValueHolder.REFNO, hed.getTOURHED_REFNO());
                 values.put(TOURHED_REMARKS, hed.getTOURHED_REMARKS());
-                values.put(DatabaseHelper.REPCODE, hed.getTOURHED_REPCODE());
+                values.put(ValueHolder.REPCODE, hed.getTOURHED_REPCODE());
                 values.put(TOURHED_ROUTECODE, hed.getTOURHED_ROUTECODE());
                 values.put(TOURHED_TOURTYPE, hed.getTOURHED_TOURTYPE());
-                values.put(DatabaseHelper.TXNDATE, hed.getTOURHED_TXNDATE());
+                values.put(ValueHolder.TXNDATE, hed.getTOURHED_TXNDATE());
                 values.put(TOURHED_VANLOADFLG, hed.getTOURHED_VANLOADFLG());
                 values.put(TOURHED_FROMDATE, hed.getTOURHED_DATEFROM());
                 values.put(TOURHED_TODATE, hed.getTOURHED_DATETO());
 
                 if (cursor.getCount() > 0) {
-                    dB.update(TABLE_FTOURHED, values, DatabaseHelper.REFNO + "=?", new String[]{hed.getTOURHED_REFNO()});
+                    dB.update(TABLE_FTOURHED, values, ValueHolder.REFNO + "=?", new String[]{hed.getTOURHED_REFNO()});
                 } else {
                     count = (int) dB.insert(TABLE_FTOURHED, null, values);
                 }
@@ -153,12 +154,12 @@ public class  TourController
                 hed.setTOURHED_LOCCODEF(cursor.getString(cursor.getColumnIndex(TOURHED_LOCCODEF)));
                 hed.setTOURHED_LORRYCODE(cursor.getString(cursor.getColumnIndex(TOURHED_LORRYCODE)));
                 hed.setTOURHED_MANUREF(cursor.getString(cursor.getColumnIndex(TOURHED_MANUREF)));
-                hed.setTOURHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                hed.setTOURHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 hed.setTOURHED_REMARKS(cursor.getString(cursor.getColumnIndex(TOURHED_REMARKS)));
-                hed.setTOURHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+                hed.setTOURHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
                 hed.setTOURHED_ROUTECODE(cursor.getString(cursor.getColumnIndex(TOURHED_ROUTECODE)));
                 hed.setTOURHED_TOURTYPE(cursor.getString(cursor.getColumnIndex(TOURHED_TOURTYPE)));
-                hed.setTOURHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                hed.setTOURHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 hed.setTOURHED_VANLOADFLG(cursor.getString(cursor.getColumnIndex(TOURHED_VANLOADFLG)));
 
 

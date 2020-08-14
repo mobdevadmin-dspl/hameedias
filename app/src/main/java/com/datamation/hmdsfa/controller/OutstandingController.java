@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.FddbNote;
 import com.datamation.hmdsfa.model.ReceiptDet;
 
@@ -65,10 +66,10 @@ public class OutstandingController {
 
     // create String
     public static final String CREATE_FDDBNOTE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FDDBNOTE + " (" + FDDBNOTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FDDBNOTE_RECORD_ID + " TEXT, " +
-            DatabaseHelper.REFNO + " TEXT, " + FDDBNOTE_REFNO2 + " TEXT, " + FDDBNOTE_REPNAME + " TEXT, " +
-            FDDBNOTE_RECEIPT_TYPE + " TEXT, " + FDDBNOTE_REMARK + " TEXT, " + FDDBNOTE_ENT_REMARK + " TEXT, " + FDDBNOTE_PDAAMT + " TEXT, " + FDDBNOTE_REF_INV + " TEXT, " + FDDBNOTE_ENTER_AMT + " TEXT, " + FDDBNOTE_SALE_REF_NO + " TEXT, " + FDDBNOTE_MANU_REF + " TEXT, " + FDDBNOTE_TXN_TYPE + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + FDDBNOTE_CUR_CODE + " TEXT, " + FDDBNOTE_CUR_RATE + " TEXT, " + DatabaseHelper.DEBCODE + " TEXT, " + DatabaseHelper.REPCODE + " TEXT, " + FDDBNOTE_TAX_COM_CODE + " TEXT, " + FDDBNOTE_TAX_AMT + " TEXT, " + FDDBNOTE_B_TAX_AMT + " TEXT, " + FDDBNOTE_AMT + " TEXT, " + FDDBNOTE_B_AMT + " TEXT, " + FDDBNOTE_TOT_BAL + " TEXT, " + FDDBNOTE_TOT_BAL1 + " TEXT, " + FDDBNOTE_OV_PAY_AMT + " TEXT, " + FDDBNOTE_REMARKS + " TEXT, " + FDDBNOTE_CR_ACC + " TEXT, " + FDDBNOTE_PRT_COPY + " TEXT, " + FDDBNOTE_GL_POST + " TEXT, " + FDDBNOTE_GL_BATCH + " TEXT, " + FDDBNOTE_ADD_USER + " TEXT, " + FDDBNOTE_ADD_DATE + " TEXT, " + FDDBNOTE_ADD_MACH + " TEXT, " + FDDBNOTE_REFNO1 + " TEXT); ";
+            ValueHolder.REFNO + " TEXT, " + FDDBNOTE_REFNO2 + " TEXT, " + FDDBNOTE_REPNAME + " TEXT, " +
+            FDDBNOTE_RECEIPT_TYPE + " TEXT, " + FDDBNOTE_REMARK + " TEXT, " + FDDBNOTE_ENT_REMARK + " TEXT, " + FDDBNOTE_PDAAMT + " TEXT, " + FDDBNOTE_REF_INV + " TEXT, " + FDDBNOTE_ENTER_AMT + " TEXT, " + FDDBNOTE_SALE_REF_NO + " TEXT, " + FDDBNOTE_MANU_REF + " TEXT, " + FDDBNOTE_TXN_TYPE + " TEXT, " + ValueHolder.TXNDATE + " TEXT, " + FDDBNOTE_CUR_CODE + " TEXT, " + FDDBNOTE_CUR_RATE + " TEXT, " + ValueHolder.DEBCODE + " TEXT, " + ValueHolder.REPCODE + " TEXT, " + FDDBNOTE_TAX_COM_CODE + " TEXT, " + FDDBNOTE_TAX_AMT + " TEXT, " + FDDBNOTE_B_TAX_AMT + " TEXT, " + FDDBNOTE_AMT + " TEXT, " + FDDBNOTE_B_AMT + " TEXT, " + FDDBNOTE_TOT_BAL + " TEXT, " + FDDBNOTE_TOT_BAL1 + " TEXT, " + FDDBNOTE_OV_PAY_AMT + " TEXT, " + FDDBNOTE_REMARKS + " TEXT, " + FDDBNOTE_CR_ACC + " TEXT, " + FDDBNOTE_PRT_COPY + " TEXT, " + FDDBNOTE_GL_POST + " TEXT, " + FDDBNOTE_GL_BATCH + " TEXT, " + FDDBNOTE_ADD_USER + " TEXT, " + FDDBNOTE_ADD_DATE + " TEXT, " + FDDBNOTE_ADD_MACH + " TEXT, " + FDDBNOTE_REFNO1 + " TEXT); ";
 
-    public static final String TESTDDBNOTE = "CREATE UNIQUE INDEX IF NOT EXISTS idxddbnote_something ON " + TABLE_FDDBNOTE + " (" + DatabaseHelper.REFNO + ")";
+    public static final String TESTDDBNOTE = "CREATE UNIQUE INDEX IF NOT EXISTS idxddbnote_something ON " + TABLE_FDDBNOTE + " (" + ValueHolder.REFNO + ")";
 
     public OutstandingController(Context context) {
         this.context = context;
@@ -181,7 +182,7 @@ public class OutstandingController {
                 values.put(FDDBNOTE_SALE_REF_NO, fdDbNote.getFDDBNOTE_SALE_REF_NO());
                 values.put(FDDBNOTE_MANU_REF, fdDbNote.getFDDBNOTE_MANU_REF());
                 values.put(FDDBNOTE_TXN_TYPE, fdDbNote.getFDDBNOTE_TXN_TYPE());
-                values.put(DatabaseHelper.TXNDATE, fdDbNote.getFDDBNOTE_TXN_DATE());
+                values.put(ValueHolder.TXNDATE, fdDbNote.getFDDBNOTE_TXN_DATE());
                 values.put(FDDBNOTE_CUR_CODE, fdDbNote.getFDDBNOTE_CUR_CODE());
                 values.put(FDDBNOTE_CUR_RATE, fdDbNote.getFDDBNOTE_CUR_RATE());
                 values.put(FDDBNOTE_DEB_CODE, fdDbNote.getFDDBNOTE_DEB_CODE());
@@ -316,8 +317,8 @@ public class OutstandingController {
 
             while (cursor.moveToNext()) {
                 FddbNote dbNote = new FddbNote();
-                dbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                dbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                dbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+                dbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 dbNote.setFDDBNOTE_TOT_BAL(cursor.getString(cursor.getColumnIndex(FDDBNOTE_TOT_BAL)));
                 dbNote.setFDDBNOTE_TOT_BAL1(cursor.getString(cursor.getColumnIndex(FDDBNOTE_TOT_BAL1)));
                 list.add(dbNote);
@@ -351,7 +352,7 @@ public class OutstandingController {
             String selectQuery = "SELECT txndate FROM " + TABLE_FDDBNOTE + " WHERE DebCode ='" + DebCode + "' ORDER BY txndate ASC";
             cursor = dB.rawQuery(selectQuery, null);
             cursor.moveToFirst();
-            return cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE));
+            return cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE));
 
         } catch (Exception e) {
             Log.v(TAG, e.toString());
@@ -448,18 +449,18 @@ public class OutstandingController {
 
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FDDBNOTE + " WHERE " + DatabaseHelper.DEBCODE + "='" + debCode + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FDDBNOTE + " WHERE " + ValueHolder.DEBCODE + "='" + debCode + "'", null);
 
             while (cursor.moveToNext()) {
 
                 FddbNote fdDbNote = new FddbNote();
 
-                fdDbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
-                fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                fdDbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
+                fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 fdDbNote.setFDDBNOTE_AMT(cursor.getString(cursor.getColumnIndex(FDDBNOTE_AMT)));
                 fdDbNote.setFDDBNOTE_TOT_BAL(cursor.getString(cursor.getColumnIndex(FDDBNOTE_TOT_BAL)));
-                fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                fdDbNote.setFDDBNOTE_ADD_DATE(Daybetween(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE))) + "");
+                fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+                fdDbNote.setFDDBNOTE_ADD_DATE(Daybetween(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE))) + "");
                 fdDbNote.setFDDBNOTE_B_AMT(String.format("%,.2f", Double.parseDouble(fdDbNote.getFDDBNOTE_AMT()) - Double.parseDouble(fdDbNote.getFDDBNOTE_TOT_BAL())));
                 list.add(fdDbNote);
             }
@@ -491,9 +492,9 @@ public class OutstandingController {
             String selectQuery;
 
             if (isSummery)
-                selectQuery = "select * from " + TABLE_FDDBNOTE + " WHERE " + " debcode='" + debcode + "' AND EnterAmt<>'' AND CAST(TotBal AS INT) > 0.0 Order By " + DatabaseHelper.TXNDATE;
+                selectQuery = "select * from " + TABLE_FDDBNOTE + " WHERE " + " debcode='" + debcode + "' AND EnterAmt<>'' AND CAST(TotBal AS INT) > 0.0 Order By " + ValueHolder.TXNDATE;
             else
-                selectQuery = "select * from " + TABLE_FDDBNOTE + " WHERE " + " debcode='" + debcode + "' AND CAST(TotBal AS INT) > 0.0 Order By " + DatabaseHelper.TXNDATE;
+                selectQuery = "select * from " + TABLE_FDDBNOTE + " WHERE " + " debcode='" + debcode + "' AND CAST(TotBal AS INT) > 0.0 Order By " + ValueHolder.TXNDATE;
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -510,7 +511,7 @@ public class OutstandingController {
                // fdDbNote.setFDDBNOTE_CR_ACC(cursor.getString(cursor.getColumnIndex(FDDBNOTE_CR_ACC)));
                 fdDbNote.setFDDBNOTE_CUR_CODE(cursor.getString(cursor.getColumnIndex(FDDBNOTE_CUR_CODE)));
                 fdDbNote.setFDDBNOTE_CUR_RATE(cursor.getString(cursor.getColumnIndex(FDDBNOTE_CUR_RATE)));
-                fdDbNote.setFDDBNOTE_DEB_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+                fdDbNote.setFDDBNOTE_DEB_CODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
                 fdDbNote.setFDDBNOTE_ENTER_AMT(cursor.getString(cursor.getColumnIndex(FDDBNOTE_ENTER_AMT)));
 //                fdDbNote.setFDDBNOTE_GL_BATCH(cursor.getString(cursor.getColumnIndex(FDDBNOTE_GL_BATCH)));
 //                fdDbNote.setFDDBNOTE_GL_POST(cursor.getString(cursor.getColumnIndex(FDDBNOTE_GL_POST)));
@@ -520,15 +521,15 @@ public class OutstandingController {
   //              fdDbNote.setFDDBNOTE_PRT_COPY(cursor.getString(cursor.getColumnIndex(FDDBNOTE_PRT_COPY)));
                 fdDbNote.setFDDBNOTE_RECORD_ID(cursor.getString(cursor.getColumnIndex(FDDBNOTE_RECORD_ID)));
                 fdDbNote.setFDDBNOTE_REF_INV(cursor.getString(cursor.getColumnIndex(FDDBNOTE_REF_INV)));
-                fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                fdDbNote.setFDDBNOTE_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 fdDbNote.setFDDBNOTE_REFNO1(cursor.getString(cursor.getColumnIndex(FDDBNOTE_REFNO1)));
-                fdDbNote.setFDDBNOTE_REP_CODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+                fdDbNote.setFDDBNOTE_REP_CODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
                 fdDbNote.setFDDBNOTE_SALE_REF_NO(cursor.getString(cursor.getColumnIndex(FDDBNOTE_SALE_REF_NO)));
                 fdDbNote.setFDDBNOTE_TAX_AMT(cursor.getString(cursor.getColumnIndex(FDDBNOTE_TAX_AMT)));
                 fdDbNote.setFDDBNOTE_TAX_COM_CODE(cursor.getString(cursor.getColumnIndex(FDDBNOTE_TAX_COM_CODE)));
                 fdDbNote.setFDDBNOTE_TOT_BAL(cursor.getString(cursor.getColumnIndex(FDDBNOTE_TOT_BAL)));
                 fdDbNote.setFDDBNOTE_TOT_BAL1(cursor.getString(cursor.getColumnIndex(FDDBNOTE_TOT_BAL1)));
-                fdDbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                fdDbNote.setFDDBNOTE_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 fdDbNote.setFDDBNOTE_TXN_TYPE(cursor.getString(cursor.getColumnIndex(FDDBNOTE_TXN_TYPE)));
                 fdDbNote.setFDDBNOTE_REMARKS(cursor.getString(cursor.getColumnIndex(FDDBNOTE_REMARKS)));
                 fdDbNote.setFDDBNOTE_REPNAME(cursor.getString(cursor.getColumnIndex(FDDBNOTE_REPNAME)));
@@ -586,7 +587,7 @@ public class OutstandingController {
                 values.put(FDDBNOTE_TOT_BAL, Double.parseDouble(fddb.getFDDBNOTE_TOT_BAL()) - Double.parseDouble(fddb.getFDDBNOTE_ENTER_AMT()));
                 values.put(FDDBNOTE_ENTER_AMT, "");
                 values.put(FDDBNOTE_REMARKS, "");
-                dB.update(TABLE_FDDBNOTE, values, DatabaseHelper.REFNO + "=?", new String[] { fddb.getFDDBNOTE_REFNO().toString() });
+                dB.update(TABLE_FDDBNOTE, values, ValueHolder.REFNO + "=?", new String[] { fddb.getFDDBNOTE_REFNO().toString() });
             }
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
@@ -610,7 +611,7 @@ public class OutstandingController {
                 ContentValues values = new ContentValues();
                 values.put(FDDBNOTE_TOT_BAL, Double.parseDouble(recDet.getFPRECDET_BAMT()) + Double.parseDouble(recDet.getFPRECDET_ALOAMT()));
                 values.put(FDDBNOTE_ENTER_AMT, "");
-                dB.update(TABLE_FDDBNOTE, values, DatabaseHelper.REFNO + "=?", new String[] { recDet.getFPRECDET_REFNO1().toString() });
+                dB.update(TABLE_FDDBNOTE, values, ValueHolder.REFNO + "=?", new String[] { recDet.getFPRECDET_REFNO1().toString() });
             }
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());

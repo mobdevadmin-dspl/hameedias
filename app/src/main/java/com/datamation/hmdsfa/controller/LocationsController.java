@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.Locations;
 
 
@@ -31,7 +32,7 @@ public class LocationsController {
     public static final String FLOCATIONS_COST_CODE = "CostCode";
 
     // create String
-    public static final String CREATE_FLOCATIONS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FLOCATIONS + " (" + FLOCATIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FLOCATIONS_ADD_MACH + " TEXT, " + FLOCATIONS_ADD_USER + " TEXT, " + FLOCATIONS_LOC_CODE + " TEXT, " + FLOCATIONS_LOC_NAME + " TEXT, " + FLOCATIONS_LOC_T_CODE + " TEXT, " + DatabaseHelper.REPCODE + " TEXT, " + FLOCATIONS_COST_CODE + " TEXT); ";
+    public static final String CREATE_FLOCATIONS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FLOCATIONS + " (" + FLOCATIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FLOCATIONS_ADD_MACH + " TEXT, " + FLOCATIONS_ADD_USER + " TEXT, " + FLOCATIONS_LOC_CODE + " TEXT, " + FLOCATIONS_LOC_NAME + " TEXT, " + FLOCATIONS_LOC_T_CODE + " TEXT, " + ValueHolder.REPCODE + " TEXT, " + FLOCATIONS_COST_CODE + " TEXT); ";
 
     public LocationsController(Context context) {
         this.context = context;
@@ -63,7 +64,7 @@ public class LocationsController {
                 values.put(FLOCATIONS_LOC_CODE, locations.getFLOCATIONS_LOC_CODE());
                 values.put(FLOCATIONS_LOC_NAME, locations.getFLOCATIONS_LOC_NAME());
                 values.put(FLOCATIONS_LOC_T_CODE, locations.getFLOCATIONS_LOC_T_CODE());
-                values.put(DatabaseHelper.REPCODE, locations.getFLOCATIONS_REP_CODE());
+                values.put(ValueHolder.REPCODE, locations.getFLOCATIONS_REP_CODE());
 
                 if (cursor.getCount() > 0) {
                     dB.update(TABLE_FLOCATIONS, values, FLOCATIONS_LOC_CODE + "=?", new String[]{locations.getFLOCATIONS_LOC_CODE().toString()});

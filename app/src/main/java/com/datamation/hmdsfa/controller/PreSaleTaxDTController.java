@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.TaxDT;
 import com.datamation.hmdsfa.model.TaxDet;
@@ -38,7 +39,7 @@ public class PreSaleTaxDTController {
     public static final String PRETAXDT_TAXTYPE = "TaxType";
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-pre TAX DT-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*/
-    public static final String CREATE_FPRETAXDT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_PRETAXDT + " (" + PRETAXDT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + PRETAXDT_ITEMCODE + " TEXT, " + PRETAXDT_TAXCOMCODE + " TEXT, " + PRETAXDT_TAXCODE + " TEXT, " + PRETAXDT_TAXPER + " TEXT, " + PRETAXDT_RATE + " TEXT, " + PRETAXDT_SEQ + " TEXT, " + PRETAXDT_DETAMT + " TEXT, " + PRETAXDT_TAXTYPE + " TEXT, " + PRETAXDT_BDETAMT + " TEXT ); ";
+    public static final String CREATE_FPRETAXDT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_PRETAXDT + " (" + PRETAXDT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + PRETAXDT_ITEMCODE + " TEXT, " + PRETAXDT_TAXCOMCODE + " TEXT, " + PRETAXDT_TAXCODE + " TEXT, " + PRETAXDT_TAXPER + " TEXT, " + PRETAXDT_RATE + " TEXT, " + PRETAXDT_SEQ + " TEXT, " + PRETAXDT_DETAMT + " TEXT, " + PRETAXDT_TAXTYPE + " TEXT, " + PRETAXDT_BDETAMT + " TEXT ); ";
 
 
     public PreSaleTaxDTController(Context context) {
@@ -78,7 +79,7 @@ public class PreSaleTaxDTController {
 
                             values.put(PRETAXDT_ITEMCODE, invDet.getFORDERDET_ITEMCODE());
                             values.put(PRETAXDT_RATE, taxcodelist.get(i).getRATE());
-                            values.put(DatabaseHelper.REFNO, invDet.getFORDERDET_REFNO());
+                            values.put(ValueHolder.REFNO, invDet.getFORDERDET_REFNO());
                             values.put(PRETAXDT_SEQ, taxcodelist.get(i).getSEQ());
                             values.put(PRETAXDT_TAXCODE, taxcodelist.get(i).getTAXCODE());
                             values.put(PRETAXDT_TAXCOMCODE, taxcodelist.get(i).getTAXCOMCODE());
@@ -127,7 +128,7 @@ public class PreSaleTaxDTController {
             while (cursor.moveToNext()) {
                 TaxDT tax = new TaxDT();
 
-                tax.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                tax.setREFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 tax.setTAXCODE(cursor.getString(cursor.getColumnIndex(PRETAXDT_TAXCODE)));
                 tax.setBTAXDETAMT(cursor.getString(cursor.getColumnIndex(PRETAXDT_BDETAMT)));
                 tax.setTAXCOMCODE(cursor.getString(cursor.getColumnIndex(PRETAXDT_TAXCOMCODE)));
@@ -200,7 +201,7 @@ public class PreSaleTaxDTController {
         }
         try {
 
-            dB.delete(TABLE_PRETAXDT, DatabaseHelper.REFNO + "='" + RefNo + "'", null);
+            dB.delete(TABLE_PRETAXDT, ValueHolder.REFNO + "='" + RefNo + "'", null);
         } catch (Exception e) {
 
             Log.v(TAG + " Exception", e.toString());

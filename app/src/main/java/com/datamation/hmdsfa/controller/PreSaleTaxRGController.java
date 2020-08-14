@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.TaxDet;
 import com.datamation.hmdsfa.model.TaxRG;
@@ -27,7 +28,7 @@ public class PreSaleTaxRGController {
     public static final String PRETAXRG_TAXCODE = "TaxCode";
     public static final String PRETAXRG_RGNO = "RGNo";
 
-    public static final String CREATE_FPRETAXRG_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_PRETAXRG + " (" + PRETAXRG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + PRETAXRG_TAXCODE + " TEXT, " + PRETAXRG_RGNO + " TEXT ); ";
+    public static final String CREATE_FPRETAXRG_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_PRETAXRG + " (" + PRETAXRG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + PRETAXRG_TAXCODE + " TEXT, " + PRETAXRG_RGNO + " TEXT ); ";
 
     public PreSaleTaxRGController(Context context) {
         this.context = context;
@@ -59,12 +60,12 @@ public class PreSaleTaxRGController {
 
                     for (TaxDet taxDet : taxcodelist) {
 
-                        String s = "SELECT * FROM " + TABLE_PRETAXRG + " WHERE " + DatabaseHelper.REFNO + "='" + ordDet.getFORDERDET_REFNO() + "' AND " + PRETAXRG_TAXCODE + "='" + taxDet.getTAXCODE() + "'";
+                        String s = "SELECT * FROM " + TABLE_PRETAXRG + " WHERE " + ValueHolder.REFNO + "='" + ordDet.getFORDERDET_REFNO() + "' AND " + PRETAXRG_TAXCODE + "='" + taxDet.getTAXCODE() + "'";
 
                         cursor = dB.rawQuery(s, null);
 
                         ContentValues values = new ContentValues();
-                        values.put(DatabaseHelper.REFNO, ordDet.getFORDERDET_REFNO());
+                        values.put(ValueHolder.REFNO, ordDet.getFORDERDET_REFNO());
                         values.put(PRETAXRG_RGNO, new TaxController(context).getTaxRGNo(taxDet.getTAXCODE()));
                         //values.put(PRETAXRG_RGNO, new FDebTaxDS(context).getTaxRegNo(debtorCode));
                         values.put(PRETAXRG_TAXCODE, taxDet.getTAXCODE());
@@ -104,7 +105,7 @@ public class PreSaleTaxRGController {
             while (cursor.moveToNext()) {
                 TaxRG tax = new TaxRG();
 
-                tax.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                tax.setREFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 tax.setTAXCODE(cursor.getString(cursor.getColumnIndex(PRETAXRG_TAXCODE)));
                 tax.setRGNO(cursor.getString(cursor.getColumnIndex(PRETAXRG_RGNO)));
                 list.add(tax);
@@ -133,7 +134,7 @@ public class PreSaleTaxRGController {
         }
         try {
 
-            dB.delete(TABLE_PRETAXRG, DatabaseHelper.REFNO + "='" + RefNo + "'", null);
+            dB.delete(TABLE_PRETAXRG, ValueHolder.REFNO + "='" + RefNo + "'", null);
         } catch (Exception e) {
 
             Log.v(TAG + " Exception", e.toString());

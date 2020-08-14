@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.FInvRDet;
 import com.datamation.hmdsfa.model.TaxDet;
 import com.datamation.hmdsfa.model.TaxRG;
@@ -27,7 +28,7 @@ public class SalesReturnTaxRGController {
     public static final String INVRTAXRG_TAXCODE = "TaxCode";
     public static final String INVRTAXRG_RGNO = "RGNo";
 
-    public static final String CREATE_FINVRTAXRG_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVRTAXRG + " (" + INVRTAXRG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + INVRTAXRG_TAXCODE + " TEXT, " + INVRTAXRG_RGNO + " TEXT ); ";
+    public static final String CREATE_FINVRTAXRG_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVRTAXRG + " (" + INVRTAXRG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + INVRTAXRG_TAXCODE + " TEXT, " + INVRTAXRG_RGNO + " TEXT ); ";
 
     // ------------------------------------------------ SalesReturnTaxDt -------------------------------------
 
@@ -61,14 +62,14 @@ public class SalesReturnTaxRGController {
 
                     for (TaxDet taxDet : taxcodelist) {
 
-                        String s = "SELECT * FROM " + SalesReturnTaxRGController.TABLE_INVRTAXRG + " WHERE " + DatabaseHelper.REFNO + "='" + invRDet.getFINVRDET_REFNO() + "' AND " + SalesReturnTaxRGController.INVRTAXRG_TAXCODE + "='" + taxDet.getTAXCODE() + "'";
+                        String s = "SELECT * FROM " + SalesReturnTaxRGController.TABLE_INVRTAXRG + " WHERE " + ValueHolder.REFNO + "='" + invRDet.getFINVRDET_REFNO() + "' AND " + SalesReturnTaxRGController.INVRTAXRG_TAXCODE + "='" + taxDet.getTAXCODE() + "'";
 
                         cursor = dB.rawQuery(s, null);
 
                         ContentValues values = new ContentValues();
-                        values.put(DatabaseHelper.REFNO, invRDet.getFINVRDET_REFNO());
+                        values.put(ValueHolder.REFNO, invRDet.getFINVRDET_REFNO());
                         values.put(PreSaleTaxRGController.PRETAXRG_RGNO, new TaxController(context).getTaxRGNo(taxDet.getTAXCODE()));
-                        //values.put(DatabaseHelper.INVRTAXRG_RGNO, new FDebTaxDS(context).getTaxRegNo(debtorCode));
+                        //values.put(ValueHolder.INVRTAXRG_RGNO, new FDebTaxDS(context).getTaxRegNo(debtorCode));
                         values.put(SalesReturnTaxRGController.INVRTAXRG_TAXCODE, taxDet.getTAXCODE());
 
                         if (cursor.getCount() <= 0)
@@ -106,7 +107,7 @@ public class SalesReturnTaxRGController {
             while (cursor.moveToNext()) {
                 TaxRG tax = new TaxRG();
 
-                tax.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                tax.setREFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 tax.setTAXCODE(cursor.getString(cursor.getColumnIndex(INVRTAXRG_TAXCODE)));
                 tax.setRGNO(cursor.getString(cursor.getColumnIndex(INVRTAXRG_RGNO)));
                 list.add(tax);
@@ -135,7 +136,7 @@ public class SalesReturnTaxRGController {
         }
         try {
 
-            dB.delete(TABLE_INVRTAXRG, DatabaseHelper.REFNO + "='" + RefNo + "'", null);
+            dB.delete(TABLE_INVRTAXRG, ValueHolder.REFNO + "='" + RefNo + "'", null);
         } catch (Exception e) {
 
             Log.v(TAG + " Exception", e.toString());

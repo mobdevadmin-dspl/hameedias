@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.Discdeb;
 import com.datamation.hmdsfa.model.Disched;
 
@@ -41,7 +42,7 @@ public class DischedController {
     public static final String FDISCHED_RECORD_ID = "RecordId";
     public static final String FDISCHED_TIMESTAMP_COLUMN = "timestamp_column";
     // create String
-    public static final String CREATE_FDISCHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCHED + " (" + FDISCHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + FDISCHED_DISC_DESC + " TEXT, " + FDISCHED_PRIORITY + " TEXT, " + FDISCHED_DIS_TYPE + " TEXT, " + FDISCHED_V_DATE_F + " TEXT, " + FDISCHED_V_DATE_T + " TEXT, " + FDISCHED_REMARK + " TEXT, " + FDISCHED_ADD_USER + " TEXT, " + FDISCHED_ADD_DATE + " TEXT, " + FDISCHED_ADD_MACH + " TEXT, " + FDISCHED_RECORD_ID + " TEXT, " + FDISCHED_TIMESTAMP_COLUMN + " TEXT); ";
+    public static final String CREATE_FDISCHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCHED + " (" + FDISCHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + ValueHolder.TXNDATE + " TEXT, " + FDISCHED_DISC_DESC + " TEXT, " + FDISCHED_PRIORITY + " TEXT, " + FDISCHED_DIS_TYPE + " TEXT, " + FDISCHED_V_DATE_F + " TEXT, " + FDISCHED_V_DATE_T + " TEXT, " + FDISCHED_REMARK + " TEXT, " + FDISCHED_ADD_USER + " TEXT, " + FDISCHED_ADD_DATE + " TEXT, " + FDISCHED_ADD_MACH + " TEXT, " + FDISCHED_RECORD_ID + " TEXT, " + FDISCHED_TIMESTAMP_COLUMN + " TEXT); ";
 
     public DischedController(Context context) {
 
@@ -73,8 +74,8 @@ public class DischedController {
 
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.REFNO, disched.getFDISCHED_REF_NO());
-                values.put(dbHelper.TXNDATE, disched.getFDISCHED_TXN_DATE());
+                values.put(ValueHolder.REFNO, disched.getFDISCHED_REF_NO());
+                values.put(ValueHolder.TXNDATE, disched.getFDISCHED_TXN_DATE());
                 values.put(FDISCHED_DISC_DESC, disched.getFDISCHED_DISC_DESC());
                 values.put(FDISCHED_PRIORITY, disched.getFDISCHED_PRIORITY());
                 values.put(FDISCHED_DIS_TYPE, disched.getFDISCHED_DIS_TYPE());
@@ -88,11 +89,11 @@ public class DischedController {
                 values.put(FDISCHED_TIMESTAMP_COLUMN, disched.getFDISCHED_TIMESTAMP_COLUMN());
 
                 if (cursor_ini.getCount() > 0) {
-                    String selectQuery = "SELECT * FROM " + TABLE_FDISCHED + " WHERE " + dbHelper.REFNO + "='" + disched.getFDISCHED_REF_NO() + "'";
+                    String selectQuery = "SELECT * FROM " + TABLE_FDISCHED + " WHERE " + ValueHolder.REFNO + "='" + disched.getFDISCHED_REF_NO() + "'";
                     cursor = dB.rawQuery(selectQuery, null);
 
                     if (cursor.getCount() > 0) {
-                        count = (int) dB.update(TABLE_FDISCHED, values, dbHelper.REFNO + "='" + disched.getFDISCHED_REF_NO() + "'", null);
+                        count = (int) dB.update(TABLE_FDISCHED, values, ValueHolder.REFNO + "='" + disched.getFDISCHED_REF_NO() + "'", null);
                     } else {
                         count = (int) dB.insert(TABLE_FDISCHED, null, values);
                     }
@@ -173,8 +174,8 @@ public class DischedController {
         try {
             while (cursor.moveToNext()) {
 
-                DiscHed.setFDISCHED_REF_NO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
-                DiscHed.setFDISCHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
+                DiscHed.setFDISCHED_REF_NO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+                DiscHed.setFDISCHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 DiscHed.setFDISCHED_DIS_TYPE(cursor.getString(cursor.getColumnIndex(FDISCHED_DIS_TYPE)));
                 DiscHed.setFDISCHED_DISC_DESC(cursor.getString(cursor.getColumnIndex(FDISCHED_DISC_DESC)));
                 DiscHed.setFDISCHED_PRIORITY(cursor.getString(cursor.getColumnIndex(FDISCHED_PRIORITY)));
@@ -215,7 +216,7 @@ public class DischedController {
         try {
             while (cursor.moveToNext()) {
                 Discdeb discDeb = new Discdeb();
-                discDeb.setFDISCDEB_REF_NO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+                discDeb.setFDISCDEB_REF_NO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 discDeb.setFDISCDEB_DEB_CODE(cursor.getString(cursor.getColumnIndex(DiscdebController.FDISCDEB_DEB_CODE)));
                 discDeb.setFDISCDEB_ID(cursor.getString(cursor.getColumnIndex(DiscdebController.FDISCDEB_ID)));
                 discDeb.setFDISCDEB_RECORD_ID(cursor.getString(cursor.getColumnIndex(DiscdebController.FDISCDEB_RECORD_ID)));

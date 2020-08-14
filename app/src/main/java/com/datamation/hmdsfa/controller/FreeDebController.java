@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.Customer;
 import com.datamation.hmdsfa.model.FreeDeb;
 
@@ -33,9 +34,9 @@ public class FreeDebController {
     public static final String FFREEDEB_TIMESTAMP_COLUMN = "timestamp_column";
 
     // create String
-    public static final String CREATE_FFREEDEB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEDEB + " (" + FFREEDEB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + DatabaseHelper.DEBCODE + " TEXT, " + FFREEDEB_ADD_USER + " TEXT, " + FFREEDEB_ADD_DATE + " TEXT, " + FFREEDEB_ADD_MACH + " TEXT, " + FFREEDEB_RECORD_ID + " TEXT, " + FFREEDEB_TIMESTAMP_COLUMN + " TEXT); ";
+    public static final String CREATE_FFREEDEB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEDEB + " (" + FFREEDEB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + ValueHolder.DEBCODE + " TEXT, " + FFREEDEB_ADD_USER + " TEXT, " + FFREEDEB_ADD_DATE + " TEXT, " + FFREEDEB_ADD_MACH + " TEXT, " + FFREEDEB_RECORD_ID + " TEXT, " + FFREEDEB_TIMESTAMP_COLUMN + " TEXT); ";
 
-    public static final String TESTFREEDEB = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreedeb_something ON " + TABLE_FFREEDEB + " (" + DatabaseHelper.REFNO + "," + DatabaseHelper.DEBCODE + ")";
+    public static final String TESTFREEDEB = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreedeb_something ON " + TABLE_FFREEDEB + " (" + ValueHolder.REFNO + "," + ValueHolder.DEBCODE + ")";
 
 
     public FreeDebController(Context context) {
@@ -95,7 +96,7 @@ public class FreeDebController {
 
                 FreeDeb freeHed = new FreeDeb();
 
-                freeHed.setFFREEDEB_DEB_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.DEBCODE))+" - "+cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_NAME)));
+                freeHed.setFFREEDEB_DEB_CODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE))+" - "+cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_NAME)));
 
                 list.add(freeHed);
             }
@@ -117,7 +118,7 @@ public class FreeDebController {
             open();
         }
 
-        String selectQuery = "SELECT count(*) FROM " + TABLE_FFREEDEB + " WHERE " + dbHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "SELECT count(*) FROM " + TABLE_FFREEDEB + " WHERE " + ValueHolder.REFNO + "='" + refno + "'";
 
         Cursor cursor = null;
         cursor = dB.rawQuery(selectQuery, null);
@@ -139,7 +140,7 @@ public class FreeDebController {
             open();
         }
 
-        String selectQuery = "SELECT count(*) FROM " + TABLE_FFREEDEB + " WHERE " + dbHelper.REFNO + "='" + refno + "' AND " + dbHelper.DEBCODE + "='" + currDeb + "'";
+        String selectQuery = "SELECT count(*) FROM " + TABLE_FFREEDEB + " WHERE " + ValueHolder.REFNO + "='" + refno + "' AND " + ValueHolder.DEBCODE + "='" + currDeb + "'";
 
         Cursor cursor = null;
         cursor = dB.rawQuery(selectQuery, null);

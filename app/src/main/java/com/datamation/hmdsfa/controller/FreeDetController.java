@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.FreeDet;
 
 import java.util.ArrayList;
@@ -31,9 +32,9 @@ public class FreeDetController {
     public static final String FFREEDET_RECORD_ID = "RecordId";
 
     // create String
-    public static final String CREATE_FFREEDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEDET + " (" + FFREEDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + FFREEDET_ITEM_CODE + " TEXT, " + FFREEDET_RECORD_ID + " TEXT); ";
+    public static final String CREATE_FFREEDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEDET + " (" + FFREEDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + FFREEDET_ITEM_CODE + " TEXT, " + FFREEDET_RECORD_ID + " TEXT); ";
 
-    public static final String IDXFREEDET = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreedet_something ON " + TABLE_FFREEDET + " (" + DatabaseHelper.REFNO + ", " + FFREEDET_ITEM_CODE + ")";
+    public static final String IDXFREEDET = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreedet_something ON " + TABLE_FFREEDET + " (" + ValueHolder.REFNO + ", " + FFREEDET_ITEM_CODE + ")";
 
     public FreeDetController(Context context) {
         this.context = context;
@@ -63,16 +64,16 @@ public class FreeDetController {
 
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.REFNO, freedet.getFFREEDET_REFNO());
+                values.put(ValueHolder.REFNO, freedet.getFFREEDET_REFNO());
                 values.put(FFREEDET_ITEM_CODE, freedet.getFFREEDET_ITEM_CODE());
                 values.put(FFREEDET_RECORD_ID, freedet.getFFREEDET_RECORD_ID());
 
                 if (cursor_ini.getCount() > 0) {
-                    String selectQuery = "SELECT * FROM " + TABLE_FFREEDET + " WHERE " + dbHelper.REFNO + "='" + freedet.getFFREEDET_REFNO() + "' AND " + FFREEDET_ITEM_CODE + " = '" + freedet.getFFREEDET_ITEM_CODE() + "'";
+                    String selectQuery = "SELECT * FROM " + TABLE_FFREEDET + " WHERE " + ValueHolder.REFNO + "='" + freedet.getFFREEDET_REFNO() + "' AND " + FFREEDET_ITEM_CODE + " = '" + freedet.getFFREEDET_ITEM_CODE() + "'";
                     cursor = dB.rawQuery(selectQuery, null);
 
                     if (cursor.getCount() > 0) {
-                        count = (int) dB.update(TABLE_FFREEDET, values, dbHelper.REFNO + "='" + freedet.getFFREEDET_REFNO() + "' AND " + FFREEDET_ITEM_CODE + " = '" + freedet.getFFREEDET_ITEM_CODE() + "'", null);
+                        count = (int) dB.update(TABLE_FFREEDET, values, ValueHolder.REFNO + "='" + freedet.getFFREEDET_REFNO() + "' AND " + FFREEDET_ITEM_CODE + " = '" + freedet.getFFREEDET_ITEM_CODE() + "'", null);
                     } else {
                         count = (int) dB.insert(TABLE_FFREEDET, null, values);
                     }
@@ -108,7 +109,7 @@ public class FreeDetController {
             open();
         }
 
-        String selectQuery = "SELECT count(*) FROM " + TABLE_FFREEDET + " WHERE " + dbHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "SELECT count(*) FROM " + TABLE_FFREEDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'";
 
         Cursor cursor = null;
         cursor = dB.rawQuery(selectQuery, null);
@@ -165,7 +166,7 @@ public class FreeDetController {
 
         List<String> AssortList = new ArrayList<String>();
 
-        String selectQuery = "SELECT * FROM " + TABLE_FFREEDET + " WHERE " + dbHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "SELECT * FROM " + TABLE_FFREEDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 

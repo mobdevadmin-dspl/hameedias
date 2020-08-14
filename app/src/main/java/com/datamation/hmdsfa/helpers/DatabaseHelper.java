@@ -89,11 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-    //common string
-    public static final String REFNO = "RefNo";
-    public static final String TXNDATE = "TxnDate";
-    public static final String REPCODE = "RepCode";
-    public static final String DEBCODE = "DebCode";
+
 
     @Override
     public void onCreate(SQLiteDatabase arg0) {

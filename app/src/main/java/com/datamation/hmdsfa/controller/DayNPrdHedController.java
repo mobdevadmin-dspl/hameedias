@@ -11,13 +11,14 @@ import android.util.Log;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.DayNPrdHed;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.datamation.hmdsfa.helpers.DatabaseHelper.REFNO;
+import static com.datamation.hmdsfa.helpers.ValueHolder.REFNO;
 
 public class DayNPrdHedController {
     public static final String SETTINGS = "SETTINGS";
@@ -49,14 +50,14 @@ public class DayNPrdHedController {
     public static final String CREATE_TABLE_NONPRDHED = "CREATE  TABLE IF NOT EXISTS " + TABLE_NONPRDHED + " (" + NONPRDHED_ID +
             " INTEGER PRIMARY KEY AUTOINCREMENT, " + NONPRDHED_REFNO +
             " TEXT, " + NONPRDHED_TXNDAET + " TEXT, " +
-            DatabaseHelper.REPCODE + " TEXT, " +
+            ValueHolder.REPCODE + " TEXT, " +
             NONPRDHED_REMARK + " TEXT, " +
             NONPRDHED_COSTCODE + " TEXT, " +
             NONPRDHED_LONGITUDE + " TEXT, " +
             NONPRDHED_LATITUDE + " TEXT, " +
             NONPRDHED_IS_ACTIVE + " TEXT, " +
             NONPRDHED_REASON + " TEXT, " +
-            DatabaseHelper.DEBCODE + " TEXT, " +
+            ValueHolder.DEBCODE + " TEXT, " +
             NONPRDHED_ADDUSER + " TEXT, " + NONPRDHED_ADDDATE + " TEXT," + NONPRDHED_ADDMACH + " TEXT," + NONPRDHED_TRANSBATCH + " TEXT, " + NONPRDHED_IS_SYNCED + " TEXT," + NONPRDHED_ADDRESS + " TEXT); ";
 
     public DayNPrdHedController(Context context) {
@@ -85,9 +86,9 @@ public class DayNPrdHedController {
             for (DayNPrdHed nonhed : list) {
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.REFNO, nonhed.getNONPRDHED_REFNO());
-                values.put(dbHelper.TXNDATE, nonhed.getNONPRDHED_TXNDATE());
-                values.put(dbHelper.REPCODE, nonhed.getNONPRDHED_REPCODE());
+                values.put(ValueHolder.REFNO, nonhed.getNONPRDHED_REFNO());
+                values.put(ValueHolder.TXNDATE, nonhed.getNONPRDHED_TXNDATE());
+                values.put(ValueHolder.REPCODE, nonhed.getNONPRDHED_REPCODE());
                 values.put(NONPRDHED_REMARK, nonhed.getNONPRDHED_REMARKS());
                 values.put(NONPRDHED_ADDDATE, nonhed.getNONPRDHED_ADDDATE());
                 values.put(NONPRDHED_COSTCODE, nonhed.getNONPRDHED_COSTCODE());
@@ -95,7 +96,7 @@ public class DayNPrdHedController {
                 values.put(NONPRDHED_IS_SYNCED, nonhed.getNONPRDHED_IS_SYNCED());
                 values.put(NONPRDHED_LONGITUDE,nonhed.getNONPRDHED_LONGITUDE());
                 values.put(NONPRDHED_LATITUDE,nonhed.getNONPRDHED_LATITUDE());
-                values.put(dbHelper.DEBCODE,nonhed.getNONPRDHED_DEBCODE());
+                values.put(ValueHolder.DEBCODE,nonhed.getNONPRDHED_DEBCODE());
                 values.put(NONPRDHED_IS_ACTIVE,nonhed.getNONPRDHED_IS_ACTIVE());
                 values.put(NONPRDHED_ADDMACH,nonhed.getNONPRDHED_ADDMACH());
                 values.put(NONPRDHED_ADDRESS,nonhed.getNONPRDHED_ADDRESS());
@@ -175,8 +176,8 @@ public class DayNPrdHedController {
 
                 DayNPrdHed npHed = new DayNPrdHed();
 //
-                npHed.setNONPRDHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
-                npHed.setNONPRDHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+                npHed.setNONPRDHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+                npHed.setNONPRDHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
                 npHed.setNONPRDHED_TXNDATE(cursor.getString(cursor.getColumnIndex(NONPRDHED_TXNDAET)));
                 npHed.setNONPRDHED_REASON(cursor.getString(cursor.getColumnIndex(NONPRDHED_REASON)));
                 npHed.setNONPRDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(NONPRDHED_IS_SYNCED)));
@@ -214,7 +215,7 @@ public class DayNPrdHedController {
 //        String toDay = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 //        Cursor cursor = null;
 //        try {
-//            String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_NONPRDHED + " WHERE " + NONPRDHED_IS_ACTIVE+ "='1'";
+//            String selectQuery = "SELECT * FROM " + ValueHolder.TABLE_NONPRDHED + " WHERE " + NONPRDHED_IS_ACTIVE+ "='1'";
 //            cursor = dB.rawQuery(selectQuery, null);
 //
 //            /*Active invoice available*/
@@ -228,7 +229,7 @@ public class DayNPrdHedController {
 //                    res = true;
 //                /*if invoice is older, then reset data*/
 //                else {
-//                    String Refno = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSOHED_REFNO));
+//                    String Refno = cursor.getString(cursor.getColumnIndex(ValueHolder.FTRANSOHED_REFNO));
 //                    restData(Refno);
 ////                    new InvDetDS(context).restData(Refno);
 ////                    new OrderDiscDS(context).clearData(Refno);
@@ -273,7 +274,7 @@ public class DayNPrdHedController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + TABLE_NONPRDHED + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_NONPRDHED + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
 
             if (cursor.getCount() > 0) {
@@ -283,7 +284,7 @@ public class DayNPrdHedController {
                 if (status.equals("1"))
                     Result = false;
                 else {
-                    int success = dB.delete(TABLE_NONPRDHED, DatabaseHelper.REFNO + " ='" + refno + "'", null);
+                    int success = dB.delete(TABLE_NONPRDHED, ValueHolder.REFNO + " ='" + refno + "'", null);
                     Log.v("Success", success + "");
                     Result = true;
                 }
@@ -317,7 +318,7 @@ public class DayNPrdHedController {
         while (cursor.moveToNext()) {
 
             DayNPrdHed fnonset = new DayNPrdHed();
-            fnonset.setNONPRDHED_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+            fnonset.setNONPRDHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
             fnonset.setNONPRDHED_ADDDATE(cursor.getString(cursor.getColumnIndex(NONPRDHED_ADDDATE)));
             fnonset.setNONPRDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(NONPRDHED_IS_SYNCED)));
 
@@ -343,10 +344,10 @@ public class DayNPrdHedController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + TABLE_NONPRDHED + " WHERE " + dbHelper.REFNO + "='" + RefNo + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_NONPRDHED + " WHERE " + ValueHolder.REFNO + "='" + RefNo + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(TABLE_NONPRDHED, dbHelper.REFNO + "='" + RefNo + "'", null);
+                int success = dB.delete(TABLE_NONPRDHED, ValueHolder.REFNO + "='" + RefNo + "'", null);
 
             }
         } catch (Exception e) {
@@ -393,7 +394,7 @@ public class DayNPrdHedController {
 //                mapper.setNONPRDHED_COSTCODE("000");
 //                // mapper.setNONPRDHED_DEALCODE(cursor.getString(cursor.getColumnIndex(NONPRDHED_DEALCODE)));
 //                mapper.setNONPRDHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(NONPRDHED_IS_SYNCED)));
-//                mapper.setREFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+//                mapper.setREFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
 //                mapper.setNONPRDHED_REMARK(cursor.getString(cursor.getColumnIndex(NONPRDHED_REMARK)));
 //                mapper.setNONPRDHED_REPCODE(cursor.getString(cursor.getColumnIndex(NONPRDHED_REPCODE)));
 //                mapper.setNONPRDHED_TRANSBATCH(cursor.getString(cursor.getColumnIndex(NONPRDHED_TRANSBATCH)));
@@ -433,7 +434,7 @@ public class DayNPrdHedController {
 //            ContentValues values = new ContentValues();
 //            values.put(NONPRDHED_IS_SYNCED, "1");
 //            if (mapper.isSynced()) {
-//                count = dB.update(TABLE_NONPRDHED, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(mapper.getREFNO())});
+//                count = dB.update(TABLE_NONPRDHED, values, ValueHolder.REFNO + " =?", new String[]{String.valueOf(mapper.getREFNO())});
 //            }
 //
 //        } catch (Exception e) {
@@ -504,12 +505,12 @@ public class DayNPrdHedController {
 
                 mapper.setNONPRDHED_REFNO(cursor.getString(cursor.getColumnIndex(NONPRDHED_REFNO)));
                 mapper.setNONPRDHED_TXNDATE(cursor.getString(cursor.getColumnIndex(NONPRDHED_TXNDAET)));
-                mapper.setNONPRDHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+                mapper.setNONPRDHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
                 mapper.setNONPRDHED_REMARKS(cursor.getString(cursor.getColumnIndex(NONPRDHED_REMARK)));
                 mapper.setNONPRDHED_COSTCODE(cursor.getString(cursor.getColumnIndex(NONPRDHED_COSTCODE)));
                 mapper.setNONPRDHED_ADDUSER(cursor.getString(cursor.getColumnIndex(NONPRDHED_ADDUSER)));
                 mapper.setNONPRDHED_ADDDATE(cursor.getString(cursor.getColumnIndex(NONPRDHED_ADDDATE)));
-                mapper.setNONPRDHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+                mapper.setNONPRDHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
                 mapper.setNONPRDHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(NONPRDHED_LONGITUDE)));
                 mapper.setNONPRDHED_LATITUDE(cursor.getString(cursor.getColumnIndex(NONPRDHED_LATITUDE)));
                 mapper.setNONPRDHED_ADDRESS(cursor.getString(cursor.getColumnIndex(NONPRDHED_ADDRESS)));
@@ -548,7 +549,7 @@ public class DayNPrdHedController {
             values.put(NONPRDHED_IS_SYNCED, "1");
 
             if (hed.getNONPRDHED_IS_SYNCED().equals("1")) {
-                count = dB.update(TABLE_NONPRDHED, values, dbHelper.REFNO + " =?", new String[] { String.valueOf(hed.getNONPRDHED_REFNO()) });
+                count = dB.update(TABLE_NONPRDHED, values, ValueHolder.REFNO + " =?", new String[] { String.valueOf(hed.getNONPRDHED_REFNO()) });
             }
 
         } catch (Exception e) {

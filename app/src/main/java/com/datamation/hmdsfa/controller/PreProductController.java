@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.PreProduct;
 
 import java.util.ArrayList;
@@ -96,7 +97,7 @@ public class PreProductController {
         Cursor cursor = null;
         ArrayList<PreProduct> list = new ArrayList<>();
         try {
-            //cursor = dB.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_FPRODUCT_PRE + " WHERE itemcode || itemname LIKE '%" + newText + "%' and TxnType = '"+txntype+"' ORDER BY QOH DESC", null);
+            //cursor = dB.rawQuery("SELECT * FROM " + ValueHolder.TABLE_FPRODUCT_PRE + " WHERE itemcode || itemname LIKE '%" + newText + "%' and TxnType = '"+txntype+"' ORDER BY QOH DESC", null);
             cursor = dB.rawQuery("SELECT * FROM " + TABLE_FPRODUCT_PRE + " WHERE itemcode_pre || itemname_pre LIKE '%" + newText + "%' group by itemcode_pre", null);
 
             while (cursor.moveToNext()) {
@@ -107,7 +108,7 @@ public class PreProductController {
                 product.setPREPRODUCT_PRICE(cursor.getString(cursor.getColumnIndex(FPRODUCT_PRICE_PRE)));
                 product.setPREPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH_PRE)));
                 product.setPREPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_QTY_PRE)));
-//                product.setPREPRODUCT_TXN_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPRODUCT_TXNTYPE)));
+//                product.setPREPRODUCT_TXN_TYPE(cursor.getString(cursor.getColumnIndex(ValueHolder.FPRODUCT_TXNTYPE)));
                 list.add(product);
             }
         } catch (Exception e) {
@@ -209,7 +210,7 @@ public class PreProductController {
 //            values.put(FPRODUCT_QOH_PRE, qoh);
 //            values.put(FPRODUCT_QTY_PRE, qty);
 //            values.put(FPRODUCT_CASE_PRE, cases);
-//            values.put(DatabaseHelper.REFNO, refno);
+//            values.put(ValueHolder.REFNO, refno);
 //            values.put(FPRODUCT_UNITS, units);
 //            values.put(FPRODUCT_TYPE, type);
 //
@@ -251,7 +252,7 @@ public class PreProductController {
             values.put(FPRODUCT_QOH_PRE, qoh);
             values.put(FPRODUCT_QTY_PRE, qty);
             values.put(FPRODUCT_CASE_PRE, cases);
-            values.put(DatabaseHelper.REFNO, refno);
+            values.put(ValueHolder.REFNO, refno);
             values.put(FPRODUCT_UNITS, units);
             values.put(FPRODUCT_TYPE, type);
             values.put(FPRODUCT_REACODE, code);

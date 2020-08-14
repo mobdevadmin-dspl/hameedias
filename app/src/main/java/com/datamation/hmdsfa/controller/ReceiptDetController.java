@@ -13,6 +13,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.ReceiptDet;
 
 public class ReceiptDetController {
@@ -49,13 +50,13 @@ public class ReceiptDetController {
 	public static final String FPRECDET_TIMESTAMP = "timestamp_column";
 	public static final String FPRECDET_ISDELETE = "IsDelete";
 	public static final String FPRECDET_REMARK = "Remark";
-	public static final String CREATE_FPRECDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRECDET + " (" + FPRECDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + FPRECDET_REFNO1 + " TEXT, " + FPRECDET_REFNO2 + " TEXT, " + DatabaseHelper.DEBCODE + " TEXT, " + FPRECDET_SALEREFNO + " TEXT, "
+	public static final String CREATE_FPRECDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRECDET + " (" + FPRECDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + FPRECDET_REFNO1 + " TEXT, " + FPRECDET_REFNO2 + " TEXT, " + ValueHolder.DEBCODE + " TEXT, " + FPRECDET_SALEREFNO + " TEXT, "
 
-			+ FPRECDET_MANUREF + " TEXT, " + FPRECDET_TXNTYPE + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, "
+			+ FPRECDET_MANUREF + " TEXT, " + FPRECDET_TXNTYPE + " TEXT, " + ValueHolder.TXNDATE + " TEXT, "
 
 			+ FPRECDET_DTXNDATE + " TEXT, " + FPRECDET_DTXNTYPE + " TEXT, " + FPRECDET_DCURCODE + " TEXT, " + FPRECDET_DCURRATE + " TEXT, "
 
-			+ FPRECDET_OCURRATE + " TEXT, " + DatabaseHelper.REPCODE + " TEXT, " + FPRECDET_AMT + " TEXT, " + FPRECDET_BAMT + " TEXT, "
+			+ FPRECDET_OCURRATE + " TEXT, " + ValueHolder.REPCODE + " TEXT, " + FPRECDET_AMT + " TEXT, " + FPRECDET_BAMT + " TEXT, "
 
 			+ FPRECDET_ALOAMT + " TEXT, " + FPRECDET_OVPAYAMT + " TEXT, " + FPRECDET_REMARK + " TEXT, " + FPRECDET_OVPAYBAL + " TEXT, " + FPRECDET_RECORDID + " TEXT, " + FPRECDET_ISDELETE + " TEXT, " + FPRECDET_TIMESTAMP + " TEXT );";
 
@@ -63,13 +64,13 @@ public class ReceiptDetController {
 
 	public static final String TABLE_FPRECDETS = "fpRecDetS";
 
-	public static final String CREATE_FPRECDETS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRECDETS + " (" + FPRECDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + FPRECDET_REFNO1 + " TEXT, " + FPRECDET_REFNO2 + " TEXT, " + DatabaseHelper.DEBCODE + " TEXT, " + FPRECDET_SALEREFNO + " TEXT, "
+	public static final String CREATE_FPRECDETS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FPRECDETS + " (" + FPRECDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + FPRECDET_REFNO1 + " TEXT, " + FPRECDET_REFNO2 + " TEXT, " + ValueHolder.DEBCODE + " TEXT, " + FPRECDET_SALEREFNO + " TEXT, "
 
-			+ FPRECDET_MANUREF + " TEXT, " + FPRECDET_TXNTYPE + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, "
+			+ FPRECDET_MANUREF + " TEXT, " + FPRECDET_TXNTYPE + " TEXT, " + ValueHolder.TXNDATE + " TEXT, "
 
 			+ FPRECDET_DTXNDATE + " TEXT, " + FPRECDET_DTXNTYPE + " TEXT, " + FPRECDET_DCURCODE + " TEXT, " + FPRECDET_DCURRATE + " TEXT, "
 
-			+ FPRECDET_OCURRATE + " TEXT, " + DatabaseHelper.REPCODE + " TEXT, " + FPRECDET_AMT + " TEXT, " + FPRECDET_BAMT + " TEXT, " + FPRECDET_ISDELETE + " TEXT, "
+			+ FPRECDET_OCURRATE + " TEXT, " + ValueHolder.REPCODE + " TEXT, " + FPRECDET_AMT + " TEXT, " + FPRECDET_BAMT + " TEXT, " + FPRECDET_ISDELETE + " TEXT, "
 
 			+ FPRECDET_REMARK + " TEXT, " + FPRECDET_ALOAMT + " TEXT, " + FPRECDET_OVPAYAMT + " TEXT, " + FPRECDET_OVPAYBAL + " TEXT, " + FPRECDET_RECORDID + " TEXT, " + FPRECDET_TIMESTAMP + " TEXT );";
 
@@ -107,7 +108,7 @@ public class ReceiptDetController {
 				ReceiptDet recDet = new ReceiptDet();
 
 //
-				recDet.setFPRECDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+				recDet.setFPRECDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
 				recDet.setFPRECDET_REFNO1(cursor.getString(cursor.getColumnIndex(FPRECDET_REFNO1)));
 				recDet.setFPRECDET_REPCODE(cursor.getString(cursor.getColumnIndex(ReceiptController.FPRECHED_PAYTYPE)));
 				recDet.setFPRECDET_ALOAMT(cursor.getString(cursor.getColumnIndex(FPRECDET_ALOAMT)));
@@ -166,14 +167,14 @@ public class ReceiptDetController {
 				values.put(FPRECDET_OVPAYAMT, recDet.getFPRECDET_OVPAYAMT());
 				values.put(FPRECDET_OVPAYBAL, recDet.getFPRECDET_OVPAYBAL());
 				values.put(FPRECDET_RECORDID, recDet.getFPRECDET_RECORDID());
-				values.put(DatabaseHelper.REFNO, recDet.getFPRECDET_REFNO());
+				values.put(ValueHolder.REFNO, recDet.getFPRECDET_REFNO());
 				values.put(FPRECDET_REFNO1, recDet.getFPRECDET_REFNO1());
-				values.put(DatabaseHelper.REPCODE, recDet.getFPRECDET_REPCODE());
+				values.put(ValueHolder.REPCODE, recDet.getFPRECDET_REPCODE());
 				values.put(FPRECDET_SALEREFNO, recDet.getFPRECDET_SALEREFNO());
 				values.put(FPRECDET_TIMESTAMP, recDet.getFPRECDET_TIMESTAMP());
-				values.put(DatabaseHelper.TXNDATE, recDet.getFPRECDET_TXNDATE());
+				values.put(ValueHolder.TXNDATE, recDet.getFPRECDET_TXNDATE());
 				values.put(FPRECDET_TXNTYPE, recDet.getFPRECDET_TXNTYPE());
-				values.put(DatabaseHelper.DEBCODE, recDet.getFPRECDET_DEBCODE());
+				values.put(ValueHolder.DEBCODE, recDet.getFPRECDET_DEBCODE());
 				values.put(FPRECDET_REFNO2, recDet.getFPRECDET_REFNO2());
 				values.put(FPRECDET_ISDELETE, recDet.getFPRECDET_ISDELETE());
 				values.put(FPRECDET_REMARK, recDet.getFPRECDET_REMARK());
@@ -238,14 +239,14 @@ public class ReceiptDetController {
 				values.put(FPRECDET_OVPAYAMT, recDet.getFPRECDET_OVPAYAMT());
 				values.put(FPRECDET_OVPAYBAL, recDet.getFPRECDET_OVPAYBAL());
 				values.put(FPRECDET_RECORDID, recDet.getFPRECDET_RECORDID());
-				values.put(DatabaseHelper.REFNO, recDet.getFPRECDET_REFNO());
+				values.put(ValueHolder.REFNO, recDet.getFPRECDET_REFNO());
 				values.put(FPRECDET_REFNO1, recDet.getFPRECDET_REFNO1());
-				values.put(DatabaseHelper.REPCODE, recDet.getFPRECDET_REPCODE());
+				values.put(ValueHolder.REPCODE, recDet.getFPRECDET_REPCODE());
 				values.put(FPRECDET_SALEREFNO, recDet.getFPRECDET_SALEREFNO());
 				values.put(FPRECDET_TIMESTAMP, recDet.getFPRECDET_TIMESTAMP());
-				values.put(DatabaseHelper.TXNDATE, recDet.getFPRECDET_TXNDATE());
+				values.put(ValueHolder.TXNDATE, recDet.getFPRECDET_TXNDATE());
 				values.put(FPRECDET_TXNTYPE, recDet.getFPRECDET_TXNTYPE());
-				values.put(DatabaseHelper.DEBCODE, recDet.getFPRECDET_DEBCODE());
+				values.put(ValueHolder.DEBCODE, recDet.getFPRECDET_DEBCODE());
 				values.put(FPRECDET_REFNO2, recDet.getFPRECDET_REFNO2());
 				values.put(FPRECDET_ISDELETE, recDet.getFPRECDET_ISDELETE());
 				values.put(FPRECDET_REMARK, recDet.getFPRECDET_REMARK());
@@ -350,7 +351,7 @@ public class ReceiptDetController {
 		}
 
 		try {
-			String selectQuery = "SELECT count(RefNo) as RefNo FROM " + TABLE_FPRECDETS + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
+			String selectQuery = "SELECT count(RefNo) as RefNo FROM " + TABLE_FPRECDETS + " WHERE  " + ValueHolder.REFNO + "='" + refNo + "'";
 			Cursor cursor = dB.rawQuery(selectQuery, null);
 
 			while (cursor.moveToNext()) {
@@ -378,7 +379,7 @@ public class ReceiptDetController {
 		ArrayList<ReceiptDet> list = new ArrayList<ReceiptDet>();
 
 		try {
-			String selectQuery = "SELECT * FROM " + TABLE_FPRECDETS + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "' and "
+			String selectQuery = "SELECT * FROM " + TABLE_FPRECDETS + " WHERE " + ValueHolder.REFNO + " = '" + Refno + "' and "
 					+ ReceiptController.FPRECHED_ISDELETE + "='0'";
 
 			cursor = dB.rawQuery(selectQuery, null);
@@ -400,12 +401,12 @@ public class ReceiptDetController {
 				recDet.setFPRECDET_OVPAYAMT(cursor.getString(cursor.getColumnIndex(FPRECDET_OVPAYAMT)));
 				recDet.setFPRECDET_OVPAYBAL(cursor.getString(cursor.getColumnIndex(FPRECDET_OVPAYBAL)));
 				recDet.setFPRECDET_RECORDID(cursor.getString(cursor.getColumnIndex(FPRECDET_RECORDID)));
-				recDet.setFPRECDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+				recDet.setFPRECDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
 				recDet.setFPRECDET_REFNO1(cursor.getString(cursor.getColumnIndex(FPRECDET_REFNO1)));
-				recDet.setFPRECDET_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+				recDet.setFPRECDET_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
 				recDet.setFPRECDET_SALEREFNO(cursor.getString(cursor.getColumnIndex(FPRECDET_SALEREFNO)));
 				recDet.setFPRECDET_TIMESTAMP(cursor.getString(cursor.getColumnIndex(FPRECDET_TIMESTAMP)));
-				recDet.setFPRECDET_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+				recDet.setFPRECDET_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
 				recDet.setFPRECDET_TXNTYPE(cursor.getString(cursor.getColumnIndex(FPRECDET_TXNTYPE)));
 				recDet.setFPRECDET_REMARK(cursor.getString(cursor.getColumnIndex(FPRECDET_REMARK)));
 				list.add(recDet);
@@ -437,7 +438,7 @@ public class ReceiptDetController {
 		ArrayList<ReceiptDet> list = new ArrayList<ReceiptDet>();
 
 		try {
-			String selectQuery = "SELECT * FROM " + TABLE_FPRECDET + " WHERE " + DatabaseHelper.REFNO + " = '" + Refno + "'";
+			String selectQuery = "SELECT * FROM " + TABLE_FPRECDET + " WHERE " + ValueHolder.REFNO + " = '" + Refno + "'";
 
 			cursor = dB.rawQuery(selectQuery, null);
 
@@ -458,13 +459,13 @@ public class ReceiptDetController {
 				recDet.setFPRECDET_OVPAYAMT(cursor.getString(cursor.getColumnIndex(FPRECDET_OVPAYAMT)));
 				recDet.setFPRECDET_OVPAYBAL(cursor.getString(cursor.getColumnIndex(FPRECDET_OVPAYBAL)));
 				recDet.setFPRECDET_RECORDID(cursor.getString(cursor.getColumnIndex(FPRECDET_RECORDID)));
-				recDet.setFPRECDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+				recDet.setFPRECDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
 				recDet.setFPRECDET_REFNO1(cursor.getString(cursor.getColumnIndex(FPRECDET_REFNO1)));
 				recDet.setFPRECDET_REFNO2(cursor.getString(cursor.getColumnIndex(FPRECDET_REFNO2)));
-				recDet.setFPRECDET_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+				recDet.setFPRECDET_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
 				recDet.setFPRECDET_SALEREFNO(cursor.getString(cursor.getColumnIndex(FPRECDET_SALEREFNO)));
 				recDet.setFPRECDET_TIMESTAMP(cursor.getString(cursor.getColumnIndex(FPRECDET_TIMESTAMP)));
-				recDet.setFPRECDET_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+				recDet.setFPRECDET_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
 				recDet.setFPRECDET_TXNTYPE(cursor.getString(cursor.getColumnIndex(FPRECDET_TXNTYPE)));
 				recDet.setFPRECDET_REMARK(cursor.getString(cursor.getColumnIndex(FPRECDET_REMARK)));
 				list.add(recDet);
@@ -571,7 +572,7 @@ public class ReceiptDetController {
 
 		try {
 
-			String selectQuery = "SELECT * FROM " + TABLE_FPRECDETS + " WHERE " + dbHelper.REFNO + " = '" + refno + "'";
+			String selectQuery = "SELECT * FROM " + TABLE_FPRECDETS + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
 			cursor = dB.rawQuery(selectQuery, null);
 
 
@@ -582,7 +583,7 @@ public class ReceiptDetController {
 			int cn = cursor.getCount();
 
 			if (cn > 0) {
-				count = dB.update(TABLE_FPRECDETS, values,dbHelper.REFNO + " ='" + refno + "'", null);
+				count = dB.update(TABLE_FPRECDETS, values,ValueHolder.REFNO + " ='" + refno + "'", null);
 				Log.v("Success Stauts", count + "");
 			}
 			else {
@@ -613,7 +614,7 @@ public class ReceiptDetController {
 		try {
 
 			String selectQuery = "SELECT SUM("+FPRECDET_ALOAMT+") FROM " + TABLE_FPRECDET + " WHERE "
-					+ DatabaseHelper.REFNO + " = '" + refNo + "'";
+					+ ValueHolder.REFNO + " = '" + refNo + "'";
 
 			cursor = dB.rawQuery(selectQuery, null);
 

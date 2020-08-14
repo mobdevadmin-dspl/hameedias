@@ -11,6 +11,7 @@ import android.util.Log;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.InvHed;
 import com.github.mikephil.charting.data.Entry;
 
@@ -38,10 +39,10 @@ public class InvoiceBarcodeController {
 
     public static final String CREATE_TABLE_BCINCOICEHED = "CREATE TABLE IF NOT EXISTS "
             + TABLE_BCINCOICEHED + " (" + BCINCOICEHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + DatabaseHelper.REFNO + " TEXT, " + BCINCOICEHED_CUSTOMER_CODE + " TEXT, "
-            + DatabaseHelper.TXNDATE + " TEXT, " + BCINCOICEHED_LOCATION_CODE + " TEXT, "
+            + ValueHolder.REFNO + " TEXT, " + BCINCOICEHED_CUSTOMER_CODE + " TEXT, "
+            + ValueHolder.TXNDATE + " TEXT, " + BCINCOICEHED_LOCATION_CODE + " TEXT, "
             + BCINCOICEHED_IS_ACTIVE + " TEXT, " + BCINCOICEHED_IS_SYNC + " TEXT, "
-            + DatabaseHelper.REPCODE + " TEXT, "+ BCINCOICEHED_AREA_CODE + " TEXT); ";
+            + ValueHolder.REPCODE + " TEXT, "+ BCINCOICEHED_AREA_CODE + " TEXT); ";
 
     public InvoiceBarcodeController(Context context) {
         this.context = context;
@@ -67,15 +68,15 @@ public class InvoiceBarcodeController {
 
             for (InvHed invHed : list) {
 
-                String selectQuery = "SELECT * FROM " + TABLE_BCINCOICEHED + " WHERE " + DatabaseHelper.REFNO + " = '" + invHed.getFINVHED_REFNO() + "'";
+                String selectQuery = "SELECT * FROM " + TABLE_BCINCOICEHED + " WHERE " + ValueHolder.REFNO + " = '" + invHed.getFINVHED_REFNO() + "'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
                 ContentValues values = new ContentValues();
 
-                values.put(DatabaseHelper.REFNO, invHed.getFINVHED_REFNO());
-                values.put(DatabaseHelper.REPCODE, invHed.getFINVHED_REPCODE());
-                values.put(DatabaseHelper.TXNDATE, invHed.getFINVHED_TXNDATE());
+                values.put(ValueHolder.REFNO, invHed.getFINVHED_REFNO());
+                values.put(ValueHolder.REPCODE, invHed.getFINVHED_REPCODE());
+                values.put(ValueHolder.TXNDATE, invHed.getFINVHED_TXNDATE());
                 values.put(BCINCOICEHED_CUSTOMER_CODE, invHed.getFINVHED_DEBCODE());
                 values.put(BCINCOICEHED_LOCATION_CODE, invHed.getFINVHED_LOCCODE());
                 values.put(BCINCOICEHED_AREA_CODE, invHed.getFINVHED_AREACODE());
@@ -84,7 +85,7 @@ public class InvoiceBarcodeController {
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
-                    count = dB.update(TABLE_BCINCOICEHED, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(invHed.getFINVHED_REFNO())});
+                    count = dB.update(TABLE_BCINCOICEHED, values, ValueHolder.REFNO + " =?", new String[]{String.valueOf(invHed.getFINVHED_REFNO())});
                 } else {
                     count = (int) dB.insert(TABLE_BCINCOICEHED, null, values);
                 }
@@ -125,15 +126,15 @@ public class InvoiceBarcodeController {
             vanSalesMapper.setDistDB(SharedPref.getInstance(context).getDistDB().trim());
             vanSalesMapper.setConsoleDB(SharedPref.getInstance(context).getConsoleDB().trim());
 
-            vanSalesMapper.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
-            vanSalesMapper.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+            vanSalesMapper.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
+            vanSalesMapper.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
             vanSalesMapper.setFINVHED_LOCCODE(cursor.getString(cursor.getColumnIndex(BCINCOICEHED_LOCATION_CODE)));
             vanSalesMapper.setFINVHED_AREACODE(cursor.getString(cursor.getColumnIndex(BCINCOICEHED_AREA_CODE)));
             vanSalesMapper.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(BCINCOICEHED_CUSTOMER_CODE)));
-            vanSalesMapper.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            vanSalesMapper.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
 
 
-            String RefNo = cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO));
+            String RefNo = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
 
            // vanSalesMapper.setInvDets(new InvoiceDetBarcodeController(context).getAllInvDet(RefNo));
             vanSalesMapper.setInvDets(new InvDetController(context).getAllInvDet(RefNo));
@@ -166,7 +167,7 @@ public class InvoiceBarcodeController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + TABLE_BCINCOICEHED + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_BCINCOICEHED + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -177,7 +178,7 @@ public class InvoiceBarcodeController {
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.update(TABLE_BCINCOICEHED, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(refno)});
+                count = dB.update(TABLE_BCINCOICEHED, values, ValueHolder.REFNO + " =?", new String[]{String.valueOf(refno)});
             } else {
                 count = (int) dB.insert(TABLE_BCINCOICEHED, null, values);
             }

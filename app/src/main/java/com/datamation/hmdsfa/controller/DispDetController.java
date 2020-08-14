@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.DispDet;
 import com.datamation.hmdsfa.model.InvDet;
 
@@ -35,7 +36,7 @@ public class DispDetController {
     public static final String FDISPDET_AMT = "Amt";
     public static final String FDISPDET_SEQNO = "SeqNo";
     public static final String FDISPDET_REFNO1 = "RefNo1";
-    public static final String CREATE_FDISPDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISPDET + " (" + FDISPDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT ," + DatabaseHelper.TXNDATE + " TEXT," + FDISPDET_TXNTYPE + " TEXT," + FDISPDET_ITEMCODE + " TEXT," + FDISPDET_QTY + " TEXT DEFAULT '0'," + FDISPDET_BALQTY + " TEXT DEFAULT '0'," + FDISPDET_SAQTY + " TEXT DEFAULT '0'," + FDISPDET_BALSAQTY + " TEXT DEFAULT '0'," + FDISPDET_FIQTY + " TEXT DEFAULT '0'," + FDISPDET_BALFIQTY + " TEXT DEFAULT '0'," + FDISPDET_COSTPRICE + " TEXT," + FDISPDET_AMT + " TEXT," + FDISPDET_REFNO1 + " TEXT," + FDISPDET_SEQNO + " TEXT);";
+    public static final String CREATE_FDISPDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISPDET + " (" + FDISPDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT ," + ValueHolder.TXNDATE + " TEXT," + FDISPDET_TXNTYPE + " TEXT," + FDISPDET_ITEMCODE + " TEXT," + FDISPDET_QTY + " TEXT DEFAULT '0'," + FDISPDET_BALQTY + " TEXT DEFAULT '0'," + FDISPDET_SAQTY + " TEXT DEFAULT '0'," + FDISPDET_BALSAQTY + " TEXT DEFAULT '0'," + FDISPDET_FIQTY + " TEXT DEFAULT '0'," + FDISPDET_BALFIQTY + " TEXT DEFAULT '0'," + FDISPDET_COSTPRICE + " TEXT," + FDISPDET_AMT + " TEXT," + FDISPDET_REFNO1 + " TEXT," + FDISPDET_SEQNO + " TEXT);";
 
     public DispDetController(Context context) {
         this.context = context;
@@ -76,10 +77,10 @@ public class DispDetController {
                     values.put(FDISPDET_FIQTY, invDet.getFINVDET_QTY());
 
                 values.put(FDISPDET_ITEMCODE, invDet.getFINVDET_ITEM_CODE());
-                values.put(DatabaseHelper.REFNO, dispRefno);
+                values.put(ValueHolder.REFNO, dispRefno);
                 values.put(FDISPDET_REFNO1, invDet.getFINVDET_REFNO());
                 values.put(FDISPDET_SEQNO, invDet.getFINVDET_SEQNO());
-                values.put(DatabaseHelper.TXNDATE, invDet.getFINVDET_TXN_DATE());
+                values.put(ValueHolder.TXNDATE, invDet.getFINVDET_TXN_DATE());
                 values.put(FDISPDET_TXNTYPE, "23");
 
                 count = (int) dB.insert(TABLE_FDISPDET, null, values);
@@ -146,10 +147,10 @@ public class DispDetController {
             dispDet.setFDISPDET_FIQTY(cursor.getString(cursor.getColumnIndex(FDISPDET_FIQTY)));
             dispDet.setFDISPDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FDISPDET_ITEMCODE)));
             dispDet.setFDISPDET_QTY(cursor.getString(cursor.getColumnIndex(FDISPDET_QTY)));
-            dispDet.setFDISPDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+            dispDet.setFDISPDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
             dispDet.setFDISPDET_SAQTY(cursor.getString(cursor.getColumnIndex(FDISPDET_SAQTY)));
             dispDet.setFDISPDET_SEQNO(cursor.getString(cursor.getColumnIndex(FDISPDET_SEQNO)));
-            dispDet.setFDISPDET_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            dispDet.setFDISPDET_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
             dispDet.setFDISPDET_TXNTYPE(cursor.getString(cursor.getColumnIndex(FDISPDET_TXNTYPE)));
             list.add(dispDet);
         }

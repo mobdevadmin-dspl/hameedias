@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.InvDet;
 import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.OrderDisc;
@@ -68,9 +69,9 @@ public class InvDetController {
     public static final String FINVDET_ARTICLENO = "ArticleNo";
     public static final String FINVDET_BARCODE = "BarCode";
 
-    public static final String CREATE_FINVDET_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVDET + " (" + FINVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDET_AMT + " TEXT, " + FINVDET_BAL_QTY + " TEXT, " + FINVDET_B_AMT + " TEXT, " + FINVDET_B_SELL_PRICE + " TEXT, " + FINVDET_BT_TAX_AMT + " TEXT, " + FINVDET_BT_SELL_PRICE + " TEXT, " + FINVDET_DIS_AMT + " TEXT, " + FINVDET_DIS_PER + " TEXT, " + FINVDET_ITEM_CODE + " TEXT, " + FINVDET_PRIL_CODE + " TEXT, " + FINVDET_QTY + " TEXT, " + FINVDET_PICE_QTY + " TEXT, " + FINVDET_TYPE + " TEXT, " + FINVDET_RECORD_ID + " TEXT, " + DatabaseHelper.REFNO + " TEXT, " + FINVDET_SELL_PRICE + " TEXT, " + FINVDET_SEQNO + " TEXT, " + FINVDET_TAX_AMT + " TEXT, " + FINVDET_TAX_COM_CODE + " TEXT, " + FINVDET_T_SELL_PRICE + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + FINVDET_IS_ACTIVE + " TEXT, " + FINVDET_TXN_TYPE + " TEXT," + FINVDET_COMDISPER + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISPER + " TEXT DEFAULT '0'," + FINVDET_DISVALAMT + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISC + " TEXT DEFAULT '0'," + FINVDET_QOH + " TEXT DEFAULT '0'," + FINVDET_FREEQTY + " TEXT DEFAULT '0'," + FINVDET_SCHDISPER + " TEXT DEFAULT '0',"
+    public static final String CREATE_FINVDET_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVDET + " (" + FINVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDET_AMT + " TEXT, " + FINVDET_BAL_QTY + " TEXT, " + FINVDET_B_AMT + " TEXT, " + FINVDET_B_SELL_PRICE + " TEXT, " + FINVDET_BT_TAX_AMT + " TEXT, " + FINVDET_BT_SELL_PRICE + " TEXT, " + FINVDET_DIS_AMT + " TEXT, " + FINVDET_DIS_PER + " TEXT, " + FINVDET_ITEM_CODE + " TEXT, " + FINVDET_PRIL_CODE + " TEXT, " + FINVDET_QTY + " TEXT, " + FINVDET_PICE_QTY + " TEXT, " + FINVDET_TYPE + " TEXT, " + FINVDET_RECORD_ID + " TEXT, " + ValueHolder.REFNO + " TEXT, " + FINVDET_SELL_PRICE + " TEXT, " + FINVDET_SEQNO + " TEXT, " + FINVDET_TAX_AMT + " TEXT, " + FINVDET_TAX_COM_CODE + " TEXT, " + FINVDET_T_SELL_PRICE + " TEXT, " + ValueHolder.TXNDATE + " TEXT, " + FINVDET_IS_ACTIVE + " TEXT, " + FINVDET_TXN_TYPE + " TEXT," + FINVDET_COMDISPER + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISPER + " TEXT DEFAULT '0'," + FINVDET_DISVALAMT + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISC + " TEXT DEFAULT '0'," + FINVDET_QOH + " TEXT DEFAULT '0'," + FINVDET_FREEQTY + " TEXT DEFAULT '0'," + FINVDET_SCHDISPER + " TEXT DEFAULT '0',"
             + FINVDET_VARIANTCODE + " TEXT,"    + FINVDET_ARTICLENO + " TEXT,"    + FINVDET_BARCODE + " TEXT,"    + FINVDET_PRICE + " TEXT," + FINVDET_CHANGED_PRICE + " TEXT DEFAULT '0' ,"+ FINVDET_COMPDISC + " TEXT DEFAULT '0'); ";
-    public static final String CREATE_FINVDET_TABLE_LOG = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVDET_LOG + " (" + FINVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDET_AMT + " TEXT, " + FINVDET_BAL_QTY + " TEXT, " + FINVDET_B_AMT + " TEXT, " + FINVDET_B_SELL_PRICE + " TEXT, " + FINVDET_BT_TAX_AMT + " TEXT, " + FINVDET_BT_SELL_PRICE + " TEXT, " + FINVDET_DIS_AMT + " TEXT, " + FINVDET_DIS_PER + " TEXT, " + FINVDET_ITEM_CODE + " TEXT, " + FINVDET_PRIL_CODE + " TEXT, " + FINVDET_QTY + " TEXT, " + FINVDET_PICE_QTY + " TEXT, " + FINVDET_TYPE + " TEXT, " + FINVDET_RECORD_ID + " TEXT, " + DatabaseHelper.REFNO + " TEXT, " + FINVDET_SELL_PRICE + " TEXT, " + FINVDET_SEQNO + " TEXT, " + FINVDET_TAX_AMT + " TEXT, " + FINVDET_TAX_COM_CODE + " TEXT, " + FINVDET_T_SELL_PRICE + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + FINVDET_IS_ACTIVE + " TEXT, " + FINVDET_TXN_TYPE + " TEXT," + FINVDET_COMDISPER + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISPER + " TEXT DEFAULT '0'," + FINVDET_DISVALAMT + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISC + " TEXT DEFAULT '0'," + FINVDET_QOH + " TEXT DEFAULT '0'," + FINVDET_FREEQTY + " TEXT DEFAULT '0'," + FINVDET_SCHDISPER + " TEXT DEFAULT '0',"
+    public static final String CREATE_FINVDET_TABLE_LOG = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVDET_LOG + " (" + FINVDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FINVDET_AMT + " TEXT, " + FINVDET_BAL_QTY + " TEXT, " + FINVDET_B_AMT + " TEXT, " + FINVDET_B_SELL_PRICE + " TEXT, " + FINVDET_BT_TAX_AMT + " TEXT, " + FINVDET_BT_SELL_PRICE + " TEXT, " + FINVDET_DIS_AMT + " TEXT, " + FINVDET_DIS_PER + " TEXT, " + FINVDET_ITEM_CODE + " TEXT, " + FINVDET_PRIL_CODE + " TEXT, " + FINVDET_QTY + " TEXT, " + FINVDET_PICE_QTY + " TEXT, " + FINVDET_TYPE + " TEXT, " + FINVDET_RECORD_ID + " TEXT, " + ValueHolder.REFNO + " TEXT, " + FINVDET_SELL_PRICE + " TEXT, " + FINVDET_SEQNO + " TEXT, " + FINVDET_TAX_AMT + " TEXT, " + FINVDET_TAX_COM_CODE + " TEXT, " + FINVDET_T_SELL_PRICE + " TEXT, " + ValueHolder.TXNDATE + " TEXT, " + FINVDET_IS_ACTIVE + " TEXT, " + FINVDET_TXN_TYPE + " TEXT," + FINVDET_COMDISPER + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISPER + " TEXT DEFAULT '0'," + FINVDET_DISVALAMT + " TEXT DEFAULT '0'," + FINVDET_BRAND_DISC + " TEXT DEFAULT '0'," + FINVDET_QOH + " TEXT DEFAULT '0'," + FINVDET_FREEQTY + " TEXT DEFAULT '0'," + FINVDET_SCHDISPER + " TEXT DEFAULT '0',"
             + FINVDET_VARIANTCODE + " TEXT,"    + FINVDET_ARTICLENO + " TEXT,"    + FINVDET_BARCODE + " TEXT,"    + FINVDET_PRICE + " TEXT," + FINVDET_CHANGED_PRICE + " TEXT DEFAULT '0' ,"+ FINVDET_COMPDISC + " TEXT DEFAULT '0'); ";
 
     public InvDetController(Context context) {
@@ -118,13 +119,13 @@ public class InvDetController {
                 values.put(FINVDET_PICE_QTY, invDet.getFINVDET_PICE_QTY());
                 values.put(FINVDET_TYPE, invDet.getFINVDET_TYPE());
                 values.put(FINVDET_RECORD_ID, invDet.getFINVDET_RECORD_ID());
-                values.put(DatabaseHelper.REFNO, invDet.getFINVDET_REFNO());
+                values.put(ValueHolder.REFNO, invDet.getFINVDET_REFNO());
                 values.put(FINVDET_SELL_PRICE, invDet.getFINVDET_SELL_PRICE());
                 values.put(FINVDET_SEQNO, invDet.getFINVDET_SEQNO());
                 values.put(FINVDET_TAX_AMT, invDet.getFINVDET_TAX_AMT());
                 values.put(FINVDET_TAX_COM_CODE, invDet.getFINVDET_TAX_COM_CODE());
                 values.put(FINVDET_T_SELL_PRICE, invDet.getFINVDET_T_SELL_PRICE());
-                values.put(DatabaseHelper.TXNDATE, invDet.getFINVDET_TXN_DATE());
+                values.put(ValueHolder.TXNDATE, invDet.getFINVDET_TXN_DATE());
                 values.put(FINVDET_TXN_TYPE, invDet.getFINVDET_TXN_TYPE());
                 values.put(FINVDET_IS_ACTIVE, invDet.getFINVDET_IS_ACTIVE());
                 values.put(FINVDET_ARTICLENO, invDet.getFINVDET_ARTICLENO());
@@ -182,7 +183,7 @@ public class InvDetController {
 
                 ContentValues values = new ContentValues();
                 String selectQuery = "SELECT * FROM " + TABLE_FINVDET + " WHERE " + FINVDET_BARCODE
-                        + " = '" + invDet.getFINVDET_BARCODE() + "' and "+DatabaseHelper.REFNO+" = '"+invDet.getFINVDET_REFNO()+"'";
+                        + " = '" + invDet.getFINVDET_BARCODE() + "' and "+ValueHolder.REFNO+" = '"+invDet.getFINVDET_REFNO()+"'";
                 cursor = dB.rawQuery(selectQuery, null);
 
                 //  values.put(FINVDET_ID, invDet.getFINVDET_ID());
@@ -200,13 +201,13 @@ public class InvDetController {
                 values.put(FINVDET_PICE_QTY, invDet.getFINVDET_PICE_QTY());
                 values.put(FINVDET_TYPE, invDet.getFINVDET_TYPE());
                 values.put(FINVDET_RECORD_ID, invDet.getFINVDET_RECORD_ID());
-                values.put(DatabaseHelper.REFNO, invDet.getFINVDET_REFNO());
+                values.put(ValueHolder.REFNO, invDet.getFINVDET_REFNO());
                 values.put(FINVDET_SELL_PRICE, invDet.getFINVDET_SELL_PRICE());
                 values.put(FINVDET_SEQNO, invDet.getFINVDET_SEQNO());
                 values.put(FINVDET_TAX_AMT, invDet.getFINVDET_TAX_AMT());
                 values.put(FINVDET_TAX_COM_CODE, invDet.getFINVDET_TAX_COM_CODE());
                 values.put(FINVDET_T_SELL_PRICE, invDet.getFINVDET_T_SELL_PRICE());
-                values.put(DatabaseHelper.TXNDATE, invDet.getFINVDET_TXN_DATE());
+                values.put(ValueHolder.TXNDATE, invDet.getFINVDET_TXN_DATE());
                 values.put(FINVDET_TXN_TYPE, invDet.getFINVDET_TXN_TYPE());
                 values.put(FINVDET_IS_ACTIVE, invDet.getFINVDET_IS_ACTIVE());
                 values.put(FINVDET_ARTICLENO, invDet.getFINVDET_ARTICLENO());
@@ -227,7 +228,7 @@ public class InvDetController {
                     String updateQuery = "UPDATE finvdet SET Qty= Qty+'" + invDet.getFINVDET_QTY() + "', amt= amt+'" + invDet.getFINVDET_AMT() + "' where RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
                     dB.execSQL(updateQuery);
                     count = 1;
-                  //  count = dB.update(TABLE_FINVDET, values, FINVDET_BARCODE + " = '"+invDet.getFINVDET_BARCODE()+"' and "+ DatabaseHelper.REFNO+ " = '"+invDet.getFINVDET_REFNO()+"'", new String[]{String.valueOf(invDet.getFINVDET_ID())});
+                  //  count = dB.update(TABLE_FINVDET, values, FINVDET_BARCODE + " = '"+invDet.getFINVDET_BARCODE()+"' and "+ ValueHolder.REFNO+ " = '"+invDet.getFINVDET_REFNO()+"'", new String[]{String.valueOf(invDet.getFINVDET_ID())});
 
                 } else {
                     count = (int) dB.insert(TABLE_FINVDET, null, values);
@@ -266,7 +267,7 @@ public class InvDetController {
                 ContentValues values = new ContentValues();
                 ContentValues values1 = new ContentValues();
                 String selectQuery = "SELECT * FROM " + TABLE_FINVDET_LOG + " WHERE " + FINVDET_BARCODE
-                        + " = '" + invDet.getFINVDET_BARCODE() + "' and "+DatabaseHelper.REFNO+" = '"+invDet.getFINVDET_REFNO()+"'";
+                        + " = '" + invDet.getFINVDET_BARCODE() + "' and "+ValueHolder.REFNO+" = '"+invDet.getFINVDET_REFNO()+"'";
                 cursor = dB.rawQuery(selectQuery, null);
 
                 //  values.put(FINVDET_ID, invDet.getFINVDET_ID());
@@ -284,13 +285,13 @@ public class InvDetController {
                 values.put(FINVDET_PICE_QTY, invDet.getFINVDET_PICE_QTY());
                 values.put(FINVDET_TYPE, invDet.getFINVDET_TYPE());
                 values.put(FINVDET_RECORD_ID, invDet.getFINVDET_RECORD_ID());
-                values.put(DatabaseHelper.REFNO, invDet.getFINVDET_REFNO());
+                values.put(ValueHolder.REFNO, invDet.getFINVDET_REFNO());
                 values.put(FINVDET_SELL_PRICE, invDet.getFINVDET_SELL_PRICE());
                 values.put(FINVDET_SEQNO, invDet.getFINVDET_SEQNO());
                 values.put(FINVDET_TAX_AMT, invDet.getFINVDET_TAX_AMT());
                 values.put(FINVDET_TAX_COM_CODE, invDet.getFINVDET_TAX_COM_CODE());
                 values.put(FINVDET_T_SELL_PRICE, invDet.getFINVDET_T_SELL_PRICE());
-                values.put(DatabaseHelper.TXNDATE, invDet.getFINVDET_TXN_DATE());
+                values.put(ValueHolder.TXNDATE, invDet.getFINVDET_TXN_DATE());
                 values.put(FINVDET_TXN_TYPE, invDet.getFINVDET_TXN_TYPE());
                 values.put(FINVDET_IS_ACTIVE, invDet.getFINVDET_IS_ACTIVE());
                 values.put(FINVDET_ARTICLENO, invDet.getFINVDET_ARTICLENO());
@@ -311,7 +312,7 @@ public class InvDetController {
                     String updateQuery = "UPDATE fLinvDet SET Qty= Qty+'" + invDet.getFINVDET_QTY() + "', amt= amt+'" + invDet.getFINVDET_AMT() + "' where RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
                     dB.execSQL(updateQuery);
                     count = 1;
-                    //  count = dB.update(TABLE_FINVDET, values, FINVDET_BARCODE + " = '"+invDet.getFINVDET_BARCODE()+"' and "+ DatabaseHelper.REFNO+ " = '"+invDet.getFINVDET_REFNO()+"'", new String[]{String.valueOf(invDet.getFINVDET_ID())});
+                    //  count = dB.update(TABLE_FINVDET, values, FINVDET_BARCODE + " = '"+invDet.getFINVDET_BARCODE()+"' and "+ ValueHolder.REFNO+ " = '"+invDet.getFINVDET_REFNO()+"'", new String[]{String.valueOf(invDet.getFINVDET_ID())});
 
                 } else {
                     count = (int) dB.insert(TABLE_FINVDET_LOG, null, values);
@@ -347,7 +348,7 @@ public class InvDetController {
 
         // String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE "
         String selectQuery = "select * from finvdet WHERE "
-                + DatabaseHelper.REFNO + "='" + refno + "' and  txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+                + ValueHolder.REFNO + "='" + refno + "' and  txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -370,7 +371,7 @@ public class InvDetController {
                 ordDet.setFINVDET_ITEM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_ITEM_CODE)));
                 ordDet.setFINVDET_PRIL_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_PRIL_CODE)));
                 ordDet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
-                ordDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                ordDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 ordDet.setFINVDET_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
                 ordDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVDET_IS_ACTIVE)));
                 ordDet.setFINVDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FINVDET_ARTICLENO)));
@@ -418,10 +419,10 @@ public class InvDetController {
                 InvDet recDet = new InvDet();
 
 //
-                recDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                recDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 recDet.setFINVDET_AMT(cursor.getString(cursor.getColumnIndex("totAmt")));
                 recDet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex("totQty")));
-                recDet.setFINVDET_LOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+                recDet.setFINVDET_LOCCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
               //TODO :set  discount, free
 
                 list.add(recDet);
@@ -487,7 +488,7 @@ public class InvDetController {
 
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
-        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 
@@ -533,7 +534,7 @@ public class InvDetController {
         }
 
         ArrayList<InvDet> list = new ArrayList<InvDet>();
-        String selectQuery = "select a.itemcode,a.qty,a.amt,a.TSellPrice,a.types,a.disvalamt from " + TABLE_FINVDET + " a WHERE a." + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select a.itemcode,a.qty,a.amt,a.TSellPrice,a.types,a.disvalamt from " + TABLE_FINVDET + " a WHERE a." + ValueHolder.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -577,8 +578,8 @@ public class InvDetController {
 
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
-        // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' AND types='SA'";
-        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' ";
+        // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "' AND types='SA'";
+        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "' ";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -603,13 +604,13 @@ public class InvDetController {
                 invDet.setFINVDET_PICE_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_PICE_QTY)));
                 invDet.setFINVDET_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TYPE)));
                 invDet.setFINVDET_RECORD_ID(cursor.getString(cursor.getColumnIndex(FINVDET_RECORD_ID)));
-                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 invDet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
                 invDet.setFINVDET_SEQNO(cursor.getString(cursor.getColumnIndex(FINVDET_SEQNO)));
                 invDet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_AMT)));
                 invDet.setFINVDET_TAX_COM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_COM_CODE)));
                 invDet.setFINVDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_T_SELL_PRICE)));
-                invDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 invDet.setFINVDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TXN_TYPE)));
                 invDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVDET_IS_ACTIVE)));
 
@@ -646,8 +647,8 @@ public class InvDetController {
 
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
-        // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' AND types='SA'";
-        String selectQuery = "select * from " + TABLE_FINVDET_LOG + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' ";
+        // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "' AND types='SA'";
+        String selectQuery = "select * from " + TABLE_FINVDET_LOG + " WHERE " + ValueHolder.REFNO + "='" + refno + "' ";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -672,13 +673,13 @@ public class InvDetController {
                 invDet.setFINVDET_PICE_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_PICE_QTY)));
                 invDet.setFINVDET_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TYPE)));
                 invDet.setFINVDET_RECORD_ID(cursor.getString(cursor.getColumnIndex(FINVDET_RECORD_ID)));
-                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 invDet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
                 invDet.setFINVDET_SEQNO(cursor.getString(cursor.getColumnIndex(FINVDET_SEQNO)));
                 invDet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_AMT)));
                 invDet.setFINVDET_TAX_COM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_COM_CODE)));
                 invDet.setFINVDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_T_SELL_PRICE)));
-                invDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 invDet.setFINVDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TXN_TYPE)));
                 invDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVDET_IS_ACTIVE)));
 
@@ -717,7 +718,7 @@ public class InvDetController {
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
         String selectQuery = "select * from " + TABLE_FINVDET + " WHERE "
-                + DatabaseHelper.REFNO  + "='" + refno + "' and "
+                + ValueHolder.REFNO  + "='" + refno + "' and "
                 + FINVDET_IS_ACTIVE +" = '1'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -729,7 +730,7 @@ public class InvDetController {
 //                Menaka Comment
 //                invDet.setFINVDET_ITEM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_ITEM_CODE)));
 //                invDet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
-//                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+//                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
 //                invDet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
 //                Menaka Comment
                 invDet.setFINVDET_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_AMT)));
@@ -746,13 +747,13 @@ public class InvDetController {
                 invDet.setFINVDET_PICE_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_PICE_QTY)));
                 invDet.setFINVDET_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TYPE)));
                 invDet.setFINVDET_RECORD_ID(cursor.getString(cursor.getColumnIndex(FINVDET_RECORD_ID)));
-                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 invDet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
                 invDet.setFINVDET_SEQNO(cursor.getString(cursor.getColumnIndex(FINVDET_SEQNO)));
                 invDet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_AMT)));
                 invDet.setFINVDET_TAX_COM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_COM_CODE)));
                 invDet.setFINVDET_T_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_T_SELL_PRICE)));
-                invDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invDet.setFINVDET_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 invDet.setFINVDET_TXN_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TXN_TYPE)));
                 invDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVDET_IS_ACTIVE)));
 
@@ -818,7 +819,7 @@ public class InvDetController {
 
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
-        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + FINVDET_TYPE + " in ('MR','UR','FD') AND " + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + FINVDET_TYPE + " in ('MR','UR','FD') AND " + ValueHolder.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -842,7 +843,7 @@ public class InvDetController {
                 invDet.setFINVDET_PICE_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_PICE_QTY)));
                 invDet.setFINVDET_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TYPE)));
                 invDet.setFINVDET_RECORD_ID(cursor.getString(cursor.getColumnIndex(FINVDET_RECORD_ID)));
-                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                invDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 invDet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
                 invDet.setFINVDET_SEQNO(cursor.getString(cursor.getColumnIndex(FINVDET_SEQNO)));
                 invDet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_AMT)));
@@ -919,7 +920,7 @@ public class InvDetController {
         }
 
         String tot = null;
-        String selectQuery = "SELECT SUM(CAST(" + FINVDET_AMT + " AS double)) AS 'total_amt'  FROM " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "SELECT SUM(CAST(" + FINVDET_AMT + " AS double)) AS 'total_amt'  FROM " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'";
         Cursor cursor = null;
         cursor = dB.rawQuery(selectQuery, null);
         try {
@@ -960,7 +961,7 @@ public class InvDetController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -971,7 +972,7 @@ public class InvDetController {
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.update(TABLE_FINVDET, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(refno)});
+                count = dB.update(TABLE_FINVDET, values, ValueHolder.REFNO + " =?", new String[]{String.valueOf(refno)});
             } else {
                 count = (int) dB.insert(TABLE_FINVDET, null, values);
             }
@@ -1005,11 +1006,11 @@ public class InvDetController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
             cursor = dB.rawQuery(selectQuery, null);
 
             if (cursor.getCount() > 0) {
-                count = dB.delete(TABLE_FINVDET, DatabaseHelper.REFNO + " ='" + refno + "'", null);
+                count = dB.delete(TABLE_FINVDET, ValueHolder.REFNO + " ='" + refno + "'", null);
             }
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
@@ -1034,7 +1035,7 @@ public class InvDetController {
         }
 
         try {
-            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + TABLE_FINVDET + " WHERE  " + DatabaseHelper.REFNO + "='" + refNo + "'";
+            String selectQuery = "SELECT count(RefNo) as RefNo FROM " + TABLE_FINVDET + " WHERE  " + ValueHolder.REFNO + "='" + refNo + "'";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
@@ -1064,12 +1065,12 @@ public class InvDetController {
 
         try {
 
-            String selectQuery = "SELECT * FROM finvDet WHERE " + DatabaseHelper.REFNO + " = '" + refno + "' AND " + FINVDET_TYPE + " = 'FI'";
+            String selectQuery = "SELECT * FROM finvDet WHERE " + ValueHolder.REFNO + " = '" + refno + "' AND " + FINVDET_TYPE + " = 'FI'";
             cursor = dB.rawQuery(selectQuery, null);
             int cn = cursor.getCount();
 
             if (cn > 0) {
-                count = dB.delete(TABLE_FINVDET, DatabaseHelper.REFNO + " = '" + refno + "' AND " + FINVDET_TYPE + " = 'FI'", null);
+                count = dB.delete(TABLE_FINVDET, ValueHolder.REFNO + " = '" + refno + "' AND " + FINVDET_TYPE + " = 'FI'", null);
             }
         } catch (Exception e) {
             Log.v(TAG + " Exception", e.toString());
@@ -1092,7 +1093,7 @@ public class InvDetController {
 
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
-        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + FINVDET_TXN_TYPE + "='22' AND " + DatabaseHelper.REFNO + "='" + refno + "'";
+        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + FINVDET_TXN_TYPE + "='22' AND " + ValueHolder.REFNO + "='" + refno + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -1111,7 +1112,7 @@ public class InvDetController {
                 ordDet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
                 ordDet.setFINVDET_PICE_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_PICE_QTY)));
                 ordDet.setFINVDET_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TYPE)));
-                ordDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                ordDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 ordDet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
                 ordDet.setFINVDET_SEQNO(cursor.getString(cursor.getColumnIndex(FINVDET_SEQNO)));
                 ordDet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_AMT)));
@@ -1426,7 +1427,7 @@ public class InvDetController {
             open();
         }
         try {
-            dB.delete(TABLE_FINVDET, DatabaseHelper.REFNO + " ='" + RefNo + "'", null);
+            dB.delete(TABLE_FINVDET, ValueHolder.REFNO + " ='" + RefNo + "'", null);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1444,7 +1445,7 @@ public class InvDetController {
             open();
         }
         try {
-            dB.delete(TABLE_FINVDET, DatabaseHelper.REFNO + " ='" + RefNo + "' AND " + FINVDET_ITEM_CODE + " ='" + Itemcode + "'", null);
+            dB.delete(TABLE_FINVDET, ValueHolder.REFNO + " ='" + RefNo + "' AND " + FINVDET_ITEM_CODE + " ='" + Itemcode + "'", null);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1460,7 +1461,7 @@ public class InvDetController {
             open();
         }
         try {
-            dB.delete(TABLE_FINVDET, DatabaseHelper.REFNO + " ='" + RefNo + "' AND " + FINVDET_ITEM_CODE + " ='" + Itemcode + "' AND " + FINVDET_BARCODE + " ='" + barcode + "'", null);
+            dB.delete(TABLE_FINVDET, ValueHolder.REFNO + " ='" + RefNo + "' AND " + FINVDET_ITEM_CODE + " ='" + Itemcode + "' AND " + FINVDET_BARCODE + " ='" + barcode + "'", null);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1476,7 +1477,7 @@ public class InvDetController {
             open();
         }
         try {
-            dB.delete(TABLE_FINVDET, DatabaseHelper.REFNO + " ='" + RefNo + "' AND "  + FINVDET_PRIL_CODE + " ='" + documentno + "'", null);
+            dB.delete(TABLE_FINVDET, ValueHolder.REFNO + " ='" + RefNo + "' AND "  + FINVDET_PRIL_CODE + " ='" + documentno + "'", null);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1497,7 +1498,7 @@ public class InvDetController {
             values.put(FINVDET_QTY, Qty);
             values.put(FINVDET_PICE_QTY, Qty);
 
-            dB.update(TABLE_FINVDET, values, DatabaseHelper.REFNO + " =? AND " + FINVDET_ITEM_CODE + "=?" , new String[]{RefNo,Itemcode});
+            dB.update(TABLE_FINVDET, values, ValueHolder.REFNO + " =? AND " + FINVDET_ITEM_CODE + "=?" , new String[]{RefNo,Itemcode});
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1518,7 +1519,7 @@ public class InvDetController {
 
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
-        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refno + "' AND " + FINVDET_TYPE  + "='FI'"         ;
+        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "' AND " + FINVDET_TYPE  + "='FI'"         ;
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -1559,7 +1560,7 @@ public class InvDetController {
 
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
-        String selectQuery = "select ItemCode,Qty,Amt from " + TABLE_FINVDET + " WHERE " + DatabaseHelper.REFNO + "='" + refNo + "' "         ;
+        String selectQuery = "select ItemCode,Qty,Amt from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refNo + "' "         ;
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 

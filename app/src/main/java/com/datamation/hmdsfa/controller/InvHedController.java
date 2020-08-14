@@ -11,6 +11,7 @@ import android.util.Log;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.InvHed;
 import com.github.mikephil.charting.data.Entry;
 
@@ -18,7 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.datamation.hmdsfa.helpers.DatabaseHelper.REFNO;
+import static com.datamation.hmdsfa.helpers.ValueHolder.REFNO;
+
 
 public class InvHedController {
 
@@ -73,8 +75,8 @@ public class InvHedController {
     public static final String FINVHED_TOURCODE = "tourcode";
     public static final String FINVHED_REASON = "reason";
 
-    public static final String CREATE_FINVHED_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVHED + " (" + FINVHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FINVHED_REFNO1 + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + FINVHED_PAYTYPE + " TEXT, " + FINVHED_VAT_CODE + " TEXT, "+ FINVHED_MANUREF + " TEXT, " + FINVHED_COSTCODE + " TEXT, " + FINVHED_CURCODE + " TEXT, " + FINVHED_CURRATE + " TEXT, " + DatabaseHelper.DEBCODE + " TEXT, " + FINVHED_REMARKS + " TEXT, " + FINVHED_TXNTYPE + " TEXT, " + FINVHED_LOCCODE + " TEXT, " + DatabaseHelper.REPCODE + " TEXT, " + FINVHED_CONTACT + " TEXT, " + FINVHED_CUSADD1 + " TEXT, " + FINVHED_CUSADD2 + " TEXT, " + FINVHED_CUSADD3 + " TEXT, " + FINVHED_CUSTELE + " TEXT, " + FINVHED_TOTALDIS + " TEXT, " + FINVHED_TOTALTAX + " TEXT, " + FINVHED_TAXREG + " TEXT, " + FINVHED_ADDUSER + " TEXT, " + FINVHED_ADDDATE + " TEXT, " + FINVHED_ADDMACH + " TEXT, " + FINVHED_START_TIME_SO + " TEXT, " + FINVHED_END_TIME_SO + " TEXT, " + FINVHED_TOTALAMT + " TEXT, " + FINVHED_LONGITUDE + " TEXT, " + FINVHED_LATITUDE + " TEXT, " + FINVHED_ADDRESS + " TEXT, " + FINVHED_IS_SYNCED + " TEXT, " + FINVHED_AREACODE + " TEXT, " + FINVHED_ROUTECODE + " TEXT, " + FINVHED_TOURCODE + " TEXT, " + FINVHED_IS_ACTIVE + " TEXT); ";
-    public static final String CREATE_FINVHED_TABLE_LOG = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVHED_LOG + " (" + FINVHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FINVHED_REFNO1 + " TEXT, "+ FINVHED_REASON + " TEXT, "  + DatabaseHelper.TXNDATE + " TEXT, " + FINVHED_PAYTYPE + " TEXT, " + FINVHED_VAT_CODE + " TEXT, "+ FINVHED_MANUREF + " TEXT, " + FINVHED_COSTCODE + " TEXT, " + FINVHED_CURCODE + " TEXT, " + FINVHED_CURRATE + " TEXT, " + DatabaseHelper.DEBCODE + " TEXT, " + FINVHED_REMARKS + " TEXT, " + FINVHED_TXNTYPE + " TEXT, " + FINVHED_LOCCODE + " TEXT, " + DatabaseHelper.REPCODE + " TEXT, " + FINVHED_CONTACT + " TEXT, " + FINVHED_CUSADD1 + " TEXT, " + FINVHED_CUSADD2 + " TEXT, " + FINVHED_CUSADD3 + " TEXT, " + FINVHED_CUSTELE + " TEXT, " + FINVHED_TOTALDIS + " TEXT, " + FINVHED_TOTALTAX + " TEXT, " + FINVHED_TAXREG + " TEXT, " + FINVHED_ADDUSER + " TEXT, " + FINVHED_ADDDATE + " TEXT, " + FINVHED_ADDMACH + " TEXT, " + FINVHED_START_TIME_SO + " TEXT, " + FINVHED_END_TIME_SO + " TEXT, " + FINVHED_TOTALAMT + " TEXT, " + FINVHED_LONGITUDE + " TEXT, " + FINVHED_LATITUDE + " TEXT, " + FINVHED_ADDRESS + " TEXT, " + FINVHED_IS_SYNCED + " TEXT, " + FINVHED_AREACODE + " TEXT, " + FINVHED_ROUTECODE + " TEXT, " + FINVHED_TOURCODE + " TEXT, " + FINVHED_IS_ACTIVE + " TEXT); ";
+    public static final String CREATE_FINVHED_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVHED + " (" + FINVHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FINVHED_REFNO1 + " TEXT, " + ValueHolder.TXNDATE + " TEXT, " + FINVHED_PAYTYPE + " TEXT, " + FINVHED_VAT_CODE + " TEXT, "+ FINVHED_MANUREF + " TEXT, " + FINVHED_COSTCODE + " TEXT, " + FINVHED_CURCODE + " TEXT, " + FINVHED_CURRATE + " TEXT, " + ValueHolder.DEBCODE + " TEXT, " + FINVHED_REMARKS + " TEXT, " + FINVHED_TXNTYPE + " TEXT, " + FINVHED_LOCCODE + " TEXT, " + ValueHolder.REPCODE + " TEXT, " + FINVHED_CONTACT + " TEXT, " + FINVHED_CUSADD1 + " TEXT, " + FINVHED_CUSADD2 + " TEXT, " + FINVHED_CUSADD3 + " TEXT, " + FINVHED_CUSTELE + " TEXT, " + FINVHED_TOTALDIS + " TEXT, " + FINVHED_TOTALTAX + " TEXT, " + FINVHED_TAXREG + " TEXT, " + FINVHED_ADDUSER + " TEXT, " + FINVHED_ADDDATE + " TEXT, " + FINVHED_ADDMACH + " TEXT, " + FINVHED_START_TIME_SO + " TEXT, " + FINVHED_END_TIME_SO + " TEXT, " + FINVHED_TOTALAMT + " TEXT, " + FINVHED_LONGITUDE + " TEXT, " + FINVHED_LATITUDE + " TEXT, " + FINVHED_ADDRESS + " TEXT, " + FINVHED_IS_SYNCED + " TEXT, " + FINVHED_AREACODE + " TEXT, " + FINVHED_ROUTECODE + " TEXT, " + FINVHED_TOURCODE + " TEXT, " + FINVHED_IS_ACTIVE + " TEXT); ";
+    public static final String CREATE_FINVHED_TABLE_LOG = "CREATE TABLE IF NOT EXISTS " + TABLE_FINVHED_LOG + " (" + FINVHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REFNO + " TEXT, " + FINVHED_REFNO1 + " TEXT, "+ FINVHED_REASON + " TEXT, "  + ValueHolder.TXNDATE + " TEXT, " + FINVHED_PAYTYPE + " TEXT, " + FINVHED_VAT_CODE + " TEXT, "+ FINVHED_MANUREF + " TEXT, " + FINVHED_COSTCODE + " TEXT, " + FINVHED_CURCODE + " TEXT, " + FINVHED_CURRATE + " TEXT, " + ValueHolder.DEBCODE + " TEXT, " + FINVHED_REMARKS + " TEXT, " + FINVHED_TXNTYPE + " TEXT, " + FINVHED_LOCCODE + " TEXT, " + ValueHolder.REPCODE + " TEXT, " + FINVHED_CONTACT + " TEXT, " + FINVHED_CUSADD1 + " TEXT, " + FINVHED_CUSADD2 + " TEXT, " + FINVHED_CUSADD3 + " TEXT, " + FINVHED_CUSTELE + " TEXT, " + FINVHED_TOTALDIS + " TEXT, " + FINVHED_TOTALTAX + " TEXT, " + FINVHED_TAXREG + " TEXT, " + FINVHED_ADDUSER + " TEXT, " + FINVHED_ADDDATE + " TEXT, " + FINVHED_ADDMACH + " TEXT, " + FINVHED_START_TIME_SO + " TEXT, " + FINVHED_END_TIME_SO + " TEXT, " + FINVHED_TOTALAMT + " TEXT, " + FINVHED_LONGITUDE + " TEXT, " + FINVHED_LATITUDE + " TEXT, " + FINVHED_ADDRESS + " TEXT, " + FINVHED_IS_SYNCED + " TEXT, " + FINVHED_AREACODE + " TEXT, " + FINVHED_ROUTECODE + " TEXT, " + FINVHED_TOURCODE + " TEXT, " + FINVHED_IS_ACTIVE + " TEXT); ";
 
     public InvHedController(Context context) {
         this.context = context;
@@ -98,21 +100,21 @@ public class InvHedController {
 
         try {
 
-            String selectQuery = "SELECT * FROM " + TABLE_FINVHED + " WHERE " + DatabaseHelper.REFNO + " = '" + refno + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_FINVHED + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
             ContentValues values = new ContentValues();
 
-            //  values.put(DatabaseHelper.FINVHED_IS_ACTIVE, "0");
+            //  values.put(ValueHolder.FINVHED_IS_ACTIVE, "0");
 
             int cn = cursor.getCount();
             count = cn;
 
 //            if (cn > 0) {
-//                count = dB.update(DatabaseHelper.TABLE_FINVHED, values, DatabaseHelper.REFNO + " =?", new String[]{String.valueOf(refno)});
+//                count = dB.update(ValueHolder.TABLE_FINVHED, values, ValueHolder. + " =?", new String[]{String.valueOf(refno)});
 //            } else {
-//                count = (int) dB.insert(DatabaseHelper.TABLE_FINVHED, null, values);
+//                count = (int) dB.insert(ValueHolder.TABLE_FINVHED, null, values);
 //            }
 
         } catch (Exception e) {
@@ -156,7 +158,7 @@ public class InvHedController {
                 values.put(FINVHED_COSTCODE, invHed.getFINVHED_COSTCODE());
                 values.put(FINVHED_CURCODE, invHed.getFINVHED_CURCODE());
                 values.put(FINVHED_CURRATE, invHed.getFINVHED_CURRATE());
-                values.put(DatabaseHelper.DEBCODE, invHed.getFINVHED_DEBCODE());
+                values.put(ValueHolder.DEBCODE, invHed.getFINVHED_DEBCODE());
                 values.put(FINVHED_START_TIME_SO, invHed.getFINVHED_START_TIME_SO());
                 values.put(FINVHED_END_TIME_SO, invHed.getFINVHED_END_TIME_SO());
                 values.put(FINVHED_LONGITUDE, invHed.getFINVHED_LONGITUDE());
@@ -164,14 +166,14 @@ public class InvHedController {
                 values.put(FINVHED_LOCCODE, invHed.getFINVHED_LOCCODE());
                 values.put(FINVHED_MANUREF, invHed.getFINVHED_MANUREF());
                 values.put(FINVHED_REMARKS, invHed.getFINVHED_REMARKS());
-                values.put(DatabaseHelper.REPCODE, invHed.getFINVHED_REPCODE());
+                values.put(ValueHolder.REPCODE, invHed.getFINVHED_REPCODE());
                 values.put(FINVHED_TAXREG, invHed.getFINVHED_TAXREG());
                 values.put(FINVHED_TOTALAMT, invHed.getFINVHED_TOTALAMT());
                 values.put(FINVHED_TOTALDIS, invHed.getFINVHED_TOTALDIS());
                 values.put(FINVHED_TOTALTAX, invHed.getFINVHED_TOTALTAX());
                 values.put(FINVHED_TXNTYPE, invHed.getFINVHED_TXNTYPE());
-                values.put(DatabaseHelper.TXNDATE, invHed.getFINVHED_TXNDATE());
-                // values.put(DatabaseHelper.FINVHED_ADDRESS, invHed.getFINVHED_ADDRESS());
+                values.put(ValueHolder.TXNDATE, invHed.getFINVHED_TXNDATE());
+                // values.put(ValueHolder.FINVHED_ADDRESS, invHed.getFINVHED_ADDRESS());
                 values.put(FINVHED_IS_SYNCED, "0");
                 values.put(FINVHED_IS_ACTIVE, invHed.getFINVHED_IS_ACTIVE());
                 values.put(FINVHED_REFNO1, invHed.getFINVHED_REFNO1());
@@ -303,7 +305,7 @@ public class InvHedController {
                 values.put(FINVHED_COSTCODE, invHed.getFINVHED_COSTCODE());
                 values.put(FINVHED_CURCODE, invHed.getFINVHED_CURCODE());
                 values.put(FINVHED_CURRATE, invHed.getFINVHED_CURRATE());
-                values.put(DatabaseHelper.DEBCODE, invHed.getFINVHED_DEBCODE());
+                values.put(ValueHolder.DEBCODE, invHed.getFINVHED_DEBCODE());
                 values.put(FINVHED_START_TIME_SO, invHed.getFINVHED_START_TIME_SO());
                 values.put(FINVHED_END_TIME_SO, invHed.getFINVHED_END_TIME_SO());
                 values.put(FINVHED_LONGITUDE, invHed.getFINVHED_LONGITUDE());
@@ -311,14 +313,14 @@ public class InvHedController {
                 values.put(FINVHED_LOCCODE, invHed.getFINVHED_LOCCODE());
                 values.put(FINVHED_MANUREF, invHed.getFINVHED_MANUREF());
                 values.put(FINVHED_REMARKS, invHed.getFINVHED_REMARKS());
-                values.put(DatabaseHelper.REPCODE, invHed.getFINVHED_REPCODE());
+                values.put(ValueHolder.REPCODE, invHed.getFINVHED_REPCODE());
                 values.put(FINVHED_TAXREG, invHed.getFINVHED_TAXREG());
                 values.put(FINVHED_TOTALAMT, invHed.getFINVHED_TOTALAMT());
                 values.put(FINVHED_TOTALDIS, invHed.getFINVHED_TOTALDIS());
                 values.put(FINVHED_TOTALTAX, invHed.getFINVHED_TOTALTAX());
                 values.put(FINVHED_TXNTYPE, invHed.getFINVHED_TXNTYPE());
-                values.put(DatabaseHelper.TXNDATE, invHed.getFINVHED_TXNDATE());
-                // values.put(DatabaseHelper.FINVHED_ADDRESS, invHed.getFINVHED_ADDRESS());
+                values.put(ValueHolder.TXNDATE, invHed.getFINVHED_TXNDATE());
+                // values.put(ValueHolder.FINVHED_ADDRESS, invHed.getFINVHED_ADDRESS());
                 values.put(FINVHED_IS_SYNCED, "0");
                 values.put(FINVHED_IS_ACTIVE, invHed.getFINVHED_IS_ACTIVE());
                 values.put(FINVHED_REFNO1, invHed.getFINVHED_REFNO1());
@@ -376,10 +378,10 @@ public class InvHedController {
 
 //
                 recDet.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(REFNO)));
-                recDet.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+                recDet.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
                 recDet.setFINVHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVHED_IS_SYNCED)));
                 recDet.setFINVHED_TXNTYPE("Invoice");
-                recDet.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                recDet.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 recDet.setFINVHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALAMT)));
                 //TODO :set  discount, free
 
@@ -427,27 +429,27 @@ public class InvHedController {
                     invHed.setFINVHED_COSTCODE(cursor.getString(cursor.getColumnIndex(FINVHED_COSTCODE)));
                     invHed.setFINVHED_CURCODE(cursor.getString(cursor.getColumnIndex(FINVHED_CURCODE)));
                     invHed.setFINVHED_CURRATE(cursor.getString(cursor.getColumnIndex(FINVHED_CURRATE)));
-                    invHed.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+                    invHed.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
                     invHed.setFINVHED_LOCCODE(cursor.getString(cursor.getColumnIndex(FINVHED_LOCCODE)));
                     invHed.setFINVHED_MANUREF(cursor.getString(cursor.getColumnIndex(FINVHED_MANUREF)));
                     invHed.setFINVHED_REMARKS(cursor.getString(cursor.getColumnIndex(FINVHED_REMARKS)));
-                    invHed.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+                    invHed.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
                     invHed.setFINVHED_TAXREG(cursor.getString(cursor.getColumnIndex(FINVHED_TAXREG)));
                     invHed.setFINVHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALAMT)));
                     invHed.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALDIS)));
                     invHed.setFINVHED_TOTALTAX(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALTAX)));
                     invHed.setFINVHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FINVHED_TXNTYPE)));
-                    invHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                    invHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                     invHed.setFINVHED_VAT_CODE(cursor.getString(cursor.getColumnIndex(FINVHED_VAT_CODE)));
 
-//                    invHed.setFINVHED_CONTACT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CONTACT)));
-//                    invHed.setFINVHED_CUSADD1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSADD1)));
-//                    invHed.setFINVHED_CUSADD2(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSADD2)));
-//                    invHed.setFINVHED_CUSADD3(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSADD3)));
-//                    invHed.setFINVHED_CUSTELE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_CUSTELE)));
+//                    invHed.setFINVHED_CONTACT(cursor.getString(cursor.getColumnIndex(ValueHolder.FINVHED_CONTACT)));
+//                    invHed.setFINVHED_CUSADD1(cursor.getString(cursor.getColumnIndex(ValueHolder.FINVHED_CUSADD1)));
+//                    invHed.setFINVHED_CUSADD2(cursor.getString(cursor.getColumnIndex(ValueHolder.FINVHED_CUSADD2)));
+//                    invHed.setFINVHED_CUSADD3(cursor.getString(cursor.getColumnIndex(ValueHolder.FINVHED_CUSADD3)));
+//                    invHed.setFINVHED_CUSTELE(cursor.getString(cursor.getColumnIndex(ValueHolder.FINVHED_CUSTELE)));
 
                     invHed.setFINVHED_ROUTECODE(cursor.getString(cursor.getColumnIndex(FINVHED_ROUTECODE)));
-                    //  invHed.setFINVHED_TOURCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FINVHED_TOURCODE)));
+                    //  invHed.setFINVHED_TOURCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.FINVHED_TOURCODE)));
                     invHed.setFINVHED_AREACODE(cursor.getString(cursor.getColumnIndex(FINVHED_AREACODE)));
                     invHed.setFINVHED_PAYTYPE(cursor.getString(cursor.getColumnIndex(FINVHED_PAYTYPE)));
                     invHed.setFINVHED_START_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_START_TIME_SO)));
@@ -640,8 +642,8 @@ public class InvHedController {
 
             while (cursor.moveToNext()) {
 
-                SOHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
-                SOHed.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+                SOHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
+                SOHed.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
                 SOHed.setFINVHED_REMARKS(cursor.getString(cursor.getColumnIndex(FINVHED_REMARKS)));
                 SOHed.setFINVHED_TOURCODE(cursor.getString(cursor.getColumnIndex(FINVHED_TOURCODE)));
                 SOHed.setFINVHED_ROUTECODE(cursor.getString(cursor.getColumnIndex(FINVHED_ROUTECODE)));
@@ -771,7 +773,7 @@ public class InvHedController {
                 invHed.setFINVHED_COSTCODE(cursor.getString(cursor.getColumnIndex(FINVHED_COSTCODE)));
                 invHed.setFINVHED_CURCODE(cursor.getString(cursor.getColumnIndex(FINVHED_CURCODE)));
                 invHed.setFINVHED_CURRATE(cursor.getString(cursor.getColumnIndex(FINVHED_CURRATE)));
-                invHed.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+                invHed.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
                 invHed.setFINVHED_START_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_START_TIME_SO)));
                 invHed.setFINVHED_END_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_END_TIME_SO)));
                 invHed.setFINVHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(FINVHED_LONGITUDE)));
@@ -779,13 +781,13 @@ public class InvHedController {
                 invHed.setFINVHED_LOCCODE(cursor.getString(cursor.getColumnIndex(FINVHED_LOCCODE)));
                 invHed.setFINVHED_MANUREF(cursor.getString(cursor.getColumnIndex(FINVHED_MANUREF)));
                 invHed.setFINVHED_REMARKS(cursor.getString(cursor.getColumnIndex(FINVHED_REMARKS)));
-                invHed.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+                invHed.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
                 invHed.setFINVHED_TAXREG(cursor.getString(cursor.getColumnIndex(FINVHED_TAXREG)));
                 invHed.setFINVHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALAMT)));
                 invHed.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALDIS)));
                 invHed.setFINVHED_TOTALTAX(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALTAX)));
                 invHed.setFINVHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FINVHED_TXNTYPE)));
-                invHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 invHed.setFINVHED_ADDRESS(cursor.getString(cursor.getColumnIndex(FINVHED_ADDRESS)));
                 invHed.setFINVHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVHED_IS_SYNCED)));
                 invHed.setFINVHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVHED_IS_ACTIVE)));
@@ -841,7 +843,7 @@ public class InvHedController {
                 invHed.setFINVHED_COSTCODE(cursor.getString(cursor.getColumnIndex(FINVHED_COSTCODE)));
                 invHed.setFINVHED_CURCODE(cursor.getString(cursor.getColumnIndex(FINVHED_CURCODE)));
                 invHed.setFINVHED_CURRATE(cursor.getString(cursor.getColumnIndex(FINVHED_CURRATE)));
-                invHed.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+                invHed.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
                 invHed.setFINVHED_START_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_START_TIME_SO)));
                 invHed.setFINVHED_END_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_END_TIME_SO)));
                 invHed.setFINVHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(FINVHED_LONGITUDE)));
@@ -849,13 +851,13 @@ public class InvHedController {
                 invHed.setFINVHED_LOCCODE(cursor.getString(cursor.getColumnIndex(FINVHED_LOCCODE)));
                 invHed.setFINVHED_MANUREF(cursor.getString(cursor.getColumnIndex(FINVHED_MANUREF)));
                 invHed.setFINVHED_REMARKS(cursor.getString(cursor.getColumnIndex(FINVHED_REMARKS)));
-                invHed.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+                invHed.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
                 invHed.setFINVHED_TAXREG(cursor.getString(cursor.getColumnIndex(FINVHED_TAXREG)));
                 invHed.setFINVHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALAMT)));
                 invHed.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALDIS)));
                 invHed.setFINVHED_TOTALTAX(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALTAX)));
                 invHed.setFINVHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FINVHED_TXNTYPE)));
-                invHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                invHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 invHed.setFINVHED_ADDRESS(cursor.getString(cursor.getColumnIndex(FINVHED_ADDRESS)));
                 invHed.setFINVHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVHED_IS_SYNCED)));
                 invHed.setFINVHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVHED_IS_ACTIVE)));
@@ -1062,7 +1064,7 @@ public class InvHedController {
 
         while (cursor.moveToNext()) {
 
-            return cursor.getString(cursor.getColumnIndex(dbHelper.DEBCODE));
+            return cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE));
         }
         return "";
 
@@ -1326,7 +1328,7 @@ public class InvHedController {
             vanSalesMapper.setFINVHED_COSTCODE(cursor.getString(cursor.getColumnIndex(FINVHED_COSTCODE)));
             vanSalesMapper.setFINVHED_CURCODE(cursor.getString(cursor.getColumnIndex(FINVHED_CURCODE)));
             vanSalesMapper.setFINVHED_CURRATE(cursor.getString(cursor.getColumnIndex(FINVHED_CURRATE)));
-            vanSalesMapper.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+            vanSalesMapper.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
             vanSalesMapper.setFINVHED_START_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_START_TIME_SO)));
             vanSalesMapper.setFINVHED_END_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_END_TIME_SO)));
             vanSalesMapper.setFINVHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(FINVHED_LONGITUDE)));
@@ -1334,13 +1336,13 @@ public class InvHedController {
             vanSalesMapper.setFINVHED_LOCCODE(cursor.getString(cursor.getColumnIndex(FINVHED_LOCCODE)));
             vanSalesMapper.setFINVHED_MANUREF(cursor.getString(cursor.getColumnIndex(FINVHED_MANUREF)));
             vanSalesMapper.setFINVHED_REMARKS(cursor.getString(cursor.getColumnIndex(FINVHED_REMARKS)));
-            vanSalesMapper.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+            vanSalesMapper.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
             vanSalesMapper.setFINVHED_TAXREG(cursor.getString(cursor.getColumnIndex(FINVHED_TAXREG)));
             vanSalesMapper.setFINVHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALAMT)));
             vanSalesMapper.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALDIS)));
             vanSalesMapper.setFINVHED_TOTALTAX(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALTAX)));
             vanSalesMapper.setFINVHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FINVHED_TXNTYPE)));
-            vanSalesMapper.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            vanSalesMapper.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
             vanSalesMapper.setFINVHED_ADDRESS(cursor.getString(cursor.getColumnIndex(FINVHED_ADDRESS)));
             vanSalesMapper.setFINVHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVHED_IS_SYNCED)));
             vanSalesMapper.setFINVHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVHED_IS_ACTIVE)));
@@ -1406,7 +1408,7 @@ public class InvHedController {
             vanSalesMapper.setFINVHED_COSTCODE(cursor.getString(cursor.getColumnIndex(FINVHED_COSTCODE)));
             vanSalesMapper.setFINVHED_CURCODE(cursor.getString(cursor.getColumnIndex(FINVHED_CURCODE)));
             vanSalesMapper.setFINVHED_CURRATE(cursor.getString(cursor.getColumnIndex(FINVHED_CURRATE)));
-            vanSalesMapper.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+            vanSalesMapper.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
             vanSalesMapper.setFINVHED_START_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_START_TIME_SO)));
             vanSalesMapper.setFINVHED_END_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_END_TIME_SO)));
             vanSalesMapper.setFINVHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(FINVHED_LONGITUDE)));
@@ -1414,13 +1416,13 @@ public class InvHedController {
             vanSalesMapper.setFINVHED_LOCCODE(cursor.getString(cursor.getColumnIndex(FINVHED_LOCCODE)));
             vanSalesMapper.setFINVHED_MANUREF(cursor.getString(cursor.getColumnIndex(FINVHED_MANUREF)));
             vanSalesMapper.setFINVHED_REMARKS(cursor.getString(cursor.getColumnIndex(FINVHED_REMARKS)));
-            vanSalesMapper.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+            vanSalesMapper.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
             vanSalesMapper.setFINVHED_TAXREG(cursor.getString(cursor.getColumnIndex(FINVHED_TAXREG)));
             vanSalesMapper.setFINVHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALAMT)));
             vanSalesMapper.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALDIS)));
             vanSalesMapper.setFINVHED_TOTALTAX(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALTAX)));
             vanSalesMapper.setFINVHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FINVHED_TXNTYPE)));
-            vanSalesMapper.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            vanSalesMapper.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
             vanSalesMapper.setFINVHED_ADDRESS(cursor.getString(cursor.getColumnIndex(FINVHED_ADDRESS)));
             vanSalesMapper.setFINVHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVHED_IS_SYNCED)));
             vanSalesMapper.setFINVHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVHED_IS_ACTIVE)));
@@ -1487,7 +1489,7 @@ public class InvHedController {
             vanSalesMapper.setFINVHED_COSTCODE(cursor.getString(cursor.getColumnIndex(FINVHED_COSTCODE)));
             vanSalesMapper.setFINVHED_CURCODE(cursor.getString(cursor.getColumnIndex(FINVHED_CURCODE)));
             vanSalesMapper.setFINVHED_CURRATE(cursor.getString(cursor.getColumnIndex(FINVHED_CURRATE)));
-            vanSalesMapper.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+            vanSalesMapper.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
             vanSalesMapper.setFINVHED_START_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_START_TIME_SO)));
             vanSalesMapper.setFINVHED_END_TIME_SO(cursor.getString(cursor.getColumnIndex(FINVHED_END_TIME_SO)));
             vanSalesMapper.setFINVHED_LONGITUDE(cursor.getString(cursor.getColumnIndex(FINVHED_LONGITUDE)));
@@ -1495,13 +1497,13 @@ public class InvHedController {
             vanSalesMapper.setFINVHED_LOCCODE(cursor.getString(cursor.getColumnIndex(FINVHED_LOCCODE)));
             vanSalesMapper.setFINVHED_MANUREF(cursor.getString(cursor.getColumnIndex(FINVHED_MANUREF)));
             vanSalesMapper.setFINVHED_REMARKS(cursor.getString(cursor.getColumnIndex(FINVHED_REMARKS)));
-            vanSalesMapper.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+            vanSalesMapper.setFINVHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
             vanSalesMapper.setFINVHED_TAXREG(cursor.getString(cursor.getColumnIndex(FINVHED_TAXREG)));
             vanSalesMapper.setFINVHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALAMT)));
             vanSalesMapper.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALDIS)));
             vanSalesMapper.setFINVHED_TOTALTAX(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALTAX)));
             vanSalesMapper.setFINVHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FINVHED_TXNTYPE)));
-            vanSalesMapper.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            vanSalesMapper.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
             vanSalesMapper.setFINVHED_ADDRESS(cursor.getString(cursor.getColumnIndex(FINVHED_ADDRESS)));
             vanSalesMapper.setFINVHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVHED_IS_SYNCED)));
             vanSalesMapper.setFINVHED_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVHED_IS_ACTIVE)));

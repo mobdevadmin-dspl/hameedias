@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.OrdFreeIssue;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class OrdFreeIssueController {
     public static final String FORDFREEISS_ITEMCODE = "ItemCode";
     public static final String FORDFREEISS_QTY = "Qty";
 
-    public static final String CREATE_FORDFREEISS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDFREEISS + " (" + DatabaseHelper.REFNO + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT, " + FORDFREEISS_REFNO1 + " TEXT, " + FORDFREEISS_ITEMCODE + " TEXT, " + FORDFREEISS_QTY + " TEXT ); ";
+    public static final String CREATE_FORDFREEISS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FORDFREEISS + " (" + ValueHolder.REFNO + " TEXT, " + ValueHolder.TXNDATE + " TEXT, " + FORDFREEISS_REFNO1 + " TEXT, " + FORDFREEISS_ITEMCODE + " TEXT, " + FORDFREEISS_QTY + " TEXT ); ";
 
     public OrdFreeIssueController(Context context) {
         this.context = context;
@@ -53,8 +54,8 @@ public class OrdFreeIssueController {
 
             ContentValues values = new ContentValues();
 
-            values.put(DatabaseHelper.REFNO, ordFreeIssue.getOrdFreeIssue_RefNo());
-            values.put(DatabaseHelper.TXNDATE, ordFreeIssue.getOrdFreeIssue_TxnDate());
+            values.put(ValueHolder.REFNO, ordFreeIssue.getOrdFreeIssue_RefNo());
+            values.put(ValueHolder.TXNDATE, ordFreeIssue.getOrdFreeIssue_TxnDate());
             values.put(FORDFREEISS_REFNO1, ordFreeIssue.getOrdFreeIssue_RefNo1());
             values.put(FORDFREEISS_ITEMCODE, ordFreeIssue.getOrdFreeIssue_ItemCode());
             values.put(FORDFREEISS_QTY, ordFreeIssue.getOrdFreeIssue_Qty());
@@ -83,10 +84,10 @@ public class OrdFreeIssueController {
 
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FORDFREEISS + " WHERE " + DatabaseHelper.REFNO + " = '" + RefNo + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FORDFREEISS + " WHERE " + ValueHolder.REFNO + " = '" + RefNo + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                dB.delete(TABLE_FORDFREEISS, DatabaseHelper.REFNO + " = '" + RefNo + "'", null);
+                dB.delete(TABLE_FORDFREEISS, ValueHolder.REFNO + " = '" + RefNo + "'", null);
             }
 
         } catch (Exception e) {
@@ -141,10 +142,10 @@ public class OrdFreeIssueController {
 
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FORDFREEISS + " WHERE " + DatabaseHelper.REFNO + " = '" + RefNo + "' AND itemcode='" + itemCode + "'", null);
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FORDFREEISS + " WHERE " + ValueHolder.REFNO + " = '" + RefNo + "' AND itemcode='" + itemCode + "'", null);
             count = cursor.getCount();
             if (count > 0) {
-                dB.delete(TABLE_FORDFREEISS, DatabaseHelper.REFNO + " = '" + RefNo + "' AND itemcode='" + itemCode + "'", null);
+                dB.delete(TABLE_FORDFREEISS, ValueHolder.REFNO + " = '" + RefNo + "' AND itemcode='" + itemCode + "'", null);
             }
 
         } catch (Exception e) {
@@ -179,9 +180,9 @@ public class OrdFreeIssueController {
 
                 freeIssue.setOrdFreeIssue_ItemCode(cursor.getString(cursor.getColumnIndex(FORDFREEISS_ITEMCODE)));
                 freeIssue.setOrdFreeIssue_Qty(cursor.getString(cursor.getColumnIndex(FORDFREEISS_QTY)));
-                freeIssue.setOrdFreeIssue_RefNo1(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+                freeIssue.setOrdFreeIssue_RefNo1(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
                 freeIssue.setOrdFreeIssue_RefNo(cursor.getString(cursor.getColumnIndex("RefNo1")));
-                freeIssue.setOrdFreeIssue_TxnDate(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+                freeIssue.setOrdFreeIssue_TxnDate(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 list.add(freeIssue);
             }
             cursor.close();

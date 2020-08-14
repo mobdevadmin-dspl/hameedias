@@ -10,6 +10,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.RouteDet;
 
 import java.util.ArrayList;
@@ -28,9 +29,9 @@ public class RouteDetController {
     public static final String FROUTEDET_ROUTE_CODE = "RouteCode";
 
     // create String
-    public static final String CREATE_FROUTEDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FROUTEDET + " (" + FROUTEDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.DEBCODE + " TEXT, " + FROUTEDET_ROUTE_CODE + " TEXT); ";
+    public static final String CREATE_FROUTEDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FROUTEDET + " (" + FROUTEDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.DEBCODE + " TEXT, " + FROUTEDET_ROUTE_CODE + " TEXT); ";
 
-    public static final String TESTROUTEDET = "CREATE UNIQUE INDEX IF NOT EXISTS idxrutdet_something ON " + TABLE_FROUTEDET + " (" + DatabaseHelper.DEBCODE + "," + FROUTEDET_ROUTE_CODE + ")";
+    public static final String TESTROUTEDET = "CREATE UNIQUE INDEX IF NOT EXISTS idxrutdet_something ON " + TABLE_FROUTEDET + " (" + ValueHolder.DEBCODE + "," + FROUTEDET_ROUTE_CODE + ")";
 
     public RouteDetController(Context context) {
         this.context = context;
@@ -54,15 +55,15 @@ public class RouteDetController {
         try {
             for (RouteDet routeDet : list) {
 
-                cursor = dB.rawQuery("SELECT * FROM " + TABLE_FROUTEDET + " WHERE " + dbHelper.DEBCODE + "='" + routeDet.getFROUTEDET_DEB_CODE() + "' AND " + FROUTEDET_ROUTE_CODE + "='" + routeDet.getFROUTEDET_ROUTE_CODE() + "'", null);
+                cursor = dB.rawQuery("SELECT * FROM " + TABLE_FROUTEDET + " WHERE " + ValueHolder.DEBCODE + "='" + routeDet.getFROUTEDET_DEB_CODE() + "' AND " + FROUTEDET_ROUTE_CODE + "='" + routeDet.getFROUTEDET_ROUTE_CODE() + "'", null);
 
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.DEBCODE, routeDet.getFROUTEDET_DEB_CODE());
+                values.put(ValueHolder.DEBCODE, routeDet.getFROUTEDET_DEB_CODE());
                 values.put(FROUTEDET_ROUTE_CODE, routeDet.getFROUTEDET_ROUTE_CODE());
 
                 if (cursor.getCount() > 0) {
-                    dB.update(TABLE_FROUTEDET, values, dbHelper.DEBCODE + "=? AND " + FROUTEDET_ROUTE_CODE + "=?", new String[]{routeDet.getFROUTEDET_DEB_CODE().toString(), routeDet.getFROUTEDET_ROUTE_CODE().toString()});
+                    dB.update(TABLE_FROUTEDET, values, ValueHolder.DEBCODE + "=? AND " + FROUTEDET_ROUTE_CODE + "=?", new String[]{routeDet.getFROUTEDET_DEB_CODE().toString(), routeDet.getFROUTEDET_ROUTE_CODE().toString()});
                     Log.v("TABLE_FREASON : ", "Updated");
                 } else {
                     count = (int) dB.insert(TABLE_FROUTEDET, null, values);
@@ -90,7 +91,7 @@ public class RouteDetController {
 //            int reccount = 0;
         try {
             dB.beginTransactionNonExclusive();
-            String sql = "INSERT OR REPLACE INTO " + TABLE_FROUTEDET + " ("+dbHelper.DEBCODE+","+FROUTEDET_ROUTE_CODE+") VALUES (?,?)";
+            String sql = "INSERT OR REPLACE INTO " + TABLE_FROUTEDET + " ("+ValueHolder.DEBCODE+","+FROUTEDET_ROUTE_CODE+") VALUES (?,?)";
 
             SQLiteStatement stmt = dB.compileStatement(sql);
 
@@ -157,7 +158,7 @@ public class RouteDetController {
             open();
         }
 
-        String selectQuery = "SELECT * FROM " + TABLE_FROUTEDET +  " WHERE "  + dbHelper.DEBCODE + "='" + debCode + "'";
+        String selectQuery = "SELECT * FROM " + TABLE_FROUTEDET +  " WHERE "  + ValueHolder.DEBCODE + "='" + debCode + "'";
 
         Cursor cursor = null;
         cursor = dB.rawQuery(selectQuery, null);

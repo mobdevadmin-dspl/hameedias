@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.DispHed;
 import com.datamation.hmdsfa.model.InvHed;
 
@@ -42,7 +43,7 @@ public class DispHedController {
     public static final String FDISPHED_ADDDATE = "AddDate";
     public static final String FDISPHED_ADDMACH = "AddMach";
 
-    public static final String CREATE_FDISPHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISPHED + " (" + FDISPHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT," + DatabaseHelper.TXNDATE + " TEXT," + FDISPHED_REFNO1 + " TEXT," + FDISPHED_MANUREF + " TEXT," + FDISPHED_TOTALAMT + " TEXT," + FDISPHED_LOCCODE + " TEXT," + FDISPHED_COSTCODE + " TEXT," + DatabaseHelper.DEBCODE + " TEXT," + DatabaseHelper.REPCODE + " TEXT," + FDISPHED_REMARKS + " TEXT," + FDISPHED_TXNTYPE + " TEXT," + FDISPHED_INVOICE + " TEXT," + FDISPHED_CONTACT + " TEXT," + FDISPHED_CUSADD1 + " TEXT," + FDISPHED_CUSADD2 + " TEXT," + FDISPHED_CUSADD3 + " TEXT," + FDISPHED_CUSTELE + " TEXT," + FDISPHED_ADDUSER + " TEXT," + FDISPHED_ADDDATE + " TEXT," + FDISPHED_ADDMACH + " TEXT);";
+    public static final String CREATE_FDISPHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISPHED + " (" + FDISPHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT," + ValueHolder.TXNDATE + " TEXT," + FDISPHED_REFNO1 + " TEXT," + FDISPHED_MANUREF + " TEXT," + FDISPHED_TOTALAMT + " TEXT," + FDISPHED_LOCCODE + " TEXT," + FDISPHED_COSTCODE + " TEXT," + ValueHolder.DEBCODE + " TEXT," + ValueHolder.REPCODE + " TEXT," + FDISPHED_REMARKS + " TEXT," + FDISPHED_TXNTYPE + " TEXT," + FDISPHED_INVOICE + " TEXT," + FDISPHED_CONTACT + " TEXT," + FDISPHED_CUSADD1 + " TEXT," + FDISPHED_CUSADD2 + " TEXT," + FDISPHED_CUSADD3 + " TEXT," + FDISPHED_CUSTELE + " TEXT," + FDISPHED_ADDUSER + " TEXT," + FDISPHED_ADDDATE + " TEXT," + FDISPHED_ADDMACH + " TEXT);";
 
     public DispHedController(Context context) {
         this.context = context;
@@ -75,16 +76,16 @@ public class DispHedController {
             values.put(FDISPHED_CUSADD2, invHed.getFINVHED_CUSADD2());
             values.put(FDISPHED_CUSADD3, invHed.getFINVHED_CUSADD3());
             values.put(FDISPHED_CUSTELE, invHed.getFINVHED_CUSTELE());
-            values.put(DatabaseHelper.DEBCODE, invHed.getFINVHED_DEBCODE());
+            values.put(ValueHolder.DEBCODE, invHed.getFINVHED_DEBCODE());
             values.put(FDISPHED_INVOICE, "1");
             values.put(FDISPHED_LOCCODE, invHed.getFINVHED_LOCCODE());
             values.put(FDISPHED_MANUREF, invHed.getFINVHED_MANUREF());
-            values.put(DatabaseHelper.REFNO, Refno);
+            values.put(ValueHolder.REFNO, Refno);
             values.put(FDISPHED_REFNO1, invHed.getFINVHED_REFNO());
             values.put(FDISPHED_REMARKS, invHed.getFINVHED_REMARKS());
-            values.put(DatabaseHelper.REPCODE, invHed.getFINVHED_REPCODE());
+            values.put(ValueHolder.REPCODE, invHed.getFINVHED_REPCODE());
             values.put(FDISPHED_TOTALAMT, invHed.getFINVHED_TOTALAMT());
-            values.put(DatabaseHelper.TXNDATE, invHed.getFINVHED_TXNDATE());
+            values.put(ValueHolder.TXNDATE, invHed.getFINVHED_TXNDATE());
             values.put(FDISPHED_TXNTYPE, "23");
 
             count = (int) dB.insert(TABLE_FDISPHED, null, values);
@@ -148,16 +149,16 @@ public class DispHedController {
             dispHed.setFDISPHED_CUSADD2(cursor.getString(cursor.getColumnIndex(FDISPHED_CUSADD2)));
             dispHed.setFDISPHED_CUSADD3(cursor.getString(cursor.getColumnIndex(FDISPHED_CUSADD3)));
             dispHed.setFDISPHED_CUSTELE(cursor.getString(cursor.getColumnIndex(FDISPHED_CUSTELE)));
-            dispHed.setFDISPHED_DEBCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DEBCODE)));
+            dispHed.setFDISPHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
             dispHed.setFDISPHED_INVOICE(cursor.getString(cursor.getColumnIndex(FDISPHED_INVOICE)));
             dispHed.setFDISPHED_LOCCODE(cursor.getString(cursor.getColumnIndex(FDISPHED_LOCCODE)));
             dispHed.setFDISPHED_MANUREF(cursor.getString(cursor.getColumnIndex(FDISPHED_MANUREF)));
-            dispHed.setFDISPHED_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+            dispHed.setFDISPHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
             dispHed.setFDISPHED_REFNO1(cursor.getString(cursor.getColumnIndex(FDISPHED_REFNO1)));
             dispHed.setFDISPHED_REMARKS(cursor.getString(cursor.getColumnIndex(FDISPHED_REMARKS)));
-            dispHed.setFDISPHED_REPCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+            dispHed.setFDISPHED_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
             dispHed.setFDISPHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FDISPHED_TOTALAMT)));
-            dispHed.setFDISPHED_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            dispHed.setFDISPHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
             dispHed.setFDISPHED_TXNTYPE(cursor.getString(cursor.getColumnIndex(FDISPHED_TXNTYPE)));
             list.add(dispHed);
         }

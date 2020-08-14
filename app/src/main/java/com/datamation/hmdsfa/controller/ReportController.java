@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.DayExpDet;
 import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.Target;
@@ -149,7 +150,7 @@ public class ReportController {
                 OrderDetail ordDet = new OrderDetail();
 
                 ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(OrderDetailController.FORDDET_ITEM_CODE)));
-                ordDet.setFORDERDET_TXNDATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
+                ordDet.setFORDERDET_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 ordDet.setFORDERDET_QOH(cursor.getString(cursor.getColumnIndex(ItemController.FITEM_NOU_CASE)));
                 ordDet.setFORDERDET_CASES(cursor.getString(cursor.getColumnIndex("cases")));
                 ordDet.setFORDERDET_PICE_QTY(cursor.getString(cursor.getColumnIndex("pieses")));

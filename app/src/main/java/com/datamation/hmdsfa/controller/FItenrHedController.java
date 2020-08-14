@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.FItenrHed;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class FItenrHedController {
     public static final String FITENRHED_YEAR = "Year";
 
     // create String
-    public static final String CREATE_FITENRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITENRHED + " (" + FITENRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITENRHED_COST_CODE + " TEXT, " + FITENRHED_MONTH + " TEXT, " + DatabaseHelper.REFNO + " TEXT, " + FITENRHED_REMARKS1 + " TEXT, " + DatabaseHelper.REPCODE + " TEXT, " + FITENRHED_YEAR + " TEXT); ";
+    public static final String CREATE_FITENRHED_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITENRHED + " (" + FITENRHED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITENRHED_COST_CODE + " TEXT, " + FITENRHED_MONTH + " TEXT, " + ValueHolder.REFNO + " TEXT, " + FITENRHED_REMARKS1 + " TEXT, " + ValueHolder.REPCODE + " TEXT, " + FITENRHED_YEAR + " TEXT); ";
 
     public FItenrHedController(Context context) {
         this.context = context;
@@ -55,15 +56,15 @@ public class FItenrHedController {
 
             for (FItenrHed fItenrhed : list) {
 
-                Cursor cursor = dB.rawQuery("SELECT * FROM " + TABLE_FITENRHED+ " WHERE " + DatabaseHelper.REFNO+ "='" + fItenrhed.getFITENRHED_REF_NO() + "'", null);
+                Cursor cursor = dB.rawQuery("SELECT * FROM " + TABLE_FITENRHED+ " WHERE " + ValueHolder.REFNO+ "='" + fItenrhed.getFITENRHED_REF_NO() + "'", null);
 
                 ContentValues values = new ContentValues();
 
                 values.put(FITENRHED_COST_CODE, fItenrhed.getFITENRHED_COST_CODE());
                 values.put(FITENRHED_MONTH, fItenrhed.getFITENRHED_MONTH());
-                values.put(DatabaseHelper.REFNO, fItenrhed.getFITENRHED_REF_NO());
+                values.put(ValueHolder.REFNO, fItenrhed.getFITENRHED_REF_NO());
                 values.put(FITENRHED_REMARKS1,fItenrhed.getFITENRHED_REMARKS1());
-                values.put(DatabaseHelper.REPCODE,fItenrhed.getFITENRHED_REP_CODE());
+                values.put(ValueHolder.REPCODE,fItenrhed.getFITENRHED_REP_CODE());
                 values.put(FITENRHED_YEAR,fItenrhed.getFITENRHED_YEAR());
 
                 if (cursor.getCount() > 0) {

@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.FreeMslab;
 
 import java.util.ArrayList;
@@ -38,9 +39,9 @@ public class FreeMslabController {
     public static final String FFREEMSLAB_SEQ_NO = "seqno";
 
     // create String
-    public static final String CREATE_FFREEMSLAB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEMSLAB + " (" + FFREEMSLAB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + FFREEMSLAB_QTY_F + " TEXT, " + FFREEMSLAB_QTY_T + " TEXT, " + FFREEMSLAB_ITEM_QTY + " TEXT, " + FFREEMSLAB_FREE_IT_QTY + " TEXT, " + FFREEMSLAB_ADD_USER + " TEXT, " + FFREEMSLAB_ADD_DATE + " TEXT, " + FFREEMSLAB_ADD_MACH + " TEXT, " + FFREEMSLAB_RECORD_ID + " TEXT, " + FFREEMSLAB_TIMESTAMP_COLUMN + " TEXT, " + FFREEMSLAB_SEQ_NO + " TEXT); ";
+    public static final String CREATE_FFREEMSLAB_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEMSLAB + " (" + FFREEMSLAB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + FFREEMSLAB_QTY_F + " TEXT, " + FFREEMSLAB_QTY_T + " TEXT, " + FFREEMSLAB_ITEM_QTY + " TEXT, " + FFREEMSLAB_FREE_IT_QTY + " TEXT, " + FFREEMSLAB_ADD_USER + " TEXT, " + FFREEMSLAB_ADD_DATE + " TEXT, " + FFREEMSLAB_ADD_MACH + " TEXT, " + FFREEMSLAB_RECORD_ID + " TEXT, " + FFREEMSLAB_TIMESTAMP_COLUMN + " TEXT, " + FFREEMSLAB_SEQ_NO + " TEXT); ";
 
-    public static final String IDXFREEMSLAB = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreemslab_something ON " + TABLE_FFREEMSLAB + " (" + DatabaseHelper.REFNO + ", " + FFREEMSLAB_SEQ_NO + ")";
+    public static final String IDXFREEMSLAB = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreemslab_something ON " + TABLE_FFREEMSLAB + " (" + ValueHolder.REFNO + ", " + FFREEMSLAB_SEQ_NO + ")";
 
 
     public FreeMslabController(Context context) {
@@ -72,7 +73,7 @@ public class FreeMslabController {
             for (FreeMslab freeMslab : list) {
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.REFNO, freeMslab.getFFREEMSLAB_REFNO());
+                values.put(ValueHolder.REFNO, freeMslab.getFFREEMSLAB_REFNO());
                 values.put(FFREEMSLAB_QTY_F, freeMslab.getFFREEMSLAB_QTY_F());
                 values.put(FFREEMSLAB_QTY_T, freeMslab.getFFREEMSLAB_QTY_T());
                 values.put(FFREEMSLAB_ITEM_QTY, freeMslab.getFFREEMSLAB_ITEM_QTY());
@@ -85,11 +86,11 @@ public class FreeMslabController {
                 values.put(FFREEMSLAB_SEQ_NO, freeMslab.getFFREEMSLAB_SEQ_NO());
 
                 if (cursor_ini.getCount() > 0) {
-                    String selectQuery = "SELECT * FROM " + TABLE_FFREEMSLAB + " WHERE " + dbHelper.REFNO + "='" + freeMslab.getFFREEMSLAB_REFNO() + "' AND " + FFREEMSLAB_SEQ_NO + " = '" + freeMslab.getFFREEMSLAB_SEQ_NO() + "'";
+                    String selectQuery = "SELECT * FROM " + TABLE_FFREEMSLAB + " WHERE " + ValueHolder.REFNO + "='" + freeMslab.getFFREEMSLAB_REFNO() + "' AND " + FFREEMSLAB_SEQ_NO + " = '" + freeMslab.getFFREEMSLAB_SEQ_NO() + "'";
                     cursor = dB.rawQuery(selectQuery, null);
 
                     if (cursor.getCount() > 0) {
-                        count = (int) dB.update(TABLE_FFREEMSLAB, values, dbHelper.REFNO + "='" + freeMslab.getFFREEMSLAB_REFNO() + "' AND " + FFREEMSLAB_SEQ_NO + " = '" + freeMslab.getFFREEMSLAB_SEQ_NO() + "'", null);
+                        count = (int) dB.update(TABLE_FFREEMSLAB, values, ValueHolder.REFNO + "='" + freeMslab.getFFREEMSLAB_REFNO() + "' AND " + FFREEMSLAB_SEQ_NO + " = '" + freeMslab.getFFREEMSLAB_SEQ_NO() + "'", null);
                     } else {
                         count = (int) dB.insert(TABLE_FFREEMSLAB, null, values);
                     }
@@ -139,7 +140,7 @@ public class FreeMslabController {
             FreeMslab freeMslab = new FreeMslab();
 
             freeMslab.setFFREEMSLAB_ID(cursor.getString(cursor.getColumnIndex(FFREEMSLAB_ID)));
-            freeMslab.setFFREEMSLAB_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+            freeMslab.setFFREEMSLAB_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
             freeMslab.setFFREEMSLAB_QTY_F(cursor.getString(cursor.getColumnIndex(FFREEMSLAB_QTY_F)));
             freeMslab.setFFREEMSLAB_QTY_T(cursor.getString(cursor.getColumnIndex(FFREEMSLAB_QTY_T)));
             freeMslab.setFFREEMSLAB_ITEM_QTY(cursor.getString(cursor.getColumnIndex(FFREEMSLAB_ITEM_QTY)));

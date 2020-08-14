@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.FInvhedL3;
 import com.datamation.hmdsfa.model.Last3Invoice;
 
@@ -31,9 +32,9 @@ public class FInvhedL3Controller {
 
 
     // create String
-    public static final String CREATE_FINVHEDL3_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVHEDL3 + " (" + FINVHEDL3_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.DEBCODE + " TEXT, " + DatabaseHelper.REFNO + " TEXT, " + FINVHEDL3_REF_NO1 + " TEXT, " + FINVHEDL3_TOTAL_AMT + " TEXT, " + FINVHEDL3_TOTAL_TAX + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT); ";
+    public static final String CREATE_FINVHEDL3_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FINVHEDL3 + " (" + FINVHEDL3_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.DEBCODE + " TEXT, " + ValueHolder.REFNO + " TEXT, " + FINVHEDL3_REF_NO1 + " TEXT, " + FINVHEDL3_TOTAL_AMT + " TEXT, " + FINVHEDL3_TOTAL_TAX + " TEXT, " + ValueHolder.TXNDATE + " TEXT); ";
 
-    public static final String TESTINVHEDL3 = "CREATE UNIQUE INDEX IF NOT EXISTS idxinvhedl3_something ON " + TABLE_FINVHEDL3 + " (" + DatabaseHelper.REFNO + ")";
+    public static final String TESTINVHEDL3 = "CREATE UNIQUE INDEX IF NOT EXISTS idxinvhedl3_something ON " + TABLE_FINVHEDL3 + " (" + ValueHolder.REFNO + ")";
 
     public FInvhedL3Controller(Context context){
         this.context = context;
@@ -127,12 +128,12 @@ public class FInvhedL3Controller {
             FInvhedL3 invhedL3 =new FInvhedL3();
 
             invhedL3.setFINVHEDL3_ID(cursor.getString(cursor.getColumnIndex(FINVHEDL3_ID)));
-            invhedL3.setFINVHEDL3_DEB_CODE(cursor.getString(cursor.getColumnIndex(dbHelper.DEBCODE)));
-            invhedL3.setFINVHEDL3_REF_NO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+            invhedL3.setFINVHEDL3_DEB_CODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
+            invhedL3.setFINVHEDL3_REF_NO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
             invhedL3.setFINVHEDL3_REF_NO1(cursor.getString(cursor.getColumnIndex(FINVHEDL3_REF_NO1)));
             invhedL3.setFINVHEDL3_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(FINVHEDL3_TOTAL_AMT)));
             invhedL3.setFINVHEDL3_TOTAL_TAX(cursor.getString(cursor.getColumnIndex(FINVHEDL3_TOTAL_TAX)));
-            invhedL3.setFINVHEDL3_TXN_DATE(cursor.getString(cursor.getColumnIndex(dbHelper.TXNDATE)));
+            invhedL3.setFINVHEDL3_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
 
             list.add(invhedL3);
         }

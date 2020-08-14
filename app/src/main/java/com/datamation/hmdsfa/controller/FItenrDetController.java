@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.FItenrDet;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class FItenrDetController{
     public static final String FITENRDET_REMARKS = "Remarks";
     public static final String FITENRDET_ROUTE_CODE = "RouteCode";
 
-    public static final String CREATE_FITENRDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITENRDET + " (" + FITENRDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITENRDET_NO_OUTLET + " TEXT, " + FITENRDET_NO_SHCUCAL + " TEXT, " + FITENRDET_RD_TARGET + " TEXT, " + DatabaseHelper.REFNO + " TEXT, " + FITENRDET_REMARKS + " TEXT, " + FITENRDET_ROUTE_CODE + " TEXT, " + DatabaseHelper.TXNDATE + " TEXT); ";
+    public static final String CREATE_FITENRDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITENRDET + " (" + FITENRDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITENRDET_NO_OUTLET + " TEXT, " + FITENRDET_NO_SHCUCAL + " TEXT, " + FITENRDET_RD_TARGET + " TEXT, " + ValueHolder.REFNO + " TEXT, " + FITENRDET_REMARKS + " TEXT, " + FITENRDET_ROUTE_CODE + " TEXT, " + ValueHolder.TXNDATE + " TEXT); ";
 
     public FItenrDetController(Context context) {
         this.context = context;
@@ -61,12 +62,12 @@ public class FItenrDetController{
 
             for (FItenrDet fItenrDet : list) {
 
-                Cursor cursor = dB.rawQuery("SELECT * FROM " + TABLE_FITENRDET+ " WHERE " + DatabaseHelper.REFNO + "='" + fItenrDet.getFITENRDET_REF_NO() + "' and "+ DatabaseHelper.TXNDATE + "='" + fItenrDet.getFITENRDET_TXN_DATE() + "'", null);
+                Cursor cursor = dB.rawQuery("SELECT * FROM " + TABLE_FITENRDET+ " WHERE " + ValueHolder.REFNO + "='" + fItenrDet.getFITENRDET_REF_NO() + "' and "+ ValueHolder.TXNDATE + "='" + fItenrDet.getFITENRDET_TXN_DATE() + "'", null);
                 Log.d(">>>", ">>>" + cursor);
                 ContentValues values = new ContentValues();
 
-                values.put(DatabaseHelper.REFNO,  fItenrDet.getFITENRDET_REF_NO());
-                values.put(DatabaseHelper.TXNDATE, fItenrDet.getFITENRDET_TXN_DATE());
+                values.put(ValueHolder.REFNO,  fItenrDet.getFITENRDET_REF_NO());
+                values.put(ValueHolder.TXNDATE, fItenrDet.getFITENRDET_TXN_DATE());
                 values.put(FITENRDET_NO_OUTLET, fItenrDet.getFITENRDET_NO_OUTLET());
                 values.put(FITENRDET_ROUTE_CODE, fItenrDet.getFITENRDET_ROUTE_CODE());
                 values.put(FITENRDET_NO_SHCUCAL, fItenrDet.getFITENRDET_NO_SHCUCAL());
@@ -101,7 +102,7 @@ public class FItenrDetController{
 
         String Rcode = "";
 
-        String selectQuery = "SELECT RouteCode from " + TABLE_FITENRDET + " where " + dbHelper.TXNDATE +" ='" + date + "'";
+        String selectQuery = "SELECT RouteCode from " + TABLE_FITENRDET + " where " + ValueHolder.TXNDATE +" ='" + date + "'";
         System.out.println(TAG + selectQuery);
         Cursor cursor = null;
         try {

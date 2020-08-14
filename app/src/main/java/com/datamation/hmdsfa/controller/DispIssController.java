@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.DispIss;
 import com.datamation.hmdsfa.model.StkIss;
 
@@ -41,7 +42,7 @@ public class DispIssController {
     public static final String FDISPISS_OTHCOST = "OthCost";
     public static final String FDISPISS_REFNO1 = "Refno1";
 
-    public static final String CREATE_FDISPISS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISPISS + " (" + FDISPISS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT," + DatabaseHelper.TXNDATE + " TEXT," + FDISPISS_LOCCODE + " TEXT," + FDISPISS_STKRECNO + " TEXT," + FDISPISS_STKRECDATE + " TEXT," + FDISPISS_STKTXNNO + " TEXT," + FDISPISS_STKTXNDATE + " TEXT," + FDISPISS_STKTXNTYPE + " TEXT," + FDISPISS_ITEMCODE + " TEXT," + FDISPISS_QTY + " TEXT," + FDISPISS_BALQTY + " TEXT," + FDISPISS_COSTPRICE + " TEXT," + FDISPISS_AMT + " TEXT," + FDISPISS_REFNO1 + " TEXT," + FDISPISS_OTHCOST + " TEXT);";
+    public static final String CREATE_FDISPISS_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISPISS + " (" + FDISPISS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT," + ValueHolder.TXNDATE + " TEXT," + FDISPISS_LOCCODE + " TEXT," + FDISPISS_STKRECNO + " TEXT," + FDISPISS_STKRECDATE + " TEXT," + FDISPISS_STKTXNNO + " TEXT," + FDISPISS_STKTXNDATE + " TEXT," + FDISPISS_STKTXNTYPE + " TEXT," + FDISPISS_ITEMCODE + " TEXT," + FDISPISS_QTY + " TEXT," + FDISPISS_BALQTY + " TEXT," + FDISPISS_COSTPRICE + " TEXT," + FDISPISS_AMT + " TEXT," + FDISPISS_REFNO1 + " TEXT," + FDISPISS_OTHCOST + " TEXT);";
 
     public DispIssController(Context context) {
         this.context = context;
@@ -74,14 +75,14 @@ public class DispIssController {
                 values.put(FDISPISS_QTY, iss.getQTY());
                 values.put(FDISPISS_ITEMCODE, iss.getITEMCODE());
                 values.put(FDISPISS_OTHCOST, "0");
-                values.put(DatabaseHelper.REFNO, disRefno);
+                values.put(ValueHolder.REFNO, disRefno);
                 values.put(FDISPISS_STKRECNO, iss.getSTKRECNO());
                 values.put(FDISPISS_STKRECDATE, iss.getSTKRECDATE());
                 values.put(FDISPISS_LOCCODE, iss.getLOCCODE());
                 values.put(FDISPISS_STKTXNDATE, iss.getSTKTXNDATE());
                 values.put(FDISPISS_STKTXNTYPE, iss.getSTKTXNTYPE());
                 values.put(FDISPISS_STKTXNNO, iss.getSTKTXNNO());
-                values.put(DatabaseHelper.TXNDATE, iss.getTXN_DATE());
+                values.put(ValueHolder.TXNDATE, iss.getTXN_DATE());
                 values.put(FDISPISS_REFNO1, iss.getREFNO());
 
                 count = (int) dB.insert(TABLE_FDISPISS, null, values);
@@ -146,13 +147,13 @@ public class DispIssController {
             dispIss.setFDISPISS_LOCCODE(cursor.getString(cursor.getColumnIndex(FDISPISS_LOCCODE)));
             dispIss.setFDISPISS_OTHCOST(cursor.getString(cursor.getColumnIndex(FDISPISS_OTHCOST)));
             dispIss.setFDISPISS_QTY(cursor.getString(cursor.getColumnIndex(FDISPISS_QTY)));
-            dispIss.setFDISPISS_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REFNO)));
+            dispIss.setFDISPISS_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
             dispIss.setFDISPISS_STKRECDATE(cursor.getString(cursor.getColumnIndex(FDISPISS_STKRECDATE)));
             dispIss.setFDISPISS_STKRECNO(cursor.getString(cursor.getColumnIndex(FDISPISS_STKRECNO)));
             dispIss.setFDISPISS_STKTXNDATE(cursor.getString(cursor.getColumnIndex(FDISPISS_STKTXNDATE)));
             dispIss.setFDISPISS_STKTXNNO(cursor.getString(cursor.getColumnIndex(FDISPISS_STKTXNNO)));
             dispIss.setFDISPISS_STKTXNTYPE(cursor.getString(cursor.getColumnIndex(FDISPISS_STKTXNTYPE)));
-            dispIss.setFDISPISS_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TXNDATE)));
+            dispIss.setFDISPISS_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
 
             list.add(dispIss);
         }

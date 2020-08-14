@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.Discdet;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class DiscdetController {
     public static final String FDISCHED_TIEMSTAMP_COLUMN = "timestamp_column";
 
     // create String
-    public static final String CREATE_FDISCDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCDET + " (" + FDISCDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + FDISCDET_ITEM_CODE + " TEXT, " + FDISCDET_RECORD_ID + " TEXT, " + FDISCHED_TIEMSTAMP_COLUMN + " TEXT); ";
+    public static final String CREATE_FDISCDET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FDISCDET + " (" + FDISCDET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + FDISCDET_ITEM_CODE + " TEXT, " + FDISCDET_RECORD_ID + " TEXT, " + FDISCHED_TIEMSTAMP_COLUMN + " TEXT); ";
 
     public DiscdetController(Context context) {
 
@@ -62,17 +63,17 @@ public class DiscdetController {
 
                 ContentValues values = new ContentValues();
 
-                values.put(dbHelper.REFNO, discdet.getFDISCDET_REF_NO());
+                values.put(ValueHolder.REFNO, discdet.getFDISCDET_REF_NO());
                 values.put(FDISCDET_ITEM_CODE, discdet.getFDISCDET_ITEM_CODE());
                 values.put(FDISCDET_RECORD_ID, discdet.getFDISCDET_RECORD_ID());
                 values.put(FDISCHED_TIEMSTAMP_COLUMN, discdet.getFDISCHED_TIEMSTAMP_COLUMN());
 
                 if (cursor_ini.getCount() > 0) {
-                    String selectQuery = "SELECT * FROM " + TABLE_FDISCDET + " WHERE " + dbHelper.REFNO + "='" + discdet.getFDISCDET_REF_NO() + "' AND " + FDISCDET_ITEM_CODE + " = '" + discdet.getFDISCDET_ITEM_CODE() + "'";
+                    String selectQuery = "SELECT * FROM " + TABLE_FDISCDET + " WHERE " + ValueHolder.REFNO + "='" + discdet.getFDISCDET_REF_NO() + "' AND " + FDISCDET_ITEM_CODE + " = '" + discdet.getFDISCDET_ITEM_CODE() + "'";
                     cursor = dB.rawQuery(selectQuery, null);
 
                     if (cursor.getCount() > 0) {
-                        count = (int) dB.update(TABLE_FDISCDET, values, dbHelper.REFNO + "='" + discdet.getFDISCDET_REF_NO() + "' AND " + FDISCDET_ITEM_CODE + " = '" + discdet.getFDISCDET_ITEM_CODE() + "'", null);
+                        count = (int) dB.update(TABLE_FDISCDET, values, ValueHolder.REFNO + "='" + discdet.getFDISCDET_REF_NO() + "' AND " + FDISCDET_ITEM_CODE + " = '" + discdet.getFDISCDET_ITEM_CODE() + "'", null);
                     } else {
                         count = (int) dB.insert(TABLE_FDISCDET, null, values);
                     }

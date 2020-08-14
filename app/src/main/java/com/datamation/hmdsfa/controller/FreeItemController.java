@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.FreeItem;
 
 import java.util.ArrayList;
@@ -29,9 +30,9 @@ public class FreeItemController {
     public static final String FFREEITEM_RECORD_ID = "RecordId";
 
     // create String
-    public static final String CREATE_FFREEITEM_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEITEM + " (" + FFREEITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DatabaseHelper.REFNO + " TEXT, " + FFREEITEM_ITEMCODE + " TEXT, " + FFREEITEM_RECORD_ID + " TEXT); ";
+    public static final String CREATE_FFREEITEM_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FFREEITEM + " (" + FFREEITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ValueHolder.REFNO + " TEXT, " + FFREEITEM_ITEMCODE + " TEXT, " + FFREEITEM_RECORD_ID + " TEXT); ";
 
-    public static final String IDXFREEITEM = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreeitem_something ON " + TABLE_FFREEITEM + " (" + DatabaseHelper.REFNO + ", " + FFREEITEM_ITEMCODE + ")";
+    public static final String IDXFREEITEM = "CREATE UNIQUE INDEX IF NOT EXISTS idxfreeitem_something ON " + TABLE_FFREEITEM + " (" + ValueHolder.REFNO + ", " + FFREEITEM_ITEMCODE + ")";
 
     public FreeItemController(Context context) {
         this.context = context;
@@ -64,15 +65,15 @@ public class FreeItemController {
                 ContentValues values = new ContentValues();
 
                 values.put(FFREEITEM_ITEMCODE, item.getFFREEITEM_ITEMCODE());
-                values.put(dbHelper.REFNO, item.getFFREEITEM_REFNO());
+                values.put(ValueHolder.REFNO, item.getFFREEITEM_REFNO());
                 values.put(FFREEITEM_RECORD_ID, item.getFFREEITEM_RECORD_ID());
 
                 if (cursor_ini.getCount() > 0) {
-                    String selectQuery = "SELECT * FROM " + TABLE_FFREEITEM + " WHERE " + dbHelper.REFNO + "='" + item.getFFREEITEM_REFNO() + "' AND " + FFREEITEM_ITEMCODE + " = '" + item.getFFREEITEM_ITEMCODE() + "'";
+                    String selectQuery = "SELECT * FROM " + TABLE_FFREEITEM + " WHERE " + ValueHolder.REFNO + "='" + item.getFFREEITEM_REFNO() + "' AND " + FFREEITEM_ITEMCODE + " = '" + item.getFFREEITEM_ITEMCODE() + "'";
                     cursor = dB.rawQuery(selectQuery, null);
 
                     if (cursor.getCount() > 0) {
-                        count = (int) dB.update(TABLE_FFREEITEM, values, dbHelper.REFNO + "='" + item.getFFREEITEM_REFNO() + "' AND " + FFREEITEM_ITEMCODE + " = '" + item.getFFREEITEM_ITEMCODE() + "'", null);
+                        count = (int) dB.update(TABLE_FFREEITEM, values, ValueHolder.REFNO + "='" + item.getFFREEITEM_REFNO() + "' AND " + FFREEITEM_ITEMCODE + " = '" + item.getFFREEITEM_ITEMCODE() + "'", null);
                     } else {
                         count = (int) dB.insert(TABLE_FFREEITEM, null, values);
                     }
@@ -146,7 +147,7 @@ public class FreeItemController {
             FreeItem item = new FreeItem();
 
             item.setFFREEITEM_ID(cursor.getString(cursor.getColumnIndex(FFREEITEM_ID)));
-            item.setFFREEITEM_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+            item.setFFREEITEM_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
             item.setFFREEITEM_ITEMCODE(cursor.getString(cursor.getColumnIndex(FFREEITEM_ITEMCODE)));
             item.setFFREEITEM_RECORD_ID(cursor.getString(cursor.getColumnIndex(FFREEITEM_RECORD_ID)));
 

@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.SalRep;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class SalRepController {
     public static final String FSALREP_LOCCODE = "loccode";
     // create String
     public static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + FSALREP_LOCCODE + " TEXT, "     + DatabaseHelper.REPCODE + " TEXT, "+ FSALREP_NAME + " TEXT, "+ FSALREP_PASSWORD + " TEXT, " +FSALREP_EMAIL + " TEXT, " + FSALREP_PREFIX + " TEXT, "
+            + FSALREP_LOCCODE + " TEXT, "     + ValueHolder.REPCODE + " TEXT, "+ FSALREP_NAME + " TEXT, "+ FSALREP_PASSWORD + " TEXT, " +FSALREP_EMAIL + " TEXT, " + FSALREP_PREFIX + " TEXT, "
             + FSALREP_MACID + " TEXT); ";
 
     public SalRepController(Context context) {
@@ -64,7 +65,7 @@ public class SalRepController {
 
             for (SalRep rep : list) {
 
-                Cursor cursor = dB.rawQuery("SELECT * FROM " + TABLE_FSALREP + " WHERE " + DatabaseHelper.REPCODE + "='" + rep.getRepCode() + "'", null);
+                Cursor cursor = dB.rawQuery("SELECT * FROM " + TABLE_FSALREP + " WHERE " + ValueHolder.REPCODE + "='" + rep.getRepCode() + "'", null);
 
                 ContentValues values = new ContentValues();
 
@@ -72,13 +73,13 @@ public class SalRepController {
                 values.put(FSALREP_NAME, rep.getNAME());
                 values.put(FSALREP_PREFIX, rep.getPREFIX());
                 values.put(FSALREP_PASSWORD, rep.getPASSWORD());
-                values.put(DatabaseHelper.REPCODE, rep.getRepCode());
+                values.put(ValueHolder.REPCODE, rep.getRepCode());
                 values.put(FSALREP_MACID, rep.getMACID());
                 values.put(FSALREP_LOCCODE, rep.getCurrentVanLoc());
 
 
                 if (cursor.getCount() > 0) {
-                    dB.update(TABLE_FSALREP, values, DatabaseHelper.REPCODE + "=?", new String[]{rep.getRepCode()});
+                    dB.update(TABLE_FSALREP, values, ValueHolder.REPCODE + "=?", new String[]{rep.getRepCode()});
                     Log.v("FSALREP : ", "Updated");
                 } else {
                     count = (int) dB.insert(TABLE_FSALREP, null, values);
@@ -109,13 +110,13 @@ public class SalRepController {
             open();
         }
 
-        String selectQuery = "SELECT " + DatabaseHelper.REPCODE + " FROM " + TABLE_FSALREP;
+        String selectQuery = "SELECT " + ValueHolder.REPCODE + " FROM " + TABLE_FSALREP;
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
             while (cursor.moveToNext()) {
 
-                return cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE));
+                return cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE));
 
 
             }
@@ -171,7 +172,7 @@ public class SalRepController {
         Cursor cursor = null;
         SalRep newRep = null;
 
-        String selectRep = "SELECT * FROM " + TABLE_FSALREP + " WHERE " + DatabaseHelper.REPCODE + " = '" + Repcode + "'";
+        String selectRep = "SELECT * FROM " + TABLE_FSALREP + " WHERE " + ValueHolder.REPCODE + " = '" + Repcode + "'";
 
         try {
 
@@ -183,7 +184,7 @@ public class SalRepController {
 
                 newRep.setNAME(cursor.getString(cursor.getColumnIndex(FSALREP_NAME)));
                 newRep.setPREFIX(cursor.getString(cursor.getColumnIndex(FSALREP_PREFIX)));
-                newRep.setRepCode(cursor.getString(cursor.getColumnIndex(DatabaseHelper.REPCODE)));
+                newRep.setRepCode(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
                 newRep.setEMAIL(cursor.getString(cursor.getColumnIndex(FSALREP_EMAIL)));
                 newRep.setPASSWORD(cursor.getString(cursor.getColumnIndex(FSALREP_PASSWORD)));
                 newRep.setCurrentVanLoc(cursor.getString(cursor.getColumnIndex(FSALREP_LOCCODE)));
@@ -215,7 +216,7 @@ public class SalRepController {
 
             ContentValues values = new ContentValues();
             values.put(FSALREP_EMAIL, email);
-            dB.update(TABLE_FSALREP, values, DatabaseHelper.REPCODE + " =?", new String[]{String.valueOf(repcode)});
+            dB.update(TABLE_FSALREP, values, ValueHolder.REPCODE + " =?", new String[]{String.valueOf(repcode)});
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -244,7 +245,7 @@ public class SalRepController {
                 newRep.setNAME(curRep.getString(curRep.getColumnIndex(FSALREP_NAME)));
                 newRep.setPASSWORD(curRep.getString(curRep.getColumnIndex(FSALREP_PASSWORD)));
                 newRep.setPREFIX(curRep.getString(curRep.getColumnIndex(FSALREP_PREFIX)));
-                newRep.setRepCode(curRep.getString(curRep.getColumnIndex(DatabaseHelper.REPCODE)));
+                newRep.setRepCode(curRep.getString(curRep.getColumnIndex(ValueHolder.REPCODE)));
                 newRep.setMACID(curRep.getString(curRep.getColumnIndex(FSALREP_MACID)));
                 newRep.setCurrentVanLoc(curRep.getString(curRep.getColumnIndex(FSALREP_LOCCODE)));
 
@@ -284,7 +285,7 @@ public class SalRepController {
                 newRep.setNAME(curRep.getString(curRep.getColumnIndex(FSALREP_NAME)));
                 newRep.setPASSWORD(curRep.getString(curRep.getColumnIndex(FSALREP_PASSWORD)));
                 newRep.setPREFIX(curRep.getString(curRep.getColumnIndex(FSALREP_PREFIX)));
-                newRep.setRepCode(curRep.getString(curRep.getColumnIndex(DatabaseHelper.REPCODE)));
+                newRep.setRepCode(curRep.getString(curRep.getColumnIndex(ValueHolder.REPCODE)));
 
                 salreplist.add(newRep);
 
@@ -340,7 +341,7 @@ public class SalRepController {
             while (curRep.moveToNext()) {
 
                 newRep.setPASSWORD(curRep.getString(curRep.getColumnIndex(FSALREP_PASSWORD)));
-                newRep.setRepCode(curRep.getString(curRep.getColumnIndex(DatabaseHelper.REPCODE)));
+                newRep.setRepCode(curRep.getString(curRep.getColumnIndex(ValueHolder.REPCODE)));
 
             }
         } catch (Exception e) {
