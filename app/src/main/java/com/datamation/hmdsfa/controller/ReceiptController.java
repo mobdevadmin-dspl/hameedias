@@ -810,7 +810,7 @@ public class ReceiptController {
 		try {
 			values.put(FPRECHED_LATITUDE, recHed.getFPRECHED_LATITUDE());
 			values.put(FPRECHED_LONGITUDE, recHed.getFPRECHED_LONGITUDE());
-			values.put(FPRECHED_START_TIME, recHed.getFPRECHED_START_TIME());
+			//values.put(FPRECHED_START_TIME, recHed.getFPRECHED_START_TIME());
 			values.put(FPRECHED_END_TIME, recHed.getFPRECHED_END_TIME());
 			values.put(FPRECHED_ADDRESS, recHed.getFPRECHED_ADDRESS());
 			values.put(FPRECHED_COST_CODE, recHed.getFPRECHED_COSTCODE());

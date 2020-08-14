@@ -39,7 +39,7 @@ public class UploadReceipt extends AsyncTask<ArrayList<ReceiptHed>, Integer, Arr
 	NetworkFunctions networkFunctions;
 	int totalRecords;
 	private Handler mHandler;
-	List<String> resultListNonproctives;
+	List<String> resultListReceipts;
 	TaskTypeUpload taskType;
 
 	public UploadReceipt(Context context, UploadTaskListener taskListener, TaskTypeUpload taskType) {
@@ -150,33 +150,37 @@ public class UploadReceipt extends AsyncTask<ArrayList<ReceiptHed>, Integer, Arr
 
 	@Override
 	protected void onPostExecute(ArrayList<ReceiptHed> RCSList) {
+//		super.onPostExecute(RCSList);
+//		List<String> list = new ArrayList<>();
+//
+//		if (RCSList.size() > 0) {
+//			list.add("\nRECEIPT");
+//			list.add("------------------------------------\n");
+//		}
+//
+//		int i = 1;
+//		for (ReceiptHed c : RCSList) {
+//			new ReceiptController(context).updateIsSyncedReceipt(c);
+//
+//			if (c.getFPRECHED_ISSYNCED().equals("1")) {
+//				list.add(i + ". " + c.getFPRECHED_REFNO()+ " --> Success\n");
+//			} else {
+//				list.add(i + ". " + c.getFPRECHED_REFNO() + " --> Failed\n");
+//			}
+//			i++;
+//		}
+//
+//		dialog.dismiss();
+//		taskListener.onTaskCompleted(list);
+
 		super.onPostExecute(RCSList);
-		List<String> list = new ArrayList<>();
-
-		if (RCSList.size() > 0) {
-			list.add("\nRECEIPT");
-			list.add("------------------------------------\n");
-		}
-
-		int i = 1;
-		for (ReceiptHed c : RCSList) {
-			new ReceiptController(context).updateIsSyncedReceipt(c);
-
-			if (c.getFPRECHED_ISSYNCED().equals("1")) {
-				list.add(i + ". " + c.getFPRECHED_REFNO()+ " --> Success\n");
-			} else {
-				list.add(i + ". " + c.getFPRECHED_REFNO() + " --> Failed\n");
-			}
-			i++;
-		}
-
 		dialog.dismiss();
-		taskListener.onTaskCompleted(list);
+		taskListener.onTaskCompleted(taskType,resultListReceipts);
 	}
 	private void addRefNoResults(String ref, int count) {
-		resultListNonproctives.add(ref);
-		if(count == resultListNonproctives.size()) {
-			mUploadResult(resultListNonproctives);
+		resultListReceipts.add(ref);
+		if(count == resultListReceipts.size()) {
+			mUploadResult(resultListReceipts);
 		}
 	}
 	public void mUploadResult(List<String> messages) {

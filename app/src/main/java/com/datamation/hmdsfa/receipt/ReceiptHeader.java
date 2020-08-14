@@ -538,6 +538,7 @@ public class ReceiptHeader extends Fragment {
         recHed.setFPRECHED_TOTALAMT(String.valueOf(Double.parseDouble(txtReceAmt.getText().toString().replaceAll(",", ""))));
         recHed.setFPRECHED_BTOTALAMT(String.valueOf(Double.parseDouble(txtReceAmt.getText().toString().replaceAll(",", ""))));
         recHed.setFPRECHED_SALEREFNO("");
+        recHed.setFPRECHED_START_TIME(currentTime());
 
         mSharedPref.setGlobalVal("ReckeyRecAmt", txtReceAmt.getText().toString());
 
@@ -594,6 +595,7 @@ public class ReceiptHeader extends Fragment {
             mSharedPref.setGlobalVal("ReckeyRecAmt",txtReceAmt.getText().toString().replace(",", ""));
             activity.selectedRecHed = recHed;
         }
+
         SharedPref.getInstance(getActivity()).setGlobalVal("Rec_Start_Time", currentTime());
         ArrayList<ReceiptHed> RecHedList = new ArrayList<ReceiptHed>();
         RecHedList.add(activity.selectedRecHed);

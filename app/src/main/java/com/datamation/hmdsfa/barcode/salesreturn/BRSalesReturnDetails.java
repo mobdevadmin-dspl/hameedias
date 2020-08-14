@@ -195,7 +195,9 @@ public class BRSalesReturnDetails extends Fragment{
 
             }
         });
-        if(new SalesReturnController(getActivity()).IsSavedHeader(RefNo)>0){
+
+//        if(new SalesReturnController(getActivity()).IsSavedHeader(RefNo)>0){
+
             etSearchField.setOnEditorActionListener(new EditText.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {//@rashmi-itemwise or bundle wise scan via edittext
@@ -255,10 +257,10 @@ public class BRSalesReturnDetails extends Fragment{
 //                    }
 //            });
 
-        }else{
-            salesReturnResponseListener.moveBackTo_ret(0);
-            Toast.makeText(getActivity(), "Cannot proceed,Please click arrow button to save header details...", Toast.LENGTH_LONG).show();
-        }
+//        }else{
+//            salesReturnResponseListener.moveBackTo_ret(0);
+//            Toast.makeText(getActivity(), "Cannot proceed,Please click arrow button to save header details...", Toast.LENGTH_LONG).show();
+//        }
         /*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 

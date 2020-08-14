@@ -145,7 +145,7 @@ public interface ApiInterface {
 
     @GET("CusProductDis/mobile123/{dbname}/{repcode}")//38
     Call<ReadJsonList> getDiscountResult(@Path("dbname") String dbname,@Path("repcode") String repcode);
-    @POST("insertFOrdHedNew")
+    @POST("insertFOrdHed")
     Call<String> uploadOrder(@Body JsonArray orderlist, @Header("Content-Type") String cont_type);
     //Call<String> uploadOrder(@Body String orderlist, @Header("Content-Type") String cont_type);
 

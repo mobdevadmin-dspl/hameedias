@@ -277,7 +277,7 @@ public class ReceiptSummary extends Fragment {
                 ReceiptHed recHed = new ReceiptHed();
                 recHed.setFPRECHED_LATITUDE(gps.getLatitude() + "");
                 recHed.setFPRECHED_LONGITUDE(gps.getLongitude() + "");
-                recHed.setFPRECHED_START_TIME(localSP.getString("Rec_Start_Time", "").toString());
+                //recHed.setFPRECHED_START_TIME(localSP.getString("Rec_Start_Time", "").toString());
                 recHed.setFPRECHED_END_TIME(currentTime());
                 recHed.setFPRECHED_ADDRESS("None");
                 recHed.setFPRECHED_COSTCODE(mSharedPref.getGlobalVal("PrekeyCost"));
