@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.Bank;
 
 import java.util.ArrayList;
@@ -32,12 +33,10 @@ public class BankController {
     public static final String FBANK_BRANCH = "Branch";
     public static final String FBANK_ADD1 = "bankadd1";
     public static final String FBANK_ADD2 = "bankadd2";
-    public static final String FBANK_ADD_DATE = "AddDate";
-    public static final String FBANK_ADD_MACH = "AddMach";
-    public static final String FBANK_ADD_USER = "AddUser";
+
 
     // create String
-    public static final String CREATE_FBANK_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FBANK + " (" + FBANK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FBANK_RECORD_ID + " TEXT, " + FBANK_BANK_CODE + " TEXT, " + FBANK_BANK_NAME + " TEXT, " + FBANK_BANK_ACC_NO + " TEXT, " + FBANK_BRANCH + " TEXT, " + FBANK_ADD1 + " TEXT, " + FBANK_ADD2 + " TEXT, " + FBANK_ADD_MACH + " TEXT, " + FBANK_ADD_USER + " TEXT, " + FBANK_ADD_DATE + " TEXT); ";
+    public static final String CREATE_FBANK_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FBANK + " (" + FBANK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FBANK_RECORD_ID + " TEXT, " + FBANK_BANK_CODE + " TEXT, " + FBANK_BANK_NAME + " TEXT, " + FBANK_BANK_ACC_NO + " TEXT, " + FBANK_BRANCH + " TEXT, " + FBANK_ADD1 + " TEXT, " + FBANK_ADD2 + " TEXT, " + ValueHolder.ADDMACH + " TEXT, " + ValueHolder.ADDUSER + " TEXT, " + ValueHolder.ADDDATE + " TEXT); ";
 
     public static final String TESTBANK = "CREATE UNIQUE INDEX IF NOT EXISTS idxbank_something ON " + TABLE_FBANK + " (" + FBANK_BANK_CODE + ")";
 
@@ -74,9 +73,9 @@ public class BankController {
                 values.put(FBANK_BRANCH, bank.getFBANK_BRANCH());
                 values.put(FBANK_ADD1, bank.getFBANK_ADD1());
                 values.put(FBANK_ADD2, bank.getFBANK_ADD2());
-                values.put(FBANK_ADD_DATE, bank.getFBANK_ADD_DATE());
-                values.put(FBANK_ADD_MACH, bank.getFBANK_ADD_MACH());
-                values.put(FBANK_ADD_USER, bank.getFBANK_ADD_USER());
+                values.put(ValueHolder.ADDDATE, bank.getFBANK_ADD_DATE());
+                values.put(ValueHolder.ADDMACH, bank.getFBANK_ADD_MACH());
+                values.put(ValueHolder.ADDUSER, bank.getFBANK_ADD_USER());
 
                 if (cursor.getCount() > 0) {
                     dB.update(TABLE_FBANK, values, FBANK_BANK_CODE + "=?", new String[]{bank.getFBANK_BANK_CODE().toString()});

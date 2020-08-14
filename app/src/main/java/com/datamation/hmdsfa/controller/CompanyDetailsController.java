@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.Control;
 
 import java.util.ArrayList;
@@ -20,14 +21,7 @@ public class CompanyDetailsController {
     private DatabaseHelper dbHelper;
     private String TAG = "ControlDS";
 
-    // rashmi - 2019-12-17 move from database_helper , because of reduce coding in database helper*******************************************************************************
-
-    public static final String REFNO = "RefNo";
-    public static final String TXNDATE = "TxnDate";
-    public static final String REPCODE = "RepCode";
-    public static final String DEALCODE = "DealCode";
-    public static final String DEBCODE = "DebCode";
-    // table
+     // table
     public static final String TABLE_FCONTROL = "fControl";
     // table attributes
     public static final String FCONTROL_ID = "fcontrol_id";
@@ -68,7 +62,7 @@ public class CompanyDetailsController {
     public static final String FCONTROL_SALESACC = "salesacc";
 
     // create String
-    public static final String CREATE_FCONTROL_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FCONTROL + " (" + FCONTROL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FCONTROL_COM_NAME + " TEXT, " + FCONTROL_COM_ADD1 + " TEXT, " + FCONTROL_COM_ADD2 + " TEXT, " + FCONTROL_COM_ADD3 + " TEXT, " + FCONTROL_COM_TEL1 + " TEXT, " + FCONTROL_COM_TEL2 + " TEXT, " + FCONTROL_COM_FAX + " TEXT, " + FCONTROL_COM_EMAIL + " TEXT, " + FCONTROL_COM_WEB + " TEXT, " + FCONTROL_FYEAR + " TEXT, " + FCONTROL_TYEAR + " TEXT, " + FCONTROL_COM_REGNO + " TEXT, " + FCONTROL_FTXN + " TEXT, " + FCONTROL_TTXN + " TEXT, " + FCONTROL_CRYSTALPATH + " TEXT, " + FCONTROL_VATCMTAXNO + " TEXT, " + FCONTROL_NBTCMTAXNO + " TEXT, " + FCONTROL_SYSTYPE + " TEXT, " + DEALCODE + " TEXT, " + FCONTROL_BASECUR + " TEXT, " + FCONTROL_BALGCRLM + " TEXT, " + FCONTROL_CONAGE1 + " TEXT, " + FCONTROL_CONAGE2 + " TEXT, " + FCONTROL_CONAGE3 + " TEXT, " + FCONTROL_CONAGE4 + " TEXT, " + FCONTROL_CONAGE5 + " TEXT, " + FCONTROL_CONAGE6 + " TEXT, " + FCONTROL_CONAGE7 + " TEXT, " + FCONTROL_CONAGE8 + " TEXT, " + FCONTROL_CONAGE9 + " TEXT, " + FCONTROL_CONAGE10 + " TEXT, " + FCONTROL_CONAGE11 + " TEXT, " + FCONTROL_CONAGE12 + " TEXT, " + FCONTROL_CONAGE13 + " TEXT, " + FCONTROL_CONAGE14 + " TEXT, " + FCONTROL_SALESACC + " TEXT); ";
+    public static final String CREATE_FCONTROL_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FCONTROL + " (" + FCONTROL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FCONTROL_COM_NAME + " TEXT, " + FCONTROL_COM_ADD1 + " TEXT, " + FCONTROL_COM_ADD2 + " TEXT, " + FCONTROL_COM_ADD3 + " TEXT, " + FCONTROL_COM_TEL1 + " TEXT, " + FCONTROL_COM_TEL2 + " TEXT, " + FCONTROL_COM_FAX + " TEXT, " + FCONTROL_COM_EMAIL + " TEXT, " + FCONTROL_COM_WEB + " TEXT, " + FCONTROL_FYEAR + " TEXT, " + FCONTROL_TYEAR + " TEXT, " + FCONTROL_COM_REGNO + " TEXT, " + FCONTROL_FTXN + " TEXT, " + FCONTROL_TTXN + " TEXT, " + FCONTROL_CRYSTALPATH + " TEXT, " + FCONTROL_VATCMTAXNO + " TEXT, " + FCONTROL_NBTCMTAXNO + " TEXT, " + FCONTROL_SYSTYPE + " TEXT, " + ValueHolder.DEALCODE + " TEXT, " + FCONTROL_BASECUR + " TEXT, " + FCONTROL_BALGCRLM + " TEXT, " + FCONTROL_CONAGE1 + " TEXT, " + FCONTROL_CONAGE2 + " TEXT, " + FCONTROL_CONAGE3 + " TEXT, " + FCONTROL_CONAGE4 + " TEXT, " + FCONTROL_CONAGE5 + " TEXT, " + FCONTROL_CONAGE6 + " TEXT, " + FCONTROL_CONAGE7 + " TEXT, " + FCONTROL_CONAGE8 + " TEXT, " + FCONTROL_CONAGE9 + " TEXT, " + FCONTROL_CONAGE10 + " TEXT, " + FCONTROL_CONAGE11 + " TEXT, " + FCONTROL_CONAGE12 + " TEXT, " + FCONTROL_CONAGE13 + " TEXT, " + FCONTROL_CONAGE14 + " TEXT, " + FCONTROL_SALESACC + " TEXT); ";
 
 
     public CompanyDetailsController(Context context) {
@@ -112,7 +106,7 @@ public class CompanyDetailsController {
                 values.put(FCONTROL_VATCMTAXNO, control.getFCONTROL_VATCMTAXNO());
                 values.put(FCONTROL_NBTCMTAXNO, control.getFCONTROL_NBTCMTAXNO());
                 values.put(FCONTROL_SYSTYPE, control.getFCONTROL_SYSTYPE());
-                values.put(DEALCODE, control.getFCONTROL_DEALCODE());
+                values.put(ValueHolder.DEALCODE, control.getFCONTROL_DEALCODE());
                 values.put(FCONTROL_BASECUR, control.getFCONTROL_BASECUR());
                 values.put(FCONTROL_BALGCRLM, control.getFCONTROL_BALGCRLM());
                 values.put(FCONTROL_CONAGE1, control.getFCONTROL_CONAGE1());
@@ -180,7 +174,7 @@ public class CompanyDetailsController {
                 aControl.setFCONTROL_COM_FAX(cursor.getString(cursor.getColumnIndex(FCONTROL_COM_FAX)));
                 aControl.setFCONTROL_COM_EMAIL(cursor.getString(cursor.getColumnIndex(FCONTROL_COM_EMAIL)));
                 aControl.setFCONTROL_COM_WEB(cursor.getString(cursor.getColumnIndex(FCONTROL_COM_WEB)));
-                aControl.setFCONTROL_DEALCODE(cursor.getString(cursor.getColumnIndex(DEALCODE)));
+                aControl.setFCONTROL_DEALCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEALCODE)));
                 aControl.setFCONTROL_VATCMTAXNO(cursor.getString(cursor.getColumnIndex(FCONTROL_VATCMTAXNO)));
 
                 list.add(aControl);

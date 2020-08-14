@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.SharedPref;
+import com.datamation.hmdsfa.helpers.ValueHolder;
 import com.datamation.hmdsfa.model.Attendance;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 
@@ -43,35 +44,35 @@ public class AttendanceController {
             open();
         }
         try {
-            String selectQuery = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + Attendance.ATTENDANCE_DATE + " = '" + tour.getFTOUR_DATE() + "'";
+            String selectQuery = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + ValueHolder.ATTENDANCE_DATE + " = '" + tour.getFTOUR_DATE() + "'";
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             ContentValues values = new ContentValues();
 
-            values.put(Attendance.ATTENDANCE_DATE, tour.getFTOUR_DATE());
-            values.put(Attendance.ATTENDANCE_F_KM, tour.getFTOUR_F_KM());
-            values.put(Attendance.ATTENDANCE_F_TIME, tour.getFTOUR_F_TIME());
-            values.put(Attendance.ATTENDANCE_ROUTE, tour.getFTOUR_ROUTE());
-            values.put(Attendance.ATTENDANCE_S_KM, tour.getFTOUR_S_KM());
-            values.put(Attendance.ATTENDANCE_S_TIME, tour.getFTOUR_S_TIME());
-            values.put(Attendance.ATTENDANCE_VEHICLE, tour.getFTOUR_VEHICLE());
-            values.put(Attendance.ATTENDANCE_DISTANCE, tour.getFTOUR_DISTANCE());
-            values.put(Attendance.ATTENDANCE_IS_SYNCED, tour.getFTOUR_IS_SYNCED());
-            values.put(Attendance.REPCODE, tour.getFTOUR_REPCODE());
-            values.put(Attendance.ATTENDANCE_MAC, tour.getFTOUR_MAC());
-            values.put(Attendance.ATTENDANCE_DRIVER, tour.getFTOUR_DRIVER());
-            values.put(Attendance.ATTENDANCE_ASSIST, tour.getFTOUR_ASSIST());
+            values.put(ValueHolder.ATTENDANCE_DATE, tour.getFTOUR_DATE());
+            values.put(ValueHolder.ATTENDANCE_F_KM, tour.getFTOUR_F_KM());
+            values.put(ValueHolder.ATTENDANCE_F_TIME, tour.getFTOUR_F_TIME());
+            values.put(ValueHolder.ATTENDANCE_ROUTE, tour.getFTOUR_ROUTE());
+            values.put(ValueHolder.ATTENDANCE_S_KM, tour.getFTOUR_S_KM());
+            values.put(ValueHolder.ATTENDANCE_S_TIME, tour.getFTOUR_S_TIME());
+            values.put(ValueHolder.ATTENDANCE_VEHICLE, tour.getFTOUR_VEHICLE());
+            values.put(ValueHolder.ATTENDANCE_DISTANCE, tour.getFTOUR_DISTANCE());
+            values.put(ValueHolder.ATTENDANCE_IS_SYNCED, tour.getFTOUR_IS_SYNCED());
+            values.put(ValueHolder.REPCODE, tour.getFTOUR_REPCODE());
+            values.put(ValueHolder.ATTENDANCE_MAC, tour.getFTOUR_MAC());
+            values.put(ValueHolder.ATTENDANCE_DRIVER, tour.getFTOUR_DRIVER());
+            values.put(ValueHolder.ATTENDANCE_ASSIST, tour.getFTOUR_ASSIST());
             if (val == 0) {
-                values.put(Attendance.ATTENDANCE_STLATITUDE, tour.getFTOUR_STLATITIUDE());
-                values.put(Attendance.ATTENDANCE_STLONGTITUDE, tour.getFTOUR_STLONGTITIUDE());
+                values.put(ValueHolder.ATTENDANCE_STLATITUDE, tour.getFTOUR_STLATITIUDE());
+                values.put(ValueHolder.ATTENDANCE_STLONGTITUDE, tour.getFTOUR_STLONGTITIUDE());
             } else if (val == 1) {
-                values.put(Attendance.ATTENDANCE_ENDLATITUDE, tour.getFTOUR_ENDLATITIUDE());
-                values.put(Attendance.ATTENDANCE_ENDLONGTITUDE, tour.getFTOUR_ENDLONGTITIUDE());
+                values.put(ValueHolder.ATTENDANCE_ENDLATITUDE, tour.getFTOUR_ENDLATITIUDE());
+                values.put(ValueHolder.ATTENDANCE_ENDLONGTITUDE, tour.getFTOUR_ENDLONGTITIUDE());
             }
 
             if (cursor.getCount() > 0) {
-                result = dB.update(Attendance.TABLE_ATTENDANCE, values, Attendance.ATTENDANCE_DATE + " =?", new String[]{String.valueOf(tour.getFTOUR_DATE())});
+                result = dB.update(Attendance.TABLE_ATTENDANCE, values, ValueHolder.ATTENDANCE_DATE + " =?", new String[]{String.valueOf(tour.getFTOUR_DATE())});
             } else {
                 result = dB.insert(Attendance.TABLE_ATTENDANCE, null, values);
             }
@@ -99,7 +100,7 @@ public class AttendanceController {
             open();
         }
 
-        String selectQuery = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + Attendance.ATTENDANCE_F_TIME + " IS NULL AND " + Attendance.ATTENDANCE_F_KM + " IS NULL AND " + Attendance.ATTENDANCE_DATE + " IS NOT NULL";
+        String selectQuery = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + ValueHolder.ATTENDANCE_F_TIME + " IS NULL AND " + ValueHolder.ATTENDANCE_F_KM + " IS NULL AND " + ValueHolder.ATTENDANCE_DATE + " IS NOT NULL";
 
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -109,17 +110,17 @@ public class AttendanceController {
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
                     Attendance tour = new Attendance();
-                    tour.setFTOUR_DATE(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_DATE)));
-                    tour.setFTOUR_F_KM(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_F_KM)));
-                    tour.setFTOUR_F_TIME(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_F_TIME)));
-                    tour.setFTOUR_ID(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_ID)));
-                    tour.setFTOUR_ROUTE(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_ROUTE)));
-                    tour.setFTOUR_S_KM(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_S_KM)));
-                    tour.setFTOUR_S_TIME(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_S_TIME)));
-                    tour.setFTOUR_VEHICLE(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_VEHICLE)));
-                    tour.setFTOUR_DISTANCE(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_DISTANCE)));
-                    tour.setFTOUR_DRIVER(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_DRIVER)));
-                    tour.setFTOUR_ASSIST(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_ASSIST)));
+                    tour.setFTOUR_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_DATE)));
+                    tour.setFTOUR_F_KM(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_F_KM)));
+                    tour.setFTOUR_F_TIME(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_F_TIME)));
+                    tour.setFTOUR_ID(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_ID)));
+                    tour.setFTOUR_ROUTE(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_ROUTE)));
+                    tour.setFTOUR_S_KM(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_S_KM)));
+                    tour.setFTOUR_S_TIME(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_S_TIME)));
+                    tour.setFTOUR_VEHICLE(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_VEHICLE)));
+                    tour.setFTOUR_DISTANCE(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_DISTANCE)));
+                    tour.setFTOUR_DRIVER(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_DRIVER)));
+                    tour.setFTOUR_ASSIST(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_ASSIST)));
 
                     tours.add(tour);
                 }
@@ -147,7 +148,7 @@ public class AttendanceController {
             open();
         }
         try {
-            String selectQuery = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + Attendance.ATTENDANCE_F_TIME + " IS NOT NULL AND " + Attendance.ATTENDANCE_F_KM + " IS NOT NULL AND " + Attendance.ATTENDANCE_DATE + "='" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "' AND " + Attendance.ATTENDANCE_S_KM + " IS NOT NULL AND " + Attendance.ATTENDANCE_S_TIME + " IS NOT NULL";
+            String selectQuery = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + ValueHolder.ATTENDANCE_F_TIME + " IS NOT NULL AND " + ValueHolder.ATTENDANCE_F_KM + " IS NOT NULL AND " + ValueHolder.ATTENDANCE_DATE + "='" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "' AND " + ValueHolder.ATTENDANCE_S_KM + " IS NOT NULL AND " + ValueHolder.ATTENDANCE_S_TIME + " IS NOT NULL";
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             if (cursor.getCount() > 0)
@@ -181,11 +182,11 @@ public class AttendanceController {
         try {
             ContentValues values = new ContentValues();
 
-            values.put(Attendance.ATTENDANCE_IS_SYNCED, "1");
+            values.put(ValueHolder.ATTENDANCE_IS_SYNCED, "1");
 //            if (mapper.isSynced()) {
-//                count = dB.update(Attendance.TABLE_ATTENDANCE, values, Attendance.ATTENDANCE_DATE + " =?", new String[]{String.valueOf(mapper.getFTOUR_DATE())});
+//                count = dB.update(ValueHolder.TABLE_ATTENDANCE, values, ValueHolder.ATTENDANCE_DATE + " =?", new String[]{String.valueOf(mapper.getFTOUR_DATE())});
 //            }
-            count = dB.update(Attendance.TABLE_ATTENDANCE, values, Attendance.ATTENDANCE_IS_SYNCED + " =?", new String[]{String.valueOf(0)});
+            count = dB.update(Attendance.TABLE_ATTENDANCE, values, ValueHolder.ATTENDANCE_IS_SYNCED + " =?", new String[]{String.valueOf(0)});
 
 
         } catch (Exception e) {
@@ -214,30 +215,30 @@ public class AttendanceController {
 
         ArrayList<Attendance> list = new ArrayList<Attendance>();
         try {
-            String s = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + Attendance.ATTENDANCE_IS_SYNCED + "='0'";
+            String s = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + ValueHolder.ATTENDANCE_IS_SYNCED + "='0'";
             Cursor cursor = dB.rawQuery(s, null);
             while (cursor.moveToNext()) {
 
                 Attendance tour = new Attendance();
                 tour.setCONSOLE_DB(SharedPref.getInstance(context).getConsoleDB().trim());
                 tour.setDISTRIBUTE_DB(SharedPref.getInstance(context).getDistDB().trim());
-                tour.setFTOUR_DATE(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_DATE)));
-                tour.setFTOUR_F_KM(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_F_KM)));
-                tour.setFTOUR_F_TIME(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_F_TIME)));
-                tour.setFTOUR_ID(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_ID)));
-                tour.setFTOUR_ROUTE(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_ROUTE)));
-                tour.setFTOUR_S_KM(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_S_KM)));
-                tour.setFTOUR_S_TIME(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_S_TIME)));
-                tour.setFTOUR_VEHICLE(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_VEHICLE)));
-                tour.setFTOUR_DISTANCE(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_DISTANCE)));
-                tour.setFTOUR_DRIVER(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_DRIVER)));
-                tour.setFTOUR_ASSIST(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_ASSIST)));
-                tour.setFTOUR_REPCODE(cursor.getString(cursor.getColumnIndex(Attendance.REPCODE)));
-                tour.setFTOUR_MAC(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_MAC)));
-                tour.setFTOUR_STLATITIUDE(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_STLATITUDE)));
-                tour.setFTOUR_STLONGTITIUDE(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_STLONGTITUDE)));
-                tour.setFTOUR_ENDLATITIUDE(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_ENDLATITUDE)));
-                tour.setFTOUR_ENDLONGTITIUDE(cursor.getString(cursor.getColumnIndex(Attendance.ATTENDANCE_ENDLONGTITUDE)));
+                tour.setFTOUR_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_DATE)));
+                tour.setFTOUR_F_KM(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_F_KM)));
+                tour.setFTOUR_F_TIME(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_F_TIME)));
+                tour.setFTOUR_ID(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_ID)));
+                tour.setFTOUR_ROUTE(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_ROUTE)));
+                tour.setFTOUR_S_KM(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_S_KM)));
+                tour.setFTOUR_S_TIME(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_S_TIME)));
+                tour.setFTOUR_VEHICLE(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_VEHICLE)));
+                tour.setFTOUR_DISTANCE(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_DISTANCE)));
+                tour.setFTOUR_DRIVER(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_DRIVER)));
+                tour.setFTOUR_ASSIST(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_ASSIST)));
+                tour.setFTOUR_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
+                tour.setFTOUR_MAC(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_MAC)));
+                tour.setFTOUR_STLATITIUDE(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_STLATITUDE)));
+                tour.setFTOUR_STLONGTITIUDE(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_STLONGTITUDE)));
+                tour.setFTOUR_ENDLATITIUDE(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_ENDLATITUDE)));
+                tour.setFTOUR_ENDLONGTITIUDE(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_ENDLONGTITUDE)));
 
                 list.add(tour);
             }

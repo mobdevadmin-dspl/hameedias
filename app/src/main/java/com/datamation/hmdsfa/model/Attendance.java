@@ -1,6 +1,8 @@
 package com.datamation.hmdsfa.model;
 
 
+import com.datamation.hmdsfa.helpers.ValueHolder;
+
 public class Attendance {
 
     public String CONSOLE_DB;
@@ -26,31 +28,15 @@ public class Attendance {
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-ATTENDANCE-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     // rashmi - 2019-12-17 move from database_helper , because of reduce coding in database helper*******************************************************************************
 
-    public static final String REPCODE = "RepCode";
+
     public static final String TABLE_ATTENDANCE = "Attendance";
-    public static final String ATTENDANCE_ID = "Id";
-    public static final String ATTENDANCE_DATE = "tDate";
-    public static final String ATTENDANCE_S_TIME = "StartTime";
-    public static final String ATTENDANCE_F_TIME = "EndTime";
-    public static final String ATTENDANCE_VEHICLE = "Vehicle";
-    public static final String ATTENDANCE_S_KM = "StartKm";
-    public static final String ATTENDANCE_F_KM = "EndKm";
-    public static final String ATTENDANCE_ROUTE = "Route";
-    public static final String ATTENDANCE_DRIVER = "Driver";
-    public static final String ATTENDANCE_ASSIST = "Assist";
-    public static final String ATTENDANCE_DISTANCE = "Distance";
-    public static final String ATTENDANCE_IS_SYNCED = "IsSynced";
-    public static final String ATTENDANCE_MAC = "MacAdd";
-    public static final String ATTENDANCE_STLATITUDE = "StLtitiude";
-    public static final String ATTENDANCE_STLONGTITUDE = "StLongtitiude";
-    public static final String ATTENDANCE_ENDLATITUDE = "EndLtitiude";
-    public static final String ATTENDANCE_ENDLONGTITUDE = "EndLongtitiude";
 
-    public static final String CREATE_ATTENDANCE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_ATTENDANCE + " (" + ATTENDANCE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-            ATTENDANCE_DATE + " TEXT, " + ATTENDANCE_S_TIME + " TEXT, " + ATTENDANCE_F_TIME + " TEXT, " + ATTENDANCE_VEHICLE + " TEXT, " + ATTENDANCE_S_KM + " TEXT, " + ATTENDANCE_F_KM + " TEXT, " + ATTENDANCE_DISTANCE + " TEXT, " + ATTENDANCE_IS_SYNCED + " TEXT, "
+    public static final String CREATE_ATTENDANCE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_ATTENDANCE + " (" + ValueHolder.ATTENDANCE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-            + REPCODE + " TEXT, " + ATTENDANCE_DRIVER + " TEXT, " + ATTENDANCE_ASSIST + " TEXT, " + ATTENDANCE_MAC + " TEXT, " + ATTENDANCE_ROUTE + " TEXT," + ATTENDANCE_STLATITUDE + " TEXT, " + ATTENDANCE_STLONGTITUDE + " TEXT," + ATTENDANCE_ENDLATITUDE + " TEXT," + ATTENDANCE_ENDLONGTITUDE + " TEXT ); ";
+            ValueHolder.ATTENDANCE_DATE + " TEXT, " +  ValueHolder.ATTENDANCE_S_TIME + " TEXT, " +  ValueHolder.ATTENDANCE_F_TIME + " TEXT, " +  ValueHolder.ATTENDANCE_VEHICLE + " TEXT, " +  ValueHolder.ATTENDANCE_S_KM + " TEXT, " +  ValueHolder.ATTENDANCE_F_KM + " TEXT, " +  ValueHolder.ATTENDANCE_DISTANCE + " TEXT, " +  ValueHolder.ATTENDANCE_IS_SYNCED + " TEXT, "
+
+            +  ValueHolder.REPCODE + " TEXT, " +  ValueHolder.ATTENDANCE_DRIVER + " TEXT, " +  ValueHolder.ATTENDANCE_ASSIST + " TEXT, " +  ValueHolder.ATTENDANCE_MAC + " TEXT, " +  ValueHolder.ATTENDANCE_ROUTE + " TEXT," +  ValueHolder.ATTENDANCE_STLATITUDE + " TEXT, " +  ValueHolder.ATTENDANCE_STLONGTITUDE + " TEXT," +  ValueHolder.ATTENDANCE_ENDLATITUDE + " TEXT," +  ValueHolder.ATTENDANCE_ENDLONGTITUDE + " TEXT ); ";
 
 
 
