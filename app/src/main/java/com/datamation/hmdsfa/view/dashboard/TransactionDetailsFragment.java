@@ -83,6 +83,7 @@ public class TransactionDetailsFragment extends Fragment {
         mSwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipeToRefresh);
 
         spnTrans = (Spinner)view.findViewById(R.id.spnMainTrans);
+        total = (TextView) view.findViewById(R.id.item_payment_details_tv_outstanding_amount_total);
 
         ArrayList<String> otherList = new ArrayList<String>();
         otherList.add("INVOICES");
@@ -366,6 +367,8 @@ public class TransactionDetailsFragment extends Fragment {
 
                 }
             }
+
+            total.setText(numberFormat.format(grossTotal));
 
         }
     }
@@ -705,7 +708,7 @@ public class TransactionDetailsFragment extends Fragment {
 
                 }
             }
-
+            total.setText(numberFormat.format(grossTotal));
         }
     }
 
@@ -838,7 +841,7 @@ public class TransactionDetailsFragment extends Fragment {
 
                 }
             }
-
+            total.setText(numberFormat.format(grossTotal));
         }
     }
 

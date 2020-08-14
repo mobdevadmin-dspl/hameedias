@@ -242,11 +242,22 @@
             android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/action"
             android:textSize="14sp"
             android:gravity="center_horizontal"
             android:singleLine="true"
             android:text="Cheque"
+            android:paddingRight="16dp"/>
+        <TextView
+            android:id="@+id/action"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="14sp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:text="Action"
             android:paddingRight="16dp"/>
 
         </RelativeLayout>

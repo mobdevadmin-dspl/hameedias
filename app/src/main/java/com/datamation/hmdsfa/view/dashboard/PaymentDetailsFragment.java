@@ -4,15 +4,21 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.controller.ReceiptController;
 import com.datamation.hmdsfa.controller.ReceiptDetController;
+import com.datamation.hmdsfa.dialog.ReceiptPreviewAlertBox;
 import com.datamation.hmdsfa.model.ReceiptDet;
 
 import java.text.NumberFormat;
@@ -52,6 +58,7 @@ public class PaymentDetailsFragment extends Fragment  {
     private TextView tvOutstandingAmountTotal;
     private TextView tvCashPaymentTotal;
     private TextView tvChequeAmountTotal;
+    StickyListHeadersListView pinnedSectionListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,7 +79,7 @@ public class PaymentDetailsFragment extends Fragment  {
         tvCashPaymentTotal = (TextView) rootView.findViewById(R.id.item_payment_details_tv_cash_amount_total);
         tvChequeAmountTotal = (TextView) rootView.findViewById(R.id.item_payment_details_tv_cheque_amount_total);
 
-        StickyListHeadersListView pinnedSectionListView = (StickyListHeadersListView) rootView.findViewById(R.id.fragment_payment_details_pslv);
+        pinnedSectionListView = (StickyListHeadersListView) rootView.findViewById(R.id.fragment_payment_details_pslv);
 
 
 
@@ -88,7 +95,7 @@ public class PaymentDetailsFragment extends Fragment  {
     }
 
     public void refresh() {
-        //   if (adapter != null) adapter.notifyDataSetChanged();
+           if (adapter != null) adapter.notifyDataSetChanged();
     }
 
 
@@ -103,6 +110,8 @@ public class PaymentDetailsFragment extends Fragment  {
         TextView tvOutstandingAmount;
         TextView tvCashPayment;
         TextView tvChequeAmount;
+        ImageView deleteReceipt;
+        ImageView printReceipt;
     }
 
     private class PaymentListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
@@ -165,7 +174,7 @@ public class PaymentDetailsFragment extends Fragment  {
 
         @SuppressLint("InflateParams")
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
             ViewHolder viewHolder;
             if (convertView == null) {
@@ -178,6 +187,8 @@ public class PaymentDetailsFragment extends Fragment  {
                 viewHolder.tvOutstandingAmount = (TextView) convertView.findViewById(R.id.item_payment_details_tv_outstanding_amount);
                 viewHolder.tvCashPayment = (TextView) convertView.findViewById(R.id.item_payment_details_tv_cash_amount);
                 viewHolder.tvChequeAmount = (TextView) convertView.findViewById(R.id.item_payment_details_tv_cheque_amount);
+                viewHolder.deleteReceipt = (ImageView) convertView.findViewById(R.id.delete);
+                viewHolder.printReceipt  = (ImageView) convertView.findViewById(R.id.print);
 
                 convertView.setTag(viewHolder);
             } else {
@@ -229,6 +240,29 @@ public class PaymentDetailsFragment extends Fragment  {
                 } else {
                     viewHolder.tvChequeAmount.setText("0.0");
                 }
+
+                viewHolder.deleteReceipt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(paymentPinHolders.get(position).getFPRECDET_ISDELETE().equals("0")){
+
+                            deleteReceipt(paymentPinHolders.get(position).getFPRECDET_REFNO());
+
+                            refresh();
+                        }else{
+                            Toast.makeText(getActivity(),"Cannot delete synced receipts",Toast.LENGTH_LONG).show();
+
+                        }
+
+                    }
+                });
+
+                viewHolder.printReceipt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        printReceipt(paymentPinHolders.get(position).getFPRECDET_REFNO());
+                    }
+                });
             }
 
             return convertView;
@@ -269,5 +303,82 @@ public class PaymentDetailsFragment extends Fragment  {
 
         }
     }
+    public void deleteReceipt(final String RefNo) {
 
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                .content("Do you want to delete this receipt ?")
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                .positiveText("Yes")
+                .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                .negativeText("No, Exit")
+                .callback(new MaterialDialog.ButtonCallback() {
+
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+
+                        int result = new ReceiptController(getActivity()).deleteReceipts(RefNo);
+
+                        if (result>0) {
+                            new ReceiptDetController(getActivity()).restData(RefNo);
+                            pinHolders = new ReceiptDetController(getActivity()).getTodayPayments();
+
+                            adapter = new PaymentListAdapter(getActivity(), pinHolders);
+                            pinnedSectionListView.setAdapter(adapter);
+                            Toast.makeText(getActivity(), "Receipt deleted successfully..!", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), "Receipt delete unsuccess..!", Toast.LENGTH_SHORT).show();
+                        }
+
+
+
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+
+                        dialog.dismiss();
+
+
+                    }
+                })
+                .build();
+        materialDialog.setCanceledOnTouchOutside(false);
+        materialDialog.show();
+    }
+
+    public void printReceipt(final String RefNo) {
+
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                .content("Do you want to print this receipt ?")
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                .positiveText("Yes")
+                .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                .negativeText("No, Exit")
+                .callback(new MaterialDialog.ButtonCallback() {
+
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+
+                        int a = new ReceiptPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+
+                        dialog.dismiss();
+
+
+                    }
+                })
+                .build();
+        materialDialog.setCanceledOnTouchOutside(false);
+        materialDialog.show();
+    }
 }

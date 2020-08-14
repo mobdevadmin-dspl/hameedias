@@ -97,7 +97,7 @@ public class ReceiptDetController {
 		ArrayList<ReceiptDet> list = new ArrayList<ReceiptDet>();
 
 		try {
-			String selectQuery = "select hed.refno, det.RefNo1, hed.paytype,det.aloamt, fddb.totbal, det.dtxndate from fprecheds hed, fprecdets det," +
+			String selectQuery = "select hed.IsSynced, hed.refno, det.RefNo1, hed.paytype,det.aloamt, fddb.totbal, det.dtxndate from fprecheds hed, fprecdets det," +
 					//			" fddbnote fddb where hed.refno = det.refno and det.FPRECDET_REFNO1 = fddb.refno and hed.txndate = '2019-04-12'";
 					" fddbnote fddb where hed.refno = det.refno and det.RefNo1 = fddb.refno and hed.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
@@ -114,6 +114,7 @@ public class ReceiptDetController {
 				recDet.setFPRECDET_ALOAMT(cursor.getString(cursor.getColumnIndex(FPRECDET_ALOAMT)));
 				recDet.setFPRECDET_AMT(cursor.getString(cursor.getColumnIndex(OutstandingController.FDDBNOTE_TOT_BAL)));
 				recDet.setFPRECDET_TXNDATE(cursor.getString(cursor.getColumnIndex(FPRECDET_DTXNDATE)));
+				recDet.setFPRECDET_ISDELETE(cursor.getString(cursor.getColumnIndex(ReceiptController.FPRECHED_ISSYNCED)));
 
 				list.add(recDet);
 			}
@@ -486,7 +487,7 @@ public class ReceiptDetController {
 
 	}
 	@SuppressWarnings("static-access")
-	public int restDataForMR(String refno) {
+	public int restData(String refno) {
 
 		int count = 0;
 
@@ -499,12 +500,12 @@ public class ReceiptDetController {
 
 		try {
 
-			String selectQuery = "SELECT * FROM " + TABLE_FPRECDET + " WHERE " + FPRECDET_REFNO2 + " = '" + refno + "'";
+			String selectQuery = "SELECT * FROM " + TABLE_FPRECDETS + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
 			cursor = dB.rawQuery(selectQuery, null);
 			int cn = cursor.getCount();
 
 			if (cn > 0) {
-				count = dB.delete(TABLE_FPRECDET, FPRECDET_REFNO2 + " ='" + refno + "'", null);
+				count = dB.delete(TABLE_FPRECDETS, ValueHolder.REFNO  + " ='" + refno + "'", null);
 				Log.v("Success Stauts", count + "");
 			}
 		} catch (Exception e) {

@@ -973,7 +973,41 @@ public class ReceiptController {
 		return count;
 
 	}
+	public int deleteReceipts(String refno) {
 
+		int success = 0;
+
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+		Cursor cursor = null;
+
+		try {
+
+			String selectQuery = "SELECT * FROM " + TABLE_FPRECHEDS + " WHERE " + ValueHolder.REFNO
+					+ " = '" + refno + "'";
+			cursor = dB.rawQuery(selectQuery, null);
+			int cn = cursor.getCount();
+
+			if (cn > 0) {
+                success = dB.delete(TABLE_FPRECHEDS, ValueHolder.REFNO + " ='" + refno + "'", null);
+
+				Log.v("Success", success + "");
+			}
+
+		} catch (Exception e) {
+			Log.v(TAG + " Exception", e.toString());
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			dB.close();
+		}
+		return success;
+
+	}
 	public void UpdateRecHeadTotalAmount(String refNo) {
 
 		if (dB == null) {

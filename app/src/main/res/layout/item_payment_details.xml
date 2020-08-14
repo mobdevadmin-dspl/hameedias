@@ -68,11 +68,32 @@
         android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
         android:textSize="12sp"
         android:gravity="center_vertical|end"
+        android:layout_toLeftOf="@+id/delete"
         android:singleLine="true"
         android:text="Cheque"
         android:paddingRight="15dp"/>
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/print"
+        android:textSize="14sp"
+        android:layout_margin="10dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/icon_minus"
+        />
+    <ImageView
+        android:id="@+id/print"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:textSize="14sp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/ic_printer"
+        />
 
 </RelativeLayout>
