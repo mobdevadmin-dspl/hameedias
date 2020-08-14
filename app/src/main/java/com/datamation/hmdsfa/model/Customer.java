@@ -29,6 +29,7 @@ public class Customer implements Serializable{
 	private String cusImage;
 	private String taxreg;
 	private String latitude,longitude;
+	private String accno,bank;
 
 	public String getTaxreg() {
 		return taxreg;

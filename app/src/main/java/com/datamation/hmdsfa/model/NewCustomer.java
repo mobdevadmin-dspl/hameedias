@@ -35,6 +35,39 @@ public class NewCustomer {
     private String ADDMAC;
     private String C_DATE;
     private  String CONTACTPERSON;
+    private  String ACCNO,CRDTLIMIT,CRDTPERIOD,BANK;
+
+    public String getBANK() {
+        return BANK;
+    }
+
+    public void setBANK(String BANK) {
+        this.BANK = BANK;
+    }
+
+    public String getACCNO() {
+        return ACCNO;
+    }
+
+    public void setACCNO(String ACCNO) {
+        this.ACCNO = ACCNO;
+    }
+
+    public String getCRDTLIMIT() {
+        return CRDTLIMIT;
+    }
+
+    public void setCRDTLIMIT(String CRDTLIMIT) {
+        this.CRDTLIMIT = CRDTLIMIT;
+    }
+
+    public String getCRDTPERIOD() {
+        return CRDTPERIOD;
+    }
+
+    public void setCRDTPERIOD(String CRDTPERIOD) {
+        this.CRDTPERIOD = CRDTPERIOD;
+    }
 
     public String getCONTACTPERSON() {
         return CONTACTPERSON;

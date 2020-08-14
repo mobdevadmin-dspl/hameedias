@@ -16,6 +16,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import androidx.annotation.NonNull;
+
+import com.datamation.hmdsfa.controller.BankController;
+import com.datamation.hmdsfa.model.Bank;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -66,6 +70,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
@@ -74,6 +79,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import at.markushi.ui.CircleButton;
 
@@ -81,8 +87,8 @@ public class NewCustomerActivity extends AppCompatActivity {
 
     public EditText OtherCode;
     public TextInputEditText customerCode, customerName, editTextCNic, businessRegno, Reg_date, town, route, addressline1, addressline2, district,
-            city, contactPerson, mobile,contactNumber, fax, emailaddress;
-
+            city, contactPerson, mobile,contactNumber, fax, emailaddress, creditlmt,crdtperiod,accno;
+    SearchableSpinner spnBank;
 
     public ImageButton btn_Route, btn_District, btn_Town, CustomerbtnSearch;
     private ArrayList<Route> routeArrayList;
@@ -135,6 +141,10 @@ public class NewCustomerActivity extends AppCompatActivity {
         fabDiscard = (CircleButton) findViewById(R.id.new_cus_fab_discard);
         customerCode = (TextInputEditText) findViewById(R.id.etRefNo);
         customerName = (TextInputEditText) findViewById(R.id.etCustomer_Name);
+        crdtperiod = (TextInputEditText) findViewById(R.id.etCreditPrd);
+        creditlmt = (TextInputEditText) findViewById(R.id.etCredtLmt);
+        accno = (TextInputEditText) findViewById(R.id.etAccNo);
+        spnBank= (SearchableSpinner) findViewById(R.id.spnBank);
         editTextCNic = (TextInputEditText) findViewById(R.id.etCusNIC);
         Reg_date = (TextInputEditText) findViewById(R.id.etDate);
         businessRegno = (TextInputEditText) findViewById(R.id.etRegNo);
@@ -175,7 +185,12 @@ public class NewCustomerActivity extends AppCompatActivity {
                 dispatchTakePictureIntent();
             }
         });
-
+        spnBank.setTitle("Select Bank");
+        BankController BankController = new BankController(this);
+        List<Bank> bankList = BankController.getBanks();
+        ArrayAdapter<Bank> bankAdapter = new ArrayAdapter<Bank>(this, android.R.layout.simple_spinner_item, bankList);
+        bankAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnBank.setAdapter(bankAdapter);
         //show new customer ref no
         if (mySwitch.isChecked()) {
             CustomerbtnSearch.setEnabled(false);
@@ -271,6 +286,10 @@ public class NewCustomerActivity extends AppCompatActivity {
                     route.setEnabled(true);
                     district.setEnabled(true);
                     town.setEnabled(true);
+                    accno.setEnabled(true);
+                    creditlmt.setEnabled(true);
+                    crdtperiod.setEnabled(true);
+                    spnBank.setEnabled(true);
 
                     city.setEnabled(true);
                     contactPerson.setEnabled(true);
@@ -294,7 +313,9 @@ public class NewCustomerActivity extends AppCompatActivity {
                     route.setText("");
                     district.setText("");
                     town.setText("");
-
+                    accno.setText("");
+                    creditlmt.setText("");
+                    crdtperiod.setText("");
 
                 } else {
                     //WHEN NEW CUSTOMER MODE OFF, existing customer edit mode
@@ -302,7 +323,10 @@ public class NewCustomerActivity extends AppCompatActivity {
                     customerName.setEnabled(false);
                     customerName.setClickable(false);
                     customerName.setFocusableInTouchMode(false);
-
+                    accno.setEnabled(false);
+                    creditlmt.setEnabled(false);
+                    crdtperiod.setEnabled(false);
+                    spnBank.setEnabled(false);
 
                     customerName.setEnabled(false);
                     editTextCNic.setEnabled(false);
@@ -402,6 +426,10 @@ public class NewCustomerActivity extends AppCompatActivity {
                             customer.setPHONE(contactNumber.getText().toString());
                             customer.setFAX(fax.getText().toString());
                             customer.setE_MAIL(emailaddress.getText().toString());
+                            customer.setACCNO(accno.getText().toString());
+                            customer.setCRDTLIMIT(creditlmt.getText().toString());
+                            customer.setCRDTPERIOD(crdtperiod.getText().toString());
+                            customer.setBANK(spnBank.getSelectedItem().toString().split("-")[0]);
                             customer.setC_SYNCSTATE("0");
                             customer.setAddMac(fSalRep.getMacId());
                             customer.setC_ADDDATE(Dformat.format(date));
@@ -952,7 +980,9 @@ public class NewCustomerActivity extends AppCompatActivity {
         city.setText("");
         contactPerson.setText("");
         mobile.setText("");
-
+        accno.setText("");
+        creditlmt.setText("");
+        crdtperiod.setText("");
         fax.setText("");
         emailaddress.setText("");
         customerImg.setBackground(ContextCompat.getDrawable(context, R.drawable.shadow_image_man));

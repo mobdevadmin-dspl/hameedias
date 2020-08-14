@@ -150,7 +150,7 @@ public class BankController {
                 Bank bank = new Bank();
 
                 bank.setFBANK_BANK_CODE(cursor.getString(cursor.getColumnIndex(FBANK_BANK_CODE)));
-                bank.setFBANK_BANK_NAME(cursor.getString(cursor.getColumnIndex(FBANK_BANK_NAME))+" - "+cursor.getString(cursor.getColumnIndex(FBANK_BRANCH)));
+                bank.setFBANK_BANK_NAME(cursor.getString(cursor.getColumnIndex(FBANK_BANK_CODE))+" - "+cursor.getString(cursor.getColumnIndex(FBANK_BANK_NAME))+" - "+cursor.getString(cursor.getColumnIndex(FBANK_BRANCH)));
 
 
                 list.add(bank);

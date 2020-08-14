@@ -295,7 +295,156 @@
                     <!--                        android:padding="5dp"-->
                     <!--                        android:textColorHint="@color/colorPrimary" />-->
                 </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingRight="5dp">
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                app:errorEnabled="true">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/etAccNo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:hint="AccNo" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="5dp">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                app:errorEnabled="true">
+
+                                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                    android:id="@+id/spnBank"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:hint="Bank" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                    <!--                    <com.datamation.swdsfa.utils.CustomFont-->
+                    <!--                        android:layout_width="140dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:gravity="left"-->
+                    <!--                        android:singleLine="false"-->
+                    <!--                        android:text="RegNo "-->
+                    <!--                        android:textSize="@dimen/font_for_all" />-->
+
+                    <!--                    <com.datamation.swdsfa.utils.CustomFont-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:gravity="left"-->
+                    <!--                        android:text=":-"-->
+                    <!--                        android:textSize="@dimen/font_for_all" />-->
+
+                    <!--                    <com.datamation.swdsfa.utils.CustomText-->
+                    <!--                        android:id="@+id/editText3"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:background="@drawable/edittextstyle"-->
+                    <!--                        android:hint="*"-->
+                    <!--                        android:padding="5dp"-->
+                    <!--                        android:textColorHint="@color/colorPrimary" />-->
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingRight="5dp"
+                            app:counterEnabled="false"
+                            app:counterMaxLength="10"
+                            app:errorEnabled="true">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etCredtLmt"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:hint="Credit Limit"
+                                android:inputType="numberDecimal"
+                                android:maxLength="10" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="5dp"
+                            app:counterEnabled="false"
+                            app:counterMaxLength="10"
+                            app:errorEnabled="true">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etCreditPrd"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:hint="Credit Period"
+                                android:inputType="numberDecimal"
+                                android:maxLength="10" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                    </LinearLayout>
+                    <!--                    <com.datamation.swdsfa.utils.CustomFont-->
+                    <!--                        android:layout_width="140dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:gravity="left"-->
+                    <!--                        android:text="Phone "-->
+                    <!--                        android:textSize="@dimen/font_for_all" />-->
+
+                    <!--                    <com.datamation.swdsfa.utils.CustomFont-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:gravity="left"-->
+                    <!--                        android:text=":-"-->
+                    <!--                        android:textSize="@dimen/font_for_all" />-->
+
+                    <!--                    <com.datamation.swdsfa.utils.CustomText-->
+                    <!--                        android:id="@+id/editText11"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:background="@drawable/edittextstyle"-->
+                    <!--                        android:gravity="fill_horizontal"-->
+                    <!--                        android:hint="*"-->
+                    <!--                        android:inputType="phone"-->
+                    <!--                        android:maxLength="14"-->
+                    <!--                        android:padding="5dp"-->
+                    <!--                        android:textColorHint="@color/colorPrimary" />-->
+
+                </TableRow>
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

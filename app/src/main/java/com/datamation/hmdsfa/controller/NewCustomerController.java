@@ -58,7 +58,11 @@ public class NewCustomerController {
     public static final String C_LATITUDE = "lat"; //23
     public static final String C_ADD_DATE = "AddDate"; //24
     public static final String C_ADD_MACH = "AddMach"; //25
-    public static final String C_IS_SYNCED = "isSynced"; //26
+    public static final String C_ACCNO = "AccNo"; //26
+    public static final String C_CRDTLMT = "CreditLmt"; //27
+    public static final String C_CRDTPRD = "CreditPeriod"; //28
+    public static final String C_BANK = "Bank"; //28
+    public static final String C_IS_SYNCED = "isSynced"; //29
     public static final String ROUTE_ID = "RouteID";
     public static final String CREATE_NEW_CUSTOMER = "CREATE  TABLE IF NOT EXISTS " + TABLE_NEW_CUSTOMER + " ("
             + TABLE_REC_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -88,6 +92,10 @@ public class NewCustomerController {
             + C_LATITUDE + " TEXT, "
             + C_ADD_DATE + " TEXT, "
             + C_ADD_MACH + " TEXT, "
+            + C_CRDTLMT + " TEXT, "
+            + C_CRDTPRD + " TEXT, "
+            + C_BANK + " TEXT, "
+            + C_ACCNO + " TEXT, "
             + C_IS_SYNCED + " TEXT); ";
 
     public NewCustomerController(Context context) {
@@ -141,6 +149,10 @@ public class NewCustomerController {
                 contentValues.put(C_ADD_DATE, fN.getC_ADDDATE());
                 contentValues.put(C_ADD_MACH, fN.getAddMac());
                 contentValues.put(C_IS_SYNCED, fN.getC_SYNCSTATE());
+                contentValues.put(C_BANK, fN.getBANK());
+                contentValues.put(C_ACCNO, fN.getACCNO());
+                contentValues.put(C_CRDTLMT, fN.getCRDTLIMIT());
+                contentValues.put(C_CRDTPRD, fN.getCRDTPERIOD());
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
