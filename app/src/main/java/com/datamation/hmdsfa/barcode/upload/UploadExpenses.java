@@ -45,6 +45,7 @@ public class UploadExpenses extends AsyncTask<ArrayList<DayExpHed>, Integer, Arr
     public UploadExpenses(Context context, UploadTaskListener taskListener, TaskTypeUpload taskType) {
 
         this.context = context;
+        resultListExpenses = new ArrayList<>();
         this.taskListener = taskListener;
         mHandler = new Handler(Looper.getMainLooper());
         this.taskType = taskType;

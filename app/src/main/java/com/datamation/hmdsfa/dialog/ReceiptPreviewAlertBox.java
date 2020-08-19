@@ -64,7 +64,7 @@ public class ReceiptPreviewAlertBox {
     String Heading_b = "";
     String buttomRaw = "";
     String Heading_d = "";
-
+    private Customer debtor;
     String BILL;
     LinearLayout lnBank, lnCHQno,lnCHDate;
 
@@ -159,7 +159,7 @@ public class ReceiptPreviewAlertBox {
 
         ReceiptHed recHed = new ReceiptController(context).getReceiptByRefno(refno);
         ArrayList<ReceiptDet> list = new ReceiptDetController(context).GetReceiptByRefno(refno);
-        Customer debtor = new CustomerController(context).getSelectedCustomerByCode(recHed.getFPRECHED_DEBCODE());
+        debtor = new CustomerController(context).getSelectedCustomerByCode(recHed.getFPRECHED_DEBCODE());
 
         Debname.setText(debtor.getCusName());
         Debaddress1.setText(debtor.getCusAdd1() + " ");
@@ -256,6 +256,7 @@ public class ReceiptPreviewAlertBox {
         alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Intent intent = new Intent(context, DebtorDetailsActivity.class);
+                intent.putExtra("outlet", debtor);
                 context.startActivity(intent);
                 dialog.cancel();
             }
@@ -352,7 +353,10 @@ public class ReceiptPreviewAlertBox {
 
         String customerAddressStr = debtor.getCusAdd1() + "," + debtor.getCusAdd2();
         int lengthDealJ = customerAddressStr.length();
-        int lengthDealJB = (LINECHAR - lengthDealJ) / 2;
+        int lengthDealJB = 0;
+        if(LINECHAR>=lengthDealJ){
+            lengthDealJB =  (LINECHAR - lengthDealJ) / 2;
+        }
         String printGapAdjustJ = printGapAdjust.substring(0, Math.min(lengthDealJB, printGapAdjust.length()));
 
         String printGapAdjustK = null;

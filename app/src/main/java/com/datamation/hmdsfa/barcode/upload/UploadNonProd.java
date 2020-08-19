@@ -45,6 +45,7 @@ public class UploadNonProd extends AsyncTask<ArrayList<DayNPrdHed>, Integer, Arr
 
     public UploadNonProd(Context context, UploadTaskListener taskListener, TaskTypeUpload taskType) {
         this.context = context;
+        resultListNonproctives = new ArrayList<>();
         this.taskListener = taskListener;
         mHandler = new Handler(Looper.getMainLooper());
         this.taskType = taskType;

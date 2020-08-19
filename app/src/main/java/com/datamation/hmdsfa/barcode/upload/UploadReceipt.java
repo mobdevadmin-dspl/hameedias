@@ -46,6 +46,7 @@ public class UploadReceipt extends AsyncTask<ArrayList<ReceiptHed>, Integer, Arr
 
 		this.context = context;
 		this.taskListener = taskListener;
+		resultListReceipts = new ArrayList<>();
 		mHandler = new Handler(Looper.getMainLooper());
 		this.taskType = taskType;
 	}
