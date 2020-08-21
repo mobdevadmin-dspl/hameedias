@@ -166,7 +166,27 @@ public class ItemLocController
         }
 
     }
+    public String getQOH(String barcode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
 
+        String selectQuery = "select * from " + TABLE_FITEMLOC + " where " + FITEMLOC_BARCODE+ " = '"+barcode+"' ";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+                return cursor.getString(cursor.getColumnIndex(FITEMLOC_QOH));
+            }
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            dB.close();
+        }
+        return "0";
+    }
     public void UpdateInvoiceQOH(String RefNo, String Task, String locCode) {
 
         if (dB == null) {

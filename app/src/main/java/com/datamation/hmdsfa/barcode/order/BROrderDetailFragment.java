@@ -39,10 +39,12 @@ import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.DiscountController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
+import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.OrderController;
 import com.datamation.hmdsfa.controller.OrderDetailController;
 import com.datamation.hmdsfa.controller.ProductController;
 import com.datamation.hmdsfa.controller.VATController;
+import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.helpers.BluetoothConnectionHelper;
 import com.datamation.hmdsfa.helpers.PreSalesResponseListener;
@@ -173,9 +175,14 @@ public class BROrderDetailFragment extends Fragment{
                 ArrayList<ItemBundle> itemBundle = new BarcodeVarientController(getActivity())
                         .getItemsInBundle(textSearchField.getSelectedItem().toString().split("-")[0].trim());
                 Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
-                if(itemBundle.size()==1) {
+                if (itemBundle.size() == 1) {
                     selectedItem = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
+                    double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(selectedItem.get(0).getFPRODUCT_Barcode()));
+                if (qoh >= Double.parseDouble(selectedItem.get(0).getFPRODUCT_QTY())) {
                     updateOrderDet(selectedItem);
+                } else {
+                    Toast.makeText(getActivity(), "Not enough stock", Toast.LENGTH_LONG).show();
+                }
                     showData();
                 }else{
                     Toast.makeText(getActivity(),"No matching item or duplicate items",Toast.LENGTH_LONG).show();
@@ -201,7 +208,12 @@ public class BROrderDetailFragment extends Fragment{
                         Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
                         if (itemBundle.size() == 1) {
                             selectedItem = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
-                            updateOrderDet(selectedItem);
+                            double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(selectedItem.get(0).getFPRODUCT_Barcode()));
+                            if (qoh >= Double.parseDouble(selectedItem.get(0).getFPRODUCT_QTY())) {
+                                updateOrderDet(selectedItem);
+                            } else {
+                                Toast.makeText(getActivity(), "Not enough stock", Toast.LENGTH_LONG).show();
+                            }
                             showData();
                         } else {
                             Toast.makeText(getActivity(), "No matching item", Toast.LENGTH_LONG).show();
@@ -312,9 +324,25 @@ public class BROrderDetailFragment extends Fragment{
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                int count = 0;
                 selectedItemList = new ProductController(getActivity()).getBundleScannedtems(itemDetails);
+                for (Product product : selectedItemList) {
 
-                updateOrderDet(selectedItemList);
+                    double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(product.getFPRODUCT_Barcode()));
+                    // Log.d("QOH>>>",">>>listsize"+list.size()+"count>>>"+qoh);
+                    if(qoh >= Double.parseDouble(product.getFPRODUCT_QTY())) {
+                        count++;
+                        //    Log.d("QOH>>>","insideqohvalidation>>>listsize"+list.size()+"count>>>"+count);
+                    }
+                    //  Log.d("QOH>>>","first prdct loop>>>listsize"+list.size()+"count>>>"+count);
+                }
+                // Log.d("QOH>>>","before scnd for loop listsize>>>"+list.size()+"count>>>"+count);
+                if(count == selectedItemList.size()) {
+                    updateOrderDet(selectedItemList);
+                }else{
+                    Toast.makeText(getActivity(),"Not enough stock",Toast.LENGTH_LONG).show();
+                }
+
                 showData();
 
                 dialog.cancel();//2020-03-10

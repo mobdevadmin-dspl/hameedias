@@ -138,8 +138,12 @@ public class ReportController {
 
         ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
-        String selectQuery = "select d.ItemCode,d.txndate,i.NOUCase, ifnull((sum(d.CaseQty)),0) as cases ,ifnull((sum(d.PiceQty)),0) as pieses ,ifnull((sum(d.Amt)),0) as Amt , count(distinct h.debcode)as reach ,i.ItemName from fItem i, Forddet d, fordhed h  where d.ItemCode = i.ItemCode and h.refno = d.refno and d.txndate between '" + from + "' and "
-                +"'" + to + "' group by d.ItemCode";
+//        String selectQuery = "select d.ItemCode,d.txndate,i.NOUCase, ifnull((sum(d.CaseQty)),0) as cases ,ifnull((sum(d.PiceQty)),0) as pieses ,ifnull((sum(d.Amt)),0) as Amt , count(distinct h.debcode)as reach ,i.ItemName from fItem i, Forddet d, fordhed h  where d.ItemCode = i.ItemCode and h.refno = d.refno and d.txndate between '" + from + "' and "
+//                +"'" + to + "' group by d.ItemCode";
+        String selectQuery = "select d.itemcode,d.barcode,d.variantcode,h.debcode,d.qty,d.amt,d.txndate,i.itemname, count(distinct h.debcode)as reach   from \n" +
+                "fItem i,finvdet d, finvhed h  " +
+                "where  h.refno = d.refno and d.ItemCode = i.Itemcode and and d.txndate between '" + from + "' and " +
+                " '" + to + "' group by d.barcode";
         // String selectQuery = "select * from DayExpDet WHERE " + dbHelper.REFNO + "='" + refno + "' and  TxnDate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
@@ -151,9 +155,10 @@ public class ReportController {
 
                 ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(OrderDetailController.FORDDET_ITEM_CODE)));
                 ordDet.setFORDERDET_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
-                ordDet.setFORDERDET_QOH(cursor.getString(cursor.getColumnIndex(ItemController.FITEM_NOU_CASE)));
-                ordDet.setFORDERDET_CASES(cursor.getString(cursor.getColumnIndex("cases")));
-                ordDet.setFORDERDET_PICE_QTY(cursor.getString(cursor.getColumnIndex("pieses")));
+                //ordDet.setFORDERDET_QOH(cursor.getString(cursor.getColumnIndex(ItemController.FITEM_NOU_CASE)));
+                ordDet.setFORDERDET_QOH("0");
+                ordDet.setFORDERDET_CASES("0");
+                ordDet.setFORDERDET_PICE_QTY(cursor.getString(cursor.getColumnIndex(OrderDetailController.FORDDET_QTY)));
                 ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(OrderDetailController.FORDDET_AMT)));
                 ordDet.setFORDERDET_ITEMNAME(cursor.getString(cursor.getColumnIndex(ItemController.FITEM_ITEM_NAME)));
                 ordDet.setFORDERDET_SEQNO(""+cursor.getInt(cursor.getColumnIndex("reach")));
