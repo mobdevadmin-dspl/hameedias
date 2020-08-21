@@ -179,6 +179,7 @@ public class BROrderDetailFragment extends Fragment{
                     selectedItem = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
                     double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(selectedItem.get(0).getFPRODUCT_Barcode()));
                 if (qoh >= Double.parseDouble(selectedItem.get(0).getFPRODUCT_QTY())) {
+                    //rashmi-2020-08-21
                     updateOrderDet(selectedItem);
                 } else {
                     Toast.makeText(getActivity(), "Not enough stock", Toast.LENGTH_LONG).show();
@@ -208,6 +209,7 @@ public class BROrderDetailFragment extends Fragment{
                         Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
                         if (itemBundle.size() == 1) {
                             selectedItem = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
+                            //rashmi-2020-08-21
                             double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(selectedItem.get(0).getFPRODUCT_Barcode()));
                             if (qoh >= Double.parseDouble(selectedItem.get(0).getFPRODUCT_QTY())) {
                                 updateOrderDet(selectedItem);
@@ -338,6 +340,7 @@ public class BROrderDetailFragment extends Fragment{
                 }
                 // Log.d("QOH>>>","before scnd for loop listsize>>>"+list.size()+"count>>>"+count);
                 if(count == selectedItemList.size()) {
+                    //rashmi-2020-08-21
                     updateOrderDet(selectedItemList);
                 }else{
                     Toast.makeText(getActivity(),"Not enough stock",Toast.LENGTH_LONG).show();
