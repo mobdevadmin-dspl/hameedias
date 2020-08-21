@@ -306,7 +306,7 @@ public class ReasonController {
 		ArrayList<Reason> list = new ArrayList<Reason>();
 
 //		String selectQuery = "SELECT * FROM " + TABLE_FREASON + " WHERE " + FREASON_TYPE + "='np'";
-		String selectQuery = "SELECT * FROM " + TABLE_FREASON;
+		String selectQuery = "SELECT * FROM " + TABLE_FREASON + " WHERE trim(" + FREASON_TYPE + ")='RT04'";
 
 		Cursor cursor = dB.rawQuery(selectQuery, null);
 		while (cursor.moveToNext()) {

@@ -205,8 +205,8 @@ public class VanSalePrintPreviewAlertBox {
                 /*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
                 TotalPieceQty.setText(String.valueOf(qty));
-                TotalNetValue.setText(String.format("%,.2f", (dTotAmt-dDisc)));
-                txtTotVal.setText(String.format("%,.2f", dTotAmt));
+                TotalNetValue.setText(String.format("%,.2f", (dTotAmt)));//-dDisc
+                txtTotVal.setText(String.format("%,.2f", dTotAmt-dTax));
                 txtfiQty.setText(String.format("%,.2f", dDisc));
             if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
                 TotalDiscount.setText(String.format("%,.2f", dTax));
@@ -214,7 +214,7 @@ public class VanSalePrintPreviewAlertBox {
                 TotalDiscount.setText("0.00");
             }
 
-                double netval = dTotAmt-dDisc;
+                double netval = dTotAmt;//-dDisc
                 String net_val_in_english =  ""+ EnglishNumberToWords.convert((int)netval);
              //   String net_val_in_english =   "";
                 AmtInWord.setText("("+net_val_in_english+")");
@@ -566,7 +566,7 @@ public class VanSalePrintPreviewAlertBox {
      //   int totReturnQty = 0;
 
 
-            sNetTot = String.format(Locale.US, "%,.2f", (totalamt-totaldis));
+            sNetTot = String.format(Locale.US, "%,.2f", (totalamt));//-totaldis
             sDiscount = String.format(Locale.US, "%,.2f", totaldis);
         if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
             stax = String.format(Locale.US, "%,.2f", totaltax);

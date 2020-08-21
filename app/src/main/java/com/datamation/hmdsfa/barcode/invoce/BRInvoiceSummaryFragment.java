@@ -248,9 +248,9 @@ public class BRInvoiceSummaryFragment extends Fragment {
         }
         iTotFreeQty = fTotFree;
         lblQty.setText(String.valueOf(ftotQty));
-        lblGross.setText(String.format("%.2f", ftotAmt + fTotSchDisc + fTotLineDisc));
-        lblDiscount.setText(String.format("%.2f", fTotLineDisc+fTotSchDisc));
-        lblNetVal.setText(String.format("%.2f", ftotAmt-fTotSchDisc-fTotLineDisc));
+        lblGross.setText(String.format("%.2f", ftotAmt + fTotSchDisc ));//+ fTotLineDisc
+        lblDiscount.setText(String.format("%.2f", fTotSchDisc));//fTotLineDisc+
+        lblNetVal.setText(String.format("%.2f", ftotAmt));//-fTotLineDisc-fTotSchDisc
         lblFreeQty.setText(String.valueOf(fTotFree));
         lblLines.setText(String.valueOf(lines));
     }

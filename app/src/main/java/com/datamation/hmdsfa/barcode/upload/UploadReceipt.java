@@ -111,28 +111,29 @@ public class UploadReceipt extends AsyncTask<ArrayList<ReceiptHed>, Integer, Arr
 					Toast.makeText(context, "Error response "+t.toString(), Toast.LENGTH_SHORT).show();
 				}
 			});
-			List<String> List = new ArrayList<String>();
 			
-			String sJsonHed = new Gson().toJson(c);
-			
-			List.add(sJsonHed);
-//			String sURL = URL + context.getResources().getString(R.string.ConnectionURL) + "/insertFrecHed";
-			boolean bStatus = false;
-			try {
-				bStatus = NetworkFunctions.mHttpManager(networkFunctions.syncReceipt(),List.toString());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			// boolean bStatus = UtilityContainer.mHttpManager(sURL, new Gson().toJson(c));
-
-			if (bStatus) {
-				c.setFPRECHED_ISSYNCED("1");
-			} else {
-				c.setFPRECHED_ISSYNCED("0");
-			}
-			
-			
-			Log.v("## Json ##",  List.toString());
+//			List<String> List = new ArrayList<String>();
+//
+//			String sJsonHed = new Gson().toJson(c);
+//
+//			List.add(sJsonHed);
+////			String sURL = URL + context.getResources().getString(R.string.ConnectionURL) + "/insertFrecHed";
+//			boolean bStatus = false;
+//			try {
+//				bStatus = NetworkFunctions.mHttpManager(networkFunctions.syncReceipt(),List.toString());
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			// boolean bStatus = UtilityContainer.mHttpManager(sURL, new Gson().toJson(c));
+//
+//			if (bStatus) {
+//				c.setFPRECHED_ISSYNCED("1");
+//			} else {
+//				c.setFPRECHED_ISSYNCED("0");
+//			}
+//
+//
+//			Log.v("## Json ##",  List.toString());
 			
 
 				
