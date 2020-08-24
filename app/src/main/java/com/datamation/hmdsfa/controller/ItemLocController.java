@@ -242,37 +242,23 @@ public class ItemLocController
         } else if (!dB.isOpen()) {
             open();
         }
-
         try {
 
             ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrint(RefNo);
 
             for (InvDet item : list) {
 
-                double qoh = 0;
 
-                Cursor cursor = dB.rawQuery("SELECT * FROM " + VanStockController.TABLE_FVANSTOCK + " WHERE " + VanStockController.FVAN_BARCODE + "='" + item.getFINVDET_BARCODE()+ "' AND " + VanStockController.FVAN_TO_LOCATION_CODE + "='" + locCode + "'", null);
-                int Qty = Integer.parseInt(item.getFINVDET_QTY());
-
-                if (cursor.getCount() > 0) {
-
-                    while (cursor.moveToNext()) {
-                        qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex(VanStockController.FVAN_QUANTITY_ISSUED)));
-                    }
-
-                    ContentValues values = new ContentValues();
+               int Qty = Integer.parseInt(item.getFINVDET_QTY());
 
                     if (Task.equals("+")) {
-                        values.put(VanStockController.FVAN_QUANTITY_ISSUED, String.valueOf(qoh + Qty));
+                        String updateQuery = "UPDATE fVanStock SET Quantity_Issued= Quantity_Issued+'" + Qty + "' where To_Location_Code = '"+ locCode+"' and BarCode = '"+item.getFINVDET_BARCODE()+"'";
+                        dB.execSQL(updateQuery);
+
                     } else {
-                        values.put(VanStockController.FVAN_QUANTITY_ISSUED, String.valueOf(qoh - Qty));
+                        String updateQuery = "UPDATE fVanStock SET Quantity_Issued= Quantity_Issued-'" +Qty + "' where To_Location_Code = '"+ locCode+"' and BarCode = '"+item.getFINVDET_BARCODE()+"'";
+                        dB.execSQL(updateQuery);
                     }
-
-                    dB.update(VanStockController.FVAN_QUANTITY_ISSUED, values, VanStockController.FVAN_BARCODE + "=? AND " + VanStockController.FVAN_TO_LOCATION_CODE + "=?", new String[]{item.getFINVDET_ITEM_CODE(), locCode});
-
-                }
-
-                cursor.close();
 
             }
 

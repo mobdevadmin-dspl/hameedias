@@ -276,4 +276,32 @@ public class AttendanceController {
         }
         return false;
     }
+    public int yesterdayMeterReading(String Ydate) {
+        String[] dates = Ydate.split("-");
+        int day = Integer.parseInt(dates[2].toString());
+        day = day - 1;
+        String oldDate = dates[0] + "-" + dates[1] + "-" + day;
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        try {
+            String selectQuery = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + ValueHolder.ATTENDANCE_F_TIME + " IS NOT NULL AND " + ValueHolder.ATTENDANCE_F_KM + " IS NOT NULL AND " + ValueHolder.ATTENDANCE_DATE + "='" + oldDate + "' AND " + ValueHolder.ATTENDANCE_S_KM + " IS NOT NULL AND " + ValueHolder.ATTENDANCE_S_TIME + " IS NOT NULL";
+            Cursor cursor = dB.rawQuery(selectQuery, null);
+
+            if (cursor.getCount() > 0)
+                return Integer.parseInt(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_F_KM)));
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return 0;
+
+    }
 }

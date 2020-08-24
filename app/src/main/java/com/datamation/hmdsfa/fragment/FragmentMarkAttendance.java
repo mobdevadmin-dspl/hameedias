@@ -193,41 +193,46 @@ public class FragmentMarkAttendance extends Fragment implements View.OnClickList
         int id = view.getId();
         switch (id) {
             case R.id.buttonStart:
-                if (TextUtils.isDigitsOnly(editTextEkm.getText())) {
+                if (TextUtils.isDigitsOnly(editTextSkm.getText())) {
                     if (editTextDate.length() > 0 && editTextStime.length() > 0 && editTextVehicle.length() > 0 && editTextDriver.length() > 0 ) {
-                        AttendanceController tourDS = new AttendanceController(getActivity());
 
-                        Attendance tour = new Attendance();
-                        tour.setFTOUR_DATE(editTextDate.getText().toString());
-                        tour.setFTOUR_S_TIME(editTextStime.getText().toString());
-                        tour.setFTOUR_VEHICLE(editTextVehicle.getText().toString());
-                        tour.setFTOUR_DRIVER(editTextDriver.getText().toString());
-                       // tour.setFTOUR_ASSIST(editTextAsst.getText().toString());
-                        tour.setFTOUR_ASSIST("No assistant for hameedias");
-                        tour.setFTOUR_S_KM(editTextSkm.getText().toString());
-                        tour.setFTOUR_ROUTE(editTextRoute.getText().toString());
-                        tour.setFTOUR_IS_SYNCED("0");
-                        tour.setFTOUR_MAC(SharedPref.getInstance(getActivity()).getGlobalVal("MAC_Address").toString());
-                        tour.setFTOUR_STLATITIUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Longitude").equals("") ? "0.00" : sharedPref.getGlobalVal("Longitude"));
-                        tour.setFTOUR_STLONGTITIUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Latitude").equals("") ? "0.00" : sharedPref.getGlobalVal("Latitude"));
-                        //   tour.setFTOUR_REPCODE(SharedPref.getInstance(getActivity()).getLoginUser().getCode());
+                       if(Integer.parseInt(editTextSkm.getText().toString())< new AttendanceController(getActivity()).yesterdayMeterReading(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+                           AttendanceController tourDS = new AttendanceController(getActivity());
 
-                        //insert into db
-                        long result = tourDS.InsertUpdateTourData(tour,0);
-                        System.out.println("long" + result);
-                        if (result > 0) {
+                           Attendance tour = new Attendance();
+                           tour.setFTOUR_DATE(editTextDate.getText().toString());
+                           tour.setFTOUR_S_TIME(editTextStime.getText().toString());
+                           tour.setFTOUR_VEHICLE(editTextVehicle.getText().toString());
+                           tour.setFTOUR_DRIVER(editTextDriver.getText().toString());
+                           // tour.setFTOUR_ASSIST(editTextAsst.getText().toString());
+                           tour.setFTOUR_ASSIST("No assistant for hameedias");
+                           tour.setFTOUR_S_KM(editTextSkm.getText().toString());
+                           tour.setFTOUR_ROUTE(editTextRoute.getText().toString());
+                           tour.setFTOUR_IS_SYNCED("0");
+                           tour.setFTOUR_MAC(SharedPref.getInstance(getActivity()).getGlobalVal("MAC_Address").toString());
+                           tour.setFTOUR_STLATITIUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Longitude").equals("") ? "0.00" : sharedPref.getGlobalVal("Longitude"));
+                           tour.setFTOUR_STLONGTITIUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Latitude").equals("") ? "0.00" : sharedPref.getGlobalVal("Latitude"));
+                           //   tour.setFTOUR_REPCODE(SharedPref.getInstance(getActivity()).getLoginUser().getCode());
 
-                            SharedPref sharedPref = SharedPref.getInstance(getActivity());
-                            sharedPref.setGlobalVal("dayStart", "Y");
-                            sharedPref.setGlobalVal("DayStartDate", ""+dateFormat.format(new Date(timeInMillis)));
+                           //insert into db
+                           long result = tourDS.InsertUpdateTourData(tour, 0);
+                           System.out.println("long" + result);
+                           if (result > 0) {
 
-                            Toast.makeText(getActivity(), "Day start info saved! ", Toast.LENGTH_SHORT).show();
-                            clearTextFields();
-                            Intent intent = new Intent(getActivity(), DebtorListActivity.class);
-                            startActivity(intent);
-                            getActivity().finish();
-                            //UtilityContainer.mLoadFragment(new SalesManagementFragment(), getActivity());
-                        }
+                               SharedPref sharedPref = SharedPref.getInstance(getActivity());
+                               sharedPref.setGlobalVal("dayStart", "Y");
+                               sharedPref.setGlobalVal("DayStartDate", "" + dateFormat.format(new Date(timeInMillis)));
+
+                               Toast.makeText(getActivity(), "Day start info saved! ", Toast.LENGTH_SHORT).show();
+                               clearTextFields();
+                               Intent intent = new Intent(getActivity(), DebtorListActivity.class);
+                               startActivity(intent);
+                               getActivity().finish();
+                               //UtilityContainer.mLoadFragment(new SalesManagementFragment(), getActivity());
+                           }
+                       }else{
+                           Toast.makeText(getActivity(), "Meter Reading Invalid(less than yesterday reading)", Toast.LENGTH_SHORT).show();
+                       }
                     } else {
                         Toast.makeText(getActivity(), "Fill in the fields!", Toast.LENGTH_SHORT).show();
                     }
