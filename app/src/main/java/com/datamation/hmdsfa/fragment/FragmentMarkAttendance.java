@@ -195,8 +195,10 @@ public class FragmentMarkAttendance extends Fragment implements View.OnClickList
             case R.id.buttonStart:
                 if (TextUtils.isDigitsOnly(editTextSkm.getText())) {
                     if (editTextDate.length() > 0 && editTextStime.length() > 0 && editTextVehicle.length() > 0 && editTextDriver.length() > 0 ) {
-
-                       if(Integer.parseInt(editTextSkm.getText().toString())< new AttendanceController(getActivity()).yesterdayMeterReading(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+                        int yesterdayMeter = new AttendanceController(getActivity()).yesterdayMeterReading(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                        int todayMeter = Integer.parseInt(editTextSkm.getText().toString());
+                        int validateMeter = todayMeter - yesterdayMeter;
+                       if(validateMeter>=0) {
                            AttendanceController tourDS = new AttendanceController(getActivity());
 
                            Attendance tour = new Attendance();
