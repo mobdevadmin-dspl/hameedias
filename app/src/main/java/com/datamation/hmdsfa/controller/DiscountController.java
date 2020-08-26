@@ -272,9 +272,9 @@ public class DiscountController {
                         mTranSODet.setFINVDET_DIS_PER(discountdets.getProductDis());
                         mTranSODet.setFINVDET_DIS_AMT(String.valueOf(discPrice* (Double.parseDouble(mTranSODet.getFINVDET_QTY()))));
                         if(new CustomerController(context).getCustomerVatStatus(new SharedPref(context).getSelectedDebCode()).trim().equals("VAT"))
-                        mTranSODet.setFINVDET_B_SELL_PRICE(String.valueOf((Double.parseDouble(mTranSODet.getFINVDET_B_SELL_PRICE())) - discPrice));//pass for calculate tax forqow
+                        mTranSODet.setFINVDET_B_SELL_PRICE(String.valueOf((Double.parseDouble(mTranSODet.getFINVDET_SELL_PRICE())) - discPrice));//pass for calculate tax forqow
                         else
-                        mTranSODet.setFINVDET_B_SELL_PRICE(String.valueOf(Double.parseDouble(mTranSODet.getFINVDET_B_SELL_PRICE())));//pass for calculate tax forqow
+                        mTranSODet.setFINVDET_B_SELL_PRICE(String.valueOf(Double.parseDouble(mTranSODet.getFINVDET_SELL_PRICE())));//pass for calculate tax forqow
                     }else{
                         mTranSODet.setFINVDET_SCHDISPER("0");
                         mTranSODet.setFINVDET_DIS_PER("0");

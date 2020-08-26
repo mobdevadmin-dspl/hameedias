@@ -168,7 +168,7 @@ public class VATController {
 
 		ArrayList<String> list = new ArrayList<String>();
 
-		String selectQuery = "SELECT * FROM " + TABLE_VAT + " WHERE trim(" + VATDESCRIPTION + ") = '"+CusVatCode+"'";
+		String selectQuery = "SELECT * FROM " + TABLE_VAT + " WHERE trim(" + VATDESCRIPTION + ") = '"+CusVatCode+"' or trim("  + VATDESCRIPTION +") = 'NOVAT'";
 
 		Cursor cursor = dB.rawQuery(selectQuery, null);
 

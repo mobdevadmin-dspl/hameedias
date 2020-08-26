@@ -111,7 +111,7 @@ public class UploadReceipt extends AsyncTask<ArrayList<ReceiptHed>, Integer, Arr
 					Toast.makeText(context, "Error response "+t.toString(), Toast.LENGTH_SHORT).show();
 				}
 			});
-			
+
 //			List<String> List = new ArrayList<String>();
 //
 //			String sJsonHed = new Gson().toJson(c);
