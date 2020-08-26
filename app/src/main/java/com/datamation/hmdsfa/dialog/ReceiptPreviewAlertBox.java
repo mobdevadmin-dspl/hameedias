@@ -360,18 +360,30 @@ public class ReceiptPreviewAlertBox {
         String printGapAdjustJ = printGapAdjust.substring(0, Math.min(lengthDealJB, printGapAdjust.length()));
 
         String printGapAdjustK = null;
+        String printGapAdjustL = null;
 
         if(debtor.getCusAdd3() != null)
         {
             int lengthDealK = debtor.getCusAdd3().length();
             int lengthDealKB = (LINECHAR - lengthDealK) / 2;
              printGapAdjustK = printGapAdjust.substring(0, Math.min(lengthDealKB, printGapAdjust.length()));
+        }else{
+            int lengthDealK = 1;
+            int lengthDealKB = (LINECHAR - lengthDealK) / 2;
+            printGapAdjustK = printGapAdjust.substring(0, Math.min(lengthDealKB, printGapAdjust.length()));
         }
 
+        if(debtor.getCusMob() != null)
+        {
+            int lengthDealL = debtor.getCusMob().length();
+            int lengthDealLB = (LINECHAR - lengthDealL) / 2;
+            printGapAdjustL = printGapAdjust.substring(0, Math.min(lengthDealLB, printGapAdjust.length()));
+        }else{
+            int lengthDealL = 1;
+            int lengthDealLB = (LINECHAR - lengthDealL) / 2;
+            printGapAdjustL = printGapAdjust.substring(0, Math.min(lengthDealLB, printGapAdjust.length()));
+        }
 
-        int lengthDealL = debtor.getCusMob().length();
-        int lengthDealLB = (LINECHAR - lengthDealL) / 2;
-        String printGapAdjustL = printGapAdjust.substring(0, Math.min(lengthDealLB, printGapAdjust.length()));
 
         String subTitleheadI = printGapAdjustI + debtor.getCusName();
         String subTitleheadJ = printGapAdjustJ + debtor.getCusAdd1() + "," + debtor.getCusAdd2();
@@ -423,14 +435,14 @@ public class ReceiptPreviewAlertBox {
         Heading_d = "";
         countCountInv = 0;
 
-        if (subTitleheadK.toString().equalsIgnoreCase(" ")) {
+        if (subTitleheadK.toString().equalsIgnoreCase(" ") && subTitleheadK.toString()!= null) {
             Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
            // Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
         } else
             Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_L + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
            // Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_L + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
 
-        String title_cb = "\r\nINVNO         INV DATE  TOT DUE        PAID ";
+        String title_cb = "\r\nINVNO         INV DATE     TOT DUE     PAID ";
 
         Heading_b = "\r\n" + printLineSeperator + title_cb + "\r\n" + printLineSeperator;
 
@@ -445,7 +457,7 @@ public class ReceiptPreviewAlertBox {
             Date date = new Date();
             long txn = 0;
 
-            String Refno = recDet.getFPRECDET_SALEREFNO();
+            String Refno = recDet.getFPRECDET_SALEREFNO()+" ";
             String InvDate = recDet.getFPRECDET_DTXNDATE();
 
             /*try {
@@ -461,13 +473,13 @@ public class ReceiptPreviewAlertBox {
             String BalAmt = String.format(Locale.US, "%.2f",Double.parseDouble(recDet.getFPRECDET_OVPAYAMT()));;
             String Amt = recDet.getFPRECDET_ALOAMT();//String.format(Locale.US, "%,.2f", Double.parseDouble(recDet.getFPRECDET_ALOAMT()));;
             //SPACE1 = String.format("%" + (13 - (Refno.length())) + "s", " ");
-            SPACE1 = padString("",(13 - (Refno.length())));
+            SPACE1 = padString("",(15 - (Refno.length())));
             //SPACE2 = String.format("%" + (12 - (InvDate.length())) + "s", " ");
             SPACE2 = padString("",(13 - (InvDate.length())));
             //SPACE3 = String.format("%" + (8 - (Amt.length())) + "s", " ");
             SPACE3 = padString("",(9 - (BalAmt.length())));
             //SPACE4 = String.format("%" + (7 - (numOfDays.length())) + "s", " ");
-            SPACE4 = padString("",(12 - (Amt.length())));
+            SPACE4 = padString("",(10 - (Amt.length())));
             Heading_d += "\r\n" + Refno + SPACE1 + InvDate  + SPACE3 +BalAmt + SPACE4 + Amt;
         }
 
@@ -532,44 +544,45 @@ public class ReceiptPreviewAlertBox {
 
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-        String summaryBottom_cpoyline1 = " Developed by Datamation Systems. ";
+        String summaryBottom_cpoyline1 = " By Datamation Systems/www.datamation.lk ";
         int lengthsummarybottm = summaryBottom_cpoyline1.length();
         int lengthsummarybottmline1 = (LINECHAR - lengthsummarybottm) / 2;
         String printGapbottmline1 = printGapAdjust.substring(0, Math.min(lengthsummarybottmline1, printGapAdjust.length()));
 
-        String summaryBottom_cpoyline3 = "www.datamation.lk";
-        int lengthsummarybotline3 = summaryBottom_cpoyline3.length();
-        int lengthsummarybottmline3 = (LINECHAR - lengthsummarybotline3) / 2;
-        String printGapbottmline3 = printGapAdjust.substring(0, Math.min(lengthsummarybottmline3, printGapAdjust.length()));
-
-        String summaryBottom_cpoyline2 = " +94 11 2 501202 / + 94 (0) 777 899899 ";
-        int lengthsummarybotline2 = summaryBottom_cpoyline2.length();
-        int lengthsummarybottmline2 = (LINECHAR - lengthsummarybotline2) / 2;
-        String printGapbottmline2 = printGapAdjust.substring(0, Math.min(lengthsummarybottmline2, printGapAdjust.length()));
+//        String summaryBottom_cpoyline3 = "www.datamation.lk";
+//        int lengthsummarybotline3 = summaryBottom_cpoyline3.length();
+//        int lengthsummarybottmline3 = (LINECHAR - lengthsummarybotline3) / 2;
+//        String printGapbottmline3 = printGapAdjust.substring(0, Math.min(lengthsummarybottmline3, printGapAdjust.length()));
+//
+//        String summaryBottom_cpoyline2 = " +94 11 2 501202 / + 94 (0) 777 899899 ";
+//        int lengthsummarybotline2 = summaryBottom_cpoyline2.length();
+//        int lengthsummarybottmline2 = (LINECHAR - lengthsummarybotline2) / 2;
+//        String printGapbottmline2 = printGapAdjust.substring(0, Math.min(lengthsummarybottmline2, printGapAdjust.length()));
 
         String bottomTitleString = "";
 
         if (recHed.getFPRECHED_PAYTYPE().equals("CA"))
         {
-            bottomTitleString = summaryTitle_c_Val + "\r\n" + summaryTitle_e_Val;
+            bottomTitleString = summaryTitle_c_Val + "\r\n\n" + summaryTitle_e_Val;
 
         }
         else if (recHed.getFPRECHED_PAYTYPE().equals("CH"))
         {
-            bottomTitleString = summaryTitle_c_Val + "\r\n" + summaryTitle_e_Val + "\r\n" + summeryCHqNo + "\r\n" + summaryBank + "\r\n" + summeryCHqDate;
+            bottomTitleString = summaryTitle_c_Val + "\r\n\n" + summaryTitle_e_Val + "\r\n" + summeryCHqNo + "\r\n" + summaryBank + "\r\n" + summeryCHqDate;
         }
         else
         {
-            bottomTitleString = summaryTitle_c_Val + "\r\n" + summaryTitle_e_Val + "\r\n" + summeryCHqNo + "\r\n"  + summeryCHqDate;
+            bottomTitleString = summaryTitle_c_Val + "\r\n\n" + summaryTitle_e_Val + "\r\n" + summeryCHqNo + "\r\n"  + summeryCHqDate;
         }
 
         String buttomTitlef = "\r\n\n\n" + "Receipt Accepted............................";
         String buttomTitlefa = "\r\n\n\n" + "Please place The Rubber Stamp.";
         String buttomTitlecopyw = "\r\n\n\n" + printGapbottmline1 + summaryBottom_cpoyline1;
-        String buttomTitlecopywbottom = "\r\n" + printGapbottmline2 + summaryBottom_cpoyline2;
-        String buttomTitlecopywbottom3 = "\r\n" + printGapbottmline3 + summaryBottom_cpoyline3;
+//        String buttomTitlecopywbottom = "\r\n" + printGapbottmline2 + summaryBottom_cpoyline2;
+//        String buttomTitlecopywbottom3 = "\r\n" + printGapbottmline3 + summaryBottom_cpoyline3;
 
-        buttomRaw = "\r\n" + printLineSeperator + "\r\n" + bottomTitleString + "\r\n" + printLineSeperator + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperator + buttomTitlecopyw + buttomTitlecopywbottom + buttomTitlecopywbottom3 + "\r\n\n\n\n\n\n\n" + printLineSeperator + "\n";
+      //  buttomRaw = "\r\n" + printLineSeperator + "\r\n" + bottomTitleString + "\r\n" + printLineSeperator + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperator + buttomTitlecopyw + buttomTitlecopywbottom + buttomTitlecopywbottom3 + "\r\n\n\n\n\n\n\n" + printLineSeperator + "\n";
+        buttomRaw = "\r\n" + printLineSeperator + "\r\n" + bottomTitleString + "\r\n" + printLineSeperator + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperator + buttomTitlecopyw  + "\r\n\n\n\n\n\n\n" + printLineSeperator + "\n";
 
         callPrintDevice();
 

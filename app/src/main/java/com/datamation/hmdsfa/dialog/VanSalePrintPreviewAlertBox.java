@@ -560,7 +560,7 @@ public class VanSalePrintPreviewAlertBox {
         // if (invHed.getFINVHED_INV_TYPE().equals("NON")) {
 
 
-        sGross = String.format(Locale.US, "%,.2f", totalamt);
+        sGross = String.format(Locale.US, "%,.2f", totalamt-totaltax);
 
 
      //   int totReturnQty = 0;
