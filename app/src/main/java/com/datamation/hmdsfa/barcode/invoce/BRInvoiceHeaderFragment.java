@@ -153,6 +153,8 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
+                new SharedPref(getActivity()).setGlobalVal("KeyPayType", "");
+                Log.v("PAYMENT TYPE", spnPayMethod.getSelectedItem().toString());
 
             }
         });
@@ -173,7 +175,8 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-
+                new SharedPref(getActivity()).setGlobalVal("KeyVat", "");
+                Log.v("VAT", spnVat.getSelectedItem().toString());
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
@@ -241,12 +244,23 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
            // hed.setFINVHED_AREACODE(SharedPref.getInstance(getActivity()).getSelectedDebName());
              hed.setFINVHED_LOCCODE(new SalRepController(getActivity()).getCurrentLoccode());
             hed.setFINVHED_ROUTECODE(new RouteDetController(getActivity()).getRouteCodeByDebCode(new SharedPref(getActivity()).getSelectedDebCode()));
-            hed.setFINVHED_PAYTYPE(new SharedPref(getActivity()).getGlobalVal("KeyPayType"));
+            if(new SharedPref(getActivity()).getGlobalVal("KeyPayType").equals("")){
+                hed.setFINVHED_PAYTYPE(spnPayMethod.getSelectedItem().toString());
+                new SharedPref(getActivity()).setGlobalVal("KeyPayType",spnPayMethod.getSelectedItem().toString());
+            }else{
+                hed.setFINVHED_PAYTYPE(new SharedPref(getActivity()).getGlobalVal("KeyPayType"));
+            }
+
             hed.setFINVHED_COSTCODE("");
             hed.setFINVHED_AREACODE(new RouteController(getActivity()).getAreaCodeByRouteCode(hed.getFINVHED_ROUTECODE()));
 
-            hed.setFINVHED_VAT_CODE(new SharedPref(getActivity()).getGlobalVal("KeyVat"));
 
+            if(new SharedPref(getActivity()).getGlobalVal("KeyVat").equals("")){
+                hed.setFINVHED_PAYTYPE(spnVat.getSelectedItem().toString().split("-")[0].trim());
+                new SharedPref(getActivity()).setGlobalVal("KeyVat",spnVat.getSelectedItem().toString().split("-")[0].trim());
+            }else{
+                hed.setFINVHED_VAT_CODE(new SharedPref(getActivity()).getGlobalVal("KeyVat"));
+            }
 
             // SharedPreferencesClass.setLocalSharedPreference(activity, "Van_Start_Time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()));
             ArrayList<InvHed> ordHedList = new ArrayList<>();

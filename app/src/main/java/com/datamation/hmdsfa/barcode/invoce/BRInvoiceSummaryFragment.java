@@ -189,7 +189,8 @@ public class BRInvoiceSummaryFragment extends Fragment {
         alertDialogBuilder.setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
-
+                new SharedPref(getActivity()).setGlobalVal("KeyVat","");
+                new SharedPref(getActivity()).setGlobalVal("KeyPayType","");
                 RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
 
                 String orRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
@@ -272,6 +273,8 @@ public class BRInvoiceSummaryFragment extends Fragment {
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
                     public void onClick(final DialogInterface dialog, int id) {
+                        new SharedPref(getActivity()).setGlobalVal("KeyVat","");
+                        new SharedPref(getActivity()).setGlobalVal("KeyPayType","");
                         ArrayList<InvHed> invHedList = new ArrayList<InvHed>();
                         InvHed invHed = new InvHedController(getActivity()).getActiveInvhed();
                         InvHed sHed = new InvHed();
