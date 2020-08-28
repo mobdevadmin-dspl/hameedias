@@ -227,7 +227,7 @@ public class BRInvoiceDetailFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 mSharedPref.setDiscountClicked("1");
-                if(clickCount == 0) {
+                if(clickCount == 0 && mSharedPref.getDiscountClicked().equals("1")) {
 
                     if(new DiscountController(getActivity()).IsDiscountCustomer(mSharedPref.getSelectedDebCode())>0)
                     {

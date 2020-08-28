@@ -276,7 +276,7 @@ public class AttendanceController {
         }
         return false;
     }
-    public int yesterdayMeterReading(String Ydate) {
+    public String yesterdayMeterReading(String Ydate) {
         String[] dates = Ydate.split("-");
         int day = Integer.parseInt(dates[2].toString());
         day = day - 1;
@@ -286,13 +286,16 @@ public class AttendanceController {
         } else if (!dB.isOpen()) {
             open();
         }
+        String selectQuery = "SELECT EndKm FROM attendance LIMIT 1";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
-            String selectQuery = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + ValueHolder.ATTENDANCE_F_TIME + " IS NOT NULL AND " + ValueHolder.ATTENDANCE_F_KM + " IS NOT NULL AND " + ValueHolder.ATTENDANCE_DATE + "='" + oldDate + "' AND " + ValueHolder.ATTENDANCE_S_KM + " IS NOT NULL AND " + ValueHolder.ATTENDANCE_S_TIME + " IS NOT NULL";
-            Cursor cursor = dB.rawQuery(selectQuery, null);
+            while (cursor.moveToNext()) {
 
-            if (cursor.getCount() > 0)
-                return Integer.parseInt(cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_F_KM)));
+                return cursor.getString(cursor.getColumnIndex(ValueHolder.ATTENDANCE_F_KM));
 
+
+            }
         } catch (Exception e) {
 
             Log.v(TAG + " Exception", e.toString());
@@ -300,8 +303,7 @@ public class AttendanceController {
         } finally {
             dB.close();
         }
-
-        return 0;
+        return "0";
 
     }
 }

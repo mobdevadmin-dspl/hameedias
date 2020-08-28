@@ -550,7 +550,7 @@ public class ReceiptHeader extends Fragment {
             recHed.setFPRECHED_CHQNO("");
             recHed.setFPRECHED_CHQDATE("");
         } else if (spnPayMode.getSelectedItemPosition() == 2) {
-            recHed.setFPRECHED_CUSBANK(spnBank1.getSelectedItem().toString());
+            recHed.setFPRECHED_CUSBANK(spnBank1.getSelectedItem().toString().split("-")[0]);
             recHed.setFPRECHED_PAYTYPE("CH");
             recHed.setFPRECHED_BANKCODE("");
             recHed.setFPRECHED_BRANCHCODE("");

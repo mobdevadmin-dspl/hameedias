@@ -148,12 +148,14 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 new SharedPref(getActivity()).setGlobalVal("KeyPayType", spnPayMethod.getSelectedItem().toString());
+                mSharedPref.setDiscountClicked("0");
                 Log.v("PAYMENT TYPE", spnPayMethod.getSelectedItem().toString());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 new SharedPref(getActivity()).setGlobalVal("KeyPayType", "");
+                mSharedPref.setDiscountClicked("0");
                 Log.v("PAYMENT TYPE", spnPayMethod.getSelectedItem().toString());
 
             }
@@ -170,12 +172,14 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 new SharedPref(getActivity()).setGlobalVal("KeyVat", spnVat.getSelectedItem().toString().split("-")[0].trim());
+                mSharedPref.setDiscountClicked("0");
                 Log.v("VAT", spnVat.getSelectedItem().toString());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 new SharedPref(getActivity()).setGlobalVal("KeyVat", "");
+                mSharedPref.setDiscountClicked("0");
                 Log.v("VAT", spnVat.getSelectedItem().toString());
             }
         });
@@ -256,7 +260,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
 
 
             if(new SharedPref(getActivity()).getGlobalVal("KeyVat").equals("")){
-                hed.setFINVHED_PAYTYPE(spnVat.getSelectedItem().toString().split("-")[0].trim());
+                hed.setFINVHED_VAT_CODE(spnVat.getSelectedItem().toString().split("-")[0].trim());
                 new SharedPref(getActivity()).setGlobalVal("KeyVat",spnVat.getSelectedItem().toString().split("-")[0].trim());
             }else{
                 hed.setFINVHED_VAT_CODE(new SharedPref(getActivity()).getGlobalVal("KeyVat"));

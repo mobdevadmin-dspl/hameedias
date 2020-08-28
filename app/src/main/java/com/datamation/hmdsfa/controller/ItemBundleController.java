@@ -313,7 +313,7 @@ public class ItemBundleController {
             open();
         }
 
-        String selectQuery = "SELECT * FROM ItemBundle WHERE ItemNo = '" + itemCode + "' and Barcode = '"+barcode+"'";
+        String selectQuery = "SELECT * FROM ItemBundle WHERE ItemNo = '" + itemCode + "' and Barcode = '"+barcode+"' and VariantColour in (Select productgroup from discount)";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
@@ -333,6 +333,7 @@ public class ItemBundleController {
         }
         return "";
     }
+
     public int deleteAll() {
 
         int count = 0;

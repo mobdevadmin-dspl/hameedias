@@ -376,6 +376,7 @@
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab2"
             android:layout_width="wrap_content"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_set_as"
             fab:fab_label="Pause"
