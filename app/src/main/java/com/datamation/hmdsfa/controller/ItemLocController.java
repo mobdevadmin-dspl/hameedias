@@ -383,4 +383,32 @@ public class ItemLocController
 
     }
 
+    //----------------------kaveesha -----27/08/2020-----------To Stcok Inquiry-----------------------
+    public String getTotalQOH(String LocCode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        String selectQuery = "SELECT sum(QOH) as totQty from fItemLoc where LocCode = '" + LocCode + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+                return cursor.getString(cursor.getColumnIndex("totQty"));
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return "0";
+    }
+
 }

@@ -10,18 +10,23 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.adapter.StockInquiryAdaptor;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.SalRepController;
+import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.helpers.ListExpandHelper;
 import com.datamation.hmdsfa.model.StockInfo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StockInquiryDialog
 {
@@ -31,9 +36,10 @@ public class StockInquiryDialog
     String LocCode = "";
     ArrayList<StockInfo> arrayList;
     TextView txtTotQty;
+    Spinner spn_stock_type;
     String PRINTER_MAC_ID;
     Context context;
-    boolean isPreSale = false;
+    boolean isStock = false;
     ProgressBar prBar;
 
     public StockInquiryDialog(final Context context) {
@@ -49,13 +55,47 @@ public class StockInquiryDialog
         PRINTER_MAC_ID = localSP.getString("printer_mac_address", "").toString();
         txtTotQty = (TextView) view.findViewById(R.id.txtTotQty);
         prBar = (ProgressBar)view.findViewById(R.id.stock_progress);
+        spn_stock_type = (Spinner) view.findViewById(R.id.spn_StockType);
 
-
-            LocCode = "MS";
-
-        txtTotQty.setText(new ItemController(context).getTotalStockQOH(LocCode));
-        new LoadStockData(LocCode).execute();
         prBar.setVisibility(View.VISIBLE);
+
+        List<String> listStockType = new ArrayList<String>();
+        listStockType.add("VAN STOCK");
+        listStockType.add("MAIN STOCK");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item, listStockType);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spn_stock_type.setAdapter(dataAdapter);
+
+        spn_stock_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    if(position == 0){//van stock
+                        isStock = false;
+                        lvStockData.setAdapter(null);
+                        LocCode = new SalRepController(context).getCurrentLoccode().trim();
+                        txtTotQty.setText(new VanStockController(context).getTotalQOH(LocCode));
+                        new LoadStockData().execute();
+                    }
+                    else if(position == 1)//Main stock
+                    {
+                        isStock = true;
+                        lvStockData.setAdapter(null);
+                        LocCode = "MS";
+                        txtTotQty.setText(new ItemController(context).getTotalStockQOH(LocCode));
+                        new LoadStockData().execute();
+                    }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -138,9 +178,9 @@ public class StockInquiryDialog
         StockInquiryAdaptor adaptor;
         String locCode;
 
-        public LoadStockData(String locCode) {
-            this.locCode = locCode;
-        }
+//        public LoadStockData(String locCode) {
+//            this.locCode = locCode;
+//        }
 
         @Override
         protected void onPreExecute() {
@@ -156,9 +196,24 @@ public class StockInquiryDialog
 
         @Override
         protected String doInBackground(String... params) {
+//
+//            arrayList = new ItemController(context).getStocks("", locCode);
+//
+//
+//            adaptor = new StockInquiryAdaptor(context, arrayList);
 
-            arrayList = new ItemController(context).getStocks("", locCode);
 
+            if(!isStock)
+            {
+                LocCode = new SalRepController(context).getCurrentLoccode().trim();
+                arrayList = new VanStockController(context).getVanStocks("", locCode);
+
+            }
+            else
+            {
+                LocCode = "MS";
+                arrayList = new ItemController(context).getStocks("", locCode);
+            }
 
             adaptor = new StockInquiryAdaptor(context, arrayList);
             return null;

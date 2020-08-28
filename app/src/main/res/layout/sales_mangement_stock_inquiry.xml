@@ -14,6 +14,33 @@
 
         <TableRow
             android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Spinner
+                android:id="@+id/spn_StockType"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="55dp"
+                android:background="@drawable/edittextstyle"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:textSize="14sp" />
+
+        </TableRow>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"
+        android:background="@drawable/custom_label"
+        android:orientation="vertical">
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:weightSum="5">
 

@@ -10,9 +10,13 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.model.StockInfo;
 import com.datamation.hmdsfa.model.VanStock;
 
 import java.util.ArrayList;
+
+import static com.datamation.hmdsfa.controller.ItemController.FITEM_ITEM_CODE;
+import static com.datamation.hmdsfa.controller.ItemController.FITEM_ITEM_NAME;
 
 public class VanStockController {
 
@@ -144,4 +148,68 @@ public class VanStockController {
         return "0";
     }
 
+    //----------------------kaveesha -----27/08/2020-----------To Stcok Inquiry-----------------------
+    public String getTotalQOH(String LocCode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        String selectQuery = "SELECT sum(Quantity_Issued) as totQty from fVanStock where To_Location_Code = '" + LocCode + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+                return cursor.getString(cursor.getColumnIndex("totQty"));
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return "0";
+    }
+
+    //----------kaveesha ---------27/08/2020------------------To get Stock-------------------------------------
+    public ArrayList<StockInfo> getVanStocks(String newText, String LocCode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<StockInfo> list = new ArrayList<StockInfo>();
+
+        String selectQuery = "SELECT itm.* , vstock.To_Location_Code, vstock.Quantity_Issued FROM fitem itm, fvanstock vstock WHERE vstock.Item_No=itm.itemcode GROUP BY Item_No ORDER BY vstock.Quantity_Issued DESC";
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+
+            while (cursor.moveToNext()) {
+
+                StockInfo items = new StockInfo();
+                double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex(VanStockController.FVAN_QUANTITY_ISSUED)));
+                if (qoh > 0) {
+                    items.setStock_Itemcode(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_CODE)));
+                    //items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
+                    items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(VanStockController.FVAN_TO_LOCATION_CODE)) + " - " + cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
+                    items.setStock_Qoh(((int) qoh) + "");
+                    list.add(items);
+                }
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            dB.close();
+        }
+        return list;
+    }
 }
