@@ -41,8 +41,11 @@ import com.datamation.hmdsfa.barcode.upload.UploadExpenses;
 import com.datamation.hmdsfa.barcode.upload.UploadNonProd;
 import com.datamation.hmdsfa.barcode.upload.UploadReceipt;
 import com.datamation.hmdsfa.controller.AttendanceController;
+import com.datamation.hmdsfa.controller.BarcodeVarientController;
 import com.datamation.hmdsfa.controller.NewCustomerController;
+import com.datamation.hmdsfa.controller.OutstandingController;
 import com.datamation.hmdsfa.controller.ReceiptController;
+import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.model.Attendance;
 import com.datamation.hmdsfa.model.NewCustomer;
 import com.datamation.hmdsfa.model.ReceiptHed;
@@ -1515,6 +1518,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing fddbnote
 
+                    OutstandingController outstandingController = new OutstandingController(getActivity());
+                    outstandingController.deleteAll();
                     try {
                         UtilityContainer.download(getActivity(),TaskTypeDownload.fddbnote, networkFunctions.getFddbNotes(repcode));
                     } catch (IOException e) {
@@ -1533,6 +1538,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
                     // Processing van stock
+
+                    VanStockController vanStockController = new VanStockController(getActivity());
+                    vanStockController.deleteAll();
                     try {
                         UtilityContainer.download(getActivity(),TaskTypeDownload.VanStock, networkFunctions.getVanStock(repcode));
                     } catch (Exception e) {
@@ -1549,6 +1557,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
 
                     // Processing Barcode Varient
+
+                    BarcodeVarientController barcodeVarientController = new BarcodeVarientController(getActivity());
+                    barcodeVarientController.deleteAll_BarcodeVariant();
                     try {
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Barcodevarient, networkFunctions.getBarcodeVariant(repcode));
                     } catch (Exception e) {
