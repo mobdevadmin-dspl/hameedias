@@ -642,6 +642,9 @@ public class ReceiptPreviewAlertBox {
             }
             printBillToDevice(PRINTER_MAC_ID);
             IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            Intent intent = new Intent(context, DebtorDetailsActivity.class);
+            intent.putExtra("outlet", debtor);
+            context.startActivity(intent);
             // registerReceiver(mReceiver, filter); // Don't forget to
             // unregister
             // during
@@ -665,6 +668,10 @@ public class ReceiptPreviewAlertBox {
                         mBTAdapter.cancelDiscovery();
                         dialogProgress.dismiss();
                         printBillToDevice(PRINTER_MAC_ID);
+                        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+                        Intent intent1 = new Intent(context, DebtorDetailsActivity.class);
+                        intent1.putExtra("outlet", debtor);
+                        context.startActivity(intent1);
                     }
                 }
             } catch (Exception e) {
@@ -691,6 +698,9 @@ public class ReceiptPreviewAlertBox {
 
             if (mBTAdapter != null)
                 mBTAdapter.cancelDiscovery();
+
+
+
             // setResult(RESULT_OK);
             // finish();
         } catch (Exception e) {

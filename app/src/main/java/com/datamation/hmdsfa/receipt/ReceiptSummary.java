@@ -183,7 +183,9 @@ public class ReceiptSummary extends Fragment {
 
                 ReceiptActivity activity = (ReceiptActivity) getActivity();
                 new OutstandingController(getActivity()).ClearFddbNoteData();
-                new ReceiptController(getActivity()).CancelReceiptS(RefNo);
+                if(new ReceiptController(getActivity()).CancelReceiptS(RefNo)>0){
+                    new ReceiptDetController(getActivity()).restData(RefNo);
+                }
 
                 //activity.cusPosition = 0;
                 activity.selectedDebtor = null;

@@ -260,7 +260,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
 
 
             if(new SharedPref(getActivity()).getGlobalVal("KeyVat").equals("")){
-                hed.setFINVHED_PAYTYPE(spnVat.getSelectedItem().toString().split("-")[0].trim());
+                hed.setFINVHED_VAT_CODE(spnVat.getSelectedItem().toString().split("-")[0].trim());
                 new SharedPref(getActivity()).setGlobalVal("KeyVat",spnVat.getSelectedItem().toString().split("-")[0].trim());
             }else{
                 hed.setFINVHED_VAT_CODE(new SharedPref(getActivity()).getGlobalVal("KeyVat"));
