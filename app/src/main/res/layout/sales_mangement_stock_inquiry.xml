@@ -16,6 +16,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="SELECT STOCK TYPE"
+            android:layout_weight="3"/>
+
             <Spinner
                 android:id="@+id/spn_StockType"
                 android:layout_width="0dp"
@@ -163,13 +173,72 @@
     <ListView
         android:id="@+id/listviewStockData"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="200dp"
+        android:divider="@color/list_view_diveder"
+        android:dividerHeight="1dp"
+        android:background="@android:color/white"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+    </ListView>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/custom_textbox"
+        android:weightSum="3">
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="CODE"
+            android:textColor="@color/unselected"
+            />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1.5"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="GROUP NAME"
+            android:textColor="@color/unselected"
+            />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="QOH"
+            android:textColor="@color/unselected"/>
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="PRICE"
+            android:textColor="@color/unselected"/>
+
+    </TableRow>
+
+    <ListView
+        android:id="@+id/listviewGStockData"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:divider="@color/list_view_diveder"
         android:dividerHeight="1dp"
         android:background="@android:color/white"
         android:layout_marginTop="10dp">
 
     </ListView>
-
-
 </LinearLayout>

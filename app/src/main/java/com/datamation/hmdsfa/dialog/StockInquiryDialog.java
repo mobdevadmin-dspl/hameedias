@@ -32,7 +32,7 @@ public class StockInquiryDialog
 {
     public static final String SETTINGS = "SETTINGS";
     public static SharedPreferences localSP;
-    ListView lvStockData;
+    ListView lvStockData,lvGStockData;
     String LocCode = "";
     ArrayList<StockInfo> arrayList;
     TextView txtTotQty;
@@ -51,6 +51,7 @@ public class StockInquiryDialog
         alertDialogBuilder.setView(view);
 
         lvStockData = (ListView) view.findViewById(R.id.listviewStockData);
+        lvGStockData = (ListView) view.findViewById(R.id.listviewGStockData);
         localSP = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE + Context.MODE_PRIVATE);
         PRINTER_MAC_ID = localSP.getString("printer_mac_address", "").toString();
         txtTotQty = (TextView) view.findViewById(R.id.txtTotQty);
@@ -77,15 +78,19 @@ public class StockInquiryDialog
                         lvStockData.setAdapter(null);
                         LocCode = new SalRepController(context).getCurrentLoccode().trim();
                         txtTotQty.setText(new VanStockController(context).getTotalQOH(LocCode));
-                        new LoadStockData().execute();
+                        new LoadStockData(LocCode).execute();
+                        new LoadGwiseStockData().execute();
+
                     }
                     else if(position == 1)//Main stock
                     {
                         isStock = true;
                         lvStockData.setAdapter(null);
-                        LocCode = "MS";
+                        LocCode = "MAINSTORES";
                         txtTotQty.setText(new ItemController(context).getTotalStockQOH(LocCode));
-                        new LoadStockData().execute();
+                        new LoadStockData(LocCode).execute();
+                        new LoadGwiseStockData().execute();
+
                     }
 
             }
@@ -95,7 +100,6 @@ public class StockInquiryDialog
 
             }
         });
-
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -112,6 +116,7 @@ public class StockInquiryDialog
         AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
         ListExpandHelper.getListViewSize(lvStockData);
+        ListExpandHelper.getListViewSize(lvGStockData);
 
     }
 
@@ -178,9 +183,9 @@ public class StockInquiryDialog
         StockInquiryAdaptor adaptor;
         String locCode;
 
-//        public LoadStockData(String locCode) {
-//            this.locCode = locCode;
-//        }
+        public LoadStockData(String locCode) {
+            this.locCode = locCode;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -196,22 +201,13 @@ public class StockInquiryDialog
 
         @Override
         protected String doInBackground(String... params) {
-//
-//            arrayList = new ItemController(context).getStocks("", locCode);
-//
-//
-//            adaptor = new StockInquiryAdaptor(context, arrayList);
-
 
             if(!isStock)
             {
-                LocCode = new SalRepController(context).getCurrentLoccode().trim();
-                arrayList = new VanStockController(context).getVanStocks("", locCode);
-
+                arrayList = new VanStockController(context).getVanStocks(locCode);
             }
             else
             {
-                LocCode = "MS";
                 arrayList = new ItemController(context).getStocks("", locCode);
             }
 
@@ -222,6 +218,47 @@ public class StockInquiryDialog
         @Override
         protected void onPostExecute(String result) {
             lvStockData.setAdapter(adaptor);
+//            progressDialog.dismiss();
+            prBar.setVisibility(View.GONE);
+            super.onPostExecute(result);
+        }
+    }
+
+    //-------------kaveesha -----------28/08/2020-----------To show Product Group wise stock---------------------------------
+    class LoadGwiseStockData extends AsyncTask<String, String, String> {
+
+        StockInquiryAdaptor adaptor;
+
+        @Override
+        protected void onPreExecute() {
+            prBar.setVisibility(View.VISIBLE);
+            lvGStockData.clearTextFilter();
+            lvGStockData.setAdapter(null);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            if(!isStock)
+            {
+                LocCode = new SalRepController(context).getCurrentLoccode().trim();
+                arrayList = new VanStockController(context).getGwiseVanStocks(LocCode);
+
+            }
+            else
+            {
+                LocCode = "MS";
+                arrayList = new ItemController(context).getGwiseStocks(LocCode);
+            }
+
+            adaptor = new StockInquiryAdaptor(context, arrayList);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            lvGStockData.setAdapter(adaptor);
 //            progressDialog.dismiss();
             prBar.setVisibility(View.GONE);
             super.onPostExecute(result);

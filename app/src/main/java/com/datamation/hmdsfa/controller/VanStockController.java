@@ -15,6 +15,8 @@ import com.datamation.hmdsfa.model.VanStock;
 
 import java.util.ArrayList;
 
+import static com.datamation.hmdsfa.controller.ItemController.FGROUP_CODE;
+import static com.datamation.hmdsfa.controller.ItemController.FITEM_GROUP_CODE;
 import static com.datamation.hmdsfa.controller.ItemController.FITEM_ITEM_CODE;
 import static com.datamation.hmdsfa.controller.ItemController.FITEM_ITEM_NAME;
 
@@ -177,7 +179,7 @@ public class VanStockController {
     }
 
     //----------kaveesha ---------27/08/2020------------------To get Stock-------------------------------------
-    public ArrayList<StockInfo> getVanStocks(String newText, String LocCode) {
+    public ArrayList<StockInfo> getVanStocks(String LocCode) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -186,14 +188,15 @@ public class VanStockController {
 
         ArrayList<StockInfo> list = new ArrayList<StockInfo>();
 
-        String selectQuery = "SELECT itm.* , vstock.To_Location_Code, vstock.Quantity_Issued FROM fitem itm, fvanstock vstock WHERE vstock.Item_No=itm.itemcode GROUP BY Item_No ORDER BY vstock.Quantity_Issued DESC";
+        String selectQuery = "        \n" +
+                "SELECT itm.* ,vstock.To_Location_Code, sum(vstock.Quantity_Issued) as totqty FROM fitem itm, fvanstock vstock WHERE vstock.To_Location_Code ='VAN13A' AND vstock.Item_No=itm.itemcode GROUP BY Item_No ORDER BY totqty DESC";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 
             while (cursor.moveToNext()) {
 
                 StockInfo items = new StockInfo();
-                double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex(VanStockController.FVAN_QUANTITY_ISSUED)));
+                double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totqty")));
                 if (qoh > 0) {
                     items.setStock_Itemcode(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_CODE)));
                     //items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
@@ -202,14 +205,54 @@ public class VanStockController {
                     list.add(items);
                 }
             }
-
-            cursor.close();
         } catch (Exception e) {
             e.printStackTrace();
-
-        } finally {
+        }  finally {
+            if (cursor != null) {
+                cursor.close();
+            }
             dB.close();
         }
+        return list;
+    }
+
+    //----------kaveesha ---------28/08/2020------------------To get Product Group wise Stock-------------------------------------
+    public ArrayList<StockInfo> getGwiseVanStocks(String LocCode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<StockInfo> list = new ArrayList<StockInfo>();
+
+        String selectQuery = "SELECT itm.* , vstock.To_Location_Code, sum(vstock.Quantity_Issued)as totqty FROM fitem itm, fvanstock vstock WHERE  vstock.To_Location_Code ='" + LocCode + "' AND vstock.Item_No=itm.itemcode GROUP BY GroupCode ORDER BY totqty DESC";
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+
+            while (cursor.moveToNext()) {
+
+                StockInfo items = new StockInfo();
+                double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totqty")));
+                //double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex(VanStockController.FVAN_QUANTITY_ISSUED)));
+                if (qoh > 0) {
+                    items.setStock_Itemcode(cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
+                    //items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
+                    items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(VanStockController.FVAN_TO_LOCATION_CODE)) + " - " + cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
+                    items.setStock_Qoh(((int) qoh) + "");
+                    list.add(items);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally
+        {
+            if (cursor != null) {
+                    cursor.close();
+                }
+                dB.close();
+            }
         return list;
     }
 }
