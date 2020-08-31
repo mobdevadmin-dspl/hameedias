@@ -41,6 +41,7 @@ import com.datamation.hmdsfa.controller.OrderController;
 import com.datamation.hmdsfa.controller.OutstandingController;
 import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.RouteDetController;
+import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.SalesPriceController;
 import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
@@ -442,7 +443,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     String barcodeVariant = "";
                     try {
-                        barcodeVariant = networkFunctions.getBarcodeVariant(repcode);
+                        barcodeVariant = networkFunctions.getBarcodeVariant(repcode,new SalRepController(getActivity()).getRepType().trim());
                         // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -533,7 +534,8 @@ public class FragmentCategoryWiseDownload extends Fragment {
         protected Boolean doInBackground(String... arg0) {
             try {
                 if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
-
+                    SalesPriceController salesPriceController = new SalesPriceController(getActivity());
+                    salesPriceController.deleteAll();
                     /*****************Sales Price****************************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -556,8 +558,6 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject salesPriceJSON = new JSONObject(salespri);
                         JSONArray salesPriJSONJSONArray = salesPriceJSON.getJSONArray("SalesPriceResult");
                         ArrayList<SalesPrice> salesPriList = new ArrayList<SalesPrice>();
-                        SalesPriceController salesPriceController = new SalesPriceController(getActivity());
-                        salesPriceController.deleteAll();
                         for (int i = 0; i < salesPriJSONJSONArray.length(); i++) {
                             //  Log.d(">>>", ">>>" + i);
                             salesPriList.add(SalesPrice.parseSalespri(salesPriJSONJSONArray.getJSONObject(i)));
@@ -642,7 +642,18 @@ public class FragmentCategoryWiseDownload extends Fragment {
         protected Boolean doInBackground(String... arg0) {
             try {
                 if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
-
+                    FreeHedController freeHedController = new FreeHedController(getActivity());
+                    freeHedController.deleteAll();
+                    FreeDetController freedetController = new FreeDetController(getActivity());
+                    freedetController.deleteAll();
+                    FreeDebController freedebController = new FreeDebController(getActivity());
+                    freedebController.deleteAll();
+                    FreeItemController freeitemController = new FreeItemController(getActivity());
+                    freeitemController.deleteAll();
+                    FreeMslabController freeMslabController = new FreeMslabController(getActivity());
+                    freeMslabController.deleteAll();
+                    FreeSlabController freeSlabController = new FreeSlabController(getActivity());
+                    freeSlabController.deleteAll();
                     /*****************FreeHed**********************************************************************/
                     String freehed = "";
                     try {
@@ -658,8 +669,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject freeHedJSON = new JSONObject(freehed);
                         JSONArray freeHedJSONArray = freeHedJSON.getJSONArray("FfreehedResult");
                         ArrayList<FreeHed> freeHedList = new ArrayList<FreeHed>();
-                        FreeHedController freeHedController = new FreeHedController(getActivity());
-                        freeHedController.deleteAll();
+
                         for (int i = 0; i < freeHedJSONArray.length(); i++) {
                             freeHedList.add(FreeHed.parseFreeHed(freeHedJSONArray.getJSONObject(i)));
                         }
@@ -685,8 +695,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject freedetJSON = new JSONObject(freedet);
                         JSONArray freedetJSONArray = freedetJSON.getJSONArray("FfreedetResult");
                         ArrayList<FreeDet> freedetList = new ArrayList<FreeDet>();
-                        FreeDetController freedetController = new FreeDetController(getActivity());
-                        freedetController.deleteAll();
+
                         for (int i = 0; i < freedetJSONArray.length(); i++) {
                             freedetList.add(FreeDet.parseFreeDet(freedetJSONArray.getJSONObject(i)));
                         }
@@ -709,8 +718,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                     }
 
 
-                    FreeDebController freedebController = new FreeDebController(getActivity());
-                    freedebController.deleteAll();
+
                     // Processing freedeb
                     try {
                         JSONObject freedebJSON = new JSONObject(freedeb);
@@ -743,8 +751,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject freeitemJSON = new JSONObject(freeitem);
                         JSONArray freeitemJSONArray = freeitemJSON.getJSONArray("fFreeItemResult");
                         ArrayList<FreeItem> freeitemList = new ArrayList<FreeItem>();
-                        FreeItemController freeitemController = new FreeItemController(getActivity());
-                        freeitemController.deleteAll();
+
                         for (int i = 0; i < freeitemJSONArray.length(); i++) {
                             freeitemList.add(FreeItem.parseFreeItem(freeitemJSONArray.getJSONObject(i)));
                         }
@@ -772,8 +779,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject freemslabJSON = new JSONObject(freemslab);
                         JSONArray freemslabJSONArray = freemslabJSON.getJSONArray("fFreeMslabResult");
                         ArrayList<FreeMslab> freeMslabsList = new ArrayList<FreeMslab>();
-                        FreeMslabController freeMslabController = new FreeMslabController(getActivity());
-                        freeMslabController.deleteAll();
+
                         for (int i = 0; i < freemslabJSONArray.length(); i++) {
                             freeMslabsList.add(FreeMslab.parseFreeMslab(freemslabJSONArray.getJSONObject(i)));
                         }
@@ -800,8 +806,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject freeslabJSON = new JSONObject(freeslab);
                         JSONArray freeslabJSONArray = freeslabJSON.getJSONArray("FfreeslabResult");
                         ArrayList<FreeSlab> freeslabList = new ArrayList<FreeSlab>();
-                        FreeSlabController freeSlabController = new FreeSlabController(getActivity());
-                        freeSlabController.deleteAll();
+
                         for (int i = 0; i < freeslabJSONArray.length(); i++) {
                             freeslabList.add(FreeSlab.parseFreeSlab(freeslabJSONArray.getJSONObject(i)));
                         }
@@ -877,7 +882,14 @@ public class FragmentCategoryWiseDownload extends Fragment {
         protected Boolean doInBackground(String... arg0) {
             try {
                 if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
-
+                    RouteController routeController = new RouteController(getActivity());
+                    routeController.deleteAll();
+                    RouteDetController routedetController = new RouteDetController(getActivity());
+                    routedetController.deleteAll();
+                    FItenrHedController fItenrHedController = new FItenrHedController(getActivity());
+                    fItenrHedController.deleteAll();
+                    FItenrDetController fItenrDetController = new FItenrDetController(getActivity());
+                    fItenrDetController.deleteAll();
                     /*****************route*****************************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -906,8 +918,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject routeJSON = new JSONObject(route);
                         JSONArray routeJSONArray = routeJSON.getJSONArray("fRouteResult");
                         ArrayList<Route> routeList = new ArrayList<Route>();
-                        RouteController routeController = new RouteController(getActivity());
-                        routeController.deleteAll();
+
                         for (int i = 0; i < routeJSONArray.length(); i++) {
                             routeList.add(Route.parseRoute(routeJSONArray.getJSONObject(i)));
                         }
@@ -949,12 +960,11 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject routeJSON = new JSONObject(routedet);
                         JSONArray routeJSONArray = routeJSON.getJSONArray("fRouteDetResult");
                         ArrayList<RouteDet> routeList = new ArrayList<RouteDet>();
-                        RouteDetController routeController = new RouteDetController(getActivity());
-                        routeController.deleteAll();
+
                         for (int i = 0; i < routeJSONArray.length(); i++) {
                             routeList.add(RouteDet.parseRoute(routeJSONArray.getJSONObject(i)));
                         }
-                        routeController.InsertOrReplaceRouteDet(routeList);
+                        routedetController.InsertOrReplaceRouteDet(routeList);
                     } catch (JSONException | NumberFormatException e) {
 
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
@@ -993,8 +1003,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject itenaryHedJSON = new JSONObject(itenaryHed);
                         JSONArray itenaryHedJSONJSONArray = itenaryHedJSON.getJSONArray("fItenrHedResult");
                         ArrayList<FItenrHed> itenaryHedList = new ArrayList<FItenrHed>();
-                        FItenrHedController fItenrHedController = new FItenrHedController(getActivity());
-                        fItenrHedController.deleteAll();
+
                         for (int i = 0; i < itenaryHedJSONJSONArray.length(); i++) {
                             itenaryHedList.add(FItenrHed.parseIteanaryHed(itenaryHedJSONJSONArray.getJSONObject(i)));
                         }
@@ -1038,8 +1047,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject itenaryDetJSON = new JSONObject(itenaryDet);
                         JSONArray itenaryDetJSONJSONArray = itenaryDetJSON.getJSONArray("fItenrDetResult");
                         ArrayList<FItenrDet> itenaryDetList = new ArrayList<FItenrDet>();
-                        FItenrDetController fItenrDetController = new FItenrDetController(getActivity());
-                        fItenrDetController.deleteAll();
+
                         for (int i = 0; i < itenaryDetJSONJSONArray.length(); i++) {
                             itenaryDetList.add(FItenrDet.parseIteanaryDet(itenaryDetJSONJSONArray.getJSONObject(i)));
                         }
@@ -1123,7 +1131,8 @@ public class FragmentCategoryWiseDownload extends Fragment {
         protected Boolean doInBackground(String... arg0) {
             try {
                 if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
-
+                    OutstandingController outstandingController = new OutstandingController(getActivity());
+                    outstandingController.deleteAll();
                     /*****************fDdbNoteWithCondition*****************************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1155,8 +1164,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject fddbnoteJSON = new JSONObject(fddbnote);
                         JSONArray fddbnoteJSONArray = fddbnoteJSON.getJSONArray("fDdbNoteWithConditionResult");
                         ArrayList<FddbNote> fddbnoteList = new ArrayList<FddbNote>();
-                        OutstandingController outstandingController = new OutstandingController(getActivity());
-                        outstandingController.deleteAll();
+
                         for (int i = 0; i < fddbnoteJSONArray.length(); i++) {
                             fddbnoteList.add(FddbNote.parseFddbnote(fddbnoteJSONArray.getJSONObject(i)));
                         }
@@ -1238,7 +1246,10 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
             try {
                 if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
-
+                    ItemLocController itemLocController = new ItemLocController(getActivity());
+                    itemLocController.deleteAll();
+                    VanStockController vanStockController = new VanStockController(getActivity());
+                    vanStockController.deleteAll();
                     /*****************Stock*****************************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1267,8 +1278,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject stockJSON = new JSONObject(stock);
                         JSONArray stockJSONArray = stockJSON.getJSONArray("fItemLocResult");
                         ArrayList<ItemLoc> stockList = new ArrayList<ItemLoc>();
-                        ItemLocController itemLocController = new ItemLocController(getActivity());
-                        itemLocController.deleteAll();
+
                         for (int i = 0; i < stockJSONArray.length(); i++) {
                             stockList.add(ItemLoc.parseItemLocs(stockJSONArray.getJSONObject(i)));
                         }
@@ -1310,8 +1320,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject vanstockJSON = new JSONObject(vanstock);
                         JSONArray vanstockJSONArray = vanstockJSON.getJSONArray("VanStockResult");
                         ArrayList<VanStock> vanstockList = new ArrayList<VanStock>();
-                        VanStockController vanStockController = new VanStockController(getActivity());
-                        vanStockController.deleteAll();
+
                         for (int i = 0; i < vanstockJSONArray.length(); i++) {
                             vanstockList.add(VanStock.parseVanStock(vanstockJSONArray.getJSONObject(i)));
                         }
@@ -1392,7 +1401,10 @@ public class FragmentCategoryWiseDownload extends Fragment {
         protected Boolean doInBackground(String... arg0) {
             try {
                 if (SharedPref.getInstance(getActivity()).getLoginUser() != null && SharedPref.getInstance(getActivity()).isLoggedIn()) {
-
+                    CustomerController customerController = new CustomerController(getActivity());
+                    customerController.deleteAll();
+                    IteaneryDebController iteaneryDebController = new IteaneryDebController(getActivity());
+                    iteaneryDebController.deleteAll();
                     /*****************Customers ****************************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -1415,8 +1427,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject customerJSON = new JSONObject(customers);
                         JSONArray customerJSONJSONArray = customerJSON.getJSONArray("FdebtorResult");
                         ArrayList<Debtor> customerList = new ArrayList<Debtor>();
-                        CustomerController customerController = new CustomerController(getActivity());
-                        customerController.deleteAll();
+
                         for (int i = 0; i < customerJSONJSONArray.length(); i++) {
                             customerList.add(Debtor.parseOutlet(customerJSONJSONArray.getJSONObject(i)));
                         }
@@ -1460,8 +1471,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
                         JSONObject itenaryDebJSON = new JSONObject(itenaryDeb);
                         JSONArray itenaryDebJSONJSONArray = itenaryDebJSON.getJSONArray("fIteDebDetResult");
                         ArrayList<ItenrDeb> itenaryDebList = new ArrayList<ItenrDeb>();
-                        IteaneryDebController iteaneryDebController = new IteaneryDebController(getActivity());
-                        iteaneryDebController.deleteAll();
+
                         for (int i = 0; i < itenaryDebJSONJSONArray.length(); i++) {
                             itenaryDebList.add(ItenrDeb.parseIteDebDet(itenaryDebJSONJSONArray.getJSONObject(i)));
                         }

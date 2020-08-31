@@ -23,6 +23,16 @@ public class SalRep {
     private String MACID;
     @SerializedName("CurrentVanLoc")
     private String CurrentVanLoc;
+    @SerializedName("RepType")
+    private String RepType;
+
+    public String getRepType() {
+        return RepType;
+    }
+
+    public void setRepType(String repType) {
+        RepType = repType;
+    }
 
     public String getCurrentVanLoc() {
         return CurrentVanLoc;

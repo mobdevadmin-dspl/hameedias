@@ -35,9 +35,10 @@ public class SalRepController {
     public static final String FSALREP_PASSWORD = "password";
     public static final String FSALREP_EMAIL = "email";
     public static final String FSALREP_LOCCODE = "loccode";
+    public static final String FSALREP_TYPE = "reptype";
     // create String
     public static final String CREATE_FSALREP_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FSALREP + " (" + FSALREP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + FSALREP_LOCCODE + " TEXT, "     + ValueHolder.REPCODE + " TEXT, "+ FSALREP_NAME + " TEXT, "+ FSALREP_PASSWORD + " TEXT, " +FSALREP_EMAIL + " TEXT, " + FSALREP_PREFIX + " TEXT, "
+            + FSALREP_TYPE + " TEXT, "     + FSALREP_LOCCODE + " TEXT, "     + ValueHolder.REPCODE + " TEXT, "+ FSALREP_NAME + " TEXT, "+ FSALREP_PASSWORD + " TEXT, " +FSALREP_EMAIL + " TEXT, " + FSALREP_PREFIX + " TEXT, "
             + FSALREP_MACID + " TEXT); ";
 
     public SalRepController(Context context) {
@@ -76,6 +77,7 @@ public class SalRepController {
                 values.put(ValueHolder.REPCODE, rep.getRepCode());
                 values.put(FSALREP_MACID, rep.getMACID());
                 values.put(FSALREP_LOCCODE, rep.getCurrentVanLoc());
+                values.put(FSALREP_TYPE, rep.getRepType());
 
 
                 if (cursor.getCount() > 0) {
@@ -130,7 +132,34 @@ public class SalRepController {
 
         return "";
     }
+    public String getRepType() {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT " + FSALREP_TYPE + " FROM " + TABLE_FSALREP;
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+
+                return cursor.getString(cursor.getColumnIndex(FSALREP_TYPE));
+
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return "";
+    }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public String getCurrentLoccode() {
@@ -188,6 +217,7 @@ public class SalRepController {
                 newRep.setEMAIL(cursor.getString(cursor.getColumnIndex(FSALREP_EMAIL)));
                 newRep.setPASSWORD(cursor.getString(cursor.getColumnIndex(FSALREP_PASSWORD)));
                 newRep.setCurrentVanLoc(cursor.getString(cursor.getColumnIndex(FSALREP_LOCCODE)));
+                newRep.setRepType(cursor.getString(cursor.getColumnIndex(FSALREP_TYPE)));
 
             }
 
@@ -248,6 +278,7 @@ public class SalRepController {
                 newRep.setRepCode(curRep.getString(curRep.getColumnIndex(ValueHolder.REPCODE)));
                 newRep.setMACID(curRep.getString(curRep.getColumnIndex(FSALREP_MACID)));
                 newRep.setCurrentVanLoc(curRep.getString(curRep.getColumnIndex(FSALREP_LOCCODE)));
+                newRep.setRepType(curRep.getString(curRep.getColumnIndex(FSALREP_TYPE)));
 
 
             }

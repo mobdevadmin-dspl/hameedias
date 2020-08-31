@@ -351,7 +351,6 @@ public class UtilityContainer {
                 try {
 
                     final IteaneryDebController itenaryDebController = new IteaneryDebController(context);
-                    itenaryDebController.deleteAll();
                     JSONArray jsonArray = jsonObject.getJSONArray("fIteDebDetResult");
 
                     ArrayList<ItenrDeb> downloadedList = new ArrayList<ItenrDeb>();
@@ -396,7 +395,6 @@ public class UtilityContainer {
             break;
             case Customers:{
                 CustomerController customerController = new CustomerController(context);
-                customerController.deleteAll();
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("FdebtorResult");
@@ -423,7 +421,6 @@ public class UtilityContainer {
             break;
             case Settings:{
                 ReferenceSettingController settingController = new ReferenceSettingController(context);
-                settingController.deleteAll();
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("fCompanySettingResult");
@@ -444,7 +441,6 @@ public class UtilityContainer {
             break;
             case Reference:{
                 ReferenceDetailDownloader branchController = new ReferenceDetailDownloader(context);
-                branchController.deleteAll();
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FCompanyBranchResult");
                     ArrayList<CompanyBranch> downloadedList = new ArrayList<CompanyBranch>();
@@ -485,7 +481,6 @@ public class UtilityContainer {
             break;
             case VAT:{
             final VATController vatController = new VATController(context);
-            vatController.deleteAll();
 
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("VATMasterResult");
@@ -528,7 +523,6 @@ public class UtilityContainer {
             break;
             case Reason:{
                 ReasonController reasonController = new ReasonController(context);
-                reasonController.deleteAll();
                 // Processing reasons
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fReasonResult");
@@ -549,7 +543,6 @@ public class UtilityContainer {
             break;
             case Bank: {
                 BankController bankController = new BankController(context);
-                bankController.deleteAll();
                 // Processing route
                 try {
 
@@ -571,7 +564,6 @@ public class UtilityContainer {
             break;
             case Expense:{
                 ExpenseController expenseController = new ExpenseController(context);
-                expenseController.deleteAll();
                 // Processing expense
                 try {
 
@@ -593,7 +585,6 @@ public class UtilityContainer {
             case Route:{
 
                 RouteController routeController = new RouteController(context);
-                routeController.deleteAll();
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fRouteResult");
                     ArrayList<Route> arrayList = new ArrayList<Route>();
@@ -612,7 +603,6 @@ public class UtilityContainer {
             break;
             case RouteDet:{
                 RouteDetController routeDetController = new RouteDetController(context);
-                routeDetController.deleteAll();
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fRouteDetResult");
                     ArrayList<RouteDet> arrayList = new ArrayList<RouteDet>();
@@ -631,7 +621,6 @@ public class UtilityContainer {
             break;
             case Freeslab:{
                 FreeSlabController freeSlabController = new FreeSlabController(context);
-                freeSlabController.deleteAll();
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FfreeslabResult");
                     ArrayList<FreeSlab> arrayList = new ArrayList<FreeSlab>();
@@ -650,7 +639,6 @@ public class UtilityContainer {
             break;
             case Freemslab:{
                 FreeMslabController freemSlabController = new FreeMslabController(context);
-                freemSlabController.deleteAll();
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fFreeMslabResult");
                     ArrayList<FreeMslab> arrayList = new ArrayList<FreeMslab>();
@@ -669,7 +657,6 @@ public class UtilityContainer {
             break;
             case Freehed:{
                 FreeHedController freeHedController = new FreeHedController(context);
-                freeHedController.deleteAll();
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FfreehedResult");
                     ArrayList<FreeHed> arrayList = new ArrayList<FreeHed>();
@@ -688,7 +675,6 @@ public class UtilityContainer {
             break;
             case Freedet:{
                 FreeDetController freeDetController = new FreeDetController(context);
-                freeDetController.deleteAll();
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FfreedetResult");
                     ArrayList<FreeDet> arrayList = new ArrayList<FreeDet>();
@@ -707,7 +693,6 @@ public class UtilityContainer {
             break;
             case Freedeb:{
                 FreeDebController freeDebController = new FreeDebController(context);
-                freeDebController.deleteAll();
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FfreedebResult");
                     ArrayList<FreeDeb> arrayList = new ArrayList<FreeDeb>();
@@ -726,7 +711,6 @@ public class UtilityContainer {
             break;
             case Freeitem:{
                 FreeItemController freeItemController = new FreeItemController(context);
-                freeItemController.deleteAll();
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fFreeItemResult");
                     ArrayList<FreeItem> arrayList = new ArrayList<FreeItem>();
@@ -745,7 +729,6 @@ public class UtilityContainer {
             break;
             case Iteneryhed:{
                 FItenrHedController fItenrHedController = new FItenrHedController(context);
-                fItenrHedController.deleteAll();
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fItenrHedResult");
                     ArrayList<FItenrHed> arrayList = new ArrayList<FItenrHed>();
@@ -765,7 +748,6 @@ public class UtilityContainer {
             break;
             case Itenerydet:{
                 FItenrDetController fItenrDetController = new FItenrDetController(context);
-                fItenrDetController.deleteAll();
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fItenrDetResult");
                     ArrayList<FItenrDet> arrayList = new ArrayList<FItenrDet>();
@@ -787,7 +769,6 @@ public class UtilityContainer {
             break;
             case Stock:{
                 ItemLocController itemLocController = new ItemLocController(context);
-                itemLocController.deleteAll();
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fItemLocResult");
                     ArrayList<ItemLoc> arrayList = new ArrayList<ItemLoc>();
@@ -809,11 +790,10 @@ public class UtilityContainer {
             break;
             case Salesprice:{
                 try {
-
+                    SalesPriceController salesPriceController = new SalesPriceController(context);
                     JSONArray jsonArray = jsonObject.getJSONArray("SalesPriceResult");
                     ArrayList<SalesPrice> arrayList = new ArrayList<SalesPrice>();
-                    SalesPriceController salesPriceController = new SalesPriceController(context);
-                    salesPriceController.deleteAll();
+
                     for (int i = 0; i < jsonArray.length(); i++) {
                         //  Log.d(">>>", ">>>" + i);
                         arrayList.add(SalesPrice.parseSalespri(jsonArray.getJSONObject(i)));
@@ -833,7 +813,6 @@ public class UtilityContainer {
             break;
             case Discount: {
                 DiscountController discountController = new DiscountController(context);
-                discountController.deleteAll();
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("CusProductDisResult");
@@ -853,7 +832,6 @@ public class UtilityContainer {
             break;
             case fddbnote: {
                 OutstandingController outstandingController = new OutstandingController(context);
-                outstandingController.deleteAll();
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("fDdbNoteWithConditionResult");
@@ -873,7 +851,6 @@ public class UtilityContainer {
                 break;
                 case VanStock : {
                     VanStockController vanStockController = new VanStockController(context);
-                    vanStockController.deleteAll();
                     try {
 
                         JSONArray jsonArray = jsonObject.getJSONArray("VanStockResult");

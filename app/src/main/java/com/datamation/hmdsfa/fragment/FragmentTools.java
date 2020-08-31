@@ -41,10 +41,29 @@ import com.datamation.hmdsfa.barcode.upload.UploadExpenses;
 import com.datamation.hmdsfa.barcode.upload.UploadNonProd;
 import com.datamation.hmdsfa.barcode.upload.UploadReceipt;
 import com.datamation.hmdsfa.controller.AttendanceController;
+import com.datamation.hmdsfa.controller.BankController;
 import com.datamation.hmdsfa.controller.BarcodeVarientController;
+import com.datamation.hmdsfa.controller.DiscountController;
+import com.datamation.hmdsfa.controller.ExpenseController;
+import com.datamation.hmdsfa.controller.FItenrDetController;
+import com.datamation.hmdsfa.controller.FreeDebController;
+import com.datamation.hmdsfa.controller.FreeDetController;
+import com.datamation.hmdsfa.controller.FreeHedController;
+import com.datamation.hmdsfa.controller.FreeItemController;
+import com.datamation.hmdsfa.controller.FreeMslabController;
+import com.datamation.hmdsfa.controller.FreeSlabController;
+import com.datamation.hmdsfa.controller.IteaneryDebController;
+import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.NewCustomerController;
 import com.datamation.hmdsfa.controller.OutstandingController;
+import com.datamation.hmdsfa.controller.ReasonController;
 import com.datamation.hmdsfa.controller.ReceiptController;
+import com.datamation.hmdsfa.controller.ReferenceDetailDownloader;
+import com.datamation.hmdsfa.controller.ReferenceSettingController;
+import com.datamation.hmdsfa.controller.RouteController;
+import com.datamation.hmdsfa.controller.RouteDetController;
+import com.datamation.hmdsfa.controller.SalesPriceController;
+import com.datamation.hmdsfa.controller.VATController;
 import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.model.Attendance;
 import com.datamation.hmdsfa.model.NewCustomer;
@@ -948,6 +967,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                         }
                     });
                     try{
+                        IteaneryDebController itenaryDebController = new IteaneryDebController(context);
+                        itenaryDebController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.ItenrDeb,networkFunctions.getItenaryDebDet(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -976,6 +997,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
 
                     try{
+                        CustomerController customerController = new CustomerController(context);
+                        customerController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Customers, networkFunctions.getCustomer(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -990,6 +1013,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing company settings
                     try{
+                        ReferenceSettingController settingController = new ReferenceSettingController(context);
+                        settingController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Settings, networkFunctions.getReferenceSettings());
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1012,6 +1037,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing Branches
 
                     try{
+                        ReferenceDetailDownloader branchController = new ReferenceDetailDownloader(context);
+                        branchController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Reference, networkFunctions.getReferences(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1049,6 +1076,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing Branches
 
                     try{
+                        VATController vatController = new VATController(context);
+                        vatController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.VAT, networkFunctions.getVAT());
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1086,6 +1115,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing reasons
 
                     try {
+                        ReasonController reasonController = new ReasonController(context);
+                        reasonController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Reason, networkFunctions.getReasons());
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -1136,6 +1167,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                    /*****************banks**********************************************************************/
 
                     try {
+                        BankController bankController = new BankController(context);
+                        bankController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Bank, networkFunctions.getBanks());
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -1153,6 +1186,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing expense
                     try {
+                        ExpenseController expenseController = new ExpenseController(context);
+                        expenseController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Expense, networkFunctions.getExpenses());
                     } catch (IOException e) {
                         errors.add(e.toString());
@@ -1171,6 +1206,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing route
 
                     try {
+                        RouteController routeController = new RouteController(context);
+                        routeController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Route, networkFunctions.getRoutes(repcode));
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -1266,6 +1303,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing route
                     try {
+                        RouteDetController routeDetController = new RouteDetController(context);
+                        routeDetController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.RouteDet, networkFunctions.getRouteDets(repcode));
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -1330,6 +1369,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     // Processing freeslab
                     try {
 
+                        FreeSlabController freeSlabController = new FreeSlabController(context);
+                        freeSlabController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Freeslab, networkFunctions.getFreeSlab());
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1345,6 +1386,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing freeMslab
                     try {
+
+                        FreeMslabController freemSlabController = new FreeMslabController(context);
+                        freemSlabController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Freemslab, networkFunctions.getFreeMslab());
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1361,6 +1405,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing freehed
                     try {
+
+                        FreeHedController freeHedController = new FreeHedController(context);
+                        freeHedController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Freehed, networkFunctions.getFreeHed(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1379,6 +1426,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing freedet
                     try {
+
+                        FreeDetController freeDetController = new FreeDetController(context);
+                        freeDetController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Freedet, networkFunctions.getFreeDet());
 
                     } catch (Exception e) {
@@ -1398,6 +1448,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing freedeb
                     try {
+
+                        FreeDebController freeDebController = new FreeDebController(context);
+                        freeDebController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Freedeb, networkFunctions.getFreeDebs());
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1415,6 +1468,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                     // Processing freeItem
                     try {
+
+                        FreeItemController freeItemController = new FreeItemController(context);
+                        freeItemController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Freeitem, networkFunctions.getFreeItems());
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1452,6 +1508,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing itenarydet
                     try {
+                        FItenrDetController fItenrDetController = new FItenrDetController(context);
+                        fItenrDetController.deleteAll();
                         Calendar c = Calendar.getInstance();
                         int cyear = c.get(Calendar.YEAR);
                         int cmonth = c.get(Calendar.MONTH) + 1;
@@ -1472,6 +1530,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing discount
                     try {
+
+                        ItemLocController itemLocController = new ItemLocController(context);
+                        itemLocController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Stock, networkFunctions.getStock(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1488,6 +1549,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing SalesPrice
                     try {
+                        SalesPriceController salesPriceController = new SalesPriceController(context);
+                        salesPriceController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Salesprice, networkFunctions.getSalesPrice(repcode));
 
                     } catch (Exception e) {
@@ -1503,6 +1566,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing discount
                     try {
+
+                        DiscountController discountController = new DiscountController(context);
+                        discountController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.Discount, networkFunctions.getDiscounts(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1518,9 +1584,10 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing fddbnote
 
-                    OutstandingController outstandingController = new OutstandingController(getActivity());
-                    outstandingController.deleteAll();
+
                     try {
+                        OutstandingController outstandingController = new OutstandingController(getActivity());
+                        outstandingController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.fddbnote, networkFunctions.getFddbNotes(repcode));
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -1539,9 +1606,10 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     });
                     // Processing van stock
 
-                    VanStockController vanStockController = new VanStockController(getActivity());
-                    vanStockController.deleteAll();
+
                     try {
+                        VanStockController vanStockController = new VanStockController(getActivity());
+                        vanStockController.deleteAll();
                         UtilityContainer.download(getActivity(),TaskTypeDownload.VanStock, networkFunctions.getVanStock(repcode));
                     } catch (Exception e) {
                         errors.add(e.toString());
@@ -1561,7 +1629,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     BarcodeVarientController barcodeVarientController = new BarcodeVarientController(getActivity());
                     barcodeVarientController.deleteAll_BarcodeVariant();
                     try {
-                        UtilityContainer.download(getActivity(),TaskTypeDownload.Barcodevarient, networkFunctions.getBarcodeVariant(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Barcodevarient, networkFunctions.getBarcodeVariant(repcode,new SalRepController(getActivity()).getRepType().trim()));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;

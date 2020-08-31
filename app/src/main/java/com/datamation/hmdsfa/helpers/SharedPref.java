@@ -142,6 +142,7 @@ public class SharedPref {
         editor.putString("user_name", user.getNAME());
         editor.putString("user_password", user.getPASSWORD());
         editor.putString("user_prefix", user.getPREFIX());
+        editor.putString("user_type", user.getRepType());
 
         editor.apply();
     }
@@ -153,6 +154,7 @@ public class SharedPref {
         user.setNAME(sharedPref.getString("user_name", ""));
         user.setPASSWORD(sharedPref.getString("user_password", ""));
         user.setPREFIX(sharedPref.getString("user_prefix", ""));
+        user.setRepType(sharedPref.getString("user_type", ""));
 
         if (user.getRepCode().equals("")) {
             return null;
