@@ -926,6 +926,46 @@ public class ItemController {
         return list;
     }
 
+//-----------kaveesha------------28/08/2020----------To get Product Group wise stock------------------------
+    public ArrayList<StockInfo> getGwiseStocks(String LocCode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<StockInfo> list = new ArrayList<StockInfo>();
+
+        String selectQuery = "SELECT itm.* , loc.LocCode, sum(loc.QOH) as totqty FROM fitem itm, fitemLoc loc WHERE loc.itemcode=itm.itemcode GROUP By GroupCode order by totqty DESC";
+        //String selectQuery = "SELECT itm.* , loc.LocCode, loc.QOH FROM fitem itm, fitemLoc loc WHERE loc.itemcode=itm.itemcode GROUP By GroupCode order by loc.QOH DESC";
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+
+            while (cursor.moveToNext()) {
+
+                StockInfo items = new StockInfo();
+                double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totqty")));
+                //double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex(ItemLocController.FITEMLOC_QOH)));
+                if (qoh > 0) {
+                    items.setStock_Itemcode(cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
+                    //items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
+                    items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(ItemLocController.FITEMLOC_LOC_CODE)) + " - " + cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
+                    items.setStock_Qoh(((int) qoh) + "");
+                    list.add(items);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+                dB.close();
+            }
+        return list;
+    }
+
     /*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-**-*-*-*/
 
     public String getTotalStockQOH(String LocCode) {
@@ -1349,4 +1389,5 @@ public class ItemController {
 
         return "";
     }
+
 }
