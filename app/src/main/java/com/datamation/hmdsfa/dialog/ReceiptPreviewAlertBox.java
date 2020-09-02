@@ -21,6 +21,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -308,8 +309,9 @@ public class ReceiptPreviewAlertBox {
         int lengthDealFCom = controlList.get(0).getFCONTROL_COM_EMAIL().length();
         int lengthDealFBCom = (LINECHAR - lengthDealFCom) / 2;
         String printGapAdjustFCom = printGapAdjustCom.substring(0, Math.min(lengthDealFBCom, printGapAdjustCom.length()));
+        String comname = "<b>" + controlList.get(0).getFCONTROL_COM_NAME() + "</b> ";
 
-        String subTitleheadACom = printGapAdjustACom + controlList.get(0).getFCONTROL_COM_NAME();
+        String subTitleheadACom = printGapAdjustACom + Html.fromHtml(comname);
         String subTitleheadBCom = printGapAdjustBCom + controlList.get(0).getFCONTROL_COM_ADD1();
         String subTitleheadCCom = printGapAdjustCCom + controlList.get(0).getFCONTROL_COM_ADD2() + ", " + controlList.get(0).getFCONTROL_COM_ADD3() + ".";
         String subTitleheadDCom = printGapAdjustDCom + controlList.get(0).getFCONTROL_COM_TEL1();
