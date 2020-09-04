@@ -103,6 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(DebItemPriController.CREATE_DEBITEMPRI_TABLE);
         arg0.execSQL(Customer.CREATE_FDEBTOR_TABLE);
         arg0.execSQL(CompanyDetailsController.CREATE_FCONTROL_TABLE);
+        arg0.execSQL(CompanyDetailsController.CREATE_DOWNLOAD_TABLE);
         arg0.execSQL(CompanySetting.CREATE_FCOMPANYSETTING_TABLE);
         arg0.execSQL(RouteController.CREATE_FROUTE_TABLE);
         arg0.execSQL(BankController.CREATE_FBANK_TABLE);
@@ -192,6 +193,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(InvHedController.CREATE_FINVHED_TABLE_LOG);
         arg0.execSQL(InvDetController.CREATE_FINVDET_TABLE);
         arg0.execSQL(InvDetController.CREATE_FINVDET_TABLE_LOG);
+
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -283,6 +285,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(DiscountController.CREATE_TABLE_DISCOUNT);
             arg0.execSQL(BarcodeVarientController.CREATE_TABLE_BAR_CODE_VARIENT);
             arg0.execSQL(VanStockController.CREATE_TABLE_FVANSTOCK);
+            arg0.execSQL(CompanyDetailsController.CREATE_DOWNLOAD_TABLE);
 
         } catch (SQLiteException e) {
         }

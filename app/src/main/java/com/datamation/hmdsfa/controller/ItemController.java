@@ -937,8 +937,7 @@ public class ItemController {
         ArrayList<StockInfo> list = new ArrayList<StockInfo>();
 
         String selectQuery = "SELECT itm.* , loc.LocCode, sum(loc.QOH) as totqty FROM fitem itm, fitemLoc loc WHERE loc.itemcode=itm.itemcode GROUP By GroupCode order by totqty DESC";
-        //String selectQuery = "SELECT itm.* , loc.LocCode, loc.QOH FROM fitem itm, fitemLoc loc WHERE loc.itemcode=itm.itemcode GROUP By GroupCode order by loc.QOH DESC";
-        Cursor cursor = dB.rawQuery(selectQuery, null);
+         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 
             while (cursor.moveToNext()) {

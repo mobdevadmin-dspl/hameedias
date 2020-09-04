@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 
+import com.datamation.hmdsfa.adapter.downloadListAdapter;
 import com.datamation.hmdsfa.controller.BankController;
 import com.datamation.hmdsfa.controller.BarcodeVarientController;
 import com.datamation.hmdsfa.controller.CompanyDetailsController;
@@ -79,9 +81,11 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -338,6 +342,8 @@ public class UtilityContainer {
     public static void download(final Context context, TaskTypeDownload task , String jsonString) {
         NetworkFunctions networkFunctions = new NetworkFunctions(context);
         JSONObject jsonObject = null;
+        int totalRecords = 0;
+
         try {
             jsonObject = new JSONObject(jsonString);
 
@@ -352,12 +358,15 @@ public class UtilityContainer {
 
                     final IteaneryDebController itenaryDebController = new IteaneryDebController(context);
                     JSONArray jsonArray = jsonObject.getJSONArray("fIteDebDetResult");
+                    totalRecords = jsonArray.length();
 
                     ArrayList<ItenrDeb> downloadedList = new ArrayList<ItenrDeb>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         downloadedList.add(ItenrDeb.parseIteDebDet(jsonArray.getJSONObject(i)));
                     }
                     itenaryDebController.InsertOrReplaceItenrDeb(downloadedList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + downloadedList.size(), "" + totalRecords, "Itenary DetDeb Info");
+
                     Log.d("InsertOrReplaceDebtor", "succes");
 
 
@@ -377,12 +386,15 @@ public class UtilityContainer {
 
                     try {
                         JSONArray jsonArray = jsonObject.getJSONArray("fControlResult");
+                        totalRecords = jsonArray.length();
                         ArrayList<Control> downloadedList = new ArrayList<Control>();
                         CompanyDetailsController companyController = new CompanyDetailsController(context);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             downloadedList.add(Control.parseControlDetails(jsonArray.getJSONObject(i)));
                         }
                         companyController.createOrUpdateFControl(downloadedList);
+                        new CompanyDetailsController(context).createOrUpdateDownload("" + downloadedList.size(), "" + totalRecords, "Control Info");
+
                     } catch (JSONException | NumberFormatException e) {
 
                         try {
@@ -398,11 +410,14 @@ public class UtilityContainer {
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("FdebtorResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<Debtor> downloadedList = new ArrayList<Debtor>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         downloadedList.add(Debtor.parseOutlet(jsonArray.getJSONObject(i)));
                     }
                     customerController.InsertOrReplaceDebtor(downloadedList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + downloadedList.size(), "" + totalRecords, "Customer Info");
+
                     Log.d("InsertOrReplaceDebtor", "succes");
 
                 } catch (JSONException | NumberFormatException e) {
@@ -424,12 +439,15 @@ public class UtilityContainer {
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("fCompanySettingResult");
+                    totalRecords =jsonArray.length();
                     ArrayList<CompanySetting> downloadedList = new ArrayList<CompanySetting>();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         downloadedList.add(CompanySetting.parseSettings(jsonArray.getJSONObject(i)));
                     }
                     settingController.createOrUpdateFCompanySetting(downloadedList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + downloadedList.size(), "" + totalRecords, "Company Setting Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -443,12 +461,15 @@ public class UtilityContainer {
                 ReferenceDetailDownloader branchController = new ReferenceDetailDownloader(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FCompanyBranchResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<CompanyBranch> downloadedList = new ArrayList<CompanyBranch>();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         downloadedList.add(CompanyBranch.parseSettings(jsonArray.getJSONObject(i)));
                     }
                     branchController.createOrUpdateFCompanyBranch(downloadedList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + downloadedList.size(), "" + totalRecords, "Company Branch Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -464,12 +485,15 @@ public class UtilityContainer {
                 try {
                     ItemBundleController bundleController = new ItemBundleController(context);
                     JSONArray jsonArray = jsonObject.getJSONArray("BundleBarCodeResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<ItemBundle> downloadedList = new ArrayList<ItemBundle>();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         downloadedList.add(ItemBundle.parseItemBundle(jsonArray.getJSONObject(i)));
                     }
                     bundleController.InsertOrReplaceItemBundle(downloadedList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + downloadedList.size(), "" + totalRecords, "Bundle Barcode Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -484,12 +508,15 @@ public class UtilityContainer {
 
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("VATMasterResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<VatMaster> downloadedList = new ArrayList<VatMaster>();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         downloadedList.add(VatMaster.parseVAT(jsonArray.getJSONObject(i)));
                     }
                     vatController.InsertOrReplaceVAT(downloadedList);
+                   new CompanyDetailsController(context).createOrUpdateDownload("" + downloadedList.size(), "" + totalRecords, "VAT Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -497,7 +524,6 @@ public class UtilityContainer {
                         Log.e("JSON ERROR>>>>>",e.toString());
                     }
                 }
-
             }
             break;
             case Items:{
@@ -506,12 +532,15 @@ public class UtilityContainer {
                 try {
                     ItemController itemController = new ItemController(context);
                     JSONArray jsonArray = jsonObject.getJSONArray("fItemsResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<Item> downloadedList = new ArrayList<Item>();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         downloadedList.add(Item.parseItem(jsonArray.getJSONObject(i)));
                     }
                     itemController.InsertOrReplaceItems(downloadedList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + downloadedList.size(), "" + totalRecords, "Item Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -526,12 +555,15 @@ public class UtilityContainer {
                 // Processing reasons
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fReasonResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<Reason> arrayList = new ArrayList<Reason>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(Reason.parseReason(jsonArray.getJSONObject(i)));
                     }
                     Log.d("befor add reason tbl>>>", arrayList.toString());
                     reasonController.createOrUpdateReason(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Reason Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -547,12 +579,15 @@ public class UtilityContainer {
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("fbankResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<Bank> arrayList = new ArrayList<Bank>();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(Bank.parseBank(jsonArray.getJSONObject(i)));
                     }
                     bankController.createOrUpdateBank(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Bank Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -568,11 +603,14 @@ public class UtilityContainer {
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("fExpenseResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<Expense> arrayList = new ArrayList<Expense>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(Expense.parseExpense(jsonArray.getJSONObject(i)));
                     }
                     expenseController.createOrUpdateFExpense(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Expense Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -587,11 +625,14 @@ public class UtilityContainer {
                 RouteController routeController = new RouteController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fRouteResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<Route> arrayList = new ArrayList<Route>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(Route.parseRoute(jsonArray.getJSONObject(i)));
                     }
                     routeController.createOrUpdateFRoute(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Route Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -605,11 +646,14 @@ public class UtilityContainer {
                 RouteDetController routeDetController = new RouteDetController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fRouteDetResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<RouteDet> arrayList = new ArrayList<RouteDet>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(RouteDet.parseRoute(jsonArray.getJSONObject(i)));
                     }
                     routeDetController.InsertOrReplaceRouteDet(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Route Det Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -623,11 +667,14 @@ public class UtilityContainer {
                 FreeSlabController freeSlabController = new FreeSlabController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FfreeslabResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<FreeSlab> arrayList = new ArrayList<FreeSlab>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(FreeSlab.parseFreeSlab(jsonArray.getJSONObject(i)));
                     }
                     freeSlabController.createOrUpdateFreeSlab(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Freeslab Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -641,11 +688,14 @@ public class UtilityContainer {
                 FreeMslabController freemSlabController = new FreeMslabController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fFreeMslabResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<FreeMslab> arrayList = new ArrayList<FreeMslab>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(FreeMslab.parseFreeMslab(jsonArray.getJSONObject(i)));
                     }
                     freemSlabController.createOrUpdateFreeMslab(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Freesmlab Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -659,11 +709,14 @@ public class UtilityContainer {
                 FreeHedController freeHedController = new FreeHedController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FfreehedResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<FreeHed> arrayList = new ArrayList<FreeHed>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(FreeHed.parseFreeHed(jsonArray.getJSONObject(i)));
                     }
                     freeHedController.createOrUpdateFreeHed(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Free Hed Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -677,11 +730,14 @@ public class UtilityContainer {
                 FreeDetController freeDetController = new FreeDetController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FfreedetResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<FreeDet> arrayList = new ArrayList<FreeDet>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(FreeDet.parseFreeDet(jsonArray.getJSONObject(i)));
                     }
                     freeDetController.createOrUpdateFreeDet(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Free Det Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -695,11 +751,14 @@ public class UtilityContainer {
                 FreeDebController freeDebController = new FreeDebController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FfreedebResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<FreeDeb> arrayList = new ArrayList<FreeDeb>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(FreeDeb.parseFreeDeb(jsonArray.getJSONObject(i)));
                     }
                     freeDebController.createOrUpdateFreeDeb(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Free Deb Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -713,11 +772,14 @@ public class UtilityContainer {
                 FreeItemController freeItemController = new FreeItemController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fFreeItemResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<FreeItem> arrayList = new ArrayList<FreeItem>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(FreeItem.parseFreeItem(jsonArray.getJSONObject(i)));
                     }
                     freeItemController.createOrUpdateFreeItem(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Free Item Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -731,11 +793,14 @@ public class UtilityContainer {
                 FItenrHedController fItenrHedController = new FItenrHedController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fItenrHedResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<FItenrHed> arrayList = new ArrayList<FItenrHed>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(FItenrHed.parseIteanaryHed(jsonArray.getJSONObject(i)));
                     }
                     fItenrHedController.createOrUpdateFItenrHed(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Itenery Hed Info");
+
                     Log.d("InsertIhed ", "succes");
                 } catch (JSONException | NumberFormatException e) {
                     try {
@@ -750,12 +815,15 @@ public class UtilityContainer {
                 FItenrDetController fItenrDetController = new FItenrDetController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fItenrDetResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<FItenrDet> arrayList = new ArrayList<FItenrDet>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         Log.d(">>>", ">>>" + i);
                         arrayList.add(FItenrDet.parseIteanaryDet(jsonArray.getJSONObject(i)));
                     }
                     fItenrDetController.createOrUpdateFItenrDet(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Itenery Det Info");
+
                     Log.d("Insertitenrydet", "succes");
 
                 } catch (JSONException | NumberFormatException e) {
@@ -771,12 +839,15 @@ public class UtilityContainer {
                 ItemLocController itemLocController = new ItemLocController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fItemLocResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<ItemLoc> arrayList = new ArrayList<ItemLoc>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         Log.d(">>>", ">>>" + i);
                         arrayList.add(ItemLoc.parseItemLocs(jsonArray.getJSONObject(i)));
                     }
                     itemLocController.InsertOrReplaceItemLoc(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Stock Info");
+
                     Log.d("InsertItemLoc", "succes");
 
                 } catch (JSONException | NumberFormatException e) {
@@ -792,6 +863,7 @@ public class UtilityContainer {
                 try {
                     SalesPriceController salesPriceController = new SalesPriceController(context);
                     JSONArray jsonArray = jsonObject.getJSONArray("SalesPriceResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<SalesPrice> arrayList = new ArrayList<SalesPrice>();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -800,6 +872,8 @@ public class UtilityContainer {
                     }
                     // Log.d(">>>", "size :" + salesPriList.size());
                     salesPriceController.InsertOrReplaceSalesPrice(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Sales Price Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -816,11 +890,14 @@ public class UtilityContainer {
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("CusProductDisResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<Discount> arrayList = new ArrayList<Discount>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(Discount.parseDiscounts(jsonArray.getJSONObject(i)));
                     }
                     discountController.InsertOrReplaceDiscount(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Discount Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -835,11 +912,14 @@ public class UtilityContainer {
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("fDdbNoteWithConditionResult");
+                    totalRecords = jsonArray.length();
                     ArrayList<FddbNote> arrayList = new ArrayList<FddbNote>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         arrayList.add(FddbNote.parseFddbnote(jsonArray.getJSONObject(i)));
                     }
                     outstandingController.createOrUpdateFDDbNote(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Fddbnote Info");
+
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
@@ -854,11 +934,14 @@ public class UtilityContainer {
                     try {
 
                         JSONArray jsonArray = jsonObject.getJSONArray("VanStockResult");
+                        totalRecords = jsonArray.length();
                         ArrayList<VanStock> arrayList = new ArrayList<VanStock>();
                         for (int i = 0; i < jsonArray.length(); i++) {
                             arrayList.add(VanStock.parseVanStock(jsonArray.getJSONObject(i)));
                         }
                         vanStockController.InsertOrReplaceVanStock(arrayList);
+                       new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Van Stock Info");
+
                     } catch (JSONException | NumberFormatException e) {
                         try {
                             throw e;
@@ -873,6 +956,7 @@ public class UtilityContainer {
                         try {
                             BarcodeVarientController barcodeController = new BarcodeVarientController(context);
                             JSONArray jsonArray = jsonObject.getJSONArray("BarCodeVarientResult");
+                            totalRecords = jsonArray.length();
                             ArrayList<BarcodeVariant> arrayList = new ArrayList<BarcodeVariant>();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                  // Log.d(">>BarcodeVariant", ">>>" + i);
@@ -880,6 +964,8 @@ public class UtilityContainer {
                             }
                              Log.d(">>BarcodeVariant", "size :" + arrayList.size());
                             barcodeController.InsertOrReplaceBarcodeVariant(arrayList);
+                           new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Barcode Varient Info");
+
 
                         } catch (JSONException | NumberFormatException e) {
                             try {
@@ -908,13 +994,7 @@ public class UtilityContainer {
             default:
                 break;
         }
-
-
-
-
-
-
-
-
     }
+
+
 }

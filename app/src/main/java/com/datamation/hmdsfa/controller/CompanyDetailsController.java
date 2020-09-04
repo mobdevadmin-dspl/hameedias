@@ -64,6 +64,19 @@ public class CompanyDetailsController {
     // create String
     public static final String CREATE_FCONTROL_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_FCONTROL + " (" + FCONTROL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FCONTROL_COM_NAME + " TEXT, " + FCONTROL_COM_ADD1 + " TEXT, " + FCONTROL_COM_ADD2 + " TEXT, " + FCONTROL_COM_ADD3 + " TEXT, " + FCONTROL_COM_TEL1 + " TEXT, " + FCONTROL_COM_TEL2 + " TEXT, " + FCONTROL_COM_FAX + " TEXT, " + FCONTROL_COM_EMAIL + " TEXT, " + FCONTROL_COM_WEB + " TEXT, " + FCONTROL_FYEAR + " TEXT, " + FCONTROL_TYEAR + " TEXT, " + FCONTROL_COM_REGNO + " TEXT, " + FCONTROL_FTXN + " TEXT, " + FCONTROL_TTXN + " TEXT, " + FCONTROL_CRYSTALPATH + " TEXT, " + FCONTROL_VATCMTAXNO + " TEXT, " + FCONTROL_NBTCMTAXNO + " TEXT, " + FCONTROL_SYSTYPE + " TEXT, " + ValueHolder.DEALCODE + " TEXT, " + FCONTROL_BASECUR + " TEXT, " + FCONTROL_BALGCRLM + " TEXT, " + FCONTROL_CONAGE1 + " TEXT, " + FCONTROL_CONAGE2 + " TEXT, " + FCONTROL_CONAGE3 + " TEXT, " + FCONTROL_CONAGE4 + " TEXT, " + FCONTROL_CONAGE5 + " TEXT, " + FCONTROL_CONAGE6 + " TEXT, " + FCONTROL_CONAGE7 + " TEXT, " + FCONTROL_CONAGE8 + " TEXT, " + FCONTROL_CONAGE9 + " TEXT, " + FCONTROL_CONAGE10 + " TEXT, " + FCONTROL_CONAGE11 + " TEXT, " + FCONTROL_CONAGE12 + " TEXT, " + FCONTROL_CONAGE13 + " TEXT, " + FCONTROL_CONAGE14 + " TEXT, " + FCONTROL_SALESACC + " TEXT); ";
 
+    //table
+    public static final String TABLE_DOWNLOAD = "Table_Download";
+    //table attribute
+    public static final String DOWNLOAD_COUNT = "download_due";
+    public static final String DOWNLOADED_COUNT = "download_done";
+    public static final String DOWNLOAD_TITLE = "download_title";
+    public static final String DOWNLOAD_ID = "download_id";
+
+    //create String
+    public static final String CREATE_DOWNLOAD_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_DOWNLOAD + " ("+ DOWNLOAD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + DOWNLOAD_COUNT + " TEXT, " + DOWNLOADED_COUNT + " TEXT, " + DOWNLOAD_TITLE + " TEXT); ";
+
+
 
     public CompanyDetailsController(Context context) {
         this.context = context;
@@ -274,4 +287,89 @@ public class CompanyDetailsController {
         return 0;
     }
 
+    //----------------kaveesha -----03/09/2020-----------To get download List------------
+    public ArrayList<Control> getAllDownload() {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<Control> list = new ArrayList<Control>();
+
+        String selectQuery = "select * from " + TABLE_DOWNLOAD;
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                Control aControl = new Control();
+
+                aControl.setFCONTROL_COM_NAME(cursor.getString(cursor.getColumnIndex(DOWNLOAD_TITLE)));
+                aControl.setFCONTROL_COM_ADD1(cursor.getString(cursor.getColumnIndex(DOWNLOAD_COUNT)));
+                aControl.setFCONTROL_COM_ADD2(cursor.getString(cursor.getColumnIndex(DOWNLOADED_COUNT)));
+
+                list.add(aControl);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+
+        }
+
+        return list;
+    }
+
+    //----------------kaveesha -----------03/09/2020-----------Create or Update Download----------------------
+    public int createOrUpdateDownload(String downloaded, String download, String title) {
+
+        int serverdbID = 0;
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_DOWNLOAD, null);
+
+            ContentValues values = new ContentValues();
+            values.put(DOWNLOAD_COUNT, download);
+            values.put(DOWNLOADED_COUNT,downloaded);
+            values.put(DOWNLOAD_TITLE, title);
+
+            serverdbID = (int) dB.insert(TABLE_DOWNLOAD, null, values);
+            Log.v(TAG, " Inserted " + serverdbID);
+
+        } catch (Exception e) {
+          e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return serverdbID;
+
+    }
+
+    public void deleteAll() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        dB.delete(TABLE_DOWNLOAD, null, null);
+        dB.close();
+    }
 }
