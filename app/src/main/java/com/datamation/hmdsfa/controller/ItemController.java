@@ -899,7 +899,7 @@ public class ItemController {
         ArrayList<StockInfo> list = new ArrayList<StockInfo>();
 
         //String selectQuery = "SELECT itm.* , loc.QOH FROM fitem itm, fitemLoc loc WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND loc.itemcode=itm.itemcode AND  loc.LocCode='" + LocCode + "' order by loc.QOH DESC";
-        String selectQuery = "SELECT itm.* , loc.LocCode, loc.QOH FROM fitem itm, fitemLoc loc WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND  loc.itemcode=itm.itemcode  order by loc.QOH DESC";
+        String selectQuery = "SELECT itm.* , loc.LocCode, loc.QOH FROM fitem itm, fitemLoc loc WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND  loc.itemcode=itm.itemcode  order by loc.itemcode ";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 
@@ -936,7 +936,7 @@ public class ItemController {
 
         ArrayList<StockInfo> list = new ArrayList<StockInfo>();
 
-        String selectQuery = "SELECT itm.* , loc.LocCode, sum(loc.QOH) as totqty FROM fitem itm, fitemLoc loc WHERE loc.itemcode=itm.itemcode GROUP By GroupCode order by totqty DESC";
+        String selectQuery = "SELECT itm.* , loc.LocCode, sum(loc.QOH) as totqty FROM fitem itm, fitemLoc loc WHERE loc.itemcode=itm.itemcode GROUP By GroupCode order by GroupCode ";
          Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 
