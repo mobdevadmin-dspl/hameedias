@@ -43,6 +43,7 @@ import com.datamation.hmdsfa.adapter.FreeIssueAdapterNew;
 import com.datamation.hmdsfa.adapter.InvDetAdapterNew;
 import com.datamation.hmdsfa.adapter.InvoiceFreeItemAdapter;
 import com.datamation.hmdsfa.adapter.NewProduct_Adapter;
+import com.datamation.hmdsfa.adapter.VarientItemsAdapter;
 import com.datamation.hmdsfa.controller.BarcodeVarientController;
 import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.DiscountController;
@@ -102,7 +103,7 @@ public class BRInvoiceDetailFragment extends Fragment{
     String RefNo, locCode;
     ActivityVanSalesBR mainActivity;
     MyReceiver r;
-    ArrayList<Product> productList = null, selectedItemList = null, selectedItem = null;
+    ArrayList<Product> productList = null, selectedItemList = null, selectedVarientItems = null;
     ArrayList<ItemBundle> itemArrayList = null;
     ImageButton ibtProduct, ibtDiscount;
     private  SweetAlertDialog pDialog;
@@ -168,8 +169,19 @@ public class BRInvoiceDetailFragment extends Fragment{
                     if(itemBundle.size()==1) {
                         //when deduct qoh update qoh also
                        // new ProductController(getActivity()).updateBarCode(itemBundle.get(0).getBarcode(),"1");
-                        selectedItem = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
-                        updateInvoiceDet(selectedItem);
+                        selectedVarientItems = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
+                        if(itemBundle.size()>0) {
+                            if (new ProductController(getActivity()).tableHasRecords()) {
+                                //productList = new ProductDS(getActivity()).getAllItems("");
+                                productList = new ProductController(getActivity()).getAllItems();//rashmi 20200907
+                            } else {
+                                new ProductController(getActivity()).createOrUpdateProducts(selectedVarientItems);
+                            }
+                            productList = new ProductController(getActivity()).getAllItems();//rashmi 20200907
+                            VarientItemsDialogBox(productList);
+                        }else{
+                            Toast.makeText(getActivity(),"No matching Item",Toast.LENGTH_LONG).show();
+                        }
                         showData();
 
                     }else{
@@ -312,7 +324,36 @@ public class BRInvoiceDetailFragment extends Fragment{
         alertD.show();
         return true;
     }
+    private boolean VarientItemsDialogBox(final ArrayList<Product> itemDetails) {
 
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View promptView = layoutInflater.inflate(R.layout.bundle_items_popup, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setTitle("Varient Items");
+        alertDialogBuilder.setView(promptView);
+        final ListView listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
+
+        listView.setAdapter(new VarientItemsAdapter(getActivity(), itemDetails));
+        alertDialogBuilder.setCancelable(false).setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                selectedVarientItems = new ProductController(getActivity()).getScannedVarientItems();
+
+                updateInvoiceDet(selectedVarientItems);
+                showData();
+
+                dialog.cancel();//2020-03-10
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertD = alertDialogBuilder.create();
+
+        alertD.show();
+        return true;
+    }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 //    public void calculateFreeIssue(String debCode) {

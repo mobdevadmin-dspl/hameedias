@@ -16,6 +16,7 @@ import com.datamation.hmdsfa.model.Product;
 
 import java.util.ArrayList;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
 import static com.datamation.hmdsfa.controller.SalesPriceController.FSALES_PRI_UNITPRICE;
 import static com.datamation.hmdsfa.controller.SalesPriceController.TABLE_FSALESPRICE;
 
@@ -220,7 +221,46 @@ public class ProductController {
         return list;
     }
 
+    public ArrayList<Product> getAllItems() {//2020-09-07 for hameedias
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<Product> list = new ArrayList<>();
+        try {
+            //  cursor = dB.rawQuery("SELECT * FROM " +TABLE_FPRODUCT + " WHERE itemcode || itemname LIKE '%" + newText + "%' and TxnType = '"+txntype+"' ORDER BY QOH DESC", null);
+            cursor = dB.rawQuery("SELECT * FROM " +TABLE_FPRODUCT , null);
+
+            while (cursor.moveToNext()) {
+                Product product = new Product();
+                product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
+                product.setFPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMCODE)));
+                product.setFPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMNAME)));
+                product.setFPRODUCT_DocumentNo(cursor.getString(cursor.getColumnIndex(FPRODUCT_DocumentNo)));
+                product.setFPRODUCT_Barcode(cursor.getString(cursor.getColumnIndex(FPRODUCT_Barcode)));
+                product.setFPRODUCT_VariantCode(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantCode)));
+                product.setFPRODUCT_VariantColour(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantColour)));
+                product.setFPRODUCT_VariantSize(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantSize)));
+                product.setFPRODUCT_QTY(cursor.getString(cursor.getColumnIndex(FPRODUCT_Quantity)));
+                product.setFPRODUCT_Price(cursor.getString(cursor.getColumnIndex(FPRODUCT_Price)));
+                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
+                product.setFPRODUCT_IsScan(cursor.getString(cursor.getColumnIndex(FPRODUCT_IsScan)));
+
+
+                list.add(product);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            dB.close();
+        }
+
+        return list;
+    }
     public void updateBarCode(String itemCode, String isScan) {
 
         if (dB == null) {
@@ -337,7 +377,7 @@ public class ProductController {
 
         return list;
     }
-    public ArrayList<Product> getScannedtems(String txntype) {
+    public ArrayList<Product> getScannedVarientItems() {
 
         if (dB == null) {
             open();
@@ -383,40 +423,11 @@ Log.d(">>ScannedList",">>"+list.toString());
 
 
         ArrayList<Product> list = new ArrayList<>();
+        Cursor cursor = null;
         try {
-                Product product = new Product();
-                String price = new SalesPriceController(context).getPrice(itembundle.getItemNo(),itembundle.getVariantCode());
-             //   product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
-                product.setFPRODUCT_ITEMCODE(itembundle.getItemNo());
-                product.setFPRODUCT_ITEMNAME(itembundle.getDescription());
-                product.setFPRODUCT_Barcode(itembundle.getBarcode());
-                product.setFPRODUCT_DocumentNo(itembundle.getDocumentNo());
-                product.setFPRODUCT_VariantCode(itembundle.getVariantCode());
-                product.setFPRODUCT_VariantColour(itembundle.getVariantColour());
-                product.setFPRODUCT_VariantSize(itembundle.getVariantSize());
-                product.setFPRODUCT_QTY(String.valueOf(itembundle.getQuantity()));
-                product.setFPRODUCT_Price(price);
-//                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
-                product.setFPRODUCT_ArticleNo(itembundle.getArticleNo());
-                product.setFPRODUCT_IsScan("1");
+            cursor = dB.rawQuery("SELECT * FROM BarCodeVarient WHERE  Item_No = '" + itembundle.getItemNo() + "' ", null);
 
-                list.add(product);
-
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Log.d(">>ScannedList",">>"+list.toString());
-        return list;
-    }
-    //get scanned items for itembundle scan
-    public ArrayList<Product> getBundleScannedtems(ArrayList<ItemBundle> itembundleList) {
-
-
-        ArrayList<Product> list = new ArrayList<>();
-        try {
-            for(ItemBundle itembundle : itembundleList) {
+            while (cursor.moveToNext()) {
                 Product product = new Product();
                 String price = new SalesPriceController(context).getPrice(itembundle.getItemNo(), itembundle.getVariantCode());
                 //   product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
@@ -429,13 +440,49 @@ Log.d(">>ScannedList",">>"+list.toString());
                 product.setFPRODUCT_VariantSize(itembundle.getVariantSize());
                 product.setFPRODUCT_QTY(String.valueOf(itembundle.getQuantity()));
                 product.setFPRODUCT_Price(price);
-                product.setFPRODUCT_ArticleNo(itembundle.getArticleNo());
 //                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
+                product.setFPRODUCT_ArticleNo(itembundle.getArticleNo());
                 product.setFPRODUCT_IsScan("1");
 
                 list.add(product);
-
             }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d(">>ScannedList",">>"+list.toString());
+        return list;
+    }
+    //get scanned items for varient items 202009-07
+    public ArrayList<Product> getScannedItems(Product itembundle) {
+
+
+        ArrayList<Product> list = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            cursor = dB.rawQuery("SELECT * FROM BarCodeVarient WHERE  Item_No = '" + itembundle.getFPRODUCT_ITEMCODE()+ "' ", null);
+
+            while (cursor.moveToNext()) {
+                Product product = new Product();
+                String price = new SalesPriceController(context).getPrice(itembundle.getFPRODUCT_ITEMCODE(), itembundle.getFPRODUCT_VariantCode());
+                //   product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
+                product.setFPRODUCT_ITEMCODE(itembundle.getFPRODUCT_ITEMCODE());
+                product.setFPRODUCT_ITEMNAME(itembundle.getFPRODUCT_ITEMNAME());
+                product.setFPRODUCT_Barcode(itembundle.getFPRODUCT_Barcode());
+                product.setFPRODUCT_DocumentNo(itembundle.getFPRODUCT_DocumentNo());
+                product.setFPRODUCT_VariantCode(itembundle.getFPRODUCT_VariantCode());
+                product.setFPRODUCT_VariantColour(itembundle.getFPRODUCT_VariantColour());
+                product.setFPRODUCT_VariantSize(itembundle.getFPRODUCT_VariantSize());
+                product.setFPRODUCT_QTY(String.valueOf(itembundle.getFPRODUCT_QTY()));
+                product.setFPRODUCT_Price(price);
+//                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
+                product.setFPRODUCT_ArticleNo(itembundle.getFPRODUCT_ArticleNo());
+                product.setFPRODUCT_IsScan("1");
+
+                list.add(product);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -479,8 +526,42 @@ Log.d(">>ScannedList",">>"+list.toString());
             dB.close();
         }
 
-         return list;
+        return list;
     }
+    //get scanned items for itembundle scan
+    public ArrayList<Product> getBundleScannedtems(ArrayList<ItemBundle> itembundleList) {
+
+
+        ArrayList<Product> list = new ArrayList<>();
+        try {
+            for(ItemBundle itembundle : itembundleList) {
+                Product product = new Product();
+                String price = new SalesPriceController(context).getPrice(itembundle.getItemNo(), itembundle.getVariantCode());
+                //   product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
+                product.setFPRODUCT_ITEMCODE(itembundle.getItemNo());
+                product.setFPRODUCT_ITEMNAME(itembundle.getDescription());
+                product.setFPRODUCT_Barcode(itembundle.getBarcode());
+                product.setFPRODUCT_DocumentNo(itembundle.getDocumentNo());
+                product.setFPRODUCT_VariantCode(itembundle.getVariantCode());
+                product.setFPRODUCT_VariantColour(itembundle.getVariantColour());
+                product.setFPRODUCT_VariantSize(itembundle.getVariantSize());
+                product.setFPRODUCT_QTY(String.valueOf(itembundle.getQuantity()));
+                product.setFPRODUCT_Price(price);
+                product.setFPRODUCT_ArticleNo(itembundle.getArticleNo());
+//                product.setFPRODUCT_QOH(cursor.getString(cursor.getColumnIndex(FPRODUCT_QOH)));
+                product.setFPRODUCT_IsScan("1");
+
+                list.add(product);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d(">>ScannedList",">>"+list.toString());
+        return list;
+    }
+
 
 
 
@@ -546,7 +627,58 @@ Log.d(">>ScannedList",">>"+list.toString());
         }
         return  count;
     }
+    public int createOrUpdateProducts(ArrayList<Product> list) {
 
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+
+            for (Product product : list) {
+
+                String selectQuery = "SELECT * FROM " + TABLE_FPRODUCT + " WHERE " + FPRODUCT_Barcode + " = '" + product.getFPRODUCT_Barcode() + "'";
+
+                cursor = dB.rawQuery(selectQuery, null);
+
+                ContentValues values = new ContentValues();
+                values.put(FPRODUCT_ITEMCODE, product.getFPRODUCT_ITEMCODE());
+                values.put(FPRODUCT_ITEMNAME, product.getFPRODUCT_ITEMNAME());
+                values.put(FPRODUCT_Barcode, product.getFPRODUCT_Barcode());
+                values.put(FPRODUCT_DocumentNo, product.getFPRODUCT_DocumentNo());
+                values.put(FPRODUCT_VariantCode, product.getFPRODUCT_VariantCode());
+                values.put(FPRODUCT_VariantColour, product.getFPRODUCT_VariantColour());
+                values.put(FPRODUCT_VariantSize, product.getFPRODUCT_VariantSize());
+                values.put(FPRODUCT_Quantity, product.getFPRODUCT_QTY());
+                values.put(FPRODUCT_Price, product.getFPRODUCT_Price());
+                values.put(FPRODUCT_QOH, product.getFPRODUCT_QOH());
+                values.put(FPRODUCT_IsScan, product.getFPRODUCT_IsScan());
+
+                int cn = cursor.getCount();
+                if (cn > 0) {
+                    count = dB.update(TABLE_FPRODUCT, values, FPRODUCT_Barcode + " =?", new String[]{String.valueOf(product.getFPRODUCT_Barcode())});
+                } else {
+                    count = (int) dB.insert(TABLE_FPRODUCT, null, values);
+                }
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+    }
     public void insertIntoProductAsBulk(String LocCode, String prillcode)
     {
         if (dB == null) {
