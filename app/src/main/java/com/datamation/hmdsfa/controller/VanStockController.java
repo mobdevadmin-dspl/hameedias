@@ -188,8 +188,7 @@ public class VanStockController {
 
         ArrayList<StockInfo> list = new ArrayList<StockInfo>();
 
-        String selectQuery = "        \n" +
-                "SELECT itm.* ,vstock.To_Location_Code, sum(vstock.Quantity_Issued) as totqty FROM fitem itm, fvanstock vstock WHERE vstock.To_Location_Code ='VAN13A' AND vstock.Item_No=itm.itemcode GROUP BY Item_No ORDER BY totqty DESC";
+        String selectQuery = "SELECT itm.* ,vstock.To_Location_Code, sum(vstock.Quantity_Issued) as totqty FROM fitem itm, fvanstock vstock WHERE vstock.To_Location_Code = '" + LocCode + "' AND vstock.Item_No=itm.itemcode GROUP BY Item_No ORDER BY Item_No ";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 
@@ -226,7 +225,7 @@ public class VanStockController {
 
         ArrayList<StockInfo> list = new ArrayList<StockInfo>();
 
-        String selectQuery = "SELECT itm.* , vstock.To_Location_Code, sum(vstock.Quantity_Issued)as totqty FROM fitem itm, fvanstock vstock WHERE  vstock.To_Location_Code ='" + LocCode + "' AND vstock.Item_No=itm.itemcode GROUP BY GroupCode ORDER BY totqty DESC";
+        String selectQuery = "SELECT itm.* , vstock.To_Location_Code, sum(vstock.Quantity_Issued)as totqty FROM fitem itm, fvanstock vstock WHERE  vstock.To_Location_Code ='" + LocCode + "' AND vstock.Item_No=itm.itemcode GROUP BY GroupCode ORDER BY GroupCode ";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 

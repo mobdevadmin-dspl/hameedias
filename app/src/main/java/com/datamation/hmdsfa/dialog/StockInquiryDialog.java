@@ -79,7 +79,7 @@ public class StockInquiryDialog
                         LocCode = new SalRepController(context).getCurrentLoccode().trim();
                         txtTotQty.setText(new VanStockController(context).getTotalQOH(LocCode));
                         new LoadStockData(LocCode).execute();
-                        new LoadGwiseStockData().execute();
+                        new LoadGwiseStockData(LocCode).execute();
 
                     }
                     else if(position == 1)//Main stock
@@ -89,7 +89,7 @@ public class StockInquiryDialog
                         LocCode = "MAINSTORES";
                         txtTotQty.setText(new ItemController(context).getTotalStockQOH(LocCode));
                         new LoadStockData(LocCode).execute();
-                        new LoadGwiseStockData().execute();
+                        new LoadGwiseStockData(LocCode).execute();
 
                     }
 
@@ -228,6 +228,11 @@ public class StockInquiryDialog
     class LoadGwiseStockData extends AsyncTask<String, String, String> {
 
         StockInquiryAdaptor adaptor;
+        String locCode;
+
+        public LoadGwiseStockData(String locCode) {
+            this.locCode = locCode;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -242,14 +247,12 @@ public class StockInquiryDialog
 
             if(!isStock)
             {
-                LocCode = new SalRepController(context).getCurrentLoccode().trim();
-                arrayList = new VanStockController(context).getGwiseVanStocks(LocCode);
+                arrayList = new VanStockController(context).getGwiseVanStocks(locCode);
 
             }
             else
             {
-                LocCode = "MS";
-                arrayList = new ItemController(context).getGwiseStocks(LocCode);
+                arrayList = new ItemController(context).getGwiseStocks(locCode);
             }
 
             adaptor = new StockInquiryAdaptor(context, arrayList);

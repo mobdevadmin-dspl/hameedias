@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/rounded_bg"
+    android:orientation="vertical">
+
+
+    <com.datamation.hmdsfa.utils.CustomFont
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Download Summary"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#dcdcdc"></View>
+
+    <ListView
+        android:id="@+id/download_listview"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"></ListView>
+
+
+    <com.datamation.hmdsfa.utils.CustomFont
+        android:id="@+id/close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/bottom_button_bg"
+        android:gravity="center"
+        android:text="OK"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+
+</LinearLayout>
+
+
