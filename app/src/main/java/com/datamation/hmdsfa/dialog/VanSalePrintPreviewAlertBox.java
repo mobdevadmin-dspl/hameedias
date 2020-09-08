@@ -327,9 +327,9 @@ public class VanSalePrintPreviewAlertBox {
         String SalesRepNamestr = "";// +
 //        if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
         if(invHed.getFINVHED_VAT_CODE().equals("VAT")) {
-            SalesRepNamestr = "<TAX INVOICE>";
+            SalesRepNamestr = "<TAX INVOICE(REPRINT)>";
         }else{
-            SalesRepNamestr = "<INVOICE>";
+            SalesRepNamestr = "<INVOICE(REPRINT)>";
         }
       //  String SalesRepNamestr = "Sales Rep: " + salrep.getRepCode() + "/ " + salrep.getNAME().trim();// +
 
