@@ -161,12 +161,8 @@ public class BRInvoiceDetailFragment extends Fragment{
                     if (itemBundle.size() == 1) {
                         selectedItemList = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
                         //rashmi-2020-08-21
-                        double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(selectedItemList.get(0).getFPRODUCT_Barcode()));
-                        if (qoh >= Double.parseDouble(selectedItemList.get(0).getFPRODUCT_QTY())) {
                             updateInvoiceDet(selectedItemList);
-                        } else {
-                            Toast.makeText(getActivity(), "Not enough stock", Toast.LENGTH_LONG).show();
-                        }
+
                         showData();
                     } else {
                         Toast.makeText(getActivity(), "No matching item", Toast.LENGTH_LONG).show();
