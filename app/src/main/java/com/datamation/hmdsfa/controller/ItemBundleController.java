@@ -34,6 +34,7 @@ public class ItemBundleController {
     public static final String Quantity = "Quantity";
     public static final String Description = "Description";
     public static final String ArticleNo = "ArticleNo";
+    public static final String ItemName = "ItemName";
     public static final String CREATE_ITEMBUNDLE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_ITEMBUNDLE + " (" + Id + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             Barcode + " TEXT, " +
             DocumentNo + " TEXT, " +
@@ -285,13 +286,13 @@ public class ItemBundleController {
             open();
         }
 
-        String selectQuery = "SELECT * FROM ItemBundle WHERE ItemNo ='" + code + "'";
+        String selectQuery = "SELECT * FROM fitem WHERE Itemcode ='" + code + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
             while (cursor.moveToNext()) {
 
-                return cursor.getString(cursor.getColumnIndex(Description));
+                return cursor.getString(cursor.getColumnIndex(ItemName));
 
             }
         } catch (Exception e) {

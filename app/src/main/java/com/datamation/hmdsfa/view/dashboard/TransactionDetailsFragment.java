@@ -652,6 +652,7 @@ public class TransactionDetailsFragment extends Fragment {
             lblListHeader.setTypeface(null, Typeface.BOLD);
             lblListHeader.setText(headerTitle.getFINVHED_REFNO());
             deb.setText(headerTitle.getFINVHED_DEBCODE());
+
             if(headerTitle.getFINVHED_IS_SYNCED().equals("1")){
                 stats.setText("Synced");
                 stats.setTextColor(getResources().getColor(R.color.material_alert_positive_button));
@@ -660,6 +661,7 @@ public class TransactionDetailsFragment extends Fragment {
                 stats.setTextColor(getResources().getColor(R.color.material_alert_negative_button));
 
             }
+
             date.setText(headerTitle.getFINVHED_TXNDATE());
             tot.setText(headerTitle.getFINVHED_TOTALAMT());
             type.setOnClickListener(new View.OnClickListener() {
