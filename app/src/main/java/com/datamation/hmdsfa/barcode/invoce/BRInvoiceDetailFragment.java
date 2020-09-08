@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.adapter.BundleAdapter;
+import com.datamation.hmdsfa.adapter.FabricItemsAdapter;
 import com.datamation.hmdsfa.adapter.FreeIssueAdapterNew;
 import com.datamation.hmdsfa.adapter.InvDetAdapterNew;
 import com.datamation.hmdsfa.adapter.InvoiceFreeItemAdapter;
@@ -193,6 +194,8 @@ public class BRInvoiceDetailFragment extends Fragment{
                     }else{
                         Toast.makeText(getActivity(),"No matching fabric items",Toast.LENGTH_LONG).show();
                     }
+                    etSearchField.setText("");
+                    etSearchField.setFocusable(true);
                 }
                 return false;
             }
@@ -314,7 +317,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         alertDialogBuilder.setView(promptView);
         final ListView listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
 
-        listView.setAdapter(new BundleAdapter(getActivity(), itemDetails));
+        listView.setAdapter(new FabricItemsAdapter(getActivity(), itemDetails));
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
