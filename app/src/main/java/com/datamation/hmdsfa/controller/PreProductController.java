@@ -227,9 +227,9 @@ public class PreProductController {
         ArrayList<PreProduct> list = new ArrayList<PreProduct>();
         Cursor cursor = null;
         try {
-            cursor = dB.rawQuery("SELECT * FROM BarCodeVarient WHERE  Item_No = '" + itembundle.getItemNo() + "' ", null);
+      //      cursor = dB.rawQuery("SELECT * FROM BarCodeVarient WHERE  Item_No = '" + itembundle.getItemNo() + "' ", null);
 
-            while (cursor.moveToNext()) {
+     //       while (cursor.moveToNext()) {
                 PreProduct product = new PreProduct();
                 String price = new SalesPriceController(context).getPrice(itembundle.getItemNo(), itembundle.getVariantCode());
                 //   product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
@@ -247,7 +247,7 @@ public class PreProductController {
                 product.setPREPRODUCT_IsScan("1");
 
                 list.add(product);
-            }
+     //       }
 
 
         } catch (Exception e) {

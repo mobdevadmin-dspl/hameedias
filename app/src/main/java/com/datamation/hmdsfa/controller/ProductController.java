@@ -425,9 +425,9 @@ Log.d(">>ScannedList",">>"+list.toString());
         ArrayList<Product> list = new ArrayList<>();
         Cursor cursor = null;
         try {
-            cursor = dB.rawQuery("SELECT * FROM BarCodeVarient WHERE  Item_No = '" + itembundle.getItemNo() + "' ", null);
-
-            while (cursor.moveToNext()) {
+//            cursor = dB.rawQuery("SELECT * FROM BarCodeVarient WHERE  Item_No = '" + itembundle.getItemNo() + "' ", null);
+//
+//            while (cursor.moveToNext()) {
                 Product product = new Product();
                 String price = new SalesPriceController(context).getPrice(itembundle.getItemNo(), itembundle.getVariantCode());
                 //   product.setFPRODUCT_ID(cursor.getString(cursor.getColumnIndex(FPRODUCT_ID)));
@@ -445,7 +445,7 @@ Log.d(">>ScannedList",">>"+list.toString());
                 product.setFPRODUCT_IsScan("1");
 
                 list.add(product);
-            }
+          //  }
 
 
         } catch (Exception e) {
