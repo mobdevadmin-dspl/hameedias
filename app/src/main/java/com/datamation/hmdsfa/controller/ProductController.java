@@ -48,9 +48,9 @@ public class ProductController {
     public static final String FPRODUCT_VariantCode = "VariantCode";
     public static final String FPRODUCT_VariantColour = "VariantColour";
     public static final String FPRODUCT_VariantSize = "VariantSize";
+    public static final String FPRODUCT_IsScan = "IsScan";
     public static final String FPRODUCT_Quantity = "Quantity";
     public static final String FPRODUCT_Price = "Price";
-    public static final String FPRODUCT_IsScan = "IsScan";
     public static final String FPRODUCT_QOH = "QOH";
 
 

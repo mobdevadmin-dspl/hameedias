@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.model.ItemBundle;
+import com.datamation.hmdsfa.model.PreProduct;
 import com.datamation.hmdsfa.model.Product;
 
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ import java.util.ArrayList;
 public class VarientItemsAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     Context context;
-    ArrayList<Product> list;
+    ArrayList<PreProduct> list;
     String preText = null;
 
-    public VarientItemsAdapter(Context context, final ArrayList<Product> list) {
+    public VarientItemsAdapter(Context context, final ArrayList<PreProduct> list) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -38,7 +39,7 @@ public class VarientItemsAdapter extends BaseAdapter {
     }
 
     @Override
-    public Product getItem(int position) {
+    public PreProduct getItem(int position) {
         return list.get(position);
     }
 
@@ -61,19 +62,19 @@ public class VarientItemsAdapter extends BaseAdapter {
             viewHolder.Price =(TextView)convertView.findViewById(R.id.row_price);
             viewHolder.HoQ =(TextView)convertView.findViewById(R.id.row_qoh);
             viewHolder.lblQty =(TextView)convertView.findViewById(R.id.et_qty);
-           viewHolder.checkScan =(CheckBox) convertView.findViewById(R.id.btnAddition);
+            viewHolder.checkScan =(CheckBox) convertView.findViewById(R.id.btnAddition);
             //viewHolder.btnMinus =(ImageButton) convertView.findViewById(R.id.btnSubtract);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-           final  Product product=getItem(position);
+           final  PreProduct product=getItem(position);
 
-        viewHolder.itemCode.setText(product.getFPRODUCT_ITEMCODE());
-        viewHolder.ItemName.setText(product.getFPRODUCT_VariantCode()+" "+product.getFPRODUCT_ITEMNAME()+" "+product.getFPRODUCT_VariantSize()+" "+product.getFPRODUCT_VariantColour());
-        viewHolder.Price.setText(product.getFPRODUCT_Barcode());
-        viewHolder.HoQ.setText(product.getFPRODUCT_ITEMCODE());
-        viewHolder.lblQty.setText(""+product.getFPRODUCT_QTY());
+        viewHolder.itemCode.setText(product.getPREPRODUCT_ITEMCODE());
+        viewHolder.ItemName.setText(product.getPREPRODUCT_VariantCode()+" "+product.getPREPRODUCT_ITEMNAME()+" "+product.getPREPRODUCT_VariantSize()+" "+product.getPREPRODUCT_VariantColour());
+        viewHolder.Price.setText(product.getPREPRODUCT_Barcode());
+        viewHolder.HoQ.setText(product.getPREPRODUCT_QOH());
+        viewHolder.lblQty.setText(""+product.getPREPRODUCT_QTY());
         viewHolder.checkScan.setChecked(true);
 
 

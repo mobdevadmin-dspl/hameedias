@@ -16,6 +16,69 @@ public class PreProduct {
     private String PREPRODUCT_TXN_TYPE;
     private String PREPRODUCT_BALQTY;
     private String PREPRODUCT_REACODE;
+    private String PREPRODUCT_Barcode;
+    private String PREPRODUCT_DocumentNo;
+    private String PREPRODUCT_VariantCode;
+    private String PREPRODUCT_VariantColour;
+    private String PREPRODUCT_VariantSize;
+    private String PREPRODUCT_IsScan;
+    private String PREPRODUCT_ArticleNo;
+
+    public String getPREPRODUCT_Barcode() {
+        return PREPRODUCT_Barcode;
+    }
+
+    public void setPREPRODUCT_Barcode(String PREPRODUCT_Barcode) {
+        this.PREPRODUCT_Barcode = PREPRODUCT_Barcode;
+    }
+
+    public String getPREPRODUCT_DocumentNo() {
+        return PREPRODUCT_DocumentNo;
+    }
+
+    public void setPREPRODUCT_DocumentNo(String PREPRODUCT_DocumentNo) {
+        this.PREPRODUCT_DocumentNo = PREPRODUCT_DocumentNo;
+    }
+
+    public String getPREPRODUCT_VariantCode() {
+        return PREPRODUCT_VariantCode;
+    }
+
+    public void setPREPRODUCT_VariantCode(String PREPRODUCT_VariantCode) {
+        this.PREPRODUCT_VariantCode = PREPRODUCT_VariantCode;
+    }
+
+    public String getPREPRODUCT_VariantColour() {
+        return PREPRODUCT_VariantColour;
+    }
+
+    public void setPREPRODUCT_VariantColour(String PREPRODUCT_VariantColour) {
+        this.PREPRODUCT_VariantColour = PREPRODUCT_VariantColour;
+    }
+
+    public String getPREPRODUCT_VariantSize() {
+        return PREPRODUCT_VariantSize;
+    }
+
+    public void setPREPRODUCT_VariantSize(String PREPRODUCT_VariantSize) {
+        this.PREPRODUCT_VariantSize = PREPRODUCT_VariantSize;
+    }
+
+    public String getPREPRODUCT_IsScan() {
+        return PREPRODUCT_IsScan;
+    }
+
+    public void setPREPRODUCT_IsScan(String PREPRODUCT_IsScan) {
+        this.PREPRODUCT_IsScan = PREPRODUCT_IsScan;
+    }
+
+    public String getPREPRODUCT_ArticleNo() {
+        return PREPRODUCT_ArticleNo;
+    }
+
+    public void setPREPRODUCT_ArticleNo(String PREPRODUCT_ArticleNo) {
+        this.PREPRODUCT_ArticleNo = PREPRODUCT_ArticleNo;
+    }
 
     public String getPREPRODUCT_REACODE() {
         return PREPRODUCT_REACODE;

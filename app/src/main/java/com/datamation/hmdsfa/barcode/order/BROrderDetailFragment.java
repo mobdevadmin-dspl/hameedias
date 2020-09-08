@@ -34,6 +34,7 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.adapter.BundleAdapter;
 import com.datamation.hmdsfa.adapter.OrderDetailsAdapter;
 import com.datamation.hmdsfa.adapter.OrderFreeItemAdapter;
+import com.datamation.hmdsfa.adapter.VarientItemsAdapter;
 import com.datamation.hmdsfa.controller.BarcodeVarientController;
 import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.DiscountController;
@@ -42,6 +43,7 @@ import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.OrderController;
 import com.datamation.hmdsfa.controller.OrderDetailController;
+import com.datamation.hmdsfa.controller.PreProductController;
 import com.datamation.hmdsfa.controller.ProductController;
 import com.datamation.hmdsfa.controller.VATController;
 import com.datamation.hmdsfa.controller.VanStockController;
@@ -53,6 +55,7 @@ import com.datamation.hmdsfa.model.Customer;
 import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.OrderDetail;
+import com.datamation.hmdsfa.model.PreProduct;
 import com.datamation.hmdsfa.model.Product;
 import com.datamation.hmdsfa.settings.ReferenceNum;
 import com.datamation.hmdsfa.view.PreSalesActivity;
@@ -75,7 +78,7 @@ public class BROrderDetailFragment extends Fragment{
     int totPieces = 0;
     int seqno = 0;
     ListView lv_order_det, lvFree;
-    ArrayList<Product> productList = null, selectedItemList = null, selectedItem = null;
+    ArrayList<PreProduct> productList = null, selectedItemList = null, selectedItem = null, selectedVarientItems = null;;
     Spinner spnScanType;
     SweetAlertDialog pDialog;
     private static final String TAG = "OrderDetailFragment";
@@ -176,9 +179,9 @@ public class BROrderDetailFragment extends Fragment{
                         .getItemsInBundle(textSearchField.getSelectedItem().toString().split("-")[0].trim());
                 Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
                 if (itemBundle.size() == 1) {
-                    selectedItem = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
-                    double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(selectedItem.get(0).getFPRODUCT_Barcode()));
-                if (qoh >= Double.parseDouble(selectedItem.get(0).getFPRODUCT_QTY())) {
+                    selectedItem = new PreProductController(getActivity()).getScannedtems(itemBundle.get(0));
+                    double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(selectedItem.get(0).getPREPRODUCT_Barcode()));
+                if (qoh >= Double.parseDouble(selectedItem.get(0).getPREPRODUCT_QTY())) {
                     //rashmi-2020-08-21
                     updateOrderDet(selectedItem);
                 } else {
@@ -204,21 +207,50 @@ public class BROrderDetailFragment extends Fragment{
                     clickCount = 0;
                     mSharedPref.setDiscountClicked("0");
                     if (spnScanType.getSelectedItemPosition() == 0) {
+//                        ArrayList<ItemBundle> itemBundle = new BarcodeVarientController(getActivity())
+//                                .getItemsInBundle(etSearchField.getText().toString());
+//                        Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
+//                        if (itemBundle.size() == 1) {
+//                            selectedItem = new PreProductController(getActivity()).getScannedtems(itemBundle.get(0));
+//                            //rashmi-2020-08-21
+//                            double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(selectedItem.get(0).getPREPRODUCT_Barcode()));
+//                            if (qoh >= Double.parseDouble(selectedItem.get(0).getPREPRODUCT_QTY())) {
+//                                updateOrderDet(selectedItem);
+//                            } else {
+//                                Toast.makeText(getActivity(), "Not enough stock", Toast.LENGTH_LONG).show();
+//                            }
+//                            showData();
+//                        } else {
+//                            Toast.makeText(getActivity(), "No matching item", Toast.LENGTH_LONG).show();
+//                        }
+//                        etSearchField.setText("");
+//                        etSearchField.setFocusable(true);
                         ArrayList<ItemBundle> itemBundle = new BarcodeVarientController(getActivity())
                                 .getItemsInBundle(etSearchField.getText().toString());
                         Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
-                        if (itemBundle.size() == 1) {
-                            selectedItem = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
-                            //rashmi-2020-08-21
-                            double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(selectedItem.get(0).getFPRODUCT_Barcode()));
-                            if (qoh >= Double.parseDouble(selectedItem.get(0).getFPRODUCT_QTY())) {
-                                updateOrderDet(selectedItem);
-                            } else {
-                                Toast.makeText(getActivity(), "Not enough stock", Toast.LENGTH_LONG).show();
+                        // for (Item item: aList ) {
+                        // Log.v("code :", ">> " + item.getItemNo());
+                        if(itemBundle.size()==1) {
+                            //when deduct qoh update qoh also
+                            // new ProductController(getActivity()).updateBarCode(itemBundle.get(0).getBarcode(),"1");
+                            if(itemBundle.size()>0) {
+                                if (new ProductController(getActivity()).tableHasRecords()) {
+                                    //productList = new ProductDS(getActivity()).getAllItems("");
+                                    productList = new PreProductController(getActivity()).getAllItems();//rashmi 20200907
+                                } else {
+                                    selectedVarientItems = new PreProductController(getActivity()).getScannedtems(itemBundle.get(0));
+
+                                    new PreProductController(getActivity()).createOrUpdateProducts(selectedVarientItems);
+                                }
+                                productList = new PreProductController(getActivity()).getAllItems();//rashmi 20200907
+                                VarientItemsDialogBox(productList);
+                            }else{
+                                Toast.makeText(getActivity(),"No matching Item",Toast.LENGTH_LONG).show();
                             }
                             showData();
-                        } else {
-                            Toast.makeText(getActivity(), "No matching item", Toast.LENGTH_LONG).show();
+
+                        }else{
+                            Toast.makeText(getActivity(),"No matching item",Toast.LENGTH_LONG).show();
                         }
                         etSearchField.setText("");
                         etSearchField.setFocusable(true);
@@ -264,8 +296,6 @@ public class BROrderDetailFragment extends Fragment{
 //
 //                    }
 //            });
-
-
 
         btnDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,12 +357,12 @@ public class BROrderDetailFragment extends Fragment{
         alertDialogBuilder.setCancelable(false).setPositiveButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 int count = 0;
-                selectedItemList = new ProductController(getActivity()).getBundleScannedtems(itemDetails);
-                for (Product product : selectedItemList) {
+                selectedItemList = new PreProductController(getActivity()).getBundleScannedtems(itemDetails);
+                for (PreProduct product : selectedItemList) {
 
-                    double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(product.getFPRODUCT_Barcode()));
+                    double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(product.getPREPRODUCT_Barcode()));
                     // Log.d("QOH>>>",">>>listsize"+list.size()+"count>>>"+qoh);
-                    if(qoh >= Double.parseDouble(product.getFPRODUCT_QTY())) {
+                    if(qoh >= Double.parseDouble(product.getPREPRODUCT_QTY())) {
                         count++;
                         //    Log.d("QOH>>>","insideqohvalidation>>>listsize"+list.size()+"count>>>"+count);
                     }
@@ -346,6 +376,36 @@ public class BROrderDetailFragment extends Fragment{
                     Toast.makeText(getActivity(),"Not enough stock",Toast.LENGTH_LONG).show();
                 }
 
+                showData();
+
+                dialog.cancel();//2020-03-10
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertD = alertDialogBuilder.create();
+
+        alertD.show();
+        return true;
+    }
+    private boolean VarientItemsDialogBox(final ArrayList<PreProduct> itemDetails) {
+
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View promptView = layoutInflater.inflate(R.layout.bundle_items_popup, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setTitle("Varient Items");
+        alertDialogBuilder.setView(promptView);
+        final ListView listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
+
+        listView.setAdapter(new VarientItemsAdapter(getActivity(), itemDetails));
+        alertDialogBuilder.setCancelable(false).setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                selectedVarientItems = new PreProductController(getActivity()).getScannedVarientItems();
+
+                updateOrderDet(selectedVarientItems);
                 showData();
 
                 dialog.cancel();//2020-03-10
@@ -474,14 +534,14 @@ public class BROrderDetailFragment extends Fragment{
 
 
 
-    public void updateOrderDet(final ArrayList<Product> list) {
+    public void updateOrderDet(final ArrayList<PreProduct> list) {
                 int i = 0;
                 RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
               //  new OrderDetailController(getActivity()).deleteRecords(RefNo);
 
-                for (Product product : list) {
+                for (PreProduct product : list) {
                     i++;
-                    mUpdatePrsSales(product.getFPRODUCT_Barcode(), product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), product.getFPRODUCT_VariantCode(), product.getFPRODUCT_QTY(), product.getFPRODUCT_ArticleNo(), product.getFPRODUCT_DocumentNo());
+                    mUpdatePrsSales(product.getPREPRODUCT_Barcode(), product.getPREPRODUCT_ITEMCODE(), product.getPREPRODUCT_QTY(), product.getPREPRODUCT_PRICE(), product.getPREPRODUCT_VariantCode(), product.getPREPRODUCT_QTY(), product.getPREPRODUCT_ArticleNo(), product.getPREPRODUCT_DocumentNo());
                 }
 
 

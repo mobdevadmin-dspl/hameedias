@@ -54,6 +54,7 @@ import com.datamation.hmdsfa.controller.InvTaxRGController;
 import com.datamation.hmdsfa.controller.InvoiceDetBarcodeController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
+import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.ItemPriController;
 import com.datamation.hmdsfa.controller.OrdFreeIssueController;
 import com.datamation.hmdsfa.controller.ProductController;
@@ -154,49 +155,24 @@ public class BRInvoiceDetailFragment extends Fragment{
                 mSharedPref.setDiscountClicked("0");
                // Log.v("ENTER CODE","Working.... ");
                 if(spnScanType.getSelectedItemPosition() == 0) {
-//                        .getAllItem(etSearchField.getText().toString());
-//                    if (!new ProductController(getActivity()).tableHasRecords()) {
-//                        new ProductController(getActivity()).insertIntoProductAsBulk("MS", "WSP001");
-//                        // productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
-//                    }
-                    //itemBundle size should be one.because scan only one item
-
                     ArrayList<ItemBundle> itemBundle = new BarcodeVarientController(getActivity())
                             .getItemsInBundle(etSearchField.getText().toString());
                     Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
-                    // for (Item item: aList ) {
-                   // Log.v("code :", ">> " + item.getItemNo());
-                    if(itemBundle.size()==1) {
-                        //when deduct qoh update qoh also
-                       // new ProductController(getActivity()).updateBarCode(itemBundle.get(0).getBarcode(),"1");
-                        selectedVarientItems = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
-                        if(itemBundle.size()>0) {
-                            if (new ProductController(getActivity()).tableHasRecords()) {
-                                //productList = new ProductDS(getActivity()).getAllItems("");
-                                productList = new ProductController(getActivity()).getAllItems();//rashmi 20200907
-                            } else {
-                                new ProductController(getActivity()).createOrUpdateProducts(selectedVarientItems);
-                            }
-                            productList = new ProductController(getActivity()).getAllItems();//rashmi 20200907
-                            VarientItemsDialogBox(productList);
-                        }else{
-                            Toast.makeText(getActivity(),"No matching Item",Toast.LENGTH_LONG).show();
+                    if (itemBundle.size() == 1) {
+                        selectedItemList = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
+                        //rashmi-2020-08-21
+                        double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(selectedItemList.get(0).getFPRODUCT_Barcode()));
+                        if (qoh >= Double.parseDouble(selectedItemList.get(0).getFPRODUCT_QTY())) {
+                            updateInvoiceDet(selectedItemList);
+                        } else {
+                            Toast.makeText(getActivity(), "Not enough stock", Toast.LENGTH_LONG).show();
                         }
                         showData();
-
-                    }else{
-                        Toast.makeText(getActivity(),"No matching item",Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), "No matching item", Toast.LENGTH_LONG).show();
                     }
                     etSearchField.setText("");
                     etSearchField.setFocusable(true);
-                    // }
-//                    if(item.getBarcode()!= null) {
-//                        itemArrayList.add(item);
-//                    }else{
-//                        Toast.makeText(getActivity(),"No matching item",Toast.LENGTH_LONG).show();
-//                    }
-
-                  //  lv_order_det.setAdapter(new ItemAdapter(getActivity(), itemArrayList));
                 }else{
 //                    if (!new ProductController(getActivity()).tableHasRecords()) {
 //                        new ProductController(getActivity()).insertIntoProductAsBulk("MS", "WSP001");
@@ -309,36 +285,6 @@ public class BRInvoiceDetailFragment extends Fragment{
                 selectedItemList = new ProductController(getActivity()).getBundleScannedtems(itemDetails);
 
                 updateInvoiceDet(selectedItemList);
-                showData();
-
-                dialog.cancel();//2020-03-10
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alertD = alertDialogBuilder.create();
-
-        alertD.show();
-        return true;
-    }
-    private boolean VarientItemsDialogBox(final ArrayList<Product> itemDetails) {
-
-        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-        View promptView = layoutInflater.inflate(R.layout.bundle_items_popup, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setTitle("Varient Items");
-        alertDialogBuilder.setView(promptView);
-        final ListView listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
-
-        listView.setAdapter(new VarientItemsAdapter(getActivity(), itemDetails));
-        alertDialogBuilder.setCancelable(false).setPositiveButton("DONE", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                selectedVarientItems = new ProductController(getActivity()).getScannedVarientItems();
-
-                updateInvoiceDet(selectedVarientItems);
                 showData();
 
                 dialog.cancel();//2020-03-10
