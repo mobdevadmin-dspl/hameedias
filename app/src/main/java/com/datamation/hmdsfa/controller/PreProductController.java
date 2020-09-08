@@ -221,6 +221,47 @@ public class PreProductController {
 //        Log.d(">>ScannedList",">>"+list.toString());
 //        return list;
 //    }
+    public ArrayList<PreProduct> getVarientItems(String itemCode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<PreProduct> list = new ArrayList<>();
+        try {
+
+            //  String selectQuery = "SELECT *  FROM fItem WHERE ItemCode LIKE '%"+itemCode+"%'";
+            String selectQuery =  "SELECT * FROM BarCodeVarient WHERE  Barcode_No = '" + itemCode + "' and Item_No in (select itemcode from fitem)";
+
+
+            cursor = dB.rawQuery(selectQuery, null);
+            while(cursor.moveToNext()) {
+
+                PreProduct items = new PreProduct();
+
+                items.setPREPRODUCT_Barcode(cursor.getString(cursor.getColumnIndex("Barcode_No")));
+                items.setPREPRODUCT_DocumentNo("");
+                items.setPREPRODUCT_ITEMCODE(cursor.getString(cursor.getColumnIndex("Item_No")));
+                items.setPREPRODUCT_VariantCode(cursor.getString(cursor.getColumnIndex("Variant_Code")));
+                items.setPREPRODUCT_VariantColour("");
+                items.setPREPRODUCT_VariantSize(cursor.getString(cursor.getColumnIndex("Size")));
+                items.setPREPRODUCT_QTY("0");
+                items.setPREPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex("Description")));
+                items.setPREPRODUCT_ArticleNo(cursor.getString(cursor.getColumnIndex("Article_No")));
+
+
+                list.add(items);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            dB.close();
+        }
+
+        return list;
+    }
     public ArrayList<PreProduct> getScannedtems(ItemBundle itembundle) {
 
 

@@ -218,7 +218,7 @@ public class ItemBundleController {
         ArrayList<ItemBundle> list = new ArrayList<ItemBundle>();
 
         //  String selectQuery = "SELECT *  FROM fItem WHERE ItemCode LIKE '%"+itemCode+"%'";
-        String selectQuery =  "SELECT * FROM ItemBundle WHERE  DocumentNo = '" + itemCode + "' ";
+        String selectQuery =  "SELECT * FROM ItemBundle WHERE  DocumentNo = '" + itemCode + "' and ItemNo in (select itemcode from fitem where substr(GroupCode,1,2)<>'FB')";
 
 
         Cursor cursor = dB.rawQuery(selectQuery, null);

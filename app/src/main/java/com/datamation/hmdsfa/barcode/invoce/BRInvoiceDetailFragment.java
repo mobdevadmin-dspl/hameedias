@@ -136,6 +136,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         ArrayList<String> strList = new ArrayList<String>();
         strList.add("ITEM WISE");
         strList.add("BUNDLE WISE");
+        strList.add("FABRIC ITEMS");
         clickCount = 0;
         mSharedPref.setDiscountClicked("0");
         final ArrayAdapter<String> txnTypeAdapter = new ArrayAdapter<String>(getActivity(),
@@ -154,7 +155,7 @@ public class BRInvoiceDetailFragment extends Fragment{
                 clickCount = 0;
                 mSharedPref.setDiscountClicked("0");
                // Log.v("ENTER CODE","Working.... ");
-                if(spnScanType.getSelectedItemPosition() == 0) {
+                if(spnScanType.getSelectedItemPosition() == 0) {//itemwise scan
                     ArrayList<ItemBundle> itemBundle = new BarcodeVarientController(getActivity())
                             .getItemsInBundle(etSearchField.getText().toString());
                     Log.v("ENTERED CODE", "itemcode " + etSearchField.getText().toString());
@@ -169,7 +170,7 @@ public class BRInvoiceDetailFragment extends Fragment{
                     }
                     etSearchField.setText("");
                     etSearchField.setFocusable(true);
-                }else{
+                }else if(spnScanType.getSelectedItemPosition() == 1){//bundle wise scan
 //                    if (!new ProductController(getActivity()).tableHasRecords()) {
 //                        new ProductController(getActivity()).insertIntoProductAsBulk("MS", "WSP001");
 //                        // productList = new ProductController(getActivity()).getAllItems("","SA");//rashmi 2018-10-26
@@ -184,6 +185,14 @@ public class BRInvoiceDetailFragment extends Fragment{
                     etSearchField.setText("");
                     etSearchField.setFocusable(true);
 
+                }else if(spnScanType.getSelectedItemPosition() == 2){//fabric items 2020-09-08
+                    ArrayList<ItemBundle> fabricitems = new BarcodeVarientController(getActivity())
+                            .getFabricItems(etSearchField.getText().toString());
+                    if(fabricitems.size()>0){
+                        FabricItemsDialogBox(fabricitems);
+                    }else{
+                        Toast.makeText(getActivity(),"No matching fabric items",Toast.LENGTH_LONG).show();
+                    }
                 }
                 return false;
             }
@@ -271,6 +280,37 @@ public class BRInvoiceDetailFragment extends Fragment{
         View promptView = layoutInflater.inflate(R.layout.bundle_items_popup, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setTitle("Items Inside Bundle");
+        alertDialogBuilder.setView(promptView);
+        final ListView listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
+
+        listView.setAdapter(new BundleAdapter(getActivity(), itemDetails));
+
+        alertDialogBuilder.setCancelable(false).setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                selectedItemList = new ProductController(getActivity()).getBundleScannedtems(itemDetails);
+
+                updateInvoiceDet(selectedItemList);
+                showData();
+
+                dialog.cancel();//2020-03-10
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertD = alertDialogBuilder.create();
+
+        alertD.show();
+        return true;
+    }
+    private boolean FabricItemsDialogBox(final ArrayList<ItemBundle> itemDetails) {
+
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View promptView = layoutInflater.inflate(R.layout.bundle_items_popup, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setTitle("Fabric Items");
         alertDialogBuilder.setView(promptView);
         final ListView listView = (ListView) promptView.findViewById(R.id.lv_free_issue);
 
@@ -738,6 +778,7 @@ public class BRInvoiceDetailFragment extends Fragment{
     public void updateInvoiceDet(final ArrayList<Product> list) {
         int count = 0;
         //rashmi - 2020-07-02
+
                     for (Product product : list) {
 
                         double qoh = Double.parseDouble(new VanStockController(getActivity()).getQOH(new SalRepController(getActivity()).getCurrentLoccode().trim(),product.getFPRODUCT_Barcode()));

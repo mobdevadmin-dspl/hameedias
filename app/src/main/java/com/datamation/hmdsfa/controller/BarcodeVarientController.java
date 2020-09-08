@@ -194,6 +194,47 @@ public class BarcodeVarientController {
 
         return list;
     }
+    public ArrayList<ItemBundle> getFabricItems(String itemCode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<ItemBundle> list = new ArrayList<>();
+        try {
+
+            //  String selectQuery = "SELECT *  FROM fItem WHERE ItemCode LIKE '%"+itemCode+"%'";
+            String selectQuery =  "SELECT * FROM BarCodeVarient WHERE  Barcode_No = '" + itemCode + "' and Item_No in (select itemcode from fitem where substr(GroupCode,1,2)=='FB')";
+
+
+            cursor = dB.rawQuery(selectQuery, null);
+            while(cursor.moveToNext()) {
+
+                ItemBundle items = new ItemBundle();
+
+                items.setBarcode(cursor.getString(cursor.getColumnIndex(BARCODE_NO)));
+                items.setDocumentNo("");
+                items.setItemNo(cursor.getString(cursor.getColumnIndex(ITEM_NO)));
+                items.setVariantCode(cursor.getString(cursor.getColumnIndex(VARIANT_CODE)));
+                items.setVariantColour("");
+                items.setVariantSize(cursor.getString(cursor.getColumnIndex(VARIANT_SIZE)));
+                items.setQuantity(0);
+                items.setDescription(DOCUMENT_NO);
+                items.setArticleNo(cursor.getString(cursor.getColumnIndex(ARTICLE_NO)));
+
+
+                list.add(items);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+            dB.close();
+        }
+
+        return list;
+    }
     public ArrayList<ItemBundle> getItemsByArticleNo(String articleno) {
 
         if (dB == null) {

@@ -234,11 +234,11 @@ public class BROrderDetailFragment extends Fragment{
                             //when deduct qoh update qoh also
                             // new ProductController(getActivity()).updateBarCode(itemBundle.get(0).getBarcode(),"1");
                             if(itemBundle.size()>0) {
-                                if (new ProductController(getActivity()).tableHasRecords()) {
+                                if (new PreProductController(getActivity()).tableHasRecords()) {
                                     //productList = new ProductDS(getActivity()).getAllItems("");
                                     productList = new PreProductController(getActivity()).getAllItems();//rashmi 20200907
                                 } else {
-                                    selectedVarientItems = new PreProductController(getActivity()).getScannedtems(itemBundle.get(0));
+                                    selectedVarientItems = new PreProductController(getActivity()).getVarientItems(itemBundle.get(0).getBarcode());
 
                                     new PreProductController(getActivity()).createOrUpdateProducts(selectedVarientItems);
                                 }
