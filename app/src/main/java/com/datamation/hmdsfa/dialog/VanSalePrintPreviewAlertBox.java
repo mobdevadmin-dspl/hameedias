@@ -169,7 +169,8 @@ public class VanSalePrintPreviewAlertBox {
             SalRep salRep = new SalRepController(context).getSaleRepDet(repCode);
             InvHed invhed = new InvHedController(context).getDetailsforPrint(refno);
             Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
-            if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+//            if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+            if(invhed.getFINVHED_VAT_CODE().equals("VAT")) {
                 SalesRepname.setText("TAX INVOICE");
             }else{
                 SalesRepname.setText("INVOICE");
@@ -324,7 +325,8 @@ public class VanSalePrintPreviewAlertBox {
         FInvRHed invRHed = new SalesReturnController(context).getDetailsforPrint(PRefno);
         Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invHed.getFINVHED_DEBCODE());
         String SalesRepNamestr = "";// +
-        if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+//        if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+        if(invHed.getFINVHED_VAT_CODE().equals("VAT")) {
             SalesRepNamestr = "<TAX INVOICE>";
         }else{
             SalesRepNamestr = "<INVOICE>";

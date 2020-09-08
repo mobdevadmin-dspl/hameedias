@@ -575,7 +575,8 @@ public class BRInvoiceSummaryFragment extends Fragment {
         Customer debtor = new CustomerController(getActivity()).getSelectedCustomerByCode(invHed.getFINVHED_DEBCODE());
         String printGapAdjust = "                        ";
         String SalesRepNamestr = " ";// +
-        if(new CustomerController(getActivity()).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+//   Org     if(new CustomerController(getActivity()).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+        if(invHed.getFINVHED_VAT_CODE().equals("VAT")) {
             SalesRepNamestr = "<TAX INVOICE>";
         }else{
             SalesRepNamestr = "<INVOICE>";
