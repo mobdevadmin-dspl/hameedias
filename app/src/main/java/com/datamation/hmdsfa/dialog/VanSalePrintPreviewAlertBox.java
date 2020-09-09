@@ -614,10 +614,16 @@ public class VanSalePrintPreviewAlertBox {
         space = String.format("%" + (LINECHAR - ("Net Total".length() + sNetTot.length())) + "s", " ");
         String summaryTitle_e_Val = "Net Total" + space + sNetTot;
         String summaryTitle_amtinword = "(" +EnglishNumberToWords.convert(sNetTot)+")" ;
-        int amountword_index = summaryTitle_amtinword.indexOf("Rupees");
+        int amountword_index = summaryTitle_amtinword.indexOf("rupees");
+        int amountwordLength = summaryTitle_amtinword.length();
         String amountword1="", amountword2="";
-        amountword1 += summaryTitle_amtinword.substring(0,40);
-        amountword2 += summaryTitle_amtinword.substring(41,summaryTitle_amtinword.length());
+        if(amountwordLength > 40) {
+            amountword1 += summaryTitle_amtinword.substring(0, amountword_index);
+            amountword2 += summaryTitle_amtinword.substring(amountword_index, summaryTitle_amtinword.length());
+        }else {
+
+        }
+
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         String summaryBottom_cpoyline1 = "by Datamation Systems / www.datamation.lk";
@@ -629,8 +635,9 @@ public class VanSalePrintPreviewAlertBox {
         String buttomTitletax = "\r\n" + buttomTitleb;
         String buttomTitlee = "\r\n" + summaryTitle_e_Val;
         String buttomTitlef = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Customer               Sales Executive";
-        int amountwordLength = summaryTitle_amtinword.length();
+
         String buttomTitlenote="";
+
         if(amountwordLength > 40)
         {
             buttomTitlenote = "\r\n" + amountword1+"\r\n" +amountword2.trim();

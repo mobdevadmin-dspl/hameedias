@@ -868,8 +868,17 @@ public void printItems() {
     String summaryTitle_amtinword = "(" +EnglishNumberToWords.convert(sNetTot)+")" ;
     int amountword_index = summaryTitle_amtinword.indexOf("Rupees");
     String amountword1="", amountword2="";
-    amountword1 += summaryTitle_amtinword.substring(0,40);
-    amountword2 += summaryTitle_amtinword.substring(41,summaryTitle_amtinword.length());
+    int amountwordLength = summaryTitle_amtinword.length();
+    if(amountwordLength > 40) {
+        amountword1 += summaryTitle_amtinword.substring(0, amountword_index);
+        amountword2 += summaryTitle_amtinword.substring(amountword_index, summaryTitle_amtinword.length());
+    }else {
+
+    }
+//
+//
+//    amountword1 += summaryTitle_amtinword.substring(0,40);
+//    amountword2 += summaryTitle_amtinword.substring(41,summaryTitle_amtinword.length());
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -882,7 +891,7 @@ public void printItems() {
     String buttomTitletax = "\r\n" + buttomTitleb;
     String buttomTitlee = "\r\n" + summaryTitle_e_Val;
     String buttomTitlef = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Customer               Sales Executive";
-    int amountwordLength = summaryTitle_amtinword.length();
+
     String buttomTitlenote="";
     if(amountwordLength > 40)
     {

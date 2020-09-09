@@ -50,7 +50,7 @@ public class CustomerController {
 
         try {
             dB.beginTransactionNonExclusive();
-            String sql = "INSERT OR REPLACE INTO " + TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,AreaCode,DbGrCode,CrdPeriod,CrdLimit,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude,CusImage) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT OR REPLACE INTO " + TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,AreaCode,DbGrCode,CrdPeriod,CrdLimit,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude,CusImage,Status) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 //            String sql = "INSERT OR REPLACE INTO " + ValueHolder.TABLE_FDEBTOR + " (DebCode,DebName,DebAdd1,DebAdd2,DebAdd3,DebTele,DebMob,DebEMail,TownCode,AreaCode,DbGrCode,Status,CrdPeriod,ChkCrdPrd,CrdLimit,ChkCrdLmt,RepCode,PrillCode,TaxReg,RankCode,Latitude,Longitude) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             SQLiteStatement stmt = dB.compileStatement(sql);
@@ -75,7 +75,7 @@ public class CustomerController {
                 stmt.bindString(17, debtor.getFDEBTOR_LATITUDE());
                 stmt.bindString(18, debtor.getFDEBTOR_LONGITUDE());
                 stmt.bindString(19, debtor.getFDEBTOR_IMG_URL());
-
+                stmt.bindString(20, debtor.getFDEBTOR_STATUS());
                 stmt.execute();
                 stmt.clearBindings();
             }
