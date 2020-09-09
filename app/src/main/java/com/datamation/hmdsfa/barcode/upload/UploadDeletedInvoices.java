@@ -44,6 +44,7 @@ public class UploadDeletedInvoices extends AsyncTask<ArrayList<InvHed>, Integer,
     TaskTypeUpload taskType;
 
     public UploadDeletedInvoices(Context context, UploadTaskListener taskListener, TaskTypeUpload taskType) {
+        resultListDeletedIvoices = new ArrayList<>();
         this.context = context;
         this.taskListener = taskListener;
         mHandler = new Handler(Looper.getMainLooper());
