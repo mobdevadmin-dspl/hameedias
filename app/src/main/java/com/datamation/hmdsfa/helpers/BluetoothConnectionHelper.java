@@ -12,10 +12,11 @@ public class BluetoothConnectionHelper {
     private Context context;
     private BluetoothAdapter bluetoothAdapter;
     private static final int REQUEST_ENABLE_BT = 1;
-    private String sMAC = "00:06:20:3C:04:51";//Given Bar Code Reader
-
+   // private String sMAC = "00:06:20:3C:04:51";//Given Bar Code Reader
+    private String sMAC =  "";
     public BluetoothConnectionHelper(Context context) {
         this.context = context;
+        this.sMAC = new SharedPref(context).getGlobalVal("barcode_mac_address");
         this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 

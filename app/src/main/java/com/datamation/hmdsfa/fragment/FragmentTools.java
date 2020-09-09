@@ -329,6 +329,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
             case R.id.imgImage:
                 imgImage.startAnimation(animScale);
+                UtilityContainer.mBarcodeDialogbox(getActivity());
                // imgUrlList = fmc.getAllMediafromDb("IMG");
                // ViewImageList();
                 break;
@@ -552,9 +553,11 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                             SalesReturnController retHed = new SalesReturnController(getActivity());
                             ArrayList<FInvRHed> retHedList = retHed.getAllUnsyncedWithInvoice();
                             ArrayList<ReceiptHed> receiptlist = new ReceiptController(getActivity()).getAllUnsyncedRecHed();
+                            InvHedController hedDS = new InvHedController(getActivity());
+                            ArrayList<InvHed> invHedList = hedDS.getAllUnsynced();
                                    // firebasetokenid - 10
 //                    /* If records available for upload then */
-                            if (receiptlist.size() <= 0 && retHedList.size() <= 0 && ordHedList.size() <= 0 && npHedList.size() <= 0  && attendList.size()<= 0 && debtorlist.size()<=0 && updExistingDebtors.size() <= 0 && imgDebtorList.size()<= 0 && exHedList.size()<=0)
+                            if (invHedList.size() <= 0 && receiptlist.size() <= 0 && retHedList.size() <= 0 && ordHedList.size() <= 0 && npHedList.size() <= 0  && attendList.size()<= 0 && debtorlist.size()<=0 && updExistingDebtors.size() <= 0 && imgDebtorList.size()<= 0 && exHedList.size()<=0)
                             {
                                 Toast.makeText(getActivity(), "No Records to upload !", Toast.LENGTH_LONG).show();
                             }else {

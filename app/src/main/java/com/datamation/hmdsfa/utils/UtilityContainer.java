@@ -196,7 +196,7 @@ public class UtilityContainer {
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
-    public static void mPrinterDialogbox(final Context context) {
+       public static void mPrinterDialogbox(final Context context) {
 
         SharedPref mSharedPref;
         mSharedPref = new SharedPref(context);
@@ -239,6 +239,71 @@ public class UtilityContainer {
                             if (validate(serverURL.getText().toString().toUpperCase())) {
                                 //SharedPreferencesClass.setLocalSharedPreference(context, "printer_mac_address", serverURL.getText().toString().toUpperCase());
                                 new SharedPref(context).setGlobalVal("printer_mac_address", serverURL.getText().toString().toUpperCase());
+                                Toast.makeText(context, "Saved Successfully", Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
+                            }
+                            else {
+                                Toast.makeText(context, "Enter Valid MAC Address", Toast.LENGTH_LONG).show();
+                            }
+                        } else
+                            Toast.makeText(context, "Type in the MAC Address", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                bClose.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        dialog.show();
+    }
+    public static void mBarcodeDialogbox(final Context context) {
+
+        SharedPref mSharedPref;
+        mSharedPref = new SharedPref(context);
+
+        View promptView = LayoutInflater.from(context).inflate(R.layout.settings_printer_layout, null);
+        final EditText serverURL = (EditText) promptView.findViewById(R.id.et_mac_address);
+
+        String barcode_mac_shared_pref = "";
+        barcode_mac_shared_pref = new SharedPref(context).getGlobalVal("barcode_mac_address");
+
+        if(!TextUtils.isEmpty(barcode_mac_shared_pref))
+        {
+            serverURL.setText(barcode_mac_shared_pref);
+            Toast.makeText(context, "MAC Address Already Exists", Toast.LENGTH_LONG).show();
+        }
+
+        final AlertDialog dialog = new AlertDialog.Builder(context)
+                .setView(promptView)
+                .setTitle("Barcode Scanner MAC Address")
+                .setPositiveButton(android.R.string.ok, null)
+                .setNegativeButton(android.R.string.cancel, null)
+                .create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(final DialogInterface dialog) {
+                Button bOk = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                Button bClose = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+
+
+
+                bOk.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+
+                        if (serverURL.length() > 0) {
+
+                            if (validate(serverURL.getText().toString().toUpperCase())) {
+                                //SharedPreferencesClass.setLocalSharedPreference(context, "printer_mac_address", serverURL.getText().toString().toUpperCase());
+                                new SharedPref(context).setGlobalVal("barcode_mac_address", serverURL.getText().toString().toUpperCase());
                                 Toast.makeText(context, "Saved Successfully", Toast.LENGTH_LONG).show();
                                 dialog.dismiss();
                             }

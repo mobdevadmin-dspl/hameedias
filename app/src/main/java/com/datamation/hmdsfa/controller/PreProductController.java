@@ -239,6 +239,7 @@ public class PreProductController {
             while(cursor.moveToNext()) {
 
                 PreProduct items = new PreProduct();
+                String price = new SalesPriceController(context).getPrice(cursor.getString(cursor.getColumnIndex("Item_No")), cursor.getString(cursor.getColumnIndex("Variant_Code")));
 
                 items.setPREPRODUCT_Barcode(cursor.getString(cursor.getColumnIndex("Barcode_No")));
                 items.setPREPRODUCT_DocumentNo("");
@@ -249,6 +250,7 @@ public class PreProductController {
                 items.setPREPRODUCT_QTY("0");
                 items.setPREPRODUCT_ITEMNAME(cursor.getString(cursor.getColumnIndex("Description")));
                 items.setPREPRODUCT_ArticleNo(cursor.getString(cursor.getColumnIndex("Article_No")));
+                items.setPREPRODUCT_PRICE(price);
 
 
                 list.add(items);

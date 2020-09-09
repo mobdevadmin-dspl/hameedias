@@ -189,47 +189,47 @@ public class VarientItemsAdapter extends BaseAdapter {
             }
         });*/
         //--------------------------------------------------------------------------------------------------------------------------
-//        viewHolder.lblQty.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                CustomKeypadDialog keypad = new CustomKeypadDialog(context, false, new CustomKeypadDialog.IOnOkClickListener() {
-//                    @Override
-//                    public void okClicked(double value) {
-//                        //String distrStock = product.getFPRODUCT_QOH();
-//                        double distrStock = Double.parseDouble(product.getFPRODUCT_QOH());
-//                        int enteredQty = (int) value;
-//                        Log.d("<>+++++","" + distrStock);
-//
+        viewHolder.lblQty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomKeypadDialog keypad = new CustomKeypadDialog(context, false, new CustomKeypadDialog.IOnOkClickListener() {
+                    @Override
+                    public void okClicked(double value) {
+                        //String distrStock = product.getFPRODUCT_QOH();
+                       // double distrStock = Double.parseDouble(product.getFPRODUCT_QOH());
+                        int enteredQty = (int) value;
+                      //  Log.d("<>+++++","" + distrStock);
+
 //                        if (enteredQty > (int)distrStock) {
 //                            viewHolder.lblQty.setText("0");
 //                            Toast.makeText(context, "Exceeds available  stock", Toast.LENGTH_SHORT).show();
 //                        } else {
 //                            new ProductController(context).updateProductQty(product.getFPRODUCT_ITEMCODE(), String.valueOf(enteredQty));
-//
-//                            product.setFPRODUCT_QTY(String.valueOf(enteredQty));
-//                            viewHolder.lblQty.setText(product.getFPRODUCT_QTY());
-//                        }
-//
-//
-//
-//
-//                        //*Change colors*//**//*
-//                        if (Integer.parseInt(viewHolder.lblQty.getText().toString()) > 0)
-//                            viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
-//                        else
-//                            viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));
-//
-//                    }
-//                });
-//
-//                keypad.show();
-//
-//                keypad.setHeader("SELECT QUANTITY");
-//                keypad.loadValue(Double.parseDouble(product.getFPRODUCT_QTY()));
-//
-//
-//            }
-//        });
+
+                            product.setPREPRODUCT_QTY(String.valueOf(enteredQty));
+                            viewHolder.lblQty.setText(product.getPREPRODUCT_QTY());
+ //                       }
+
+
+
+
+                        //*Change colors*//**//*
+                        if (Integer.parseInt(viewHolder.lblQty.getText().toString()) > 0)
+                            viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
+                        else
+                            viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));
+
+                    }
+                });
+
+                keypad.show();
+
+                keypad.setHeader("SELECT QUANTITY");
+                keypad.loadValue(Double.parseDouble(product.getPREPRODUCT_QTY()));
+
+
+            }
+        });
 
 
         /*-*-*-*-*-*-*--*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

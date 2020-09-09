@@ -234,16 +234,16 @@ public class BROrderDetailFragment extends Fragment{
                             //when deduct qoh update qoh also
                             // new ProductController(getActivity()).updateBarCode(itemBundle.get(0).getBarcode(),"1");
                             if(itemBundle.size()>0) {
-                                if (new PreProductController(getActivity()).tableHasRecords()) {
-                                    //productList = new ProductDS(getActivity()).getAllItems("");
-                                    productList = new PreProductController(getActivity()).getAllItems();//rashmi 20200907
-                                } else {
+//                                if (new PreProductController(getActivity()).tableHasRecords()) {
+//                                    //productList = new ProductDS(getActivity()).getAllItems("");
+//                                    productList = new PreProductController(getActivity()).getAllItems();//rashmi 20200907
+//                                } else {
                                     selectedVarientItems = new PreProductController(getActivity()).getVarientItems(itemBundle.get(0).getBarcode());
 
-                                    new PreProductController(getActivity()).createOrUpdateProducts(selectedVarientItems);
-                                }
-                                productList = new PreProductController(getActivity()).getAllItems();//rashmi 20200907
-                                VarientItemsDialogBox(productList);
+//                                    new PreProductController(getActivity()).createOrUpdateProducts(selectedVarientItems);
+//                                }
+                              //  productList = new PreProductController(getActivity()).getAllItems();//rashmi 20200907
+                                VarientItemsDialogBox(selectedVarientItems);
                             }else{
                                 Toast.makeText(getActivity(),"No matching Item",Toast.LENGTH_LONG).show();
                             }
@@ -403,9 +403,24 @@ public class BROrderDetailFragment extends Fragment{
         listView.setAdapter(new VarientItemsAdapter(getActivity(), itemDetails));
         alertDialogBuilder.setCancelable(false).setPositiveButton("DONE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                selectedVarientItems = new PreProductController(getActivity()).getScannedVarientItems();
+               // selectedVarientItems = new PreProductController(getActivity()).getScannedVarientItems();
+                int count = 0;
+                for (PreProduct product : itemDetails) {
 
-                updateOrderDet(selectedVarientItems);
+                    double qoh = Double.parseDouble(new ItemLocController(getActivity()).getQOH(product.getPREPRODUCT_Barcode()));
+                    // Log.d("QOH>>>",">>>listsize"+list.size()+"count>>>"+qoh);
+                    if(qoh >= Double.parseDouble(product.getPREPRODUCT_QTY())) {
+                        count++;
+                        //    Log.d("QOH>>>","insideqohvalidation>>>listsize"+list.size()+"count>>>"+count);
+                    }
+                    //  Log.d("QOH>>>","first prdct loop>>>listsize"+list.size()+"count>>>"+count);
+                }
+                // Log.d("QOH>>>","before scnd for loop listsize>>>"+list.size()+"count>>>"+count);
+                if(count == itemDetails.size()) {
+                    updateOrderDet(itemDetails);
+                }else{
+                    Toast.makeText(getActivity(),"Not enough stock",Toast.LENGTH_LONG).show();
+                }
                 showData();
 
                 dialog.cancel();//2020-03-10
@@ -541,7 +556,9 @@ public class BROrderDetailFragment extends Fragment{
 
                 for (PreProduct product : list) {
                     i++;
-                    mUpdatePrsSales(product.getPREPRODUCT_Barcode(), product.getPREPRODUCT_ITEMCODE(), product.getPREPRODUCT_QTY(), product.getPREPRODUCT_PRICE(), product.getPREPRODUCT_VariantCode(), product.getPREPRODUCT_QTY(), product.getPREPRODUCT_ArticleNo(), product.getPREPRODUCT_DocumentNo());
+                    if(!product.getPREPRODUCT_QTY().equals("0")) {
+                        mUpdatePrsSales(product.getPREPRODUCT_Barcode(), product.getPREPRODUCT_ITEMCODE(), product.getPREPRODUCT_QTY(), product.getPREPRODUCT_PRICE(), product.getPREPRODUCT_VariantCode(), product.getPREPRODUCT_QTY(), product.getPREPRODUCT_ArticleNo(), product.getPREPRODUCT_DocumentNo());
+                    }
                 }
 
 

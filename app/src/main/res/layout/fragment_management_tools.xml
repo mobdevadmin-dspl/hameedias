@@ -297,12 +297,12 @@
                             android:id="@+id/imgImage"
                             android:layout_width="@dimen/finac_dashboard_image_height"
                             android:layout_height="@dimen/finac_dashboard_image_height"
-                            android:src="@drawable/circle_ic_image"/>
+                            android:src="@drawable/ic_bar_code_scanner"/>
 
                         <com.datamation.hmdsfa.utils.CustomFont
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="PROMO IMAGE"
+                            android:text="BARCODE SCANNER MAC ADDRESS"
                             android:textAlignment="center"
                             android:textColor="#000"
                             android:textSize="@dimen/finac_dashboard_icon_text_size"
