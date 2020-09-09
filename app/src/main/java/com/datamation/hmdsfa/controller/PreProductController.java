@@ -54,9 +54,8 @@ public class PreProductController {
             + FPRODUCT_QTY_PRE + " TEXT, "
             + FPRODUCT_PRICE_PRE + " TEXT, "
             + FPRODUCT_QOH_PRE+ " TEXT, "
-            + FPRODUCT_TYPE+ " TEXT, "
             + FPRODUCT_IsScan + " TEXT); ";
-    public static final String INDEX_PRODUCTS = "CREATE UNIQUE INDEX IF NOT EXISTS ui_fProducts_pre ON fProducts_pre (itemcode_pre,itemname_pre,type);";
+    public static final String INDEX_PRODUCTS = "CREATE UNIQUE INDEX IF NOT EXISTS ui_fProducts_pre ON fProducts_pre (itemcode_pre,itemname_pre);";
 
     public PreProductController(Context context) {
         this.context = context;

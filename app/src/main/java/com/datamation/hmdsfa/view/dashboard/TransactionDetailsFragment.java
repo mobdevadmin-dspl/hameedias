@@ -477,10 +477,10 @@ public class TransactionDetailsFragment extends Fragment {
                     new InvHedController(getActivity()).createOrUpdateInvHedLog(logHedList);
                     ArrayList<InvDet> logDetList = new InvDetController(getActivity()).getAllInvDet(refno);
                     new InvDetController(getActivity()).createOrUpdateBCInvDetLog(logDetList);
+                    new ItemLocController(getActivity()).UpdateVanStock(refno,"+",new SalRepController(getActivity()).getCurrentLoccode().trim());
                     int result = new InvHedController(getActivity()).restDataBC(refno);
                     if (result>0) {
                         new InvDetController(getActivity()).restData(refno);
-                        new ItemLocController(getActivity()).UpdateVanStock(refno,"+",new SalRepController(getActivity()).getCurrentLoccode().trim());
                         prepareVanListData();
                         Toast.makeText(getActivity(), "Invoice deleted successfully..!", Toast.LENGTH_SHORT).show();
                     }
