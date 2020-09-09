@@ -327,9 +327,9 @@ public class VanSalePrintPreviewAlertBox {
         String SalesRepNamestr = "";// +
 //        if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
         if(invHed.getFINVHED_VAT_CODE().equals("VAT")) {
-            SalesRepNamestr = "<TAX INVOICE(REPRINT)>";
+            SalesRepNamestr = "<TAX INVOICE> - (RE-PRINT)";
         }else{
-            SalesRepNamestr = "<INVOICE(REPRINT)>";
+            SalesRepNamestr = "<INVOICE> - (RE-PRINT)";
         }
       //  String SalesRepNamestr = "Sales Rep: " + salrep.getRepCode() + "/ " + salrep.getNAME().trim();// +
 
@@ -507,8 +507,8 @@ public class VanSalePrintPreviewAlertBox {
 
             //SPACE0 = String.format("%"+ (44 - (sItemname.length())) +(String.valueOf(nos).length() + 2)+ "s", " ");
             //SPACE1 = String.format("%" + (20 - (sItemcode.length() + (String.valueOf(nos).length() + 2))) + "s", " ");
-            SPACE1 = padString("",(20 - (sItemcode.length() + (String.valueOf(nos).length() + 2))));
-            SPACE11 = padString("",(20 - (variantcode.length() + (String.valueOf(nos).length() + 2))));
+            SPACE1 = padString("",(15 - (sItemcode.length() + (String.valueOf(nos).length() + 2))));
+            SPACE11 = padString("",(15 - (variantcode.length() + (String.valueOf(nos).length() + 2))));
             //SPACE2 = String.format("%" + (9 - (sPrice.length())) + "s", " ");
             SPACE2 = padString("",(9 - (sPrice.length())));
             SPACE22 = padString("",(9 - (articleno.length())));
@@ -529,7 +529,7 @@ public class VanSalePrintPreviewAlertBox {
                 doubleLineItemName1 += sItemname.substring(0,40);
                 doubleLineItemName2 += sItemname.substring(41,sItemname.length());
 
-                Heading_c += nos + ". "  + variantcode +SPACE22+articleno +SPACE3+SPACE2+ sPrice +SPACE11 + disper
+                Heading_c += nos + "."  + variantcode +SPACE22+articleno +SPACE3+SPACE2+ sPrice +SPACE11 + disper
                                 +"\r\n"+ SPACE5+ sItemcode +SPACE1+ sQty+SPACE33+SPACE44+sDiscount +SPACE4+ sTotal
                                 +"\r\n" +SPACE5+doubleLineItemName1.trim()
                                 +"\r\n" +SPACE5+doubleLineItemName2.trim()+"\r\n\r\n";
@@ -539,7 +539,7 @@ public class VanSalePrintPreviewAlertBox {
             {
                 doubleLineItemName1 += sItemname.substring(0,itemNameLength);
 
-                Heading_c += nos + ". " + variantcode +SPACE22+articleno +SPACE3+SPACE2+ sPrice +SPACE11 + disper
+                Heading_c += nos + "." + variantcode +SPACE22+articleno +SPACE3+SPACE2+ sPrice +SPACE11 + disper
                         +"\r\n"+ SPACE5+ sItemcode +SPACE1+ sQty+SPACE33+SPACE44+sDiscount +SPACE4+ sTotal
                         +"\r\n" +SPACE5+doubleLineItemName1.trim()+"\r\n\r\n";//   Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
 
@@ -614,7 +614,10 @@ public class VanSalePrintPreviewAlertBox {
         space = String.format("%" + (LINECHAR - ("Net Total".length() + sNetTot.length())) + "s", " ");
         String summaryTitle_e_Val = "Net Total" + space + sNetTot;
         String summaryTitle_amtinword = "(" +EnglishNumberToWords.convert(sNetTot)+")" ;
-
+        int amountword_index = summaryTitle_amtinword.indexOf("Rupees");
+        String amountword1="", amountword2="";
+        amountword1 += summaryTitle_amtinword.substring(0,40);
+        amountword2 += summaryTitle_amtinword.substring(41,summaryTitle_amtinword.length());
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         String summaryBottom_cpoyline1 = "by Datamation Systems / www.datamation.lk";
@@ -626,15 +629,23 @@ public class VanSalePrintPreviewAlertBox {
         String buttomTitletax = "\r\n" + buttomTitleb;
         String buttomTitlee = "\r\n" + summaryTitle_e_Val;
         String buttomTitlef = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Customer               Sales Executive";
-        String buttomTitlenote = "\r\n" + summaryTitle_amtinword;
+        int amountwordLength = summaryTitle_amtinword.length();
+        String buttomTitlenote="";
+        if(amountwordLength > 40)
+        {
+            buttomTitlenote = "\r\n" + amountword1+"\r\n" +amountword2.trim();
+        }else {
+            buttomTitlenote = "\r\n" + summaryTitle_amtinword.trim();
+        }
+
         String buttomTitlefa = "\r\n\n\n" + "All Cheques should be drawn In favour of \n"+
                 "H S Marketing Private Limited &\n" +
                 " crossed Account Payee Only.";
         String buttomTitlecopyw = "\r\n" + printGapbottmline1 + summaryBottom_cpoyline1;
         if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
-            buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec +buttomTitled  +buttomTitletax+ "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n"+buttomTitlenote+ "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
+            buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec +buttomTitled  +buttomTitletax+ "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n"+buttomTitlenote+ "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n\n\n\n\n\n\n\n\n\n";
         }else{
-            buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec +buttomTitled  + "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n"+buttomTitlenote+ "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n";
+            buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec +buttomTitled  + "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n"+buttomTitlenote+ "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n\n\n\n\n\n\n\n\n\n";
 
         }
        callPrintDevice();
