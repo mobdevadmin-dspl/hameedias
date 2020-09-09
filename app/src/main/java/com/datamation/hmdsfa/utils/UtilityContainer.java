@@ -262,7 +262,7 @@ public class UtilityContainer {
         dialog.show();
     }
     public static void mBarcodeDialogbox(final Context context) {
-
+//2020-09-09 by rashmi
         SharedPref mSharedPref;
         mSharedPref = new SharedPref(context);
 

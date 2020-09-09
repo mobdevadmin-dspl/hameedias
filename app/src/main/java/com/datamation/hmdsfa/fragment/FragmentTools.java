@@ -329,6 +329,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
             case R.id.imgImage:
                 imgImage.startAnimation(animScale);
+                //2020-09-09-by rashmi
                 UtilityContainer.mBarcodeDialogbox(getActivity());
                // imgUrlList = fmc.getAllMediafromDb("IMG");
                // ViewImageList();

@@ -16,6 +16,7 @@ public class BluetoothConnectionHelper {
     private String sMAC =  "";
     public BluetoothConnectionHelper(Context context) {
         this.context = context;
+        //mac address set by rashmi 2020-09-09
         this.sMAC = new SharedPref(context).getGlobalVal("barcode_mac_address");
         this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
