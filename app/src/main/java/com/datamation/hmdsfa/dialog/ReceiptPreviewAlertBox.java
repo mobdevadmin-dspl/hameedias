@@ -584,7 +584,10 @@ public class ReceiptPreviewAlertBox {
 //        String buttomTitlecopywbottom3 = "\r\n" + printGapbottmline3 + summaryBottom_cpoyline3;
 
       //  buttomRaw = "\r\n" + printLineSeperator + "\r\n" + bottomTitleString + "\r\n" + printLineSeperator + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperator + buttomTitlecopyw + buttomTitlecopywbottom + buttomTitlecopywbottom3 + "\r\n\n\n\n\n\n\n" + printLineSeperator + "\n";
-        buttomRaw = "\r\n" + printLineSeperator + "\r\n" + bottomTitleString + "\r\n" + printLineSeperator + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperator + buttomTitlecopyw  + "\r\n\n\n\n\n\n\n" + printLineSeperator + "\n";
+        String buttomTitlec = "\r\n" + summaryTitle_c_Val;
+        String buttomTitlee = "\r\n" + summaryTitle_e_Val;
+        String buttomTitlefb = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Customer               Sales Executive";
+        buttomRaw = "\r\n" + printLineSeperator + "\r\n" + bottomTitleString + "\r\n" + printLineSeperator + "\r\n" + buttomTitlef +buttomTitlefb+ buttomTitlefa + "\r\n" + printLineSeperator + buttomTitlecopyw  + "\r\n\n\n\n\n\n\n" + printLineSeperator + "\n";
 
         callPrintDevice();
 
