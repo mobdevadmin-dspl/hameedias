@@ -118,7 +118,35 @@ public class CustomerController {
 
         return "";
     }
+    //2020/06/22 by rashmi
+    public String getCustomerStatus(String debcode) {
 
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT " + Customer.FDEBTOR_STATUS+ " FROM " + TABLE_FDEBTOR+ " where DebCode = '"+debcode+"'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+
+                return cursor.getString(cursor.getColumnIndex( Customer.FDEBTOR_STATUS ));
+
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return "";
+    }
     public int deleteAll() {
 
         int count = 0;
