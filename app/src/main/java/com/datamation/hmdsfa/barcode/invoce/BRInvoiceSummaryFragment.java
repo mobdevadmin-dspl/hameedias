@@ -48,6 +48,7 @@ import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.SalesReturnController;
 import com.datamation.hmdsfa.controller.SalesReturnDetController;
 import com.datamation.hmdsfa.controller.TaxDetController;
+import com.datamation.hmdsfa.dialog.VanSalePrintPreviewAlertBox;
 import com.datamation.hmdsfa.helpers.PreSalesResponseListener;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.helpers.VanSalesResponseListener;
@@ -339,43 +340,45 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
                             //UpdateQOH_FIFO();
            new ItemLocController(getActivity()).UpdateVanStock(RefNo,"-",locCode);
-                           // new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
+           int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+
+           // new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
                            // updateDispTables(sHed);
 
-                            MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
-                                    .content("Do you want to get print?")
-                                    .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
-                                    .positiveText("Yes")
-                                    .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
-                                    .negativeText("No, Exit")
-                                    .callback(new MaterialDialog.ButtonCallback() {
-                                        @Override
-                                        public void onPositive(MaterialDialog dialog) {
-                                            super.onPositive(dialog);
-
-                                            printItems();
-                                            outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
-                                            Intent intnt = new Intent(getActivity(), DebtorDetailsActivity.class);
-                                            intnt.putExtra("outlet", outlet);
-                                            startActivity(intnt);
-
-                                            getActivity().finish();
-
-                                        }
-                                        @Override
-                                        public void onNegative(MaterialDialog dialog) {
-                                            super.onNegative(dialog);
-                                            outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
-                                            Intent intnt = new Intent(getActivity(), DebtorDetailsActivity.class);
-                                            intnt.putExtra("outlet", outlet);
-                                            startActivity(intnt);
-                                            getActivity().finish();
-                                            dialog.dismiss();
-                                        }
-                                    })
-                                    .build();
-                            materialDialog.setCanceledOnTouchOutside(false);
-                            materialDialog.show();
+//                            MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+//                                    .content("Do you want to get print?")
+//                                    .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+//                                    .positiveText("Yes")
+//                                    .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+//                                    .negativeText("No, Exit")
+//                                    .callback(new MaterialDialog.ButtonCallback() {
+//                                        @Override
+//                                        public void onPositive(MaterialDialog dialog) {
+//                                            super.onPositive(dialog);
+//
+//                                            printItems();
+//                                            outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
+//                                            Intent intnt = new Intent(getActivity(), DebtorDetailsActivity.class);
+//                                            intnt.putExtra("outlet", outlet);
+//                                            startActivity(intnt);
+//
+//                                            getActivity().finish();
+//
+//                                        }
+//                                        @Override
+//                                        public void onNegative(MaterialDialog dialog) {
+//                                            super.onNegative(dialog);
+//                                            outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
+//                                            Intent intnt = new Intent(getActivity(), DebtorDetailsActivity.class);
+//                                            intnt.putExtra("outlet", outlet);
+//                                            startActivity(intnt);
+//                                            getActivity().finish();
+//                                            dialog.dismiss();
+//                                        }
+//                                    })
+//                                    .build();
+//                            materialDialog.setCanceledOnTouchOutside(false);
+//                            materialDialog.show();
                         } else {
                             Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
                         }

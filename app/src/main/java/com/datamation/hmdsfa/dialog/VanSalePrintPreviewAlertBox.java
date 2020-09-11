@@ -168,7 +168,8 @@ public class VanSalePrintPreviewAlertBox {
             String repCode = new SalRepController(context).getCurrentRepCode();
             SalRep salRep = new SalRepController(context).getSaleRepDet(repCode);
             InvHed invhed = new InvHedController(context).getDetailsforPrint(refno);
-            Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
+            final Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
+            outlet = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
 //            if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
             if(invhed.getFINVHED_VAT_CODE().equals("VAT")) {
                 SalesRepname.setText("TAX INVOICE");
@@ -232,6 +233,10 @@ public class VanSalePrintPreviewAlertBox {
 
                 alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        Intent intent = new Intent(context, DebtorDetailsActivity.class);
+                        intent.putExtra("outlet", debtor);
+                        context.startActivity(intent);
                         dialog.cancel();
                     }
                 });
@@ -714,6 +719,9 @@ public class VanSalePrintPreviewAlertBox {
             }
             printBillToDevice(PRINTER_MAC_ID);
             IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            Intent intent = new Intent(context, DebtorDetailsActivity.class);
+            intent.putExtra("outlet", outlet);
+            context.startActivity(intent);
         }
     }
 
