@@ -340,6 +340,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
                             //UpdateQOH_FIFO();
            new ItemLocController(getActivity()).UpdateVanStock(RefNo,"-",locCode);
+           dialog.cancel();
            int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
 
            // new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
