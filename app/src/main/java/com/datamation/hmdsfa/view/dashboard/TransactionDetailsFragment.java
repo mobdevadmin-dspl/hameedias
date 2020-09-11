@@ -513,7 +513,7 @@ public class TransactionDetailsFragment extends Fragment {
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
 
-                        int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", RefNo);
+                        int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview - reprint", RefNo);
                     }
 
                     @Override

@@ -114,7 +114,7 @@ public class VanSalePrintPreviewAlertBox {
 
 	/*-*-*-*-*-*-**-*-**-*-*-*-*-*-*-*-*-*-*-*-*-**-*-**-*-*-*--*/
 
-    public int PrintDetailsDialogbox(final Context context, String title, String refno) {
+    public int PrintDetailsDialogbox(final Context context, final String title, String refno) {
 
         try
         {
@@ -233,11 +233,15 @@ public class VanSalePrintPreviewAlertBox {
 
                 alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        Intent intent = new Intent(context, DebtorDetailsActivity.class);
-                        intent.putExtra("outlet", debtor);
-                        context.startActivity(intent);
-                        dialog.cancel();
+
+                        if(title.split("-")[1].trim().equals("original")) {
+                            Intent intent = new Intent(context, DebtorDetailsActivity.class);
+                            intent.putExtra("outlet", debtor);
+                            context.startActivity(intent);
+                            dialog.cancel();
+                        }else{
+                            dialog.cancel();
+                        }
                     }
                 });
 
