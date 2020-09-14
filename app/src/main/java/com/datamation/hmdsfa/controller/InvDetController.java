@@ -877,7 +877,7 @@ public class InvDetController {
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-    public double getTaxedSellprice(String refno, String itemCode) {
+    public double getCurrentQty(String refno, String itemCode) {
 
         if (dB == null) {
             open();
@@ -885,17 +885,15 @@ public class InvDetController {
             open();
         }
 
-        String selectQuery = "SELECT SellPrice,TaxAmt,Qty  FROM " + TABLE_FINVDET + " WHERE Itemcode='" + itemCode + "' AND RefNo='" + refno + "'";
+        String selectQuery = "SELECT Qty  FROM " + TABLE_FINVDET + " WHERE BarCode='" + itemCode + "' AND RefNo='" + refno + "'";
 
         try {
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
             while (cursor.moveToNext()) {
-                double sellprice = Double.parseDouble(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
                 double qty = Double.parseDouble(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
-                double taxamt = Double.parseDouble(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_AMT)));
 
-                return sellprice - (taxamt / qty);
+                return qty;
 
             }
 

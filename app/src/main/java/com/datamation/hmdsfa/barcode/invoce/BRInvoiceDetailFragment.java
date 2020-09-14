@@ -163,7 +163,7 @@ public class BRInvoiceDetailFragment extends Fragment{
                     if (itemBundle.size() == 1) {
                         selectedItemList = new ProductController(getActivity()).getScannedtems(itemBundle.get(0));
                         //rashmi-2020-08-21
-                            updateInvoiceDet(selectedItemList);
+                            updateInvoiceDet(selectedItemList,"ItemWise");
 
                         showData();
                     } else {
@@ -292,7 +292,7 @@ public class BRInvoiceDetailFragment extends Fragment{
             public void onClick(DialogInterface dialog, int id) {
                 selectedItemList = new ProductController(getActivity()).getBundleScannedtems(itemDetails);
 
-                updateInvoiceDet(selectedItemList);
+                updateInvoiceDet(selectedItemList,"Bundle");
                 showData();
 
                 dialog.cancel();//2020-03-10
@@ -323,7 +323,7 @@ public class BRInvoiceDetailFragment extends Fragment{
             public void onClick(DialogInterface dialog, int id) {
                 selectedItemList = new ProductController(getActivity()).getBundleScannedtems(itemDetails);
 
-                updateInvoiceDet(selectedItemList);
+                updateInvoiceDet(selectedItemList,"Fabric");
                 showData();
 
                 dialog.cancel();//2020-03-10
@@ -708,7 +708,7 @@ public class BRInvoiceDetailFragment extends Fragment{
             public void onClick(DialogInterface dialog, int id) {
 
                 selectedItemList = new ProductController(getActivity()).getSelectedItems("SA");
-                updateInvoiceDet(selectedItemList);
+                updateInvoiceDet(selectedItemList,"");
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 dialog.cancel();
             }
@@ -778,7 +778,7 @@ public class BRInvoiceDetailFragment extends Fragment{
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-    public void updateInvoiceDet(final ArrayList<Product> list) {
+    public void updateInvoiceDet(final ArrayList<Product> list,String txntype) {
         int count = 0;
         //rashmi - 2020-07-02
 
@@ -786,10 +786,20 @@ public class BRInvoiceDetailFragment extends Fragment{
 
                         double qoh = Double.parseDouble(new VanStockController(getActivity()).getQOH(new SalRepController(getActivity()).getCurrentLoccode().trim(),product.getFPRODUCT_Barcode()));
                        // Log.d("QOH>>>",">>>listsize"+list.size()+"count>>>"+qoh);
-                        if(qoh >= Double.parseDouble(product.getFPRODUCT_QTY())) {
-                            count++;
-                        //    Log.d("QOH>>>","insideqohvalidation>>>listsize"+list.size()+"count>>>"+count);
-                        }
+                        //modified for fabric items 2020-09-14 by rashmi
+                                if(txntype.equals("Fabric")){
+                                    double currentQty = new InvDetController(getActivity()).getCurrentQty(RefNo,product.getFPRODUCT_Barcode());
+                                    if(qoh >= (currentQty+Double.parseDouble(product.getFPRODUCT_QTY()))) {
+                                        count++;
+                                        //    Log.d("QOH>>>","insideqohvalidation>>>listsize"+list.size()+"count>>>"+count);
+                                    }
+                                }else{
+                                    if(qoh >= Double.parseDouble(product.getFPRODUCT_QTY())) {
+                                        count++;
+                                        //    Log.d("QOH>>>","insideqohvalidation>>>listsize"+list.size()+"count>>>"+count);
+                                    }
+                                }
+
                       //  Log.d("QOH>>>","first prdct loop>>>listsize"+list.size()+"count>>>"+count);
                     }
                    // Log.d("QOH>>>","before scnd for loop listsize>>>"+list.size()+"count>>>"+count);

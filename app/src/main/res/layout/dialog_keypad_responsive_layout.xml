@@ -250,11 +250,10 @@
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
                 android:enabled="false"
-                android:text=".5"
+                android:text="."
                 android:textColor="#BDBDBD"
                 android:textSize="30dp"
-                android:typeface="sans"
-                android:visibility="invisible" />
+                android:typeface="sans" />
 
         </LinearLayout>
 

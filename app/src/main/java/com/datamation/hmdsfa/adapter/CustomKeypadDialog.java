@@ -210,12 +210,40 @@ public class CustomKeypadDialog extends Dialog {
         btnPointFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if (!pointerValueClicked) {
+//                    String val = value.getText().toString();
+//                    if (val.equals("0")) {
+//                        val = "0.5";
+//                    } else {
+//                        val += ".5";
+//                    }
+//                    value.setText(val);
+//
+//                    pointerValueClicked = true;
+//
+//                    btnPointFive.setVisibility(View.INVISIBLE);
+//                    btnPointFive.setEnabled(false);
+//
+//                    btn_point_two_five.setVisibility(View.INVISIBLE);
+//                    btn_point_two_five.setEnabled(false);
+//
+//                    btn0.setEnabled(false);
+//                    btn1.setEnabled(false);
+//                    btn2.setEnabled(false);
+//                    btn3.setEnabled(false);
+//                    btn4.setEnabled(false);
+//                    btn5.setEnabled(false);
+//                    btn6.setEnabled(false);
+//                    btn7.setEnabled(false);
+//                    btn8.setEnabled(false);
+//                    btn9.setEnabled(false);
+//                }
                 if (!pointerValueClicked) {
                     String val = value.getText().toString();
                     if (val.equals("0")) {
-                        val = "0.5";
+                        val = ".";
                     } else {
-                        val += ".5";
+                        val += ".";
                     }
                     value.setText(val);
 
@@ -227,16 +255,16 @@ public class CustomKeypadDialog extends Dialog {
                     btn_point_two_five.setVisibility(View.INVISIBLE);
                     btn_point_two_five.setEnabled(false);
 
-                    btn0.setEnabled(false);
-                    btn1.setEnabled(false);
-                    btn2.setEnabled(false);
-                    btn3.setEnabled(false);
-                    btn4.setEnabled(false);
-                    btn5.setEnabled(false);
-                    btn6.setEnabled(false);
-                    btn7.setEnabled(false);
-                    btn8.setEnabled(false);
-                    btn9.setEnabled(false);
+//                    btn0.setEnabled(false);
+//                    btn1.setEnabled(false);
+//                    btn2.setEnabled(false);
+//                    btn3.setEnabled(false);
+//                    btn4.setEnabled(false);
+//                    btn5.setEnabled(false);
+//                    btn6.setEnabled(false);
+//                    btn7.setEnabled(false);
+//                    btn8.setEnabled(false);
+//                    btn9.setEnabled(false);
                 }
             }
         });
