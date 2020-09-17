@@ -153,7 +153,7 @@ public class ItemBundleController {
            //     Log.d(">>itembundle","itembundle_Vari_colour"+itemBndl.getVariantColour());
                 stmt.bindString(6, itemBndl.getVariantSize());
             //   Log.d(">>itembundle","itembundle_size"+itemBndl.getVariantSize());
-                stmt.bindLong(7,   itemBndl.getQuantity());
+                stmt.bindDouble(7,   itemBndl.getQuantity());
             //    Log.d(">>itembundle","itembundle_quanity"+itemBndl.getQuantity());
                 stmt.bindString(8, itemBndl.getDescription());
             //   Log.d(">>itembundle","itembundle_description"+itemBndl.getDescription());
@@ -199,7 +199,7 @@ public class ItemBundleController {
             items.setVariantCode(cursor.getString(cursor.getColumnIndex(VariantCode)));
             items.setVariantColour(cursor.getString(cursor.getColumnIndex(VariantColour)));
             items.setVariantSize(cursor.getString(cursor.getColumnIndex(VariantSize)));
-            items.setQuantity(cursor.getInt(cursor.getColumnIndex(Quantity)));
+            items.setQuantity(cursor.getDouble(cursor.getColumnIndex(Quantity)));
             items.setDescription(cursor.getString(cursor.getColumnIndex(Description)));
             items.setArticleNo(cursor.getString(cursor.getColumnIndex(ArticleNo)));
 
@@ -232,7 +232,7 @@ public class ItemBundleController {
             items.setVariantCode(cursor.getString(cursor.getColumnIndex(VariantCode)));
             items.setVariantColour(cursor.getString(cursor.getColumnIndex(VariantColour)));
             items.setVariantSize(cursor.getString(cursor.getColumnIndex(VariantSize)));
-            items.setQuantity(cursor.getInt(cursor.getColumnIndex(Quantity)));
+            items.setQuantity(cursor.getDouble(cursor.getColumnIndex(Quantity)));
             items.setDescription(cursor.getString(cursor.getColumnIndex(Description)));
             items.setArticleNo(cursor.getString(cursor.getColumnIndex(ArticleNo)));
 
@@ -267,7 +267,7 @@ public class ItemBundleController {
             items.setVariantCode(cursor.getString(cursor.getColumnIndex(VariantCode)));
             items.setVariantColour(cursor.getString(cursor.getColumnIndex(VariantColour)));
             items.setVariantSize(cursor.getString(cursor.getColumnIndex(VariantSize)));
-            items.setQuantity(cursor.getInt(cursor.getColumnIndex(Quantity)));
+            items.setQuantity(cursor.getDouble(cursor.getColumnIndex(Quantity)));
             items.setDescription(cursor.getString(cursor.getColumnIndex(Description)));
             items.setArticleNo(cursor.getString(cursor.getColumnIndex(ArticleNo)));
 

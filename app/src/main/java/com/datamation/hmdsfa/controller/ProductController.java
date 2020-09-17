@@ -363,7 +363,7 @@ public class ProductController {
                 items.setVariantCode(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantCode)));
                 items.setVariantColour(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantColour)));
                 items.setVariantSize(cursor.getString(cursor.getColumnIndex(FPRODUCT_VariantSize)));
-                items.setQuantity(cursor.getInt(cursor.getColumnIndex(FPRODUCT_Quantity)));
+                items.setQuantity(cursor.getDouble(cursor.getColumnIndex(FPRODUCT_Quantity)));
                 items.setDescription(cursor.getString(cursor.getColumnIndex(FPRODUCT_ITEMNAME)));
 
                 list.add(items);

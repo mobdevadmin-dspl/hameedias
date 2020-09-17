@@ -364,7 +364,7 @@ public class BarcodeVarientController {
             items.setVariantCode(cursor.getString(cursor.getColumnIndex(VariantCode)));
             items.setVariantColour(cursor.getString(cursor.getColumnIndex(VariantColour)));
             items.setVariantSize(cursor.getString(cursor.getColumnIndex(VariantSize)));
-            items.setQuantity(cursor.getInt(cursor.getColumnIndex(Quantity)));
+            items.setQuantity(cursor.getDouble(cursor.getColumnIndex(Quantity)));
             items.setDescription(cursor.getString(cursor.getColumnIndex(Description)));
             items.setArticleNo(cursor.getString(cursor.getColumnIndex(ArticleNo)));
 
@@ -398,7 +398,7 @@ public class BarcodeVarientController {
             items.setVariantCode(cursor.getString(cursor.getColumnIndex(VariantCode)));
             items.setVariantColour(cursor.getString(cursor.getColumnIndex(VariantColour)));
             items.setVariantSize(cursor.getString(cursor.getColumnIndex(VariantSize)));
-            items.setQuantity(cursor.getInt(cursor.getColumnIndex(Quantity)));
+            items.setQuantity(cursor.getDouble(cursor.getColumnIndex(Quantity)));
             items.setDescription(cursor.getString(cursor.getColumnIndex(Description)));
             items.setArticleNo(cursor.getString(cursor.getColumnIndex(ArticleNo)));
 

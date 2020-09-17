@@ -195,7 +195,7 @@ public class FabricItemsAdapter extends BaseAdapter {
                     public void okClicked(double value) {
                         //String distrStock = product.getFPRODUCT_QOH();
                        // double distrStock = Double.parseDouble(product.getFPRODUCT_QOH());
-                        int enteredQty = (int) value;
+                        double enteredQty =  value;
                        // Log.d("<>+++++","" + distrStock);
 
 //                        if (enteredQty > (int)distrStock) {
@@ -204,7 +204,7 @@ public class FabricItemsAdapter extends BaseAdapter {
 //                        } else {
                           //  new ProductController(context).updateProductQty(product.getFPRODUCT_ITEMCODE(), String.valueOf(enteredQty));
 
-                            product.setQuantity(Integer.parseInt(""+enteredQty));
+                            product.setQuantity(enteredQty);
                             viewHolder.lblQty.setText(""+product.getQuantity());
                    //     }
 

@@ -25,7 +25,7 @@ public class ItemBundle {
     @SerializedName("VariantSize")
     private String VariantSize;
     @SerializedName("Quantity")
-    private int Quantity;
+    private double Quantity;
 
     private int isChecked;
 
@@ -101,11 +101,11 @@ public class ItemBundle {
         VariantSize = variantSize;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return Quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         Quantity = quantity;
     }
 
