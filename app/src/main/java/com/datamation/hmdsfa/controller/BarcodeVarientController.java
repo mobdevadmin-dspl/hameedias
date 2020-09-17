@@ -164,8 +164,8 @@ public class BarcodeVarientController {
         try {
 
         //  String selectQuery = "SELECT *  FROM fItem WHERE ItemCode LIKE '%"+itemCode+"%'";
-        String selectQuery =  "SELECT * FROM BarCodeVarient WHERE  Barcode_No = '" + itemCode + "' ";
-
+//  Org Rashmi 16-09-2020      String selectQuery =  "SELECT * FROM BarCodeVarient WHERE  Barcode_No = '" + itemCode + "' ";
+            String selectQuery =  "SELECT * FROM BarCodeVarient WHERE  Barcode_No = '" + itemCode + "' and Item_No not in (select itemcode from fitem where substr(GroupCode,1,2)=='FB')";
 
       cursor = dB.rawQuery(selectQuery, null);
         while(cursor.moveToNext()) {
