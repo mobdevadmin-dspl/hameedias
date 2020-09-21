@@ -381,7 +381,7 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                 {
 
                    // Toast.makeText(DebtorDetailsActivity.this, "Please wait. This may take a while", Toast.LENGTH_SHORT).show();
-                   if(!new CustomerController(DebtorDetailsActivity.this).getCustomerStatus(debCode).equals("")) {
+//                   if(!new CustomerController(DebtorDetailsActivity.this).getCustomerStatus(debCode).equals("")) {
                        if (new OutstandingController(getApplicationContext()).getDebtorBalance(debCode) > 0) {
                            Intent intent = new Intent(DebtorDetailsActivity.this, ReceiptActivity.class);
                            intent.putExtra("outlet", outlet);
@@ -392,10 +392,11 @@ public class DebtorDetailsActivity extends AppCompatActivity {
                            Toast.makeText(DebtorDetailsActivity.this, "No outstandings for this customer", Toast.LENGTH_SHORT).show();
 
                        }
-                   }else {
-                       Toast.makeText(DebtorDetailsActivity.this, "Not allow for receipts", Toast.LENGTH_SHORT).show();
-
-                   }
+//                   }
+//                   else {
+//                       Toast.makeText(DebtorDetailsActivity.this, "Not allow for receipts", Toast.LENGTH_SHORT).show();
+//
+//                   }
                 }
                 else
                 {

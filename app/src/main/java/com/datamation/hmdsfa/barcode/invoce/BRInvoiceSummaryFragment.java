@@ -246,7 +246,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
         lines = list.size();
         for (InvDet ordDet : list) {
             ftotAmt += Double.parseDouble(ordDet.getFINVDET_AMT());
-            ftotQty += Integer.parseInt(ordDet.getFINVDET_QTY());
+            ftotQty += Double.parseDouble(ordDet.getFINVDET_QTY());
             fTotSchDisc += Double.parseDouble(ordDet.getFINVDET_DIS_AMT());
 
         }

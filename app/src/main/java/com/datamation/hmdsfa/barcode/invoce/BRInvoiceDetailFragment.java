@@ -684,6 +684,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         }
     }
 
+
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public void onResume() {
         super.onResume();

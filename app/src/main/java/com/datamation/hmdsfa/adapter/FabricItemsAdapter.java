@@ -212,7 +212,7 @@ public class FabricItemsAdapter extends BaseAdapter {
 
 
                         //*Change colors*//**//*
-                        if (Integer.parseInt(viewHolder.lblQty.getText().toString()) > 0)
+                        if (Double.parseDouble(viewHolder.lblQty.getText().toString()) > 0)
                             viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox_new));
                         else
                             viewHolder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));

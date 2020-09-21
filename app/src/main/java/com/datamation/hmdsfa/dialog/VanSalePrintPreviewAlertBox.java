@@ -197,7 +197,7 @@ public class VanSalePrintPreviewAlertBox {
                 double dDisc = 0, dTotAmt = 0, dTax = 0;
 
                 for (InvDet det : list) {
-                    qty += Integer.parseInt(det.getFINVDET_QTY());
+                    qty += Double.parseDouble(det.getFINVDET_QTY());
                     dDisc += Double.parseDouble(det.getFINVDET_DIS_AMT());
                     dTotAmt += Double.parseDouble(det.getFINVDET_AMT());
                     dTax += Double.parseDouble(det.getFINVDET_TAX_AMT());
@@ -227,7 +227,13 @@ public class VanSalePrintPreviewAlertBox {
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        PrintCurrentview();
+
+                        if(title.split("-")[1].trim().equals("original")) {
+                            PrintCurrentview(title.split("-")[1].trim());
+                        }else{
+                            PrintCurrentview("");
+                        }
+
                     }
                 });
 
@@ -274,7 +280,7 @@ public class VanSalePrintPreviewAlertBox {
 
 	/*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*/
 
-    public void printItems() {
+    public void printItems(String print_loc) {
         final int LINECHAR = 44;
         String printGapAdjustCom = "                      ";
 
@@ -319,6 +325,7 @@ public class VanSalePrintPreviewAlertBox {
 
         String subTitleheadGCom = printLineSeperatorNew;
 
+//       String title_Print_ACom = "\r\n\u001B" + subTitleheadACom+"MENAKA";
         String title_Print_ACom = "\r\n" + subTitleheadACom;
         String title_Print_BCom = "\r\n" + subTitleheadBCom;
         String title_Print_CCom = "\r\n" + subTitleheadCCom;
@@ -476,7 +483,7 @@ public class VanSalePrintPreviewAlertBox {
 
         //Order Item total
         for (InvDet det : itemList) {
-            totQty += Integer.parseInt(det.getFINVDET_QTY());
+            totQty += Double.parseDouble(det.getFINVDET_QTY());
             totalamt += Double.parseDouble(det.getFINVDET_AMT());
             totaldis += Double.parseDouble(det.getFINVDET_DIS_AMT());
             totaltax += Double.parseDouble(det.getFINVDET_TAX_AMT());
@@ -664,19 +671,19 @@ public class VanSalePrintPreviewAlertBox {
             buttomRaw = printLineSeperatorNew + buttomTitlea  + buttomTitlec +buttomTitled  + "\r\n" + printLineSeperatorNew + buttomTitlee + "\r\n"+buttomTitlenote+ "\r\n" + printLineSeperatorNew + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperatorNew + buttomTitlecopyw + "\r\n" + printLineSeperatorNew + "\n\n\n\n\n\n\n\n\n\n\n";
 
         }
-       callPrintDevice();
+       callPrintDevice(print_loc);
     }
 
 	/*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*/
 
-    public void PrintCurrentview() {
+    public void PrintCurrentview(String printloc) {
          checkPrinter();
         if (PRINTER_MAC_ID.equals("404")) {
         Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
         Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
         }
        else {
-         printItems();
+         printItems(printloc);
         }
     }
 
@@ -698,7 +705,7 @@ public class VanSalePrintPreviewAlertBox {
 
 	/*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*/
 
-    private void callPrintDevice() {
+    private void callPrintDevice(String printloc) {
         BILL = " ";
 
         BILL = Heading_a + Heading_bmh + Heading_b + Heading_c + Heading_d  + buttomRaw;
@@ -721,11 +728,21 @@ public class VanSalePrintPreviewAlertBox {
             if (!mBTAdapter.isEnabled()) {
                 Intent intentBtEnabled = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             }
+
             printBillToDevice(PRINTER_MAC_ID);
-            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-            Intent intent = new Intent(context, DebtorDetailsActivity.class);
-            intent.putExtra("outlet", outlet);
-            context.startActivity(intent);
+
+            if(printloc.equals("original")) {
+                IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+                Intent intent = new Intent(context, DebtorDetailsActivity.class);
+                intent.putExtra("outlet", outlet);
+                context.startActivity(intent);
+            }else{
+                IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            }
+
+//            Intent intent = new Intent(context, DebtorDetailsActivity.class);
+//            intent.putExtra("outlet", outlet);
+//            context.startActivity(intent);
         }
     }
 
