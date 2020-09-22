@@ -710,10 +710,10 @@ public void printItems() {
 //            }
 //        }
     String title_cb = "\r\nVARIANT CODE  ARTICLE_NO PRICE      DISC(%) ";
-    String title_cc = "\r\nITEM NAME      QTY    DISC.AMT  LINE AMOUNT ";
-    // String title_cd = "\r\n             INVOICE DETAILS                ";
+    String title_cc = "\r\nITEM CODE       QTY    DISC.AMT  LINE AMOUNT ";
+    String title_cd = "\r\nITEM NAME                                    ";
 
-    Heading_b = "\r\n" + printLineSeperatorNew + title_cb + title_cc + "\r\n" + printLineSeperatorNew+"\n";
+    Heading_b = "\r\n" + printLineSeperatorNew + title_cb + title_cc +title_cd+"\r\n" + printLineSeperatorNew+"\n";
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*Individual Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 

@@ -178,7 +178,7 @@ public class VanSalePrintPreviewAlertBox {
             }
 
 
-                ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrint(refno);
+                ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrintOnly(refno);
                 outlet = debtor;
 
                 Debname.setText(debtor.getCusCode() + "-" + debtor.getCusName());
@@ -443,7 +443,7 @@ public class VanSalePrintPreviewAlertBox {
         String title_Print_Area = "\r\n" + subTitleheadArea;
         // subTitleheadR;
 
-        ArrayList<InvDet> itemList = new InvDetController(context).getAllItemsforPrint(PRefno);
+        ArrayList<InvDet> itemList = new InvDetController(context).getAllItemsforPrintOnly(PRefno);
         ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(PRefno);
 
         BigDecimal compDisc = BigDecimal.ZERO;// new
@@ -470,11 +470,10 @@ public class VanSalePrintPreviewAlertBox {
 //            }
 //        }
         String title_cb = "\r\nVARIANT CODE  ARTICLE_NO PRICE      DISC(%) ";
-        String title_cc = "\r\nITEM NAME      QTY    DISC.AMT  LINE AMOUNT ";
-       // String title_cd = "\r\n             INVOICE DETAILS                ";
+        String title_cc = "\r\nITEM CODE       QTY    DISC.AMT  LINE AMOUNT ";
+        String title_cd = "\r\nITEM NAME                                    ";
 
-        Heading_b = "\r\n" + printLineSeperatorNew + title_cb + title_cc + "\r\n" + printLineSeperatorNew+"\n";
-
+        Heading_b = "\r\n" + printLineSeperatorNew + title_cb + title_cc +title_cd+"\r\n" + printLineSeperatorNew+"\n";
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*Individual Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         int totQty = 0 ;

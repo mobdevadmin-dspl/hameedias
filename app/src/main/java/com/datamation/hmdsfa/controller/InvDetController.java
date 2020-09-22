@@ -479,6 +479,52 @@ public class InvDetController {
     }
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
+    public ArrayList<InvDet> getAllItemsforPrintOnly(String refno) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<InvDet> list = new ArrayList<InvDet>();
+
+        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "' group by ArticleNo";
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+
+
+
+            while (cursor.moveToNext()) {
+
+                InvDet invdet = new InvDet();
+
+                invdet.setFINVDET_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_AMT)));
+                invdet.setFINVDET_ITEM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_ITEM_CODE)));
+                invdet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
+                invdet.setFINVDET_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TYPE)));
+                invdet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
+                invdet.setFINVDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_DIS_AMT)));
+                invdet.setFINVDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FINVDET_ARTICLENO)));
+                invdet.setFINVDET_BARCODE(cursor.getString(cursor.getColumnIndex(FINVDET_BARCODE)));
+                invdet.setFINVDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FINVDET_VARIANTCODE)));
+                invdet.setFINVDET_DIS_PER(cursor.getString(cursor.getColumnIndex(FINVDET_DIS_PER)));
+                invdet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_AMT)));
+                invdet.setFINVDET_REFNO(refno);
+                list.add(invdet);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return list;
+    }
     public ArrayList<InvDet> getAllItemsforPrint(String refno) {
         if (dB == null) {
             open();
