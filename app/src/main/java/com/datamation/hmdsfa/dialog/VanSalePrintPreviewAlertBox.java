@@ -469,11 +469,11 @@ public class VanSalePrintPreviewAlertBox {
 //                Heading_bmh = "\r"   + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R + title_Print_Area;
 //            }
 //        }
-        String title_cb = "\r\nVARIANT CODE  ARTICLE_NO PRICE      DISC(%) ";
-        String title_cc = "\r\nITEM CODE       QTY    DISC.AMT  LINE AMOUNT ";
+        String title_cb = "\r\nARTICLE_NO  QTY   PRICE    DISC(%)   DISC.AMT";
+        String title_cc = "\r\nITEM CODE                        LINE AMOUNT ";
         String title_cd = "\r\nITEM NAME                                    ";
 
-        Heading_b = "\r\n" + printLineSeperatorNew + title_cb + title_cc +title_cd+"\r\n" + printLineSeperatorNew+"\n";
+        Heading_b = "\r\n" + printLineSeperatorNew +title_cd + title_cb + title_cc +"\r\n" + printLineSeperatorNew+"\n";
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*Individual Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         int totQty = 0 ;
@@ -489,8 +489,8 @@ public class VanSalePrintPreviewAlertBox {
         }
 
         int nos = 1;
-        String SPACE1, SPACE2, SPACE3, SPACE4, SPACE5, SPACE6;
-        String SPACE11, SPACE22, SPACE33, SPACE44, SPACE55, SPACE66;
+        String SpcItmCodeAndNOS, SpcPrice, SpcQty, SPcTotal, SpcNOS, SPACE6;
+        String SpcVarntCde, SpcArticleNo, SpcDisper, SpcDisc, SPACE55, SPACE66;
         SPACE6 = "                                            ";
 
         //for (StkIss iss : list) {
@@ -522,19 +522,19 @@ public class VanSalePrintPreviewAlertBox {
 
             //SPACE0 = String.format("%"+ (44 - (sItemname.length())) +(String.valueOf(nos).length() + 2)+ "s", " ");
             //SPACE1 = String.format("%" + (20 - (sItemcode.length() + (String.valueOf(nos).length() + 2))) + "s", " ");
-            SPACE1 = padString("",(15 - (sItemcode.length() + (String.valueOf(nos).length() + 2))));
-            SPACE11 = padString("",(15 - (variantcode.length() + (String.valueOf(nos).length() + 2))));
+            SpcItmCodeAndNOS = padString("",(15 - (sItemcode.length() + (String.valueOf(nos).length() + 2))));
+            SpcVarntCde = padString("",(15 - (variantcode.length() + (String.valueOf(nos).length() + 2))));
             //SPACE2 = String.format("%" + (9 - (sPrice.length())) + "s", " ");
-            SPACE2 = padString("",(9 - (sPrice.length())));
-            SPACE22 = padString("",(9 - (articleno.length())));
+            SpcPrice = padString("",(9 - (sPrice.length())));
+            SpcArticleNo = padString("",(9 - (articleno.length())));
             //SPACE3 = String.format("%" + (3 - (sQty.length())) + "s", " ");
-            SPACE3 = padString("",(3 - (sQty.length())));
-            SPACE33 = padString("",(3 - (disper.length())));
+            SpcQty = padString("",(3 - (sQty.length())));
+            SpcDisper = padString("",(3 - (disper.length())));
             //SPACE4 = String.format("%" + (12 - (sTotal.length())) + "s", " ");
-            SPACE4 = padString("",(12 - (sTotal.length())));
-            SPACE44 = padString("",(12 - (sDiscount.length())));
+            SPcTotal = padString("",(12 - (sTotal.length())));
+            SpcDisc = padString("",(12 - (sDiscount.length())));
             //SPACE5 = String.format("%" + (String.valueOf(nos).length() + 2) + "s", " ");
-            SPACE5 = padString("",(String.valueOf(nos).length() + 2));
+            SpcNOS = padString("",(String.valueOf(nos).length() + 2));
 
 
             String doubleLineItemName1 = "",doubleLineItemName2 = "";
@@ -544,20 +544,17 @@ public class VanSalePrintPreviewAlertBox {
                 doubleLineItemName1 += sItemname.substring(0,40);
                 doubleLineItemName2 += sItemname.substring(41,sItemname.length());
 
-                Heading_c += nos + "."  + variantcode +SPACE22+articleno +SPACE3+SPACE2+ sPrice +SPACE11 + disper
-                                +"\r\n"+ SPACE5+ sItemcode +SPACE1+ sQty+SPACE33+SPACE44+sDiscount +SPACE4+ sTotal
-                                +"\r\n" +SPACE5+doubleLineItemName1.trim()
-                                +"\r\n" +SPACE5+doubleLineItemName2.trim()+"\r\n\r\n";
-               // Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
+                Heading_c += nos + "."  +doubleLineItemName1.trim()
+                                +"\r\n"+ SpcNOS+ doubleLineItemName2.trim()
+                                +"\r\n"+ SpcNOS+ variantcode +SpcArticleNo+articleno +SpcQty+SpcPrice+ sPrice +SpcVarntCde + disper
+                                +"\r\n" +SpcNOS+sItemcode +SpcItmCodeAndNOS+ sQty+SpcDisper+SpcDisc+sDiscount +SPcTotal+ sTotal+"\r\n\r\n";
             }
             else
             {
                 doubleLineItemName1 += sItemname.substring(0,itemNameLength);
-
-                Heading_c += nos + "." + variantcode +SPACE22+articleno +SPACE3+SPACE2+ sPrice +SPACE11 + disper
-                        +"\r\n"+ SPACE5+ sItemcode +SPACE1+ sQty+SPACE33+SPACE44+sDiscount +SPACE4+ sTotal
-                        +"\r\n" +SPACE5+doubleLineItemName1.trim()+"\r\n\r\n";//   Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
-
+                Heading_c += nos + "."  +doubleLineItemName1.trim()
+                        +"\r\n"+ SpcNOS+ variantcode +SpcArticleNo+articleno +SpcQty+SpcPrice+ sPrice +SpcVarntCde + disper
+                        +"\r\n" +SpcNOS+sItemcode +SpcItmCodeAndNOS+ sQty+SpcDisper+SpcDisc+sDiscount +SPcTotal+ sTotal+"\r\n\r\n";
             }
 
             nos++;
