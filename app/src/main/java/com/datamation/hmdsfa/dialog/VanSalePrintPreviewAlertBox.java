@@ -546,15 +546,17 @@ public class VanSalePrintPreviewAlertBox {
 
                 Heading_c += nos + "."  +doubleLineItemName1.trim()
                                 +"\r\n"+ SpcNOS+ doubleLineItemName2.trim()
-                                +"\r\n"+ SpcNOS+ variantcode +SpcArticleNo+articleno +SpcQty+SpcPrice+ sPrice +SpcVarntCde + disper
-                                +"\r\n" +SpcNOS+sItemcode +SpcItmCodeAndNOS+ sQty+SpcDisper+SpcDisc+sDiscount +SPcTotal+ sTotal+"\r\n\r\n";
+                                +"\r\n"+ SpcNOS+ articleno +SpcArticleNo +sQty+SpcQty+SpcPrice+ sPrice  + disper+SpcDisc+sDiscount
+                                +"\r\n" +SpcNOS+sItemcode +SpcItmCodeAndNOS+ SpcDisper+SPcTotal+ sTotal+"\r\n\r\n";
+               // Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
             }
             else
             {
                 doubleLineItemName1 += sItemname.substring(0,itemNameLength);
                 Heading_c += nos + "."  +doubleLineItemName1.trim()
-                        +"\r\n"+ SpcNOS+ variantcode +SpcArticleNo+articleno +SpcQty+SpcPrice+ sPrice +SpcVarntCde + disper
-                        +"\r\n" +SpcNOS+sItemcode +SpcItmCodeAndNOS+ sQty+SpcDisper+SpcDisc+sDiscount +SPcTotal+ sTotal+"\r\n\r\n";
+                        +"\r\n"+ SpcNOS+ articleno +SpcArticleNo+ sQty+SpcQty+SpcPrice+ sPrice +SpcVarntCde + disper+SpcDisc+sDiscount
+                        +"\r\n" +SpcNOS+sItemcode +SpcItmCodeAndNOS+SpcDisper +SPcTotal+ sTotal+"\r\n\r\n";
+
             }
 
             nos++;
