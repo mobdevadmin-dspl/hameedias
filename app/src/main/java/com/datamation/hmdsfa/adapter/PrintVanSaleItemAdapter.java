@@ -48,7 +48,7 @@ public class PrintVanSaleItemAdapter extends ArrayAdapter<InvDet> {
         TextView amount = (TextView) row.findViewById(R.id.printlineamount);
 
         description.setText(""+new ItemController(context).getItemNameByCode(list.get(position).getFINVDET_ITEM_CODE().trim()));
-        variantcode.setText(""+list.get(position).getFINVDET_VARIANTCODE());
+        variantcode.setText(""+list.get(position).getFINVDET_ITEM_CODE());
         articleno.setText(""+list.get(position).getFINVDET_ARTICLENO());
         unitprice.setText(""+list.get(position).getFINVDET_SELL_PRICE());
         amount.setText(""+list.get(position).getFINVDET_AMT());

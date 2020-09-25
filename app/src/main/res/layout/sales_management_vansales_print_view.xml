@@ -254,7 +254,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_weight="3.5"
-                    android:text="Variant Code"
+                    android:text="Item Code"
                     android:textColor="#040d19"
                     android:textStyle="bold" />
 

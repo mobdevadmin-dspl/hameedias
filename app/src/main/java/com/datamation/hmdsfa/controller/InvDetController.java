@@ -488,7 +488,8 @@ public class InvDetController {
 
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
-        String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "' group by ArticleNo";
+        //String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "' group by ArticleNo";
+        String selectQuery = "select ifnull((sum(Amt)),0) as Amt, ifnull((sum(Qty)),0) as Qty, ifnull((sum(DisAmt)),0) as DisAmt, DisPer, ItemCode, Types, RefNo, SellPrice, ifnull((sum(TaxAmt)),0) as TaxAmt, TxnDate, ArticleNo  from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'  group by ArticleNo";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 
@@ -505,8 +506,6 @@ public class InvDetController {
                 invdet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
                 invdet.setFINVDET_DIS_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_DIS_AMT)));
                 invdet.setFINVDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FINVDET_ARTICLENO)));
-                invdet.setFINVDET_BARCODE(cursor.getString(cursor.getColumnIndex(FINVDET_BARCODE)));
-                invdet.setFINVDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FINVDET_VARIANTCODE)));
                 invdet.setFINVDET_DIS_PER(cursor.getString(cursor.getColumnIndex(FINVDET_DIS_PER)));
                 invdet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_AMT)));
                 invdet.setFINVDET_REFNO(refno);

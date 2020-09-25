@@ -499,7 +499,6 @@ public class VanSalePrintPreviewAlertBox {
             String sItemcode = det.getFINVDET_ITEM_CODE();
             String sItemname = new ItemController(context).getItemNameByCode(sItemcode);
             String sQty = det.getFINVDET_QTY();
-            String variantcode = det.getFINVDET_VARIANTCODE();
             String articleno = det.getFINVDET_ARTICLENO();
             String disper = det.getFINVDET_DIS_PER();
             // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
@@ -523,7 +522,7 @@ public class VanSalePrintPreviewAlertBox {
             //SPACE0 = String.format("%"+ (44 - (sItemname.length())) +(String.valueOf(nos).length() + 2)+ "s", " ");
             //SPACE1 = String.format("%" + (20 - (sItemcode.length() + (String.valueOf(nos).length() + 2))) + "s", " ");
             SpcItmCodeAndNOS = padString("",(15 - (sItemcode.length() + (String.valueOf(nos).length() + 2))));
-            SpcVarntCde = padString("",(15 - (variantcode.length() + (String.valueOf(nos).length() + 2))));
+          //  SpcVarntCde = padString("",(15 - (variantcode.length() + (String.valueOf(nos).length() + 2))));
             //SPACE2 = String.format("%" + (9 - (sPrice.length())) + "s", " ");
             SpcPrice = padString("",(9 - (sPrice.length())));
             SpcArticleNo = padString("",(9 - (articleno.length())));
@@ -554,7 +553,7 @@ public class VanSalePrintPreviewAlertBox {
             {
                 doubleLineItemName1 += sItemname.substring(0,itemNameLength);
                 Heading_c += nos + "."  +doubleLineItemName1.trim()
-                        +"\r\n"+ SpcNOS+ articleno +SpcArticleNo+ sQty+SpcQty+SpcPrice+ sPrice +SpcVarntCde + disper+SpcDisc+sDiscount
+                        +"\r\n"+ SpcNOS+ articleno +SpcArticleNo+ sQty+SpcQty+SpcPrice+ sPrice  + disper+SpcDisc+sDiscount
                         +"\r\n" +SpcNOS+sItemcode +SpcItmCodeAndNOS+SpcDisper +SPcTotal+ sTotal+"\r\n\r\n";
 
             }
