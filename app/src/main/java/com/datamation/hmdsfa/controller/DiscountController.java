@@ -248,7 +248,8 @@ public class DiscountController {
             for (InvDet mTranSODet : ordArrList) {
                 ItemBundle item = new ItemBundleController(context).getItem(mTranSODet.getFINVDET_ITEM_CODE());
                 Discount discountdets = null;
-                String productgroup = new ItemBundleController(context).getProductGroup(mTranSODet.getFINVDET_ITEM_CODE(),mTranSODet.getFINVDET_BARCODE());
+//                String productgroup = new ItemBundleController(context).getProductGroup(mTranSODet.getFINVDET_ITEM_CODE(),mTranSODet.getFINVDET_BARCODE());
+                String productgroup = new ItemController(context).getItemGroupByCode(mTranSODet.getFINVDET_ITEM_CODE(),debcode);
 
                 if(new SharedPref(context).getGlobalVal("KeyPayType").equals("CASH")){
                     if(productgroup.equals("")) {

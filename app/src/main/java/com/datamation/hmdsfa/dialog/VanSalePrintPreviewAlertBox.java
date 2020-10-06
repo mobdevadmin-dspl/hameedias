@@ -171,10 +171,21 @@ public class VanSalePrintPreviewAlertBox {
             final Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
             outlet = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
 //            if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+
+            String original_reprint = "";
+            int printcount = Integer.valueOf(invhed.getFINVHED_CONTACT());
+            if(printcount>0)
+            {
+                original_reprint = " - (RE-PRINT)";
+            }else
+            {
+                original_reprint = " - (ORIGINAL)";
+            }
+
             if(invhed.getFINVHED_VAT_CODE().equals("VAT")) {
-                SalesRepname.setText("TAX INVOICE");
+                SalesRepname.setText("TAX INVOICE"+original_reprint);
             }else{
-                SalesRepname.setText("INVOICE");
+                SalesRepname.setText("INVOICE"+original_reprint);
             }
 
 
@@ -211,6 +222,7 @@ public class VanSalePrintPreviewAlertBox {
                 TotalNetValue.setText(String.format("%,.2f", (dTotAmt)));//-dDisc
                 txtTotVal.setText(String.format("%,.2f", dTotAmt-dTax));
                 txtfiQty.setText(String.format("%,.2f", dDisc));
+
             if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
                 TotalDiscount.setText(String.format("%,.2f", dTax));
             }else{
@@ -228,11 +240,11 @@ public class VanSalePrintPreviewAlertBox {
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        if(title.split("-")[1].trim().equals("original")) {
-                            PrintCurrentview(title.split("-")[1].trim());
-                        }else{
+//                        if(title.split("-")[1].trim().equals("original")) {
                             PrintCurrentview("");
-                        }
+//                        }else{
+//                            PrintCurrentview("");
+//                        }
 
                     }
                 });
@@ -240,14 +252,14 @@ public class VanSalePrintPreviewAlertBox {
                 alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        if(title.split("-")[1].trim().equals("original")) {
-                            Intent intent = new Intent(context, DebtorDetailsActivity.class);
-                            intent.putExtra("outlet", debtor);
-                            context.startActivity(intent);
+//                        if(title.split("-")[1].trim().equals("original")) {
+//                            Intent intent = new Intent(context, DebtorDetailsActivity.class);
+//                            intent.putExtra("outlet", debtor);
+//                            context.startActivity(intent);
                             dialog.cancel();
-                        }else{
-                            dialog.cancel();
-                        }
+//                        }else{
+//                            dialog.cancel();
+//                        }
                     }
                 });
 
@@ -340,12 +352,22 @@ public class VanSalePrintPreviewAlertBox {
         InvHed invHed = new InvHedController(context).getDetailsforPrint(PRefno);
         FInvRHed invRHed = new SalesReturnController(context).getDetailsforPrint(PRefno);
         Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invHed.getFINVHED_DEBCODE());
+
         String SalesRepNamestr = "";// +
+        String original_reprint = "";
+        int printcount = Integer.valueOf(invHed.getFINVHED_CONTACT());
+        if(printcount>0)
+        {
+            original_reprint = " - (RE-PRINT)";
+        }else
+        {
+            original_reprint = " - (ORIGINAL)";
+        }
 //        if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
         if(invHed.getFINVHED_VAT_CODE().equals("VAT")) {
-            SalesRepNamestr = "<TAX INVOICE> - (RE-PRINT)";
+            SalesRepNamestr = "<TAX INVOICE>"+original_reprint;
         }else{
-            SalesRepNamestr = "<INVOICE> - (RE-PRINT)";
+            SalesRepNamestr = "<INVOICE>"+original_reprint;
         }
       //  String SalesRepNamestr = "Sales Rep: " + salrep.getRepCode() + "/ " + salrep.getNAME().trim();// +
 
@@ -470,10 +492,10 @@ public class VanSalePrintPreviewAlertBox {
 //            }
 //        }
         String title_cb = "\r\nARTICLE_NO  QTY   PRICE    DISC(%)   DISC.AMT";
-        String title_cc = "\r\nITEM CODE                        LINE AMOUNT ";
-        String title_cd = "\r\nITEM NAME                                    ";
+//        String title_cc = "\r\nITEM CODE                        LINE AMOUNT ";
+        String title_cd = "\r\nITEM CODE ITEM NAME              LINE AMOUNT ";
 
-        Heading_b = "\r\n" + printLineSeperatorNew +title_cd + title_cb + title_cc +"\r\n" + printLineSeperatorNew+"\n";
+        Heading_b = "\r\n" + printLineSeperatorNew +title_cd + title_cb +"\r\n" + printLineSeperatorNew+"\n";
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*Individual Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         int totQty = 0 ;
@@ -489,7 +511,7 @@ public class VanSalePrintPreviewAlertBox {
         }
 
         int nos = 1;
-        String SpcItmCodeAndNOS, SpcPrice, SpcQty, SPcTotal, SpcNOS, SPACE6;
+        String SpcItmCodeAndNOS, SpcPrice, SpcQty, SPcTotal, SpcNOS, SPACE6,spItemcode;
         String SpcVarntCde, SpcArticleNo, SpcDisper, SpcDisc, SPACE55, SPACE66;
         SPACE6 = "                                            ";
 
@@ -513,50 +535,70 @@ public class VanSalePrintPreviewAlertBox {
 
 
             int itemCodeLength = sItemcode.length();
-
-            if(itemCodeLength > 15)
+            int articleno_length = articleno.length();
+            if(itemCodeLength > 10)
             {
-                sItemcode = sItemcode.substring(0,15);
+                sItemcode = sItemcode.substring(0,10).trim();
             }
 
-            //SPACE0 = String.format("%"+ (44 - (sItemname.length())) +(String.valueOf(nos).length() + 2)+ "s", " ");
-            //SPACE1 = String.format("%" + (20 - (sItemcode.length() + (String.valueOf(nos).length() + 2))) + "s", " ");
-            SpcItmCodeAndNOS = padString("",(15 - (sItemcode.length() + (String.valueOf(nos).length() + 2))));
-          //  SpcVarntCde = padString("",(15 - (variantcode.length() + (String.valueOf(nos).length() + 2))));
-            //SPACE2 = String.format("%" + (9 - (sPrice.length())) + "s", " ");
-            SpcPrice = padString("",(9 - (sPrice.length())));
-            SpcArticleNo = padString("",(9 - (articleno.length())));
-            //SPACE3 = String.format("%" + (3 - (sQty.length())) + "s", " ");
-            SpcQty = padString("",(3 - (sQty.length())));
-            SpcDisper = padString("",(3 - (disper.length())));
-            //SPACE4 = String.format("%" + (12 - (sTotal.length())) + "s", " ");
-            SPcTotal = padString("",(12 - (sTotal.length())));
-            SpcDisc = padString("",(12 - (sDiscount.length())));
-            //SPACE5 = String.format("%" + (String.valueOf(nos).length() + 2) + "s", " ");
-            SpcNOS = padString("",(String.valueOf(nos).length() + 2));
+            if(articleno_length > 10)
+            {
+                articleno = articleno.substring(0,10).trim();
+            }
+
+            sItemname = sItemname.substring(0,20).trim();
+            spItemcode = padString("",10-sItemcode.length());
+            SpcItmCodeAndNOS = padString("",20-sItemname.length());
+            SPcTotal = padString("",12-sTotal.length());
+            SpcArticleNo = padString("",10-articleno.length());
+            SpcQty = padString("",4-sQty.length());
+            SpcPrice = padString("",10-sPrice.length());
+            SpcDisper = padString("",7-disper.length());
+            SpcDisc = padString("",15-sDiscount.length());
+//            //SPACE0 = String.format("%"+ (44 - (sItemname.length())) +(String.valueOf(nos).length() + 2)+ "s", " ");
+//            //SPACE1 = String.format("%" + (20 - (sItemcode.length() + (String.valueOf(nos).length() + 2))) + "s", " ");
+//            SpcItmCodeAndNOS = padString("",(15 - (sItemcode.length() + (String.valueOf(nos).length() + 2))));
+//          //  SpcVarntCde = padString("",(15 - (variantcode.length() + (String.valueOf(nos).length() + 2))));
+//            //SPACE2 = String.format("%" + (9 - (sPrice.length())) + "s", " ");
+//            SpcPrice = padString("",(9 - (sPrice.length())));
+//            SpcArticleNo = padString("",(9 - (articleno.length())));
+//            //SPACE3 = String.format("%" + (3 - (sQty.length())) + "s", " ");
+//            SpcQty = padString("",(3 - (sQty.length())));
+//            SpcDisper = padString("",(3 - (disper.length())));
+//            //SPACE4 = String.format("%" + (12 - (sTotal.length())) + "s", " ");
+//            SPcTotal = padString("",(12 - (sTotal.length())));
+//            SpcDisc = padString("",(12 - (sDiscount.length())));
+//            //SPACE5 = String.format("%" + (String.valueOf(nos).length() + 2) + "s", " ");
+//            SpcNOS = padString("",(String.valueOf(nos).length() + 2));
 
 
             String doubleLineItemName1 = "",doubleLineItemName2 = "";
             int itemNameLength = sItemname.length();
-            if(itemNameLength > 40)
-            {
-                doubleLineItemName1 += sItemname.substring(0,40);
-                doubleLineItemName2 += sItemname.substring(41,sItemname.length());
+//            doubleLineItemName1 += sItemname.substring(0,20);
+//            doubleLineItemName1 += sItemname.substring(0,itemNameLength);
+                Heading_c += nos + "."+sItemcode+spItemcode+ "-"  +sItemname.trim()+SpcItmCodeAndNOS+SPcTotal+ sTotal
+                        +"\r\n"+ articleno +SpcArticleNo+SpcQty+ sQty+SpcPrice+ sPrice  +SpcDisper+ disper
+                        +SpcDisc +sDiscount+"\r\n\r\n";
 
-                Heading_c += nos + "."  +doubleLineItemName1.trim()
-                                +"\r\n"+ SpcNOS+ doubleLineItemName2.trim()
-                                +"\r\n"+ SpcNOS+ articleno +SpcArticleNo +sQty+SpcQty+SpcPrice+ sPrice  + disper+SpcDisc+sDiscount
-                                +"\r\n" +SpcNOS+sItemcode +SpcItmCodeAndNOS+ SpcDisper+SPcTotal+ sTotal+"\r\n\r\n";
-               // Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
-            }
-            else
-            {
-                doubleLineItemName1 += sItemname.substring(0,itemNameLength);
-                Heading_c += nos + "."  +doubleLineItemName1.trim()
-                        +"\r\n"+ SpcNOS+ articleno +SpcArticleNo+ sQty+SpcQty+SpcPrice+ sPrice  + disper+SpcDisc+sDiscount
-                        +"\r\n" +SpcNOS+sItemcode +SpcItmCodeAndNOS+SpcDisper +SPcTotal+ sTotal+"\r\n\r\n";
-
-            }
+//            if(itemNameLength > 40)
+//            {
+//                doubleLineItemName1 += sItemname.substring(0,40);
+//                doubleLineItemName2 += sItemname.substring(41,sItemname.length());
+//
+//                Heading_c += nos + "."  +doubleLineItemName1.trim()
+//                                +"\r\n"+ SpcNOS+ doubleLineItemName2.trim()
+//                                +"\r\n"+ SpcNOS+ articleno +SpcArticleNo +sQty+SpcQty+SpcPrice+ sPrice +SpcDisc + disper+SpcDisc+sDiscount
+//                                +"\r\n" +SpcNOS+sItemcode +SpcItmCodeAndNOS+ SpcDisper+SPcTotal+ sTotal+"\r\n\r\n";
+//               // Heading_d = "\r\n" + SPACE5 + variantcode + SPACE11 + disper+SPACE33+SPACE22+articleno+SPACE44+sDiscount+ "\r\n\r\n";
+//            }
+//            else
+//            {
+//                doubleLineItemName1 += sItemname.substring(0,itemNameLength);
+//                Heading_c += nos + "."  +doubleLineItemName1.trim()
+//                        +"\r\n"+ SpcNOS+ articleno +SpcArticleNo+ sQty+SpcQty+SpcPrice+ sPrice  +SpcDisc+ disper+SpcDisc+sDiscount
+//                        +"\r\n" +SpcNOS+sItemcode +SpcItmCodeAndNOS+SpcDisper +SPcTotal+ sTotal+"\r\n\r\n";
+//
+//            }
 
             nos++;
         }
@@ -752,13 +794,19 @@ public class VanSalePrintPreviewAlertBox {
             BluetoothDevice mdevice = mBTAdapter.getRemoteDevice(address);
             Method m = mdevice.getClass().getMethod("createRfcommSocket", new Class[]{int.class});
             mBTSocket = (BluetoothSocket) m.invoke(mdevice, 1);
+            if(mBTSocket.isConnected()){
+                android.widget.Toast.makeText(context, "Bluetooth Connected", android.widget.Toast.LENGTH_LONG).show();
+            }else{
+                mBTSocket.connect();
+            }
 
-            mBTSocket.connect();
             OutputStream os = mBTSocket.getOutputStream();
             os.flush();
             os.write(BILL.getBytes());
             System.out.println(BILL);
 
+            int pcount = Integer.valueOf(new InvHedController(context).getPrintCount(PRefno));
+            int pinvhed = new InvHedController(context).updatePrintCount(PRefno,pcount+1);
             if (mBTAdapter != null)
                 mBTAdapter.cancelDiscovery();
         } catch (Exception e) {

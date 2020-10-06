@@ -318,6 +318,35 @@ public class ItemController {
         return list;
     }
 
+    public String getItemGroupByCode(String code, String debcode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT * FROM " + TABLE_FITEM + " WHERE " + FITEM_ITEM_CODE + "='" + code + "' and groupcode in (Select ProductGroup from discount where debcode='"+debcode+"')";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+
+                return cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return "";
+    }
+
     public ArrayList<Item> getTonnage(String date) {
         if (dB == null) {
             open();

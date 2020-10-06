@@ -99,7 +99,7 @@ public class FragmentMarkAttendance extends Fragment implements View.OnClickList
             if (tour == null) {
 
             } else {
-
+//                buttonStart.setEnabled(false);
                 dayEnd.setVisibility(View.VISIBLE);
 
                 editTextDate.setText(tour.getFTOUR_DATE());

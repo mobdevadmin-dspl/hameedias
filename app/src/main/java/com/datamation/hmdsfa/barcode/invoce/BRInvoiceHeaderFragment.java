@@ -223,7 +223,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
 
             if (selectedDebtor != null) {
                 hed.setFINVHED_DEBCODE(new SharedPref(getActivity()).getSelectedDebCode());
-                hed.setFINVHED_CONTACT(selectedDebtor.getCusMob());
+                hed.setFINVHED_CONTACT("0"); // selectedDebtor.getCusMob()
                 hed.setFINVHED_CUSADD1(selectedDebtor.getCusAdd1());
                 hed.setFINVHED_CUSADD2(selectedDebtor.getCusAdd2());
                 hed.setFINVHED_CUSADD3(selectedDebtor.getCusAdd1());

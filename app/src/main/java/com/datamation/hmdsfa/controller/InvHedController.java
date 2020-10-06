@@ -182,6 +182,7 @@ public class InvHedController {
                 values.put(FINVHED_TOURCODE, invHed.getFINVHED_TOURCODE());
                 values.put(FINVHED_PAYTYPE, invHed.getFINVHED_PAYTYPE());
                 values.put(FINVHED_VAT_CODE, invHed.getFINVHED_VAT_CODE());
+                values.put(FINVHED_CONTACT, invHed.getFINVHED_CONTACT());
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
@@ -240,6 +241,45 @@ public class InvHedController {
         return count;
 
     }
+
+    public int updatePrintCount(String refno, int pcount) {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+
+        try {
+            ContentValues values = new ContentValues();
+
+
+
+            //if (hed.getORDER_IS_SYNCED().equals("1")) {
+            values.put(FINVHED_CONTACT, String.valueOf(pcount));
+            count = dB.update(TABLE_FINVHED, values, REFNO + " =?", new String[] { refno });
+//            }else{
+//                values.put(FORDHED_IS_SYNCED, "0");
+//                count = dB.update(TABLE_FORDHED, values, REFNO + " =?", new String[] { String.valueOf(hed.getORDER_REFNO()) });
+//            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return count;
+
+    }
+
     public int updateIsSyncedLogTbl(String refno,String res) {
 
         int count = 0;
@@ -442,7 +482,7 @@ public class InvHedController {
                     invHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                     invHed.setFINVHED_VAT_CODE(cursor.getString(cursor.getColumnIndex(FINVHED_VAT_CODE)));
 
-//                    invHed.setFINVHED_CONTACT(cursor.getString(cursor.getColumnIndex(ValueHolder.FINVHED_CONTACT)));
+                   invHed.setFINVHED_CONTACT(cursor.getString(cursor.getColumnIndex(FINVHED_CONTACT)));
 //                    invHed.setFINVHED_CUSADD1(cursor.getString(cursor.getColumnIndex(ValueHolder.FINVHED_CUSADD1)));
 //                    invHed.setFINVHED_CUSADD2(cursor.getString(cursor.getColumnIndex(ValueHolder.FINVHED_CUSADD2)));
 //                    invHed.setFINVHED_CUSADD3(cursor.getString(cursor.getColumnIndex(ValueHolder.FINVHED_CUSADD3)));
@@ -636,7 +676,7 @@ public class InvHedController {
         InvHed SOHed = new InvHed();
 
         try {
-            String selectQuery = "SELECT TxnDate,DebCode,Remarks,routecode,tourcode,TotalAmt,TotalDis,VatCode FROM " + TABLE_FINVHED + " WHERE " + REFNO + " = '" + Refno + "'";
+            String selectQuery = "SELECT TxnDate,DebCode,Remarks,routecode,tourcode,TotalAmt,TotalDis,VatCode,Contact FROM " + TABLE_FINVHED + " WHERE " + REFNO + " = '" + Refno + "'";
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -650,6 +690,7 @@ public class InvHedController {
                 SOHed.setFINVHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALAMT)));
                 SOHed.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALDIS)));
                 SOHed.setFINVHED_VAT_CODE(cursor.getString(cursor.getColumnIndex(FINVHED_VAT_CODE)));
+                SOHed.setFINVHED_CONTACT(cursor.getString(cursor.getColumnIndex(FINVHED_CONTACT)));
             }
             cursor.close();
 
@@ -958,6 +999,43 @@ public class InvHedController {
         }
 
         return refNo;
+    }
+
+    public String getPrintCount(String refno)
+    {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String printcount = "";
+
+        String selectQuery = "select * from " + TABLE_FINVHED + " WHERE " + REFNO + "= '"+refno+"'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            if (cursor.getCount()>0)
+            {
+                while(cursor.moveToNext())
+                {
+                    printcount = cursor.getString(cursor.getColumnIndex(FINVHED_CONTACT));
+                }
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return printcount;
     }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
