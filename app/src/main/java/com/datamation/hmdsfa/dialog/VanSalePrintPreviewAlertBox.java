@@ -685,8 +685,8 @@ public class VanSalePrintPreviewAlertBox {
         int lengthsummarybottm = summaryBottom_cpoyline1.length();
         int lengthsummarybottmline1 = (LINECHAR - lengthsummarybottm) / 2;
         String printGapbottmline1 = printGapAdjust.substring(0, Math.min(lengthsummarybottmline1, printGapAdjust.length()));
-        String buttomTitlec = "\r\n" + summaryTitle_c_Val;
         String buttomTitled = "\r\n" + summaryTitle_RetVal;
+        String buttomTitlec = "\r\n" + summaryTitle_c_Val;
         String buttomTitletax = "\r\n" + buttomTitleb;
         String buttomTitlee = "\r\n" + summaryTitle_e_Val;
         String buttomTitlef = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Customer               Sales Executive";
