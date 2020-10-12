@@ -1014,4 +1014,51 @@ public class SalesReturnController
         return list;
 
     }
+    public ArrayList<FInvRHed> getReturnsByDate(String from, String to) {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<FInvRHed> list = new ArrayList<FInvRHed>();
+
+        try {
+            //String selectQuery = "select DebCode, RefNo from fordHed " +
+            String selectQuery = "select DebCode, RefNo, IsSync, TxnDate, TotalAmt, TxnType from FInvRHed " + "  where txndate between '" + from + "' and " +
+                    "'" + to + "'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                FInvRHed retDet = new FInvRHed();
+//
+                retDet.setFINVRHED_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+                retDet.setFINVRHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
+                retDet.setFINVRHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVRHED_IS_SYNCED)));
+                retDet.setFINVRHED_TXNTYPE("Return");
+                retDet.setFINVRHED_TXN_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
+                retDet.setFINVRHED_TOTAL_AMT(cursor.getString(cursor.getColumnIndex(FINVRHED_TOTAL_AMT)));
+
+                list.add(retDet);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+
+    }
 }

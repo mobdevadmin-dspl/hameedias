@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -43,11 +44,16 @@ import com.datamation.hmdsfa.model.InvHed;
 import com.datamation.hmdsfa.model.Order;
 import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.utils.UtilityContainer;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class TransactionDetailsFragment extends Fragment {
 
@@ -57,12 +63,13 @@ public class TransactionDetailsFragment extends Fragment {
     private NumberFormat numberFormat = NumberFormat.getInstance();
     SwipeRefreshLayout mSwipeRefreshLayout;
     private Spinner spnTrans;
-
+    public Calendar Report_Calender;
+    public DatePickerDialog datePickerDialogfrom,datePickerDialogTo;
     ExpandablePreListAdapter listPreAdapter;
     List<Order> listPreDataHeader;
     HashMap<Order, List<OrderDetail>> listPreDataChild;
-
-
+    int year,month ,day;
+    Button searchBtn;
     ExpandableVanListAdapter listVanAdapter;
     List<InvHed> listVanDataHeader;
     HashMap<InvHed, List<InvDet>> listVanDataChild;
@@ -70,7 +77,10 @@ public class TransactionDetailsFragment extends Fragment {
     ExpandableRetListAdapter listRetAdapter;
     List<FInvRHed> listRetDataHeader;
     HashMap<FInvRHed, List<FInvRDet>> listRetDataChild;
-
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private long timeInMillis;
+    public ImageView btnFromDate, btnToDate;
+    public TextView fromDate , toDate;
     public TransactionDetailsFragment() {
         // Required empty public constructor
     }
@@ -84,7 +94,12 @@ public class TransactionDetailsFragment extends Fragment {
 
         spnTrans = (Spinner)view.findViewById(R.id.spnMainTrans);
         total = (TextView) view.findViewById(R.id.item_payment_details_tv_outstanding_amount_total);
-
+        Report_Calender = Calendar.getInstance();
+        searchBtn = (Button)view.findViewById(R.id.fragment_report_search_btn);
+        year = Report_Calender.get(Calendar.YEAR);
+        month = Report_Calender.get(Calendar.MONTH);
+        day = Report_Calender.get(Calendar.DAY_OF_MONTH);
+        timeInMillis = System.currentTimeMillis();
         ArrayList<String> otherList = new ArrayList<String>();
         otherList.add("INVOICES");
         otherList.add("ORDERS");
@@ -97,9 +112,77 @@ public class TransactionDetailsFragment extends Fragment {
         numberFormat.setMaximumFractionDigits(2);
         numberFormat.setMinimumFractionDigits(2);
         numberFormat.setGroupingUsed(true);
-
+        btnFromDate = (ImageView) view.findViewById(R.id.image_view_date_select_from);
+        btnToDate = (ImageView) view.findViewById(R.id.image_view_date_select_to);
+        toDate = (TextView) view.findViewById(R.id.fragment_invoice_details_tv_filter_params_date_to);
+        fromDate = (TextView) view.findViewById(R.id.fragment_invoice_details_tv_filter_params_date_from);
+        toDate.setText(dateFormat.format(new Date(timeInMillis)));
+        fromDate.setText(dateFormat.format(new Date(timeInMillis)));
         expListView = (ExpandableListView) view.findViewById(R.id.lvExp);
 
+        btnFromDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                datePickerDialogfrom = new DatePickerDialog();
+                datePickerDialogfrom.setThemeDark(false);
+                datePickerDialogfrom.showYearPickerFirst(false);
+                datePickerDialogfrom.setAccentColor(Color.parseColor("#0072BA"));
+                datePickerDialogfrom.show(getActivity().getFragmentManager(),"DatePickerDialog");
+                datePickerDialogfrom.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                        // String date =  "Select Date : " + day + " - " + month + " - " + year;
+                        String datesaveFrom = "";
+                        if(String.valueOf(monthOfYear+1).length()<2 && String.valueOf(dayOfMonth).length()<2){
+                            datesaveFrom = "" + year + "-" + "0"+(monthOfYear+1) + "-" + "0"+dayOfMonth ;
+                        }else{
+                            if(String.valueOf(monthOfYear+1).length()<2){
+                                datesaveFrom = "" + year + "-" +"0"+(monthOfYear+1) +"-" + dayOfMonth ;
+                            }else if(String.valueOf(dayOfMonth).length()<2){
+                                datesaveFrom = "" + year + "-" +(monthOfYear+1) + "-" + "0"+dayOfMonth ;
+                            }else{
+                                datesaveFrom = "" + year + "-" +(monthOfYear+1) + "-" + dayOfMonth ;
+                            }
+
+                        }
+                        fromDate.setText(""+datesaveFrom);
+                    }
+                });
+
+            }
+        });
+
+        btnToDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datePickerDialogTo = new DatePickerDialog();
+                datePickerDialogTo.setThemeDark(false);
+                datePickerDialogTo.showYearPickerFirst(false);
+                datePickerDialogTo.setAccentColor(Color.parseColor("#0072BA"));
+                datePickerDialogTo.show(getActivity().getFragmentManager(),"DatePickerDialog");
+                datePickerDialogTo.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                        //String date =  "Select Date : " + day + " - " + month + " - " + year;
+                        String datesaveTo = "";
+                        if(String.valueOf(monthOfYear+1).length()<2 && String.valueOf(dayOfMonth).length()<2){
+                            datesaveTo = "" + year + "-" + "0"+(monthOfYear+1) + "-" + "0"+dayOfMonth ;
+                        }else{
+                            if(String.valueOf(monthOfYear+1).length()<2){
+                                datesaveTo = "" + year + "-" +"0"+(monthOfYear+1) +"-" + dayOfMonth ;
+                            }else if(String.valueOf(dayOfMonth).length()<2){
+                                datesaveTo = "" + year + "-" +(monthOfYear+1) + "-" + "0"+dayOfMonth ;
+                            }else{
+                                datesaveTo = "" + year + "-" +(monthOfYear+1) + "-" + dayOfMonth ;
+                            }
+                        }
+                        toDate.setText(""+datesaveTo);
+                    }
+                });
+
+            }
+        });
 
         spnTrans.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -108,20 +191,20 @@ public class TransactionDetailsFragment extends Fragment {
                 {
                     expListView.setAdapter((BaseExpandableListAdapter)null);
                     expListView.clearTextFilter();
-                    prepareVanListData();
+                    prepareVanListData("","");
                 }
                 else if (position == 1)
                 {
 
                     expListView.setAdapter((BaseExpandableListAdapter)null);
                     expListView.clearTextFilter();
-                    preparePreListData();
+                    preparePreListData("","");
                 }
                 else
                 {
                     expListView.setAdapter((BaseExpandableListAdapter)null);
                     expListView.clearTextFilter();
-                    prepareRetListData();
+                    prepareRetListData("","");
                 }
             }
 
@@ -132,12 +215,29 @@ public class TransactionDetailsFragment extends Fragment {
 
         });
 
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(spnTrans.getSelectedItemPosition() == 0){//target vs actual
+                    prepareVanListData(fromDate.getText().toString().trim(),toDate.getText().toString().trim());
+                }else if(spnTrans.getSelectedItemPosition() == 1){
+                    preparePreListData(fromDate.getText().toString().trim(),toDate.getText().toString().trim());
+                }else if(spnTrans.getSelectedItemPosition() == 2){
+                    prepareRetListData(fromDate.getText().toString().trim(),toDate.getText().toString().trim());
+                }
+            }
+        });
         return view;
     }
 
-    public void preparePreListData()
+    public void preparePreListData(String from, String to)
     {
-        listPreDataHeader = new OrderController(getActivity()).getTodayOrders();
+        if(from.equals("") || to.equals("")) {
+            listPreDataHeader = new OrderController(getActivity()).getTodayOrders();
+        }else{
+            listPreDataHeader = new OrderController(getActivity()).getOrdersByDate(from,to);
+        }
+
 
         if (listPreDataHeader.size()== 0)
         {
@@ -146,7 +246,7 @@ public class TransactionDetailsFragment extends Fragment {
             listPreDataChild = new HashMap<Order, List<OrderDetail>>();
 
             for(Order free : listPreDataHeader){
-                listPreDataChild.put(free,new OrderDetailController(getActivity()).getTodayOrderDets(free.getORDER_REFNO()));
+                listPreDataChild.put(free,new OrderDetailController(getActivity()).getTodayOrderDets(free.getORDER_REFNO(),from,to));
             }
 
             listPreAdapter = new ExpandablePreListAdapter(getActivity(), listPreDataHeader, listPreDataChild);
@@ -157,7 +257,7 @@ public class TransactionDetailsFragment extends Fragment {
             listPreDataChild = new HashMap<Order, List<OrderDetail>>();
 
             for(Order free : listPreDataHeader){
-                listPreDataChild.put(free,new OrderDetailController(getActivity()).getTodayOrderDets(free.getORDER_REFNO()));
+                listPreDataChild.put(free,new OrderDetailController(getActivity()).getTodayOrderDets(free.getORDER_REFNO(),from,to));
             }
 
             listPreAdapter = new ExpandablePreListAdapter(getActivity(), listPreDataHeader, listPreDataChild);
@@ -165,9 +265,13 @@ public class TransactionDetailsFragment extends Fragment {
         }
     }
 
-    public void prepareVanListData()
+    public void prepareVanListData(String from, String to)
     {
-        listVanDataHeader = new InvHedController(getActivity()).getTodayOrders();
+        if(from.equals("") || to.equals("")) {
+            listVanDataHeader = new InvHedController(getActivity()).getTodayOrders();
+        }else{
+            listVanDataHeader = new InvHedController(getActivity()).getOrdersByDate(from,to);
+        }
 
         if (listVanDataHeader.size()== 0)
         {
@@ -175,7 +279,7 @@ public class TransactionDetailsFragment extends Fragment {
             listVanDataChild = new HashMap<InvHed, List<InvDet>>();
 
             for(InvHed free : listVanDataHeader){
-                listVanDataChild.put(free,new InvDetController(getActivity()).getTodayOrderDets(free.getFINVHED_REFNO()));
+                listVanDataChild.put(free,new InvDetController(getActivity()).getTodayOrderDets(free.getFINVHED_REFNO(),from,to));
             }
 
             listVanAdapter = new ExpandableVanListAdapter(getActivity(), listVanDataHeader, listVanDataChild);
@@ -186,7 +290,7 @@ public class TransactionDetailsFragment extends Fragment {
             listVanDataChild = new HashMap<InvHed, List<InvDet>>();
 
             for(InvHed free : listVanDataHeader){
-                listVanDataChild.put(free,new InvDetController(getActivity()).getTodayOrderDets(free.getFINVHED_REFNO()));
+                listVanDataChild.put(free,new InvDetController(getActivity()).getTodayOrderDets(free.getFINVHED_REFNO(),from,to));
             }
 
             listVanAdapter = new ExpandableVanListAdapter(getActivity(), listVanDataHeader, listVanDataChild);
@@ -194,9 +298,15 @@ public class TransactionDetailsFragment extends Fragment {
         }
     }
 
-    public void prepareRetListData()
+    public void prepareRetListData(String from, String to)
     {
-        listRetDataHeader = new SalesReturnController(getActivity()).getTodayReturns();
+
+        if(from.equals("") || to.equals("")) {
+            listRetDataHeader = new SalesReturnController(getActivity()).getTodayReturns();
+        }else{
+            listRetDataHeader = new SalesReturnController(getActivity()).getReturnsByDate(from,to);
+        }
+
 
         if (listRetDataHeader.size()== 0)
         {
@@ -394,7 +504,7 @@ public class TransactionDetailsFragment extends Fragment {
                             new PreProductController(getActivity()).mClearTables();
                             Toast.makeText(getActivity(), "Order deleted successfully..!", Toast.LENGTH_SHORT).show();
 
-                            preparePreListData();
+                            preparePreListData(fromDate.getText().toString().trim(),toDate.getText().toString().trim());
                         }
                         else
                         {
@@ -463,7 +573,8 @@ public class TransactionDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                     dltReasonDialog.dismiss();
-                prepareVanListData();
+                prepareVanListData(fromDate.getText().toString().trim(),toDate.getText().toString().trim());
+
             }
         });
         //close
@@ -481,7 +592,7 @@ public class TransactionDetailsFragment extends Fragment {
                     int result = new InvHedController(getActivity()).restDataBC(refno);
                     if (result>0) {
                         new InvDetController(getActivity()).restData(refno);
-                        prepareVanListData();
+                        prepareVanListData(fromDate.getText().toString().trim(),toDate.getText().toString().trim());
                         Toast.makeText(getActivity(), "Invoice deleted successfully..!", Toast.LENGTH_SHORT).show();
                     }
                     else

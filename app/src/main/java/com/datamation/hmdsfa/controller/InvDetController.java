@@ -394,6 +394,67 @@ public class InvDetController {
 
         return list;
     }
+    public ArrayList<InvDet> getTodayOrderDets(String refno,String from,String to) {
+
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<InvDet> list = new ArrayList<InvDet>();
+
+        // String selectQuery = "select * from " + dbHelper.TABLE_ORDER_DETAIL + " WHERE "
+        String selectQuery = "select * from finvdet WHERE "
+                + ValueHolder.REFNO + "='" + refno + "' and  txndate between '" + from + "' and " +
+                "'" + to + "'";
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+
+                InvDet ordDet = new InvDet();
+
+//                ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ID)));
+//                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_AMT)));
+//                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_ITEM_CODE)));
+//                ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRIL_CODE)));
+//                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_QTY)));
+//                ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(dbHelper.REFNO)));
+//                ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_PRICE)));
+//                ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(dbHelper.ORDDET_IS_ACTIVE)));
+
+                ordDet.setFINVDET_ID(cursor.getString(cursor.getColumnIndex(FINVDET_ID)));
+                ordDet.setFINVDET_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_AMT)));
+                ordDet.setFINVDET_ITEM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_ITEM_CODE)));
+                ordDet.setFINVDET_PRIL_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_PRIL_CODE)));
+                ordDet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
+                ordDet.setFINVDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+                ordDet.setFINVDET_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
+                ordDet.setFINVDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FINVDET_IS_ACTIVE)));
+                ordDet.setFINVDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FINVDET_ARTICLENO)));
+                ordDet.setFINVDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FINVDET_VARIANTCODE)));
+                ordDet.setFINVDET_BARCODE(cursor.getString(cursor.getColumnIndex(FINVDET_BARCODE)));
+
+                list.add(ordDet);
+
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
     public ArrayList<InvDet> getTodayInvoices() {
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
         int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));

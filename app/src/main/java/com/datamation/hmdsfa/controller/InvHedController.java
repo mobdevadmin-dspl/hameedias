@@ -402,6 +402,57 @@ public class InvHedController {
         return list;
 
     }
+    public ArrayList<InvHed> getOrdersByDate(String from,String to) {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<InvHed> list = new ArrayList<InvHed>();
+
+        try {
+            //String selectQuery = "select DebCode, RefNo from fordHed " +
+            String selectQuery = "select DebCode, RefNo, isSynced, TxnDate, TotalAmt from finvhed " +
+                    //			" fddbnote fddb where hed.refno = det.refno and det.FPRECDET_REFNO1 = fddb.refno and hed.txndate = '2019-04-12'";
+                    "  where isActive = '" +"0"+"' and txndate between '" + from + "' and " +
+                    "'" + to + "'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                InvHed recDet = new InvHed();
+
+//
+                recDet.setFINVHED_REFNO(cursor.getString(cursor.getColumnIndex(REFNO)));
+                recDet.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
+                recDet.setFINVHED_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FINVHED_IS_SYNCED)));
+                recDet.setFINVHED_TXNTYPE("Invoice");
+                recDet.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
+                recDet.setFINVHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALAMT)));
+                //TODO :set  discount, free
+
+                list.add(recDet);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+
+    }
     public InvHed getActiveInvhed() {
         if (dB == null) {
             open();

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:fitsSystemWindows="true">
 
@@ -45,7 +46,102 @@
                     android:background="@drawable/custom_textbox" />
 
             </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/fragment_invoice_details_rl_filter_params"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp">
+
+                    <ImageView
+                        android:id="@+id/image_view_date_select_from"
+                        android:layout_width="41dp"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintEnd_toStartOf="@+id/fragment_invoice_details_tv_filter_params_date_from"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/fragment_invoice_details_tv_filter_params_header2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/calendar_report" />
+
+                    <TextView
+                        android:id="@+id/fragment_invoice_details_tv_filter_params_header2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="From"
+                        android:textAllCaps="true"
+                        android:textColor="@color/btn_colour"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@+id/image_view_date_select_from"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/fragment_invoice_details_tv_filter_params_date_from"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="0000-00-00"
+                        app:layout_constraintEnd_toStartOf="@+id/fragment_invoice_details_tv_filter_params_date_to_label"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/image_view_date_select_from"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/fragment_invoice_details_tv_filter_params_date_to_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="To"
+                        android:textAllCaps="true"
+                        android:textColor="@color/btn_colour"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@+id/image_view_date_select_to"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/fragment_invoice_details_tv_filter_params_date_from"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/image_view_date_select_to"
+                        android:layout_width="49dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintEnd_toStartOf="@+id/fragment_invoice_details_tv_filter_params_date_to"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/fragment_invoice_details_tv_filter_params_date_to_label"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/calendar_report" />
+
+                    <TextView
+                        android:id="@+id/fragment_invoice_details_tv_filter_params_date_to"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="0000-00-00"
+                        app:layout_constraintEnd_toEndOf="@+id/fragment_report_search_btn"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/fragment_report_search_btn"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="80dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/selectable_button"
+                        android:text="Search"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"

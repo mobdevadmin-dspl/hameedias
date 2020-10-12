@@ -101,7 +101,8 @@ public class FragmentMarkAttendance extends Fragment implements View.OnClickList
             } else {
 
                 dayEnd.setVisibility(View.VISIBLE);
-
+                buttonStart.setClickable(false);
+                buttonStart.setEnabled(false);
                 editTextDate.setText(tour.getFTOUR_DATE());
 
                 editTextStime.setText(tour.getFTOUR_S_TIME());

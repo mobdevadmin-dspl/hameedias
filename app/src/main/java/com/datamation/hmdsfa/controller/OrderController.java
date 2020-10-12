@@ -223,7 +223,7 @@ public class OrderController {
 
     }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-    public ArrayList<Order> getTodayOrders() {
+       public ArrayList<Order> getTodayOrders() {
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
         int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
         int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
@@ -239,6 +239,56 @@ public class OrderController {
             //String selectQuery = "select DebCode, RefNo from fordHed " +
             String selectQuery = "select DebCode, RefNo, isSynced, TxnDate, TotalAmt from fOrdHed "
                     +"  where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"' and isActive = '" +"0"+"'";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                Order recDet = new Order();
+
+//
+                recDet.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(REFNO)));
+                recDet.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DEBCODE)));
+                recDet.setORDER_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FORDHED_IS_SYNCED)));
+                recDet.setORDER_TXNTYPE("Order");
+                recDet.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(TXNDATE)));
+                recDet.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(FORDHED_TOTAL_AMT)));
+                //TODO :set  discount, free
+
+                list.add(recDet);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+
+    }
+    public ArrayList<Order> getOrdersByDate(String from, String to) {
+        int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        ArrayList<Order> list = new ArrayList<Order>();
+
+        try {
+            //String selectQuery = "select DebCode, RefNo from fordHed " +
+            String selectQuery = "select DebCode, RefNo, isSynced, TxnDate, TotalAmt from fOrdHed "
+                    +"  isActive = '" +"0"+"' and txndate between '" + from + "' and " +
+                    "'" + to + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 

@@ -845,7 +845,7 @@ public class OrderDetailController {
 
         return list;
     }
-    public ArrayList<OrderDetail> getTodayOrderDets(String refno) {
+    public ArrayList<OrderDetail> getTodayOrderDets(String refno,String from,String to) {
 
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
         int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
@@ -861,7 +861,8 @@ public class OrderDetailController {
         // String selectQuery = "select * from " + ValueHolder.TABLE_ORDER_DETAIL + " WHERE "
         String selectQuery = "select * from Forddet WHERE "
                 + ValueHolder.REFNO + "='" + refno + "' "
-                + " and  txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+                + " and  txndate between '" + from + "' and " +
+                "'" + to + "'";
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
 
