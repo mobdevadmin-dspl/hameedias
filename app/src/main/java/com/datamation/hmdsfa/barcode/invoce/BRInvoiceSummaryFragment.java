@@ -340,8 +340,14 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
                             //UpdateQOH_FIFO();
            new ItemLocController(getActivity()).UpdateVanStock(RefNo,"-",locCode);
+//           Customer debtor = new CustomerController(getActivity()).getSelectedCustomerByCode(invHed.getFINVHED_DEBCODE());
            dialog.cancel();
-           int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview - original", RefNo);
+
+           Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+           intent.putExtra("outlet", outlet);
+           getActivity().startActivity(intent);
+//           dialog.cancel()
+   // Menaka Commented        int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview - original", RefNo);
 
            // new ItemLocController(getActivity()).UpdateInvoiceQOH(RefNo, "-", locCode);
                            // updateDispTables(sHed);
