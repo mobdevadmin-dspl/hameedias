@@ -919,6 +919,7 @@ public class OrderController {
                 presale.setORDER_DELIVERY_DATE(cursor.getString(cursor.getColumnIndex(FORDHED_DELV_DATE)));
                 presale.setORDER_PAYTYPE(cursor.getString(cursor.getColumnIndex(FORDHED_PAYMENT_TYPE)));
                 presale.setORDER_FEEDBACK(cursor.getString(cursor.getColumnIndex(FORDHED_FEEDBACK)));
+                presale.setORDER_VATCODE(cursor.getString(cursor.getColumnIndex(FORDHED_VATCODE)));
             }
             cursor.close();
 

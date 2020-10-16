@@ -1126,6 +1126,51 @@ public class OrderDetailController {
 
         return list;
     }
+    public ArrayList<OrderDetail> getAllForPrint(String refno) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
+
+        String selectQuery = "select ifnull((sum(Amt)),0) as Amt, ifnull((sum(Qty)),0) as Qty, ifnull((sum(DisAmt)),0) as DisAmt, DisPer, ItemCode, Types, RefNo, SellPrice, ifnull((sum(TaxAmt)),0) as TaxAmt, TxnDate, ArticleNo  from " + TABLE_FORDDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'  group by ArticleNo";
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+
+
+
+            while (cursor.moveToNext()) {
+
+                OrderDetail ordDet = new OrderDetail();
+                ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(FORDDET_AMT)));
+                ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FORDDET_ITEM_CODE)));
+                ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(FORDDET_QTY)));
+                ordDet.setFORDERDET_SELLPRICE(cursor.getString(cursor.getColumnIndex(FORDDET_SELL_PRICE)));
+                ordDet.setFORDERDET_TYPE(cursor.getString(cursor.getColumnIndex(FORDDET_TYPE)));
+                ordDet.setFORDERDET_DISAMT(cursor.getString(cursor.getColumnIndex(FORDDET_DIS_AMT)));
+                ordDet.setFORDERDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FORDDET_ARTICLENO)));
+                ordDet.setFORDERDET_DISPER(cursor.getString(cursor.getColumnIndex(FORDDET_DIS_PER)));
+                ordDet.setFORDERDET_TAXAMT(cursor.getString(cursor.getColumnIndex(FORDDET_TAX_AMT)));
+                ordDet.setFORDERDET_REFNO(refno);
+                list.add(ordDet);
+            }
+
+        }
+catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
     public void mDeleteProduct(String RefNo, String Itemcode, String barcode) {
 
         if (dB == null) {
