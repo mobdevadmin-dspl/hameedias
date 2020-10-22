@@ -220,7 +220,7 @@ public class ReceiptPreviewAlertBox {
         }
         else if (recHed.getFPRECHED_PAYTYPE().equals("CC"))
         {
-           // tvChequeOrCardNoText.setText("Card No");
+            // tvChequeOrCardNoText.setText("Card No");
             lnBank.setVisibility(View.GONE);
             lnCHQno.setVisibility(View.VISIBLE);
             lnCHDate.setVisibility(View.GONE);
@@ -228,7 +228,7 @@ public class ReceiptPreviewAlertBox {
         }
         else if (recHed.getFPRECHED_PAYTYPE().equals("DD"))
         {
-           // tvChequeOrCardNoText.setText("Slip No");
+            // tvChequeOrCardNoText.setText("Slip No");
             lnBank.setVisibility(View.GONE);
             lnCHQno.setVisibility(View.VISIBLE);
             lnCHDate.setVisibility(View.GONE);
@@ -236,7 +236,7 @@ public class ReceiptPreviewAlertBox {
         }
         else if (recHed.getFPRECHED_PAYTYPE().equals("BD"))
         {
-           // tvChequeOrCardNoText.setText("Draft No");
+            // tvChequeOrCardNoText.setText("Draft No");
             lnBank.setVisibility(View.GONE);
             lnCHQno.setVisibility(View.VISIBLE);
             lnCHDate.setVisibility(View.GONE);
@@ -272,7 +272,7 @@ public class ReceiptPreviewAlertBox {
         return 0;
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void printItems() {
 
@@ -368,7 +368,7 @@ public class ReceiptPreviewAlertBox {
         {
             int lengthDealK = debtor.getCusAdd3().length();
             int lengthDealKB = (LINECHAR - lengthDealK) / 2;
-             printGapAdjustK = printGapAdjust.substring(0, Math.min(lengthDealKB, printGapAdjust.length()));
+            printGapAdjustK = printGapAdjust.substring(0, Math.min(lengthDealKB, printGapAdjust.length()));
         }else{
             int lengthDealK = 1;
             int lengthDealKB = (LINECHAR - lengthDealK) / 2;
@@ -439,16 +439,16 @@ public class ReceiptPreviewAlertBox {
 
         if (subTitleheadK.toString().equalsIgnoreCase(" ") && subTitleheadK.toString()!= null) {
             Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
-           // Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
+            // Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
         } else
             Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_L + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
-           // Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_L + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
+        // Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_L + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
 
         String title_cb = "\r\nINVNO         INV DATE     TOT DUE     PAID ";
 
         Heading_b = "\r\n" + printLineSeperator + title_cb + "\r\n" + printLineSeperator;
 
-		/*-*-*-*-*-*-*-*-*-*-*-*-*-*Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         ArrayList<ReceiptDet> list = new ReceiptDetController(context).GetReceiptByRefno(PRefno);
 
@@ -485,7 +485,7 @@ public class ReceiptPreviewAlertBox {
             Heading_d += "\r\n" + Refno + SPACE1 + InvDate  + SPACE3 +BalAmt + SPACE4 + Amt;
         }
 
-		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         String space;
 
@@ -544,7 +544,7 @@ public class ReceiptPreviewAlertBox {
             summeryCHqDate = "";
         }
 
-		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         String summaryBottom_cpoyline1 = " By Datamation Systems/www.datamation.lk ";
         int lengthsummarybottm = summaryBottom_cpoyline1.length();
@@ -583,7 +583,7 @@ public class ReceiptPreviewAlertBox {
 //        String buttomTitlecopywbottom = "\r\n" + printGapbottmline2 + summaryBottom_cpoyline2;
 //        String buttomTitlecopywbottom3 = "\r\n" + printGapbottmline3 + summaryBottom_cpoyline3;
 
-      //  buttomRaw = "\r\n" + printLineSeperator + "\r\n" + bottomTitleString + "\r\n" + printLineSeperator + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperator + buttomTitlecopyw + buttomTitlecopywbottom + buttomTitlecopywbottom3 + "\r\n\n\n\n\n\n\n" + printLineSeperator + "\n";
+        //  buttomRaw = "\r\n" + printLineSeperator + "\r\n" + bottomTitleString + "\r\n" + printLineSeperator + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperator + buttomTitlecopyw + buttomTitlecopywbottom + buttomTitlecopywbottom3 + "\r\n\n\n\n\n\n\n" + printLineSeperator + "\n";
         String buttomTitlec = "\r\n" + summaryTitle_c_Val;
         String buttomTitlee = "\r\n" + summaryTitle_e_Val;
         String buttomTitlefb = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Customer               Sales Executive";
@@ -595,12 +595,12 @@ public class ReceiptPreviewAlertBox {
 
     public void PrintCurrentview() {
         //checkPrinter();
-       // if (PRINTER_MAC_ID.equals("404")) {
+        // if (PRINTER_MAC_ID.equals("404")) {
         //    Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
         //    Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
-       // } else {
-            printItems();
-       // }
+        // } else {
+        printItems();
+        // }
     }
 
 
@@ -646,10 +646,10 @@ public class ReceiptPreviewAlertBox {
                 // startActivityForResult(intentBtEnabled, REQUEST_ENABLE_BT);
             }
             printBillToDevice(PRINTER_MAC_ID);
-            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-            Intent intent = new Intent(context, DebtorDetailsActivity.class);
-            intent.putExtra("outlet", debtor);
-            context.startActivity(intent);
+//            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+//            Intent intent = new Intent(context, DebtorDetailsActivity.class);
+//            intent.putExtra("outlet", debtor);
+//            context.startActivity(intent);
             // registerReceiver(mReceiver, filter); // Don't forget to
             // unregister
             // during
@@ -673,10 +673,10 @@ public class ReceiptPreviewAlertBox {
                         mBTAdapter.cancelDiscovery();
                         dialogProgress.dismiss();
                         printBillToDevice(PRINTER_MAC_ID);
-                        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-                        Intent intent1 = new Intent(context, DebtorDetailsActivity.class);
-                        intent1.putExtra("outlet", debtor);
-                        context.startActivity(intent1);
+//                        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+//                        Intent intent1 = new Intent(context, DebtorDetailsActivity.class);
+//                        intent1.putExtra("outlet", debtor);
+//                        context.startActivity(intent1);
                     }
                 }
             } catch (Exception e) {
@@ -745,3 +745,4 @@ public class ReceiptPreviewAlertBox {
     // }
 
 }
+

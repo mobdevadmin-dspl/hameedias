@@ -212,4 +212,26 @@ public class BankController {
         return bankCode;
     }
 
+    public String getBankbyCode(String name) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT * FROM " + TABLE_FBANK + " WHERE " + FBANK_BANK_NAME + "='" + name + "'";
+
+        Cursor cursor = null;
+        cursor = dB.rawQuery(selectQuery, null);
+
+        while (cursor.moveToNext()) {
+
+            return cursor.getString(cursor.getColumnIndex(FBANK_BANK_CODE));
+
+        }
+        return "";
+
+    }
+
 }

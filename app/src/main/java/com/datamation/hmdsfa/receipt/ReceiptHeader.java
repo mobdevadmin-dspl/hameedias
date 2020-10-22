@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import com.datamation.hmdsfa.presale.OrderHeaderFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -67,6 +69,15 @@ public class ReceiptHeader extends Fragment {
     FloatingActionButton fb;
     ReceiptActivity mainActivity;
     ReceiptResponseListener listener;
+
+    public ReceiptHeader() {
+        // Required empty public constructor
+    }
+
+    public static ReceiptHeader newInstance() {
+        ReceiptHeader fragment = new ReceiptHeader();
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -269,7 +280,7 @@ public class ReceiptHeader extends Fragment {
 
                                 SaveReceiptHeader();
                                 mSharedPref.setGlobalVal("ReckeyHeader", "1");
-                                listener.moveToDetailsRece(1);
+                                listener.moveToFragments(1);
                             } else {
                                 Toast.makeText(getActivity(), "Please fill in Received amount", Toast.LENGTH_LONG).show();
                                 txtReceAmt.requestFocus();
@@ -284,7 +295,7 @@ public class ReceiptHeader extends Fragment {
                                 } else {
                                     SaveReceiptHeader();
                                     mSharedPref.setGlobalVal("ReckeyHeader", "1");
-                                    listener.moveToDetailsRece(1);
+                                    listener.moveToFragments(1);
 
                                 }
                             } else {
@@ -302,7 +313,7 @@ public class ReceiptHeader extends Fragment {
                                 } else {
                                     SaveReceiptHeader();
                                     mSharedPref.setGlobalVal("ReckeyHeader", "1");
-                                    listener.moveToDetailsRece(1);
+                                    listener.moveToFragments(1);
                                 }
                             } else {
                                 Toast.makeText(getActivity(), "Fill in Received amount, Credit Card No, Expire Date..!", Toast.LENGTH_LONG).show();
@@ -319,7 +330,7 @@ public class ReceiptHeader extends Fragment {
                                 } else {
                                     SaveReceiptHeader();
                                     mSharedPref.setGlobalVal("ReckeyHeader", "1");
-                                    listener.moveToDetailsRece(1);
+                                    listener.moveToFragments(1);
                                 }
 
                             } else {
@@ -336,7 +347,7 @@ public class ReceiptHeader extends Fragment {
                             } else {
                                 SaveReceiptHeader();
                                 mSharedPref.setGlobalVal("ReckeyHeader", "1");
-                                listener.moveToDetailsRece(1);
+                                listener.moveToFragments(1);
                             }
                         }
 

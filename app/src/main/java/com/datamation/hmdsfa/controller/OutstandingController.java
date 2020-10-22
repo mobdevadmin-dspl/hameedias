@@ -584,9 +584,10 @@ public class OutstandingController {
         try {
             for (FddbNote fddb : list) {
                 ContentValues values = new ContentValues();
-                values.put(FDDBNOTE_TOT_BAL, Double.parseDouble(fddb.getFDDBNOTE_TOT_BAL()) - Double.parseDouble(fddb.getFDDBNOTE_ENTER_AMT()));
-                values.put(FDDBNOTE_ENTER_AMT, "");
-                values.put(FDDBNOTE_REMARKS, "");
+               // values.put(FDDBNOTE_TOT_BAL, Double.parseDouble(fddb.getFDDBNOTE_TOT_BAL()) - Double.parseDouble(fddb.getFDDBNOTE_ENTER_AMT()));
+//                values.put(FDDBNOTE_ENTER_AMT, "");
+//                values.put(FDDBNOTE_REMARKS, "");
+                values.put(FDDBNOTE_TOT_BAL, fddb.getFDDBNOTE_TOT_BAL());
                 dB.update(TABLE_FDDBNOTE, values, ValueHolder.REFNO + "=?", new String[] { fddb.getFDDBNOTE_REFNO().toString() });
             }
         } catch (Exception e) {

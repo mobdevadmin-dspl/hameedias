@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/finac_medium_top_margin"
+        android:padding="2dp">
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top|right"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp">
+
+                    <!--<android.support.design.widget.FloatingActionButton-->
+                        <!--android:id="@+id/fab1"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="top|right"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:clickable="true"-->
+                        <!--app:fabSize="normal"-->
+                        <!--app:srcCompat="@android:drawable/ic_input_add" />-->
+
+                    <Button
+                        android:id="@+id/btn_add_pay_mode"
+                        android:background="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/finac_large_image_height"
+                        android:textColor="@color/unselected"
+                        android:layout_marginLeft="@dimen/finac_medium_top_margin"
+                        android:layout_marginRight="@dimen/finac_medium_top_margin"
+                        android:padding="@dimen/finac_medium_margin"
+                        android:enabled="true"
+                        android:text="ADD PAY MODE"
+                        android:gravity="center"
+                        android:textSize="@dimen/toolbar_text_size" />
+
+                </LinearLayout>
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_marginTop="10dp">-->
+
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:weightSum="5"-->
+                        <!--android:orientation="horizontal" >-->
+
+                        <!--<com.lankahardware.lankahw.control.FinacFont-->
+                            <!--android:id="@+id/pay_mode"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginLeft="1dp"-->
+                            <!--android:layout_marginRight="1dip"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:gravity="center"-->
+                            <!--android:text="PAY MODE"-->
+                            <!--android:background="@drawable/custom_label"-->
+                            <!--android:textColor="@color/unselected"-->
+                            <!--android:textSize="14sp"-->
+                            <!--/>-->
+
+                        <!--<com.lankahardware.lankahw.control.FinacFont-->
+                            <!--android:id="@+id/pay_date"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginLeft="1dp"-->
+                            <!--android:layout_marginRight="1dip"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:gravity="center"-->
+                            <!--android:text="PAY DATE"-->
+                            <!--android:background="@drawable/custom_label"-->
+                            <!--android:textColor="@color/unselected"-->
+                            <!--android:textSize="14sp" />-->
+
+
+                        <!--<com.lankahardware.lankahw.control.FinacFont-->
+                            <!--android:id="@+id/pay_amount"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginLeft="1dp"-->
+                            <!--android:layout_marginRight="1dip"-->
+                            <!--android:layout_weight="1.0"-->
+                            <!--android:gravity="center"-->
+                            <!--android:text="PAY AMT"-->
+                            <!--android:background="@drawable/custom_label"-->
+                            <!--android:textColor="@color/unselected"-->
+                            <!--android:textSize="14sp" />-->
+
+                        <!--<com.lankahardware.lankahw.control.FinacFont-->
+                            <!--android:id="@+id/rem_amount"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginLeft="1dp"-->
+                            <!--android:layout_marginRight="1dip"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:gravity="center"-->
+                            <!--android:text="REM AMT"-->
+                            <!--android:background="@drawable/custom_label"-->
+                            <!--android:textColor="@color/unselected"-->
+                            <!--android:textSize="14sp" />-->
+
+                        <!--<com.lankahardware.lankahw.control.FinacFont-->
+                            <!--android:id="@+id/alocate_amount"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginLeft="1dip"-->
+                            <!--android:layout_marginRight="1dip"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:background="@drawable/custom_label"-->
+                            <!--android:gravity="center"-->
+                            <!--android:text="ALlOCATE AMT"-->
+                            <!--android:textColor="@color/unselected"-->
+                            <!--android:textSize="14sp" />-->
+
+                    <!--</LinearLayout>-->
+
+                    <!--<ListView-->
+                        <!--android:id="@+id/lv_paymode_det"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="200dp" >-->
+                    <!--</ListView>-->
+
+
+                <!--</LinearLayout>-->
+
+                <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:orientation="horizontal"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_marginTop="25dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_alignParentStart="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_alignParentLeft="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:visibility="gone">&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="right"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:paddingRight="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="REF NO      "&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textAllCaps="true"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@color/greenColor"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="left"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text=":-"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<EditText&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:id="@+id/et_RefNo"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:ems="10"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="N/A"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:enabled="false"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@android:color/black"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="right"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:paddingRight="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="DATE                "&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@color/greenColor"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textAllCaps="true"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="left"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text=":-"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<EditText&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:id="@+id/et_fdDate"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:ems="10"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:editable="false"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="0"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@android:color/black"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+                <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:orientation="horizontal"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_alignParentStart="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_alignParentLeft="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;&gt;&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_gravity="center_vertical"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="right"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:paddingRight="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="DUE AMT  "&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textAllCaps="true"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@color/greenColor"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all" />&ndash;&gt;-->
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="left"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text=":-"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<EditText&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:id="@+id/et_dueAmt"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:ems="10"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:enabled="false"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="0.00"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@android:color/black"></EditText>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_gravity="center_vertical"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:paddingRight="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="ENTER AMT   "&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@color/greenColor"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="left"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text=":-"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<EditText&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:id="@+id/et_enterAmt"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_gravity="center_vertical"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:ems="10"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:inputType="numberDecimal"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:selectAllOnFocus="true"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="0.00">&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;</EditText>&ndash;&gt;-->
+                <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+
+
+                <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:orientation="horizontal"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_alignParentStart="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_alignParentLeft="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;&gt;&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_gravity="center_vertical"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="right"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:paddingRight="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="BAL AMT   "&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textAllCaps="true"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@color/greenColor"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all" />&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="left"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text=":-"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<EditText&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:id="@+id/et_BalAmt"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:ems="10"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:enabled="false"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="0.00"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@android:color/black"></EditText>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_gravity="center_vertical"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:paddingRight="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="REMNANT      "&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@color/greenColor"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;/>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="left"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text=":-"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<EditText&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:id="@+id/et_Remnant"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_gravity="center_vertical"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:ems="10"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:inputType="numberDecimal"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:editable="false"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:selectAllOnFocus="true"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="0.00">&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;</EditText>&ndash;&gt;-->
+                <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;&lt;!&ndash; <TableRow&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_gravity="center"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_marginTop="5dp" >&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="80dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="right"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:paddingRight="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="DISCOUNT"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@color/greenColor"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="14sp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textStyle="bold" />&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:id="@+id/lblTotalDisc"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="500dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:background="@drawable/custom_label"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:ems="10"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:enabled="false"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="right"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="0.00"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@android:color/black"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="14sp" >&ndash;&gt;-->
+                    <!--&lt;!&ndash;</TextView>&ndash;&gt;-->
+                <!--&lt;!&ndash;</TableRow> &ndash;&gt;&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:orientation="horizontal"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_alignParentStart="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_alignParentLeft="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:padding="2dp">&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="right"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:paddingRight="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text="REMARK    "&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textAllCaps="true"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@color/greenColor"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all" />&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<com.lankahardware.lankahw.control.FinacFont&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="left"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:text=":-"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="@dimen/font_for_all"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<EditText&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:id="@+id/et_Remark"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="fill_parent"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:gravity="center_horizontal"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textColor="@android:color/black"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:textSize="14sp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;&gt;</EditText>&ndash;&gt;-->
+                <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+
+
+                <!--<TableRow-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="55dp"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:paddingBottom="5dp" >-->
+
+                    <!--<Button-->
+                        <!--android:id="@+id/btn_add"-->
+                        <!--android:layout_width="270dp"-->
+                        <!--android:layout_height="45dp"-->
+                        <!--android:enabled="false"-->
+                        <!--android:text="UPDATE"-->
+                        <!--android:gravity="center"-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:theme="@style/AppTheme.Button" />-->
+
+                    <!--<Button-->
+                        <!--android:id="@+id/btnCancel"-->
+                        <!--android:layout_width="270dp"-->
+                        <!--android:layout_height="45dp"-->
+                        <!--android:enabled="false"-->
+                        <!--android:text="CANCEL"-->
+                        <!--android:gravity="center"-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:theme="@style/AppTheme.Button" />-->
+
+                <!--</TableRow>-->
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/tour_spinner_top_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/tour_spinner_top_margin"
+                    android:weightSum="5"
+                    android:orientation="horizontal" >
+
+                    <com.datamation.hmdsfa.utils.CustomFont
+                        android:id="@+id/pay_mode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dip"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="PAY MODE"
+                        android:background="@drawable/custom_label"
+                        android:textColor="@color/unselected"
+                        android:textSize="@dimen/finac_medium_edit_text_size"
+                        />
+
+                    <com.datamation.hmdsfa.utils.CustomFont
+                        android:id="@+id/pay_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dip"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="PAY DATE"
+                        android:background="@drawable/custom_label"
+                        android:textColor="@color/unselected"
+                        android:textSize="@dimen/finac_medium_edit_text_size" />
+
+
+                    <com.datamation.hmdsfa.utils.CustomFont
+                        android:id="@+id/pay_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dip"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
+                        android:text="PAY AMT"
+                        android:background="@drawable/custom_label"
+                        android:textColor="@color/unselected"
+                        android:textSize="@dimen/finac_medium_edit_text_size" />
+
+                    <com.datamation.hmdsfa.utils.CustomFont
+                        android:id="@+id/rem_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dip"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="REM AMT"
+                        android:background="@drawable/custom_label"
+                        android:textColor="@color/unselected"
+                        android:textSize="@dimen/finac_medium_edit_text_size" />
+
+                    <com.datamation.hmdsfa.utils.CustomFont
+                        android:id="@+id/alocate_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dip"
+                        android:layout_marginRight="1dip"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_label"
+                        android:gravity="center"
+                        android:text="ALLOC AMT"
+                        android:textColor="@color/unselected"
+                        android:textSize="@dimen/finac_medium_edit_text_size" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_paymode_det"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:divider="@color/list_view_diveder"
+        android:dividerHeight="1dp"
+        android:layout_margin="5dp">
+    </ListView>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:gravity="center"
+        android:paddingBottom="@dimen/finac_medium_margin" >
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="UPDATE"
+            android:gravity="center"
+            android:textSize="@dimen/finac_medium_text_size" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="CANCEL"
+            android:textSize="@dimen/finac_medium_text_size" />
+
+    </TableRow>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:weightSum="11"
+        android:orientation="horizontal" >
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:id="@+id/add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="REF NO"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="@dimen/finac_extra_medium_text_size"
+            />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2.0"
+            android:gravity="center"
+            android:text="TXN DATE"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="@dimen/finac_extra_medium_text_size" />
+
+
+        <!--<com.lankahardware.lankahw.control.FinacFont-->
+            <!--android:id="@+id/repName"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="1dp"-->
+            <!--android:layout_marginRight="1dip"-->
+            <!--android:layout_weight="1.0"-->
+            <!--android:gravity="center"-->
+            <!--android:text="REP"-->
+            <!--android:background="@drawable/custom_label"-->
+            <!--android:textColor="@color/unselected"-->
+            <!--android:textSize="14sp" />-->
+
+        <!--<com.lankahardware.lankahw.control.FinacFont-->
+            <!--android:id="@+id/datediff"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="1dp"-->
+            <!--android:layout_marginRight="1dip"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:text="DD"-->
+            <!--android:background="@drawable/custom_label"-->
+            <!--android:textColor="@color/unselected"-->
+            <!--android:textSize="14sp" />-->
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:id="@+id/indexhistory3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="3.0"
+            android:background="@drawable/custom_label"
+            android:gravity="center"
+            android:text="DUE AMT"
+            android:textColor="@color/unselected"
+            android:textSize="@dimen/finac_extra_medium_text_size" />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:id="@+id/indexmanual3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dp"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="PAID"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="@dimen/finac_extra_medium_text_size"/>
+
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:id="@+id/days"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="DAYS"
+            android:background="@drawable/custom_label"
+            android:textColor="@color/unselected"
+            android:textSize="@dimen/finac_extra_medium_text_size" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_order_det"
+        android:layout_width="match_parent"
+        android:layout_height="500dp">
+    </ListView>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="DONE"
+            android:gravity="center"
+            android:textSize="@dimen/customer_spinner_text_size" />
+
+
+    </TableRow>
+
+</LinearLayout>

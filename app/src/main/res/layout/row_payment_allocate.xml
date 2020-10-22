@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="35dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/lnPaymodeStripe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/custom_textbox"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtPayModeID"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:gravity="right|center"
+            android:text="ID"
+            android:textSize="13sp"
+            android:contextClickable="true"/>
+
+        <TextView
+            android:id="@+id/txtPayMode"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="MODE"
+            android:textSize="13sp"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/txtAmount"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Amount"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/txtRemAmount"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Rem Amount"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/editAlloAmount"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:gravity="center"
+            android:inputType="number"
+            android:selectAllOnFocus="true"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

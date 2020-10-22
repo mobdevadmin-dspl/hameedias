@@ -42,6 +42,7 @@ public class ReceiptHed {
 	private String FPRECHED_BANKCODE;
 	private String FPRECHED_BRANCHCODE;
 	private String FPRECHED_ADDUSER_NEW;
+	private String FPRECHED_COMMON_RENNO ;
 	private String ConsoleDB;
 	private String DistDB;
 	private String NextNumVal;
@@ -49,6 +50,14 @@ public class ReceiptHed {
 
 	public ArrayList<ReceiptDet> getRecDetList() {
 		return RecDetList;
+	}
+
+	public String getFPRECHED_COMMON_RENNO() {
+		return FPRECHED_COMMON_RENNO;
+	}
+
+	public void setFPRECHED_COMMON_RENNO(String FPRECHED_COMMON_RENNO) {
+		this.FPRECHED_COMMON_RENNO = FPRECHED_COMMON_RENNO;
 	}
 
 	public void setRecDetList(ArrayList<ReceiptDet> recDetList) {

@@ -19,9 +19,10 @@ import com.datamation.hmdsfa.controller.ReceiptDetController;
 import com.datamation.hmdsfa.helpers.ReceiptResponseListener;
 import com.datamation.hmdsfa.model.Customer;
 import com.datamation.hmdsfa.model.ReceiptHed;
-import com.datamation.hmdsfa.receipt.ReceiptDetails;
-import com.datamation.hmdsfa.receipt.ReceiptHeader;
-import com.datamation.hmdsfa.receipt.ReceiptSummary;
+import com.datamation.hmdsfa.mreceipt.ReceiptHeader;
+import com.datamation.hmdsfa.mreceipt.ReceiptDetails;
+import com.datamation.hmdsfa.mreceipt.ReceiptSummary;
+
 
 public class ReceiptActivity extends AppCompatActivity implements ReceiptResponseListener{
     private ReceiptHeader headerFragment;
@@ -32,6 +33,7 @@ public class ReceiptActivity extends AppCompatActivity implements ReceiptRespons
     public Customer selectedDebtor = null;
     public ReceiptHed selectedRecHed = null;
     public Double ReceivedAmt = 0.0;
+    public int cusPosition = 0;
     Context context;
     boolean status = false;
     @Override
@@ -81,9 +83,29 @@ public class ReceiptActivity extends AppCompatActivity implements ReceiptRespons
         status = new ReceiptDetController(getApplicationContext()).isAnyActiveReceipt();
     }
 
+    @Override
+    public void moveToFragments(int index) {
+        if (index == 0)
+        {
+            viewPager.setCurrentItem(0);
+        }
+
+        if (index == 1)
+        {
+            viewPager.setCurrentItem(1);
+        }
+
+        if (index == 2)
+        {
+            viewPager.setCurrentItem(2);
+        }
+
+    }
+
     private class PreSalesPagerAdapter extends FragmentPagerAdapter {
 
         private final String[] titles = {"HEADER", "RECEIPT DETAILS", "RECEIPT SUMMARY"};
+       // private final String[] titles = {"HEADER"};
 
         public PreSalesPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -99,7 +121,7 @@ public class ReceiptActivity extends AppCompatActivity implements ReceiptRespons
             switch (position){
                 case 0:
                     if(headerFragment == null) headerFragment = new ReceiptHeader();
-                    return headerFragment;
+                        return headerFragment;
                 case 1:
                     if(detailFragment == null) detailFragment = new ReceiptDetails();
                     return detailFragment;
@@ -117,26 +139,6 @@ public class ReceiptActivity extends AppCompatActivity implements ReceiptRespons
         }
     }
 
-    @Override
-    public void moveToDetailsRece(int index) {
-
-        if (index == 0)
-        {
-            viewPager.setCurrentItem(0);
-        }
-
-        if (index == 1)
-        {
-            viewPager.setCurrentItem(1);
-        }
-
-        if (index == 2)
-        {
-            viewPager.setCurrentItem(2);
-        }
-
-
-    }
 
     @Override
     protected void onStart() {

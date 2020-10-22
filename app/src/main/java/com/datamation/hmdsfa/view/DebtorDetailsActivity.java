@@ -292,7 +292,8 @@ public class DebtorDetailsActivity extends AppCompatActivity {
         //}
         fabendcall.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this,R.drawable.endtnsc));
         //commented by rashmi 2019-09-25 because no need for swadeshi
-        if(isAnyActiveReceipt)
+
+        if(isAnyActiveReceipt)//commented by kaveesha - because no need
             fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.receipt_active));
         else
             fabInvoice.setImageDrawable(ContextCompat.getDrawable(DebtorDetailsActivity.this, R.drawable.ic_receipt));

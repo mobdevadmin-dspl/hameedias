@@ -368,6 +368,6 @@ public class ReceiptDetails extends Fragment implements OnClickListener {
     public void navigateToHeader(int position) {
         ReceiptActivity activity = (ReceiptActivity) getActivity();
         Toast.makeText(getActivity(), "Enter Header values", Toast.LENGTH_SHORT).show();
-        listener.moveToDetailsRece(0);
+        listener.moveToFragments(0);
     }
 }

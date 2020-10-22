@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        android:background="@color/greenColor">
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/finac_medium_image_width"
+            android:gravity="center"
+            android:text="PAYMENT MODE"
+            android:textColor="@color/lightgray"
+            android:textSize="@dimen/finac_medium_text_size" />
+
+    </LinearLayout>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:gravity="center_vertical">
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="PAY MODE"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/finac_medium_text_size"/>
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=":-"
+            android:textSize="@dimen/finac_medium_text_size"
+            android:visibility="visible" />
+
+        <Spinner
+            android:id="@+id/spnRecPayMode"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/finac_medium_image_width"
+            android:layout_marginRight="10dp"
+            android:textAlignment="center" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:gravity="center_vertical">
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="RECEIVED AMT"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/finac_medium_text_size" />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=":-"
+            android:textSize="@dimen/finac_medium_text_size"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/txtRecAmt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:ems="10"
+            android:gravity="center"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:text="0"
+            android:textSize="@dimen/finac_medium_edit_text_size"/>
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/chequeNoRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:id="@+id/chequeNo"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="CHEQUE NO"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/finac_medium_edit_text_size" />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=":-"
+            android:textSize="@dimen/finac_medium_text_size"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/txtRecCheque"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="@dimen/finac_medium_edit_text_size"/>
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/bankRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:id="@+id/bankName"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="BANK NAME"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/finac_medium_edit_text_size" />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=":-"
+            android:textSize="@dimen/finac_medium_text_size"
+            android:visibility="visible" />
+
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/spnRecBank"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/finac_medium_image_width"
+            android:layout_marginRight="10dp"
+            android:gravity="left" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/recDateRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="DATE"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/finac_medium_text_size" />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=":-"
+            android:textSize="@dimen/finac_medium_text_size"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/txtRecDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="-SELECT DATE-"
+            android:ems="10"
+            android:focusable="false"
+            android:gravity="center"
+            android:textSize="@dimen/finac_medium_edit_text_size" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/cardRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:id="@+id/cardNo"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="CARD NO"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/finac_medium_edit_text_size" />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=":-"
+            android:textSize="@dimen/finac_medium_text_size"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/txtCardNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:ems="10"
+            android:gravity="center"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:text="0"
+            android:textSize="@dimen/finac_medium_edit_text_size" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/cardTypeRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:id="@+id/cardType"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="CARD TYPE"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/finac_medium_edit_text_size" />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=":-"
+            android:textSize="@dimen/finac_medium_text_size"
+            android:visibility="visible" />
+
+        <Spinner
+            android:id="@+id/spnCardType"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/finac_medium_image_width"
+            android:layout_marginRight="10dp"
+            android:gravity="center" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/exDateRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:id="@+id/expireDate"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="EXPIRE DATE"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/finac_medium_edit_text_size" />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=":-"
+            android:textSize="@dimen/finac_medium_text_size"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/txtRecExpireDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="-SELECT DATE-"
+            android:ems="10"
+            android:focusable="false"
+            android:gravity="center"
+            android:textSize="@dimen/finac_medium_edit_text_size" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/depositRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="SLIP NO"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/finac_medium_edit_text_size" />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=":-"
+            android:textSize="@dimen/finac_medium_text_size"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/txtSlipNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:ems="10"
+            android:gravity="center"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:text="0"
+            android:textSize="@dimen/finac_medium_edit_text_size"/>
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/draftRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tour_spinner_top_margin"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="DRAFT NO"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/finac_medium_edit_text_size" />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text=":-"
+            android:textSize="@dimen/finac_medium_text_size"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/txtDraftNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:ems="10"
+            android:gravity="center"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:text="0"
+            android:textSize="@dimen/finac_medium_edit_text_size" />
+
+    </TableRow>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+</LinearLayout>

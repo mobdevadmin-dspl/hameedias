@@ -21,7 +21,7 @@ public class ReceiptDetController {
 	private SQLiteDatabase dB;
 	private DatabaseHelper dbHelper;
 	Context context;
-	private String TAG = "Swadeshi";
+	private String TAG = "ReceiptDetController";
 
 	// rashmi - 2019-12-19 move from database_helper , because of reduce coding in database helper*******************************************************************************
 
@@ -206,7 +206,6 @@ public class ReceiptDetController {
 	create for single receipt save
 	 */
 
-
 	public int createOrUpdateRecDetS(ArrayList<ReceiptDet> list) {
 
 		int count = 0;
@@ -222,7 +221,8 @@ public class ReceiptDetController {
 
 			for (ReceiptDet recDet : list) {
 
-				String selectQuery = "SELECT * FROM " + TABLE_FPRECDETS + " WHERE " + FPRECDET_ID + " = '" + recDet.getFPRECDET_ID() + "'";
+				String selectQuery = "SELECT * FROM " + TABLE_FPRECDETS + " WHERE " + ValueHolder.REFNO + " = '" + recDet.getFPRECDET_REFNO() + "' AND " + FPRECDET_REFNO1 + " = '" + recDet.getFPRECDET_REFNO1() + "'";
+				//String selectQuery = "SELECT * FROM " + TABLE_FPRECDETS + " WHERE " + FPRECDET_ID + " = '" + recDet.getFPRECDET_ID() + "'";
 
 				cursor = dB.rawQuery(selectQuery, null);
 
@@ -253,7 +253,8 @@ public class ReceiptDetController {
 				values.put(FPRECDET_REMARK, recDet.getFPRECDET_REMARK());
 				int cn = cursor.getCount();
 				if (cn > 0) {
-					count = dB.update(TABLE_FPRECDETS, values, FPRECDET_ID + " =?", new String[] { String.valueOf(recDet.getFPRECDET_ID()) });
+					count = dB.update(TABLE_FPRECDETS, values, ValueHolder.REFNO + " = '"+recDet.getFPRECDET_REFNO()+"' and "+ FPRECDET_REFNO1 + " = '"+recDet.getFPRECDET_REFNO1()+"'", null );
+					//count = dB.update(TABLE_FPRECDETS, values, FPRECDET_ID + " =? and "+FPRECDET_REFNO1+ " =? ", new String[] { String.valueOf(recDet.getFPRECDET_ID()) ,recDet.getFPRECDET_REFNO()});
 				} else {
 					count = (int) dB.insert(TABLE_FPRECDETS, null, values);
 				}
@@ -633,6 +634,40 @@ public class ReceiptDetController {
 		}
 		return sum;
 
+	}
+
+	public String getTotalREcDetByComRefNo(String refNo)
+	{
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		int total =0;
+
+		Cursor cursor = null;
+		try {
+
+			String selectQuery = "SELECT SUM(Amt) as Total FROM " + TABLE_FPRECDETS + " WHERE " + FPRECDET_REFNO2 + " = '" + refNo + "'" ;
+			cursor = dB.rawQuery(selectQuery, null);
+
+			if (cursor.moveToFirst())
+			{
+				total = cursor.getInt(cursor.getColumnIndex("Total"));
+			}
+
+		} catch (Exception e) {
+
+			Log.v(TAG + " Exception", e.toString());
+
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			dB.close();
+		}
+		return String.valueOf(total);
 	}
 
 }

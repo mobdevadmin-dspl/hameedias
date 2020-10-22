@@ -52,6 +52,8 @@ import com.datamation.hmdsfa.controller.OrderController;
 import com.datamation.hmdsfa.controller.OrderDetailController;
 import com.datamation.hmdsfa.controller.OrderDiscController;
 import com.datamation.hmdsfa.controller.OutstandingController;
+import com.datamation.hmdsfa.controller.PayModeController;
+import com.datamation.hmdsfa.controller.PaymentAllocateController;
 import com.datamation.hmdsfa.controller.PreProductController;
 import com.datamation.hmdsfa.controller.PreSaleTaxDTController;
 import com.datamation.hmdsfa.controller.PreSaleTaxRGController;
@@ -193,6 +195,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(InvHedController.CREATE_FINVHED_TABLE_LOG);
         arg0.execSQL(InvDetController.CREATE_FINVDET_TABLE);
         arg0.execSQL(InvDetController.CREATE_FINVDET_TABLE_LOG);
+        arg0.execSQL(PayModeController.CREATE_TABLE_FPAYMODE);
+        arg0.execSQL(PaymentAllocateController.CREATE_TABLE_FPAYMENT_ALLOCATE);
 
 
     }
@@ -212,6 +216,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.v("SQLiteException", e.toString());
         }  try {
             arg0.execSQL("ALTER TABLE FInvRDet ADD COLUMN Variantcode TEXT DEFAULT ''");
+        } catch (SQLiteException e) {
+            Log.v("SQLiteException", e.toString());
+        }
+        try {
+            arg0.execSQL("ALTER TABLE fpRecHedS ADD COLUMN MRefNo TEXT DEFAULT ''");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
         }
@@ -286,6 +295,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(BarcodeVarientController.CREATE_TABLE_BAR_CODE_VARIENT);
             arg0.execSQL(VanStockController.CREATE_TABLE_FVANSTOCK);
             arg0.execSQL(CompanyDetailsController.CREATE_DOWNLOAD_TABLE);
+            arg0.execSQL(PayModeController.CREATE_TABLE_FPAYMODE);
+            arg0.execSQL(PaymentAllocateController.CREATE_TABLE_FPAYMENT_ALLOCATE);
+
 
         } catch (SQLiteException e) {
         }

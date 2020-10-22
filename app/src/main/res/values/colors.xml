@@ -48,7 +48,7 @@
 
 
     <color name="invoice_has_free_indicator">#0370ae</color>
-
+    <color name="blue_semi_transparent">#805677fc</color>
     <color name="lightgray">#AFFFFFFF</color>
     <color name="btn_colour">#336699</color>
     <color name="red_error">#ffff5252</color>

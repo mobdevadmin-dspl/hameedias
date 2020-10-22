@@ -2,7 +2,7 @@ package com.datamation.hmdsfa.helpers;
 
 public interface ReceiptResponseListener {
 
-    void moveToDetailsRece(int index);
+    void moveToFragments(int index);
 
 
 }

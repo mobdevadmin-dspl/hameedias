@@ -61,31 +61,31 @@ public class ReferenceNum {
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-//    public int nNumValueInsertOrUpdate(String cSettingsCode) {
+    public int nNumValueInsertOrUpdate(String cSettingsCode) {
+
+        ReferenceController referenceDS = new ReferenceController(context);
+        int nextNumVal = 0;
+
+//        if(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())!= null){
+//            nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())) + 1;
 //
-//        ReferenceController referenceDS = new ReferenceController(context);
-//        int nextNumVal = 0;
-//
-////        if(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())!= null){
-////            nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())) + 1;
-////
-////        }else{
-////            nextNumVal = 0;
-////        }
-//        Log.d("Check pref values",pref.getLoginUser().toString());
-//        nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,pref.getLoginUser().getCode())) + 1;
-//
-//        int count = referenceDS.InsetOrUpdate(cSettingsCode, nextNumVal);
-//
-//        if (count > 0) {
-//            Log.v("InsertOrUpdate", "success");
-//        } else {
-//            Log.v("InsertOrUpdate", "Failed");
+//        }else{
+//            nextNumVal = 0;
 //        }
-//
-//        return count;
-//
-//    }
+        Log.d("Check pref values",pref.getLoginUser().toString());
+        nextNumVal = Integer.parseInt(referenceDS.getNextNumVal(cSettingsCode,new SalRepController(context).getCurrentRepCode().trim())) + 1;
+
+        int count = referenceDS.InsetOrUpdate(cSettingsCode, nextNumVal);
+
+        if (count > 0) {
+            Log.v("InsertOrUpdate", "success");
+        } else {
+            Log.v("InsertOrUpdate", "Failed");
+        }
+
+        return count;
+
+    }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-Item or value based ref no update-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -107,5 +107,6 @@ public class ReferenceNum {
         return 0;
 
     }
+
 
 }

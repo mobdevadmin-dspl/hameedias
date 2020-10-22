@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/tour_spinner_height"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/lnPaymodeStripe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/custom_textbox"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtPayModerRefNo"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="RefNo"
+            android:textSize="@dimen/tour_spinner_text_size"
+            android:contextClickable="true"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/txtPayMode"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Mode"
+            android:textSize="@dimen/tour_spinner_text_size"
+            android:contextClickable="true"/>
+
+        <TextView
+            android:id="@+id/txtPayDate"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Date"
+            android:textSize="@dimen/tour_spinner_text_size"
+            android:layout_gravity="center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/txtAmount"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Amount"
+            android:textSize="@dimen/tour_spinner_text_size"
+            />
+
+        <TextView
+            android:id="@+id/txtRemAmount"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Rem Amount"
+            android:textSize="@dimen/tour_spinner_text_size"
+            />
+
+        <!--<EditText-->
+        <!--android:id="@+id/editAlloAmount"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:layout_marginLeft="1dp"-->
+        <!--android:layout_marginRight="1dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="right|bottom"-->
+        <!--android:inputType="number"-->
+        <!--android:textSize="13sp"-->
+        <!--/>-->
+
+        <TextView
+            android:id="@+id/editAlloAmount"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Alloc Amount"
+            android:inputType="number"
+            android:textSize="@dimen/tour_spinner_text_size" />
+
+    </LinearLayout>
+
+</LinearLayout>
