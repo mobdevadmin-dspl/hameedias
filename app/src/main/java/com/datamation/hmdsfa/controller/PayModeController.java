@@ -78,7 +78,7 @@ public class PayModeController {
 
                 ContentValues values = new ContentValues();
 
-                String selectQuery = "SELECT * FROM " + TABLE_FPAYMODE + " WHERE " + FPAYMODE_PAID_ID + " = '" + payMode.getFPAYMODE_PAID_ID() + "'";
+                String selectQuery = "SELECT * FROM " + TABLE_FPAYMODE + " WHERE " + FPAYMODE_PAID_REF_NO + " = '" + payMode.getFPAYMODE_REF_NO() + "'";
                 //String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_FPAYMODE;
 
                 cursor = dB.rawQuery(selectQuery, null);
@@ -104,7 +104,7 @@ public class PayModeController {
 
                 if (cn > 0) {
 
-                    count = dB.update(TABLE_FPAYMODE, values, FPAYMODE_PAID_ID + " =?", new String[]{String.valueOf(payMode.getFPAYMODE_PAID_ID())});
+                    count = dB.update(TABLE_FPAYMODE, values, FPAYMODE_PAID_REF_NO + " =?", new String[]{String.valueOf(payMode.getFPAYMODE_REF_NO())});
 
                 } else {
                     count = (int) dB.insert(TABLE_FPAYMODE, null, values);
@@ -222,6 +222,7 @@ public class PayModeController {
 
                 payMode.setFPAYMODE_PAID_ID(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_ID)));
                 payMode.setFPAYMODE_REF_NO(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_REF_NO)));
+                payMode.setFPAYMODE_PAID_COMMONREFNO(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_COMMON_REFNO)));
                 payMode.setFPAYMODE_PAID_TYPE(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_TYPE)));
                 payMode.setFPAYMODE_PAID_DATE(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_DATE)));
                 payMode.setFPAYMODE_PAID_AMOUNT(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_AMOUNT)));
@@ -548,29 +549,6 @@ public class PayModeController {
         return "";
     }
 
-    public int clearPayMode(String Refno) {
-
-        if (dB == null) {
-            open();
-        } else if (!dB.isOpen()) {
-            open();
-        }
-        int result = 0;
-        try {
-            result = dB.delete(TABLE_FPAYMODE, FPAYMODE_PAID_REF_NO + "=?",
-                    new String[]{Refno});
-
-        } catch (Exception e) {
-
-            Log.v(TAG + " Exception", e.toString());
-
-        } finally {
-            dB.close();
-        }
-
-        return result;
-    }
-
     public int clearAllPayModeS() {
 
         if (dB == null) {
@@ -593,40 +571,6 @@ public class PayModeController {
 
         return result;
     }
-
-//    public PayMode getChqNo(String refno) {
-//        if (dB == null) {
-//            open();
-//        } else if (!dB.isOpen()) {
-//            open();
-//        }
-//
-//        String selectQuery;
-//
-//        PayMode payMode = new PayMode();
-//        try {
-//
-//
-//            selectQuery = "select ChequeNo from " + TABLE_FPAYMODE + " Where " + FPAYMODE_PAID_COMMON_REFNO
-//                    + "='" + refno + "'";
-//
-//            Cursor cursor = dB.rawQuery(selectQuery, null);
-//
-//            while (cursor.moveToNext()) {
-//
-//                payMode.setFPAYMODE_PAID_CHEQUE_NO(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_CHEQUE_NO)));
-//            }
-//            cursor.close();
-//        } catch (Exception e) {
-//
-//            Log.v(TAG + " Exception", e.toString());
-//
-//        } finally {
-//            dB.close();
-//        }
-//
-//        return payMode;
-//    }
 
     public String getPaidChequeNo(String refNo) {
         if (dB == null) {
@@ -660,6 +604,48 @@ public class PayModeController {
             dB.close();
         }
         return "";
+    }
+
+
+    //kaveesha - 2020/10/26  - **************************************************************************************
+    public ArrayList<PayMode> getPaidModesByCommonRef(String comRefNo) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<PayMode> list = new ArrayList<PayMode>();
+        try {
+
+            String selectQuery;
+
+            selectQuery = "select * from " + TABLE_FPAYMODE + " WHERE " + " MRefNo ='" + comRefNo + "'" + " GROUP BY " + FPAYMODE_PAID_REF_NO;
+
+            Cursor cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                PayMode payMode = new PayMode();
+
+                payMode.setFPAYMODE_PAID_TYPE(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_TYPE)));
+                payMode.setFPAYMODE_PAID_CHEQUE_NO(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_CHEQUE_NO)));
+                payMode.setFPAYMODE_PAID_DATE(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_DATE)));
+                payMode.setFPAYMODE_PAID_AMOUNT(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_AMOUNT)));
+                payMode.setFPAYMODE_PAID_CHEQUE_DATE(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_CHEQUE_DATE)));
+
+                list.add(payMode);
+
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.v(TAG, e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return list;
     }
 
 }

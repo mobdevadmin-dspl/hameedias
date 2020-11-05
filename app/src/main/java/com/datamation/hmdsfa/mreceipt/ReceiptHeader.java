@@ -46,7 +46,7 @@ public class ReceiptHeader extends Fragment {
     //Spinner spnPayMode, spnBank, spnCardType;
     public static final String SETTINGS = "SETTINGS";
     public static SharedPreferences localSP;
-//    String RefNo, payModePos;
+    //    String RefNo, payModePos;
     String RefNo;
     SharedPref mSharedPref;
     ReceiptActivity mainActivity;
@@ -111,7 +111,7 @@ public class ReceiptHeader extends Fragment {
         currnentDate.setText(dateFormat.format(date));
     }
 
-	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     /* Current time */
     private String currentTime() {
@@ -122,7 +122,7 @@ public class ReceiptHeader extends Fragment {
         return sdf.format(cal.getTime());
     }
 
-	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void SaveReceiptHeader() {
 
@@ -177,7 +177,7 @@ public class ReceiptHeader extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
     }
 
-   	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void onResume() {
         super.onResume();
@@ -185,11 +185,11 @@ public class ReceiptHeader extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_HEADER"));
     }
 
-	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void mRefreshHeader() {
 
-    ReceiptHed recHed = new ReceiptController(getActivity()).getActiveRecHed();
+        ReceiptHed recHed = new ReceiptController(getActivity()).getActiveRecHed();
 
         if(new ReceiptController(getActivity()).isAnyActiveRecHed()){
             customerName.setText(new CustomerController(getActivity()).getCusNameByCode(recHed.getFPRECHED_DEBCODE()));

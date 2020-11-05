@@ -79,9 +79,9 @@ public class PaymentAllocateController {
             {
                 ContentValues values = new ContentValues();
 
-//                String selectQuery = "SELECT * FROM " + TABLE_FPAYMENT_ALLOCATE + " WHERE " + FPAYMENT_ALLOCATE_REFNO + " = '" + paymentAllocate.getFPAYMENT_ALLOCATE_REFNO() + "' AND "
-//                        +FPAYMENT_ALLOCATE_FDD_REFNO +"= '"+paymentAllocate.getFPAYMENT_ALLOCATE_FDD_REFNO()+"'";
-                String selectQuery = "SELECT * FROM " + TABLE_FPAYMENT_ALLOCATE + " WHERE " + FPAYMENT_ALLOCATE_ID + " = '" + paymentAllocate.getFPAYMENT_ALLOCATE_ID() + "'";
+                String selectQuery = "SELECT * FROM " + TABLE_FPAYMENT_ALLOCATE + " WHERE " + FPAYMENT_ALLOCATE_REFNO + " = '" + paymentAllocate.getFPAYMENT_ALLOCATE_REFNO() + "' AND "
+                        +FPAYMENT_ALLOCATE_FDD_REFNO +"= '"+paymentAllocate.getFPAYMENT_ALLOCATE_FDD_REFNO()+"'";
+//                String selectQuery = "SELECT * FROM " + TABLE_FPAYMENT_ALLOCATE + " WHERE " + FPAYMENT_ALLOCATE_ID + " = '" + paymentAllocate.getFPAYMENT_ALLOCATE_ID() + "'";
 
                 cursor = dB.rawQuery(selectQuery, null);
 
@@ -109,8 +109,8 @@ public class PaymentAllocateController {
 
                 if (cn > 0) {
 
-//                    count = dB.update(TABLE_FPAYMENT_ALLOCATE, values, FPAYMENT_ALLOCATE_REFNO + " =? AND "+FPAYMENT_ALLOCATE_FDD_REFNO+" = ?", new String[]{String.valueOf(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO()),String.valueOf(paymentAllocate.getFPAYMENT_ALLOCATE_FDD_REFNO())});
-                    count = dB.update(TABLE_FPAYMENT_ALLOCATE, values, FPAYMENT_ALLOCATE_ID + " =?", new String[]{String.valueOf(paymentAllocate.getFPAYMENT_ALLOCATE_ID())});
+                    count = dB.update(TABLE_FPAYMENT_ALLOCATE, values, FPAYMENT_ALLOCATE_REFNO + " =? AND "+FPAYMENT_ALLOCATE_FDD_REFNO+" = ?", new String[]{String.valueOf(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO()),String.valueOf(paymentAllocate.getFPAYMENT_ALLOCATE_FDD_REFNO())});
+//                    count = dB.update(TABLE_FPAYMENT_ALLOCATE, values, FPAYMENT_ALLOCATE_ID + " =?", new String[]{String.valueOf(paymentAllocate.getFPAYMENT_ALLOCATE_ID())});
                 } else {
                     count = (int) dB.insert(TABLE_FPAYMENT_ALLOCATE, null, values);
                 }
@@ -197,7 +197,7 @@ public class PaymentAllocateController {
         return "";
     }
 
-    public Double getFDDTotBalAmtByAllRefNos(String fddRefNo, String comRefNo) {
+    public Double getFDDTotBalAmtByAllRefNos(String fddRefNo, String RefNo) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -207,7 +207,7 @@ public class PaymentAllocateController {
         try {
             String selectQuery;
 
-            selectQuery = "select * from " + TABLE_FPAYMENT_ALLOCATE + " WHERE " + " AllocComRefNo ='" + comRefNo + "'" + " AND " + " AllocFddRefNo ='" + fddRefNo + "'";
+            selectQuery = "select * from " + TABLE_FPAYMENT_ALLOCATE + " WHERE " + " AllocFddRefNo ='" + fddRefNo + "'"; //AllocRefNo ='" + RefNo + "'" + " AND " + "
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -312,46 +312,6 @@ public class PaymentAllocateController {
                 paymentAllocate.setFPAYMENT_ALLOCATE_FDD_PAID_AMT(cursor.getString(cursor.getColumnIndex(FPAYMENT_ALLOCATE_FDD_PAID_AMT)));
                 paymentAllocate.setFPAYMENT_ALLOCATE_FDD_TOTAL_BAL(cursor.getString(cursor.getColumnIndex(FPAYMENT_ALLOCATE_FDD_TOTAL_BAL)));
                 paymentAllocate.setFPAYMENT_ALLOCATE_FDD_TXN_DATE(cursor.getString(cursor.getColumnIndex(FPAYMENT_ALLOCATE_FDD_TXN_DATE)));
-
-                list.add(paymentAllocate);
-
-            }
-            cursor.close();
-        } catch (Exception e) {
-            Log.v(TAG, e.toString());
-
-        } finally {
-            dB.close();
-        }
-
-        return list;
-    }
-
-    public ArrayList<PaymentAllocate> getPaidModesByCommonRef(String comRefNo) {
-        if (dB == null) {
-            open();
-        } else if (!dB.isOpen()) {
-            open();
-        }
-
-        ArrayList<PaymentAllocate> list = new ArrayList<PaymentAllocate>();
-        try {
-
-            String selectQuery;
-
-            selectQuery = "select * from " + TABLE_FPAYMENT_ALLOCATE + " WHERE " + " AllocComRefNo ='" + comRefNo + "'" + " GROUP BY " + FPAYMENT_ALLOCATE_PAY_REF_NO;
-
-            Cursor cursor = dB.rawQuery(selectQuery, null);
-
-            while (cursor.moveToNext()) {
-
-                PaymentAllocate paymentAllocate = new PaymentAllocate();
-
-                paymentAllocate.setFPAYMENT_ALLOCATE_PAY_MODE(cursor.getString(cursor.getColumnIndex(FPAYMENT_ALLOCATE_PAY_MODE)));
-                paymentAllocate.setFPAYMENT_ALLOCATE_PAY_CHEQUE_NO(cursor.getString(cursor.getColumnIndex(FPAYMENT_ALLOCATE_PAY_CHEQUE_NO)));
-                paymentAllocate.setFPAYMENT_ALLOCATE_PAY_DATE(cursor.getString(cursor.getColumnIndex(FPAYMENT_ALLOCATE_PAY_DATE)));
-                paymentAllocate.setFPAYMENT_ALLOCATE_PAY_AMT(cursor.getString(cursor.getColumnIndex(FPAYMENT_ALLOCATE_PAY_AMT)));
-                paymentAllocate.setFPAYMENT_ALLOCATE_PAY_CHEQUE_DATE(cursor.getString(cursor.getColumnIndex(FPAYMENT_ALLOCATE_PAY_CHEQUE_DATE)));
 
                 list.add(paymentAllocate);
 
@@ -774,6 +734,27 @@ public class PaymentAllocateController {
         return result;
     }
 
+    public int clearAllPayAllocS() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        int result = 0;
+        try {
+            result = dB.delete(TABLE_FPAYMENT_ALLOCATE, null, null);
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return result;
+    }
+
     //--------------------------kaveesha ----------14/10/2020-----------------------------------------------------------------------------------------------------
     public Double getcurrentAllocateBalance(String fddRefNo, String RefNo) {
         if (dB == null) {
@@ -879,39 +860,26 @@ public class PaymentAllocateController {
 
         return allo_ID;
     }
-//    //--------------------------kaveesha ----------14/10/2020-----------------------------------------------------------------------------------------------------
-//    public Double getcurrentAllocateBalanceByCommnRefNo(String fddRefNo, String RefNo1) {
-//        if (dB == null) {
-//            open();
-//        } else if (!dB.isOpen()) {
-//            open();
-//        }
-//        Double fddPaidAmt = 0.00;
-//        try {
-//            String selectQuery;
-//
-//            selectQuery = "select * from " + TABLE_FPAYMENT_ALLOCATE + " WHERE " + " AllocFddRefNo ='" + fddRefNo + "'" + " AND " + " AllocComRefNo ='" + RefNo1 + "'";
-//
-//            Cursor cursor = dB.rawQuery(selectQuery, null);
-//
-//            if (cursor.getCount()>0)
-//            {
-//                cursor.moveToLast();
-//                for (int i=0; i<cursor.getCount();i++)
-//                {
-//                    fddPaidAmt = Double.parseDouble(cursor.getString(cursor.getColumnIndex(FPAYMENT_ALLOCATE_FDD_PAID_AMT)).replaceAll(",",""));
-//
-//                    cursor.moveToNext();
-//                }
-//            }
-//            cursor.close();
-//        } catch (Exception e) {
-//            Log.v(TAG, e.toString());
-//
-//        } finally {
-//            dB.close();
-//        }
-//
-//        return fddPaidAmt;
-//    }
+    public int clearAllPayAlloS() {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        int result = 0;
+        try {
+
+            result = dB.delete(TABLE_FPAYMENT_ALLOCATE, null, null);
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return result;
+    }
 }

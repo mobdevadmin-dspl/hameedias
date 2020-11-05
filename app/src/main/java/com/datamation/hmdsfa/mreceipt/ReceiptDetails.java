@@ -365,10 +365,10 @@ public class ReceiptDetails extends Fragment {
                 PaymentAllocate paymentAllocate = new PaymentAllocate();
 //                RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.RecNumVal));
 //                RefNo = new ReferenceNum(getActivity()).getLoopRefNo(getResources().getString(R.string.RecNumVal), i);
-                remTotBalFromAlloc = new PaymentAllocateController(getActivity()).getFDDTotBalAmtByAllRefNos(fdDbNote.getFDDBNOTE_REFNO(),RefNo1);
-                cuAllocateAmt = new PaymentAllocateController(getActivity()).getcurrentAllocateBalance(fdDbNote.getFDDBNOTE_REFNO(),RefNo);
-                RemainAmt = new PaymentAllocateController(getActivity()).getcurrentRemainBalance(fdDbNote.getFDDBNOTE_REFNO(),RefNo);
-                Allo_ID = new PaymentAllocateController(getActivity()).getcurrentAlloID(fdDbNote.getFDDBNOTE_REFNO(),RefNo);
+                remTotBalFromAlloc = new PaymentAllocateController(getActivity()).getFDDTotBalAmtByAllRefNos(fdDbNote.getFDDBNOTE_REFNO(),payMode.getFPAYMODE_REF_NO());
+                cuAllocateAmt = new PaymentAllocateController(getActivity()).getcurrentAllocateBalance(fdDbNote.getFDDBNOTE_REFNO(),payMode.getFPAYMODE_REF_NO());
+                RemainAmt = new PaymentAllocateController(getActivity()).getcurrentRemainBalance(fdDbNote.getFDDBNOTE_REFNO(),payMode.getFPAYMODE_REF_NO());
+                Allo_ID = new PaymentAllocateController(getActivity()).getcurrentAlloID(fdDbNote.getFDDBNOTE_REFNO(),payMode.getFPAYMODE_REF_NO());
 
 
                 paymentAllocate.setFPAYMENT_ALLOCATE_REFNO(payMode.getFPAYMODE_REF_NO());
@@ -398,7 +398,8 @@ public class ReceiptDetails extends Fragment {
                     TotAllowAmt = cuAllocateAmt + Double.parseDouble(payMode.getFPAYMODE_PAID_ALLOAMT());
                     paymentAllocate.setFPAYMENT_ALLOCATE_PAY_ALLO_AMT(String.valueOf(TotAllowAmt));
                     paymentAllocate.setFPAYMENT_ALLOCATE_FDD_PAID_AMT(String.valueOf(TotAllowAmt));
-                    paymentAllocate.setFPAYMENT_ALLOCATE_PAY_REM_AMT(String.valueOf(RemainAmt - Double.parseDouble(payMode.getFPAYMODE_PAID_AMOUNT())));
+                    paymentAllocate.setFPAYMENT_ALLOCATE_PAY_REM_AMT(String.valueOf(RemainAmt - Double.parseDouble(payMode.getFPAYMODE_PAID_ALLOAMT())));
+                    //paymentAllocate.setFPAYMENT_ALLOCATE_PAY_REM_AMT(String.valueOf(RemainAmt - Double.parseDouble(payMode.getFPAYMODE_PAID_AMOUNT())));
                     paymentAllocate.setFPAYMENT_ALLOCATE_ID(Allo_ID);
                 }
                 else{
@@ -740,9 +741,9 @@ public class ReceiptDetails extends Fragment {
         payModeList.add("-SELECT-");
         payModeList.add("CASH");
         payModeList.add("CHEQUE");
-        payModeList.add("CREDIT CARD");
-        payModeList.add("DIRECT DEPOSIT");
-        payModeList.add("BANK DRAFT");
+//        payModeList.add("CREDIT CARD");
+//        payModeList.add("DIRECT DEPOSIT");
+//        payModeList.add("BANK DRAFT");
         ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, payModeList);
         dataAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnPayMode.setAdapter(dataAdapter1);
@@ -925,13 +926,16 @@ public class ReceiptDetails extends Fragment {
                         payMode.setFPAYMODE_PAID_ALLOAMT("0.00");
                         payMode.setFPAYMODE_PAID_REMAMT(txtReceAmt.getText().toString());
                         payMode.setFPAYMODE_PAID_BANK("");
-                        String payModeRefNo;
+                        String payModeRefNo,PayModeCommnRefNo;
 
                         payModeRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.ReceiptNumVal));
+
+                        PayModeCommnRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.RecNumValCom));
 
                         if (spnPayMode.getSelectedItem().toString().equalsIgnoreCase("cash"))
                         {
                             payMode.setFPAYMODE_REF_NO(payModeRefNo);
+                            payMode.setFPAYMODE_PAID_COMMONREFNO(PayModeCommnRefNo);
 //                        payMode.setFPAYMODE_PAID_TYPE(spnPayMode.getSelectedItem().toString());
                             payMode.setFPAYMODE_PAID_TYPE("CA");
                             payMode.setFPAYMODE_PAID_AMOUNT(txtReceAmt.getText().toString());
@@ -962,6 +966,7 @@ public class ReceiptDetails extends Fragment {
                                 //payModeRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.RecPayCheq));
 
                                 payMode.setFPAYMODE_REF_NO(payModeRefNo);
+                                payMode.setFPAYMODE_PAID_COMMONREFNO(RefNo1);
 //                        payMode.setFPAYMODE_PAID_TYPE(spnPayMode.getSelectedItem().toString());
                                 payMode.setFPAYMODE_PAID_TYPE("CH");
                                 payMode.setFPAYMODE_PAID_AMOUNT(txtReceAmt.getText().toString());
@@ -994,6 +999,7 @@ public class ReceiptDetails extends Fragment {
                                 //payModeRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.RecPayCard));
 
                                 payMode.setFPAYMODE_REF_NO(payModeRefNo);
+                                payMode.setFPAYMODE_PAID_COMMONREFNO(RefNo1);
                                 //payMode.setFPAYMODE_PAID_TYPE(spnPayMode.getSelectedItem().toString());
                                 payMode.setFPAYMODE_PAID_TYPE("CC");
                                 payMode.setFPAYMODE_PAID_AMOUNT(txtReceAmt.getText().toString());
@@ -1032,6 +1038,7 @@ public class ReceiptDetails extends Fragment {
                                 //payModeRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.RecPayCard));
 
                                 payMode.setFPAYMODE_REF_NO(payModeRefNo);
+                                payMode.setFPAYMODE_PAID_COMMONREFNO(RefNo1);
 //                        payMode.setFPAYMODE_PAID_TYPE(spnPayMode.getSelectedItem().toString());
                                 payMode.setFPAYMODE_PAID_TYPE("DD");
                                 payMode.setFPAYMODE_PAID_AMOUNT(txtReceAmt.getText().toString());
@@ -1059,6 +1066,7 @@ public class ReceiptDetails extends Fragment {
                                 //payModeRefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.RecPayCard));
 
                                 payMode.setFPAYMODE_REF_NO(payModeRefNo);
+                                payMode.setFPAYMODE_PAID_COMMONREFNO(RefNo1);
 //                        payMode.setFPAYMODE_PAID_TYPE(spnPayMode.getSelectedItem().toString());
                                 payMode.setFPAYMODE_PAID_TYPE("BD");
                                 payMode.setFPAYMODE_PAID_AMOUNT(txtReceAmt.getText().toString());

@@ -103,27 +103,27 @@ public class PayModeEditAdapter extends ArrayAdapter<PayMode> {
             public void onClick(View v) {
 
 
-                    final CustomKeypadDialog keypad = new CustomKeypadDialog(context, false, new CustomKeypadDialog.IOnOkClickListener() {
-                        @Override
-                        public void okClicked(double value) {
-                            //String distrStock = preProduct.getPREPRODUCT_QOH();
-                            int enteredAmt = (int) value;
+                final CustomKeypadDialog keypad = new CustomKeypadDialog(context, false, new CustomKeypadDialog.IOnOkClickListener() {
+                    @Override
+                    public void okClicked(double value) {
+                        //String distrStock = preProduct.getPREPRODUCT_QOH();
+                        int enteredAmt = (int) value;
 
-                            String amt = payMode.getFPAYMODE_PAID_AMOUNT().replaceAll(",","");
+                        String amt = payMode.getFPAYMODE_PAID_AMOUNT().replaceAll(",","");
 
-                            if (enteredAmt>Double.parseDouble(amt))
-                            {
-                                Toast.makeText(context, "Entered amount can not be exceed the Paid amount", Toast.LENGTH_LONG).show();
-                            }
-                            else
-                            {
-                                Double remAmt = Double.parseDouble(amt)- Double.parseDouble(String.valueOf(enteredAmt));
-                                new PayModeController(context).updateRemainAmount(payMode.getFPAYMODE_PAID_ID(), String.valueOf(remAmt));
-                                new PayModeController(context).updateAllocateAmt(payMode.getFPAYMODE_PAID_ID(), String.valueOf(enteredAmt));
-                                payMode.setFPAYMODE_PAID_ALLOAMT(String.valueOf(enteredAmt));
-                                payMode.setFPAYMODE_PAID_REMAMT(String.valueOf(remAmt));
-                                holder.allocatedAmt.setText(payMode.getFPAYMODE_PAID_ALLOAMT());
-                                holder.remAmt.setText(payMode.getFPAYMODE_PAID_REMAMT());
+                        if (enteredAmt>Double.parseDouble(amt))
+                        {
+                            Toast.makeText(context, "Entered amount can not be exceed the Paid amount", Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            Double remAmt = Double.parseDouble(amt)- Double.parseDouble(String.valueOf(enteredAmt));
+                            new PayModeController(context).updateRemainAmount(payMode.getFPAYMODE_PAID_ID(), String.valueOf(remAmt));
+                            new PayModeController(context).updateAllocateAmt(payMode.getFPAYMODE_PAID_ID(), String.valueOf(enteredAmt));
+                            payMode.setFPAYMODE_PAID_ALLOAMT(String.valueOf(enteredAmt));
+                            payMode.setFPAYMODE_PAID_REMAMT(String.valueOf(remAmt));
+                            holder.allocatedAmt.setText(payMode.getFPAYMODE_PAID_ALLOAMT());
+                            holder.remAmt.setText(payMode.getFPAYMODE_PAID_REMAMT());
 
 //                                PayModeAdapter adapter = new PayModeAdapter(context, list, false);
 //                                adapter.updateData(list);
@@ -135,15 +135,15 @@ public class PayModeEditAdapter extends ArrayAdapter<PayMode> {
 //                                else
 //                                    holder.lnStripe.setBackground(context.getResources().getDrawable(R.drawable.custom_textbox));
 
-                            }
-
                         }
-                    });
 
-                    keypad.show();
+                    }
+                });
 
-                    keypad.setHeader("SELECT PAID AMOUNT");
-                    //keypad.loadValue(Double.parseDouble(payMode.getFPAYMODE_PAID_ALLOAMT()));
+                keypad.show();
+
+                keypad.setHeader("SELECT PAID AMOUNT");
+                //keypad.loadValue(Double.parseDouble(payMode.getFPAYMODE_PAID_ALLOAMT()));
 
             }
         });

@@ -9,16 +9,17 @@ import android.widget.TextView;
 
 
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.model.PayMode;
 import com.datamation.hmdsfa.model.PaymentAllocate;
 
 import java.util.ArrayList;
 
-public class ReceiptSummaryPaymodeAdapter extends ArrayAdapter<PaymentAllocate> {
+public class ReceiptSummaryPaymodeAdapter extends ArrayAdapter<PayMode> {
 
     Context context;
-    ArrayList<PaymentAllocate> list;
+    ArrayList<PayMode> list;
 
-    public ReceiptSummaryPaymodeAdapter(Context context, ArrayList<PaymentAllocate> list ) {
+    public ReceiptSummaryPaymodeAdapter(Context context, ArrayList<PayMode> list ) {
         super(context, R.layout.row_pay_mode_summary, list);
         this.context = context;
         this.list = list;
@@ -32,7 +33,7 @@ public class ReceiptSummaryPaymodeAdapter extends ArrayAdapter<PaymentAllocate> 
     }
 
     @Override
-    public PaymentAllocate getItem(int position) {
+    public PayMode getItem(int position) {
         return list.get(position);
     }
 
@@ -47,7 +48,7 @@ public class ReceiptSummaryPaymodeAdapter extends ArrayAdapter<PaymentAllocate> 
         LayoutInflater inflater = null;
         View row = convertView;
         final Holder holder;
-        final PaymentAllocate paymentAllocate = list.get(position);
+        final PayMode payMode = list.get(position);
 
         if (row == null)
         {
@@ -68,38 +69,38 @@ public class ReceiptSummaryPaymodeAdapter extends ArrayAdapter<PaymentAllocate> 
             holder = (Holder)row.getTag();
         }
 
-        if (paymentAllocate.getFPAYMENT_ALLOCATE_PAY_MODE().equalsIgnoreCase("CA"))
+        if (payMode.getFPAYMODE_PAID_TYPE().equalsIgnoreCase("CA"))
         {
             holder.allocChqNo.setText("N/A");
-            holder.allocChqDate.setText(paymentAllocate.getFPAYMENT_ALLOCATE_PAY_DATE());
+            holder.allocChqDate.setText(payMode.getFPAYMODE_PAID_DATE());
             holder.allocPayMode.setText("CASH");
         }
-        else if (paymentAllocate.getFPAYMENT_ALLOCATE_PAY_MODE().equalsIgnoreCase("CH"))
+        else if (payMode.getFPAYMODE_PAID_TYPE().equalsIgnoreCase("CH"))
         {
-            holder.allocChqNo.setText(paymentAllocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_NO());
-            holder.allocChqDate.setText(paymentAllocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_DATE());
+            holder.allocChqNo.setText(payMode.getFPAYMODE_PAID_CHEQUE_NO());
+            holder.allocChqDate.setText(payMode.getFPAYMODE_PAID_CHEQUE_DATE());
             holder.allocPayMode.setText("CHEQUE");
         }
-        else if (paymentAllocate.getFPAYMENT_ALLOCATE_PAY_MODE().equalsIgnoreCase("CC"))
+        else if (payMode.getFPAYMODE_PAID_TYPE().equalsIgnoreCase("CC"))
         {
-            holder.allocChqNo.setText(paymentAllocate.getFPAYMENT_ALLOCATE_PAY_CREDIT_CARD_NO());
-            holder.allocChqDate.setText(paymentAllocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_DATE());
+            holder.allocChqNo.setText(payMode.getFPAYMODE_PAID_CREDIT_CARD_NO());
+            holder.allocChqDate.setText(payMode.getFPAYMODE_PAID_CHEQUE_DATE());
             holder.allocPayMode.setText("CREDIT CARD");
         }
-        else if (paymentAllocate.getFPAYMENT_ALLOCATE_PAY_MODE().equalsIgnoreCase("DD"))
+        else if (payMode.getFPAYMODE_PAID_TYPE().equalsIgnoreCase("DD"))
         {
-            holder.allocChqNo.setText(paymentAllocate.getFPAYMENT_ALLOCATE_PAY_SLIP_NO());
-            holder.allocChqDate.setText(paymentAllocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_DATE());
+            holder.allocChqNo.setText(payMode.getFPAYMODE_PAID_SLIP_NO());
+            holder.allocChqDate.setText(payMode.getFPAYMODE_PAID_CHEQUE_DATE());
             holder.allocPayMode.setText("DIRECT DEPOSIT");
         }
-        else if (paymentAllocate.getFPAYMENT_ALLOCATE_PAY_MODE().equalsIgnoreCase("BD"))
+        else if (payMode.getFPAYMODE_PAID_TYPE().equalsIgnoreCase("BD"))
         {
-            holder.allocChqNo.setText(paymentAllocate.getFPAYMENT_ALLOCATE_PAY_DRAFT_NO());
-            holder.allocChqDate.setText(paymentAllocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_DATE());
+            holder.allocChqNo.setText(payMode.getFPAYMODE_PAID_DRAFT_NO());
+            holder.allocChqDate.setText(payMode.getFPAYMODE_PAID_CHEQUE_DATE());
             holder.allocPayMode.setText("BANK DRAFT");
         }
 
-        holder.allocPaidAmt.setText(paymentAllocate.getFPAYMENT_ALLOCATE_PAY_AMT());
+        holder.allocPaidAmt.setText(payMode.getFPAYMODE_PAID_AMOUNT());
 
         return row;
     }

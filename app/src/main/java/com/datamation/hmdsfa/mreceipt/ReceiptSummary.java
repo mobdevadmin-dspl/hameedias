@@ -69,7 +69,7 @@ public class ReceiptSummary extends Fragment {
     FloatingActionMenu fam;
     FloatingActionButton fabPause, fabDiscard, fabSave;
     MyReceiver r;
-    ArrayList<PayMode>paidModeList;
+    ArrayList<PayMode>paidModeList,payModeArrayList;
     ArrayList<PaymentAllocate>paymentAllocateArrayList, payModePaymentArrayList, refNoList;
     ArrayList<ReceiptHed>recHHedList;
     String commonRefNo;
@@ -132,7 +132,7 @@ public class ReceiptSummary extends Fragment {
         return view;
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -146,7 +146,7 @@ public class ReceiptSummary extends Fragment {
 
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -165,7 +165,7 @@ public class ReceiptSummary extends Fragment {
 
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*Cancel order*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*Cancel order*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     private void undoEditingData(final Context context) {
 
@@ -187,6 +187,7 @@ public class ReceiptSummary extends Fragment {
 //                }
 
                 new PayModeController(getActivity()).clearAllPayModeS();
+                new PaymentAllocateController(getActivity()).clearAllPayAllocS();
 
                 ArrayList<PaymentAllocate>refList = new PaymentAllocateController(getActivity()).getRefNoByCommonRef(commonRefNo);
 
@@ -196,14 +197,14 @@ public class ReceiptSummary extends Fragment {
                     {
                         new ReceiptController(getActivity()).CancelReceiptS(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO());
                         new ReceiptDetController(getActivity()).restData(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO());
-                        new PaymentAllocateController(getActivity()).clearPaymentAlloc(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO());
+//                        new PaymentAllocateController(getActivity()).clearPaymentAlloc(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO());
                     }
                 }
                 else
                 {
                     new ReceiptController(getActivity()).CancelReceiptS(RefNo);
                     new ReceiptDetController(getActivity()).restData(RefNo);
-                    new PaymentAllocateController(getActivity()).clearPaymentAlloc(RefNo);
+//                    new PaymentAllocateController(getActivity()).clearPaymentAlloc(RefNo);
                 }
 
                 activity.cusPosition = 0;
@@ -227,7 +228,7 @@ public class ReceiptSummary extends Fragment {
         alertD.show();
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**/
 
 //    public void mPauseinvoice() {
 //
@@ -243,7 +244,7 @@ public class ReceiptSummary extends Fragment {
 //
 //    }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*Clear Shared preference-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*Clear Shared preference-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     /* Clear shared preference */
     public void ClearSharedPref() {
@@ -266,8 +267,8 @@ public class ReceiptSummary extends Fragment {
 
     public void FetchData() {
 
-        payModePaymentArrayList = new PaymentAllocateController(getActivity()).getPaidModesByCommonRef(commonRefNo);
-        lv_pay_mode.setAdapter(new ReceiptSummaryPaymodeAdapter(getActivity(), payModePaymentArrayList));
+        payModeArrayList = new PayModeController(getActivity()).getPaidModesByCommonRef(commonRefNo);
+        lv_pay_mode.setAdapter(new ReceiptSummaryPaymodeAdapter(getActivity(), payModeArrayList));
 
         FetchFddNoteData();
 
@@ -290,7 +291,7 @@ public class ReceiptSummary extends Fragment {
         return sdf.format(cal.getTime());
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-Save primary & secondary invoice-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-Save primary & secondary invoice-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*/
 
     private void saveSummaryDialog(final Context context) {
 
@@ -299,47 +300,47 @@ public class ReceiptSummary extends Fragment {
         if (!(gpsTracker.canGetLocation())) {
             gpsTracker.showSettingsAlert();
         } else
-            {
+        {
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setMessage("Do you want to save the Receipt?");
-        alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+            alertDialogBuilder.setMessage("Do you want to save the Receipt?");
+            alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
+            alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
-            public void onClick(final DialogInterface dialog, int id) {
+                public void onClick(final DialogInterface dialog, int id) {
 
-                if (Double.parseDouble(new PayModeController(getActivity()).getTotalRemainAmt()) > 0.00) {
-                    Toast.makeText(getActivity(), "You should allocate total payments to invoices", Toast.LENGTH_LONG).show();
-                } else if (Double.parseDouble(new ReceiptDetController(getActivity()).getTotalREcDetByComRefNo(commonRefNo)) == 0.00) {
-                    //else if (Double.parseDouble(new RecDetDS(getActivity()).getTotalREcDetByComRefNo(commonRefNo)) == 0.00) {
+                    if (Double.parseDouble(new PayModeController(getActivity()).getTotalRemainAmt()) > 0.00) {
+                        Toast.makeText(getActivity(), "You should allocate total payments to invoices", Toast.LENGTH_LONG).show();
+                    } else if (Double.parseDouble(new ReceiptDetController(getActivity()).getTotalREcDetByComRefNo(commonRefNo)) == 0.00) {
+                        //else if (Double.parseDouble(new RecDetDS(getActivity()).getTotalREcDetByComRefNo(commonRefNo)) == 0.00) {
 
-                    validateRecDetDialogBox();
-                } else {
-                    Toast.makeText(getActivity(), "You can save the receipt", Toast.LENGTH_LONG).show();
+                        validateRecDetDialogBox();
+                    } else {
+                        Toast.makeText(getActivity(), "You can save the receipt", Toast.LENGTH_LONG).show();
 
-                    if (paymentAllocateArrayList.size() > 0) {
-                        ArrayList<FddbNote> fdDbNotes = new ArrayList<>();
+                        if (paymentAllocateArrayList.size() > 0) {
+                            ArrayList<FddbNote> fdDbNotes = new ArrayList<>();
 
-                        for (PaymentAllocate paymentAllocate : paymentAllocateArrayList) {
-                            FddbNote dbNote = new FddbNote();
+                            for (PaymentAllocate paymentAllocate : paymentAllocateArrayList) {
+                                FddbNote dbNote = new FddbNote();
 
-                            Double dueAmt = Double.parseDouble(paymentAllocate.getFPAYMENT_ALLOCATE_FDD_TOTAL_BAL());
+                                Double dueAmt = Double.parseDouble(paymentAllocate.getFPAYMENT_ALLOCATE_FDD_TOTAL_BAL());
 
-                            dbNote.setFDDBNOTE_REFNO(paymentAllocate.getFPAYMENT_ALLOCATE_FDD_REFNO());
-                            dbNote.setFDDBNOTE_TOT_BAL(String.valueOf(dueAmt));
+                                dbNote.setFDDBNOTE_REFNO(paymentAllocate.getFPAYMENT_ALLOCATE_FDD_REFNO());
+                                dbNote.setFDDBNOTE_TOT_BAL(String.valueOf(dueAmt));
 
-                            fdDbNotes.add(dbNote);
-                        }
+                                fdDbNotes.add(dbNote);
+                            }
 
-                        if (fdDbNotes.size() > 0) {
-                            new OutstandingController(getActivity()).UpdateFddbNoteBalance(fdDbNotes);
-                            activity.cusPosition = 0;
-                            activity.selectedDebtor = null;
-                            activity.selectedRecHed = null;
-                            activity.ReceivedAmt = 0.00;
+                            if (fdDbNotes.size() > 0) {
+                                new OutstandingController(getActivity()).UpdateFddbNoteBalance(fdDbNotes);
+                                activity.cusPosition = 0;
+                                activity.selectedDebtor = null;
+                                activity.selectedRecHed = null;
+                                activity.ReceivedAmt = 0.00;
 
-                            //refNoList = new PaymentAllocateDS(getActivity()).getRefNoByCommonRef(commonRefNo);
-                            recHHedList = new ReceiptController(getActivity()).getHedRefNoByCommonRef(commonRefNo);
+                                //refNoList = new PaymentAllocateDS(getActivity()).getRefNoByCommonRef(commonRefNo);
+                                recHHedList = new ReceiptController(getActivity()).getHedRefNoByCommonRef(commonRefNo);
 
 //                            for (PaymentAllocate paymentAllocate : refNoList) {
 //                                if (refNoList.size() > 0) {
@@ -352,42 +353,40 @@ public class ReceiptSummary extends Fragment {
 //                                }
 //                            }
 
-                            for (ReceiptHed recHed : recHHedList) {
-                                if (recHHedList.size() > 0) {
-                                    new ReceiptController(getActivity()).UpdateRecHeadTotalAmount(recHed.getFPRECHED_REFNO());
-                                    new ReceiptController(getActivity()).InactiveStatusUpdate(recHed.getFPRECHED_REFNO());
-                                    new ReceiptPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", recHed.getFPRECHED_REFNO());
+                                for (ReceiptHed recHed : recHHedList) {
+                                    if (recHHedList.size() > 0) {
+                                        new ReceiptController(getActivity()).UpdateRecHeadTotalAmount(recHed.getFPRECHED_REFNO());
+                                        new ReceiptController(getActivity()).InactiveStatusUpdate(recHed.getFPRECHED_REFNO());
+                                        new ReceiptPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", recHed.getFPRECHED_REFNO());
 
-                                    // to generate a new receipt ref no
-                                    //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.RecNumVal));
+                                        // to generate a new receipt ref no
+                                        //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.RecNumVal));
+                                    }
                                 }
+
+                                new PayModeController(getActivity()).clearAllPayModeS();
+
+                                new PaymentAllocateController(getActivity()).clearAllPayAlloS();
+
+//                            ArrayList<PaymentAllocate> refList = new PaymentAllocateController(getActivity()).getRefNoByCommonRef(commonRefNo);
+//
+//                            for (PaymentAllocate paymentAllocate : refList) {
+//                                new PaymentAllocateController(getActivity()).clearPaymentAlloc(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO());
+//                            }
+
+                                // to generate a new common ref no
+                                new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.RecNumValCom));
+
+                                Toast.makeText(getActivity(), "Receipt saved successfully..!", Toast.LENGTH_SHORT).show();
+
+                                Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
+                                startActivity(intnt);
+                                getActivity().finish();
+
+                                dialog.dismiss();
+                                ClearSharedPref();
                             }
-
-                            ArrayList<PaymentAllocate> paymodeList = new PaymentAllocateController(getActivity()).getPayRefNoByCommonRef(commonRefNo);
-
-                            for (PaymentAllocate paymentAllocate : paymodeList) {
-                                new PayModeController(getActivity()).clearPayMode(paymentAllocate.getFPAYMENT_ALLOCATE_PAY_REF_NO());
-                            }
-
-                            ArrayList<PaymentAllocate> refList = new PaymentAllocateController(getActivity()).getRefNoByCommonRef(commonRefNo);
-
-                            for (PaymentAllocate paymentAllocate : refList) {
-                                new PaymentAllocateController(getActivity()).clearPaymentAlloc(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO());
-                            }
-
-                            // to generate a new common ref no
-                            new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.RecNumValCom));
-
-                            Toast.makeText(getActivity(), "Receipt saved successfully..!", Toast.LENGTH_SHORT).show();
-
-                            Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
-                            startActivity(intnt);
-                            getActivity().finish();
-
-                            dialog.dismiss();
-                            ClearSharedPref();
                         }
-                    }
 
 
 //                    RecHed recHed = new RecHed();
@@ -450,19 +449,19 @@ public class ReceiptSummary extends Fragment {
 //                    UtilityContainer.mLoadFragment(new ReceiptInvoice(), getActivity());
 //                    dialog.dismiss();
 //                    ClearSharedPref();/* Clear shared preference */
+                    }
                 }
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        AlertDialog alertD = alertDialogBuilder.create();
-        alertD.show();
-    }
+            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+            AlertDialog alertD = alertDialogBuilder.create();
+            alertD.show();
+        }
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     private String currentDate() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -470,7 +469,7 @@ public class ReceiptSummary extends Fragment {
         return dateFormat.format(date);
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
 
     public static boolean setBluetooth(boolean enable) {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -490,7 +489,7 @@ public class ReceiptSummary extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
     }
 
-   	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void onResume() {
         super.onResume();
@@ -498,7 +497,7 @@ public class ReceiptSummary extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_SUMMARY"));
     }
 
-	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public void mRefreshHeader() {
         //Double receiptAmt = Double.parseDouble(new PayModeDS(getActivity()).getTotalPaidAmt());
@@ -552,7 +551,7 @@ public class ReceiptSummary extends Fragment {
         FetchData();
     }
 
-	/*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     private class MyReceiver extends BroadcastReceiver {
         @Override
