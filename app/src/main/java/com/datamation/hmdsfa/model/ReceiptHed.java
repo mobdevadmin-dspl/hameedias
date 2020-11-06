@@ -46,6 +46,7 @@ public class ReceiptHed {
 	private String ConsoleDB;
 	private String DistDB;
 	private String NextNumVal;
+	private String NextNumValMulti;
 	private ArrayList<ReceiptDet> RecDetList;
 
 	public ArrayList<ReceiptDet> getRecDetList() {
@@ -86,6 +87,14 @@ public class ReceiptHed {
 
 	public void setNextNumVal(String nextNumVal) {
 		NextNumVal = nextNumVal;
+	}
+
+	public String getNextNumValMulti() {
+		return NextNumValMulti;
+	}
+
+	public void setNextNumValMulti(String nextNumValMulti) {
+		NextNumValMulti = nextNumValMulti;
 	}
 
 	public String getFPRECHED_ADDUSER_NEW() {

@@ -1162,7 +1162,8 @@ public class ReceiptController {
 
 				mapper.setNextNumVal(new ReferenceController(context)
 						.getCurrentNextNumVal(context.getResources().getString(R.string.ReceiptNumVal)));
-
+				mapper.setNextNumValMulti(new ReferenceController(context)
+						.getCurrentNextNumVal(context.getResources().getString(R.string.RecNumValCom)));
 				mapper.setDistDB(SharedPref.getInstance(context).getDistDB().trim());
 				mapper.setConsoleDB(SharedPref.getInstance(context).getConsoleDB().trim());
 

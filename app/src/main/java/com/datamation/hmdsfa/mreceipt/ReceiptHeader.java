@@ -138,7 +138,7 @@ public class ReceiptHeader extends Fragment {
         recHed.setFPRECHED_ADDDATE(currnentDate.getText().toString());
         recHed.setFPRECHED_MANUREF(manual.getText().toString());
         recHed.setFPRECHED_REMARKS(remarks.getText().toString());
-        recHed.setFPRECHED_ADDMACH(localSP.getString("MAC_Address", "No MAC Address").toString());
+        recHed.setFPRECHED_ADDMACH(mSharedPref.getMacAddress());
         recHed.setFPRECHED_ADDUSER(new SalRepController(getActivity()).getCurrentRepCode().trim());
         recHed.setFPRECHED_CURCODE("LKR");
         recHed.setFPRECHED_CURRATE("1.00");
@@ -149,6 +149,7 @@ public class ReceiptHeader extends Fragment {
         recHed.setFPRECHED_REPCODE(new SalRepController(getActivity()).getCurrentRepCode().trim());
         recHed.setFPRECHED_TXNDATE(currnentDate.getText().toString());
         recHed.setFPRECHED_TXNTYPE("42");
+        recHed.setFPRECHED_START_TIME(currentTime());
         //recHed.setFPRECHED_TOTALAMT(String.valueOf(Double.parseDouble(txtReceAmt.getText().toString().replaceAll(",", ""))));
         //recHed.setFPRECHED_BTOTALAMT(String.valueOf(Double.parseDouble(txtReceAmt.getText().toString().replaceAll(",", ""))));
         recHed.setFPRECHED_SALEREFNO("");
