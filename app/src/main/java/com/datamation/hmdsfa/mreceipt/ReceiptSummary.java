@@ -352,6 +352,9 @@ public class ReceiptSummary extends Fragment {
 //                                    //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.RecNumVal));
 //                                }
 //                            }
+                                new PayModeController(getActivity()).clearAllPayModeS();
+
+                                new PaymentAllocateController(getActivity()).clearAllPayAlloS();
 
                                 for (ReceiptHed recHed : recHHedList) {
                                     if (recHHedList.size() > 0) {
@@ -364,9 +367,7 @@ public class ReceiptSummary extends Fragment {
                                     }
                                 }
 
-                                new PayModeController(getActivity()).clearAllPayModeS();
 
-                                new PaymentAllocateController(getActivity()).clearAllPayAlloS();
 
 //                            ArrayList<PaymentAllocate> refList = new PaymentAllocateController(getActivity()).getRefNoByCommonRef(commonRefNo);
 //

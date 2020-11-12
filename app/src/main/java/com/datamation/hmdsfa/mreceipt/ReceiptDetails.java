@@ -48,6 +48,7 @@ import com.datamation.hmdsfa.model.PayMode;
 import com.datamation.hmdsfa.model.PaymentAllocate;
 import com.datamation.hmdsfa.model.ReceiptDet;
 import com.datamation.hmdsfa.model.ReceiptHed;
+import com.datamation.hmdsfa.settings.GPSTracker;
 import com.datamation.hmdsfa.settings.ReferenceNum;
 import com.datamation.hmdsfa.view.ReceiptActivity;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
@@ -95,7 +96,7 @@ public class ReceiptDetails extends Fragment {
     ReceiptResponseListener listener;
     Double totalPaidAmt=0.0;
     int i=0;
-
+    GPSTracker gps;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -469,10 +470,11 @@ public class ReceiptDetails extends Fragment {
                 recDet.setFPRECDET_REFNO2(allocate.getFPAYMENT_ALLOCATE_COMMON_REFNO());
                 recDet.setFPRECDET_MANUREF(recHed.getFPRECHED_MANUREF());
                 //recDet.setFPRECDET_TXNDATE(recHed.getFPRECHED_TXNDATE());
-                recDet.setFPRECDET_TXNDATE(allocate.getFPAYMENT_ALLOCATE_FDD_TXN_DATE());
+                recDet.setFPRECDET_TXNDATE(recHed.getFPRECHED_TXNDATE());
                 recDet.setFPRECDET_TXNTYPE(recHed.getFPRECHED_TXNTYPE());
                 recDet.setFPRECDET_DCURCODE(recHed.getFPRECHED_CURCODE());
                 recDet.setFPRECDET_DCURRATE(recHed.getFPRECHED_CURRATE());
+                recDet.setFPRECDET_DTXNDATE(allocate.getFPAYMENT_ALLOCATE_FDD_TXN_DATE());
                 recDet.setFPRECDET_REPCODE(recHed.getFPRECHED_REPCODE());
                 recDet.setFPRECDET_REMARK(recHed.getFPRECHED_REMARKS());
                 recDet.setFPRECDET_SALEREFNO(recHed.getFPRECHED_SALEREFNO());
@@ -538,15 +540,33 @@ public class ReceiptDetails extends Fragment {
                 recHed1.setFPRECHED_ISACTIVE(recHed.getFPRECHED_ISACTIVE());
                 recHed1.setFPRECHED_ISSYNCED(recHed.getFPRECHED_ISSYNCED());
                 recHed1.setFPRECHED_ISDELETE(recHed.getFPRECHED_ISDELETE());
-
+                recHed1.setFPRECHED_LATITUDE(mSharedPref.getGlobalVal("Latitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
+                recHed1.setFPRECHED_LONGITUDE(mSharedPref.getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
+                recHed1.setFPRECHED_END_TIME(currentTime());
+                recHed1.setFPRECHED_START_TIME(recHed.getFPRECHED_START_TIME());
                 Double balAmt = Double.parseDouble(allocate.getFPAYMENT_ALLOCATE_FDD_TOTAL_BAL());
-                recHed1.setFPRECHED_CHQNO(allocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_NO());
-                recHed1.setFPRECHED_CHQDATE(allocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_DATE());
+                if(allocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_NO() != null )
+                {
+                    recHed1.setFPRECHED_CHQNO(allocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_NO());
+                    recHed1.setFPRECHED_CHQDATE(allocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_DATE());
+                }else
+                {
+                    recHed1.setFPRECHED_CHQNO("");
+                    recHed1.setFPRECHED_CHQDATE("");
+                }
                 recHed1.setFPRECHED_TOTALAMT(String.valueOf(balAmt));
                 recHed1.setFPRECHED_BTOTALAMT(String.valueOf(balAmt));
                 recHed1.setFPRECHED_PAYTYPE(allocate.getFPAYMENT_ALLOCATE_PAY_MODE());
-                recHed1.setFPRECHED_CUSBANK(allocate.getFPAYMENT_ALLOCATE_PAY_BANK());
-                recHed1.setFPRECHED_BANKCODE(allocate.getFPAYMENT_ALLOCATE_PAY_BANK());
+                if(allocate.getFPAYMENT_ALLOCATE_PAY_BANK() != null ) {
+                    recHed1.setFPRECHED_CUSBANK(allocate.getFPAYMENT_ALLOCATE_PAY_BANK());
+                    recHed1.setFPRECHED_BANKCODE(allocate.getFPAYMENT_ALLOCATE_PAY_BANK());
+                    recHed1.setFPRECHED_BRANCHCODE("");
+                }else
+                {
+                    recHed1.setFPRECHED_CUSBANK("");
+                    recHed1.setFPRECHED_BANKCODE("");
+                    recHed1.setFPRECHED_BRANCHCODE("");
+                }
                 recHed1.setFPRECHED_COMMON_RENNO(allocate.getFPAYMENT_ALLOCATE_COMMON_REFNO());
 
 //                mainActivity.selectedRecHed = recHed1;
