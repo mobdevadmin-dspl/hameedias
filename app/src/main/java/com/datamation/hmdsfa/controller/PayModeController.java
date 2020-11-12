@@ -152,36 +152,6 @@ public class PayModeController {
                 payMode.setFPAYMODE_PAID_REMAMT(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_REMAMT)));
                 payMode.setFPAYMODE_PAID_ALLOAMT(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_ALLOAMT)));
                 payMode.setFPAYMODE_REF_NO(cursor.getString(cursor.getColumnIndex(FPAYMODE_PAID_REF_NO)));
-                //payMode.setFPAYMODE_PAID_CREDIT_CARD_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FPAYMODE_PAID_CREDIT_CARD_TYPE)));
-//                payMode.setFTRANSODET_BPDISAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_BPDISAMT)));
-//                payMode.setFTRANSODET_BSELLPRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_BSELLPRICE)));
-//                payMode.setFTRANSODET_BTAXAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_BTAXAMT)));
-//                payMode.setFTRANSODET_BTSELLPRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_BTSELLPRICE)));
-//                payMode.setFTRANSODET_COSTPRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_COSTPRICE)));
-//                payMode.setFTRANSODET_DISAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_DISAMT)));
-//                payMode.setFTRANSODET_ID(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_ID)));
-//                ordDet.setFTRANSODET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_IS_ACTIVE)));
-//                ordDet.setFTRANSODET_IS_SYNCED(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_IS_SYNCED)));
-//                ordDet.setFTRANSODET_ITEMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_ITEMCODE)));
-//                ordDet.setFTRANSODET_LOCCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_LOCCODE)));
-//                ordDet.setFTRANSODET_PDISAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_PDISAMT)));
-//                ordDet.setFTRANSODET_PICE_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_PICE_QTY)));
-//                ordDet.setFTRANSODET_PRILCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_PRILCODE)));
-//                ordDet.setFTRANSODET_QTY(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_QTY)));
-//                ordDet.setFTRANSODET_REFNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_REFNO)));
-//                ordDet.setFTRANSODET_SELLPRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_SELLPRICE)));
-//                ordDet.setFTRANSODET_SEQNO(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_SEQNO)));
-//                ordDet.setFTRANSODET_TAXAMT(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_TAXAMT)));
-//                ordDet.setFTRANSODET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_TAXCOMCODE)));
-//                ordDet.setFTRANSODET_TSELLPRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_TSELLPRICE)));
-//                ordDet.setFTRANSODET_TXNDATE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_TXNDATE)));
-//                ordDet.setFTRANSODET_TXNTYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_TXNTYPE)));
-//                ordDet.setFTRANSODET_QOH(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_QOH)));
-//                ordDet.setFTRANSODET_TYPE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_TYPE)));
-//                ordDet.setFTRANSODET_SCHDISC(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_DISVALAMT)));
-//                ordDet.setFTRANSODET_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_PRICE)));
-//                ordDet.setFTRANSODET_QTY_SLAB_DISC(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_QTY_SLAB_DISC)));
-//                ordDet.setFTRANSODET_ORG_PRICE(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FTRANSODET_ORG_PRICE)));
 
                 list.add(payMode);
 

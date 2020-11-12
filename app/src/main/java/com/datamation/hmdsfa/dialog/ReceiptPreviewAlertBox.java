@@ -32,16 +32,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.adapter.PrintPayModeAdapter;
 import com.datamation.hmdsfa.adapter.PrintReceiptAdapter;
 import com.datamation.hmdsfa.controller.CompanyDetailsController;
 import com.datamation.hmdsfa.controller.CustomerController;
+import com.datamation.hmdsfa.controller.PayModeController;
 import com.datamation.hmdsfa.controller.ReceiptController;
 import com.datamation.hmdsfa.controller.ReceiptDetController;
+import com.datamation.hmdsfa.controller.RouteController;
+import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.helpers.ListExpandHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.Control;
 import com.datamation.hmdsfa.model.Customer;
+import com.datamation.hmdsfa.model.PayMode;
 import com.datamation.hmdsfa.model.ReceiptDet;
 import com.datamation.hmdsfa.model.ReceiptHed;
 import com.datamation.hmdsfa.model.SalRep;
@@ -63,21 +68,20 @@ public class ReceiptPreviewAlertBox {
     String Heading_a = "";
     String Heading_bmh = "";
     String Heading_b = "";
+    String Heading_e = "";
+    String Heading_g = "";
     String buttomRaw = "";
     String Heading_d = "";
+    String Heading_h = "";
     private Customer debtor;
     String BILL;
-    LinearLayout lnBank, lnCHQno,lnCHDate;
+
 
     Dialog dialogProgress;
 
-    ListView lvItemDetails;
+    ListView lvItemDetails , lvPaymodeDetails;
 
     String PRefno = "";
-
-    String printMainInvDiscount, printMainInvDiscountVal,
-            PrintNetTotalValuePrintVal, printCaseQuantity, printPicesQuantity,
-            TotalInvoiceDiscount;
 
     int countCountInv;
 
@@ -98,178 +102,112 @@ public class ReceiptPreviewAlertBox {
 
     public int PrintDetailsDialogbox(final Context context, String title, String refno) {
 
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        try {
 
-        View promptView = layoutInflater.inflate(R.layout.sales_management_receipt_print_view, null);
-        localSP = context.getSharedPreferences(SETTINGS, 0);
+            LayoutInflater layoutInflater = LayoutInflater.from(context);
 
-        final TextView Companyname = (TextView) promptView.findViewById(R.id.headcompanyname);
-        final TextView Companyaddress1 = (TextView) promptView.findViewById(R.id.headaddress1);
-        final TextView Companyaddress2 = (TextView) promptView.findViewById(R.id.headaddress2);
-        final TextView CompanyTele = (TextView) promptView.findViewById(R.id.headteleno);
-        final TextView Companyweb = (TextView) promptView.findViewById(R.id.headwebsite);
-        final TextView Companyemail = (TextView) promptView.findViewById(R.id.heademail);
+            View promptView = layoutInflater.inflate(R.layout.sales_management_receipt_print_view, null);
+            localSP = context.getSharedPreferences(SETTINGS, 0);
 
-        final TextView SalesRepname = (TextView) promptView.findViewById(R.id.salesrepname);
-        final TextView SalesRepPhone = (TextView) promptView.findViewById(R.id.salesrepphone);
+            final TextView Companyname = (TextView) promptView.findViewById(R.id.headcompanyname);
+            final TextView Companyaddress1 = (TextView) promptView.findViewById(R.id.headaddress1);
+            final TextView Companyaddress2 = (TextView) promptView.findViewById(R.id.headaddress2);
+            final TextView CompanyTele = (TextView) promptView.findViewById(R.id.headteleno);
+            final TextView Companyweb = (TextView) promptView.findViewById(R.id.headwebsite);
+            final TextView Companyemail = (TextView) promptView.findViewById(R.id.heademail);
 
-        final TextView Debname = (TextView) promptView.findViewById(R.id.headcusname);
-        final TextView Debaddress1 = (TextView) promptView.findViewById(R.id.headcusaddress1);
-        final TextView Debaddress2 = (TextView) promptView.findViewById(R.id.headcusaddress2);
-        final TextView DebTele = (TextView) promptView.findViewById(R.id.headcustele);
-        final TextView DebRoute = (TextView) promptView.findViewById(R.id.headcusroute);
-        final TextView DebTown = (TextView) promptView.findViewById(R.id.headcustown);
+            final TextView SalesRepname = (TextView) promptView.findViewById(R.id.salesrepname);
+            final TextView SalesRepPhone = (TextView) promptView.findViewById(R.id.salesrepphone);
 
-        final TextView SalOrdDate = (TextView) promptView.findViewById(R.id.printsalorddate);
-        final TextView OrderNo = (TextView) promptView.findViewById(R.id.printrefno);
-        final TextView Remarks = (TextView) promptView.findViewById(R.id.printremark);
+            final TextView Debname = (TextView) promptView.findViewById(R.id.headcusname);
+            final TextView Debaddress1 = (TextView) promptView.findViewById(R.id.headcusaddress1);
+            final TextView Debaddress2 = (TextView) promptView.findViewById(R.id.headcusaddress2);
+            final TextView DebTele = (TextView) promptView.findViewById(R.id.headcustele);
+            final TextView DebRoute = (TextView) promptView.findViewById(R.id.headcusroute);
+            final TextView DebTown = (TextView) promptView.findViewById(R.id.headcustown);
 
-        final TextView tvTotalAlloc = (TextView) promptView.findViewById(R.id.recTotalAlloc);
-        final TextView tvPayMode = (TextView) promptView.findViewById(R.id.recPayMode);
-        final TextView tvBank = (TextView) promptView.findViewById(R.id.recBank);
-        final TextView tvChqNo = (TextView) promptView.findViewById(R.id.recChqNo);
-        final TextView tvChqDate = (TextView) promptView.findViewById(R.id.recChqDate);
+            final TextView ReceiptDate = (TextView) promptView.findViewById(R.id.printsalorddate);
+            final TextView ReceiptNo = (TextView) promptView.findViewById(R.id.printrefno);
+            final TextView RepName = (TextView) promptView.findViewById(R.id.printremark);
+            final TextView AreaCode = (TextView) promptView.findViewById(R.id.printareacode);
 
-        //final TextView tvChequeOrCardNoText = (TextView) promptView.findViewById(R.id.recChequeOrCard);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+            alertDialogBuilder.setTitle(title.toUpperCase());
 
-        lnBank = (LinearLayout) promptView.findViewById(R.id.linearBank);
-        lnCHQno = (LinearLayout) promptView.findViewById(R.id.linearChqNo);
-        lnCHDate = (LinearLayout) promptView.findViewById(R.id.linearChqDate);
+            alertDialogBuilder.setView(promptView);
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setTitle(title.toUpperCase());
+            ArrayList<Control> controlList;
+            controlList = new CompanyDetailsController(context).getAllControl();
 
-        alertDialogBuilder.setView(promptView);
+            PRefno = refno;
 
-        ArrayList<Control> controlList;
-        controlList = new CompanyDetailsController(context).getAllControl();
+            // Print Preview Company Details.
+            Companyname.setText("H S Marketing Private Limited");
+            Companyaddress1.setText("22/2, Rawathawatta Rd, Rawathawatta, Moratuwa. Colombo");
+            Companyaddress2.setText("Tel : 0112655024 Fax No : 112655102");
+            CompanyTele.setText("Email : wholesales@hameedia.lk");
+            Companyweb.setText("VAT Registration No : 114236314-7000");
 
-        PRefno = refno;
+            SalRep salrep = new SalRepController(context).getSaleRep(new SalRepController(context).getCurrentRepCode());
 
-        // Print Preview Company Details.
-        Companyname.setText(controlList.get(0).getFCONTROL_COM_NAME());
-        Companyaddress1.setText(controlList.get(0).getFCONTROL_COM_ADD1());
-        Companyaddress2.setText(controlList.get(0).getFCONTROL_COM_ADD2());
-        CompanyTele.setText(controlList.get(0).getFCONTROL_COM_TEL1());
-        Companyweb.setText(controlList.get(0).getFCONTROL_COM_WEB());
-        Companyemail.setText(controlList.get(0).getFCONTROL_COM_EMAIL());
+            SalesRepname.setText("RECEIPT");
 
-        SalRep salrep = new SalRepController(context).getSaleRep(new SalRepController(context).getCurrentRepCode());
-        SalesRepname.setText(salrep.getNAME());
-        //SalesRepPhone.setText(salrep.getMOBILE());
+            ReceiptHed recHed = new ReceiptController(context).getReceiptByCommnRefNo(refno);
+            ArrayList<ReceiptDet> list = new ReceiptDetController(context).GetReceiptByCommonRefNo(refno);
+            ArrayList<PayMode> paymodelist = new PayModeController(context).getPaidModesByCommonRef(refno);
+            debtor = new CustomerController(context).getSelectedCustomerByCode(recHed.getFPRECHED_DEBCODE());
 
-        ReceiptHed recHed = new ReceiptController(context).getReceiptByRefno(refno);
-        ArrayList<ReceiptDet> list = new ReceiptDetController(context).GetReceiptByRefno(refno);
-        debtor = new CustomerController(context).getSelectedCustomerByCode(recHed.getFPRECHED_DEBCODE());
+            Debname.setText(debtor.getCusName());
+            Debaddress1.setText(debtor.getCusAdd1() + " ");
+            Debaddress2.setText(debtor.getCusAdd2() + " " + debtor.getCusAdd3());
+            DebTele.setText(debtor.getCusMob());
 
-        Debname.setText(debtor.getCusName());
-        Debaddress1.setText(debtor.getCusAdd1() + " ");
-        Debaddress2.setText(debtor.getCusAdd2() + " " + debtor.getCusAdd3());
-        DebTele.setText(debtor.getCusMob());
-        DebRoute.setVisibility(View.GONE);
-        DebTown.setVisibility(View.GONE);
+            ReceiptDate.setText("Receipt No: " + refno);
+            RepName.setText(salrep.getNAME());
+            ReceiptNo.setText("Date: " + recHed.getFPRECHED_TXNDATE());
+            String routecode = new RouteDetController(context).getRouteCodeByDebCode(debtor.getCusCode());
+            AreaCode.setText(""+new RouteController(context).getAreaCodeByRouteCode(routecode));
 
-        SalOrdDate.setText("Receipt Date: " + recHed.getFPRECHED_TXNDATE());
-        Remarks.setText("Remarks: " + recHed.getFPRECHED_REMARKS());
-        OrderNo.setText("Receipt No: " + refno);
+            lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
+            lvItemDetails.setAdapter(new PrintReceiptAdapter(context, list, refno));
 
-        lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
-        lvItemDetails.setAdapter(new PrintReceiptAdapter(context, list, refno));
+            lvPaymodeDetails = (ListView) promptView.findViewById(R.id.paymodelist);
+            lvPaymodeDetails.setAdapter(new PrintPayModeAdapter(context, paymodelist, refno));
+
+            localSP = context.getSharedPreferences(SETTINGS, 0);//Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE
+            PRINTER_MAC_ID = new SharedPref(context).getGlobalVal("printer_mac_address").toString();
+            Log.v("mac_id", PRINTER_MAC_ID);
+
+            alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Log.v("", "***************************");
+                    PrintCurrentview();
+                }
+            });
+
+            alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(context, DebtorDetailsActivity.class);
+                    intent.putExtra("outlet", debtor);
+                    context.startActivity(intent);
+                    dialog.cancel();
+                }
+            });
 
 
-        tvTotalAlloc.setText(String.format("%,.2f", Double.parseDouble(recHed.getFPRECHED_TOTALAMT())));
-        if(recHed.getFPRECHED_PAYTYPE().equals("CH"))
-        {
-            tvPayMode.setText("CHEQUE");
+            AlertDialog alertD = alertDialogBuilder.create();
+            alertD.show();
+            Window window = alertD.getWindow();
+            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            ListExpandHelper.getListViewSize(lvItemDetails);
+            ListExpandHelper.getListViewSize(lvPaymodeDetails);
+            return 1;
         }
-        else if(recHed.getFPRECHED_PAYTYPE().equals("CA"))
+        catch (Exception ex)
         {
-            tvPayMode.setText("CASH");
+            ex.printStackTrace();
+            return -1;
         }
-
-
-        String[] fullBankArray = {};
-        String fullBankName = null;
-
-        if(!recHed.getFPRECHED_CUSBANK().isEmpty())
-        {
-            fullBankName = recHed.getFPRECHED_CUSBANK();
-            if(fullBankName.contains("-"))
-            {
-                //fullBankArray = fullBankName.split("-");
-                //fullBankName = new BankDS(context).getBankCodeAndBranchCodeByBankName(fullBankArray[0],fullBankArray[1]);
-                tvBank.setText(fullBankName.toString());
-            }
-        }
-
-
-        if (recHed.getFPRECHED_PAYTYPE().equals("CA"))
-        {
-            lnBank.setVisibility(View.GONE);
-            lnCHQno.setVisibility(View.GONE);
-            lnCHDate.setVisibility(View.GONE);
-        }
-        else if (recHed.getFPRECHED_PAYTYPE().equals("CH"))
-        {
-            //tvChequeOrCardNoText.setText("Cheque No");
-            lnBank.setVisibility(View.VISIBLE);
-            lnCHQno.setVisibility(View.VISIBLE);
-            lnCHDate.setVisibility(View.VISIBLE);
-            tvChqNo.setText(recHed.getFPRECHED_CHQNO());
-            tvChqDate.setText(recHed.getFPRECHED_CHQDATE());
-        }
-        else if (recHed.getFPRECHED_PAYTYPE().equals("CC"))
-        {
-            // tvChequeOrCardNoText.setText("Card No");
-            lnBank.setVisibility(View.GONE);
-            lnCHQno.setVisibility(View.VISIBLE);
-            lnCHDate.setVisibility(View.GONE);
-            tvChqNo.setText(recHed.getFPRECHED_CHQNO());
-        }
-        else if (recHed.getFPRECHED_PAYTYPE().equals("DD"))
-        {
-            // tvChequeOrCardNoText.setText("Slip No");
-            lnBank.setVisibility(View.GONE);
-            lnCHQno.setVisibility(View.VISIBLE);
-            lnCHDate.setVisibility(View.GONE);
-            tvChqNo.setText(recHed.getFPRECHED_CHQNO());
-        }
-        else if (recHed.getFPRECHED_PAYTYPE().equals("BD"))
-        {
-            // tvChequeOrCardNoText.setText("Draft No");
-            lnBank.setVisibility(View.GONE);
-            lnCHQno.setVisibility(View.VISIBLE);
-            lnCHDate.setVisibility(View.GONE);
-            tvChqNo.setText(recHed.getFPRECHED_CHQNO());
-        }
-
-        localSP = context.getSharedPreferences(SETTINGS, 0);//Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE
-        PRINTER_MAC_ID = new SharedPref(context).getGlobalVal("printer_mac_address").toString();
-        Log.v("mac_id", PRINTER_MAC_ID);
-
-        alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Log.v("", "***************************");
-                PrintCurrentview();
-            }
-        });
-
-        alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Intent intent = new Intent(context, DebtorDetailsActivity.class);
-                intent.putExtra("outlet", debtor);
-                context.startActivity(intent);
-                dialog.cancel();
-            }
-        });
-
-
-        AlertDialog alertD = alertDialogBuilder.create();
-        alertD.show();
-        Window window = alertD.getWindow();
-        window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        ListExpandHelper.getListViewSize(lvItemDetails);
-        return 0;
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
@@ -331,22 +269,16 @@ public class ReceiptPreviewAlertBox {
 
         String printGapAdjust = "                        ";
 
-        String SalesRepNamestr = "Sales Rep :" + salrep.getNAME().trim();
+        String SalesRepNamestr = "<RECEIPT>";
 
         int lengthDealE = SalesRepNamestr.length();
         int lengthDealEB = (LINECHAR - lengthDealE) / 2;
         String printGapAdjustE = printGapAdjust.substring(0, Math.min(lengthDealEB, printGapAdjust.length()));
         String subTitleheadF = printGapAdjustE + SalesRepNamestr;
 
-//        String SalesRepPhonestr = "Tele :" + salrep.getMOBILE().trim();
-//        int lengthDealF = SalesRepPhonestr.length();
-//        int lengthDealFB = (LINECHAR - lengthDealF) / 2;
-//        String printGapAdjustF = printGapAdjust.substring(0, Math.min(lengthDealFB, printGapAdjust.length()));
-//        String subTitleheadG = printGapAdjustF + SalesRepPhonestr;
-
         String subTitleheadH = printLineSeperator;
 
-        ReceiptHed recHed = new ReceiptController(context).getReceiptByRefno(PRefno);
+        ReceiptHed recHed = new ReceiptController(context).getReceiptByCommnRefNo(PRefno);
         Customer debtor = new CustomerController(context).getSelectedCustomerByCode(recHed.getFPRECHED_DEBCODE());
 
         int lengthDealI = debtor.getCusName().length();
@@ -405,23 +337,29 @@ public class ReceiptPreviewAlertBox {
         String printGapAdjustN = printGapAdjust.substring(0, Math.min(lengthDealNB, printGapAdjust.length()));
 
         String subTitleheadR;
+        String subTitleheadArea;
 
-        if (recHed.getFPRECHED_REMARKS().equals(""))
-            subTitleheadR = "Remarks : None";
-        else
-            subTitleheadR = "Remarks : " + recHed.getFPRECHED_REMARKS();
+        String repCode = new SalRepController(context).getCurrentRepCode();
+        SalRep salRep = new SalRepController(context).getSaleRepDet(repCode);
+
+        subTitleheadR = "" + salRep.getRepCode() + "/ " + salRep.getNAME();
+        String routecode = new RouteDetController(context).getRouteCodeByDebCode(debtor.getCusCode());
+        subTitleheadArea = ""+new RouteController(context).getAreaCodeByRouteCode(routecode);
 
         int lengthDealR = subTitleheadR.length();
         int lengthDealRB = (LINECHAR - lengthDealR) / 2;
         String printGapAdjustR = printGapAdjust.substring(0, Math.min(lengthDealRB, printGapAdjust.length()));
 
+        int lengthArea = subTitleheadArea.length();
+        int lengthAreaRB = (LINECHAR - lengthArea) / 2;
+        String printGapAdjustArea = printGapAdjust.substring(0, Math.min(lengthAreaRB, printGapAdjust.length()));
+
         subTitleheadM = printGapAdjustM + subTitleheadM;
-        // subTitleheadMD = printGapAdjustMD + subTitleheadMD;
         subTitleheadN = printGapAdjustN + subTitleheadN;
         subTitleheadR = printGapAdjustR + subTitleheadR;
+        subTitleheadArea = printGapAdjustArea + subTitleheadArea;
 
         String title_Print_F = "\r\n" + subTitleheadF;
-//        String title_Print_G = "\r\n" + subTitleheadG;
         String title_Print_H = "\r\n" + subTitleheadH;
 
         String title_Print_I = "\r\n" + subTitleheadI;
@@ -433,115 +371,85 @@ public class ReceiptPreviewAlertBox {
         String title_Print_M = "\r\n" + subTitleheadM;
         String title_Print_N = "\r\n" + subTitleheadN;
         String title_Print_R = "\r\n" + subTitleheadR;
+        String title_Print_Area = "\r\n" + subTitleheadArea;
 
         Heading_d = "";
         countCountInv = 0;
 
         if (subTitleheadK.toString().equalsIgnoreCase(" ") && subTitleheadK.toString()!= null) {
-            Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
-            // Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
+            Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R + title_Print_Area;
         } else
-            Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_L + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
-        // Heading_bmh = "\r" + title_Print_F + title_Print_G + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_L + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
 
-        String title_cb = "\r\nINVNO         INV DATE     TOT DUE     PAID ";
+            Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_L + title_Print_O + title_Print_M + title_Print_N + title_Print_R + title_Print_Area;
+
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*paymode details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+        String title_pay_mode = "\r\nPAYTYPE         BANK     CHQ NO     REC AMT ";
+
+        Heading_g = "\r\n" + printLineSeperator + title_pay_mode + "\r\n" + printLineSeperator;
+
+        ArrayList<PayMode> plist = new PayModeController(context).getPaidModesByCommonRef(PRefno);
+
+        String spc1,spc2,spc3,spc4,spc5;
+
+        for (PayMode payMode : plist) {
+
+            String PayType = payMode.getFPAYMODE_PAID_TYPE();
+            String Bank = payMode.getFPAYMODE_PAID_BANK();
+            String ChqNo = payMode.getFPAYMODE_PAID_CHEQUE_NO();
+            String ChqDate = "";
+
+            if (PayType.equals("CA")){
+                 ChqDate = payMode.getFPAYMODE_PAID_DATE();
+            }else if(PayType.equals("CH")){
+                 ChqDate = payMode.getFPAYMODE_PAID_CHEQUE_DATE();
+            }
+            String Amt = payMode.getFPAYMODE_PAID_AMOUNT();//String.format(Locale.US, "%,.2f", Double.parseDouble(recDet.getFPRECDET_ALOAMT()));;
+
+            Bank = Bank.substring(0,20).trim();
+
+            spc1 = padString("",(4 - (PayType.length())));
+            spc2 = padString("",(20 - (Bank.length())));
+            spc3 = padString("",(9 - (ChqNo.length())));
+            spc4 = padString("",(12 - (ChqDate.length())));
+            spc5 = padString("",(10 - (Amt.length())));
+
+            Heading_h += "\r\n" + PayType + spc1 + Bank  + spc2 + ChqNo + spc3 + ChqDate + spc4 + Amt ;
+        }
+
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*Set Total Received Title*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+
+        String title_tot_received = "\r\nTOTAL RECEIVED ";
+
+        Heading_e = "\r\n" + printLineSeperator + title_tot_received + "\r\n" + printLineSeperator;
+
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+        String title_cb = "\r\nINVNO         INV DATE     ALLOW AMT     BALANCE AMT ";
 
         Heading_b = "\r\n" + printLineSeperator + title_cb + "\r\n" + printLineSeperator;
 
-        /*-*-*-*-*-*-*-*-*-*-*-*-*-*Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+        /*-*-*-*-*-*-*-*-*-*-*-*-*-*item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-        ArrayList<ReceiptDet> list = new ReceiptDetController(context).GetReceiptByRefno(PRefno);
+        ArrayList<ReceiptDet> list = new ReceiptDetController(context).GetReceiptByCommonRefNo(PRefno);
 
         String SPACE1, SPACE2, SPACE3, SPACE4;
 
         for (ReceiptDet recDet : list) {
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = new Date();
-            long txn = 0;
 
             String Refno = recDet.getFPRECDET_SALEREFNO()+" ";
             String InvDate = recDet.getFPRECDET_DTXNDATE();
 
-            /*try {
-                date = (Date) formatter.parse(InvDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            System.out.println("receipt date is " + date.getTime());
-            txn = date.getTime();
-
-            String numOfDays =  String.valueOf(((System.currentTimeMillis() - txn) / DAY_IN_MILLIS));*/
 
             String BalAmt = String.format(Locale.US, "%.2f",Double.parseDouble(recDet.getFPRECDET_OVPAYAMT()));;
             String Amt = recDet.getFPRECDET_ALOAMT();//String.format(Locale.US, "%,.2f", Double.parseDouble(recDet.getFPRECDET_ALOAMT()));;
-            //SPACE1 = String.format("%" + (13 - (Refno.length())) + "s", " ");
             SPACE1 = padString("",(15 - (Refno.length())));
-            //SPACE2 = String.format("%" + (12 - (InvDate.length())) + "s", " ");
             SPACE2 = padString("",(13 - (InvDate.length())));
-            //SPACE3 = String.format("%" + (8 - (Amt.length())) + "s", " ");
-            SPACE3 = padString("",(9 - (BalAmt.length())));
-            //SPACE4 = String.format("%" + (7 - (numOfDays.length())) + "s", " ");
-            SPACE4 = padString("",(10 - (Amt.length())));
-            Heading_d += "\r\n" + Refno + SPACE1 + InvDate  + SPACE3 +BalAmt + SPACE4 + Amt;
-        }
+            SPACE3 = padString("",(10 - (Amt.length())));
+            SPACE4 = padString("",(9 - (BalAmt.length())));
 
-        /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-
-        String space;
-
-        space = String.format("%" + (LINECHAR - ("Total Allocation".length() + formatDecimal(recHed.getFPRECHED_TOTALAMT()).length())) + "s", " ");
-        String summaryTitle_c_Val = "Total Allocation" + space + formatDecimal(recHed.getFPRECHED_TOTALAMT());
-
-
-        String summaryTitle_e_Val = null;
-
-        if(recHed.getFPRECHED_PAYTYPE().equals("CH"))
-        {
-            space = String.format("%" + (LINECHAR - ("Pay Mode".length() + "CHEQUE".length())) + "s", " ");
-            summaryTitle_e_Val = "Pay Mode" + space + "CHEQUE";
-        }
-        else if(recHed.getFPRECHED_PAYTYPE().equals("CA"))
-        {
-            space = String.format("%" + (LINECHAR - ("Pay Mode".length() + "CASH".length())) + "s", " ");
-            summaryTitle_e_Val = "Pay Mode" + space + "CASH";
-        }
-
-        String summeryCHqNo = null,summeryCHqDate = null,summaryBank = null;
-
-        if(recHed.getFPRECHED_PAYTYPE().equals("CH"))
-        {
-            space = String.format("%" + (LINECHAR - ("Cheque No".length() + recHed.getFPRECHED_CHQNO().length())) + "s", " ");
-            summeryCHqNo = "Cheque No" + space + recHed.getFPRECHED_CHQNO();
-
-            space = String.format("%" + (LINECHAR - ("Cheque Date".length() + recHed.getFPRECHED_CHQDATE().length())) + "s", " ");
-            summeryCHqDate = "Cheque Date" + space + recHed.getFPRECHED_CHQDATE();
-
-            space = String.format("%" + (LINECHAR - ("Bank".length() + recHed.getFPRECHED_CUSBANK().length())) + "s", " ");
-            summaryBank = "Bank" + space + recHed.getFPRECHED_CUSBANK();
-        }
-        else if(recHed.getFPRECHED_PAYTYPE().equals("CC"))
-        {
-            space = String.format("%" + (LINECHAR - ("Card No".length() + recHed.getFPRECHED_CHQNO().length())) + "s", " ");
-            summeryCHqNo = "Card No" + space + recHed.getFPRECHED_CHQNO();
-
-            //space = String.format("%" + (LINECHAR - ("Cheque Date".length() + recHed.getFPRECHED_CHQDATE().length())) + "s", " ");
-            summeryCHqDate = "";
-        }
-        else if(recHed.getFPRECHED_PAYTYPE().equals("DD"))
-        {
-            space = String.format("%" + (LINECHAR - ("Slip No".length() + recHed.getFPRECHED_CHQNO().length())) + "s", " ");
-            summeryCHqNo = "Slip No" + space + recHed.getFPRECHED_CHQNO();
-
-            //space = String.format("%" + (LINECHAR - ("Cheque Date".length() + recHed.getFPRECHED_CHQDATE().length())) + "s", " ");
-            summeryCHqDate = "";
-        }
-        else if(recHed.getFPRECHED_PAYTYPE().equals("BD"))
-        {
-            space = String.format("%" + (LINECHAR - ("Draft No".length() + recHed.getFPRECHED_CHQNO().length())) + "s", " ");
-            summeryCHqNo = "Draft No" + space + recHed.getFPRECHED_CHQNO();
-
-            //space = String.format("%" + (LINECHAR - ("Cheque Date".length() + recHed.getFPRECHED_CHQDATE().length())) + "s", " ");
-            summeryCHqDate = "";
+            Heading_d += "\r\n" + Refno + SPACE1 + InvDate  + SPACE3 + Amt + SPACE4 + BalAmt;
         }
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
@@ -551,56 +459,26 @@ public class ReceiptPreviewAlertBox {
         int lengthsummarybottmline1 = (LINECHAR - lengthsummarybottm) / 2;
         String printGapbottmline1 = printGapAdjust.substring(0, Math.min(lengthsummarybottmline1, printGapAdjust.length()));
 
-//        String summaryBottom_cpoyline3 = "www.datamation.lk";
-//        int lengthsummarybotline3 = summaryBottom_cpoyline3.length();
-//        int lengthsummarybottmline3 = (LINECHAR - lengthsummarybotline3) / 2;
-//        String printGapbottmline3 = printGapAdjust.substring(0, Math.min(lengthsummarybottmline3, printGapAdjust.length()));
-//
-//        String summaryBottom_cpoyline2 = " +94 11 2 501202 / + 94 (0) 777 899899 ";
-//        int lengthsummarybotline2 = summaryBottom_cpoyline2.length();
-//        int lengthsummarybottmline2 = (LINECHAR - lengthsummarybotline2) / 2;
-//        String printGapbottmline2 = printGapAdjust.substring(0, Math.min(lengthsummarybottmline2, printGapAdjust.length()));
 
-        String bottomTitleString = "";
-
-        if (recHed.getFPRECHED_PAYTYPE().equals("CA"))
-        {
-            bottomTitleString = summaryTitle_c_Val + "\r\n\n" + summaryTitle_e_Val;
-
-        }
-        else if (recHed.getFPRECHED_PAYTYPE().equals("CH"))
-        {
-            bottomTitleString = summaryTitle_c_Val + "\r\n\n" + summaryTitle_e_Val + "\r\n" + summeryCHqNo + "\r\n" + summaryBank + "\r\n" + summeryCHqDate;
-        }
-        else
-        {
-            bottomTitleString = summaryTitle_c_Val + "\r\n\n" + summaryTitle_e_Val + "\r\n" + summeryCHqNo + "\r\n"  + summeryCHqDate;
-        }
-
-        String buttomTitlef = "\r\n\n\n" + "Receipt Accepted............................";
-        String buttomTitlefa = "\r\n\n\n" + "Please place The Rubber Stamp.";
         String buttomTitlecopyw = "\r\n\n\n" + printGapbottmline1 + summaryBottom_cpoyline1;
-//        String buttomTitlecopywbottom = "\r\n" + printGapbottmline2 + summaryBottom_cpoyline2;
-//        String buttomTitlecopywbottom3 = "\r\n" + printGapbottmline3 + summaryBottom_cpoyline3;
 
-        //  buttomRaw = "\r\n" + printLineSeperator + "\r\n" + bottomTitleString + "\r\n" + printLineSeperator + "\r\n" + buttomTitlef + buttomTitlefa + "\r\n" + printLineSeperator + buttomTitlecopyw + buttomTitlecopywbottom + buttomTitlecopywbottom3 + "\r\n\n\n\n\n\n\n" + printLineSeperator + "\n";
-        String buttomTitlec = "\r\n" + summaryTitle_c_Val;
-        String buttomTitlee = "\r\n" + summaryTitle_e_Val;
-        String buttomTitlefb = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Customer               Sales Executive";
-        buttomRaw = "\r\n" + printLineSeperator + "\r\n" + bottomTitleString + "\r\n" + printLineSeperator + "\r\n" + buttomTitlef +buttomTitlefb+ buttomTitlefa + "\r\n" + printLineSeperator + buttomTitlecopyw  + "\r\n\n\n\n\n\n\n" + printLineSeperator + "\n";
+        String buttomTitlefb = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Received by on behalf of                Dealers authorization of";
+        String buttomTitlef = "\r\n\n\n" + "     HS Marketing (Pvt) Ltd.                payment (Signature & Stamp)" + "\r\n" ;
+        buttomRaw = "\r\n" + printLineSeperator + "\r\n" + buttomTitlefb + "\r\n" + printLineSeperator + "\r\n" + buttomTitlef + "\r\n" + printLineSeperator + buttomTitlecopyw  + "\r\n\n\n\n\n\n\n" + printLineSeperator + "\n";
 
         callPrintDevice();
 
     }
 
     public void PrintCurrentview() {
-        //checkPrinter();
-        // if (PRINTER_MAC_ID.equals("404")) {
-        //    Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
-        //    Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
-        // } else {
-        printItems();
-        // }
+        checkPrinter();
+        if (PRINTER_MAC_ID.equals("404")) {
+            Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
+            Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
+        }
+        else {
+            printItems();
+        }
     }
 
 
@@ -616,12 +494,17 @@ public class ReceiptPreviewAlertBox {
         } else {
             PRINTER_MAC_ID = PRINTER_MAC_ID;
         }
+
+        if (PRINTER_MAC_ID.equals("404")) {
+            Log.v("", "No MAC Address Found.Enter Printer MAC Address.");
+            Toast.makeText(context, "No MAC Address Found.Enter Printer MAC Address.", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void callPrintDevice() {
         BILL = " ";
 
-        BILL = Heading_a + Heading_bmh + Heading_b + Heading_d + buttomRaw;
+        BILL = Heading_a + Heading_bmh + Heading_g + Heading_h + Heading_e + Heading_b + Heading_d + buttomRaw;
         Log.v("", "BILL :" + BILL);
         mBTAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -642,18 +525,10 @@ public class ReceiptPreviewAlertBox {
         } else {
             if (!mBTAdapter.isEnabled()) {
                 Intent intentBtEnabled = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                // int REQUEST_ENABLE_BT = 1;
-                // startActivityForResult(intentBtEnabled, REQUEST_ENABLE_BT);
             }
             printBillToDevice(PRINTER_MAC_ID);
-//            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-//            Intent intent = new Intent(context, DebtorDetailsActivity.class);
-//            intent.putExtra("outlet", debtor);
-//            context.startActivity(intent);
-            // registerReceiver(mReceiver, filter); // Don't forget to
-            // unregister
-            // during
-            // onDestroy
+            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+
 
         }
     }
@@ -690,7 +565,6 @@ public class ReceiptPreviewAlertBox {
 
         mBTAdapter.cancelDiscovery();
         try {
-            System.out.println("**************************#****connecting");
             BluetoothDevice mdevice = mBTAdapter.getRemoteDevice(address);
             Method m = mdevice.getClass().getMethod("createRfcommSocket", new Class[]{int.class});
             mBTSocket = (BluetoothSocket) m.invoke(mdevice, 1);
@@ -703,23 +577,12 @@ public class ReceiptPreviewAlertBox {
 
             if (mBTAdapter != null)
                 mBTAdapter.cancelDiscovery();
-
-
-
-            // setResult(RESULT_OK);
-            // finish();
         } catch (Exception e) {
-            Log.e("Class ", "fire 2 ", e);
-            // toast.createToastErrorMessage("Device has no MacAddress.Please Enter the MAC Address..",
-            // null);
             Toast.makeText(context, "Printer Device Disable Or Invalid MAC.Please Enable the Printer or MAC Address.", Toast.LENGTH_LONG).show();
+            Log.d(">>>BILL",">>>"+BILL);
             e.printStackTrace();
             this.PrintDetailsDialogbox(context, "", PRefno);
-            // setResult(RESULT_CANCELED);
-            // finish();
-
         }
-
     }
 
 
@@ -729,20 +592,6 @@ public class ReceiptPreviewAlertBox {
             str += " ";
         return str;
     }
-
-    // protected void onDestroy() {
-    // Log.i("Dest ", "Checking Ddest");
-    // //finish();
-    // try {
-    // if (dialogProgress != null)
-    // dialogProgress.dismiss();
-    // if (mBTAdapter != null)
-    // mBTAdapter.cancelDiscovery();
-    // this.unregisterReceiver(mReceiver);
-    // } catch (Exception e) {
-    // Log.e("Class ", "fire 3", e);
-    // }
-    // }
 
 }
 

@@ -670,4 +670,65 @@ public class ReceiptDetController {
 		return String.valueOf(total);
 	}
 
+	//------------------kaveesha----------09/11/2020-----------------------------
+	public ArrayList<ReceiptDet> GetReceiptByCommonRefNo(String CommonRefNo) {
+
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+		Cursor cursor = null;
+		ArrayList<ReceiptDet> list = new ArrayList<ReceiptDet>();
+
+		try {
+			String selectQuery = "SELECT * FROM " + TABLE_FPRECDETS + " WHERE " + FPRECDET_REFNO2 + " = '" + CommonRefNo + "' and "
+					+ ReceiptController.FPRECHED_ISDELETE + "='0'";
+
+			cursor = dB.rawQuery(selectQuery, null);
+
+			while (cursor.moveToNext()) {
+
+				ReceiptDet recDet = new ReceiptDet();
+
+				recDet.setFPRECDET_ALOAMT(cursor.getString(cursor.getColumnIndex(FPRECDET_ALOAMT)));
+				recDet.setFPRECDET_AMT(cursor.getString(cursor.getColumnIndex(FPRECDET_AMT)));
+				recDet.setFPRECDET_BAMT(cursor.getString(cursor.getColumnIndex(FPRECDET_BAMT)));
+				recDet.setFPRECDET_DCURCODE(cursor.getString(cursor.getColumnIndex(FPRECDET_DCURCODE)));
+				recDet.setFPRECDET_DCURRATE(cursor.getString(cursor.getColumnIndex(FPRECDET_DCURRATE)));
+				recDet.setFPRECDET_DTXNDATE(cursor.getString(cursor.getColumnIndex(FPRECDET_DTXNDATE)));
+				recDet.setFPRECDET_DTXNTYPE(cursor.getString(cursor.getColumnIndex(FPRECDET_DTXNTYPE)));
+				recDet.setFPRECDET_ID(cursor.getString(cursor.getColumnIndex(FPRECDET_ID)));
+				recDet.setFPRECDET_MANUREF(cursor.getString(cursor.getColumnIndex(FPRECDET_MANUREF)));
+				recDet.setFPRECDET_OCURRATE(cursor.getString(cursor.getColumnIndex(FPRECDET_OCURRATE)));
+				recDet.setFPRECDET_OVPAYAMT(cursor.getString(cursor.getColumnIndex(FPRECDET_OVPAYAMT)));
+				recDet.setFPRECDET_OVPAYBAL(cursor.getString(cursor.getColumnIndex(FPRECDET_OVPAYBAL)));
+				recDet.setFPRECDET_RECORDID(cursor.getString(cursor.getColumnIndex(FPRECDET_RECORDID)));
+				recDet.setFPRECDET_REFNO(cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO)));
+				recDet.setFPRECDET_REFNO1(cursor.getString(cursor.getColumnIndex(FPRECDET_REFNO1)));
+				recDet.setFPRECDET_REPCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.REPCODE)));
+				recDet.setFPRECDET_SALEREFNO(cursor.getString(cursor.getColumnIndex(FPRECDET_SALEREFNO)));
+				recDet.setFPRECDET_TIMESTAMP(cursor.getString(cursor.getColumnIndex(FPRECDET_TIMESTAMP)));
+				recDet.setFPRECDET_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
+				recDet.setFPRECDET_TXNTYPE(cursor.getString(cursor.getColumnIndex(FPRECDET_TXNTYPE)));
+				recDet.setFPRECDET_REMARK(cursor.getString(cursor.getColumnIndex(FPRECDET_REMARK)));
+				recDet.setFPRECDET_REFNO2(cursor.getString(cursor.getColumnIndex(FPRECDET_REFNO2)));
+				list.add(recDet);
+			}
+
+		} catch (Exception e) {
+
+			Log.v(TAG + " Exception", e.toString());
+
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			dB.close();
+		}
+
+		return list;
+
+	}
+
 }

@@ -476,6 +476,7 @@ public class ReceiptDetails extends Fragment {
                 recDet.setFPRECDET_REPCODE(recHed.getFPRECHED_REPCODE());
                 recDet.setFPRECDET_REMARK(recHed.getFPRECHED_REMARKS());
                 recDet.setFPRECDET_SALEREFNO(recHed.getFPRECHED_SALEREFNO());
+                recDet.setFPRECDET_ISDELETE("0");
                 //recDet.setFPRECDET_AMT(String.valueOf(balDueAmt -= Double.parseDouble(allocate.getFPAYMENT_ALLOCATE_PAY_ALLO_AMT())));
 
                 // PAID AMT CAN NOT BE '0' .................. NUWAN 20/02/2019 ........................

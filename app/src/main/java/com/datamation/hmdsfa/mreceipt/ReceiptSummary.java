@@ -357,7 +357,7 @@ public class ReceiptSummary extends Fragment {
                                     if (recHHedList.size() > 0) {
                                         new ReceiptController(getActivity()).UpdateRecHeadTotalAmount(recHed.getFPRECHED_REFNO());
                                         new ReceiptController(getActivity()).InactiveStatusUpdate(recHed.getFPRECHED_REFNO());
-                                        new ReceiptPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", recHed.getFPRECHED_REFNO());
+                                        new ReceiptPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview", commonRefNo);
 
                                         // to generate a new receipt ref no
                                         //new ReferenceNum(getActivity()).NumValueUpdate(getResources().getString(R.string.RecNumVal));
@@ -378,10 +378,6 @@ public class ReceiptSummary extends Fragment {
                                 new ReferenceNum(getActivity()).nNumValueInsertOrUpdate(getResources().getString(R.string.RecNumValCom));
 
                                 Toast.makeText(getActivity(), "Receipt saved successfully..!", Toast.LENGTH_SHORT).show();
-
-                                Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
-                                startActivity(intnt);
-                                getActivity().finish();
 
                                 dialog.dismiss();
                                 ClearSharedPref();

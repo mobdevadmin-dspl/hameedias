@@ -23,7 +23,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/blueColor"
             android:textSize="@dimen/font_size_small"
-             />
+            />
         <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_txndate"
             android:layout_width="0dp"
@@ -40,12 +40,12 @@
         <com.datamation.hmdsfa.utils.CustomFont
             android:visibility="gone"
             android:id="@+id/repName"
-         android:layout_width="0dp"
-         android:layout_height="wrap_content"
-         android:layout_marginLeft="1dp"
-         android:layout_marginRight="1dip"
-         android:layout_weight="1.0"
-          android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.0"
+            android:gravity="center"
             android:text="Rep"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/greenColor"
@@ -75,7 +75,7 @@
             android:layout_marginRight="1dip"
             android:layout_weight="2.5"
             android:gravity="center"
-            android:text="Due amt"
+            android:text="Allq amt"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/greenColor"
             android:textSize="@dimen/font_size_small"
@@ -89,7 +89,7 @@
             android:layout_marginRight="1dip"
             android:layout_weight="2.5"
             android:gravity="center"
-            android:text="Amt"
+            android:text="BAmt"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/greenColor"
             android:textSize="@dimen/font_size_small"
@@ -106,8 +106,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/greenColor"
             android:textSize="@dimen/font_size_small"
+            android:visibility="gone"
             />
-        
+
 
     </LinearLayout>
 

@@ -27,7 +27,7 @@ public class PrintReceiptAdapter extends ArrayAdapter<ReceiptDet> {
 
     public PrintReceiptAdapter(Context context, ArrayList<ReceiptDet> list, String RefNo) {
 
-        super(context, R.layout.row_receipt_details, list);
+        super(context, R.layout.row_receipt_details1, list);
         this.context = context;
         this.list = list;
         this.Refno = RefNo;
@@ -36,68 +36,19 @@ public class PrintReceiptAdapter extends ArrayAdapter<ReceiptDet> {
     @Override
     public View getView(int position, View convertView, final ViewGroup parent) {
 
-        long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-        ReceiptController reched = new ReceiptController(context);
-        Date date, cDate = new Date();
-        String chqno = "";
-        long txn = 0;
-        long current = 0;
-        try {
-            date = (Date) formatter.parse(list.get(position).getFPRECDET_DTXNDATE());
-            System.out.println("receipt date is " + date.getTime());
-            txn = date.getTime();
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date currentDate = new Date();
-        String curDate = dateFormat.format(currentDate);
-
-        try {
-            cDate = (Date) formatter.parse(reched.getChequeDate(Refno));
-            chqno = reched.getChequeNo(Refno);
-            current = cDate.getTime();
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = mInflater.inflate(R.layout.row_receipt_details, parent, false);
-
-        int numOfDays = (int) ((System.currentTimeMillis() - txn) / DAY_IN_MILLIS);
+        View row = mInflater.inflate(R.layout.row_receipt_details1, parent, false);
 
         TextView Refno = (TextView) row.findViewById(R.id.row_refno);
         TextView TxnDate = (TextView) row.findViewById(R.id.row_txndate);
-        TextView RepName = (TextView) row.findViewById(R.id.repName);
-        //TextView DateDiff = (TextView) row.findViewById(R.id.dateDiff);
-        TextView dueAmt = (TextView) row.findViewById(R.id.row_dueAmt);
-        TextView Amt = (TextView) row.findViewById(R.id.row_Amt);
-        TextView Days = (TextView) row.findViewById(R.id.days);
+        TextView AlloAmt = (TextView) row.findViewById(R.id.row_dueAmt);
+        TextView BAmt = (TextView) row.findViewById(R.id.row_Amt);
 
-        SalRepController rep = new SalRepController(context);
+        Refno.setText(list.get(position).getFPRECDET_REFNO());
+        TxnDate.setText(list.get(position).getFPRECDET_TXNDATE());
+        AlloAmt.setText(String.format("%,.2f", Double.parseDouble(list.get(position).getFPRECDET_ALOAMT())));
+        BAmt.setText(String.format("%,.2f", Double.parseDouble(list.get(position).getFPRECDET_BAMT())));
 
-        int datediff = 0;
-
-        if (chqno.length() > 0) {
-            datediff = (int) ((current - txn) / DAY_IN_MILLIS);
-        } else {
-            datediff = numOfDays;
-        }
-
-        Refno.setText(list.get(position).getFPRECDET_SALEREFNO());
-        TxnDate.setText(list.get(position).getFPRECDET_DTXNDATE());
-        if (rep.getSaleRep(list.get(position).getFPRECDET_REPCODE()).equals(null)) {
-            RepName.setText("Not Set");
-        } else {
-            RepName.setText("" + rep.getSaleRep(list.get(position).getFPRECDET_REPCODE()));
-        }
-        //DateDiff.setText("" + datediff);
-        dueAmt.setText(String.format("%,.2f", Double.parseDouble(list.get(position).getFPRECDET_OVPAYAMT())));
-        Amt.setText(String.format("%,.2f", Double.parseDouble(list.get(position).getFPRECDET_ALOAMT())));
-        Days.setText("" + numOfDays);
 
         return row;
 

@@ -87,7 +87,8 @@
             android:text="Days"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/greenColor"
-            android:textSize="@dimen/customer_listview_text_size2" />
+            android:textSize="@dimen/customer_listview_text_size2"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

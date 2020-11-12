@@ -5,90 +5,80 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:weightSum="11"
+        android:weightSum="9.5"
         android:orientation="horizontal" >
 
         <com.datamation.hmdsfa.utils.CustomFont
-            android:id="@+id/row_refno"
+            android:id="@+id/row_paytype"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="2"
+            android:gravity="left"
+            android:text="PayType"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/blueColor"
+            android:textSize="@dimen/font_size_small"
+             />
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:id="@+id/row_bank"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1.5"
+            android:gravity="left"
+            android:text="Bank"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/font_size_small"
+            />
+
+        <com.datamation.hmdsfa.utils.CustomFont
+            android:id="@+id/row_chqno"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dip"
             android:layout_marginRight="1dip"
             android:layout_weight="2.5"
             android:gravity="center"
-            android:text="RefNo"
+            android:text="Chq No"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/blueColor"
-            android:textSize="@dimen/customer_listview_text_size2" />
+            android:textColor="@color/greenColor"
+            android:textSize="@dimen/font_size_small"
+            />
 
         <com.datamation.hmdsfa.utils.CustomFont
-            android:id="@+id/row_txndate"
+            android:id="@+id/row_chqdate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dip"
             android:layout_marginRight="1dip"
-            android:layout_weight="2.0"
+            android:layout_weight="2.5"
             android:gravity="center"
-            android:text="Date"
+            android:text="Chq Date"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/greenColor"
-            android:textSize="@dimen/customer_listview_text_size2" />
-
-        <!--<com.datamation.hmdsfa.utils.CustomFont-->
-            <!--android:id="@+id/dateDiff"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dip"-->
-            <!--android:layout_marginRight="1dip"-->
-            <!--android:layout_weight="0.75"-->
-            <!--android:gravity="center"-->
-            <!--android:text="DD"-->
-            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-            <!--android:textColor="@color/greenColor"-->
-            <!--android:textSize="@dimen/font_size_small" />-->
-
-        <com.datamation.hmdsfa.utils.CustomFont
-            android:id="@+id/row_dueAmt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1dip"
-            android:layout_marginRight="1dip"
-            android:layout_weight="3.0"
-            android:gravity="right"
-            android:text="Due amt"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/greenColor"
-            android:textSize="@dimen/customer_listview_text_size2" />
-
+            android:textSize="@dimen/font_size_small"
+            />
         <com.datamation.hmdsfa.utils.CustomFont
             android:id="@+id/row_Amt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dip"
             android:layout_marginRight="1dip"
-            android:layout_weight="2.5"
-            android:gravity="right"
-            android:text="0.00"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/greenColor"
-            android:textSize="@dimen/customer_listview_text_size2" />
-
-        <com.datamation.hmdsfa.utils.CustomFont
-            android:id="@+id/days"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="1dip"
-            android:layout_weight="1.0"
+            android:layout_weight="1"
             android:gravity="center"
-            android:text="Days"
+            android:text="Amt"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/greenColor"
-            android:textSize="@dimen/customer_listview_text_size2"
-            android:visibility="gone"/>
+            android:textSize="@dimen/font_size_small"
+            />
+        
 
     </LinearLayout>
 
