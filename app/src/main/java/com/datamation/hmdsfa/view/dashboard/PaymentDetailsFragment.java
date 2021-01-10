@@ -260,7 +260,7 @@ public class PaymentDetailsFragment extends Fragment  {
                 viewHolder.printReceipt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        printReceipt(paymentPinHolders.get(position).getFPRECDET_REFNO());
+                        printReceipt(paymentPinHolders.get(position).getFPRECDET_REFNO2());
                     }
                 });
             }

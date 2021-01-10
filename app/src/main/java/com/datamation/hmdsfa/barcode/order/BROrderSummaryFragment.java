@@ -66,7 +66,7 @@ public class BROrderSummaryFragment extends Fragment {
     public static final String SETTINGS = "PreSalesSummary";
     public static SharedPreferences localSP;
     View view;
-    TextView lblGross, lblReturnQty, lblReturn, lblNetVal, lblReplacements, lblQty,lblSummaryHeader;
+    TextView lblGross, lblReturnQty, lblReturn, lblNetVal, lblDiscount, lblQty,lblSummaryHeader;
     SharedPref mSharedPref;
     String RefNo = null, customerName = "" , ReturnRefNo = null;
     ArrayList<OrderDetail> list;
@@ -104,7 +104,7 @@ public class BROrderSummaryFragment extends Fragment {
         lblSummaryHeader = (TextView) view.findViewById(R.id.summary_header);
         lblReturn = (TextView) view.findViewById(R.id.lbl_return_tot);
         lblReturnQty = (TextView) view.findViewById(R.id.lblReturnQty);
-        lblReplacements = (TextView) view.findViewById(R.id.lblReplacement);
+        lblDiscount = (TextView) view.findViewById(R.id.lblDiscount);
         lblGross = (TextView) view.findViewById(R.id.lblGross_Inv);
         lblQty = (TextView) view.findViewById(R.id.lblQty_Inv);
 
@@ -320,7 +320,7 @@ public class BROrderSummaryFragment extends Fragment {
         lblNetVal.setText(String.format("%.2f", (Double.parseDouble(amt)-totalReturn)));
 
         lblReturnQty.setText(String.valueOf(returnQty));
-        lblReplacements.setText(String.format("%.2f",  fTotLineDisc));
+        lblDiscount.setText(String.format("%.2f",  fTotLineDisc));
 
 
     }
@@ -421,7 +421,7 @@ public class BROrderSummaryFragment extends Fragment {
                     ordHed.setORDER_BPTOTALDIS("0");
                     ordHed.setORDER_BTOTALAMT("0");
                     ordHed.setORDER_TOTALTAX("0");
-                    ordHed.setORDER_TOTALDIS(lblReplacements.getText().toString());
+                    ordHed.setORDER_TOTALDIS(lblDiscount.getText().toString());
                     ordHed.setORDER_TOTALAMT(lblNetVal.getText().toString());
                     ordHed.setORDER_TXNDATE(presale.getORDER_TXNDATE());
                     ordHed.setORDER_REPCODE(new SalRepController(getActivity()).getCurrentRepCode());

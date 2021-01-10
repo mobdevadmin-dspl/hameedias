@@ -131,7 +131,7 @@ public class VanSalesSummary extends Fragment {
         lblNetVal = (TextView) view.findViewById(R.id.lblNetVal_Inv);
         lblReturn = (TextView) view.findViewById(R.id.lbl_return_tot);
         lblReturnQty = (TextView) view.findViewById(R.id.lblReturnQty);
-        lblReplacements = (TextView) view.findViewById(R.id.lblReplacement);
+        lblReplacements = (TextView) view.findViewById(R.id.lblDiscount);
         lblGross = (TextView) view.findViewById(R.id.lblGross_Inv);
         lblQty = (TextView) view.findViewById(R.id.lblQty_Inv);
 

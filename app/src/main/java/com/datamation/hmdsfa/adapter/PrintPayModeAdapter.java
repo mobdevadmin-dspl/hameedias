@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.controller.BankController;
 import com.datamation.hmdsfa.controller.ReceiptController;
 import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.model.PayMode;
@@ -48,7 +49,7 @@ public class PrintPayModeAdapter extends ArrayAdapter<PayMode>  {
             TextView Amt = (TextView) row.findViewById(R.id.row_Amt);
 
             PayType.setText(list.get(position).getFPAYMODE_PAID_TYPE());
-            Bank.setText(list.get(position).getFPAYMODE_PAID_BANK());
+            Bank.setText(new BankController(context).getBankNamebyCode(list.get(position).getFPAYMODE_PAID_BANK()));
             ChqNo.setText(list.get(position).getFPAYMODE_PAID_CHEQUE_NO());
 
             if(list.get(position).getFPAYMODE_PAID_TYPE().equals("CA")){

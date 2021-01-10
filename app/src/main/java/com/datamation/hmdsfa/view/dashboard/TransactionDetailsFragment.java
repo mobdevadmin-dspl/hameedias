@@ -583,11 +583,12 @@ public class TransactionDetailsFragment extends Fragment {
             public void onClick(View view) {
 
                 if (reason.length() > 0 && !reason.getText().toString().equals("")) {
-                    new InvHedController(getActivity()).updateDeleteReason(refno,reason.getText().toString());
+
                     ArrayList<InvHed> logHedList = new InvHedController(getActivity()).getAllUnsyncedforLog();
                     new InvHedController(getActivity()).createOrUpdateInvHedLog(logHedList);
                     ArrayList<InvDet> logDetList = new InvDetController(getActivity()).getAllInvDet(refno);
                     new InvDetController(getActivity()).createOrUpdateBCInvDetLog(logDetList);
+                    new InvHedController(getActivity()).updateDeleteReason(refno,reason.getText().toString());
                     new ItemLocController(getActivity()).UpdateVanStock(refno,"+",new SalRepController(getActivity()).getCurrentLoccode().trim());
                     int result = new InvHedController(getActivity()).restDataBC(refno);
                     if (result>0) {

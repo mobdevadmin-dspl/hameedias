@@ -36,7 +36,7 @@ public class ItemLocController
     // create String
     public static final String CREATE_FITEMLOC_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_FITEMLOC + " (" + FITEMLOC_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FITEMLOC_BARCODE + " TEXT, " + FITEMLOC_ITEM_CODE+ " TEXT, " + FITEMLOC_LOC_CODE + " TEXT, " + FITEMLOC_QOH+ " TEXT); ";
 
-    public static final String TESTITEMLOC = "CREATE UNIQUE INDEX IF NOT EXISTS idxitemloc_something ON " + TABLE_FITEMLOC + " (" + FITEMLOC_ITEM_CODE + "," + FITEMLOC_LOC_CODE + ")";
+    public static final String TESTITEMLOC = "CREATE UNIQUE INDEX IF NOT EXISTS idxitemloc_something ON " + TABLE_FITEMLOC + " (" + FITEMLOC_ITEM_CODE + "," + FITEMLOC_LOC_CODE + "," + FITEMLOC_BARCODE + ")";
     // table
 
     public ItemLocController(Context context) {

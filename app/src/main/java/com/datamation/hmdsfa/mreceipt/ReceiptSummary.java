@@ -189,15 +189,16 @@ public class ReceiptSummary extends Fragment {
                 new PayModeController(getActivity()).clearAllPayModeS();
                 new PaymentAllocateController(getActivity()).clearAllPayAllocS();
 
-                ArrayList<PaymentAllocate>refList = new PaymentAllocateController(getActivity()).getRefNoByCommonRef(commonRefNo);
+                ArrayList<PaymentAllocate> refList = new PaymentAllocateController(getActivity()).getRefNoByCommonRef(commonRefNo);
 
                 if (refList.size()>0)
                 {
                     for (PaymentAllocate paymentAllocate: refList)
                     {
-                        new ReceiptController(getActivity()).CancelReceiptS(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO());
-                        new ReceiptDetController(getActivity()).restData(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO());
+//   menaka 09-01-2021                     new ReceiptController(getActivity()).CancelReceiptS(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO());
+//   menaka 09-01-2021                     new ReceiptDetController(getActivity()).restData(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO());
 //                        new PaymentAllocateController(getActivity()).clearPaymentAlloc(paymentAllocate.getFPAYMENT_ALLOCATE_REFNO());
+                        new ReceiptController(getActivity()).CancelActiveReceiptS();
                     }
                 }
                 else

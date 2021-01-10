@@ -301,8 +301,10 @@ public class DiscountController {
         /* For each invoice object inside ordeArrList ArrayList */
         for (OrderDetail mTranSODet : ordArrList) {
             Discount discountdets = null;
-            String productgroup = new ItemBundleController(context).getProductGroup(mTranSODet.getFORDERDET_ITEMCODE(),mTranSODet.getFORDERDET_BARCODE());
-//2020-07-15 by rashmi
+//Original 09-11-2020            String productgroup = new ItemBundleController(context).getProductGroup(mTranSODet.getFORDERDET_ITEMCODE(),mTranSODet.getFORDERDET_BARCODE()); //2020-07-15 by rashmi
+            //Original 09-11-2020             String productgroup = new ItemBundleController(context).getProductGroup(mTranSODet.getFORDERDET_ITEMCODE(),debcode); //2020-11-09 by Menaka
+            String productgroup = new ItemController(context).getItemGroupByCode(mTranSODet.getFORDERDET_ITEMCODE(),debcode);
+
             if(new SharedPref(context).getGlobalVal("KeyPayType").equals("CASH")){
                 if(productgroup.equals("")) {
                     discountdets = getSchemeByItemCode("OTHERS", debcode, "ProductCashDis");
@@ -325,9 +327,9 @@ public class DiscountController {
                 mTranSODet.setFORDERDET_DISPER(discountdets.getProductDis());
                 mTranSODet.setFORDERDET_DISAMT(String.valueOf(discPrice* (Double.parseDouble(mTranSODet.getFORDERDET_QTY()))));
                 if(new CustomerController(context).getCustomerVatStatus(new SharedPref(context).getSelectedDebCode()).trim().equals("VAT"))
-                    mTranSODet.setFORDERDET_BSELLPRICE(String.valueOf((Double.parseDouble(mTranSODet.getFORDERDET_BSELLPRICE())) - discPrice));//pass for calculate tax forqow
+                    mTranSODet.setFORDERDET_BSELLPRICE(String.valueOf((Double.parseDouble(mTranSODet.getFORDERDET_SELLPRICE())) - discPrice));//pass for calculate tax forqow
                 else
-                    mTranSODet.setFORDERDET_BSELLPRICE(String.valueOf(Double.parseDouble(mTranSODet.getFORDERDET_BSELLPRICE())));//pass for calculate tax forqow
+                    mTranSODet.setFORDERDET_BSELLPRICE(String.valueOf(Double.parseDouble(mTranSODet.getFORDERDET_SELLPRICE())- discPrice));//pass for calculate tax forqow
             }else{
                 mTranSODet.setFORDERDET_SCHDISPER("0");
                 mTranSODet.setFORDERDET_DISPER("0");

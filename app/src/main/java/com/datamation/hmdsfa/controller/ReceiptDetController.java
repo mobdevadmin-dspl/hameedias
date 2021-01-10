@@ -97,9 +97,10 @@ public class ReceiptDetController {
 		ArrayList<ReceiptDet> list = new ArrayList<ReceiptDet>();
 
 		try {
-			String selectQuery = "select hed.IsSynced, hed.refno, det.RefNo1, hed.paytype,det.aloamt, fddb.totbal, det.dtxndate from fprecheds hed, fprecdets det," +
+			String selectQuery = "select hed.IsSynced, hed.refno, det.RefNo1, det.RefNo2, hed.paytype,det.aloamt, fddb.totbal, det.dtxndate from fprecheds hed, fprecdets det," +
 					//			" fddbnote fddb where hed.refno = det.refno and det.FPRECDET_REFNO1 = fddb.refno and hed.txndate = '2019-04-12'";
-					" fddbnote fddb where hed.refno = det.refno and det.RefNo1 = fddb.refno and hed.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
+					" fddbnote fddb where hed.refno = det.refno and det.RefNo1 = fddb.refno ";
+//			" fddbnote fddb where hed.refno = det.refno and det.RefNo1 = fddb.refno and hed.txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
 			cursor = dB.rawQuery(selectQuery, null);
 
@@ -115,6 +116,7 @@ public class ReceiptDetController {
 				recDet.setFPRECDET_AMT(cursor.getString(cursor.getColumnIndex(OutstandingController.FDDBNOTE_TOT_BAL)));
 				recDet.setFPRECDET_TXNDATE(cursor.getString(cursor.getColumnIndex(FPRECDET_DTXNDATE)));
 				recDet.setFPRECDET_ISDELETE(cursor.getString(cursor.getColumnIndex(ReceiptController.FPRECHED_ISSYNCED)));
+				recDet.setFPRECDET_REFNO2(cursor.getString(cursor.getColumnIndex(FPRECDET_REFNO2)));
 
 				list.add(recDet);
 			}

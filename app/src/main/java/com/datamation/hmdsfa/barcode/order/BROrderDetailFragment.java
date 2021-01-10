@@ -641,7 +641,7 @@ public class BROrderDetailFragment extends Fragment{
         SODet.setFORDERDET_SEQNO(new OrderDetailController(getActivity()).getLastSequnenceNo(RefNo));
         SODet.setFORDERDET_TAXCOMCODE(new ItemController(getActivity()).getTaxComCodeByItemCodeBeforeDebTax(itemCode, mSharedPref.getSelectedDebCode()));
         SODet.setFORDERDET_BTSELLPRICE(String.format("%.2f", unitprice));
-        SODet.setFORDERDET_TSELLPRICE(String.format("%.2f", unitprice));
+        SODet.setFORDERDET_TSELLPRICE(price); // should be price
         SODet.setFORDERDET_TXNTYPE("21");
         SODet.setFORDERDET_LOCCODE("MS");
         SODet.setFORDERDET_TXNDATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));

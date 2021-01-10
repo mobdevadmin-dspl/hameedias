@@ -14,6 +14,7 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.helpers.ValueHolder;
+import com.datamation.hmdsfa.model.PayMode;
 import com.datamation.hmdsfa.model.ReceiptHed;
 
 
@@ -306,6 +307,47 @@ public class ReceiptController {
 
 	}
 
+	public ArrayList<PayMode> getPaidModesByCommonRef(String comRefNo) {
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+
+		ArrayList<PayMode> list = new ArrayList<PayMode>();
+		try {
+
+			String selectQuery;
+
+			selectQuery = "select * from " + TABLE_FPRECHEDS + " WHERE " + " MRefNo ='" + comRefNo + "'" ;
+
+			Cursor cursor = dB.rawQuery(selectQuery, null);
+
+			while (cursor.moveToNext()) {
+
+				PayMode payMode = new PayMode();
+
+				payMode.setFPAYMODE_PAID_TYPE(cursor.getString(cursor.getColumnIndex(FPRECHED_PAYTYPE)));
+				payMode.setFPAYMODE_PAID_CHEQUE_NO(cursor.getString(cursor.getColumnIndex(FPRECHED_CHQNO)));
+				payMode.setFPAYMODE_PAID_DATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
+				payMode.setFPAYMODE_PAID_AMOUNT(cursor.getString(cursor.getColumnIndex(FPRECHED_TOTALAMT)));
+				payMode.setFPAYMODE_PAID_CHEQUE_DATE(cursor.getString(cursor.getColumnIndex(FPRECHED_CHQDATE)));
+				payMode.setFPAYMODE_PAID_BANK(cursor.getString(cursor.getColumnIndex(FPRECHED_BANKCODE)));
+
+				list.add(payMode);
+
+			}
+			cursor.close();
+		} catch (Exception e) {
+			Log.v(TAG, e.toString());
+
+		} finally {
+			dB.close();
+		}
+
+		return list;
+	}
+
 	/*
 	 * create for single receipt
 	 */
@@ -580,6 +622,29 @@ public class ReceiptController {
 		try {
 			result = dB.delete(TABLE_FPRECHEDS, ValueHolder.REFNO + "=?",
 					new String[] { Refno });
+
+		} catch (Exception e) {
+
+			Log.v(TAG + " Exception", e.toString());
+
+		} finally {
+			dB.close();
+		}
+
+		return result;
+	}
+
+	public int CancelActiveReceiptS() {
+
+		if (dB == null) {
+			open();
+		} else if (!dB.isOpen()) {
+			open();
+		}
+		int result = 0;
+		try {
+			result = dB.delete(TABLE_FPRECHEDS, FPRECHED_ISACTIVE + "=?",
+					new String[] { "1" });
 
 		} catch (Exception e) {
 

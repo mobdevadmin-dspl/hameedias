@@ -545,28 +545,36 @@ public class ReceiptDetails extends Fragment {
                 recHed1.setFPRECHED_END_TIME(currentTime());
                 recHed1.setFPRECHED_START_TIME(recHed.getFPRECHED_START_TIME());
                 Double balAmt = Double.parseDouble(allocate.getFPAYMENT_ALLOCATE_FDD_TOTAL_BAL());
+                Double paidamt = Double.parseDouble(allocate.getFPAYMENT_ALLOCATE_FDD_PAID_AMT());
                 if(allocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_NO() != null )
                 {
                     recHed1.setFPRECHED_CHQNO(allocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_NO());
                     recHed1.setFPRECHED_CHQDATE(allocate.getFPAYMENT_ALLOCATE_PAY_CHEQUE_DATE());
-                }else
-                {
-                    recHed1.setFPRECHED_CHQNO("");
-                    recHed1.setFPRECHED_CHQDATE("");
-                }
-                recHed1.setFPRECHED_TOTALAMT(String.valueOf(balAmt));
-                recHed1.setFPRECHED_BTOTALAMT(String.valueOf(balAmt));
-                recHed1.setFPRECHED_PAYTYPE(allocate.getFPAYMENT_ALLOCATE_PAY_MODE());
-                if(allocate.getFPAYMENT_ALLOCATE_PAY_BANK() != null ) {
                     recHed1.setFPRECHED_CUSBANK(allocate.getFPAYMENT_ALLOCATE_PAY_BANK());
                     recHed1.setFPRECHED_BANKCODE(allocate.getFPAYMENT_ALLOCATE_PAY_BANK());
                     recHed1.setFPRECHED_BRANCHCODE("");
                 }else
                 {
+                    recHed1.setFPRECHED_CHQNO("");
+                    recHed1.setFPRECHED_CHQDATE("");
                     recHed1.setFPRECHED_CUSBANK("");
                     recHed1.setFPRECHED_BANKCODE("");
                     recHed1.setFPRECHED_BRANCHCODE("");
                 }
+                recHed1.setFPRECHED_TOTALAMT(String.valueOf(paidamt));
+//                recHed1.setFPRECHED_BTOTALAMT(String.valueOf(balAmt));
+//                recHed1.setFPRECHED_BTOTALAMT(String.valueOf(recHed.));
+                recHed1.setFPRECHED_PAYTYPE(allocate.getFPAYMENT_ALLOCATE_PAY_MODE());
+//                if(allocate.getFPAYMENT_ALLOCATE_PAY_BANK() != null ) {
+//                    recHed1.setFPRECHED_CUSBANK(allocate.getFPAYMENT_ALLOCATE_PAY_BANK());
+//                    recHed1.setFPRECHED_BANKCODE(allocate.getFPAYMENT_ALLOCATE_PAY_BANK());
+//                    recHed1.setFPRECHED_BRANCHCODE("");
+//                }else
+//                {
+//                    recHed1.setFPRECHED_CUSBANK("");
+//                    recHed1.setFPRECHED_BANKCODE("");
+//                    recHed1.setFPRECHED_BRANCHCODE("");
+//                }
                 recHed1.setFPRECHED_COMMON_RENNO(allocate.getFPAYMENT_ALLOCATE_COMMON_REFNO());
 
 //                mainActivity.selectedRecHed = recHed1;
@@ -992,7 +1000,7 @@ public class ReceiptDetails extends Fragment {
                                 payMode.setFPAYMODE_PAID_TYPE("CH");
                                 payMode.setFPAYMODE_PAID_AMOUNT(txtReceAmt.getText().toString());
                                 payMode.setFPAYMODE_PAID_DATE(setCurrentDate());
-                                payMode.setFPAYMODE_PAID_BANK(new BankController(getActivity()).getBankbyCode(spnBank.getSelectedItem().toString().split("-")[0].trim()));
+                                payMode.setFPAYMODE_PAID_BANK(spnBank.getSelectedItem().toString().split("-")[0].trim());
                                 payMode.setFPAYMODE_PAID_CHEQUE_DATE(reciptDate.getText().toString());
                                 payMode.setFPAYMODE_PAID_CHEQUE_NO(txtCHQNO.getText().toString());
 

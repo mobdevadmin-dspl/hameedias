@@ -325,7 +325,7 @@
                 <ListView
                     android:id="@+id/paymodelist"
                     android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:divider="#8b8b83"
                     android:dividerHeight="1dp"
                     android:drawSelectorOnTop="false"></ListView>

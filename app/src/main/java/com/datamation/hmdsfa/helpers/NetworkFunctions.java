@@ -152,23 +152,23 @@ public class NetworkFunctions {
 
     }
 
-    public String getItems(String repCode) throws IOException {
+    public String getItems(String repCode,String reptype) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting fItems : " + baseURL + "fItems" + restOfURL + "/" + repCode + params);
+        Log.d(LOG_TAG, "Getting fItems : " + baseURL + "fItems" + restOfURL + "/" + repCode+ "/"+reptype + params);
 
-        return getFromServer(baseURL + "fItems" + restOfURL + "/" + repCode, params);
+        return getFromServer(baseURL + "fItems" + restOfURL + "/" + repCode+ "/"+reptype, params);
 
     }
 
-    public String getSalesPrice(String repCode) throws IOException {
+    public String getSalesPrice(String repCode,String reptype) throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting Salesprice : " + baseURL + "Salesprice" + restOfURL + "/"+ repCode + params);
+        Log.d(LOG_TAG, "Getting Salesprice : " + baseURL + "Salesprice" + restOfURL + "/"+ repCode+ "/"+reptype + params);
 
-        return getFromServer(baseURL + "Salesprice" + restOfURL+ "/" + repCode , params);
+        return getFromServer(baseURL + "Salesprice" + restOfURL+ "/" + repCode + "/"+reptype, params);
 
     }
 

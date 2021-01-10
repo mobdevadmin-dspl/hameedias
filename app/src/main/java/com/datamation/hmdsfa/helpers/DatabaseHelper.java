@@ -249,11 +249,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //            Log.v("SQLiteException", e.toString());
 //        }
 //
-//        try {
-//            arg0.execSQL("ALTER TABLE ItemBundle ADD COLUMN Description TEXT DEFAULT ''");
-//        } catch (SQLiteException e) {
-//            Log.v("SQLiteException", e.toString());
-//        }
+        try {
+            arg0.execSQL("DROP INDEX IF EXISTS idxitemloc_something ");
+            arg0.execSQL(ItemLocController.TESTITEMLOC);
+        } catch (SQLiteException e) {
+            Log.v("SQLiteException", e.toString());
+        }
 
         try {
 
@@ -297,7 +298,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(CompanyDetailsController.CREATE_DOWNLOAD_TABLE);
             arg0.execSQL(PayModeController.CREATE_TABLE_FPAYMODE);
             arg0.execSQL(PaymentAllocateController.CREATE_TABLE_FPAYMENT_ALLOCATE);
-
+            arg0.execSQL(ItemLocController.TESTITEMLOC);
 
         } catch (SQLiteException e) {
         }

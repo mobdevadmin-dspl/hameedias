@@ -296,6 +296,7 @@ public class ActivitySplash extends AppCompatActivity{
                         if (NetworkUtil.isNetworkAvailable(ActivitySplash.this))
                         {
                             pref.setBaseURL(URL);
+                            Toast.makeText(ActivitySplash.this, "Inside Validate Dialog", Toast.LENGTH_LONG).show();
                             //new Validate(pref.getMacAddress().trim(),URL).execute();
                             Validate(pref.getMacAddress().trim());
                             //TODO: validate uname pwd with server details
@@ -466,7 +467,7 @@ public class ActivitySplash extends AppCompatActivity{
     }
 
     private void Validate(String macId){//2020-03-19- by rashmi
-
+        Toast.makeText(ActivitySplash.this, "Validate "+macId, Toast.LENGTH_LONG).show();
         try{
             ApiInterface apiInterface = ApiCllient.getClient(ActivitySplash.this).create(ApiInterface.class);
             Call<ReadJsonList> resultCall = apiInterface.getSalRepResult(pref.getDistDB(),macId);
@@ -478,6 +479,7 @@ public class ActivitySplash extends AppCompatActivity{
                     pdialog.setMessage("Validating...");
                     pdialog.show();
                     System.out.println("test responce 01 " + response.body().getSalRepResult().size());
+                    Toast.makeText(ActivitySplash.this, "test responce 01 "+response.body().getSalRepResult(), Toast.LENGTH_LONG).show();
                     //  System.out.println(response.body().getInvDetResult().get(1));
                     ArrayList<SalRep> repList = new ArrayList<SalRep>();
                     for (int i = 0; i < response.body().getSalRepResult().size(); i++) {

@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.adapter.PrintPayModeAdapter;
 import com.datamation.hmdsfa.adapter.PrintReceiptAdapter;
+import com.datamation.hmdsfa.controller.BankController;
 import com.datamation.hmdsfa.controller.CompanyDetailsController;
 import com.datamation.hmdsfa.controller.CustomerController;
 import com.datamation.hmdsfa.controller.PayModeController;
@@ -154,13 +155,13 @@ public class ReceiptPreviewAlertBox {
 
             ReceiptHed recHed = new ReceiptController(context).getReceiptByCommnRefNo(refno);
             ArrayList<ReceiptDet> list = new ReceiptDetController(context).GetReceiptByCommonRefNo(refno);
-            ArrayList<PayMode> paymodelist = new PayModeController(context).getPaidModesByCommonRef(refno);
+            ArrayList<PayMode> paymodelist = new ReceiptController(context).getPaidModesByCommonRef(refno);
             debtor = new CustomerController(context).getSelectedCustomerByCode(recHed.getFPRECHED_DEBCODE());
 
             Debname.setText(debtor.getCusName());
             Debaddress1.setText(debtor.getCusAdd1() + " ");
-            Debaddress2.setText(debtor.getCusAdd2() + " " + debtor.getCusAdd3());
-            DebTele.setText(debtor.getCusMob());
+            Debaddress2.setText(debtor.getCusAdd2()==null? "":debtor.getCusAdd2() + " " + debtor.getCusAdd3()==null? "":debtor.getCusAdd3());
+            DebTele.setText(debtor.getCusMob()==null? "": debtor.getCusMob());
 
             ReceiptDate.setText("Receipt No: " + refno);
             RepName.setText(salrep.getNAME());
@@ -321,8 +322,8 @@ public class ReceiptPreviewAlertBox {
 
         String subTitleheadI = printGapAdjustI + debtor.getCusName();
         String subTitleheadJ = printGapAdjustJ + debtor.getCusAdd1() + "," + debtor.getCusAdd2();
-        String subTitleheadK = printGapAdjustK + debtor.getCusAdd3();
-        String subTitleheadL = printGapAdjustL + debtor.getCusMob();
+        String subTitleheadK = printGapAdjustK + debtor.getCusAdd3()==null? "":debtor.getCusAdd3();
+        String subTitleheadL = printGapAdjustL + debtor.getCusMob()==null? "":debtor.getCusMob();
 
         String subTitleheadO = printLineSeperator;
 
@@ -359,24 +360,24 @@ public class ReceiptPreviewAlertBox {
         subTitleheadR = printGapAdjustR + subTitleheadR;
         subTitleheadArea = printGapAdjustArea + subTitleheadArea;
 
-        String title_Print_F = "\r\n" + subTitleheadF;
-        String title_Print_H = "\r\n" + subTitleheadH;
+        String title_Print_F = "\r\n" + subTitleheadF; // Print Heading RECEIPT
+        String title_Print_H = "\r\n" + subTitleheadH; // Print line Separator
 
-        String title_Print_I = "\r\n" + subTitleheadI;
-        String title_Print_J = "\r\n" + subTitleheadJ;
-        String title_Print_K = "\r\n" + subTitleheadK;
-        String title_Print_L = "\r\n" + subTitleheadL;
-        String title_Print_O = "\r\n" + subTitleheadO;
+        String title_Print_I = "\r\n" + subTitleheadI; // Print Customer Name
+        String title_Print_J = "\r\n" + subTitleheadJ; // Print Customer Address 1 and 2
+        String title_Print_K = "\r\n" + subTitleheadK; // Print Customer Address 3
+        String title_Print_L = "\r\n" + subTitleheadL; // Print Customer Mobile
+        String title_Print_O = "\r\n" + subTitleheadO; // Print line Separator
 
-        String title_Print_M = "\r\n" + subTitleheadM;
-        String title_Print_N = "\r\n" + subTitleheadN;
-        String title_Print_R = "\r\n" + subTitleheadR;
-        String title_Print_Area = "\r\n" + subTitleheadArea;
+        String title_Print_M = "\r\n" + subTitleheadM; // Print Receipt Date
+        String title_Print_N = "\r\n" + subTitleheadN; // Print Receipt No
+        String title_Print_R = "\r\n" + subTitleheadR; // Print Sales Rep Name
+        String title_Print_Area = "\r\n" + subTitleheadArea; // Print Route
 
         Heading_d = "";
         countCountInv = 0;
 
-        if (subTitleheadK.toString().equalsIgnoreCase(" ") && subTitleheadK.toString()!= null) {
+        if (subTitleheadK.toString().equalsIgnoreCase(" ") && subTitleheadK.toString()== null) {
             Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R + title_Print_Area;
         } else
 
@@ -384,18 +385,19 @@ public class ReceiptPreviewAlertBox {
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*paymode details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-        String title_pay_mode = "\r\nPAYTYPE         BANK     CHQ NO     REC AMT ";
+        String title_pay_mode = "\r\nPAY     BANK    CHQ NO  CHQ DATE     REC AMT ";
 
         Heading_g = "\r\n" + printLineSeperator + title_pay_mode + "\r\n" + printLineSeperator;
 
-        ArrayList<PayMode> plist = new PayModeController(context).getPaidModesByCommonRef(PRefno);
+        ArrayList<PayMode> plist = new ReceiptController(context).getPaidModesByCommonRef(PRefno);
 
         String spc1,spc2,spc3,spc4,spc5;
+        double totalamt_received = 0;
 
         for (PayMode payMode : plist) {
 
             String PayType = payMode.getFPAYMODE_PAID_TYPE();
-            String Bank = payMode.getFPAYMODE_PAID_BANK();
+            String Bank = new BankController(context).getBankNamebyCode(payMode.getFPAYMODE_PAID_BANK());
             String ChqNo = payMode.getFPAYMODE_PAID_CHEQUE_NO();
             String ChqDate = "";
 
@@ -405,28 +407,36 @@ public class ReceiptPreviewAlertBox {
                  ChqDate = payMode.getFPAYMODE_PAID_CHEQUE_DATE();
             }
             String Amt = payMode.getFPAYMODE_PAID_AMOUNT();//String.format(Locale.US, "%,.2f", Double.parseDouble(recDet.getFPRECDET_ALOAMT()));;
+            totalamt_received += Double.parseDouble(payMode.getFPAYMODE_PAID_AMOUNT());
+            int banknameLen = Bank.length();
 
-            Bank = Bank.substring(0,20).trim();
+            if(banknameLen>10){
+                Bank = Bank.substring(0,10).trim();
+            }else
+            {
+                Bank = Bank;
+            }
+
 
             spc1 = padString("",(4 - (PayType.length())));
-            spc2 = padString("",(20 - (Bank.length())));
-            spc3 = padString("",(9 - (ChqNo.length())));
-            spc4 = padString("",(12 - (ChqDate.length())));
-            spc5 = padString("",(10 - (Amt.length())));
+            spc2 = padString("",(12 - (Bank.length())));
+            spc3 = padString("",(7 - (ChqNo.length())));
+            spc4 = padString("",(11 - (ChqDate.length())));
+            spc5 = padString("",(11 - (Amt.length())));
 
-            Heading_h += "\r\n" + PayType + spc1 + Bank  + spc2 + ChqNo + spc3 + ChqDate + spc4 + Amt ;
+            Heading_h += "\r\n" + PayType + spc1 + Bank  + spc2 + ChqNo + spc3 + ChqDate + spc4+spc5 + Amt ;
         }
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*Set Total Received Title*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
-        String title_tot_received = "\r\nTOTAL RECEIVED ";
+        String title_tot_received = "\r\nTOTAL RECEIVED         "+ String.valueOf(totalamt_received);
 
-        Heading_e = "\r\n" + printLineSeperator + title_tot_received + "\r\n" + printLineSeperator;
+        Heading_e = "\r\n" + printLineSeperator + title_tot_received + "\r\n" ;
 
         /*-*-*-*-*-*-*-*-*-*-*-*-*-*item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
-        String title_cb = "\r\nINVNO         INV DATE     ALLOW AMT     BALANCE AMT ";
+        String title_cb = "\r\nINVNO            INV DATE   PAID AMT  DUE AMT ";
 
         Heading_b = "\r\n" + printLineSeperator + title_cb + "\r\n" + printLineSeperator;
 
@@ -438,15 +448,15 @@ public class ReceiptPreviewAlertBox {
 
         for (ReceiptDet recDet : list) {
 
-            String Refno = recDet.getFPRECDET_SALEREFNO()+" ";
+            String Refno = recDet.getFPRECDET_REFNO1()+" ";
             String InvDate = recDet.getFPRECDET_DTXNDATE();
 
 
-            String BalAmt = String.format(Locale.US, "%.2f",Double.parseDouble(recDet.getFPRECDET_OVPAYAMT()));;
+            String BalAmt = String.format(Locale.US, "%.2f",Double.parseDouble(recDet.getFPRECDET_BAMT()));;
             String Amt = recDet.getFPRECDET_ALOAMT();//String.format(Locale.US, "%,.2f", Double.parseDouble(recDet.getFPRECDET_ALOAMT()));;
-            SPACE1 = padString("",(15 - (Refno.length())));
-            SPACE2 = padString("",(13 - (InvDate.length())));
-            SPACE3 = padString("",(10 - (Amt.length())));
+            SPACE1 = padString("",(17 - (Refno.length())));
+            SPACE2 = padString("",(11 - (InvDate.length())));
+            SPACE3 = padString("",(9 - (Amt.length())));
             SPACE4 = padString("",(9 - (BalAmt.length())));
 
             Heading_d += "\r\n" + Refno + SPACE1 + InvDate  + SPACE3 + Amt + SPACE4 + BalAmt;
@@ -462,9 +472,9 @@ public class ReceiptPreviewAlertBox {
 
         String buttomTitlecopyw = "\r\n\n\n" + printGapbottmline1 + summaryBottom_cpoyline1;
 
-        String buttomTitlefb = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "     Received by on behalf of                Dealers authorization of";
-        String buttomTitlef = "\r\n\n\n" + "     HS Marketing (Pvt) Ltd.                payment (Signature & Stamp)" + "\r\n" ;
-        buttomRaw = "\r\n" + printLineSeperator + "\r\n" + buttomTitlefb + "\r\n" + printLineSeperator + "\r\n" + buttomTitlef + "\r\n" + printLineSeperator + buttomTitlecopyw  + "\r\n\n\n\n\n\n\n" + printLineSeperator + "\n";
+        String buttomTitlefb = "\r\n\n\n" + "------------------        ------------------" + "\r\n" + "Received on behalf of  Dealer authorization of";
+        String buttomTitlef = "\r" + "HS Marketing (Pvt) Ltd.  payment (Sig. & Stmp)" + "\r\n" ;
+        buttomRaw = "\r\n" + printLineSeperator + "\r\n" + buttomTitlefb + "\r\n"  + buttomTitlef + "\r\n" + printLineSeperator + buttomTitlecopyw  + "\r\n\n\n\n\n" + "\n";
 
         callPrintDevice();
 

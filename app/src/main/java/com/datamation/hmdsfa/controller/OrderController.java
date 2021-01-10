@@ -244,18 +244,18 @@ public class OrderController {
 
             while (cursor.moveToNext()) {
 
-                Order recDet = new Order();
+                Order ordDet = new Order();
 
 //
-                recDet.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(REFNO)));
-                recDet.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DEBCODE)));
-                recDet.setORDER_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FORDHED_IS_SYNCED)));
-                recDet.setORDER_TXNTYPE("Order");
-                recDet.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(TXNDATE)));
-                recDet.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(FORDHED_TOTAL_AMT)));
+                ordDet.setORDER_REFNO(cursor.getString(cursor.getColumnIndex(REFNO)));
+                ordDet.setORDER_DEBCODE(cursor.getString(cursor.getColumnIndex(DEBCODE)));
+                ordDet.setORDER_IS_SYNCED(cursor.getString(cursor.getColumnIndex(FORDHED_IS_SYNCED)));
+                ordDet.setORDER_TXNTYPE("Order");
+                ordDet.setORDER_TXNDATE(cursor.getString(cursor.getColumnIndex(TXNDATE)));
+                ordDet.setORDER_TOTALAMT(cursor.getString(cursor.getColumnIndex(FORDHED_TOTAL_AMT)));
                 //TODO :set  discount, free
 
-                list.add(recDet);
+                list.add(ordDet);
             }
 
         } catch (Exception e) {

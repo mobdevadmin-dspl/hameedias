@@ -385,7 +385,7 @@ public class VanSalePrintPreviewAlertBox {
         int lengthDealIB = (LINECHAR - lengthDealI) / 2;
         String printGapAdjustI = printGapAdjust.substring(0, Math.min(lengthDealIB, printGapAdjust.length()));
 
-        String customerAddressStr = debtor.getCusAdd1() + "," + debtor.getCusAdd2();
+        String customerAddressStr = debtor.getCusAdd1() + "," ;
         int lengthDealJ = customerAddressStr.length();
         int lengthDealJB = (LINECHAR - lengthDealJ) / 2;
         String printGapAdjustJ = printGapAdjust.substring(0, Math.min(lengthDealJB, printGapAdjust.length()));

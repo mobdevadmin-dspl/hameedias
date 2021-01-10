@@ -372,7 +372,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     String item = "";
                     try {
-                        item = networkFunctions.getItems(repcode);
+                        item = networkFunctions.getItems(repcode,new SalRepController(getActivity()).getRepType().trim());
                         // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -546,7 +546,7 @@ public class FragmentCategoryWiseDownload extends Fragment {
 
                     String salespri = "";
                     try {
-                        salespri = networkFunctions.getSalesPrice(repcode);
+                        salespri = networkFunctions.getSalesPrice(repcode,new SalRepController(getActivity()).getRepType().trim());
                         // Log.d(LOG_TAG, "OUTLETS :: " + outlets);
                     } catch (IOException e) {
                         e.printStackTrace();

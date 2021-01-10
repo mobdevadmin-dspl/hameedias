@@ -504,16 +504,33 @@ public class OrderDetailController {
 
                 ordDet.setFORDERDET_ID(cursor.getString(cursor.getColumnIndex(FORDDET_ID)));
                 ordDet.setFORDERDET_AMT(cursor.getString(cursor.getColumnIndex(FORDDET_AMT)));
+                ordDet.setFORDERDET_BALQTY(cursor.getString(cursor.getColumnIndex(FORDDET_BAL_QTY)));
+                ordDet.setFORDERDET_BAMT(cursor.getString(cursor.getColumnIndex(FORDDET_B_AMT)));
+                ordDet.setFORDERDET_BTSELLPRICE(cursor.getString(cursor.getColumnIndex(FORDDET_B_SELL_PRICE)));
+                ordDet.setFORDERDET_BTAXAMT(cursor.getString(cursor.getColumnIndex(FORDDET_BT_TAX_AMT)));
+                ordDet.setFORDERDET_BTSELLPRICE(cursor.getString(cursor.getColumnIndex(FORDDET_BT_SELL_PRICE)));
+                ordDet.setFORDERDET_DISAMT(cursor.getString(cursor.getColumnIndex(FORDDET_DIS_AMT)));
+                ordDet.setFORDERDET_DISPER(cursor.getString(cursor.getColumnIndex(FORDDET_DIS_PER)));
                 ordDet.setFORDERDET_ITEMCODE(cursor.getString(cursor.getColumnIndex(FORDDET_ITEM_CODE)));
                 ordDet.setFORDERDET_PRILCODE(cursor.getString(cursor.getColumnIndex(FORDDET_PRIL_CODE)));
                 ordDet.setFORDERDET_QTY(cursor.getString(cursor.getColumnIndex(FORDDET_QTY)));
+                ordDet.setFORDERDET_PICE_QTY(cursor.getString(cursor.getColumnIndex(FORDDET_PICE_QTY)));
+                ordDet.setFORDERDET_TYPE(cursor.getString(cursor.getColumnIndex(FORDDET_TYPE)));
+                ordDet.setFORDERDET_RECORDID(cursor.getString(cursor.getColumnIndex(FORDDET_RECORD_ID)));
                 ordDet.setFORDERDET_REFNO(cursor.getString(cursor.getColumnIndex(REFNO)));
                 ordDet.setFORDERDET_PRICE(cursor.getString(cursor.getColumnIndex(FORDDET_SELL_PRICE)));
+                ordDet.setFORDERDET_SEQNO(cursor.getString(cursor.getColumnIndex(FORDDET_SEQNO)));
+                ordDet.setFORDERDET_TAXAMT(cursor.getString(cursor.getColumnIndex(FORDDET_TAX_AMT)));
+                ordDet.setFORDERDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(FORDDET_TAX_COM_CODE)));
                 ordDet.setFORDERDET_IS_ACTIVE(cursor.getString(cursor.getColumnIndex(FORDDET_IS_ACTIVE)));
                 ordDet.setFORDERDET_ITEMNAME(cursor.getString(cursor.getColumnIndex(FORDDET_ITEMNAME)));
-                ordDet.setFORDERDET_TAXCOMCODE(cursor.getString(cursor.getColumnIndex(FORDDET_TAX_COM_CODE)));
+                ordDet.setFORDERDET_TSELLPRICE(cursor.getString(cursor.getColumnIndex(FORDDET_T_SELL_PRICE)));
+               // ordDet.setFORDERDET_TXNDATE(cursor.getString(cursor.getColumnIndex(FO)));
+
                 ordDet.setFORDERDET_BARCODE(cursor.getString(cursor.getColumnIndex(FORDDET_BARCODE)));
-                ordDet.setFORDERDET_DISAMT(cursor.getString(cursor.getColumnIndex(FORDDET_DIS_AMT)));
+                ordDet.setFORDERDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FORDDET_VARIANTCODE)));
+                ordDet.setFORDERDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FORDDET_ARTICLENO)));
+
 
                 list.add(ordDet);
 
@@ -713,14 +730,17 @@ public class OrderDetailController {
                 ordDet.setFORDERDET_TXNTYPE(cursor.getString(cursor.getColumnIndex(FORDDET_TXN_TYPE)));
                 ordDet.setFORDERDET_BSELLPRICE(cursor.getString(cursor.getColumnIndex(FORDDET_B_SELL_PRICE)));
                 ordDet.setFORDERDET_SELLPRICE(cursor.getString(cursor.getColumnIndex(FORDDET_SELL_PRICE)));
-
+                ordDet.setFORDERDET_TSELLPRICE(cursor.getString(cursor.getColumnIndex(FORDDET_T_SELL_PRICE)));
+                ordDet.setFORDERDET_BTSELLPRICE(cursor.getString(cursor.getColumnIndex(FORDDET_BT_SELL_PRICE)));
                 // this line add due to SortDiscount needs SCHDISPER for the calculation line no 123
                 ordDet.setFORDERDET_SCHDISPER(cursor.getString(cursor.getColumnIndex(FORDDET_DIS_PER)));
                 //added by rashmi because due to SortDiscount needs - 2019-11-14
                 ordDet.setFORDERDET_SCHDISC(cursor.getString(cursor.getColumnIndex(FORDDET_DIS_AMT)));
                 // this line add due to no txndate set
                 ordDet.setFORDERDET_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
-
+                ordDet.setFORDERDET_ARTICLENO(cursor.getString(cursor.getColumnIndex(FORDDET_ARTICLENO)));
+                ordDet.setFORDERDET_VARIANTCODE(cursor.getString(cursor.getColumnIndex(FORDDET_VARIANTCODE)));
+                ordDet.setFORDERDET_BARCODE(cursor.getString(cursor.getColumnIndex(FORDDET_BARCODE)));
                 list.add(ordDet);
 
             }

@@ -771,8 +771,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
         ArrayList<InvHed> invHedDltList = hedDS.getAllUnsyncedDeleteInvoices();
         ArrayList<ReceiptHed> receiplist = new ReceiptController(getActivity()).getAllUnsyncedRecHed();
-
-        if (ordHedList.isEmpty() && npHedList.isEmpty() && receiplist.isEmpty() && exHedList.isEmpty() && invHedList.isEmpty() && retHedList.isEmpty() && invHedDltList.isEmpty()) {
+//&& invHedDltList.isEmpty()
+        if (ordHedList.isEmpty() && npHedList.isEmpty() && receiplist.isEmpty() && exHedList.isEmpty() && invHedList.isEmpty() && retHedList.isEmpty() ) {
             allUpload = true;
         } else {
             allUpload = false;
@@ -1106,7 +1106,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     itemController.deleteAll();
                     // Processing item price
                     try{
-                        UtilityContainer.download(getActivity(),TaskTypeDownload.Items, networkFunctions.getItems(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Items, networkFunctions.getItems(repcode,new SalRepController(getActivity()).getRepType().trim()));
                     } catch (Exception e) {
                         errors.add(e.toString());
                         throw e;
@@ -1559,7 +1559,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     try {
                         SalesPriceController salesPriceController = new SalesPriceController(getActivity());
                         salesPriceController.deleteAll();
-                        UtilityContainer.download(getActivity(),TaskTypeDownload.Salesprice, networkFunctions.getSalesPrice(repcode));
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.Salesprice, networkFunctions.getSalesPrice(repcode,new SalRepController(getActivity()).getRepType().trim()));
 
                     } catch (Exception e) {
                         errors.add(e.toString());
