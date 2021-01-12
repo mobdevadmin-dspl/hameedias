@@ -116,8 +116,7 @@ public class StockInquiryDialog
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-               // if(!isStock){
+                
                 if(pref.getGlobalVal("stockType").equals("VAN STOCK")){
                     arrayList = new VanStockController(context).getVanStocks(new SalRepController(context).getCurrentLoccode().trim(),query);
                 }
@@ -132,7 +131,6 @@ public class StockInquiryDialog
             @Override
             public boolean onQueryTextChange(String newText) {
 
-               // if(!isStock){
                 if(pref.getGlobalVal("stockType").equals("VAN STOCK")){
 
                     arrayList = new VanStockController(context).getVanStocks(new SalRepController(context).getCurrentLoccode().trim(),newText);
