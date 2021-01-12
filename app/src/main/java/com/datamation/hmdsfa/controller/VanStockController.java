@@ -179,7 +179,7 @@ public class VanStockController {
     }
 
     //----------kaveesha ---------27/08/2020------------------To get Stock-------------------------------------
-    public ArrayList<StockInfo> getVanStocks(String LocCode) {
+    public ArrayList<StockInfo> getVanStocks(String LocCode, String newText) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -188,7 +188,8 @@ public class VanStockController {
 
         ArrayList<StockInfo> list = new ArrayList<StockInfo>();
 
-        String selectQuery = "SELECT itm.* ,vstock.To_Location_Code, sum(vstock.Quantity_Issued) as totqty FROM fitem itm, fvanstock vstock WHERE vstock.To_Location_Code = '" + LocCode + "' AND vstock.Item_No=itm.itemcode GROUP BY Item_No ORDER BY Item_No ";
+        //String selectQuery = "SELECT itm.* ,vstock.To_Location_Code, sum(vstock.Quantity_Issued) as totqty FROM fitem itm, fvanstock vstock WHERE vstock.To_Location_Code = '" + LocCode + "' AND vstock.Item_No=itm.itemcode GROUP BY Item_No ORDER BY Item_No ";
+        String selectQuery = "SELECT itm.* ,vstock.To_Location_Code, sum(vstock.Quantity_Issued) as totqty FROM fitem itm, fvanstock vstock WHERE itm.ItemCode || itm.ItemName LIKE '%" + newText + "%' AND vstock.To_Location_Code = '" + LocCode + "' AND vstock.Item_No=itm.itemcode GROUP BY Item_No ORDER BY Item_No ";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 
@@ -198,8 +199,8 @@ public class VanStockController {
                 double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totqty")));
                 if (qoh > 0) {
                     items.setStock_Itemcode(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_CODE)));
-                    //items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
-                    items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(VanStockController.FVAN_TO_LOCATION_CODE)) + " - " + cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
+                    items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
+                    //items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(VanStockController.FVAN_TO_LOCATION_CODE)) + " - " + cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
                     items.setStock_Qoh(((int) qoh) + "");
                     list.add(items);
                 }
@@ -216,7 +217,7 @@ public class VanStockController {
     }
 
     //----------kaveesha ---------28/08/2020------------------To get Product Group wise Stock-------------------------------------
-    public ArrayList<StockInfo> getGwiseVanStocks(String LocCode) {
+    public ArrayList<StockInfo> getGwiseVanStocks(String LocCode, String newText) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -225,7 +226,8 @@ public class VanStockController {
 
         ArrayList<StockInfo> list = new ArrayList<StockInfo>();
 
-        String selectQuery = "SELECT itm.* , vstock.To_Location_Code, sum(vstock.Quantity_Issued)as totqty FROM fitem itm, fvanstock vstock WHERE  vstock.To_Location_Code ='" + LocCode + "' AND vstock.Item_No=itm.itemcode GROUP BY GroupCode ORDER BY GroupCode ";
+       //String selectQuery = "SELECT itm.* , vstock.To_Location_Code, sum(vstock.Quantity_Issued)as totqty FROM fitem itm, fvanstock vstock WHERE  vstock.To_Location_Code ='" + LocCode + "' AND vstock.Item_No=itm.itemcode  GROUP BY GroupCode ORDER BY GroupCode ";
+        String selectQuery = "SELECT itm.* , vstock.To_Location_Code, sum(vstock.Quantity_Issued)as totqty FROM fitem itm, fvanstock vstock WHERE GroupCode LIKE '%" + newText + "%' AND vstock.To_Location_Code ='" + LocCode + "' AND vstock.Item_No=itm.itemcode  GROUP BY GroupCode ORDER BY GroupCode ";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 
@@ -239,6 +241,7 @@ public class VanStockController {
                     //items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
                     items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(VanStockController.FVAN_TO_LOCATION_CODE)) + " - " + cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
                     items.setStock_Qoh(((int) qoh) + "");
+
                     list.add(items);
                 }
             }

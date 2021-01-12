@@ -23,10 +23,13 @@ import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.helpers.ListExpandHelper;
+import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.StockInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.widget.SearchView;
 
 public class StockInquiryDialog
 {
@@ -41,6 +44,9 @@ public class StockInquiryDialog
     Context context;
     boolean isStock = false;
     ProgressBar prBar;
+    StockInquiryAdaptor adaptor;
+    SearchView productWiseSearch,groupWiseSearch;
+    SharedPref pref;
 
     public StockInquiryDialog(final Context context) {
         this.context = context;
@@ -50,6 +56,8 @@ public class StockInquiryDialog
         alertDialogBuilder.setTitle("Stock Inquiry");
         alertDialogBuilder.setView(view);
 
+        pref = new SharedPref(context);
+
         lvStockData = (ListView) view.findViewById(R.id.listviewStockData);
         lvGStockData = (ListView) view.findViewById(R.id.listviewGStockData);
         localSP = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE + Context.MODE_PRIVATE);
@@ -57,6 +65,8 @@ public class StockInquiryDialog
         txtTotQty = (TextView) view.findViewById(R.id.txtTotQty);
         prBar = (ProgressBar)view.findViewById(R.id.stock_progress);
         spn_stock_type = (Spinner) view.findViewById(R.id.spn_StockType);
+        productWiseSearch = (SearchView) view.findViewById(R.id.search_by_product_wise);
+        groupWiseSearch = (SearchView) view.findViewById(R.id.search_by_group_wise);
 
         prBar.setVisibility(View.VISIBLE);
 
@@ -73,25 +83,26 @@ public class StockInquiryDialog
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                    if(position == 0){//van stock
-                        isStock = false;
-                        lvStockData.setAdapter(null);
-                        LocCode = new SalRepController(context).getCurrentLoccode().trim();
-                        txtTotQty.setText(new VanStockController(context).getTotalQOH(LocCode));
-                        new LoadStockData(LocCode).execute();
-                        new LoadGwiseStockData(LocCode).execute();
+                if(position == 0){//van stock
+                    isStock = false;
+                    lvStockData.setAdapter(null);
+                    LocCode = new SalRepController(context).getCurrentLoccode().trim();
+                    txtTotQty.setText(new VanStockController(context).getTotalQOH(LocCode));
+                   pref.setGlobalVal("stockType" , spn_stock_type.getSelectedItem().toString());
+                    new LoadStockData(LocCode).execute();
+                    new LoadGwiseStockData(LocCode).execute();
 
-                    }
-                    else if(position == 1)//Main stock
-                    {
-                        isStock = true;
-                        lvStockData.setAdapter(null);
-                        LocCode = "MAINSTORES";
-                        txtTotQty.setText(new ItemController(context).getTotalStockQOH(LocCode));
-                        new LoadStockData(LocCode).execute();
-                        new LoadGwiseStockData(LocCode).execute();
+                }
+                else if(position == 1)//Main stock
+                {
+                    isStock = true;
+                    lvStockData.setAdapter(null);
+                    LocCode = "MAINSTORES";
+                    txtTotQty.setText(new ItemController(context).getTotalStockQOH(LocCode));
+                    new LoadStockData(LocCode).execute();
+                    new LoadGwiseStockData(LocCode).execute();
 
-                    }
+                }
 
             }
 
@@ -100,6 +111,72 @@ public class StockInquiryDialog
 
             }
         });
+
+        productWiseSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+               // if(!isStock){
+                if(pref.getGlobalVal("stockType").equals("VAN STOCK")){
+                    arrayList = new VanStockController(context).getVanStocks(new SalRepController(context).getCurrentLoccode().trim(),query);
+                }
+                else {
+                    arrayList = new ItemController(context).getStocks(query,new SalRepController(context).getCurrentLoccode().trim());
+
+                }
+                lvStockData.setAdapter(new StockInquiryAdaptor(context, arrayList));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+               // if(!isStock){
+                if(pref.getGlobalVal("stockType").equals("VAN STOCK")){
+
+                    arrayList = new VanStockController(context).getVanStocks(new SalRepController(context).getCurrentLoccode().trim(),newText);
+                }
+                else {
+                    arrayList = new ItemController(context).getStocks(newText,new SalRepController(context).getCurrentLoccode().trim());
+                }
+                lvStockData.setAdapter(new StockInquiryAdaptor(context, arrayList));
+                return true;
+            }
+        });
+
+        groupWiseSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                if(pref.getGlobalVal("StockType").equals("VAN STOCK")){
+
+                    arrayList = new VanStockController(context).getGwiseVanStocks(new SalRepController(context).getCurrentLoccode().trim(),query);
+                }
+                else {
+
+                    arrayList = new ItemController(context).getGwiseStocks(query,new SalRepController(context).getCurrentLoccode().trim());
+                }
+                lvGStockData.setAdapter(new StockInquiryAdaptor(context, arrayList));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                if(pref.getGlobalVal("StockType").equals("VAN STOCK")){
+
+                    arrayList = new VanStockController(context).getGwiseVanStocks(new SalRepController(context).getCurrentLoccode().trim(),newText);
+                }
+                else {
+                    arrayList = new ItemController(context).getGwiseStocks(newText,new SalRepController(context).getCurrentLoccode().trim());
+                }
+                lvGStockData.setAdapter(new StockInquiryAdaptor(context, arrayList));
+                return true;
+            }
+        });
+
 
         alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -204,7 +281,7 @@ public class StockInquiryDialog
 
             if(!isStock)
             {
-                arrayList = new VanStockController(context).getVanStocks(locCode);
+                arrayList = new VanStockController(context).getVanStocks(locCode,"");
             }
             else
             {
@@ -247,12 +324,12 @@ public class StockInquiryDialog
 
             if(!isStock)
             {
-                arrayList = new VanStockController(context).getGwiseVanStocks(locCode);
+                arrayList = new VanStockController(context).getGwiseVanStocks(locCode,"");
 
             }
             else
             {
-                arrayList = new ItemController(context).getGwiseStocks(locCode);
+                arrayList = new ItemController(context).getGwiseStocks("",locCode);
             }
 
             adaptor = new StockInquiryAdaptor(context, arrayList);

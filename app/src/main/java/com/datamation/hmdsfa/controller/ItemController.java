@@ -938,8 +938,8 @@ public class ItemController {
                 double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex(ItemLocController.FITEMLOC_QOH)));
                 if (qoh > 0) {
                     items.setStock_Itemcode(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_CODE)));
-                    //items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
-                    items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(ItemLocController.FITEMLOC_LOC_CODE)) + " - " + cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
+                    items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
+                   // items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(ItemLocController.FITEMLOC_LOC_CODE)) + " - " + cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
                     items.setStock_Qoh(((int) qoh) + "");
                     list.add(items);
                 }
@@ -956,7 +956,7 @@ public class ItemController {
     }
 
 //-----------kaveesha------------28/08/2020----------To get Product Group wise stock------------------------
-    public ArrayList<StockInfo> getGwiseStocks(String LocCode) {
+    public ArrayList<StockInfo> getGwiseStocks(String newText, String LocCode) {
         if (dB == null) {
             open();
         } else if (!dB.isOpen()) {
@@ -965,7 +965,8 @@ public class ItemController {
 
         ArrayList<StockInfo> list = new ArrayList<StockInfo>();
 
-        String selectQuery = "SELECT itm.* , loc.LocCode, sum(loc.QOH) as totqty FROM fitem itm, fitemLoc loc WHERE loc.itemcode=itm.itemcode GROUP By GroupCode order by GroupCode ";
+        //String selectQuery = "SELECT itm.* , loc.LocCode, sum(loc.QOH) as totqty FROM fitem itm, fitemLoc loc WHERE loc.itemcode=itm.itemcode  GROUP By GroupCode order by GroupCode ";
+        String selectQuery = "SELECT itm.* , loc.LocCode, sum(loc.QOH) as totqty FROM fitem itm, fitemLoc loc WHERE itm.GroupCode LIKE '%" + newText + "%' AND loc.itemcode=itm.itemcode GROUP By GroupCode order by GroupCode ";
          Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 
@@ -976,7 +977,6 @@ public class ItemController {
                 //double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex(ItemLocController.FITEMLOC_QOH)));
                 if (qoh > 0) {
                     items.setStock_Itemcode(cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
-                    //items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
                     items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(ItemLocController.FITEMLOC_LOC_CODE)) + " - " + cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
                     items.setStock_Qoh(((int) qoh) + "");
                     list.add(items);
