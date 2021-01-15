@@ -966,7 +966,7 @@ public class ItemController {
         ArrayList<StockInfo> list = new ArrayList<StockInfo>();
 
         //String selectQuery = "SELECT itm.* , loc.LocCode, sum(loc.QOH) as totqty FROM fitem itm, fitemLoc loc WHERE loc.itemcode=itm.itemcode  GROUP By GroupCode order by GroupCode ";
-        String selectQuery = "SELECT itm.* , loc.LocCode, sum(loc.QOH) as totqty FROM fitem itm, fitemLoc loc WHERE itm.GroupCode LIKE '%" + newText + "%' AND loc.itemcode=itm.itemcode GROUP By GroupCode order by GroupCode ";
+        String selectQuery = "SELECT itm.* , loc.LocCode, sum(loc.QOH) as totqty FROM fitem itm, fitemLoc loc WHERE itm.ReOrderQty LIKE '%" + newText + "%' AND loc.itemcode=itm.itemcode GROUP By GroupCode order by GroupCode ";
          Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 
@@ -977,7 +977,7 @@ public class ItemController {
                 //double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex(ItemLocController.FITEMLOC_QOH)));
                 if (qoh > 0) {
                     items.setStock_Itemcode(cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
-                    items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(ItemLocController.FITEMLOC_LOC_CODE)) + " - " + cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
+                    items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_RE_ORDER_QTY)));
                     items.setStock_Qoh(((int) qoh) + "");
                     list.add(items);
                 }

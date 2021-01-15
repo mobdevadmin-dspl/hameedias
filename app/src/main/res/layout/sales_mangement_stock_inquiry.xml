@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="5dp"
+        android:layout_margin="2dp"
         android:background="@drawable/custom_label"
         android:orientation="vertical">
 
@@ -19,7 +19,7 @@
 
             <com.datamation.hmdsfa.utils.CustomFont
             android:layout_width="wrap_content"
-            android:layout_height="55dp"
+            android:layout_height="35dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="2dp"
             android:background="@drawable/custom_label"
@@ -31,7 +31,7 @@
                 android:id="@+id/spn_StockType"
                 android:layout_width="0dp"
                 android:layout_weight="5"
-                android:layout_height="55dp"
+                android:layout_height="35dp"
                 android:background="@drawable/edittextstyle"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
@@ -129,8 +129,8 @@
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_by_product_wise"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
+                android:layout_height="35dp"
+                android:layout_margin="2dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/custom_textbox"
                 app:iconifiedByDefault="true"
@@ -217,7 +217,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="5dp"
+        android:layout_margin="2dp"
         android:background="@drawable/custom_label"
         android:orientation="vertical">
 
@@ -228,8 +228,8 @@
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_by_group_wise"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
+                android:layout_height="35dp"
+                android:layout_margin="2dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/custom_textbox"
                 app:iconifiedByDefault="true"

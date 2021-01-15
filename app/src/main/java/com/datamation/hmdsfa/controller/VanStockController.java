@@ -19,6 +19,7 @@ import static com.datamation.hmdsfa.controller.ItemController.FGROUP_CODE;
 import static com.datamation.hmdsfa.controller.ItemController.FITEM_GROUP_CODE;
 import static com.datamation.hmdsfa.controller.ItemController.FITEM_ITEM_CODE;
 import static com.datamation.hmdsfa.controller.ItemController.FITEM_ITEM_NAME;
+import static com.datamation.hmdsfa.controller.ItemController.FITEM_RE_ORDER_QTY;
 
 public class VanStockController {
 
@@ -227,7 +228,7 @@ public class VanStockController {
         ArrayList<StockInfo> list = new ArrayList<StockInfo>();
 
        //String selectQuery = "SELECT itm.* , vstock.To_Location_Code, sum(vstock.Quantity_Issued)as totqty FROM fitem itm, fvanstock vstock WHERE  vstock.To_Location_Code ='" + LocCode + "' AND vstock.Item_No=itm.itemcode  GROUP BY GroupCode ORDER BY GroupCode ";
-        String selectQuery = "SELECT itm.* , vstock.To_Location_Code, sum(vstock.Quantity_Issued)as totqty FROM fitem itm, fvanstock vstock WHERE GroupCode LIKE '%" + newText + "%' AND vstock.To_Location_Code ='" + LocCode + "' AND vstock.Item_No=itm.itemcode  GROUP BY GroupCode ORDER BY GroupCode ";
+        String selectQuery = "SELECT itm.* , vstock.To_Location_Code, sum(vstock.Quantity_Issued)as totqty FROM fitem itm, fvanstock vstock WHERE ReOrderQty LIKE '%" + newText + "%' AND vstock.To_Location_Code ='" + LocCode + "' AND vstock.Item_No=itm.itemcode  GROUP BY GroupCode ORDER BY GroupCode ";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
 
@@ -239,7 +240,7 @@ public class VanStockController {
                 if (qoh > 0) {
                     items.setStock_Itemcode(cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
                     //items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
-                    items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(VanStockController.FVAN_TO_LOCATION_CODE)) + " - " + cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
+                    items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_RE_ORDER_QTY)));
                     items.setStock_Qoh(((int) qoh) + "");
 
                     list.add(items);
