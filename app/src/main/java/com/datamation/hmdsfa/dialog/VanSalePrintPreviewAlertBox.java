@@ -206,12 +206,13 @@ public class VanSalePrintPreviewAlertBox {
 
                 int qty = 0 ;
                 double dDisc = 0, dTotAmt = 0, dTax = 0;
-
+                String size_print = "";
                 for (InvDet det : list) {
                     qty += Double.parseDouble(det.getFINVDET_QTY());
                     dDisc += Double.parseDouble(det.getFINVDET_DIS_AMT());
                     dTotAmt += Double.parseDouble(det.getFINVDET_AMT());
                     dTax += Double.parseDouble(det.getFINVDET_TAX_AMT());
+                    size_print = new InvDetController(this.context).getSizecodeString(det.getFINVDET_ITEM_CODE(), refno);
                 }
 
                 lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
@@ -514,6 +515,7 @@ public class VanSalePrintPreviewAlertBox {
         String SpcItmCodeAndNOS, SpcPrice, SpcQty, SPcTotal, SpcNOS, SPACE6,spItemcode;
         String SpcVarntCde, SpcArticleNo, SpcDisper, SpcDisc, SPACE55, SPACE66;
         SPACE6 = "                                            ";
+        String size_print="";
 
         //for (StkIss iss : list) {
         for (InvDet det : itemList) {
@@ -525,7 +527,7 @@ public class VanSalePrintPreviewAlertBox {
             String disper = det.getFINVDET_DIS_PER();
             // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
             // - 3);
-
+            size_print = new InvDetController(this.context).getSizecodeString(det.getFINVDET_ITEM_CODE(), PRefno);
             String sPrice = "", sTotal = "";
 
             sTotal = det.getFINVDET_AMT();
@@ -578,7 +580,7 @@ public class VanSalePrintPreviewAlertBox {
 //            doubleLineItemName1 += sItemname.substring(0,itemNameLength);
                 Heading_c += nos + "."+sItemcode+spItemcode+ "-"  +sItemname.trim()+SpcItmCodeAndNOS+SPcTotal+ sTotal
                         +"\r\n"+ articleno +SpcArticleNo+SpcQty+ sQty+SpcPrice+ sPrice  +SpcDisper+ disper
-                        +SpcDisc +sDiscount+"\r\n\r\n";
+                        +SpcDisc +sDiscount+"\r\n"+size_print+"\r\n\r\n";
 
 //            if(itemNameLength > 40)
 //            {

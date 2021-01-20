@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.controller.InvDetController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.model.InvDet;
 
@@ -46,6 +47,7 @@ public class PrintVanSaleItemAdapter extends ArrayAdapter<InvDet> {
         TextView qty = (TextView) row.findViewById(R.id.printqty);
         TextView discamt = (TextView) row.findViewById(R.id.printdiscamt);
         TextView amount = (TextView) row.findViewById(R.id.printlineamount);
+        TextView sizedet = (TextView) row.findViewById(R.id.printsize);
 
         description.setText(""+new ItemController(context).getItemNameByCode(list.get(position).getFINVDET_ITEM_CODE().trim()));
         variantcode.setText(""+list.get(position).getFINVDET_ITEM_CODE());
@@ -55,6 +57,7 @@ public class PrintVanSaleItemAdapter extends ArrayAdapter<InvDet> {
         disper.setText(""+list.get(position).getFINVDET_DIS_PER());
         qty.setText(""+list.get(position).getFINVDET_QTY());
         discamt.setText(""+list.get(position).getFINVDET_DIS_AMT());
+        sizedet.setText(""+ new InvDetController(this.context).getSizecodeString(list.get(position).getFINVDET_ITEM_CODE(), list.get(position).getFINVDET_REFNO()));
 
         position = position + 1;
         String pos = Integer.toString(position);

@@ -15,6 +15,8 @@ import com.datamation.hmdsfa.model.InvDet;
 import com.datamation.hmdsfa.model.OrderDetail;
 import com.datamation.hmdsfa.model.OrderDisc;
 
+import org.codehaus.jackson.util.MinimalPrettyPrinter;
+
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1652,6 +1654,32 @@ public class InvDetController {
         return list;
     }
 
+    public String getSizecodeString(String Itemcode, String refno) {
+        if (this.dB == null) {
+            open();
+        } else if (!this.dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = this.dB.rawQuery("SELECT VariantCode, SUM(qty) as Qty FROM finvdet WHERE refno='"+refno+"'  AND itemcode='"+Itemcode+"' GROUP BY VariantCode ORDER BY VariantCode ASC", (String[]) null);
+        String s = "|";
+        int j = 1;
+        while (cursor.moveToNext()) {
+            try {
+                String sKey = cursor.getString(cursor.getColumnIndex("VariantCode"));
+                String sVal = cursor.getString(cursor.getColumnIndex("Qty"));
+                if (s.length() + (MinimalPrettyPrinter.DEFAULT_ROOT_VALUE_SEPARATOR + sKey + "x" + sVal + " |").length() > 44 * j) {
+                    j++;
+                    s = String.valueOf(s) + "\n|";
+                }
+                s = String.valueOf(s) + MinimalPrettyPrinter.DEFAULT_ROOT_VALUE_SEPARATOR + sKey + "x" + sVal + " |";
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                this.dB.close();
+            }
+        }
+        return s;
+    }
 
     // Added By Yasith - 2019-01-29
     public ArrayList<InvDet> getAllItemsAddedInCurrentSale(String refNo)

@@ -672,6 +672,7 @@ public class TransactionDetailsFragment extends Fragment {
         materialDialog.setCanceledOnTouchOutside(false);
         materialDialog.show();
     }
+
     // adapter for van sale
 
 
