@@ -167,7 +167,11 @@ public class BRInvoiceSummaryFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                saveSummaryDialog();
+                if (Double.parseDouble(lblGross.getText().toString()) >0) {
+                    saveSummaryDialog();
+                } else {
+                    Toast.makeText(getActivity(), "Cannot save zero bill amount", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
