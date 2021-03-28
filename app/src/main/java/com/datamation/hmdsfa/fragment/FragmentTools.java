@@ -105,6 +105,7 @@ import com.datamation.hmdsfa.utils.NetworkUtil;
 import com.datamation.hmdsfa.utils.UtilityContainer;
 import com.datamation.hmdsfa.barcode.upload.UploadVanSales;
 import com.datamation.hmdsfa.view.DayExpenseActivity;
+import com.datamation.hmdsfa.view.ReportActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -132,7 +133,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
     View view;
     int count = 0;
     Animation animScale;
-    ImageView imgSync, imgUpload, imgPrinter, imgDatabase, imgStockDown, imgStockInq, imgSalesRep, imgTour, imgDayExp, imgImage, imgVideo;
+    ImageView imgSync, imgUpload, imgPrinter, imgDatabase, imgStockDown, imgStockInq, imgSalesRep, imgTour, imgDayExp, imgImage, imgVideo,imgReport;
     NetworkFunctions networkFunctions;
     SharedPref pref;
     List<String> resultList;
@@ -166,7 +167,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         imgSync = (ImageView) view.findViewById(R.id.imgSync);
         imgUpload = (ImageView) view.findViewById(R.id.imgUpload);
         imgStockDown = (ImageView) view.findViewById(R.id.imgDownload);
-        imgPrinter = (ImageView) view.findViewById(R.id.imgPrinter);
+        imgReport = (ImageView) view.findViewById(R.id.imgReport);
         imgDatabase = (ImageView) view.findViewById(R.id.imgSqlite);
         imgSalesRep = (ImageView) view.findViewById(R.id.imgSalrep);
         imgDayExp = (ImageView) view.findViewById(R.id.imgDayExp);
@@ -203,7 +204,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
         imgSync.setOnClickListener(this);
         imgUpload.setOnClickListener(this);
         imgStockDown.setOnClickListener(this);
-        imgPrinter.setOnClickListener(this);
+        imgReport.setOnClickListener(this);
         imgDatabase.setOnClickListener(this);
         imgSalesRep.setOnClickListener(this);
         imgDayExp.setOnClickListener(this);
@@ -306,9 +307,9 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 UtilityContainer.mLoadFragment(new FragmentCategoryWiseDownload(), getActivity());
                 break;
 
-            case R.id.imgPrinter:
-                imgPrinter.startAnimation(animScale);
-                UtilityContainer.mPrinterDialogbox(getActivity());
+            case R.id.imgReport:
+                imgReport.startAnimation(animScale);
+                new ReportActivity(getActivity()).reportDialog();
                 break;
 
             case R.id.imgSqlite:

@@ -1086,7 +1086,7 @@ public class ReceiptController {
 		Cursor cursor = null;
 		try {
 			String selectQuery = "SELECT * FROM " + TABLE_FPRECHEDS + " WHERE "
-					+ FPRECHED_REFNO1 + " = '" + refNo + "'";
+					+ ValueHolder.REFNO + " = '" + refNo + "'";
 
 			cursor = dB.rawQuery(selectQuery, null);
 
@@ -1094,7 +1094,7 @@ public class ReceiptController {
 				String refno = cursor.getString(cursor.getColumnIndex(ValueHolder.REFNO));
 
 				String query = "Update " + TABLE_FPRECHEDS
-						+ " set TotalAmt = (select sum(AloAmt) Aloamt from fprecdet where refno='" + refno
+						+ " set TotalAmt = (select sum(AloAmt) Aloamt from fprecdets where refno='" + refno
 						+ "' ) where refno='" + refno + "'";
 				dB.execSQL(query);
 			}

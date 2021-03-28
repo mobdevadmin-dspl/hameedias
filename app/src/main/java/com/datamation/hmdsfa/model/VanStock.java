@@ -22,6 +22,52 @@ public class VanStock {
     @SerializedName("Variant_Code")
     private String Variant_Code;
 
+    private String Description;
+    private String ArticleNo;
+    private String UnitPrice;
+    private String Amount;
+    private String totQty;
+
+    public String getTotQty() {
+        return totQty;
+    }
+
+    public void setTotQty(String totQty) {
+        this.totQty = totQty;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public String getArticleNo() {
+        return ArticleNo;
+    }
+
+    public void setArticleNo(String articleNo) {
+        ArticleNo = articleNo;
+    }
+
+    public String getUnitPrice() {
+        return UnitPrice;
+    }
+
+    public void setUnitPrice(String unitPrice) {
+        UnitPrice = unitPrice;
+    }
+
+    public String getAmount() {
+        return Amount;
+    }
+
+    public void setAmount(String amount) {
+        Amount = amount;
+    }
+
     public String getBarcode() {
         return Barcode;
     }

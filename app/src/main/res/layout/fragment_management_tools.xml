@@ -203,19 +203,18 @@
                         android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
                         android:layout_weight="1"
                         android:gravity="center_vertical|center_horizontal"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/imgPrinter"
+                            android:id="@+id/imgReport"
                             android:layout_width="@dimen/finac_dashboard_image_height"
                             android:layout_height="@dimen/finac_dashboard_image_height"
-                            android:src="@drawable/circle_ic_printer"/>
+                            android:src="@drawable/ic_report"/>
 
                         <com.datamation.hmdsfa.utils.CustomFont
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="PRINTER"
+                            android:text="REPORTS"
                             android:textAlignment="center"
                             android:textColor="#000"
                             android:textSize="@dimen/finac_dashboard_icon_text_size"
@@ -226,11 +225,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
-                        android:layout_weight="1.5"
+                        android:layout_weight="1"
                         android:gravity="center_vertical|center_horizontal"
-                        android:orientation="vertical"
-                        android:layout_marginLeft="@dimen/fragment_tool_left_margin">
-
+                        android:orientation="vertical">
                         <ImageView
                             android:id="@+id/imgSync"
                             android:layout_width="@dimen/finac_dashboard_image_height"
@@ -250,16 +247,14 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
-                        android:layout_weight="1.5"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:orientation="vertical"
-                        android:layout_marginRight="@dimen/fragment_tool_left_margin">
-
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/finac_dashboard_double_line_inner_height"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="vertical">
                         <ImageView
                             android:id="@+id/imgUpload"
-                            android:layout_width="@dimen/finac_dashboard_image_height"
+                            android:layout_width="match_parent"
                             android:layout_height="@dimen/finac_dashboard_image_height"
                             android:src="@drawable/circle_ic_upload_new" />
 
@@ -336,6 +331,8 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+
 
             </LinearLayout>
 

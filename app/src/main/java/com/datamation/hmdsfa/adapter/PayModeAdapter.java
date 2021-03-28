@@ -19,6 +19,7 @@ import com.datamation.hmdsfa.dialog.CustomKeypadDialogReceipt;
 import com.datamation.hmdsfa.dialog.PayModeKeypadDialog;
 import com.datamation.hmdsfa.model.PayMode;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -188,7 +189,9 @@ public class PayModeAdapter extends ArrayAdapter<PayMode> {
                         @Override
                         public void okClicked(double value) {
                             //String distrStock = preProduct.getPREPRODUCT_QOH();
-                            int enteredAmt = (int) value;
+                            double enteredAmt =  value;
+                            DecimalFormat df = new DecimalFormat("###.##");
+
 
                             String amt = payMode.getFPAYMODE_PAID_REMAMT().replaceAll(",","");
 
@@ -203,7 +206,8 @@ public class PayModeAdapter extends ArrayAdapter<PayMode> {
                                 new PayModeController(context).updateAllocateAmt(payMode.getFPAYMODE_PAID_ID(), String.valueOf(enteredAmt));
                                 payMode.setFPAYMODE_PAID_ALLOAMT(String.valueOf(enteredAmt));
                                 payMode.setFPAYMODE_PAID_REMAMT(String.valueOf(remAmt));
-                                holder.allocatedAmt.setText(payMode.getFPAYMODE_PAID_ALLOAMT());
+                                holder.allocatedAmt.setText(df.format(enteredAmt));
+                                //holder.allocatedAmt.setText(payMode.getFPAYMODE_PAID_ALLOAMT());
                                 holder.remAmt.setText(payMode.getFPAYMODE_PAID_REMAMT());
 
                                 //*Change colors*//**//*
@@ -229,7 +233,8 @@ public class PayModeAdapter extends ArrayAdapter<PayMode> {
                         @Override
                         public void okClicked(double value) {
                             //String distrStock = preProduct.getPREPRODUCT_QOH();
-                            int enteredAmt = (int) value;
+                            double enteredAmt = value;
+                            DecimalFormat df = new DecimalFormat("###.##");
 
                             String paidAmt = payMode.getFPAYMODE_PAID_AMOUNT().replaceAll(",","");
 
@@ -249,7 +254,7 @@ public class PayModeAdapter extends ArrayAdapter<PayMode> {
                                     new PayModeController(context).updateAllocateAmt(payMode.getFPAYMODE_PAID_ID(), String.valueOf(enteredAmt));
                                     payMode.setFPAYMODE_PAID_ALLOAMT(String.valueOf(enteredAmt));
                                     payMode.setFPAYMODE_PAID_REMAMT(String.valueOf(finalRemAmt));
-                                    holder.allocatedAmt.setText(payMode.getFPAYMODE_PAID_ALLOAMT());
+                                    holder.allocatedAmt.setText(df.format(enteredAmt));
                                     holder.remAmt.setText(payMode.getFPAYMODE_PAID_REMAMT());
 
                                 }

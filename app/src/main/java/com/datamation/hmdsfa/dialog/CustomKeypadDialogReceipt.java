@@ -213,9 +213,9 @@ public class CustomKeypadDialogReceipt extends Dialog {
                 if (!pointerValueClicked) {
                     String val = value.getText().toString();
                     if (val.equals("0")) {
-                        val = "0.5";
+                        val = ".";
                     } else {
-                        val += ".5";
+                        val += ".";
                     }
                     value.setText(val);
 
@@ -227,16 +227,16 @@ public class CustomKeypadDialogReceipt extends Dialog {
                     btn_point_two_five.setVisibility(View.INVISIBLE);
                     btn_point_two_five.setEnabled(false);
 
-                    btn0.setEnabled(false);
-                    btn1.setEnabled(false);
-                    btn2.setEnabled(false);
-                    btn3.setEnabled(false);
-                    btn4.setEnabled(false);
-                    btn5.setEnabled(false);
-                    btn6.setEnabled(false);
-                    btn7.setEnabled(false);
-                    btn8.setEnabled(false);
-                    btn9.setEnabled(false);
+                    btn0.setEnabled(true);
+                    btn1.setEnabled(true);
+                    btn2.setEnabled(true);
+                    btn3.setEnabled(true);
+                    btn4.setEnabled(true);
+                    btn5.setEnabled(true);
+                    btn6.setEnabled(true);
+                    btn7.setEnabled(true);
+                    btn8.setEnabled(true);
+                    btn9.setEnabled(true);
                 }
             }
         });

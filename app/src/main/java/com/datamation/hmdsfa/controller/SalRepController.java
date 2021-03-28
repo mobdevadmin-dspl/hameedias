@@ -384,4 +384,33 @@ public class SalRepController {
 
         return newRep;
     }
+
+
+    // --------------------------- kaveesha - ---- 25/03/2021 -------------------------------------------------------
+    public String getRepName(String Repcode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT Name FROM fSalRep WHERE RepCode ='" + Repcode + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+
+                return cursor.getString(cursor.getColumnIndex(FSALREP_NAME));
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            dB.close();
+        }
+
+        return "";
+    }
 }

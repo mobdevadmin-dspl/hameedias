@@ -226,7 +226,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
-                android:text=".25"
+                android:text="."
                 android:textColor="#BDBDBD"
                 android:textSize="30dp"
                 android:typeface="sans"
@@ -249,11 +249,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
-                android:enabled="false"
+                android:enabled="true"
                 android:text="."
                 android:textColor="#BDBDBD"
                 android:textSize="30dp"
-                android:typeface="sans" />
+                android:typeface="sans"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 

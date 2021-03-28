@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.model.Customer;
+import com.datamation.hmdsfa.model.FddbNote;
 import com.datamation.hmdsfa.model.StockInfo;
 import com.datamation.hmdsfa.model.VanStock;
 
@@ -256,6 +258,90 @@ public class VanStockController {
                 }
                 dB.close();
             }
+        return list;
+    }
+
+    public ArrayList<VanStock> getStockDetailList(String locCode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<VanStock> list = new ArrayList<VanStock>();
+        Cursor cursor = null;
+        try {
+
+            String selectQuery = "SELECT v.Item_No,v.Barcode,v.Quantity_Issued,v.Variant_Code, b.Description, b.Article_No as ArticleNo, s.UnitPrice ,(s.UnitPrice * v.Quantity_Issued) as Amount from fVanStock v, fSalesPrice s, BarCodeVarient b  WHERE  v.To_Location_Code  = '" + locCode + "' AND v.Barcode = b.Barcode_No AND v.Item_No = s.ItemNo GROUP BY v.Barcode";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                VanStock vanStock = new VanStock();
+
+                vanStock.setItem_No(cursor.getString(cursor.getColumnIndex(FVAN_ITEM_NO)));
+                vanStock.setBarcode(cursor.getString(cursor.getColumnIndex(FVAN_BARCODE)));
+                vanStock.setVariant_Code(cursor.getString(cursor.getColumnIndex(FVAN_VARIANT_CODE)));
+                vanStock.setDescription(cursor.getString(cursor.getColumnIndex(BarcodeVarientController.Description)));
+                vanStock.setArticleNo(cursor.getString(cursor.getColumnIndex("ArticleNo")));
+                vanStock.setQuantity_Issued(cursor.getString(cursor.getColumnIndex(FVAN_QUANTITY_ISSUED)));
+                vanStock.setUnitPrice(cursor.getString(cursor.getColumnIndex(SalesPriceController.FSALES_PRI_UNITPRICE)));
+                vanStock.setAmount(cursor.getString(cursor.getColumnIndex("Amount")));
+                list.add(vanStock);
+
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return list;
+    }
+
+    public ArrayList<VanStock> getQtyByArticleNo(String locCode) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<VanStock> list = new ArrayList<VanStock>();
+        Cursor cursor = null;
+        try {
+
+            String selectQuery = "Select sum(v.Quantity_Issued) as totQty, b.Description FROM fVanStock v, BarCodeVarient b WHERE v.Barcode = b.Barcode_No AND To_Location_Code  = '"+ locCode + "' GROUP by Article_No";
+
+            cursor = dB.rawQuery(selectQuery, null);
+
+            while (cursor.moveToNext()) {
+
+                VanStock vanStock = new VanStock();
+
+                vanStock.setDescription(cursor.getString(cursor.getColumnIndex(ItemBundleController.Description)));
+                vanStock.setTotQty(cursor.getString(cursor.getColumnIndex("totQty")));
+                list.add(vanStock);
+
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
         return list;
     }
 }
