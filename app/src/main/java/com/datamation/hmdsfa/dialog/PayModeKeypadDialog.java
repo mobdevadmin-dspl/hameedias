@@ -207,6 +207,7 @@ public class PayModeKeypadDialog extends Dialog {
             }
         });
 
+        // allow decimal point
         btnPointFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,16 +228,16 @@ public class PayModeKeypadDialog extends Dialog {
                     btn_point_two_five.setVisibility(View.INVISIBLE);
                     btn_point_two_five.setEnabled(false);
 
-//                    btn0.setEnabled(true);
-//                    btn1.setEnabled(true);
-//                    btn2.setEnabled(true);
-//                    btn3.setEnabled(true);
-//                    btn4.setEnabled(true);
-//                    btn5.setEnabled(true);
-//                    btn6.setEnabled(true);
-//                    btn7.setEnabled(true);
-//                    btn8.setEnabled(true);
-//                    btn9.setEnabled(true);
+                    btn0.setEnabled(true);
+                    btn1.setEnabled(true);
+                    btn2.setEnabled(true);
+                    btn3.setEnabled(true);
+                    btn4.setEnabled(true);
+                    btn5.setEnabled(true);
+                    btn6.setEnabled(true);
+                    btn7.setEnabled(true);
+                    btn8.setEnabled(true);
+                    btn9.setEnabled(true);
                 }
             }
         });

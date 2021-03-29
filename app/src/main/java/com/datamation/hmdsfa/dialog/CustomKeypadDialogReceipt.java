@@ -207,6 +207,7 @@ public class CustomKeypadDialogReceipt extends Dialog {
             }
         });
 
+        // allow decimal point
         btnPointFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
