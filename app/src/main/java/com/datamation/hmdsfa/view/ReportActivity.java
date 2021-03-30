@@ -19,6 +19,7 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.controller.SalRepController;
 import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.fragment.FragmentTools;
+import com.datamation.hmdsfa.model.StockInfo;
 import com.datamation.hmdsfa.model.VanStock;
 
 
@@ -65,14 +66,6 @@ public class ReportActivity {
     ArrayList<VanStock> list_10 ;
     ArrayList<VanStock> list_11 ;
     ArrayList<VanStock> list_12 ;
-
-
-    ArrayList<VanStock> qtylist_1 ;
-    ArrayList<VanStock> qtylist_2;
-    ArrayList<VanStock> qtylist_3 ;
-    ArrayList<VanStock> qtylist_4 ;
-    ArrayList<VanStock> qtylist_5 ;
-    ArrayList<VanStock> qtylist_6 ;
 
     public ReportActivity(Context context) {
         this.context = context;
@@ -685,18 +678,11 @@ public class ReportActivity {
         canvasStockM13.drawLine(20, 22,80 , 22, vanStockReportPaint);
 
         // Add data to table
-       ArrayList<VanStock> qtyList = new VanStockController(context).getQtyByArticleNo(locCode);
+       ArrayList<VanStock> qtyList = new VanStockController(context).getQtyByGroupWise(locCode);
 
-        qtylist_1 = new ArrayList<VanStock>(qtyList.subList(0, 38));
-        qtylist_2 = new ArrayList<VanStock>(qtyList.subList(39, 79));
-        qtylist_3 = new ArrayList<VanStock>(qtyList.subList(80, 120));
-        qtylist_4 = new ArrayList<VanStock>(qtyList.subList(121, 161));
-        qtylist_5 = new ArrayList<VanStock>(qtyList.subList(162, 202));
-        qtylist_6 = new ArrayList<VanStock>(qtyList.subList(203, qtyList.size()));
+        int m = 60;
 
-        int m = 50;
-
-        for (VanStock vanStock : qtylist_1) {
+        for (VanStock vanStock : qtyList) {
 
             vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
             vanStockReportPaint.setTextSize(8);
@@ -707,170 +693,68 @@ public class ReportActivity {
             m = m + 20;
         }
 
-        vanStockReportPDF.finishPage(vanStockReportPage13);
-
-        // page 14
-        PdfDocument.PageInfo vanStockReportPageInfo14 = new PdfDocument.PageInfo.Builder(595, 842, 14).create();
-        PdfDocument.Page vanStockReportPage14= vanStockReportPDF.startPage(vanStockReportPageInfo14);
-        Canvas canvasStockM14 = vanStockReportPage14.getCanvas();
-
-        int n = 20;
-
-        for (VanStock vanStock : qtylist_2) {
-
-            vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
-            vanStockReportPaint.setTextSize(8);
-            vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-            canvasStockM14.drawText(vanStock.getDescription(), 20, n, vanStockReportPaint);
-            canvasStockM14.drawText(vanStock.getTotQty(), 260, n, vanStockReportPaint);
-
-            n = n +  20;
-        }
-
-
-        vanStockReportPDF.finishPage(vanStockReportPage14);
-
-        // page 15
-        PdfDocument.PageInfo vanStockReportPageInfo15 = new PdfDocument.PageInfo.Builder(595, 842, 15).create();
-        PdfDocument.Page vanStockReportPage15= vanStockReportPDF.startPage(vanStockReportPageInfo15);
-        Canvas canvasStockM15 = vanStockReportPage15.getCanvas();
-
-        int r = 20;
-
-        for (VanStock vanStock : qtylist_3) {
-
-            vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
-            vanStockReportPaint.setTextSize(8);
-            vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-            canvasStockM15.drawText(vanStock.getDescription(), 20, r, vanStockReportPaint);
-            canvasStockM15.drawText(vanStock.getTotQty(), 260, r, vanStockReportPaint);
-
-            r = r +  20;
-        }
-
-        vanStockReportPDF.finishPage(vanStockReportPage15);
-
-        //  page 16
-        PdfDocument.PageInfo vanStockReportPageInfo16 = new PdfDocument.PageInfo.Builder(595, 842, 16).create();
-        PdfDocument.Page vanStockReportPage16= vanStockReportPDF.startPage(vanStockReportPageInfo16);
-        Canvas canvasStockM16 = vanStockReportPage16.getCanvas();
-
-        int t = 20;
-
-        for (VanStock vanStock : qtylist_4) {
-
-            vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
-            vanStockReportPaint.setTextSize(8);
-            vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-            canvasStockM16.drawText(vanStock.getDescription(), 20, t, vanStockReportPaint);
-            canvasStockM16.drawText(vanStock.getTotQty(), 260, t, vanStockReportPaint);
-
-           t = t +  20;
-        }
-
-        vanStockReportPDF.finishPage(vanStockReportPage16);
-
-        // page 17
-        PdfDocument.PageInfo vanStockReportPageInfo17 = new PdfDocument.PageInfo.Builder(595, 842, 17).create();
-        PdfDocument.Page vanStockReportPage17= vanStockReportPDF.startPage(vanStockReportPageInfo17);
-        Canvas canvasStockM17 = vanStockReportPage17.getCanvas();
-
-        int p = 30;
-
-        for (VanStock vanStock : qtylist_5) {
-
-            vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
-            vanStockReportPaint.setTextSize(8);
-            vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-           canvasStockM17.drawText(vanStock.getDescription(), 20, p, vanStockReportPaint);
-           canvasStockM17.drawText(vanStock.getTotQty(), 260, p, vanStockReportPaint);
-
-            p = p +  20;
-        }
-
-        vanStockReportPDF.finishPage(vanStockReportPage17);
-
-        // page 18
-        PdfDocument.PageInfo vanStockReportPageInfo18 = new PdfDocument.PageInfo.Builder(595, 842, 18).create();
-        PdfDocument.Page vanStockReportPage18= vanStockReportPDF.startPage(vanStockReportPageInfo18);
-        Canvas canvasStockM18 = vanStockReportPage18.getCanvas();
-
-        int h = 30;
-
-        for (VanStock vanStock : qtylist_6) {
-
-            vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
-            vanStockReportPaint.setTextSize(8);
-            vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-            canvasStockM18.drawText(vanStock.getDescription(), 20, h, vanStockReportPaint);
-            canvasStockM18.drawText(vanStock.getTotQty(), 260, h, vanStockReportPaint);
-
-            h = h +  20;
-        }
-
         // total
         vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
         vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         vanStockReportPaint.setTextSize(8);
         vanStockReportPaint.setColor(Color.BLACK);
-        canvasStockM18.drawText(String.valueOf(totQty), 440, 300, vanStockReportPaint);
+        canvasStockM13.drawText(String.valueOf(totQty), 440, m, vanStockReportPaint);
 
         vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
         vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         vanStockReportPaint.setTextSize(8);
-        canvasStockM18.drawText(String.valueOf(totAmt), 535, 300, vanStockReportPaint);
+        canvasStockM13.drawText(String.valueOf(totAmt), 535, m, vanStockReportPaint);
 
         vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
         vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         vanStockReportPaint.setTextSize(14);
         vanStockReportPaint.setColor(Color.BLACK);
-        canvasStockM18.drawText("------------------------", 40, 390, vanStockReportPaint);
+        canvasStockM13.drawText("------------------------", 40, m + 100, vanStockReportPaint);
 
         vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
         vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         vanStockReportPaint.setTextSize(14);
         vanStockReportPaint.setColor(Color.BLACK);
-        canvasStockM18.drawText("------------------------", 260, 390, vanStockReportPaint);
+        canvasStockM13.drawText("------------------------", 260, m + 100, vanStockReportPaint);
 
         vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
         vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         vanStockReportPaint.setTextSize(14);
         vanStockReportPaint.setColor(Color.BLACK);
-        canvasStockM18.drawText("------------------------", 470, 390, vanStockReportPaint);
+        canvasStockM13.drawText("------------------------", 470, m + 100, vanStockReportPaint);
 
         vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
         vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         vanStockReportPaint.setTextSize(14);
         vanStockReportPaint.setColor(Color.BLACK);
-        canvasStockM18.drawText("Prepared By", 50, 410, vanStockReportPaint);
+        canvasStockM13.drawText("Prepared By", 50, m + 120, vanStockReportPaint);
 
         vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
         vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         vanStockReportPaint.setTextSize(14);
         vanStockReportPaint.setColor(Color.BLACK);
-        canvasStockM18.drawText("Checked By", 270, 410, vanStockReportPaint);
+        canvasStockM13.drawText("Checked By", 270, m + 120, vanStockReportPaint);
 
         vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
         vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         vanStockReportPaint.setTextSize(14);
         vanStockReportPaint.setColor(Color.BLACK);
-        canvasStockM18.drawText("Authorized By", 480, 410, vanStockReportPaint);
+        canvasStockM13.drawText("Authorized By", 480, m + 120, vanStockReportPaint);
 
         vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
         vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         vanStockReportPaint.setTextSize(14);
         vanStockReportPaint.setColor(Color.BLACK);
-        canvasStockM18.drawText("------------------------", 470, 490, vanStockReportPaint);
+        canvasStockM13.drawText("------------------------", 470, m + 200, vanStockReportPaint);
 
         vanStockReportPaint.setTextAlign(Paint.Align.LEFT);
         vanStockReportPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         vanStockReportPaint.setTextSize(14);
         vanStockReportPaint.setColor(Color.BLACK);
-        canvasStockM18.drawText("Received By", 485, 510, vanStockReportPaint);
+        canvasStockM13.drawText("Received By", 485, m + 220, vanStockReportPaint);
 
+        vanStockReportPDF.finishPage(vanStockReportPage13);
 
-        vanStockReportPDF.finishPage(vanStockReportPage18);
-        
         File folder_1 = new File(Environment.getExternalStorageDirectory() + "/" + APP_NAME + "/" + DATE);
         File folder_2 = new File(Environment.getExternalStorageDirectory() + "/" + APP_NAME + "/" + DATE + "/"+ FOLDER_NAME);
         boolean success_1 = true;

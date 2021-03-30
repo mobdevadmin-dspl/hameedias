@@ -241,7 +241,7 @@ public class VanStockController {
                 //double qoh = Double.parseDouble(cursor.getString(cursor.getColumnIndex(VanStockController.FVAN_QUANTITY_ISSUED)));
                 if (qoh > 0) {
                     items.setStock_Itemcode(cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
-                    //items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
+                   // items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_ITEM_NAME)));
                     items.setStock_Itemname(cursor.getString(cursor.getColumnIndex(FITEM_RE_ORDER_QTY)));
                     items.setStock_Qoh(((int) qoh) + "");
 
@@ -306,7 +306,7 @@ public class VanStockController {
         return list;
     }
 
-    public ArrayList<VanStock> getQtyByArticleNo(String locCode) {
+    public ArrayList<VanStock> getQtyByGroupWise(String locCode) {
 
         if (dB == null) {
             open();
@@ -318,7 +318,7 @@ public class VanStockController {
         Cursor cursor = null;
         try {
 
-            String selectQuery = "Select sum(v.Quantity_Issued) as totQty, b.Description FROM fVanStock v, BarCodeVarient b WHERE v.Barcode = b.Barcode_No AND To_Location_Code  = '"+ locCode + "' GROUP by Article_No";
+            String selectQuery = "Select sum(v.Quantity_Issued) as totQty, itm.itemName as Description FROM fVanStock v, fItem itm WHERE v.To_Location_Code = '"+ locCode + "' AND v.Item_No = itm.itemCode GROUP BY GroupCode";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -326,7 +326,7 @@ public class VanStockController {
 
                 VanStock vanStock = new VanStock();
 
-                vanStock.setDescription(cursor.getString(cursor.getColumnIndex(ItemBundleController.Description)));
+                vanStock.setDescription(cursor.getString(cursor.getColumnIndex("Description")));
                 vanStock.setTotQty(cursor.getString(cursor.getColumnIndex("totQty")));
                 list.add(vanStock);
 
