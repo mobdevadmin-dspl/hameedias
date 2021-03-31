@@ -318,7 +318,8 @@ public class VanStockController {
         Cursor cursor = null;
         try {
 
-            String selectQuery = "Select sum(v.Quantity_Issued) as totQty, itm.itemName as Description FROM fVanStock v, fItem itm WHERE v.To_Location_Code = '"+ locCode + "' AND v.Item_No = itm.itemCode GROUP BY GroupCode";
+            String selectQuery = "Select sum(v.Quantity_Issued) as totQty, itm.ItemName as Description FROM fVanStock v, fItem itm WHERE v.Item_No = itm.ItemCode AND v.To_Location_Code = '"+ locCode + "' GROUP BY itm.GroupCode";
+
 
             cursor = dB.rawQuery(selectQuery, null);
 
