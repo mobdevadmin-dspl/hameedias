@@ -503,12 +503,15 @@ public class ReceiptDetController {
 
 		try {
 
-			String selectQuery = "SELECT * FROM " + TABLE_FPRECDETS + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
+//			String selectQuery = "SELECT * FROM " + TABLE_FPRECDETS + " WHERE " + ValueHolder.REFNO + " = '" + refno + "'";
+			String selectQuery = "SELECT * FROM " + TABLE_FPRECDETS + " WHERE " +ReceiptController.FPRECHED_ISACTIVE  + " = '1'";
 			cursor = dB.rawQuery(selectQuery, null);
 			int cn = cursor.getCount();
 
 			if (cn > 0) {
-				count = dB.delete(TABLE_FPRECDETS, ValueHolder.REFNO  + " ='" + refno + "'", null);
+//				count = dB.delete(TABLE_FPRECDETS, ValueHolder.REFNO  + " ='" + refno + "'", null);
+				count = dB.delete(TABLE_FPRECDETS, ReceiptController.FPRECHED_ISACTIVE + "=?",
+						new String[] { "1"});
 				Log.v("Success Stauts", count + "");
 			}
 		} catch (Exception e) {

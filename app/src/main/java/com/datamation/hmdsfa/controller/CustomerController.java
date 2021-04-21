@@ -203,7 +203,7 @@ public class CustomerController {
                 fddbNote.setTxnDate(cursor.getString(cursor.getColumnIndex(Customer.TXNDATE)));
                 fddbNote.setAmt(cursor.getString(cursor.getColumnIndex(OutstandingController.FDDBNOTE_AMT)));
                 fddbNote.setCreditPeriod(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_CRD_PERIOD)));
-
+                fddbNote.setFDDBNOTE_TOT_BAL(cursor.getString(cursor.getColumnIndex(OutstandingController.FDDBNOTE_TOT_BAL)));
                 list.add(fddbNote);
 
             }

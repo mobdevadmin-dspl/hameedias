@@ -140,7 +140,7 @@ public class OutstandingDetailsFragment extends Fragment
                 viewHolder.invoiceId.setText(fddbNotes.get(position).getRefNo());
                 viewHolder.invoiceDate.setText(fddbNotes.get(position).getTxnDate());
                 viewHolder.invoiceAmt.setText(fddbNotes.get(position).getAmt());
-                viewHolder.invoiceBalance.setText(fddbNotes.get(position).getAmt());
+                viewHolder.invoiceBalance.setText(fddbNotes.get(position).getFDDBNOTE_TOT_BAL());
 
 
 

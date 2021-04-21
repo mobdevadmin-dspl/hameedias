@@ -170,7 +170,17 @@ public class BRInvoiceSummaryFragment extends Fragment {
                 if (Double.parseDouble(lblGross.getText().toString()) >0) {
                     saveSummaryDialog();
                 } else {
-                    Toast.makeText(getActivity(), "Cannot save zero bill amount", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Summary");
+                    builder.setMessage("Cannot save zero bill amount");
+
+                    // add a button
+                    builder.setPositiveButton("OK", null);
+
+                    // create and show the alert dialog
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+//                    Toast.makeText(getActivity(), "Cannot save zero bill amount", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -210,8 +220,18 @@ public class BRInvoiceSummaryFragment extends Fragment {
                     new InvDetController(getActivity()).restData(RefNo);
 
                 }
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Summary");
+                builder.setMessage("Invoice details discarded successfully..!");
 
-                Toast.makeText(getActivity(), "Invoice details discarded successfully..!", Toast.LENGTH_SHORT).show();
+                // add a button
+                builder.setPositiveButton("OK", null);
+
+                // create and show the alert dialog
+                AlertDialog dialog2 = builder.create();
+                dialog2.show();
+
+//                Toast.makeText(getActivity(), "Invoice details discarded successfully..!", Toast.LENGTH_SHORT).show();
 
                 Intent intnt = new Intent(getActivity(),DebtorDetailsActivity.class);
                 intnt.putExtra("outlet", outlet);
@@ -234,7 +254,18 @@ public class BRInvoiceSummaryFragment extends Fragment {
     public void mRefreshData() {
         if (mSharedPref.getDiscountClicked().equals("0")) {
             responseListener.moveBackToCustomer(1);
-            Toast.makeText(getActivity(), "Please tap on Discount Button", Toast.LENGTH_LONG).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Summary");
+            builder.setMessage("Please tap on Discount Button");
+
+            // add a button
+            builder.setPositiveButton("OK", null);
+
+            // create and show the alert dialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+//            Toast.makeText(getActivity(), "Please tap on Discount Button", Toast.LENGTH_LONG).show();
         }
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
 

@@ -745,6 +745,44 @@ public class InvDetController {
         return list;
     }
 
+    public String getAllQtyCount(String refno) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String QtyCount="";
+//        ArrayList<InvDet> list = new ArrayList<InvDet>();
+
+        // String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "' AND types='SA'";
+        String selectQuery = "select sum(qty) As QtyCnt from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'";
+//        select sum(qty) As QtyCnt from finvdet where refno='IFZ2103/0015'
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+
+            while (cursor.moveToNext()) {
+
+                //   invDet.setFINVDET_ID(cursor.getString(cursor.getColumnIndex(FINVDET_ID)));
+                QtyCount = cursor.getString(cursor.getColumnIndex("QtyCnt"));
+
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return QtyCount;
+    }
+
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     public ArrayList<InvDet> getAllDltInvDet(String refno) {
         if (dB == null) {

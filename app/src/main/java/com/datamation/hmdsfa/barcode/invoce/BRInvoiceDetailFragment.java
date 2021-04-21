@@ -1,6 +1,7 @@
 package com.datamation.hmdsfa.barcode.invoce;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -13,6 +14,8 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.widget.SearchView;
@@ -37,6 +40,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.adapter.BundleAdapter;
 import com.datamation.hmdsfa.adapter.FabricItemsAdapter;
@@ -110,7 +114,7 @@ public class BRInvoiceDetailFragment extends Fragment{
     ImageButton ibtProduct, ibtDiscount;
     private  SweetAlertDialog pDialog;
     private InvHed selectedInvHed;
-    TextView textStatus;
+    TextView textStatus, txtQtyCount;
     EditText etSearchField;
     ThreadConnectBTdevice threadConnectBTdevice;
     int clickCount = 0;
@@ -127,6 +131,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
         lv_order_det = (ListView) view.findViewById(R.id.lvProducts_Inv);
         textStatus = view.findViewById(R.id.tvStatus_main);
+        txtQtyCount =view.findViewById(R.id.qty_cnt);
         etSearchField = view.findViewById(R.id.etSearchField);
         spnScanType = (Spinner) view.findViewById(R.id.spnScan);
         btnDiscount = (FloatingActionButton)  view.findViewById(R.id.btn_discount);
@@ -167,7 +172,19 @@ public class BRInvoiceDetailFragment extends Fragment{
 
                         showData();
                     } else {
-                        Toast.makeText(getActivity(), "No matching item", Toast.LENGTH_LONG).show();
+                        // setup the alert builder
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Item Wise");
+                        builder.setMessage("Scanned Item Not Matching");
+
+                        // add a button
+                        builder.setPositiveButton("OK", null);
+
+                        // create and show the alert dialog
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
+//                        Toast.makeText(getActivity(), "No matching item", Toast.LENGTH_LONG).show();
                     }
                     etSearchField.setText("");
                     etSearchField.setFocusable(true);
@@ -181,7 +198,18 @@ public class BRInvoiceDetailFragment extends Fragment{
                     if(itemBundle.size()>0) {
                         BundleItemsDialogBox(itemBundle);
                     }else{
-                        Toast.makeText(getActivity(),"No matching bundle",Toast.LENGTH_LONG).show();
+                        // setup the alert builder
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Bundle Wise");
+                        builder.setMessage("Scanned Bundle Not Matching");
+
+                        // add a button
+                        builder.setPositiveButton("OK", null);
+
+                        // create and show the alert dialog
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+//                        Toast.makeText(getActivity(),"No matching bundle",Toast.LENGTH_LONG).show();
                     }
                     etSearchField.setText("");
                     etSearchField.setFocusable(true);
@@ -192,7 +220,18 @@ public class BRInvoiceDetailFragment extends Fragment{
                     if(fabricitems.size()>0){
                         FabricItemsDialogBox(fabricitems);
                     }else{
-                        Toast.makeText(getActivity(),"No matching fabric items",Toast.LENGTH_LONG).show();
+                        // setup the alert builder
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Fabric Wise");
+                        builder.setMessage("Scanned Fabric Not Matching");
+
+                        // add a button
+                        builder.setPositiveButton("OK", null);
+
+                        // create and show the alert dialog
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+//                        Toast.makeText(getActivity(),"No matching fabric items",Toast.LENGTH_LONG).show();
                     }
                     etSearchField.setText("");
                     etSearchField.setFocusable(true);
@@ -230,11 +269,33 @@ public class BRInvoiceDetailFragment extends Fragment{
                         new CalculateDiscounts(mSharedPref.getSelectedDebCode()).execute();
                     }else{
                         UpdateTaxDetails(RefNo);
-                        Toast.makeText(getActivity(),"Discount not allow for this customer",Toast.LENGTH_SHORT).show();
+                        // setup the alert builder
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Discount");
+                        builder.setMessage("Discount Not Allow For This Customer");
+
+                        // add a button
+                        builder.setPositiveButton("OK", null);
+
+                        // create and show the alert dialog
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+//                        Toast.makeText(getActivity(),"Discount not allow for this customer",Toast.LENGTH_SHORT).show();
                     }
                     clickCount++;
                 }else{
-                    Toast.makeText(getActivity(),"Already clicked",Toast.LENGTH_LONG).show();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Discount");
+                    builder.setMessage("Already clicked");
+
+                    // add a button
+                    builder.setPositiveButton("OK", null);
+
+                    // create and show the alert dialog
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+//                    Toast.makeText(getActivity(),"Already clicked",Toast.LENGTH_LONG).show();
                     Log.v("Freeclick Count", mSharedPref.getGlobalVal("preKeyIsFreeClicked"));
                 }
 
@@ -589,6 +650,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
         try {
             orderList = new InvDetController(getActivity()).getAllInvDet(selectedInvHed.getFINVHED_REFNO());
+            txtQtyCount.setText( new InvDetController(getActivity()).getAllQtyCount(selectedInvHed.getFINVHED_REFNO()));
 //            ArrayList<InvDet> freeList = new InvDetController(getActivity()).getAllFreeIssue(selectedInvHed.getFINVHED_REFNO());
            // lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));
             lv_order_det.setAdapter(new InvDetAdapterNew(getActivity(), orderList));
@@ -809,7 +871,18 @@ public class BRInvoiceDetailFragment extends Fragment{
                             mUpdateInvoice(product.getFPRODUCT_Barcode(), product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), product.getFPRODUCT_VariantCode(), product.getFPRODUCT_QTY(), product.getFPRODUCT_ArticleNo(), product.getFPRODUCT_DocumentNo());
                         }
                     }else{
-                        Toast.makeText(getActivity(),"Not enough stock",Toast.LENGTH_LONG).show();
+                        // setup the alert builder
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("No Stock");
+                        builder.setMessage("Not Enough Stock");
+
+                        // add a button
+                        builder.setPositiveButton("OK", null);
+
+                        // create and show the alert dialog
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+//                        Toast.makeText(getActivity(),"Not enough stock",Toast.LENGTH_LONG).show();
                     }
     }
 

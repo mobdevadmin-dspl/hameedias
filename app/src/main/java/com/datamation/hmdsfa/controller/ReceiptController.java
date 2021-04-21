@@ -620,9 +620,10 @@ public class ReceiptController {
 		}
 		int result = 0;
 		try {
-			result = dB.delete(TABLE_FPRECHEDS, ValueHolder.REFNO + "=?",
-					new String[] { Refno });
-
+//			result = dB.delete(TABLE_FPRECHEDS, ValueHolder.REFNO + "=?",
+//					new String[] { Refno });
+			result = dB.delete(TABLE_FPRECHEDS, ReceiptController.FPRECHED_ISACTIVE + "=?",
+					new String[] { "1"});
 		} catch (Exception e) {
 
 			Log.v(TAG + " Exception", e.toString());

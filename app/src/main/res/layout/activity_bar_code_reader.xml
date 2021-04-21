@@ -40,27 +40,43 @@
     </TableRow>
 
 
-
-
-
-    <EditText
-        android:id="@+id/etSearchField"
-        android:layout_below="@+id/rowScan"
+    <TableRow
+        android:id="@+id/rowSearch"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="20dp"
-        android:drawablePadding="10dp"
-        android:hint="SEARCH..."
-        android:background="@android:color/background_light"
-        android:inputType="text"
-        android:layout_gravity="center"
-        android:focusable="true"
-        android:gravity="center"
-        android:drawableRight="@android:drawable/ic_menu_search"
-        android:maxLines="1"
-        android:paddingLeft="10dp" />
-    <!--<EditText-->
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rowScan"
+        android:layout_margin="0dp"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/qty_cnt"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/blueColor"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:id="@+id/etSearchField"
+            android:layout_width="360dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/rowScan"
+            android:layout_gravity="right"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="20dp"
+            android:background="@android:color/background_light"
+            android:drawableRight="@android:drawable/ic_menu_search"
+            android:drawablePadding="10dp"
+            android:focusable="true"
+            android:gravity="center"
+            android:hint="SEARCH..."
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingLeft="10dp" />
+        <!--<EditText-->
         <!--android:id="@+id/txtSearchField"-->
         <!--android:layout_below="@+id/etSearchField"-->
         <!--android:layout_width="match_parent"-->
@@ -76,23 +92,24 @@
         <!--android:drawableRight="@android:drawable/ic_menu_search"-->
         <!--android:maxLines="1"-->
         <!--android:paddingLeft="10dp" />-->
-    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-        android:id="@+id/txtSearchField"
-        android:visibility="gone"
-        android:layout_below="@+id/etSearchField"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="20dp"
-        android:drawablePadding="10dp"
-        android:inputType="text"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:maxLines="1"
-        android:paddingLeft="10dp" />
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/txtSearchField"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etSearchField"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="20dp"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:visibility="gone" />
+    </TableRow>
 
     <ListView
-        android:layout_below="@+id/txtSearchField"
+        android:layout_below="@+id/rowSearch"
         android:id="@+id/lvProducts_Inv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
