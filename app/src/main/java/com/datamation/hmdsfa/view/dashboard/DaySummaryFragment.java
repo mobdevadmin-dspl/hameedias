@@ -3,6 +3,8 @@ package com.datamation.hmdsfa.view.dashboard;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,12 +105,21 @@ public class DaySummaryFragment  extends Fragment {
         tvPMProductive   = (TextView) rootView.findViewById(R.id.dashboard_tv_card_prev_month_productive_calls);
         tvPMNonProductive= (TextView) rootView.findViewById(R.id.dashboard_tv_card_prev_month_unproductive_calls);
 
-
-
         fetchData();
 
         return rootView;
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            // Refresh your fragment here
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(DaySummaryFragment.this).attach(DaySummaryFragment.this).commit();
+        }
+    }
+
 
     public void fetchData(){
         String route = "";
@@ -173,7 +184,6 @@ public class DaySummaryFragment  extends Fragment {
         tvPMTarget.setText(""+format.format(preMonthTarget));
         tvPMProductive.setText(""+pMordcount);
         tvPMNonProductive.setText(""+pMNpcount);
-
 
 
         tvSalesGross.setText(""+format.format(dailyAchieve));

@@ -1,8 +1,5 @@
 package com.datamation.hmdsfa.fragment;
 
-
-
-
 import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
