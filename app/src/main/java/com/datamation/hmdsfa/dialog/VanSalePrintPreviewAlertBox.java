@@ -212,7 +212,7 @@ public class VanSalePrintPreviewAlertBox {
                     dDisc += Double.parseDouble(det.getFINVDET_DIS_AMT());
                     dTotAmt += Double.parseDouble(det.getFINVDET_AMT());
                     dTax += Double.parseDouble(det.getFINVDET_TAX_AMT());
-                    size_print = new InvDetController(this.context).getSizecodeString(det.getFINVDET_ITEM_CODE(), refno);
+                    size_print = new InvDetController(this.context).getSizecodeString(det.getFINVDET_ITEM_CODE(), refno,det.getFINVDET_ARTICLENO());
                 }
 
                 lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
@@ -527,7 +527,7 @@ public class VanSalePrintPreviewAlertBox {
             String disper = det.getFINVDET_DIS_PER();
             // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
             // - 3);
-            size_print = new InvDetController(this.context).getSizecodeString(det.getFINVDET_ITEM_CODE(), PRefno);
+            size_print = new InvDetController(this.context).getSizecodeString(det.getFINVDET_ITEM_CODE(), PRefno,det.getFINVDET_ARTICLENO());
             String sPrice = "", sTotal = "";
 
             sTotal = det.getFINVDET_AMT();

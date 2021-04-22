@@ -103,14 +103,20 @@ public class DaySummaryFragment  extends Fragment {
         tvPMProductive   = (TextView) rootView.findViewById(R.id.dashboard_tv_card_prev_month_productive_calls);
         tvPMNonProductive= (TextView) rootView.findViewById(R.id.dashboard_tv_card_prev_month_unproductive_calls);
 
+
+
+        fetchData();
+
+        return rootView;
+    }
+
+    public void fetchData(){
         String route = "";
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
         int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
         int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
 
         String curdate = curYear+"-"+ String.format("%02d", curMonth) + "-" + String.format("%02d", curDate);
-
-
         double dailyAchieve = new DashboardController(getActivity()).getDailyAchievement();
         double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
         double dailyDiscount = new DashboardController(getActivity()).getTodayDiscount();
@@ -184,8 +190,6 @@ public class DaySummaryFragment  extends Fragment {
         tvCashTotal.setText(""+format.format(dayCash+previousCash));
         tvChequeTotal.setText(""+format.format(dayCheque+previousCheque));
         //TODO::dailyDiscount,dailyDiscount should be set after create tables(FOrdDisc,fInvRdet)
-
-        return rootView;
     }
 
 //    private void calculateValues() {

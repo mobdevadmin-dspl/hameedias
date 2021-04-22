@@ -265,7 +265,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
             AlertDialog dialog = builder.create();
             dialog.show();
 
-//            Toast.makeText(getActivity(), "Please tap on Discount Button", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Please tap on Discount Button", Toast.LENGTH_LONG).show();
         }
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
 
@@ -378,9 +378,9 @@ public class BRInvoiceSummaryFragment extends Fragment {
 //           Customer debtor = new CustomerController(getActivity()).getSelectedCustomerByCode(invHed.getFINVHED_DEBCODE());
            dialog.cancel();
 
-           Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-           intent.putExtra("outlet", outlet);
-           getActivity().startActivity(intent);
+//           Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+//           intent.putExtra("outlet", outlet);
+//           getActivity().startActivity(intent);
 //           dialog.cancel()
    // Menaka Commented        int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview - original", RefNo);
 
@@ -421,6 +421,10 @@ public class BRInvoiceSummaryFragment extends Fragment {
 //                                    .build();
 //                            materialDialog.setCanceledOnTouchOutside(false);
 //                            materialDialog.show();
+
+           saveSuccess(RefNo);
+
+
                         } else {
                             Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
                         }
@@ -436,6 +440,39 @@ public class BRInvoiceSummaryFragment extends Fragment {
                 alertD.show();
         } else
             Toast.makeText(activity, "Add items before save ...!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void saveSuccess(String refno){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//        builder.setTitle("Summary");
+//        builder.setMessage("Invoice No "+refno+ " Successfully Saved");
+//
+//        // add a button
+////        builder.setPositiveButton("OK", null);
+//        builder.setPositiveButton(R.string.dialog_ok, null);
+//        // create and show the alert dialog
+//        AlertDialog dialog = builder.create();
+//        builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+//                intent.putExtra("outlet", outlet);
+//                getActivity().startActivity(intent);
+//            }
+//        });
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle("Summary");
+        dialog.setMessage("Invoice No "+refno+ " Successfully Saved");
+        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
+                intent.putExtra("outlet", outlet);
+                getActivity().startActivity(intent);
+            }
+        });
+        dialog.show();
+//        dialog.show();
     }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
     public void UpdateTaxDetails(String refNo) {

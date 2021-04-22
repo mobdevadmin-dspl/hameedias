@@ -1692,13 +1692,13 @@ public class InvDetController {
         return list;
     }
 
-    public String getSizecodeString(String Itemcode, String refno) {
+    public String getSizecodeString(String Itemcode, String refno, String articleno) {
         if (this.dB == null) {
             open();
         } else if (!this.dB.isOpen()) {
             open();
         }
-        Cursor cursor = this.dB.rawQuery("SELECT VariantCode, SUM(qty) as Qty FROM finvdet WHERE refno='"+refno+"'  AND itemcode='"+Itemcode+"' GROUP BY VariantCode ORDER BY VariantCode ASC", (String[]) null);
+        Cursor cursor = this.dB.rawQuery("SELECT VariantCode, SUM(qty) as Qty FROM finvdet WHERE refno='"+refno+"'  AND itemcode='"+Itemcode+"' AND ArticleNo='"+articleno+"' GROUP BY VariantCode ORDER BY VariantCode ASC", (String[]) null);
         String s = "|";
         int j = 1;
         while (cursor.moveToNext()) {

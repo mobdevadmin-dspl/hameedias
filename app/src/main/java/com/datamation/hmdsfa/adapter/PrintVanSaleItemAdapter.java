@@ -57,7 +57,7 @@ public class PrintVanSaleItemAdapter extends ArrayAdapter<InvDet> {
         disper.setText(""+list.get(position).getFINVDET_DIS_PER());
         qty.setText(""+list.get(position).getFINVDET_QTY());
         discamt.setText(""+list.get(position).getFINVDET_DIS_AMT());
-        sizedet.setText(""+ new InvDetController(this.context).getSizecodeString(list.get(position).getFINVDET_ITEM_CODE(), list.get(position).getFINVDET_REFNO()));
+        sizedet.setText(""+ new InvDetController(this.context).getSizecodeString(list.get(position).getFINVDET_ITEM_CODE(), list.get(position).getFINVDET_REFNO(),list.get(position).getFINVDET_ARTICLENO()));
 
         position = position + 1;
         String pos = Integer.toString(position);
