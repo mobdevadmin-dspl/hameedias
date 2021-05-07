@@ -220,7 +220,7 @@
         android:id="@+id/swipeToRefresh"
         android:layout_below="@+id/fragment_order_details_header_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="400dp">
 
         <ExpandableListView
             android:id="@+id/lvExp"
@@ -241,14 +241,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/item_payment_details_tv_gross_amount_total"
-            android:textStyle="bold"
-            android:textSize="13sp"
-            android:maxLines="3"
             android:gravity="center"
+            android:maxLines="3"
             android:text="Invoice"
-            android:visibility="invisible"/>
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/item_payment_details_tv_gross_amount_total"
