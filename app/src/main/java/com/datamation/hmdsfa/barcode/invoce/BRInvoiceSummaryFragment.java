@@ -423,7 +423,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
 //                            materialDialog.show();
 
            saveSuccess(RefNo);
-
+//           printinvoice(RefNo);
 
                         } else {
                             Toast.makeText(getActivity(), "Failed..", Toast.LENGTH_SHORT).show();
@@ -442,38 +442,62 @@ public class BRInvoiceSummaryFragment extends Fragment {
             Toast.makeText(activity, "Add items before save ...!", Toast.LENGTH_SHORT).show();
     }
 
-    public void saveSuccess(String refno){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//        builder.setTitle("Summary");
-//        builder.setMessage("Invoice No "+refno+ " Successfully Saved");
+    public void saveSuccess(final String refno){
+
+//        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+//        dialog.setTitle("Summary");
+//        dialog.setMessage("Invoice No "+refno+ " Successfully Saved");
+//        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
 //
-//        // add a button
-////        builder.setPositiveButton("OK", null);
-//        builder.setPositiveButton(R.string.dialog_ok, null);
-//        // create and show the alert dialog
-//        AlertDialog dialog = builder.create();
-//        builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
 //                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
 //                intent.putExtra("outlet", outlet);
 //                getActivity().startActivity(intent);
 //            }
 //        });
-
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setTitle("Summary");
-        dialog.setMessage("Invoice No "+refno+ " Successfully Saved");
-        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getActivity(), DebtorDetailsActivity.class);
-                intent.putExtra("outlet", outlet);
-                getActivity().startActivity(intent);
-            }
-        });
-        dialog.show();
 //        dialog.show();
+//        dialog.show();
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+                                    .content("Invoice No "+refno+ " Successfully Saved ! Do you want to get print?")
+                                    .positiveColor(ContextCompat.getColor(getActivity(), R.color.material_alert_positive_button))
+                                    .positiveText("Yes")
+                                    .negativeColor(ContextCompat.getColor(getActivity(), R.color.material_alert_negative_button))
+                                    .negativeText("No, Exit")
+                                    .callback(new MaterialDialog.ButtonCallback() {
+                                        @Override
+                                        public void onPositive(MaterialDialog dialog) {
+                                            super.onPositive(dialog);
+
+                                            int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview - original", refno);
+//                                            outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
+//                                            Intent intnt = new Intent(getActivity(), DebtorDetailsActivity.class);
+//                                            intnt.putExtra("outlet", outlet);
+//                                            startActivity(intnt);
+//
+//                                            getActivity().finish();
+
+                                        }
+                                        @Override
+                                        public void onNegative(MaterialDialog dialog) {
+                                            super.onNegative(dialog);
+                                            outlet = new CustomerController(getActivity()).getSelectedCustomerByCode(mSharedPref.getSelectedDebCode());
+                                            Intent intnt = new Intent(getActivity(), DebtorDetailsActivity.class);
+                                            intnt.putExtra("outlet", outlet);
+                                            startActivity(intnt);
+                                            getActivity().finish();
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .build();
+                            materialDialog.setCanceledOnTouchOutside(false);
+                            materialDialog.show();
     }
+
+    public void printinvoice(String refno){
+        int a = new VanSalePrintPreviewAlertBox(getActivity()).PrintDetailsDialogbox(getActivity(), "Print preview - original", refno);
+    }
+
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
     public void UpdateTaxDetails(String refNo) {
         ArrayList<InvDet> list = new InvDetController(activity).getAllInvDet(refNo);

@@ -254,12 +254,12 @@ public class VanSalePrintPreviewAlertBox {
                     public void onClick(DialogInterface dialog, int id) {
 
 //                        if(title.split("-")[1].trim().equals("original")) {
-//                            Intent intent = new Intent(context, DebtorDetailsActivity.class);
-//                            intent.putExtra("outlet", debtor);
-//                            context.startActivity(intent);
-                            dialog.cancel();
-//                        }else{
+                            Intent intent = new Intent(context, DebtorDetailsActivity.class);
+                            intent.putExtra("outlet", debtor);
+                            context.startActivity(intent);
 //                            dialog.cancel();
+//                        }else{
+                            dialog.cancel();
 //                        }
                     }
                 });
@@ -538,6 +538,7 @@ public class VanSalePrintPreviewAlertBox {
 
             int itemCodeLength = sItemcode.length();
             int articleno_length = articleno.length();
+            int itemname_Length = sItemname.length();
             if(itemCodeLength > 10)
             {
                 sItemcode = sItemcode.substring(0,10).trim();
@@ -548,7 +549,12 @@ public class VanSalePrintPreviewAlertBox {
                 articleno = articleno.substring(0,10).trim();
             }
 
-            sItemname = sItemname.substring(0,20).trim();
+            if(itemname_Length > 20)
+            {
+                sItemname = sItemname.substring(0,20).trim();
+            }
+
+            sItemname = padString("",20-sItemname.length());
             spItemcode = padString("",10-sItemcode.length());
             SpcItmCodeAndNOS = padString("",20-sItemname.length());
             SPcTotal = padString("",12-sTotal.length());
