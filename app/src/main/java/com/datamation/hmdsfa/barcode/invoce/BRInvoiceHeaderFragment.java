@@ -8,10 +8,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.datamation.hmdsfa.adapter.DiscountAdapter;
+import com.datamation.hmdsfa.adapter.InvDetAdapter;
+import com.datamation.hmdsfa.controller.DiscountController;
 import com.datamation.hmdsfa.controller.InvDetController;
+import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.RouteController;
 import com.datamation.hmdsfa.controller.RouteDetController;
 import com.datamation.hmdsfa.controller.VATController;
+import com.datamation.hmdsfa.model.Discount;
+import com.datamation.hmdsfa.model.InvDet;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 
@@ -61,7 +67,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
     View view;
     SharedPref mSharedPref;
     private FloatingActionButton next;
-    TextView lblCustomerName, outStandingAmt, lastBillAmt,lblInvRefno;
+    TextView lblCustomerName, outStandingAmt, lastBillAmt,lblInvRefno,viewDiscount;
     EditText  currnentDate,txtManual,txtRemakrs;
     Spinner spnPayMethod,spnVat;
     InvHed selectedInvHed;
@@ -82,6 +88,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
         outStandingAmt = (TextView) view.findViewById(R.id.lbl_Inv_outstanding_amt);
         lastBillAmt = (TextView) view.findViewById(R.id.lbl_inv_lastbill);
         lblInvRefno = (TextView) view.findViewById(R.id.invoice_no);
+        viewDiscount = (TextView) view.findViewById(R.id.view_discount);
         currnentDate = (EditText) view.findViewById(R.id.lbl_InvDate);
         txtManual = (EditText) view.findViewById(R.id.txt_InvManual);
         txtRemakrs = (EditText) view.findViewById(R.id.txt_InvRemarks);
@@ -199,8 +206,50 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
                 }
             }
         });
+
+        viewDiscount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewDiscountDialog();
+            }
+        });
+
         return view;
     }
+
+    public void viewDiscountDialog() {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View promptView = layoutInflater.inflate(R.layout.discount_dialog, null);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+            alertDialogBuilder.setTitle("Discounts !!!!");
+            alertDialogBuilder.setView(promptView);
+
+        final ListView lvDiscountItems = (ListView) promptView.findViewById(R.id.lvDiscount_Summary_Dialog_Inv);
+        ViewGroup.LayoutParams disLvparams = lvDiscountItems.getLayoutParams();
+            ArrayList<Discount> discountItemList = null;
+            discountItemList = new DiscountController(getActivity()).getDiscountItems(mSharedPref.getGlobalVal("KeyPayType"),mSharedPref.getSelectedDebCode());
+
+        if(discountItemList.size()>0){
+            disLvparams.height = 300;
+        }else {
+            disLvparams.height = 0;
+        }
+        lvDiscountItems.setLayoutParams(disLvparams);
+
+
+        lvDiscountItems.setAdapter(new DiscountAdapter(getActivity(), discountItemList));
+            alertDialogBuilder.setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                public void onClick(final DialogInterface dialog, int id) {
+
+                    dialog.cancel();
+
+                }
+            });
+            AlertDialog alertD = alertDialogBuilder.create();
+            alertD.show();
+    }
+
 
     /*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 

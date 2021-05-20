@@ -45,7 +45,25 @@ public class InvDet implements Serializable{
     private String FINVDET_BARCODE;
     private String FINVDET_ARTICLENO;
     private String FINVDET_VARIANTCODE;
+    private String FINVDET_PAYTYPE;
+    private String FINVDET_GROUPCODE;
     private boolean FLAG;
+
+    public String getFINVDET_GROUPCODE() {
+        return FINVDET_GROUPCODE;
+    }
+
+    public void setFINVDET_GROUPCODE(String FINVDET_GROUPCODE) {
+        this.FINVDET_GROUPCODE = FINVDET_GROUPCODE;
+    }
+
+    public String getFINVDET_PAYTYPE() {
+        return FINVDET_PAYTYPE;
+    }
+
+    public void setFINVDET_PAYTYPE(String FINVDET_PAYTYPE) {
+        this.FINVDET_PAYTYPE = FINVDET_PAYTYPE;
+    }
 
     public String getFINVDET_BARCODE() {
         return FINVDET_BARCODE;

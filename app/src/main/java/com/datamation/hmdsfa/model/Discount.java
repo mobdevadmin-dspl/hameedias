@@ -21,6 +21,15 @@ public class Discount {
     private String ProductGroup;
     @SerializedName("RepCode")
     private String RepCode;
+    private String PayType;
+
+    public String getPayType() {
+        return PayType;
+    }
+
+    public void setPayType(String payType) {
+        PayType = payType;
+    }
 
     public String getProductCashDis() {
         return ProductCashDis;

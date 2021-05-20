@@ -1418,4 +1418,33 @@ public class ItemController {
         return "";
     }
 
+    public String getGroupNameByCode(String code) {
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "SELECT * FROM " + TABLE_FITEM + " WHERE " + FGROUP_CODE + "='" + code + "'";
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+            while (cursor.moveToNext()) {
+
+                return cursor.getString(cursor.getColumnIndex(FITEM_RE_ORDER_QTY));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return "";
+    }
+
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/layout_order_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:weightSum="2">
+
+        <com.datamation.hmdsfa.utils.CustomizeFont
+            android:id="@+id/row_groupName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="GroupName"
+            android:textAllCaps="true"
+            android:textColor="@color/material_alert_neutral_button"
+            android:textSize="14sp" />
+
+        <com.datamation.hmdsfa.utils.CustomizeFont
+            android:id="@+id/row_discount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:paddingRight="5dp"
+            android:text="Discount"
+            android:textColor="@color/material_alert_neutral_button"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+<!--                <com.datamation.hmdsfa.utils.CustomFont-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="1dp"-->
+<!--                    android:layout_marginRight="1dip"-->
+<!--                    android:layout_weight="0.5"-->
+<!--                    android:background="@drawable/custom_label"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="ITEMCODE"-->
+<!--                    android:textAppearance="?android:attr/textAppearanceSmall"-->
+<!--                    android:textColor="@color/unselected"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:textStyle="bold" />-->
+
+                <com.datamation.hmdsfa.utils.CustomFont
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dip"
+                    android:layout_marginRight="1dip"
+                    android:layout_weight="1.5"
+                    android:background="@drawable/custom_label"
+                    android:gravity="center"
+                    android:text="GROUP NAME"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/unselected"
+                    android:textSize="14sp" />
+
+                <com.datamation.hmdsfa.utils.CustomFont
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dip"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/custom_label"
+                    android:gravity="center"
+                    android:text="DISCOUNT"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/unselected"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+                <ListView
+                    android:id="@+id/lvDiscount_Summary_Dialog_Inv"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="1dp"
+                    android:background="@drawable/custom_textbox"
+                    android:divider="@color/list_view_diveder"
+                    android:dividerHeight="1dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -341,11 +341,68 @@ public class DiscountController {
 
         }
 
-
-
-
         return newMetaList;
 
+    }
+
+//    // ---------------------------------- kaveesha -------------- 20/05/2021 -------------------------------------------------------------------
+//    public ArrayList<InvDet> getDiscountItems(String payType, String debcode) {
+//
+//        ArrayList<InvDet> newMetaList = new ArrayList<InvDet>();
+//        Discount discountdets = null;
+//
+//             if(payType.equals("CA")){
+//                    discountdets = getSchemeByType( debcode, "ProductCashDis");
+//            }else{
+//                    discountdets = getSchemeByType(debcode,"ProductDis");
+//            }
+//
+//            InvDet invDet = new InvDet();
+//
+//            if (discountdets.getProductDis() != null) {
+//
+//                invDet.setFINVDET_DIS_PER(discountdets.getProductDis());
+//            }
+//            newMetaList.add(invDet);
+//
+//        return newMetaList;
+//    }
+
+    // ---------------------------- kaveesha ------------------ 20/05/2021 -------------------------------------------
+    public ArrayList<Discount> getDiscountItems(String payType,String debcode) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        String selectQuery = "select * from discount where DebCode = '" + debcode + "'";
+        //String selectQuery = "select * from discount where ProductGroup  = '" + productgroup + "'  and DebCode = '" + debcode + "'";
+        ArrayList<Discount> newMetaList = new ArrayList<Discount>();
+
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+
+        try {
+            while (cursor.moveToNext()) {
+                Discount discount = new Discount();
+                discount.setProductDis(cursor.getString(cursor.getColumnIndex(DISCOUNT_PRODUCT_DIS)));
+                discount.setProductCashDis(cursor.getString(cursor.getColumnIndex(DISCOUNT_PRODUCT_CASH_DIS)));
+                discount.setProductGroup(cursor.getString(cursor.getColumnIndex(DISCOUNT_PRODUCT_GROUP)));
+                discount.setPayType(payType);
+                newMetaList.add(discount);
+            }
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return newMetaList;
     }
 
 
