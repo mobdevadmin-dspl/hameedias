@@ -3,6 +3,7 @@ package com.datamation.hmdsfa.barcode.invoce;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
@@ -11,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,6 +37,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,6 +50,7 @@ import com.datamation.hmdsfa.adapter.FabricItemsAdapter;
 import com.datamation.hmdsfa.adapter.FreeIssueAdapterNew;
 import com.datamation.hmdsfa.adapter.InvDetAdapterNew;
 import com.datamation.hmdsfa.adapter.InvoiceFreeItemAdapter;
+import com.datamation.hmdsfa.adapter.MainStockAdapter;
 import com.datamation.hmdsfa.adapter.NewProduct_Adapter;
 import com.datamation.hmdsfa.adapter.VarientItemsAdapter;
 import com.datamation.hmdsfa.controller.BarcodeVarientController;
@@ -61,6 +65,7 @@ import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.ItemPriController;
+import com.datamation.hmdsfa.controller.MainStockController;
 import com.datamation.hmdsfa.controller.OrdFreeIssueController;
 import com.datamation.hmdsfa.controller.ProductController;
 import com.datamation.hmdsfa.controller.SalRepController;
@@ -70,6 +75,7 @@ import com.datamation.hmdsfa.controller.VanStockController;
 import com.datamation.hmdsfa.dialog.CustomProgressDialog;
 import com.datamation.hmdsfa.freeissue.FreeIssue;
 import com.datamation.hmdsfa.helpers.BluetoothConnectionHelper;
+import com.datamation.hmdsfa.helpers.NetworkFunctions;
 import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.helpers.VanSalesResponseListener;
 import com.datamation.hmdsfa.model.BarcodenvoiceDet;
@@ -79,11 +85,16 @@ import com.datamation.hmdsfa.model.InvDet;
 import com.datamation.hmdsfa.model.InvHed;
 import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.ItemFreeIssue;
+import com.datamation.hmdsfa.model.MainStock;
 import com.datamation.hmdsfa.model.OrdFreeIssue;
 import com.datamation.hmdsfa.model.Product;
 import com.datamation.hmdsfa.settings.ReferenceNum;
 import com.datamation.hmdsfa.view.ActivityVanSalesBR;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -102,10 +113,12 @@ public class BRInvoiceDetailFragment extends Fragment{
     int seqno = 0;
     ListView lv_order_det, lvFree;
     Spinner spnScanType;
+    ImageView btninquiry;
     FloatingActionButton btnDiscount;
     ArrayList<InvDet> orderList;
     ArrayList<BarcodenvoiceDet> orderListNew;
     SharedPref mSharedPref;
+    NetworkFunctions networkFunctions;
     String RefNo, locCode;
     ActivityVanSalesBR mainActivity;
     MyReceiver r;
@@ -126,6 +139,7 @@ public class BRInvoiceDetailFragment extends Fragment{
         totPieces = 0;
         view = inflater.inflate(R.layout.activity_bar_code_reader, container, false);
         mSharedPref = SharedPref.getInstance(getActivity());
+        networkFunctions = new NetworkFunctions(getActivity());
         locCode = new SharedPref(getActivity()).getGlobalVal("KeyLocCode");
         selectedInvHed = new InvHedController(getActivity()).getActiveInvhed();
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal));
@@ -135,6 +149,8 @@ public class BRInvoiceDetailFragment extends Fragment{
         etSearchField = view.findViewById(R.id.etSearchField);
         spnScanType = (Spinner) view.findViewById(R.id.spnScan);
         btnDiscount = (FloatingActionButton)  view.findViewById(R.id.btn_discount);
+        btninquiry = (ImageView) view.findViewById(R.id.btn_Inquiry);
+
         itemArrayList = new ArrayList<>();
         setHasOptionsMenu(true);
         etSearchField.setFocusable(true);
@@ -302,6 +318,13 @@ public class BRInvoiceDetailFragment extends Fragment{
             }
         });
 
+        btninquiry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new getMainStoreStock(etSearchField.getText().toString().trim()).execute();
+            }
+        });
+
         //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*//
 
 //        ibtDiscount.setOnClickListener(new View.OnClickListener() {
@@ -338,6 +361,158 @@ public class BRInvoiceDetailFragment extends Fragment{
         return view;
 
     }
+
+    private void viewStockDialog(String articleno){
+
+        final Dialog viewDialog = new Dialog(getActivity());
+        viewDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        viewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        viewDialog.setCancelable(false);
+        viewDialog.setCanceledOnTouchOutside(false);
+        viewDialog.setContentView(R.layout.mainstore_stock);
+        //initializations
+
+        final ListView lvStock = (ListView) viewDialog.findViewById(R.id.lvStock);
+        final TextView itemName = (TextView) viewDialog.findViewById(R.id.lbl_Itemname);
+        final TextView articleNo = (TextView) viewDialog.findViewById(R.id.lbl_articleNo);
+
+
+
+        ArrayList<MainStock> StockList = null;
+
+        articleNo.setText(articleno);
+        itemName.setText(new BarcodeVarientController(getActivity()).getItemNameByArticleNo(articleno));
+        StockList = new MainStockController(getActivity()).getMainStockDetail();
+        lvStock.setAdapter(new MainStockAdapter(getActivity(), StockList));
+
+        //close
+        viewDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewDialog.dismiss();
+
+            }
+        });
+        viewDialog.show();
+    }
+
+    private class getMainStoreStock extends AsyncTask<String, Integer, Boolean> {
+        CustomProgressDialog pdialog;
+        private String  articleNo;
+
+        public getMainStoreStock(String articleNo) {
+            this.articleNo = articleNo;
+            this.pdialog = new CustomProgressDialog(getActivity());
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdialog = new CustomProgressDialog(getActivity());
+         //   pdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+           // pdialog.setMessage("Downloading Main Store Stock Details...");
+            //pdialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... arg0) {
+
+            new MainStockController(getActivity()).deleteAll();
+
+            try {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Downloading Main Stock data...");
+                    }
+                });
+
+                String mainStock = "";
+                try {
+                    mainStock = networkFunctions.getMainStock(articleNo);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Processing downloaded data (Main Store Stock)...");
+                    }
+                });
+
+                // Processing Main Store Stock Data
+                try {
+                    JSONObject stockJSON = new JSONObject(mainStock);
+                    JSONArray stockJSONArray = stockJSON.getJSONArray("MainStockResult");
+                    ArrayList<MainStock> stockList = new ArrayList<MainStock>();
+                    MainStockController mainStockController = new MainStockController(getActivity());
+                    for (int i = 0; i < stockJSONArray.length(); i++) {
+                        stockList.add(MainStock.parseMainStock(stockJSONArray.getJSONObject(i)));
+                    }
+                    mainStockController.InsertOrReplaceMainStock(stockList);
+
+                } catch (JSONException | NumberFormatException e) {
+
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdialog.setMessage("Download complete...");
+                    }
+                });
+                return true;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+                return false;
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+                return false;
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean result) {
+            super.onPostExecute(result);
+
+            pdialog.setMessage("Finalizing Main Stock data");
+            pdialog.setMessage("Download Completed..");
+            if (result) {
+                if (pdialog.isShowing()) {
+                    pdialog.dismiss();
+                }
+
+
+                ArrayList<MainStock> list = new MainStockController(getActivity()).getMainStockDetail();
+                if(list.size()>0){
+                    viewStockDialog(articleNo);
+                    Toast.makeText(getActivity(), "Download Successfully", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getActivity(), "Wrong article number.Please check entered article number...", Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                if (pdialog.isShowing()) {
+                    pdialog.dismiss();
+                }
+
+                Toast.makeText(getActivity(), "Download fail.", Toast.LENGTH_LONG).show();
+
+            }
+        }
+    }
+
     private boolean BundleItemsDialogBox(final ArrayList<ItemBundle> itemDetails) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());

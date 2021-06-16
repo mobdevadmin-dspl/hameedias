@@ -503,5 +503,51 @@ public class BarcodeVarientController {
 
     }
 
+    public String getItemNameByArticleNo(String articleNo)
+    {
+        String ArticleNo = null;
+
+        if (dB == null)
+        {
+            open();
+        }
+        else if (!dB.isOpen())
+        {
+            open();
+        }
+
+
+        try
+        {
+            String selectQuery = "SELECT Description FROM '" + TABLE_BAR_CODE_VARIENT +"' WHERE Article_No = '"+ articleNo.trim() +"' ";
+            Cursor cursor = dB.rawQuery(selectQuery,null);
+            cursor.moveToFirst();
+
+            if(cursor.getCount() > 0)
+            {
+                ArticleNo = cursor.getString(cursor.getColumnIndex("Description"));
+
+                if(!ArticleNo.isEmpty())
+                {
+                    return ArticleNo;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            if(dB.isOpen())
+            {
+                dB.close();
+            }
+        }
+
+        return ArticleNo;
+    }
+
+
 
 }

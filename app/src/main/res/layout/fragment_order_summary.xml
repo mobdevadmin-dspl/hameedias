@@ -342,8 +342,6 @@
 
     </LinearLayout>
 
-
-
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fab_menu"
         android:layout_width="match_parent"

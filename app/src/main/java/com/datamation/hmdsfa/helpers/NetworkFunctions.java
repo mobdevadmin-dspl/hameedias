@@ -119,6 +119,16 @@ public class NetworkFunctions {
         return getFromServer(baseURL + "Fdebtor" + restOfURL + "/" + repCode, params);
 
     }
+    // -----------------------kaveesha ------------------------------ 15-06-2021 ---------------------------------------
+    public String getMainStock(String articleNo) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting MainStock : " + baseURL + "MainStock" + restOfURL + "/" + articleNo + params);
+
+        return getFromServer(baseURL + "MainStock" + restOfURL + "/" + articleNo, params);
+
+    }
     // --------------------------------- Nuwan ----------------------- 17/10/2019 ------------------------
 
     public String getNearCustomer() throws IOException {
