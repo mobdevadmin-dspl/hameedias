@@ -73,12 +73,7 @@ public class UploadAttendance extends AsyncTask<ArrayList<Attendance>, Integer, 
 
     @Override
     protected ArrayList<Attendance> doInBackground(ArrayList<Attendance>... arrayLists) {
-        networkFunctions = new NetworkFunctions(context);
         totalRecords = attendList.size();
-
-        final String sp_url = localSP.getString("URL", "").toString();
-        String URL = "http://" + sp_url;
-        Log.v("## Json ##", URL.toString());
 
         try {
             for (final Attendance a : attendList) {
@@ -86,12 +81,12 @@ public class UploadAttendance extends AsyncTask<ArrayList<Attendance>, Integer, 
                     String content_type = "application/json";
                     ApiInterface apiInterface = ApiCllient.getClient(context).create(ApiInterface.class);
                     JsonParser jsonParser = new JsonParser();
-                    String attendenceJson = new Gson().toJson(a);
-                    JsonObject objectFromString = jsonParser.parse(attendenceJson).getAsJsonObject();
+                    String attendanceJson = new Gson().toJson(a);
+                    JsonObject objectFromString = jsonParser.parse(attendanceJson).getAsJsonObject();
                     JsonArray jsonArray = new JsonArray();
                     jsonArray.add(objectFromString);
 
-                    Call<String> resultCall = apiInterface.uploadAttendence(jsonArray, content_type);
+                    Call<String> resultCall = apiInterface.uploadAttendance(jsonArray, content_type);
 
                     resultCall.enqueue(new Callback<String>() {
                         @Override
@@ -107,7 +102,7 @@ public class UploadAttendance extends AsyncTask<ArrayList<Attendance>, Integer, 
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(context,"Attendence uploaded Successfully" , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context,"Attendance uploaded Successfully" , Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -117,7 +112,7 @@ public class UploadAttendance extends AsyncTask<ArrayList<Attendance>, Integer, 
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(context,"Attendence upload failed" , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context,"Attendance upload failed" , Toast.LENGTH_SHORT).show();
                                     }
                                 }); }
                         }
@@ -139,7 +134,7 @@ public class UploadAttendance extends AsyncTask<ArrayList<Attendance>, Integer, 
             {
                 throw e;
             }
-            Log.v(">>upload>>", "Upload Attendence execute finish");//
+            Log.v(">>upload>>", "Upload Attendance execute finish");//
             return null;
         }
 

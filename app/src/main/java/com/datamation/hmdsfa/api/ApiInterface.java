@@ -175,7 +175,7 @@ public interface ApiInterface {
     Call<String> uploadNCustomer(@Body JsonArray customerList, @Header("Content_Type") String cont_type);
 
     @POST("insertTourInfo")
-    Call<String> uploadAttendence(@Body JsonArray attendenceList, @Header("Content_Type") String cont_type);
+    Call<String> uploadAttendance(@Body JsonArray attendenceList, @Header("Content_Type") String cont_type);
 
     @POST("insertDayExpense")
     Call<String> uploadExpense(@Body JsonArray expenseList, @Header("Content_Type") String cont_type);
