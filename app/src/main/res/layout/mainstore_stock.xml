@@ -6,8 +6,6 @@
     android:background="@drawable/rounded_bg"
     android:orientation="vertical">
 
-
-
     <com.datamation.hmdsfa.utils.CustomFont
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

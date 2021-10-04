@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.datamation.hmdsfa.OtherUploads.UploadAttendance;
 import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.adapter.downloadListAdapter;
 import com.datamation.hmdsfa.api.ApiCllient;
@@ -908,13 +909,17 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 new UploadReceipt(getActivity(), FragmentTools.this, TaskTypeUpload.UPLOAD_RECEIPT).execute(receiplist);
             }
             break;
-//            case UPLOAD_RECEIPT: {//                AttendanceController attendanceController = new AttendanceController(getActivity());//4
-////                ArrayList<Attendance> attendList = attendanceController.getUnsyncedTourData();
-////                new UploadAttendance(getActivity(), FragmentTools.this,attendList, TaskType.UPLOAD_ATTENDANCE).execute(attendList);
-////                Log.v(">>upload>>", "Upload attendance execute finish");
-//            }
-//            break;
-            case UPLOAD_RECEIPT:{
+            case UPLOAD_RECEIPT: {
+                AttendanceController attendanceController = new AttendanceController(getActivity());//4
+                ArrayList<Attendance> attendList = attendanceController.getUnsyncedTourData();
+                if (attendList.size() <= 0){
+                    Toast.makeText(getActivity(), "No tour info to upload !", Toast.LENGTH_LONG).show();
+                }
+                new UploadAttendance(getActivity(), FragmentTools.this,attendList, TaskTypeUpload.UPLOAD_ATTENDANCE).execute(attendList);
+                Log.v(">>upload>>", "Upload attendance execute finish");
+            }
+            break;
+            case UPLOAD_ATTENDANCE:{
 
                 Log.v(">>upload>>", "all upload finish");
 

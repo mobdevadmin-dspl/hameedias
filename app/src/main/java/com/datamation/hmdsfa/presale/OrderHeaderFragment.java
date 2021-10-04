@@ -59,7 +59,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class OrderHeaderFragment extends Fragment implements DatePickerDialog.OnDateSetListener{
+public class  OrderHeaderFragment extends Fragment implements DatePickerDialog.OnDateSetListener{
 
     View view;
     private FloatingActionButton next;
