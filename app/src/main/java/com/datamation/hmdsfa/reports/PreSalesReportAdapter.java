@@ -63,13 +63,15 @@ public class PreSalesReportAdapter extends BaseAdapter {
         TextView reach = rowView.findViewById(R.id.Reach);
 
         OrderModel = OrderData.get(i);
-        int pieces = Integer.parseInt(OrderModel.getFORDERDET_PICE_QTY());
+        double pieces1 = Double.parseDouble(OrderModel.getFORDERDET_PICE_QTY());
+        int pieces = (int) pieces1;
+       // int pieces = Integer.parseInt(OrderModel.getFORDERDET_PICE_QTY());
         int cases = Integer.parseInt(OrderModel.getFORDERDET_CASES());
         int units = Integer.parseInt(OrderModel.getFORDERDET_QOH());
         int reachOfItem = Integer.parseInt(OrderModel.getFORDERDET_SEQNO());
 
-        cases = cases + (pieces/units);
-        pieces = pieces % units;
+      //  cases = cases + (pieces/units);
+       // pieces = pieces % units;
 
         itemname.setText(OrderModel.getFORDERDET_ITEMNAME());
         caseqty.setText(""+cases);

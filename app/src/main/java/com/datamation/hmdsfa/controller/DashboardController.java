@@ -195,7 +195,8 @@ public class DashboardController {
         Cursor cursor = null;
         try {
 
-            String selectQuery = "select ifnull((sum(a.BAmt)),0)  as totAmt from finvDet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
+            String selectQuery = "select ifnull((sum(a.Amt)),0)  as totAmt from finvDet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
+       //     String selectQuery = "select ifnull((sum(a.BAmt)),0)  as totAmt from finvDet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
 
             cursor = dB.rawQuery(selectQuery, null);
             // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);

@@ -142,7 +142,7 @@ public class ReportController {
 //                +"'" + to + "' group by d.ItemCode";
         String selectQuery = "select d.itemcode,d.barcode,d.variantcode,h.debcode,d.qty,d.amt,d.txndate,i.itemname, count(distinct h.debcode)as reach   from \n" +
                 "fItem i,finvdet d, finvhed h  " +
-                "where  h.refno = d.refno and d.ItemCode = i.Itemcode and and d.txndate between '" + from + "' and " +
+                "where  h.refno = d.refno and d.ItemCode = i.Itemcode and d.txndate between '" + from + "' and " +
                 " '" + to + "' group by d.barcode";
         // String selectQuery = "select * from DayExpDet WHERE " + dbHelper.REFNO + "='" + refno + "' and  TxnDate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) +"'";
 
