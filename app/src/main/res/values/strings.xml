@@ -49,6 +49,7 @@
     <string name="head_repname">Rep Name</string>
     <string name="head_cusname">Customer Name</string>
     <string name="head_sal_remarks">Remarks</string>
+    <string name="head_sal_repDet">Rep Details</string>
     <string name="compulsory">Compulsory</string>
     <string name="trans_summary_total_qty">Total Quantity</string>
     <string name="trans_summary_net_value">Net Total</string>

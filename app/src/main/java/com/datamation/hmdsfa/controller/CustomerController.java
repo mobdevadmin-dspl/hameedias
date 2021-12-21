@@ -389,7 +389,7 @@ public class CustomerController {
         Cursor cursor = null;
         try {
             String selectQuery = "select * from " + TABLE_FDEBTOR + " Where " + Customer.REPCODE + "='"
-                    + RepCode + "' and DebCode || DebName LIKE '%" + key + "%'";
+                    + RepCode + "' and DebCode || DebName || DebAdd3 LIKE '%" + key + "%'";
 
             cursor = dB.rawQuery(selectQuery, null);
             while (cursor.moveToNext()) {
@@ -400,6 +400,7 @@ public class CustomerController {
                 customer.setCusName(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_NAME)));
                 customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_ADD1)));
                 customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_ADD2)));
+                customer.setCusAdd3(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_ADD3)));
                 customer.setCusMob(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_MOB)));
 
 //				customer.setCusRoute(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_RO)));
@@ -444,7 +445,7 @@ public class CustomerController {
         Cursor cursor = null;
         try {
             String selectQuery = "select * from " + TABLE_FDEBTOR + " Where " + Customer.REPCODE + "='"
-                    + RepCode + "' and DebCode || DebName LIKE '%" + key + "%'";
+                    + RepCode + "' and DebCode || DebName || DebAdd3 LIKE '%" + key + "%'";
 
             cursor = dB.rawQuery(selectQuery, null);
             while (cursor.moveToNext()) {
@@ -461,6 +462,7 @@ public class CustomerController {
                     boolean isWithin100m = distanceInMeters < 150;
 
                     if (isWithin100m) {
+
                         customer.setCusCode(cursor.getString(cursor.getColumnIndex(DEBCODE)));
                         customer.setCusName(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_NAME)));
                         customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_ADD1)));
@@ -475,6 +477,7 @@ public class CustomerController {
                         customer.setLatitude(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_LATITUDE)));
                         customer.setLongitude(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_LONGITUDE)));
                         customer.setCusImage(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_IMAGE)));
+
                         list.add(customer);
                     }
                 }
@@ -513,7 +516,7 @@ public class CustomerController {
         try {
 
             //cursor = dB.rawQuery("select * from fDebtor where DebCode in (select Debcode from fRouteDet where RouteCode in (select RouteCode from fTourHed where '"+curdate+"' between DateFrom And DateTo and RepCode = '"+repCode+"'));", null);
-            cursor = dB.rawQuery("select * from fDebtor where DebCode in (select Debcode from fRouteDet where RouteCode in (select RouteCode from FItenrDet where TxnDate = '" + curdate + "')) and DebCode || DebName LIKE '%" + key + "%'", null);
+            cursor = dB.rawQuery("select * from fDebtor where DebCode in (select Debcode from fRouteDet where RouteCode in (select RouteCode from FItenrDet where TxnDate = '" + curdate + "')) and DebCode || DebName || DebAdd3 LIKE '%" + key + "%'", null);
 
             while (cursor.moveToNext()) {
 
@@ -572,7 +575,7 @@ public class CustomerController {
         try {
 
             //cursor = dB.rawQuery("select * from fDebtor where DebCode in (select Debcode from fRouteDet where RouteCode in (select RouteCode from fTourHed where '"+curdate+"' between DateFrom And DateTo and RepCode = '"+repCode+"'));", null);
-            cursor = dB.rawQuery("select * from fDebtor where DebCode in (select Debcode from fRouteDet where RouteCode in (select RouteCode from FItenrDet where TxnDate = '" + curdate + "')) and DebCode || DebName LIKE '%" + key + "%'", null);
+            cursor = dB.rawQuery("select * from fDebtor where DebCode in (select Debcode from fRouteDet where RouteCode in (select RouteCode from FItenrDet where TxnDate = '" + curdate + "')) and DebCode || DebName || DebAdd3  LIKE '%" + key + "%'", null);
 
             while (cursor.moveToNext()) {
 

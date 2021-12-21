@@ -727,7 +727,7 @@ public class InvHedController {
         InvHed SOHed = new InvHed();
 
         try {
-            String selectQuery = "SELECT TxnDate,DebCode,Remarks,routecode,tourcode,TotalAmt,TotalDis,VatCode,Contact FROM " + TABLE_FINVHED + " WHERE " + REFNO + " = '" + Refno + "'";
+            String selectQuery = "SELECT TxnDate,DebCode,Remarks,routecode,tourcode,TotalAmt,TotalDis,VatCode,Contact,ManuRef FROM " + TABLE_FINVHED + " WHERE " + REFNO + " = '" + Refno + "'";
 
             Cursor cursor = dB.rawQuery(selectQuery, null);
 
@@ -742,6 +742,8 @@ public class InvHedController {
                 SOHed.setFINVHED_TOTALDIS(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALDIS)));
                 SOHed.setFINVHED_VAT_CODE(cursor.getString(cursor.getColumnIndex(FINVHED_VAT_CODE)));
                 SOHed.setFINVHED_CONTACT(cursor.getString(cursor.getColumnIndex(FINVHED_CONTACT)));
+                SOHed.setFINVHED_REMARKS(cursor.getString(cursor.getColumnIndex(FINVHED_REMARKS)));
+                SOHed.setFINVHED_MANUREF(cursor.getString(cursor.getColumnIndex(FINVHED_MANUREF)));
             }
             cursor.close();
 

@@ -276,6 +276,170 @@ public class VanSalePrintPreviewAlertBox {
         }
     }
 
+    public int PrintVanSaleDetailsDialogbox(final Context context, final String title, String refno) {
+
+        try
+        {
+            LayoutInflater layoutInflater = LayoutInflater.from(context);
+
+            View promptView = layoutInflater.inflate(R.layout.sales_management_vansales_print_view, null);
+
+            final TextView Companyname = (TextView) promptView.findViewById(R.id.headcompanyname);
+            final TextView Companyaddress1 = (TextView) promptView.findViewById(R.id.headaddress1);
+            final TextView Companyaddress2 = (TextView) promptView.findViewById(R.id.headaddress2);
+            final TextView CompanyTele = (TextView) promptView.findViewById(R.id.headteleno);
+            final TextView Companyweb = (TextView) promptView.findViewById(R.id.headwebsite);
+            final TextView Companyemail = (TextView) promptView.findViewById(R.id.heademail);
+
+            final TextView SalesRepname = (TextView) promptView.findViewById(R.id.salesrepname);
+            final TextView SalesRepPhone = (TextView) promptView.findViewById(R.id.salesrepphone);
+
+            final TextView Debname = (TextView) promptView.findViewById(R.id.headcusname);
+            final TextView Debaddress1 = (TextView) promptView.findViewById(R.id.headcusaddress1);
+            final TextView Debaddress2 = (TextView) promptView.findViewById(R.id.headcusaddress2);
+            final TextView DebTele = (TextView) promptView.findViewById(R.id.headcustele);
+            final TextView Debvat = (TextView) promptView.findViewById(R.id.headcusvatno);
+
+            final TextView SalOrdDate = (TextView) promptView.findViewById(R.id.printsalorddate);
+            final TextView OrderNo = (TextView) promptView.findViewById(R.id.printrefno);
+            final TextView Remarks = (TextView) promptView.findViewById(R.id.printremark);
+            final TextView RepDetails = (TextView) promptView.findViewById(R.id.printRepDetails);
+
+            final TextView txtfiQty = (TextView) promptView.findViewById(R.id.printFiQty);
+            final TextView TotalDiscount = (TextView) promptView.findViewById(R.id.printtotaldisamt);
+            final TextView TotalNetValue = (TextView) promptView.findViewById(R.id.printnettotal);
+            final TextView AmtInWord = (TextView) promptView.findViewById(R.id.amtinwrd);
+            final TextView noteofbill = (TextView) promptView.findViewById(R.id.note);
+
+            final TextView txtTotVal = (TextView) promptView.findViewById(R.id.printTotalVal);
+            final TextView TotalPieceQty = (TextView) promptView.findViewById(R.id.printpiecesqty);
+            final TextView txtRoute = (TextView) promptView.findViewById(R.id.printRoute);
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+            alertDialogBuilder.setTitle(title.toUpperCase());
+
+            alertDialogBuilder.setView(promptView);
+
+            PRefno = refno;
+
+            Companyname.setText("H S Marketing Private Limited");
+            Companyaddress1.setText("22/2, Rawathawatta Rd, Rawathawatta, Moratuwa. Colombo");
+            Companyaddress2.setText("Tel : 0112655024 Fax No : 112655102");
+            CompanyTele.setText("Email : wholesales@hameedia.lk");
+            Companyweb.setText("VAT Registration No : 114236314-7000");
+
+            String repCode = new SalRepController(context).getCurrentRepCode();
+            SalRep salRep = new SalRepController(context).getSaleRepDet(repCode);
+            InvHed invhed = new InvHedController(context).getDetailsforPrint(refno);
+            final Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
+            outlet = new CustomerController(context).getSelectedCustomerByCode(invhed.getFINVHED_DEBCODE());
+//            if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+
+            String original_reprint = "";
+            int printcount = Integer.valueOf(invhed.getFINVHED_CONTACT());
+            if(printcount>0)
+            {
+                original_reprint = " - (RE-PRINT)";
+            }else
+            {
+                original_reprint = " - (ORIGINAL)";
+            }
+
+            if(invhed.getFINVHED_VAT_CODE().equals("VAT")) {
+                SalesRepname.setText("TAX INVOICE"+original_reprint);
+            }else{
+                SalesRepname.setText("INVOICE"+original_reprint);
+            }
+
+
+            ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrintOnly(refno);
+            outlet = debtor;
+
+            Debname.setText(debtor.getCusCode() + "-" + debtor.getCusName());
+            Debaddress1.setText(debtor.getCusAdd1() + ", " );
+            Debaddress2.setText(debtor.getCusAdd2());
+            DebTele.setText(debtor.getCusMob());
+            Debvat.setText("<VAT NO>");
+
+            SalOrdDate.setText("Invoice No: " + refno);
+            RepDetails.setText(salRep.getRepCode() + "/ " + salRep.getNAME());
+            Remarks.setText("Remark: "+invhed.getFINVHED_REMARKS() + "        " + "Manual No: "+ invhed.getFINVHED_MANUREF());
+            OrderNo.setText("Date: " + invhed.getFINVHED_TXNDATE() + " " + currentTime());
+            String routecode = new RouteDetController(context).getRouteCodeByDebCode(debtor.getCusCode());
+            txtRoute.setText(""+new RouteController(context).getAreaCodeByRouteCode(routecode));
+
+            int qty = 0 ;
+            double dDisc = 0, dTotAmt = 0, dTax = 0;
+            String size_print = "";
+            for (InvDet det : list) {
+                qty += Double.parseDouble(det.getFINVDET_QTY());
+                dDisc += Double.parseDouble(det.getFINVDET_DIS_AMT());
+                dTotAmt += Double.parseDouble(det.getFINVDET_AMT());
+                dTax += Double.parseDouble(det.getFINVDET_TAX_AMT());
+                size_print = new InvDetController(this.context).getSizecodeString(det.getFINVDET_ITEM_CODE(), refno,det.getFINVDET_ARTICLENO());
+            }
+
+            lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
+            lvItemDetails.setAdapter(new PrintVanSaleItemAdapter(context, list));
+            /*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+            TotalPieceQty.setText(String.valueOf(qty));
+            TotalNetValue.setText(String.format("%,.2f", (dTotAmt)));//-dDisc
+            txtTotVal.setText(String.format("%,.2f", dTotAmt-dTax));
+            txtfiQty.setText(String.format("%,.2f", dDisc));
+
+            if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
+                TotalDiscount.setText(String.format("%,.2f", dTax));
+            }else{
+                TotalDiscount.setText("0.00");
+            }
+
+            double netval = dTotAmt;//-dDisc
+            String net_val_in_english =  ""+ EnglishNumberToWords.convert((int)netval);
+            //   String net_val_in_english =   "";
+            AmtInWord.setText("("+net_val_in_english+")");
+
+
+            PRINTER_MAC_ID =  new SharedPref(context).getGlobalVal("printer_mac_address").toString();
+
+            alertDialogBuilder.setCancelable(false).setPositiveButton("Print", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+//                        if(title.split("-")[1].trim().equals("original")) {
+                    PrintCurrentview("");
+//                        }else{
+//                            PrintCurrentview("");
+//                        }
+
+                }
+            });
+
+            alertDialogBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+//                        if(title.split("-")[1].trim().equals("original")) {
+//                            Intent intent = new Intent(context, DebtorDetailsActivity.class);
+//                            intent.putExtra("outlet", debtor);
+//                            context.startActivity(intent);
+//                            dialog.cancel();
+//                        }else{
+                    dialog.cancel();
+//                        }
+                }
+            });
+
+            AlertDialog alertD = alertDialogBuilder.create();
+            alertD.show();
+            ListExpandHelper.getListViewSize(lvItemDetails);
+
+            return 1;
+        }
+        catch (Exception ex)
+        {
+            return -1;
+        }
+    }
+
 
 	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
