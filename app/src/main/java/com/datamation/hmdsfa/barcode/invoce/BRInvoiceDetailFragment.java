@@ -1041,24 +1041,24 @@ public class BRInvoiceDetailFragment extends Fragment{
                       //  Log.d("QOH>>>","first prdct loop>>>listsize"+list.size()+"count>>>"+count);
                     }
                    // Log.d("QOH>>>","before scnd for loop listsize>>>"+list.size()+"count>>>"+count);
-                    if(count == list.size()) {
+//     by menaka on 25-01-2022               if(count == list.size()) {
                         for (Product product : list) {
                             mUpdateInvoice(product.getFPRODUCT_Barcode(), product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), product.getFPRODUCT_VariantCode(), product.getFPRODUCT_QTY(), product.getFPRODUCT_ArticleNo(), product.getFPRODUCT_DocumentNo());
                         }
-                    }else{
-                        // setup the alert builder
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("No Stock");
-                        builder.setMessage("Not Enough Stock");
-
-                        // add a button
-                        builder.setPositiveButton("OK", null);
-
-                        // create and show the alert dialog
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-//                        Toast.makeText(getActivity(),"Not enough stock",Toast.LENGTH_LONG).show();
-                    }
+//     by menaka on 25-01-2022               }else{
+//     by menaka on 25-01-2022                   // setup the alert builder
+//     by menaka on 25-01-2022                   AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//     by menaka on 25-01-2022                   builder.setTitle("No Stock");
+//     by menaka on 25-01-2022                   builder.setMessage("Not Enough Stock");
+//
+//                        // add a button
+//     by menaka on 25-01-2022                   builder.setPositiveButton("OK", null);
+//
+//                        // create and show the alert dialog
+//     by menaka on 25-01-2022                   AlertDialog dialog = builder.create();
+//     by menaka on 25-01-2022                   dialog.show();
+////   by menaka on 25-01-2022                     Toast.makeText(getActivity(),"Not enough stock",Toast.LENGTH_LONG).show();
+//     by menaka on 25-01-2022               }
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/

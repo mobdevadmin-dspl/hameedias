@@ -215,7 +215,7 @@ public class AttendanceController {
 
         ArrayList<Attendance> list = new ArrayList<Attendance>();
         try {
-            String s = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + ValueHolder.ATTENDANCE_IS_SYNCED + "='0'";
+            String s = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + ValueHolder.ATTENDANCE_IS_SYNCED + "='0 ' AND Distance IS NOT NULL ";
             Cursor cursor = dB.rawQuery(s, null);
             while (cursor.moveToNext()) {
 
