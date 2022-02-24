@@ -467,6 +467,7 @@ public class CustomerController {
                         customer.setCusName(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_NAME)));
                         customer.setCusAdd1(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_ADD1)));
                         customer.setCusAdd2(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_ADD2)));
+                        customer.setCusAdd3(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_ADD3)));
                         customer.setCusMob(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_MOB)));
                         customer.setCusEmail(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_EMAIL)));
                         customer.setCusStatus(cursor.getString(cursor.getColumnIndex(Customer.FDEBTOR_STATUS)));

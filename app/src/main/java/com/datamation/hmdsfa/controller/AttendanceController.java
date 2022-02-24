@@ -100,7 +100,7 @@ public class AttendanceController {
             open();
         }
 
-        String selectQuery = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + ValueHolder.ATTENDANCE_F_TIME + " IS NULL AND " + ValueHolder.ATTENDANCE_F_KM + " IS NULL AND " + ValueHolder.ATTENDANCE_DATE + " IS NOT NULL";
+        String selectQuery = "SELECT * FROM " + Attendance.TABLE_ATTENDANCE + " WHERE " + ValueHolder.ATTENDANCE_F_TIME + " IS NULL AND " + ValueHolder.ATTENDANCE_F_KM + " <> 0.00 AND " + ValueHolder.ATTENDANCE_DATE + " IS NOT NULL";
 
 
         Cursor cursor = dB.rawQuery(selectQuery, null);
