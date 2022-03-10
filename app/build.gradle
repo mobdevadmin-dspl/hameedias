@@ -7,8 +7,8 @@ android {
         applicationId "com.datamation.hmdsfa"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 37 // Receipt Included & Backup enabled
-        versionName "1.3.7"
+        versionCode 38 // Receipt Included & Backup enabled
+        versionName "1.3.8"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true

@@ -155,6 +155,7 @@ public class BRInvoiceHeaderFragment extends Fragment implements View.OnClickLis
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 new SharedPref(getActivity()).setGlobalVal("KeyPayType", spnPayMethod.getSelectedItem().toString());
+//                clickCount = 0;
                 mSharedPref.setDiscountClicked("0");
                 Log.v("PAYMENT TYPE", spnPayMethod.getSelectedItem().toString());
             }
