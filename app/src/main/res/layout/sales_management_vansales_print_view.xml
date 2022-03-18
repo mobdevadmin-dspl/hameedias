@@ -196,17 +196,15 @@
                 android:text="refno"
                 android:textColor="#000000"
                 android:textSize="15dip" />
-
             <TextView
-                android:id="@+id/printRepDetails"
+                android:id="@+id/printmanualno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:maxLines="1"
-                android:text="@string/head_sal_repDet"
+                android:text="@string/head_sal_remarks"
                 android:textColor="#000000"
                 android:textSize="15dip" />
-
             <TextView
                 android:id="@+id/printremark"
                 android:layout_width="wrap_content"
@@ -216,6 +214,25 @@
                 android:text="@string/head_sal_remarks"
                 android:textColor="#000000"
                 android:textSize="15dip" />
+            <TextView
+                android:id="@+id/printRepDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_sal_repDet"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+            <TextView
+                android:id="@+id/printRep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/head_sal_remarks"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+
 
             <TextView
                 android:id="@+id/printRoute"

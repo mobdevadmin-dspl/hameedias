@@ -212,7 +212,11 @@ public class BRInvoiceDetailFragment extends Fragment{
                     ArrayList<ItemBundle> itemBundle = new ItemBundleController(getActivity())
                             .getItemsInBundle(etSearchField.getText().toString());
                     if(itemBundle.size()>0) {
-                        BundleItemsDialogBox(itemBundle);
+                        selectedItemList = new ProductController(getActivity()).getBundleScannedtems(itemBundle);
+
+                        updateInvoiceDet(selectedItemList,"Bundle");
+                        showData();
+                   //     BundleItemsDialogBox(itemBundle);
                     }else{
                         // setup the alert builder
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -1021,30 +1025,32 @@ public class BRInvoiceDetailFragment extends Fragment{
         int count = 0;
         //rashmi - 2020-07-02
 
-                    for (Product product : list) {
-
-                        double qoh = Double.parseDouble(new VanStockController(getActivity()).getQOH(new SalRepController(getActivity()).getCurrentLoccode().trim(),product.getFPRODUCT_Barcode()));
-                       // Log.d("QOH>>>",">>>listsize"+list.size()+"count>>>"+qoh);
-                        //modified for fabric items 2020-09-14 by rashmi
-                                if(txntype.equals("Fabric")){
-                                    double currentQty = new InvDetController(getActivity()).getCurrentQty(RefNo,product.getFPRODUCT_Barcode());
-                                    if(qoh >= (currentQty+Double.parseDouble(product.getFPRODUCT_QTY()))) {
-                                        count++;
-                                        //    Log.d("QOH>>>","insideqohvalidation>>>listsize"+list.size()+"count>>>"+count);
-                                    }
-                                }else{
-                                    if(qoh >= Double.parseDouble(product.getFPRODUCT_QTY())) {
-                                        count++;
-                                        //    Log.d("QOH>>>","insideqohvalidation>>>listsize"+list.size()+"count>>>"+count);
-                                    }
-                                }
-
-                      //  Log.d("QOH>>>","first prdct loop>>>listsize"+list.size()+"count>>>"+count);
-                    }
+//                    for (Product product : list) {
+//
+//                        double qoh = Double.parseDouble(new VanStockController(getActivity()).getQOH(new SalRepController(getActivity()).getCurrentLoccode().trim(),product.getFPRODUCT_Barcode()));
+//                       // Log.d("QOH>>>",">>>listsize"+list.size()+"count>>>"+qoh);
+//                        //modified for fabric items 2020-09-14 by rashmi
+////                                if(txntype.equals("Fabric")){
+////                                    double currentQty = new InvDetController(getActivity()).getCurrentQty(RefNo,product.getFPRODUCT_Barcode());
+////                                    if(qoh >= (currentQty+Double.parseDouble(product.getFPRODUCT_QTY()))) {
+////                                        count++;
+////                                        //    Log.d("QOH>>>","insideqohvalidation>>>listsize"+list.size()+"count>>>"+count);
+////                                    }
+////                                }else{
+////                                    if(qoh >= Double.parseDouble(product.getFPRODUCT_QTY())) {
+////                                        count++;
+////                                        //    Log.d("QOH>>>","insideqohvalidation>>>listsize"+list.size()+"count>>>"+count);
+////                                    }
+////                                }
+//
+//                      //  Log.d("QOH>>>","first prdct loop>>>listsize"+list.size()+"count>>>"+count);
+//                    }
                    // Log.d("QOH>>>","before scnd for loop listsize>>>"+list.size()+"count>>>"+count);
 //     by menaka on 25-01-2022               if(count == list.size()) {
                         for (Product product : list) {
-                            mUpdateInvoice(product.getFPRODUCT_Barcode(), product.getFPRODUCT_ITEMCODE(), product.getFPRODUCT_QTY(), product.getFPRODUCT_Price(), product.getFPRODUCT_VariantCode(), product.getFPRODUCT_QTY(), product.getFPRODUCT_ArticleNo(), product.getFPRODUCT_DocumentNo());
+                           // String barcode, String itemCode, String Qty, String price, String variantcode, String qoh, String aricleno, String documentNo
+                            mUpdateInvoice(product.getFPRODUCT_Barcode(),product.getFPRODUCT_ITEMCODE(),product.getFPRODUCT_QTY(),product.getFPRODUCT_Price(),product.getFPRODUCT_VariantCode(),product.getFPRODUCT_QOH(),product.getFPRODUCT_ArticleNo(),product.getFPRODUCT_DocumentNo());
+                          //  mUpdateInvoice(list);
                         }
 //     by menaka on 25-01-2022               }else{
 //     by menaka on 25-01-2022                   // setup the alert builder
@@ -1165,7 +1171,69 @@ public class BRInvoiceDetailFragment extends Fragment{
         arrList.add(invDet);
         new InvDetController(getActivity()).createOrUpdateBCInvDet(arrList);
     }
+    public void mUpdateInvoice(ArrayList<Product> list) {
+     //   , , , , , , ,
+        ArrayList<InvDet> arrList = new ArrayList<>();
+        InvDet invDet = new InvDet();
+        double unitprice = 0.0;
+        for(Product product: list) {
+            // String taxamt = new VATController(getActivity()).calculateTax(mSharedPref.getGlobalVal("KeyVat"),new BigDecimal(amt));
+            String taxRevValue = new VATController(getActivity()).calculateReverse(mSharedPref.getGlobalVal("KeyVat"), new BigDecimal(product.getFPRODUCT_Price()));
+            // unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
 
+
+//by rashmi 2020/06/22 according to meeting minute(2020/06/17) point 02
+            if (new CustomerController(getActivity()).getCustomerVatStatus(mSharedPref.getSelectedDebCode()).trim().equals("VAT")) {
+                unitprice = Double.parseDouble(product.getFPRODUCT_Price()) - Double.parseDouble(taxRevValue);
+                //by rashmi 2020/06/23
+                //BSell price get for tax forward, if customer vat, set b sell price reversing tax
+                invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", unitprice));
+            } else if (new CustomerController(getActivity()).getCustomerVatStatus(mSharedPref.getSelectedDebCode()).trim().equals("NOVAT")) {
+                unitprice = Double.parseDouble(product.getFPRODUCT_Price());
+                //by rashmi 2020/06/23
+                //if customer novat, pass unit price without reversing tax, but b sell price set reversing tax for use to forward tax
+                invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", (unitprice - Double.parseDouble(taxRevValue))));
+            } else {
+                Toast.makeText(getActivity(), "This customer doesn't have VAT status(VAT?/NOVAT?)", Toast.LENGTH_SHORT).show();
+            }
+            double amt = unitprice * Double.parseDouble(product.getFPRODUCT_QTY());
+            invDet.setFINVDET_B_AMT(String.format("%.2f", amt));
+            invDet.setFINVDET_SELL_PRICE(String.format("%.2f", unitprice));
+
+            invDet.setFINVDET_BT_SELL_PRICE(String.format("%.2f", unitprice));
+            invDet.setFINVDET_DIS_AMT("0");
+            invDet.setFINVDET_DIS_PER("0");
+            invDet.setFINVDET_ITEM_CODE(product.getFPRODUCT_ITEMCODE());
+            // invDet.setFINVDET_PRIL_CODE(SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
+            invDet.setFINVDET_QTY(product.getFPRODUCT_QTY());
+            invDet.setFINVDET_PICE_QTY(product.getFPRODUCT_QTY());
+            invDet.setFINVDET_TYPE("Invoice");
+            invDet.setFINVDET_BT_TAX_AMT("0");
+            invDet.setFINVDET_TAX_AMT("0");
+            invDet.setFINVDET_RECORD_ID("");
+            invDet.setFINVDET_SEQNO(seqno + "");
+            invDet.setFINVDET_T_SELL_PRICE(product.getFPRODUCT_Price());
+            invDet.setFINVDET_REFNO(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
+            invDet.setFINVDET_BRAND_DISCPER("0");
+            invDet.setFINVDET_BRAND_DISC("0");
+            invDet.setFINVDET_COMDISC("0");
+            invDet.setFINVDET_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            invDet.setFINVDET_TXN_TYPE("22");
+            invDet.setFINVDET_IS_ACTIVE("1");
+            invDet.setFINVDET_QOH(product.getFPRODUCT_QTY());
+            invDet.setFINVDET_DISVALAMT("0");
+            invDet.setFINVDET_PRICE(product.getFPRODUCT_Price());
+            invDet.setFINVDET_CHANGED_PRICE("0");
+            invDet.setFINVDET_AMT(String.format("%.2f", amt));
+            invDet.setFINVDET_BAL_QTY(product.getFPRODUCT_QTY());
+            invDet.setFINVDET_BARCODE(product.getFPRODUCT_Barcode());
+            invDet.setFINVDET_ARTICLENO(product.getFPRODUCT_ArticleNo());
+            invDet.setFINVDET_VARIANTCODE(product.getFPRODUCT_VariantCode());
+            invDet.setFINVDET_PRIL_CODE(product.getFPRODUCT_DocumentNo());
+            arrList.add(invDet);
+        }
+        new InvDetController(getActivity()).createOrUpdateBCInvDet(arrList);
+    }
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
     private class ThreadConnectBTdevice extends Thread {
 

@@ -140,7 +140,9 @@ public class VanSalePrintPreviewAlertBox {
 
             final TextView SalOrdDate = (TextView) promptView.findViewById(R.id.printsalorddate);
             final TextView OrderNo = (TextView) promptView.findViewById(R.id.printrefno);
+            final TextView Rep  = (TextView) promptView.findViewById(R.id.printRep);
             final TextView Remarks = (TextView) promptView.findViewById(R.id.printremark);
+            final TextView MamualNo = (TextView) promptView.findViewById(R.id.printmanualno);
 
             final TextView txtfiQty = (TextView) promptView.findViewById(R.id.printFiQty);
             final TextView TotalDiscount = (TextView) promptView.findViewById(R.id.printtotaldisamt);
@@ -199,7 +201,9 @@ public class VanSalePrintPreviewAlertBox {
                 Debvat.setText("<VAT NO>");
 
                 SalOrdDate.setText("Invoice No: " + refno);
-                Remarks.setText(salRep.getRepCode() + "/ " + salRep.getNAME());
+                MamualNo.setText("Manual No: " + invhed.getFINVHED_MANUREF());
+                Remarks.setText("Remark: " + invhed.getFINVHED_REMARKS());
+                Rep.setText(salRep.getRepCode() + "/ " + salRep.getNAME());
                 OrderNo.setText("Date: " + invhed.getFINVHED_TXNDATE() + " " + currentTime());
                 String routecode = new RouteDetController(context).getRouteCodeByDebCode(debtor.getCusCode());
                 txtRoute.setText(""+new RouteController(context).getAreaCodeByRouteCode(routecode));
@@ -519,6 +523,8 @@ public class VanSalePrintPreviewAlertBox {
         Customer debtor = new CustomerController(context).getSelectedCustomerByCode(invHed.getFINVHED_DEBCODE());
 
         String SalesRepNamestr = "";// +
+        String remark = "";// +
+        String manuref = "";// +
         String original_reprint = "";
         int printcount = Integer.valueOf(invHed.getFINVHED_CONTACT());
         if(printcount>0)
@@ -535,11 +541,20 @@ public class VanSalePrintPreviewAlertBox {
             SalesRepNamestr = "<INVOICE>"+original_reprint;
         }
       //  String SalesRepNamestr = "Sales Rep: " + salrep.getRepCode() + "/ " + salrep.getNAME().trim();// +
-
+        remark = invHed.getFINVHED_REMARKS();
+        manuref = invHed.getFINVHED_MANUREF();
         int lengthDealE = SalesRepNamestr.length();
+        int lengthRemark = remark.length();
+        int lengthManuref = manuref.length();
         int lengthDealEB = (LINECHAR - lengthDealE) / 2;
+        int lengthRemarkK = (LINECHAR - lengthRemark) / 2;
+        int lengthManurefF = (LINECHAR - lengthManuref) / 2;
         String printGapAdjustE = printGapAdjust.substring(0, Math.min(lengthDealEB, printGapAdjust.length()));
+        String printGapAdjustRemark= printGapAdjust.substring(0, Math.min(lengthRemarkK, printGapAdjust.length()));
+        String printGapAdjustManuref= printGapAdjust.substring(0, Math.min(lengthManurefF, printGapAdjust.length()));
         String subTitleheadF = printGapAdjustE + SalesRepNamestr;
+        String subTitleheadRemark = printGapAdjustRemark + remark;
+        String subTitleheadManuref = printGapAdjustManuref + manuref;
 
 
         String subTitleheadH = printLineSeperatorNew;
@@ -616,6 +631,8 @@ public class VanSalePrintPreviewAlertBox {
         subTitleheadArea = printGapAdjustArea + subTitleheadArea;
 
         String title_Print_F = "\r\n" + subTitleheadF;
+        String title_Print_Remark = "\r\n" + subTitleheadRemark;
+        String title_Print_Manuref = "\r\n" + subTitleheadManuref;
        // String title_Print_G = "\r\n" + subTitleheadG;
         String title_Print_H = "\r\n" + subTitleheadH;
 
@@ -645,9 +662,9 @@ public class VanSalePrintPreviewAlertBox {
 
      //   if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
             if (subTitleheadK.toString().equalsIgnoreCase(" ")) {
-                Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
+                Heading_bmh = "\r" + title_Print_F + title_Print_Remark + title_Print_Manuref + title_Print_H + title_Print_I + title_Print_J + title_Print_O + title_Print_M + title_Print_N + title_Print_R;
             } else {
-                Heading_bmh = "\r" + title_Print_F + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R + title_Print_Area;
+                Heading_bmh = "\r" + title_Print_F +title_Print_Remark +title_Print_Manuref + title_Print_H + title_Print_I + title_Print_J + title_Print_K + title_Print_O + title_Print_M + title_Print_N + title_Print_R + title_Print_Area;
             }
 //        }else{
 //            if (subTitleheadK.toString().equalsIgnoreCase(" ")) {

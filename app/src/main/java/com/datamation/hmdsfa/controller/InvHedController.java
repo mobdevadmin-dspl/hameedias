@@ -735,7 +735,6 @@ public class InvHedController {
 
                 SOHed.setFINVHED_TXNDATE(cursor.getString(cursor.getColumnIndex(ValueHolder.TXNDATE)));
                 SOHed.setFINVHED_DEBCODE(cursor.getString(cursor.getColumnIndex(ValueHolder.DEBCODE)));
-                SOHed.setFINVHED_REMARKS(cursor.getString(cursor.getColumnIndex(FINVHED_REMARKS)));
                 SOHed.setFINVHED_TOURCODE(cursor.getString(cursor.getColumnIndex(FINVHED_TOURCODE)));
                 SOHed.setFINVHED_ROUTECODE(cursor.getString(cursor.getColumnIndex(FINVHED_ROUTECODE)));
                 SOHed.setFINVHED_TOTALAMT(cursor.getString(cursor.getColumnIndex(FINVHED_TOTALAMT)));
