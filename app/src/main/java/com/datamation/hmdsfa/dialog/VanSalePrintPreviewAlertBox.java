@@ -70,6 +70,8 @@ public class VanSalePrintPreviewAlertBox {
     String Heading_a = "";
     String Heading_bmh = "";
     String Heading_b = "";
+    String Heading_grp = "";
+    String Heading_grp_items = "";
     String Heading_c = "";
     String Heading_d = "";
    // String Heading_e = "";
@@ -652,6 +654,7 @@ public class VanSalePrintPreviewAlertBox {
         // subTitleheadR;
 
         ArrayList<InvDet> itemList = new InvDetController(context).getAllItemsforPrintOnly(PRefno);
+        ArrayList<InvDet> grpItemList = new InvDetController(context).getGroupItemsPrint(PRefno);
         ArrayList<FInvRDet> Rlist = new SalesReturnDetController(context).getAllInvRDetForPrint(PRefno);
 
         BigDecimal compDisc = BigDecimal.ZERO;// new
@@ -680,8 +683,9 @@ public class VanSalePrintPreviewAlertBox {
         String title_cb = "\r\nARTICLE_NO  QTY   PRICE    DISC(%)   DISC.AMT";
 //        String title_cc = "\r\nITEM CODE                        LINE AMOUNT ";
         String title_cd = "\r\nITEM CODE ITEM NAME              LINE AMOUNT ";
-
+        String title_grp = "\r\nGROUP CODE      GROUP NAME              QTY ";
         Heading_b = "\r\n" + printLineSeperatorNew +title_cd + title_cb +"\r\n" + printLineSeperatorNew+"\n";
+        Heading_grp = "\r\n" + printLineSeperatorNew +title_grp +"\r\n" + printLineSeperatorNew+"\n";
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*Individual Item details*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
         int totQty = 0 ;
@@ -795,7 +799,44 @@ public class VanSalePrintPreviewAlertBox {
 
             nos++;
         }
+        for (InvDet det : grpItemList) {
 
+            String sItemcode = det.getFINVDET_ITEM_CODE();
+            String sItemname = det.getFINVDET_ITEM_NAME();
+            String sQty = det.getFINVDET_QTY();
+
+            // String sMRP = iss.getPRICE().substring(0, iss.getPRICE().length()
+            // - 3);
+
+
+            int itemCodeLength = sItemcode.length();
+            int qty_length = sQty.length();
+            int itemname_Length = sItemname.length();
+            if(itemCodeLength > 10)
+            {
+                sItemcode = sItemcode.substring(0,10).trim();
+            }
+
+            if(qty_length > 10)
+            {
+                sQty = sQty.substring(0,10).trim();
+            }
+
+            if(itemname_Length > 20)
+            {
+                sItemname = sItemname.substring(0,20).trim();
+            }
+
+            sItemname = padString("",20-sItemname.length());
+            spItemcode = padString("",10-sItemcode.length());
+            SpcItmCodeAndNOS = padString("",20-sItemname.length());
+            SpcQty = padString("",4-sQty.length());
+            Heading_grp_items += nos + "."+sItemcode+spItemcode+ "-"  +sItemname.trim()+SpcItmCodeAndNOS+SpcQty+ sQty
+                    +"\r\n";
+
+
+            nos++;
+        }
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
 
@@ -940,7 +981,7 @@ public class VanSalePrintPreviewAlertBox {
     private void callPrintDevice(String printloc) {
         BILL = " ";
 
-        BILL = Heading_a + Heading_bmh + Heading_b + Heading_c + Heading_d  + buttomRaw;
+        BILL = Heading_a + Heading_bmh + Heading_b + Heading_c+ Heading_grp + Heading_grp_items + Heading_d  + buttomRaw;
         Log.d("BILL>>>", "BILL >>>:" + BILL);
         mBTAdapter = BluetoothAdapter.getDefaultAdapter();
 
