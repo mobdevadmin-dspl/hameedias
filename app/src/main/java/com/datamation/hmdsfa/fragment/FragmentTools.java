@@ -289,8 +289,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 Log.d("Validate Secondary Sync", ">>Mac>> " + pref.getMacAddress().trim() + " >>URL>> " + pref.getBaseURL() + " >>DB>> " + pref.getDistDB());
                 try {
                     if(NetworkUtil.isNetworkAvailable(getActivity())) {
-                    //    new Validate(pref.getMacAddress().trim(), pref.getBaseURL(), pref.getDistDB()).execute();
-                        new Validate("942DDCCCD4C6", pref.getBaseURL(), pref.getDistDB()).execute();
+                        new Validate(pref.getMacAddress().trim(), pref.getBaseURL(), pref.getDistDB()).execute();
+                     //   new Validate("942DDCCCD4C6", pref.getBaseURL(), pref.getDistDB()).execute();
                     }else{
                         Toast.makeText(getActivity(),"No internet connection",Toast.LENGTH_LONG).show();
                     }
