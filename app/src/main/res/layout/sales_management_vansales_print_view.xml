@@ -497,9 +497,72 @@
                     android:dividerHeight="1dp"
                     android:drawSelectorOnTop="false"></ListView>
             </LinearLayout>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:weightSum="2.5">
+
+                <com.datamation.hmdsfa.utils.CustomFont
+                    android:textColor="#040d19"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:gravity="center"
+                    android:text="CODE"
+                    />
+
+                <com.datamation.hmdsfa.utils.CustomFont
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:text="GROUP NAME"
+                    android:textColor="#040d19"
+                    android:textStyle="bold"
+                    />
+
+                <com.datamation.hmdsfa.utils.CustomFont
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:gravity="center"
+                    android:text="QTY"
+                    android:textColor="#040d19"
+                    android:textStyle="bold"/>
+
+
+            </TableRow>
             <TextView
                 android:layout_width="wrap_content"
-                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="@string/printheadingline"
+                android:textColor="#000000"
+                android:textSize="15dip" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal"
+                >
+
+                <ListView
+                    android:id="@+id/groupList"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:divider="#8b8b83"
+                    android:dividerHeight="1dp"
+                    android:drawSelectorOnTop="false">
+
+                </ListView>
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:maxLines="1"

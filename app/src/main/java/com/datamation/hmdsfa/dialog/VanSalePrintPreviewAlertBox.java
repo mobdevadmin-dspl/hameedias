@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datamation.hmdsfa.R;
+import com.datamation.hmdsfa.adapter.GroupItemsAdaptor;
 import com.datamation.hmdsfa.adapter.PrintPreSaleItemAdapter;
 import com.datamation.hmdsfa.adapter.PrintVanSaleItemAdapter;
 import com.datamation.hmdsfa.adapter.PrintVanSaleReturnAdapter;
@@ -75,7 +76,7 @@ public class VanSalePrintPreviewAlertBox {
     String buttomRaw = "";
     String BILL;
     Dialog dialogProgress;
-    ListView lvItemDetails;
+    ListView lvItemDetails,groupDetails;
     String PRefno = "";
     int countCountInv;
     BluetoothAdapter mBTAdapter;
@@ -192,6 +193,7 @@ public class VanSalePrintPreviewAlertBox {
 
 
                 ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrintOnly(refno);
+                ArrayList<InvDet> grplist = new InvDetController(context).getGroupItemsPrint(refno);
                 outlet = debtor;
 
                 Debname.setText(debtor.getCusCode() + "-" + debtor.getCusName());
@@ -220,7 +222,9 @@ public class VanSalePrintPreviewAlertBox {
                 }
 
                 lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
+                groupDetails = (ListView) promptView.findViewById(R.id.groupList);
                 lvItemDetails.setAdapter(new PrintVanSaleItemAdapter(context, list));
+                groupDetails.setAdapter(new GroupItemsAdaptor(context,grplist));
                 /*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
                 TotalPieceQty.setText(String.valueOf(qty));

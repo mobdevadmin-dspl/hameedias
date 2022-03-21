@@ -1,5 +1,8 @@
 package com.datamation.hmdsfa.controller;
 
+import static com.datamation.hmdsfa.controller.ItemController.FITEM_GROUP_CODE;
+import static com.datamation.hmdsfa.controller.ItemController.FITEM_RE_ORDER_QTY;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -552,6 +555,7 @@ public class InvDetController {
         ArrayList<InvDet> list = new ArrayList<InvDet>();
 
         //String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "' group by ArticleNo";
+       // String selectQuery = "select ifnull((sum(Amt)),0) as Amt, ifnull((sum(Qty)),0) as Qty, ifnull((sum(DisAmt)),0) as DisAmt, DisPer, ItemCode, Types, RefNo, SellPrice, ifnull((sum(TaxAmt)),0) as TaxAmt, TxnDate, ArticleNo  from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'  group by ArticleNo";
         String selectQuery = "select ifnull((sum(Amt)),0) as Amt, ifnull((sum(Qty)),0) as Qty, ifnull((sum(DisAmt)),0) as DisAmt, DisPer, ItemCode, Types, RefNo, SellPrice, ifnull((sum(TaxAmt)),0) as TaxAmt, TxnDate, ArticleNo  from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'  group by ArticleNo";
         Cursor cursor = dB.rawQuery(selectQuery, null);
         try {
@@ -564,6 +568,7 @@ public class InvDetController {
 
                 invdet.setFINVDET_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_AMT)));
                 invdet.setFINVDET_ITEM_CODE(cursor.getString(cursor.getColumnIndex(FINVDET_ITEM_CODE)));
+                invdet.setFINVDET_ITEM_NAME(cursor.getString(cursor.getColumnIndex(FINVDET_ITEM_CODE)));
                 invdet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
                 invdet.setFINVDET_TYPE(cursor.getString(cursor.getColumnIndex(FINVDET_TYPE)));
                 invdet.setFINVDET_SELL_PRICE(cursor.getString(cursor.getColumnIndex(FINVDET_SELL_PRICE)));
@@ -572,6 +577,46 @@ public class InvDetController {
                 invdet.setFINVDET_DIS_PER(cursor.getString(cursor.getColumnIndex(FINVDET_DIS_PER)));
                 invdet.setFINVDET_TAX_AMT(cursor.getString(cursor.getColumnIndex(FINVDET_TAX_AMT)));
                 invdet.setFINVDET_REFNO(refno);
+                list.add(invdet);
+            }
+
+        } catch (Exception e) {
+
+            Log.v(TAG + " Exception", e.toString());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+        return list;
+    }
+    public ArrayList<InvDet> getGroupItemsPrint(String refno) {
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+
+        ArrayList<InvDet> list = new ArrayList<InvDet>();
+
+        //String selectQuery = "select * from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "' group by ArticleNo";
+        // String selectQuery = "select ifnull((sum(Amt)),0) as Amt, ifnull((sum(Qty)),0) as Qty, ifnull((sum(DisAmt)),0) as DisAmt, DisPer, ItemCode, Types, RefNo, SellPrice, ifnull((sum(TaxAmt)),0) as TaxAmt, TxnDate, ArticleNo  from " + TABLE_FINVDET + " WHERE " + ValueHolder.REFNO + "='" + refno + "'  group by ArticleNo";
+        String selectQuery = "select  ifnull((sum(Qty)),0) as Qty,  itm.GroupCode, itm.ReOrderQty from " + TABLE_FINVDET + " as inv , " + ItemController.TABLE_FITEM+ " as itm WHERE inv.itemcode = itm.itemcode and inv." + ValueHolder.REFNO + "='" + refno + "'  group by itm.GroupCode";
+        Cursor cursor = dB.rawQuery(selectQuery, null);
+        try {
+
+
+
+            while (cursor.moveToNext()) {
+
+                InvDet invdet = new InvDet();
+
+                invdet.setFINVDET_ITEM_CODE(cursor.getString(cursor.getColumnIndex(FITEM_GROUP_CODE)));
+                invdet.setFINVDET_ITEM_NAME(cursor.getString(cursor.getColumnIndex(FITEM_RE_ORDER_QTY)));
+                invdet.setFINVDET_QTY(cursor.getString(cursor.getColumnIndex(FINVDET_QTY)));
+
                 list.add(invdet);
             }
 

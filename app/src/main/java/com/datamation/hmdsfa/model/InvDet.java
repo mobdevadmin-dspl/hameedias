@@ -18,6 +18,7 @@ public class InvDet implements Serializable{
     private String FINVDET_DIS_AMT;
     private String FINVDET_DIS_PER;
     private String FINVDET_ITEM_CODE;
+    private String FINVDET_ITEM_NAME;
     private String FINVDET_PRIL_CODE;
     private String FINVDET_QTY;
     private String FINVDET_RECORD_ID;
@@ -48,6 +49,14 @@ public class InvDet implements Serializable{
     private String FINVDET_PAYTYPE;
     private String FINVDET_GROUPCODE;
     private boolean FLAG;
+
+    public String getFINVDET_ITEM_NAME() {
+        return FINVDET_ITEM_NAME;
+    }
+
+    public void setFINVDET_ITEM_NAME(String FINVDET_ITEM_NAME) {
+        this.FINVDET_ITEM_NAME = FINVDET_ITEM_NAME;
+    }
 
     public String getFINVDET_GROUPCODE() {
         return FINVDET_GROUPCODE;
