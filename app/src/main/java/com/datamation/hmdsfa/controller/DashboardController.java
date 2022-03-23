@@ -41,15 +41,17 @@ public class DashboardController {
             open();
         }
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
-        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+//        int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
+        String strcurMonth = new SimpleDateFormat("MM").format(new Date());
 
 
         double targetsum = 3000000.00;
         Cursor cursor = null;
 
-        String selectQuery = "SELECT ifnull((sum(Rdtarget)),0)  as Target from FItenrDet where txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth)+ "-_%'";
+//        String selectQuery = "SELECT ifnull((sum(Rdtarget)),0)  as Target from FItenrDet where txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
+        String selectQuery = "SELECT ifnull((sum(Value)),0)  as Target from FMonthlyTarget where Year LIKE '"+2022+"' AND Month Like '"+strcurMonth+"'";
 
-       cursor = dB.rawQuery(selectQuery, null);
+        cursor = dB.rawQuery(selectQuery, null);
         try {
 
             while (cursor.moveToNext()) {
@@ -70,6 +72,7 @@ public class DashboardController {
         return targetsum;
 
     }
+
     //rashmi-2019-11-29
     public Date subtractDay(Date date) {
 
@@ -78,6 +81,7 @@ public class DashboardController {
         cal.add(Calendar.DAY_OF_MONTH, -1);
         return cal.getTime();
     }
+
     //rashmi-2019-11-29
     public String getFirstDay() {
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
@@ -85,13 +89,14 @@ public class DashboardController {
         int curDate = Integer.parseInt(new SimpleDateFormat("dd").format(new Date()));
 
 
-        String firstday = ""+curYear+"-"+String.format("%02d", curMonth)+"-"+"01";
+        String firstday = "" + curYear + "-" + String.format("%02d", curMonth) + "-" + "01";
 
 
         return firstday;
 
 
     }
+
     public ArrayList<Target> getTargetVsActuals(String from, String to) {//developed by rashmi
 
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
@@ -139,6 +144,7 @@ public class DashboardController {
 
         return list;
     }
+
     //current month discount
     public Double getTMDiscounts() {
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
@@ -195,13 +201,14 @@ public class DashboardController {
         Cursor cursor = null;
         try {
 
-            String selectQuery = "select ifnull((sum(a.Amt)),0)  as totAmt from finvDet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
+//            String selectQuery = "select ifnull((sum(a.Amt)),0)  as totAmt from finvDet a where a.txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
+            String selectQuery = "SELECT ifnull((sum(SalesValue)),0)  as archAmt from fMonthlySales where SalesYear LIKE '" + curYear + "' AND SalesMonth Like '" + curMonth + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
             // Old 18-12-2017 cursor1 = dB.rawQuery("select ifnull((sum(a.qty)),0)  as totqty from ftransodet a, fitem b,ftransohed c where a.itemcode=b.itemcode and b.brandcode='" + arr[0] + "' and c.costcode='" + costCode + "' and c.refno=a.refno AND c.txndate LIKE '" + iYear + "-" + String.format("%02d", iMonth) + "-_%'", null);
 
             while (cursor.moveToNext()) {
-                monthAchieve = Double.parseDouble(cursor.getString(cursor.getColumnIndex("totAmt")));
+                monthAchieve = Double.parseDouble(cursor.getString(cursor.getColumnIndex("archAmt")));
 
             }
 
@@ -220,6 +227,7 @@ public class DashboardController {
         return monthAchieve;
 
     }
+
     //current month tax
     public Double getMonthTax() {
 
@@ -263,6 +271,7 @@ public class DashboardController {
         return monthTax;
 
     }
+
     //current month return
     public Double getTMReturn() {
 
@@ -703,6 +712,7 @@ public class DashboardController {
 
 
     }
+
     public Double getPMTax() {
         int curYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
         int curMonth = Integer.parseInt(new SimpleDateFormat("MM").format(new Date()));
@@ -927,8 +937,8 @@ public class DashboardController {
         int result = 0;
 
         try {
-            String selectQuery = "select count(DISTINCT DebCode) from FInvHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "'";
-//            String selectQuery = "select count(DISTINCT DebCode) from FOrdHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "'";
+//            String selectQuery = "select count(DISTINCT DebCode) from FInvHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "'";
+            String selectQuery = "select count(DISTINCT DebCode) from FOrdHed where txndate = '" + curYear + "-" + String.format("%02d", curMonth) + "-" + String.format("%02d", curDate) + "'";
 
             cursor = dB.rawQuery(selectQuery, null);
 
@@ -1428,6 +1438,7 @@ public class DashboardController {
         }
         return monthAchieve;
     }
+
     public Double getDailyTax() {
 
         if (dB == null) {

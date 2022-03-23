@@ -3,6 +3,8 @@ package com.datamation.hmdsfa.view.dashboard;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,17 +91,23 @@ public class MainDashboardFragment extends Fragment {
 
         chart.setDescription("");
         double dailyAchieve = new DashboardController(getActivity()).getDailyAchievement();
+
         double monthlyAchieve = new DashboardController(getActivity()).getMonthAchievement();
         double monthlyTarget = new DashboardController(getActivity()).getRepTarget();
         double monthlyBalance = monthlyTarget - monthlyAchieve;
+
         if(monthlyBalance<0){
             monthlyBalance = 0;
         }
+
         double dailyTarget = new DashboardController(getActivity()).getRepTarget()/30;
         //chart.set
         monthTvA.add(new BarEntry((float)monthlyTarget, 0));
         monthTvA.add(new BarEntry((float)monthlyAchieve, 1));
         monthTvA.add(new BarEntry((float)monthlyBalance, 2));
+
+
+        Log.d("******TRG", "onCreateView: "+ monthlyBalance +" = "+ monthlyTarget +" - "+ monthlyAchieve);
 
 
         ArrayList titl = new ArrayList();
