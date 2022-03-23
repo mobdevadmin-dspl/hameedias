@@ -337,6 +337,15 @@ public class NetworkFunctions {
         return getFromServer(baseURL + "fAreaTarget" + restOfURL+"/"+repCode +"/"+year, params);
     }
 
+    public String getMonthSales(String repCode, Integer year) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting month sales   : " + baseURL + "FMonthlySales" + restOfURL + "/" + repCode + "/" + year + params);
+
+        return getFromServer(baseURL + "FMonthlySales" + restOfURL + "/" + repCode + "/" + year, params);
+    }
+
     public String getFreeSlab() throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();

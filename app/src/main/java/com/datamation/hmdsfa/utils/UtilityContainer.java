@@ -32,6 +32,7 @@ import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
+import com.datamation.hmdsfa.controller.MonthlySalesController;
 import com.datamation.hmdsfa.controller.MonthlyTargetController;
 import com.datamation.hmdsfa.controller.OutstandingController;
 import com.datamation.hmdsfa.controller.ReasonController;
@@ -64,6 +65,7 @@ import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.ItemLoc;
 import com.datamation.hmdsfa.model.ItenrDeb;
+import com.datamation.hmdsfa.model.MonthlySales;
 import com.datamation.hmdsfa.model.MonthlyTarget;
 import com.datamation.hmdsfa.model.Reason;
 import com.datamation.hmdsfa.model.Route;
@@ -1029,6 +1031,28 @@ public class UtilityContainer {
                     }
                     monthlyTargetController.InsertUpdateMonthlyTargetData(arrayList);
                     new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Monthly Target Info");
+
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>", e.toString());
+                    }
+                }
+            }
+            break;
+            case MonSales: {
+                MonthlySalesController monthlySalesController = new MonthlySalesController(context);
+                try {
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("FMonthlySalesResult");
+                    totalRecords = jsonArray.length();
+                    ArrayList<MonthlySales> arrayList = new ArrayList<MonthlySales>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(MonthlySales.parseMonthSales(jsonArray.getJSONObject(i)));
+                    }
+                    monthlySalesController.InsertUpdateMonthlySalesData(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Monthly sales Info");
 
                 } catch (JSONException | NumberFormatException e) {
                     try {

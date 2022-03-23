@@ -57,7 +57,7 @@ public class MonthlyTarget {
         {
             MonthlyTarget mt = new MonthlyTarget();
 
-            mt.setRepCode(instance.getString("repCode"));
+            mt.setRepCode(instance.getString("Repcode"));
             mt.setTarMonth(instance.getString("tarMonth"));
             mt.setTarYear(instance.getString("tarYear"));
             mt.setTarValue(instance.getDouble("tarValue"));

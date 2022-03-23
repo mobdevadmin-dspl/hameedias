@@ -58,6 +58,7 @@ import com.datamation.hmdsfa.controller.FreeMslabController;
 import com.datamation.hmdsfa.controller.FreeSlabController;
 import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemLocController;
+import com.datamation.hmdsfa.controller.MonthlySalesController;
 import com.datamation.hmdsfa.controller.MonthlyTargetController;
 import com.datamation.hmdsfa.controller.NewCustomerController;
 import com.datamation.hmdsfa.controller.OutstandingController;
@@ -290,8 +291,8 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 Log.d("Validate Secondary Sync", ">>Mac>> " + pref.getMacAddress().trim() + " >>URL>> " + pref.getBaseURL() + " >>DB>> " + pref.getDistDB());
                 try {
                     if(NetworkUtil.isNetworkAvailable(getActivity())) {
-                        new Validate(pref.getMacAddress().trim(), pref.getBaseURL(), pref.getDistDB()).execute();
-//                        new Validate("942DDCCCD4C6", pref.getBaseURL(), pref.getDistDB()).execute();
+//                        new Validate(pref.getMacAddress().trim(), pref.getBaseURL(), pref.getDistDB()).execute();
+                        new Validate("942DDCCCD4C6", pref.getBaseURL(), pref.getDistDB()).execute();
                     }else{
                         Toast.makeText(getActivity(),"No internet connection",Toast.LENGTH_LONG).show();
                     }
@@ -1397,6 +1398,26 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                     }
                     /*****************end Month Target**********************************************************************/
 
+                    // MMS - 2022/03/23
+                    /*****************Start Month Sales**********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading monthly sales details...");
+                        }
+                    });
+                    // Processing monthly target
+                    try {
+
+                        MonthlySalesController monthlySalesController = new MonthlySalesController(getActivity());
+                        monthlySalesController.deleteAll();
+                        int year = Calendar.getInstance().get(Calendar.YEAR);
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.MonSales, networkFunctions.getMonthSales(repcode,year));
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+                    /*****************end Month Sales**********************************************************************/
 
 
                     /*****************Freeslab**********************************************************************/

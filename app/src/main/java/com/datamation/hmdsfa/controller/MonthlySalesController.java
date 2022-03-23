@@ -8,42 +8,38 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
-import com.datamation.hmdsfa.helpers.SharedPref;
-import com.datamation.hmdsfa.helpers.ValueHolder;
-import com.datamation.hmdsfa.model.Attendance;
+import com.datamation.hmdsfa.model.MonthlySales;
 import com.datamation.hmdsfa.model.MonthlyTarget;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by MMS on 22/3/2022.
  */
 
-public class MonthlyTargetController {
+public class MonthlySalesController {
     private SQLiteDatabase dB;
     private DatabaseHelper dbHelper;
     Context context;
-    private String TAG = "MonthlyTargetController";
+    private String TAG = "MonthlySalesController";
 
 
     // table
-    public static final String TABLE_MON_TARGET = "fMonthlyTarget";
+    public static final String TABLE_MON_SALES = "fMonthlySales";
     // table attributes
     public static final String FID = "ID";
     public static final String FREP_CODE = "RepCode";
-    public static final String FTAR_MONTH = "Month";
-    public static final String FTAR_VALUE = "Value";
-    public static final String FTAR_YEAR = "Year";
+    public static final String FSAL_MONTH = "SalesMonth";
+    public static final String FSAL_VALUE = "SalesValue";
+    public static final String FSAL_YEAR = "SalesYear";
 
 
 
     // create String
-    public static final String CREATE_FMONTH_TARGET_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_MON_TARGET + " (" + FID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FREP_CODE + " TEXT, " + FTAR_MONTH + " TEXT, " + FTAR_VALUE + " TEXT, " + FTAR_YEAR + " TEXT ); ";
+    public static final String CREATE_FMONTH_SALES_TABLE = "CREATE  TABLE IF NOT EXISTS " + TABLE_MON_SALES + " (" + FID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FREP_CODE + " TEXT, " + FSAL_MONTH + " TEXT, " + FSAL_VALUE + " TEXT, " + FSAL_YEAR + " TEXT ); ";
 
 
-    public MonthlyTargetController(Context context) {
+    public MonthlySalesController(Context context) {
         this.context = context;
         dbHelper = new DatabaseHelper(context);
     }
@@ -52,7 +48,7 @@ public class MonthlyTargetController {
         dB = dbHelper.getWritableDatabase();
     }
 
-    public long InsertUpdateMonthlyTargetData(ArrayList<MonthlyTarget> tarList) {
+    public long InsertUpdateMonthlySalesData(ArrayList<MonthlySales> salList) {
 
         long result = 0;
         if (dB == null) {
@@ -62,24 +58,24 @@ public class MonthlyTargetController {
         }
         try {
 
-            for(MonthlyTarget tar : tarList){
-                String selectQuery = "SELECT * FROM " + TABLE_MON_TARGET + " WHERE " + FTAR_YEAR + " = '" + tar.getTarYear() + "' AND "+ FTAR_MONTH + " = '"+tar.getTarMonth()+"'";
+            for(MonthlySales sal : salList){
+                String selectQuery = "SELECT * FROM " + TABLE_MON_SALES + " WHERE " + FSAL_YEAR + " = '" + sal.getSalYear() + "' AND "+ FSAL_MONTH + " = '"+sal.getSalMonth()+"'";
 
                 Cursor cursor = dB.rawQuery(selectQuery, null);
 
                 ContentValues values = new ContentValues();
 
-                values.put(FREP_CODE, tar.getRepCode());
-                values.put(FTAR_MONTH, tar.getTarMonth());
-                values.put(FTAR_YEAR, tar.getTarYear());
-                values.put(FTAR_VALUE, tar.getTarValue());
+                values.put(FREP_CODE, sal.getRepCode());
+                values.put(FSAL_MONTH, sal.getSalMonth());
+                values.put(FSAL_YEAR, sal.getSalYear());
+                values.put(FSAL_VALUE, sal.getSalValue());
 
 
                 if (cursor.getCount() > 0) {
-                    result = dB.update(TABLE_MON_TARGET, values, FTAR_YEAR + " =?" + " AND " + FTAR_MONTH + " =?", new String[]{String.valueOf(tar.getTarYear()), String.valueOf(tar.getTarYear())});
+                    result = dB.update(TABLE_MON_SALES, values, FSAL_YEAR + " =?" + " AND " + FSAL_MONTH + " =?", new String[]{String.valueOf(sal.getSalYear()), String.valueOf(sal.getSalMonth())});
 
                 } else {
-                    result = dB.insert(TABLE_MON_TARGET, null, values);
+                    result = dB.insert(TABLE_MON_SALES, null, values);
                 }
                 cursor.close();
             }
@@ -111,10 +107,10 @@ public class MonthlyTargetController {
         Cursor cursor = null;
         try {
 
-            cursor = dB.rawQuery("SELECT * FROM " + TABLE_MON_TARGET, null);
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_MON_SALES, null);
             count = cursor.getCount();
             if (count > 0) {
-                int success = dB.delete(TABLE_MON_TARGET, null, null);
+                int success = dB.delete(TABLE_MON_SALES, null, null);
                 Log.v("Success", success + "");
             }
         } catch (Exception e) {

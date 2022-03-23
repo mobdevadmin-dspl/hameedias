@@ -46,6 +46,7 @@ import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.ItemPriceController;
 import com.datamation.hmdsfa.controller.LocationsController;
 import com.datamation.hmdsfa.controller.MainStockController;
+import com.datamation.hmdsfa.controller.MonthlySalesController;
 import com.datamation.hmdsfa.controller.MonthlyTargetController;
 import com.datamation.hmdsfa.controller.NearCustomerController;
 import com.datamation.hmdsfa.controller.NewCustomerController;
@@ -201,8 +202,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(PaymentAllocateController.CREATE_TABLE_FPAYMENT_ALLOCATE);
         arg0.execSQL(MainStockController.CREATE_FMAINSTOCK_TABLE);
         arg0.execSQL(MonthlyTargetController.CREATE_FMONTH_TARGET_TABLE);
-
-
+        arg0.execSQL(MonthlySalesController.CREATE_FMONTH_SALES_TABLE);
     }
 
     // --------------------------------------------------------------------------------------------------------------
@@ -307,6 +307,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(ItemLocController.TESTITEMLOC);
             arg0.execSQL(MainStockController.CREATE_FMAINSTOCK_TABLE);
             arg0.execSQL(MonthlyTargetController.CREATE_FMONTH_TARGET_TABLE);
+            arg0.execSQL(MonthlySalesController.CREATE_FMONTH_SALES_TABLE);
 
 
         } catch (SQLiteException e) {
