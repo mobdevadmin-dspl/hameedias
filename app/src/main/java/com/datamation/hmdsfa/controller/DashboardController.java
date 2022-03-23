@@ -49,7 +49,7 @@ public class DashboardController {
         Cursor cursor = null;
 
 //        String selectQuery = "SELECT ifnull((sum(Rdtarget)),0)  as Target from FItenrDet where txndate LIKE '" + curYear + "-" + String.format("%02d", curMonth) + "-_%'";
-        String selectQuery = "SELECT ifnull((sum(Value)),0)  as Target from FMonthlyTarget where Year LIKE '"+2022+"' AND Month Like '"+strcurMonth+"'";
+        String selectQuery = "SELECT ifnull((sum(Value)),0)  as Target from FMonthlyTarget where Year LIKE '"+curYear+"' AND Month Like '"+strcurMonth+"'";
 
         cursor = dB.rawQuery(selectQuery, null);
         try {
