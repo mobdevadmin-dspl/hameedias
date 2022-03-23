@@ -58,6 +58,7 @@ import com.datamation.hmdsfa.controller.FreeMslabController;
 import com.datamation.hmdsfa.controller.FreeSlabController;
 import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemLocController;
+import com.datamation.hmdsfa.controller.MonthlyTargetController;
 import com.datamation.hmdsfa.controller.NewCustomerController;
 import com.datamation.hmdsfa.controller.OutstandingController;
 import com.datamation.hmdsfa.controller.ReasonController;
@@ -290,7 +291,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 try {
                     if(NetworkUtil.isNetworkAvailable(getActivity())) {
                         new Validate(pref.getMacAddress().trim(), pref.getBaseURL(), pref.getDistDB()).execute();
-                     //   new Validate("942DDCCCD4C6", pref.getBaseURL(), pref.getDistDB()).execute();
+//                        new Validate("942DDCCCD4C6", pref.getBaseURL(), pref.getDistDB()).execute();
                     }else{
                         Toast.makeText(getActivity(),"No internet connection",Toast.LENGTH_LONG).show();
                     }
@@ -1374,6 +1375,30 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 //                        throw e;
 //                    }
                     /*****************end towns**********************************************************************/
+
+                    // MMS - 2022/03/22
+                    /*****************Start Month Target**********************************************************************/
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pdialog.setMessage("Downloading monthly target details...");
+                        }
+                    });
+                    // Processing monthly target
+                    try {
+
+                        MonthlyTargetController monthlyTargetController = new MonthlyTargetController(getActivity());
+                        monthlyTargetController.deleteAll();
+                        int year = Calendar.getInstance().get(Calendar.YEAR);
+                        UtilityContainer.download(getActivity(),TaskTypeDownload.MonTarget, networkFunctions.getMonthTargets(repcode,year));
+                    } catch (Exception e) {
+                        errors.add(e.toString());
+                        throw e;
+                    }
+                    /*****************end Month Target**********************************************************************/
+
+
+
                     /*****************Freeslab**********************************************************************/
                     getActivity().runOnUiThread(new Runnable() {
                         @Override

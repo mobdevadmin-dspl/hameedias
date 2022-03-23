@@ -46,6 +46,7 @@ import com.datamation.hmdsfa.controller.ItemLocController;
 import com.datamation.hmdsfa.controller.ItemPriceController;
 import com.datamation.hmdsfa.controller.LocationsController;
 import com.datamation.hmdsfa.controller.MainStockController;
+import com.datamation.hmdsfa.controller.MonthlyTargetController;
 import com.datamation.hmdsfa.controller.NearCustomerController;
 import com.datamation.hmdsfa.controller.NewCustomerController;
 import com.datamation.hmdsfa.controller.OrdFreeIssueController;
@@ -199,9 +200,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         arg0.execSQL(PayModeController.CREATE_TABLE_FPAYMODE);
         arg0.execSQL(PaymentAllocateController.CREATE_TABLE_FPAYMENT_ALLOCATE);
         arg0.execSQL(MainStockController.CREATE_FMAINSTOCK_TABLE);
+        arg0.execSQL(MonthlyTargetController.CREATE_FMONTH_TARGET_TABLE);
 
 
     }
+
     // --------------------------------------------------------------------------------------------------------------
     @Override
     public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
@@ -216,7 +219,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL("ALTER TABLE FInvRDet ADD COLUMN Article_No TEXT DEFAULT ''");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
-        }  try {
+        }
+        try {
             arg0.execSQL("ALTER TABLE FInvRDet ADD COLUMN Variantcode TEXT DEFAULT ''");
         } catch (SQLiteException e) {
             Log.v("SQLiteException", e.toString());
@@ -302,6 +306,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             arg0.execSQL(PaymentAllocateController.CREATE_TABLE_FPAYMENT_ALLOCATE);
             arg0.execSQL(ItemLocController.TESTITEMLOC);
             arg0.execSQL(MainStockController.CREATE_FMAINSTOCK_TABLE);
+            arg0.execSQL(MonthlyTargetController.CREATE_FMONTH_TARGET_TABLE);
+
 
         } catch (SQLiteException e) {
         }

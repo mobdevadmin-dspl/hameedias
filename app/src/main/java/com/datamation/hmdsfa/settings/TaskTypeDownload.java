@@ -29,7 +29,8 @@ public enum TaskTypeDownload {
     Discount(24),
     fddbnote(25),
     VanStock(26),
-    Barcodevarient(27);
+    Barcodevarient(27),
+    MonTarget(28);
 
     int value;
 

@@ -517,7 +517,7 @@ public class SharedPref {
 
     public String getDistDB() {
         return sharedPref.getString("Dist_DB", "SFA_INTEGRATION_TEST");
-//        return sharedPref.getString("Dist_DB", "SFA_INTEGRATION_TEST");
+//        return sharedPref.getString("Dist_DB", "SFA_Integration");
         //return sharedPref.getString("Console_DB", "LHD_PDA_TEST");
         //return sharedPref.getString("baseURL", "http://192.168.43.62");
     }

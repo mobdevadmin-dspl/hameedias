@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/hameedias.iml" filepath="$PROJECT_DIR$/.idea/hameedias.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hameedias.iml" filepath="$PROJECT_DIR$/.idea/modules/hameedias.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/hameedias.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/hameedias.app.iml" />
     </modules>
   </component>
 </project>

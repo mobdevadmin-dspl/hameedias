@@ -328,6 +328,15 @@ public class NetworkFunctions {
         return getFromServer(baseURL + "fexpense" + restOfURL, params);
     }
 
+    public String getMonthTargets(String repCode,Integer year) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting month targets   : " + baseURL + "FAreaTarget" + restOfURL+"/"+repCode +"/"+year+ params);
+
+        return getFromServer(baseURL + "fAreaTarget" + restOfURL+"/"+repCode +"/"+year, params);
+    }
+
     public String getFreeSlab() throws IOException {
 
         List<CustomNameValuePair> params = new ArrayList<>();

@@ -32,6 +32,7 @@ import com.datamation.hmdsfa.controller.IteaneryDebController;
 import com.datamation.hmdsfa.controller.ItemBundleController;
 import com.datamation.hmdsfa.controller.ItemController;
 import com.datamation.hmdsfa.controller.ItemLocController;
+import com.datamation.hmdsfa.controller.MonthlyTargetController;
 import com.datamation.hmdsfa.controller.OutstandingController;
 import com.datamation.hmdsfa.controller.ReasonController;
 import com.datamation.hmdsfa.controller.ReferenceDetailDownloader;
@@ -63,6 +64,7 @@ import com.datamation.hmdsfa.model.Item;
 import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.ItemLoc;
 import com.datamation.hmdsfa.model.ItenrDeb;
+import com.datamation.hmdsfa.model.MonthlyTarget;
 import com.datamation.hmdsfa.model.Reason;
 import com.datamation.hmdsfa.model.Route;
 import com.datamation.hmdsfa.model.RouteDet;
@@ -71,6 +73,7 @@ import com.datamation.hmdsfa.model.VanStock;
 import com.datamation.hmdsfa.model.VatMaster;
 import com.datamation.hmdsfa.settings.TaskTypeDownload;
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -114,20 +117,20 @@ public class UtilityContainer {
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------
 
-    public static void  showSnackBarError(View v, String message, Context context) {
+    public static void showSnackBarError(View v, String message, Context context) {
         Snackbar snack = Snackbar.make(v, "" + message, Snackbar.LENGTH_SHORT);
         View view = snack.getView();
         view.setBackgroundColor(Color.parseColor("#CB4335"));
         TextView tv = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
         tv.setTextColor(Color.WHITE);
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)view.getLayoutParams();
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
         params.gravity = Gravity.CENTER;
         view.setLayoutParams(params);
         snack.show();
 
     }
 
-  /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public static void mLoadFragment(Fragment fragment, Context context) {
 
@@ -139,8 +142,8 @@ public class UtilityContainer {
         ft.commit();
 
     }
-    protected static void sacaSnackbar (Context context, View view, String s)
-    {
+
+    protected static void sacaSnackbar(Context context, View view, String s) {
 
     }
 
@@ -163,6 +166,7 @@ public class UtilityContainer {
         editor.remove("returnKeyReason");
         editor.commit();
     }
+
     public static void ClearReceiptSharedPref(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
@@ -176,6 +180,7 @@ public class UtilityContainer {
         editor.remove("Rec_Start_Time");
         editor.commit();
     }
+
     public static void ClearCustomerSharedPref(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
@@ -185,6 +190,7 @@ public class UtilityContainer {
         editor.remove("selected_pril_code");
         editor.commit();
     }
+
     public static void ClearDBName(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
@@ -193,12 +199,9 @@ public class UtilityContainer {
     }
 
 
-
-
-
     //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
-       public static void mPrinterDialogbox(final Context context) {
+    public static void mPrinterDialogbox(final Context context) {
 
         SharedPref mSharedPref;
         mSharedPref = new SharedPref(context);
@@ -209,8 +212,7 @@ public class UtilityContainer {
         String printer_mac_shared_pref = "";
         printer_mac_shared_pref = new SharedPref(context).getGlobalVal("printer_mac_address");
 
-        if(!TextUtils.isEmpty(printer_mac_shared_pref))
-        {
+        if (!TextUtils.isEmpty(printer_mac_shared_pref)) {
             serverURL.setText(printer_mac_shared_pref);
             Toast.makeText(context, "MAC Address Already Exists", Toast.LENGTH_LONG).show();
         }
@@ -230,7 +232,6 @@ public class UtilityContainer {
                 Button bClose = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
 
 
-
                 bOk.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -243,8 +244,7 @@ public class UtilityContainer {
                                 new SharedPref(context).setGlobalVal("printer_mac_address", serverURL.getText().toString().toUpperCase());
                                 Toast.makeText(context, "Saved Successfully", Toast.LENGTH_LONG).show();
                                 dialog.dismiss();
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(context, "Enter Valid MAC Address", Toast.LENGTH_LONG).show();
                             }
                         } else
@@ -263,6 +263,7 @@ public class UtilityContainer {
         });
         dialog.show();
     }
+
     public static void mBarcodeDialogbox(final Context context) {
 //2020-09-09 by rashmi
         SharedPref mSharedPref;
@@ -274,8 +275,7 @@ public class UtilityContainer {
         String barcode_mac_shared_pref = "";
         barcode_mac_shared_pref = new SharedPref(context).getGlobalVal("barcode_mac_address");
 
-        if(!TextUtils.isEmpty(barcode_mac_shared_pref))
-        {
+        if (!TextUtils.isEmpty(barcode_mac_shared_pref)) {
             serverURL.setText(barcode_mac_shared_pref);
             Toast.makeText(context, "MAC Address Already Exists", Toast.LENGTH_LONG).show();
         }
@@ -295,7 +295,6 @@ public class UtilityContainer {
                 Button bClose = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
 
 
-
                 bOk.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -308,8 +307,7 @@ public class UtilityContainer {
                                 new SharedPref(context).setGlobalVal("barcode_mac_address", serverURL.getText().toString().toUpperCase());
                                 Toast.makeText(context, "Saved Successfully", Toast.LENGTH_LONG).show();
                                 dialog.dismiss();
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(context, "Enter Valid MAC Address", Toast.LENGTH_LONG).show();
                             }
                         } else
@@ -353,9 +351,9 @@ public class UtilityContainer {
         SalRep Vre = new SalRepController(context).getSaleRepDet(new SalRepController(context).getCurrentRepCode());
 
         //for (SalRep salRep : Vre) {
-            etUserName.setText(Vre.getNAME());
-            etRepCode.setText(Vre.getRepCode());
-            etPreFix.setText(Vre.getPREFIX());
+        etUserName.setText(Vre.getNAME());
+        etRepCode.setText(Vre.getRepCode());
+        etPreFix.setText(Vre.getPREFIX());
 
         //}
 
@@ -406,7 +404,8 @@ public class UtilityContainer {
 
         dialog.show();
     }
-    public static void download(final Context context, TaskTypeDownload task , String jsonString) {
+
+    public static void download(final Context context, TaskTypeDownload task, String jsonString) {
         NetworkFunctions networkFunctions = new NetworkFunctions(context);
         JSONObject jsonObject = null;
         int totalRecords = 0;
@@ -414,8 +413,8 @@ public class UtilityContainer {
         try {
             jsonObject = new JSONObject(jsonString);
 
-         } catch (JSONException e) {
-            Log.e("JSON ERROR>>>>>",e.toString());
+        } catch (JSONException e) {
+            Log.e("JSON ERROR>>>>>", e.toString());
         }
         switch (task) {
             case ItenrDeb: {
@@ -438,41 +437,41 @@ public class UtilityContainer {
 
 
                 } catch (Exception e) {
-                  //  errors.add(e.toString());
+                    //  errors.add(e.toString());
 
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
 
             break;
-            case Controllist:{
+            case Controllist: {
+
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("fControlResult");
+                    totalRecords = jsonArray.length();
+                    ArrayList<Control> downloadedList = new ArrayList<Control>();
+                    CompanyDetailsController companyController = new CompanyDetailsController(context);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        downloadedList.add(Control.parseControlDetails(jsonArray.getJSONObject(i)));
+                    }
+                    companyController.createOrUpdateFControl(downloadedList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + downloadedList.size(), "" + totalRecords, "Control Info");
+
+                } catch (JSONException | NumberFormatException e) {
 
                     try {
-                        JSONArray jsonArray = jsonObject.getJSONArray("fControlResult");
-                        totalRecords = jsonArray.length();
-                        ArrayList<Control> downloadedList = new ArrayList<Control>();
-                        CompanyDetailsController companyController = new CompanyDetailsController(context);
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            downloadedList.add(Control.parseControlDetails(jsonArray.getJSONObject(i)));
-                        }
-                        companyController.createOrUpdateFControl(downloadedList);
-                        new CompanyDetailsController(context).createOrUpdateDownload("" + downloadedList.size(), "" + totalRecords, "Control Info");
-
-                    } catch (JSONException | NumberFormatException e) {
-
-                        try {
-                            throw e;
-                        } catch (JSONException e1) {
-                            Log.e("JSON ERROR>>>>>",e.toString());
-                        }
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
+                }
             }
             break;
-            case Customers:{
+            case Customers: {
                 CustomerController customerController = new CustomerController(context);
                 try {
 
@@ -489,24 +488,24 @@ public class UtilityContainer {
 
                 } catch (JSONException | NumberFormatException e) {
 
-                   // errors.add(e.toString());
+                    // errors.add(e.toString());
 //                        ErrorUtil.logException("LoginActivity -> Authenticate -> doInBackground() # Process Routes and Outlets",
 //                                e, routes, BugReport.SEVERITY_HIGH);
 
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Settings:{
+            case Settings: {
                 ReferenceSettingController settingController = new ReferenceSettingController(context);
                 try {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("fCompanySettingResult");
-                    totalRecords =jsonArray.length();
+                    totalRecords = jsonArray.length();
                     ArrayList<CompanySetting> downloadedList = new ArrayList<CompanySetting>();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -519,12 +518,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Reference:{
+            case Reference: {
                 ReferenceDetailDownloader branchController = new ReferenceDetailDownloader(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FCompanyBranchResult");
@@ -541,13 +540,13 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
 
             }
             break;
-            case ItemBundle:{
+            case ItemBundle: {
 
                 try {
                     ItemBundleController bundleController = new ItemBundleController(context);
@@ -565,13 +564,13 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case VAT:{
-            final VATController vatController = new VATController(context);
+            case VAT: {
+                final VATController vatController = new VATController(context);
 
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("VATMasterResult");
@@ -582,18 +581,18 @@ public class UtilityContainer {
                         downloadedList.add(VatMaster.parseVAT(jsonArray.getJSONObject(i)));
                     }
                     vatController.InsertOrReplaceVAT(downloadedList);
-                   new CompanyDetailsController(context).createOrUpdateDownload("" + downloadedList.size(), "" + totalRecords, "VAT Info");
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + downloadedList.size(), "" + totalRecords, "VAT Info");
 
                 } catch (JSONException | NumberFormatException e) {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Items:{
+            case Items: {
 
 
                 try {
@@ -612,12 +611,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Reason:{
+            case Reason: {
                 ReasonController reasonController = new ReasonController(context);
                 // Processing reasons
                 try {
@@ -635,7 +634,7 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
@@ -659,12 +658,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Expense:{
+            case Expense: {
                 ExpenseController expenseController = new ExpenseController(context);
                 // Processing expense
                 try {
@@ -682,12 +681,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Route:{
+            case Route: {
 
                 RouteController routeController = new RouteController(context);
                 try {
@@ -704,12 +703,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case RouteDet:{
+            case RouteDet: {
                 RouteDetController routeDetController = new RouteDetController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fRouteDetResult");
@@ -725,12 +724,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Freeslab:{
+            case Freeslab: {
                 FreeSlabController freeSlabController = new FreeSlabController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FfreeslabResult");
@@ -746,12 +745,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Freemslab:{
+            case Freemslab: {
                 FreeMslabController freemSlabController = new FreeMslabController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fFreeMslabResult");
@@ -767,12 +766,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Freehed:{
+            case Freehed: {
                 FreeHedController freeHedController = new FreeHedController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FfreehedResult");
@@ -788,12 +787,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Freedet:{
+            case Freedet: {
                 FreeDetController freeDetController = new FreeDetController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FfreedetResult");
@@ -809,12 +808,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Freedeb:{
+            case Freedeb: {
                 FreeDebController freeDebController = new FreeDebController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("FfreedebResult");
@@ -830,12 +829,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Freeitem:{
+            case Freeitem: {
                 FreeItemController freeItemController = new FreeItemController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fFreeItemResult");
@@ -851,12 +850,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Iteneryhed:{
+            case Iteneryhed: {
                 FItenrHedController fItenrHedController = new FItenrHedController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fItenrHedResult");
@@ -873,12 +872,12 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
             }
             break;
-            case Itenerydet:{
+            case Itenerydet: {
                 FItenrDetController fItenrDetController = new FItenrDetController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fItenrDetResult");
@@ -902,7 +901,7 @@ public class UtilityContainer {
                 }
             }
             break;
-            case Stock:{
+            case Stock: {
                 ItemLocController itemLocController = new ItemLocController(context);
                 try {
                     JSONArray jsonArray = jsonObject.getJSONArray("fItemLocResult");
@@ -926,7 +925,7 @@ public class UtilityContainer {
                 }
             }
             break;
-            case Salesprice:{
+            case Salesprice: {
                 try {
                     SalesPriceController salesPriceController = new SalesPriceController(context);
                     JSONArray jsonArray = jsonObject.getJSONArray("SalesPriceResult");
@@ -945,7 +944,7 @@ public class UtilityContainer {
                     try {
                         throw e;
                     } catch (JSONException e1) {
-                        Log.e("JSON ERROR>>>>>",e.toString());
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
 
@@ -995,60 +994,82 @@ public class UtilityContainer {
                     }
                 }
             }
-                break;
-                case VanStock : {
-                    VanStockController vanStockController = new VanStockController(context);
+            break;
+            case VanStock: {
+                VanStockController vanStockController = new VanStockController(context);
+                try {
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("VanStockResult");
+                    totalRecords = jsonArray.length();
+                    ArrayList<VanStock> arrayList = new ArrayList<VanStock>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(VanStock.parseVanStock(jsonArray.getJSONObject(i)));
+                    }
+                    vanStockController.InsertOrReplaceVanStock(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Van Stock Info");
+
+                } catch (JSONException | NumberFormatException e) {
                     try {
-
-                        JSONArray jsonArray = jsonObject.getJSONArray("VanStockResult");
-                        totalRecords = jsonArray.length();
-                        ArrayList<VanStock> arrayList = new ArrayList<VanStock>();
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            arrayList.add(VanStock.parseVanStock(jsonArray.getJSONObject(i)));
-                        }
-                        vanStockController.InsertOrReplaceVanStock(arrayList);
-                       new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Van Stock Info");
-
-                    } catch (JSONException | NumberFormatException e) {
-                        try {
-                            throw e;
-                        } catch (JSONException e1) {
-                            Log.e("JSON ERROR>>>>>", e.toString());
-                        }
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>", e.toString());
                     }
                 }
-                    break;
-                    case Barcodevarient: {
+            }
+            break;
+            case MonTarget: {
+                MonthlyTargetController monthlyTargetController = new MonthlyTargetController(context);
+                try {
 
-                        try {
-                            BarcodeVarientController barcodeController = new BarcodeVarientController(context);
-                            JSONArray jsonArray = jsonObject.getJSONArray("BarCodeVarientResult");
-                            totalRecords = jsonArray.length();
-                            ArrayList<BarcodeVariant> arrayList = new ArrayList<BarcodeVariant>();
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                 // Log.d(">>BarcodeVariant", ">>>" + i);
-                                arrayList.add(BarcodeVariant.parseBarcodevarient(jsonArray.getJSONObject(i)));
-                            }
-                             Log.d(">>BarcodeVariant", "size :" + arrayList.size());
-                            barcodeController.InsertOrReplaceBarcodeVariant(arrayList);
-                           new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Barcode Varient Info");
+                    JSONArray jsonArray = jsonObject.getJSONArray("FAreaTargetResult");
+                    totalRecords = jsonArray.length();
+                    ArrayList<MonthlyTarget> arrayList = new ArrayList<MonthlyTarget>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayList.add(MonthlyTarget.parseMonthTargets(jsonArray.getJSONObject(i)));
+                    }
+                    monthlyTargetController.InsertUpdateMonthlyTargetData(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Monthly Target Info");
+
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>", e.toString());
+                    }
+                }
+            }
+            break;
+            case Barcodevarient: {
+
+                try {
+                    BarcodeVarientController barcodeController = new BarcodeVarientController(context);
+                    JSONArray jsonArray = jsonObject.getJSONArray("BarCodeVarientResult");
+                    totalRecords = jsonArray.length();
+                    ArrayList<BarcodeVariant> arrayList = new ArrayList<BarcodeVariant>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        // Log.d(">>BarcodeVariant", ">>>" + i);
+                        arrayList.add(BarcodeVariant.parseBarcodevarient(jsonArray.getJSONObject(i)));
+                    }
+                    Log.d(">>BarcodeVariant", "size :" + arrayList.size());
+                    barcodeController.InsertOrReplaceBarcodeVariant(arrayList);
+                    new CompanyDetailsController(context).createOrUpdateDownload("" + arrayList.size(), "" + totalRecords, "Barcode Varient Info");
 
 
-                        } catch (JSONException | NumberFormatException e) {
-                            try {
-                                throw e;
-                            } catch (JSONException e1) {
-                                Log.e("JSON ERROR>>>>>", e.toString());
-                            }
-                        }
+                } catch (JSONException | NumberFormatException e) {
+                    try {
+                        throw e;
+                    } catch (JSONException e1) {
+                        Log.e("JSON ERROR>>>>>", e.toString());
+                    }
+                }
 
-                Thread thread = new Thread(){
-                    public void run(){
+                Thread thread = new Thread() {
+                    public void run() {
                         Looper.prepare();//Call looper.prepare()
 
                         Handler mHandler = new Handler() {
                             public void handleMessage(Message msg) {
-                                Toast.makeText(context,"Download Completed",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Download Completed", Toast.LENGTH_SHORT).show();
                             }
                         };
 
