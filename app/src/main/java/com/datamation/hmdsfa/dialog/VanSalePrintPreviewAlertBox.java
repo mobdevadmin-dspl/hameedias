@@ -277,6 +277,7 @@ public class VanSalePrintPreviewAlertBox {
                 AlertDialog alertD = alertDialogBuilder.create();
                 alertD.show();
                 ListExpandHelper.getListViewSize(lvItemDetails);
+                ListExpandHelper.getListViewSize(groupDetails);
 
                 return 1;
         }
@@ -363,6 +364,8 @@ public class VanSalePrintPreviewAlertBox {
 
 
             ArrayList<InvDet> list = new InvDetController(context).getAllItemsforPrintOnly(refno);
+            ArrayList<InvDet> grplist = new InvDetController(context).getGroupItemsPrint(refno);
+
             outlet = debtor;
 
             Debname.setText(debtor.getCusCode() + "-" + debtor.getCusName());
@@ -391,6 +394,8 @@ public class VanSalePrintPreviewAlertBox {
 
             lvItemDetails = (ListView) promptView.findViewById(R.id.vansaleList);
             lvItemDetails.setAdapter(new PrintVanSaleItemAdapter(context, list));
+            groupDetails = (ListView) promptView.findViewById(R.id.groupList);
+            groupDetails.setAdapter(new GroupItemsAdaptor(context,grplist));
             /*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-Gross/Net values*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
             TotalPieceQty.setText(String.valueOf(qty));
@@ -441,6 +446,7 @@ public class VanSalePrintPreviewAlertBox {
             AlertDialog alertD = alertDialogBuilder.create();
             alertD.show();
             ListExpandHelper.getListViewSize(lvItemDetails);
+            ListExpandHelper.getListViewSize(groupDetails);
 
             return 1;
         }
@@ -665,6 +671,7 @@ public class VanSalePrintPreviewAlertBox {
         // BigDecimal(itemList.get(0).getFINVDET_TERM_DISPER().toString());
 
         Heading_c = "";
+        Heading_grp_items="";
         countCountInv = 0;
 
      //   if(new CustomerController(context).getCustomerVatStatus(debtor.getCusCode()).equals("VAT")) {
@@ -701,7 +708,8 @@ public class VanSalePrintPreviewAlertBox {
         }
 
         int nos = 1;
-        String SpcItmCodeAndNOS, SpcPrice, SpcQty, SPcTotal, SpcNOS, SPACE6,spItemcode;
+        int nos_g = 1;
+        String SpcItmCodeAndNOS, SpcPrice, SpcQty, SPcTotal, SpcNOS, SPACE6,spItemcode, spItemname;
         String SpcVarntCde, SpcArticleNo, SpcDisper, SpcDisc, SPACE55, SPACE66;
         SPACE6 = "                                            ";
         String size_print="";
@@ -751,7 +759,7 @@ public class VanSalePrintPreviewAlertBox {
             SpcQty = padString("",4-sQty.length());
             SpcPrice = padString("",10-sPrice.length());
             SpcDisper = padString("",7-disper.length());
-            SpcDisc = padString("",15-sDiscount.length());
+            SpcDisc = padString("",14-sDiscount.length());
 //            //SPACE0 = String.format("%"+ (44 - (sItemname.length())) +(String.valueOf(nos).length() + 2)+ "s", " ");
 //            //SPACE1 = String.format("%" + (20 - (sItemcode.length() + (String.valueOf(nos).length() + 2))) + "s", " ");
 //            SpcItmCodeAndNOS = padString("",(15 - (sItemcode.length() + (String.valueOf(nos).length() + 2))));
@@ -827,15 +835,15 @@ public class VanSalePrintPreviewAlertBox {
                 sItemname = sItemname.substring(0,20).trim();
             }
 
-            sItemname = padString("",20-sItemname.length());
+            spItemname = padString("",20-sItemname.length());
             spItemcode = padString("",10-sItemcode.length());
             SpcItmCodeAndNOS = padString("",20-sItemname.length());
             SpcQty = padString("",4-sQty.length());
-            Heading_grp_items += nos + "."+sItemcode+spItemcode+ "-"  +sItemname.trim()+SpcItmCodeAndNOS+SpcQty+ sQty
+            Heading_grp_items += nos_g + "."+sItemcode+spItemcode+ "-"  +sItemname.trim()+spItemname+SpcItmCodeAndNOS+ sQty
                     +"\r\n";
 
 
-            nos++;
+            nos_g++;
         }
 		/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 

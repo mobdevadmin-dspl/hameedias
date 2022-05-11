@@ -68,14 +68,14 @@
 
             <TextView
                 android:id="@+id/heademail"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/head_comp_email"
                 android:textColor="#000000"
                 android:textSize="15dip"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -102,11 +102,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="gone"
                 android:maxLines="1"
                 android:text="@string/head_dist_phone"
                 android:textColor="#000000"
-                android:textSize="15dip" />
+                android:textSize="15dip"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -156,6 +156,7 @@
                 android:text="@string/head_dist_phone"
                 android:textColor="#000000"
                 android:textSize="15dip" />
+
             <TextView
                 android:id="@+id/headcusvatno"
                 android:layout_width="wrap_content"
@@ -196,6 +197,7 @@
                 android:text="refno"
                 android:textColor="#000000"
                 android:textSize="15dip" />
+
             <TextView
                 android:id="@+id/printmanualno"
                 android:layout_width="wrap_content"
@@ -205,6 +207,7 @@
                 android:text="@string/head_sal_remarks"
                 android:textColor="#000000"
                 android:textSize="15dip" />
+
             <TextView
                 android:id="@+id/printremark"
                 android:layout_width="wrap_content"
@@ -214,6 +217,7 @@
                 android:text="@string/head_sal_remarks"
                 android:textColor="#000000"
                 android:textSize="15dip" />
+
             <TextView
                 android:id="@+id/printRepDetails"
                 android:layout_width="wrap_content"
@@ -223,6 +227,7 @@
                 android:text="@string/head_sal_repDet"
                 android:textColor="#000000"
                 android:textSize="15dip" />
+
             <TextView
                 android:id="@+id/printRep"
                 android:layout_width="wrap_content"
@@ -243,6 +248,7 @@
                 android:text="route"
                 android:textColor="#000000"
                 android:textSize="15dip" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -250,7 +256,7 @@
                 android:maxLines="1"
                 android:text="@string/printheadingline"
                 android:textColor="#000000"
-                android:textSize="15dip"/>
+                android:textSize="15dip" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -259,7 +265,7 @@
                 android:maxLines="1"
                 android:text="INVOICE DETAILS"
                 android:textColor="#000000"
-                android:textSize="15dip"/>
+                android:textSize="15dip" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -268,7 +274,7 @@
                 android:maxLines="1"
                 android:text="@string/printheadingline"
                 android:textColor="#000000"
-                android:textSize="15dip"/>
+                android:textSize="15dip" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -318,6 +324,7 @@
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="20dip"
@@ -366,6 +373,7 @@
 
 
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -373,14 +381,13 @@
                 android:maxLines="1"
                 android:text="@string/printheadingline"
                 android:textColor="#000000"
-                android:textSize="15dip"/>
+                android:textSize="15dip" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <ListView
                     android:id="@+id/vansaleList"
@@ -394,86 +401,86 @@
             </LinearLayout>
 
             <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:maxLines="1"-->
-                <!--android:text="@string/printheadingline"-->
-                <!--android:textColor="#000000"-->
-                <!--android:textSize="15dip"/>-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:maxLines="1"-->
+            <!--android:text="@string/printheadingline"-->
+            <!--android:textColor="#000000"-->
+            <!--android:textSize="15dip"/>-->
 
             <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:maxLines="1"-->
-                <!--android:text="RETURN DETAILS"-->
-                <!--android:textColor="#000000"-->
-                <!--android:textSize="15dip" />-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:maxLines="1"-->
+            <!--android:text="RETURN DETAILS"-->
+            <!--android:textColor="#000000"-->
+            <!--android:textSize="15dip" />-->
             <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:maxLines="1"-->
-                <!--android:text="@string/printheadingline"-->
-                <!--android:textColor="#000000"-->
-                <!--android:textSize="15dip" />-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:maxLines="1"-->
+            <!--android:text="@string/printheadingline"-->
+            <!--android:textColor="#000000"-->
+            <!--android:textSize="15dip" />-->
             <!--<LinearLayout-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="20dip"-->
-                <!--android:layout_marginTop="0dp"-->
-                <!--android:orientation="horizontal">-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="20dip"-->
+            <!--android:layout_marginTop="0dp"-->
+            <!--android:orientation="horizontal">-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="left"-->
-                    <!--android:layout_weight="2.5"-->
-                    <!--android:text="PRODUCT"-->
-                    <!--android:textColor="#040d19"-->
-                    <!--android:textStyle="bold" />-->
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="left"-->
+            <!--android:layout_weight="2.5"-->
+            <!--android:text="PRODUCT"-->
+            <!--android:textColor="#040d19"-->
+            <!--android:textStyle="bold" />-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_weight="1.5"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="MRP"-->
-                    <!--android:textColor="#040d19"-->
-                    <!--android:textStyle="bold" />-->
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="1.5"-->
+            <!--android:gravity="center"-->
+            <!--android:text="MRP"-->
+            <!--android:textColor="#040d19"-->
+            <!--android:textStyle="bold" />-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_weight="1.5"-->
-                    <!--android:gravity="center"-->
-                    <!--android:visibility="gone"-->
-                    <!--android:text="DISC"-->
-                    <!--android:textColor="#040d19"-->
-                    <!--android:textStyle="bold" />-->
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="1.5"-->
+            <!--android:gravity="center"-->
+            <!--android:visibility="gone"-->
+            <!--android:text="DISC"-->
+            <!--android:textColor="#040d19"-->
+            <!--android:textStyle="bold" />-->
 
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_weight="1.5"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="QTY"-->
-                    <!--android:textColor="#040d19"-->
-                    <!--android:textStyle="bold" />-->
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="1.5"-->
+            <!--android:gravity="center"-->
+            <!--android:text="QTY"-->
+            <!--android:textColor="#040d19"-->
+            <!--android:textStyle="bold" />-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="right"-->
-                    <!--android:layout_weight="2"-->
-                    <!--android:gravity="right"-->
-                    <!--android:text="AMT"-->
-                    <!--android:textColor="#040d19"-->
-                    <!--android:textStyle="bold" />-->
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:layout_weight="2"-->
+            <!--android:gravity="right"-->
+            <!--android:text="AMT"-->
+            <!--android:textColor="#040d19"-->
+            <!--android:textStyle="bold" />-->
             <!--</LinearLayout>-->
             <TextView
                 android:layout_width="wrap_content"
@@ -483,6 +490,7 @@
                 android:text="@string/printheadingline"
                 android:textColor="#000000"
                 android:textSize="15dip" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -497,6 +505,7 @@
                     android:dividerHeight="1dp"
                     android:drawSelectorOnTop="false"></ListView>
             </LinearLayout>
+
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -504,14 +513,13 @@
                 android:weightSum="2.5">
 
                 <com.datamation.hmdsfa.utils.CustomFont
-                    android:textColor="#040d19"
-                    android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
                     android:gravity="center"
                     android:text="CODE"
-                    />
+                    android:textColor="#040d19"
+                    android:textStyle="bold" />
 
                 <com.datamation.hmdsfa.utils.CustomFont
                     android:layout_width="0dp"
@@ -522,8 +530,7 @@
                     android:gravity="center"
                     android:text="GROUP NAME"
                     android:textColor="#040d19"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
                 <com.datamation.hmdsfa.utils.CustomFont
                     android:layout_width="0dp"
@@ -532,10 +539,11 @@
                     android:gravity="center"
                     android:text="QTY"
                     android:textColor="#040d19"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
 
             </TableRow>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -544,12 +552,12 @@
                 android:text="@string/printheadingline"
                 android:textColor="#000000"
                 android:textSize="15dip" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <ListView
                     android:id="@+id/groupList"
@@ -561,6 +569,7 @@
 
                 </ListView>
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -569,6 +578,7 @@
                 android:text="@string/printheadingline"
                 android:textColor="#000000"
                 android:textSize="15dip" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="28dip"
@@ -673,8 +683,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="28dip"
                 android:layout_marginTop="0dp"
-                android:orientation="horizontal"
-               >
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0.0dip"
@@ -700,8 +709,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone"
-              >
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0.0dip"
@@ -756,6 +764,7 @@
                     android:textColor="#040d19"
                     android:textStyle="bold" />
             </LinearLayout>
+
             <TextView
                 android:id="@+id/amtinwrd"
                 android:layout_width="wrap_content"
@@ -766,6 +775,7 @@
                 android:textColor="#040d19"
                 android:textSize="15dip"
                 android:textStyle="bold" />
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -821,8 +831,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_marginLeft="18dp"
+                android:gravity="center"
                 android:text="Developed by Datamation Systems. \n +94 11 2 501202 .\n www.datamation.lk"
                 android:textColor="@color/greenColor"
                 android:textStyle="italic" />
