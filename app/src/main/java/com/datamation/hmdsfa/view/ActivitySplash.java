@@ -298,8 +298,8 @@ public class ActivitySplash extends AppCompatActivity{
                             pref.setBaseURL(URL);
                             Toast.makeText(ActivitySplash.this, "Inside Validate Dialog", Toast.LENGTH_LONG).show();
 //                            new Validate(pref.getMacAddress().trim(),URL).execute();
-                            Validate("942DDCCCD4C6");
-                           // Validate(pref.getMacAddress().trim());
+//                            Validate("942DDCCCD4C6"); // MAC HardCode
+                            Validate(pref.getMacAddress().trim());
                             //TODO: validate uname pwd with server details
 
 
