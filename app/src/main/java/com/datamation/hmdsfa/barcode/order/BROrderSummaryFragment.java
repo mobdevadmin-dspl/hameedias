@@ -76,7 +76,7 @@ public class BROrderSummaryFragment extends Fragment {
     FloatingActionButton fabPause, fabDiscard, fabSave;
     FloatingActionMenu fam;
     MyReceiver r;
-    int iTotFreeQty = 0;
+    double iTotFreeQty = 0;
     double totalMKReturn = 0;
     PreSalesActivity mainActivity;
     private Customer outlet;
@@ -274,7 +274,7 @@ public class BROrderSummaryFragment extends Fragment {
             ReturnRefNo = activeRetRefNo;
         }
 
-        int ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
+        double ftotQty = 0, fTotFree = 0, returnQty = 0, replacements = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
         String itemCode = "";
 
@@ -288,7 +288,7 @@ public class BROrderSummaryFragment extends Fragment {
             itemCode = ordDet.getFORDERDET_ITEMCODE();
 
 //            if (ordDet.getFORDERDET_TYPE().equals("SA"))
-            ftotQty += Integer.parseInt(ordDet.getFORDERDET_QTY());
+            ftotQty += Double.parseDouble(ordDet.getFORDERDET_QTY());
             //else
             //fTotFree += Integer.parseInt(ordDet.getFORDERDET_QTY());
 

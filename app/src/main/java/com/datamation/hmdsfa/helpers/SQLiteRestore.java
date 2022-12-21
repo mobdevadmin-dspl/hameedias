@@ -89,7 +89,12 @@ public class SQLiteRestore extends Fragment {
                                 Toast.LENGTH_SHORT).show();
 
                         SQLiteBackUp backUp = new SQLiteBackUp(getActivity());
-                        backUp.importDB(objects.get(position).getFileName().toString());
+                        if (android.os.Build.VERSION.SDK_INT < 23) {
+                            backUp.importDB(objects.get(position).getFileName().toString());
+                        } else {
+                            backUp.importDBNew(objects.get(position).getFileName().toString());
+                        }
+
 
                     }
                 });

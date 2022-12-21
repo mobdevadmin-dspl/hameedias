@@ -97,7 +97,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
     FloatingActionButton fabPause, fabDiscard, fabSave;
     FloatingActionMenu fam;
     MyReceiver r;
-    int iTotFreeQty = 0;
+    double iTotFreeQty = 0;
     private SweetAlertDialog pDialog;
     String printLineSeperatorNew = "--------------------------------------------";
     String Heading_a = "";
@@ -271,7 +271,7 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
         String orRefNo = new InvHedController(getActivity()).getActiveInvoiceRef();
 
-        int ftotQty = 0, fTotFree = 0, returnQty = 0, lines = 0;
+        double ftotQty = 0, fTotFree = 0, returnQty = 0, lines = 0;
         double ftotAmt = 0, fTotLineDisc = 0, fTotSchDisc = 0, totalReturn = 0;
 
         locCode = new SalRepController(getActivity()).getCurrentLoccode().trim();
@@ -598,25 +598,25 @@ public class BRInvoiceSummaryFragment extends Fragment {
 
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*--*-*-*-*-*-*-*-*-*-*-*-*/
-    public void updateQtyInItemLocTblItemWise()
-    {
-        try
-        {
-            ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(RefNo);
-
-            /*-*-*-*-*-*-*-*-*-*-*-*-each itemcode has multiple sizecodes*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*/
-            for (InvDet item : list)
-            {
-                int Qty = (int) Double.parseDouble(item.getFINVDET_QTY());
-                //  ArrayList<StkIn> GRNList = new STKInController(activity).getAscendingGRNList(item.getFINVDET_ITEM_CODE(), locCode);
-
-            }
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-    }
+//    public void updateQtyInItemLocTblItemWise()
+//    {
+//        try
+//        {
+//            ArrayList<InvDet> list = new InvDetController(getActivity()).getAllInvDet(RefNo);
+//
+//            /*-*-*-*-*-*-*-*-*-*-*-*-each itemcode has multiple sizecodes*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*/
+//            for (InvDet item : list)
+//            {
+//                int Qty = (int) Double.parseDouble(item.getFINVDET_QTY());
+//                //  ArrayList<StkIn> GRNList = new STKInController(activity).getAscendingGRNList(item.getFINVDET_ITEM_CODE(), locCode);
+//
+//            }
+//        }
+//        catch (Exception ex)
+//        {
+//            ex.printStackTrace();
+//        }
+//    }
 
 
 

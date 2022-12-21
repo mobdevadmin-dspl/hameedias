@@ -383,7 +383,12 @@ public class UtilityContainer {
             @Override
             public void onClick(View v) {
                 SQLiteBackUp backUp = new SQLiteBackUp(context);
-                backUp.exportDB();
+                if (android.os.Build.VERSION.SDK_INT < 23) {
+                    backUp.exportDB();
+                } else {
+                    backUp.exportDBNew();
+                }
+
                 dialog.dismiss();
             }
         });

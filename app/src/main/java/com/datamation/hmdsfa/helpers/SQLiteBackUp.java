@@ -63,7 +63,32 @@ public class SQLiteBackUp {
             Toast.makeText(context, "Import Failed!", Toast.LENGTH_SHORT).show();
         }
     }
+    public void importDBNew(String name) {
+        try {
+            File sd = new File(Environment.getExternalStoragePublicDirectory
+                    (Environment.DIRECTORY_DOCUMENTS), APP_NAME);
+            File data = Environment.getDataDirectory();
+            if (sd.canWrite()) {
+                String currentDBPath = "//data//" + PACKAGE_NAME+ "//databases//" + DATABASE_NAME+"";
+                String backupDBPath ="//"+name; // From SD directory.
+                //     String backupDBPath ="//CJSFA//"+name; // From SD directory.
+                File backupDB = new File(data, currentDBPath);
+                File currentDB = new File(sd, backupDBPath);
 
+                FileChannel src = new FileInputStream(currentDB).getChannel();
+                FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                dst.transferFrom(src, 0, src.size());
+                src.close();
+                dst.close();
+                Toast.makeText(context, "Import Successful!",  Toast.LENGTH_SHORT).show();
+
+            }
+
+        } catch (Exception e) {
+            Log.v("Error ", e.toString());
+            Toast.makeText(context, "Import Failed!", Toast.LENGTH_SHORT).show();
+        }
+    }
     @SuppressWarnings("resource")
     public void exportDB() {
         try {
@@ -108,7 +133,54 @@ public class SQLiteBackUp {
         }
     }
 
+    public void exportDBNew() {
+        try {
 
+            File folder = new File(Environment.getExternalStoragePublicDirectory
+                    (Environment.DIRECTORY_DOCUMENTS), APP_NAME);
+
+            Log.d("*****", "exportDB: "+folder);
+            boolean success = true;
+            if (!folder.exists()) {
+                success = folder.mkdir();
+            }
+            if (success) {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+                Date date = new Date();
+                System.out.println(dateFormat.format(date));
+
+                // File sd = Environment.getExternalStorageDirectory();
+                File sd = new File(Environment.getExternalStoragePublicDirectory
+                        (Environment.DIRECTORY_DOCUMENTS), APP_NAME);
+                File data = Environment.getDataDirectory();
+
+                if (sd.canWrite()) {
+                    String currentDBPath = "//data//" + PACKAGE_NAME
+                            + "//databases//" + DATABASE_NAME;
+                    String backupDBPath = "//backupname_"+dateFormat.format(date).toString()+".db"; // From SD directory.
+                    //  String backupDBPath = "//CJSFA//backupname_"+dateFormat.format(date).toString()+".db"; // From SD directory.
+                    File currentDB = new File(data, currentDBPath);
+                    File backupDB = new File(sd, backupDBPath);
+
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                    Toast.makeText(context, "Backup Successful!",Toast.LENGTH_SHORT).show();
+
+                }
+            }else {
+                // Do something else on failure
+                Toast.makeText(context, "Backup Failed!", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+
+            Log.e("error", e.toString());
+            Toast.makeText(context, "Backup Failed!", Toast.LENGTH_SHORT).show();
+
+        }
+    }
     @SuppressLint("NewApi") public List<Import> getListOfFiles() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy_HH:mm:ss");
