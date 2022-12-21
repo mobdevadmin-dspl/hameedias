@@ -15,6 +15,8 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+
+import android.os.Handler;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -99,18 +101,31 @@ public class ActivitySplash extends AppCompatActivity{
         }
 
 
-        if(pref.getLoginUser()==null) {
-            validateDialog();
-
-        }else{
-           // if(pref.isLoggedIn() || !pref.getLoginUser().equals(null)){
-            if(pref.isLoggedIn()){
-                goToHome();
-           //     pref.setLoginStatus(true);
-            }else {
-                goToLogin();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                if(pref.isLoggedIn()){
+                    goToHome();
+                }else {
+                    goToLogin();
+                }
             }
-        }
+        }, 1000);
+
+//        if(pref.getLoginUser()==null) {
+//            validateDialog();
+//
+//        }else{
+//           // if(pref.isLoggedIn() || !pref.getLoginUser().equals(null)){
+//            if(pref.isLoggedIn()){
+//                goToHome();
+//           //     pref.setLoginStatus(true);
+//            }else {
+//                goToLogin();
+//            }
+//        }
 
 //        tryAgain.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -267,12 +282,12 @@ public class ActivitySplash extends AppCompatActivity{
 
 
     //without console database- implement 2020-02-28 by rashmi for hameedia
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-        permissionManager.checkResult(requestCode,permissions,grantResults);
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+////        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+////        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+//        permissionManager.checkResult(requestCode,permissions,grantResults);
+//    }
     private void validateDialog() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         final View promptView = layoutInflater.inflate(R.layout.ip_connection_dailog, null);
@@ -392,7 +407,7 @@ public class ActivitySplash extends AppCompatActivity{
 
 
                     ApiInterface apiInterface = ApiCllient.getClient(ActivitySplash.this).create(ApiInterface.class);
-                    Call<ReadJsonList> resultCall = apiInterface.getSalRepResult(pref.getDistDB(),macId);
+                    Call<ReadJsonList> resultCall = apiInterface.getSalRepResultOld(pref.getDistDB(),macId);
                     resultCall.enqueue(new Callback<ReadJsonList>() {
                         @Override
                         public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
@@ -471,7 +486,7 @@ public class ActivitySplash extends AppCompatActivity{
         Toast.makeText(ActivitySplash.this, "Validate "+macId, Toast.LENGTH_LONG).show();
         try{
             ApiInterface apiInterface = ApiCllient.getClient(ActivitySplash.this).create(ApiInterface.class);
-            Call<ReadJsonList> resultCall = apiInterface.getSalRepResult(pref.getDistDB(),macId);
+            Call<ReadJsonList> resultCall = apiInterface.getSalRepResultOld(pref.getDistDB(),macId);
             resultCall.enqueue(new Callback<ReadJsonList>() {
                 @Override
                 public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {

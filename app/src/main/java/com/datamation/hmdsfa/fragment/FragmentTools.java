@@ -292,7 +292,7 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
                 try {
                     if(NetworkUtil.isNetworkAvailable(getActivity())) {
 //                        new Validate(pref.getMacAddress().trim(), pref.getBaseURL(), pref.getDistDB()).execute();
-                        new Validate("942DDCCCD4C6", pref.getBaseURL(), pref.getDistDB()).execute();
+                        new Validate(pref.getLoginUser().getRepCode().trim(),pref.getUserPw().trim(), pref.getBaseURL(), pref.getDistDB()).execute();
                     }else{
                         Toast.makeText(getActivity(),"No internet connection",Toast.LENGTH_LONG).show();
                     }
@@ -1809,10 +1809,11 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
     private class Validate extends AsyncTask<String, Integer, Boolean> {
         int totalRecords = 0;
         CustomProgressDialog pdialog;
-        private String macId, url, db;
+        private String username,password, url, db;
 
-        public Validate(String macId, String url, String db) {
-            this.macId = macId;
+        public Validate(String username,String password, String url, String db) {
+            this.username = username;
+            this.password = password;
             this.url = url;
             this.db = db;
             this.pdialog = new CustomProgressDialog(getActivity());
@@ -1833,13 +1834,14 @@ public class FragmentTools extends Fragment implements View.OnClickListener, Upl
 
                 try {
                     ApiInterface apiInterface = ApiCllient.getClient(getActivity()).create(ApiInterface.class);
-                    Call<ReadJsonList> resultCall = apiInterface.getSalRepResult(pref.getDistDB(),macId);
+                    Call<ReadJsonList> resultCall = apiInterface.getSalRepNewResult(pref.getDistDB(),username,password);
                     resultCall.enqueue(new Callback<ReadJsonList>() {
                         @Override
                         public void onResponse(Call<ReadJsonList> call, Response<ReadJsonList> response) {
                             ArrayList<SalRep> repList = new ArrayList<SalRep>();
-                            for (int i = 0; i < response.body().getSalRepResult().size(); i++) {
-                                repList.add(response.body().getSalRepResult().get(i));
+
+                            for (int i = 0; i < response.body().getSalRepNewResult().size(); i++) {
+                                repList.add(response.body().getSalRepNewResult().get(i));
                             }
                             new SalRepController(getActivity()).createOrUpdateSalRep(repList);
 

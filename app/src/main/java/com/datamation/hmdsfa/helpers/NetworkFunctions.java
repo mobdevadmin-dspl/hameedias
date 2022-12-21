@@ -119,6 +119,16 @@ public class NetworkFunctions {
         return getFromServer(baseURL + "Fdebtor" + restOfURL + "/" + repCode, params);
 
     }
+
+    public String getSalRepNew(String repCode, String password) throws IOException {
+
+        List<CustomNameValuePair> params = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Getting customer : " + baseURL + "fSalRepNew" + restOfURL + "/" + repCode + "/" + password  + params);
+
+        return getFromServer(baseURL + "fSalRepNew" + restOfURL + "/" + repCode + "/" + password, params);
+
+    }
     // -----------------------kaveesha ------------------------------ 15-06-2021 ---------------------------------------
     public String getMainStock(String articleNo) throws IOException {
 
@@ -350,7 +360,7 @@ public class NetworkFunctions {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting fFreeslab   : " + baseURL + "fFreeslab  " + restOfURL + params);
+        Log.d(LOG_TAG, "Getting fFreeslab   : " + baseURL + "fFreeslab" + restOfURL + params);
 
         return getFromServer(baseURL + "fFreeslab" + restOfURL, params);
     }
@@ -359,7 +369,7 @@ public class NetworkFunctions {
 
         List<CustomNameValuePair> params = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Getting fFreedet   : " + baseURL + "fFreedet  " + restOfURL + params);
+        Log.d(LOG_TAG, "Getting fFreedet   : " + baseURL + "fFreedet" + restOfURL + params);
 
         return getFromServer(baseURL + "fFreedet" + restOfURL, params);
     }

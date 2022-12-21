@@ -100,6 +100,27 @@ public class SalRep {
         this.firebaseTokenID = firebaseTokenID;
     }
 
+    public static SalRep parseSalRep(JSONObject instance) throws JSONException {
+
+        if (instance != null) {
+            SalRep salRep = new SalRep();
+
+            salRep.setRepCode(instance.getString("RepCode").trim());
+            salRep.setNAME(instance.getString("RepName").trim());
+            salRep.setPREFIX(instance.getString("RepPrefix").trim());
+            salRep.setCurrentVanLoc(instance.getString("CurrentVanLoc").trim());
+            salRep.setEMAIL(instance.getString("EMAIL").trim());
+            salRep.setPASSWORD(instance.getString("Password").trim());
+            salRep.setRepType(instance.getString("RepType").trim());
+            salRep.setFirebaseTokenID(instance.getString("firebaseTokenID").trim());
+            salRep.setMACID(instance.getString("macid").trim());
+
+            return salRep;
+        }
+        return null;
+    }
+
+
 
     @Override
     public String toString() {

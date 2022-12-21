@@ -26,7 +26,10 @@ public interface ApiInterface {
     Call<ReadJsonList> getDatabaseResult();
 
     @GET("fSalRep/mobile123/{dbname}/{macid}")//01
-    Call<ReadJsonList> getSalRepResult(@Path("dbname") String dbname,@Path("macid") String macid);
+    Call<ReadJsonList> getSalRepResultOld(@Path("dbname") String dbname,@Path("macid") String macid);
+
+    @GET("fSalRepNew/mobile123/{dbname}/{username}/{password}")//01
+    Call<ReadJsonList> getSalRepNewResult(@Path("dbname") String dbname,@Path("username") String username,@Path("password") String password);
 
     @GET("Fdebtor/mobile123/{dbname}/{repcode}")//02
     Call<ReadJsonList> getDebtorResult(@Path("dbname") String dbname,@Path("repcode") String repcode);
@@ -40,8 +43,8 @@ public interface ApiInterface {
     @GET("fItemPri/mobile123/{dbname}/{repcode}")//05
     Call<ReadJsonList> getItemPriResult(@Path("dbname") String dbname,@Path("repcode") String repcode);
 
-    @GET("fItems/mobile123/{dbname}/{repcode}")//06
-    Call<ReadJsonList> getItemsResult(@Path("dbname") String dbname,@Path("repcode") String repcode);
+    @GET("fItems/mobile123/{dbname}/{repcode}/{reptype}")//06
+    Call<ReadJsonList> getItemsResult(@Path("dbname") String dbname,@Path("repcode") String repcode,@Path("reptype") String reptype);
 
     @GET("fLocations/mobile123/{dbname}/{repcode}")//07
     Call<ReadJsonList> getLocationsResult(@Path("dbname") String dbname,@Path("repcode") String repcode);

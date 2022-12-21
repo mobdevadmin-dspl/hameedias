@@ -135,6 +135,16 @@ public class SharedPref {
         return  sharedPref.getString("PMInvoice_Sale","0");
     }
 
+    public  void  setUserPw(String invSale){
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("user_pw", invSale);
+        editor.apply();
+    }
+
+    public  String getUserPw(){
+        return  sharedPref.getString("user_pw","");
+    }
+
 
     public void storeLoginUser(SalRep user) {
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -488,7 +498,8 @@ public class SharedPref {
     public String getBaseURL() {
         //return sharedPref.getString("baseURL", "https://19920502.000webhostapp.com");
         //return sharedPref.getString("baseURL", "http://203.143.21.121:8080");
-        return sharedPref.getString("baseURL", "http://13.76.45.176:1010");
+      //  return sharedPref.getString("baseURL", "http://13.76.45.176:1010");
+       return sharedPref.getString("baseURL", "http://124.43.161.103:8080");
        // return sharedPref.getString("baseURL", "http://123.231.13.199:1025");
         //return sharedPref.getString("baseURL", "http://192.168.43.62");
         //return sharedPref.getString("baseURL", "http://192.168.43.62");

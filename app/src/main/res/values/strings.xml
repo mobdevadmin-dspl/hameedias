@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">HameediaSFA</string>
     <string name="app_name_new">HameediaSFA</string>
-    <string name="connection_string">/HMDWebServices/HMDWebServicesRest.svc/</string>
+    <string name="connection_string">/HMDWebServicesTestNew/HMDWebServicesRest.svc/</string>
+<!--    <string name="connection_string">/HMDWebServices/HMDWebServicesRest.svc/</string>-->
     <string name="developed_by_rashmi">Developed by Datamation.</string>
     <string name="txt_msg">Your Network is Unavailable.Check Your data or Wi-Fi Connection.</string>
     <string name="title_activity_home">Home</string>

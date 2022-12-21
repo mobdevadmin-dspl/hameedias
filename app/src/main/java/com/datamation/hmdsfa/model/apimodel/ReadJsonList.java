@@ -52,6 +52,8 @@ public class ReadJsonList {
     private ArrayList<DbNames> dbResult = null;
     @SerializedName("fSalRepResult")//01
     private ArrayList<SalRep> salRepResult = null;
+    @SerializedName("fSalRepNewResult")//01
+    private ArrayList<SalRep> salRepNewResult = null;
     @SerializedName("fControlResult")//02
     private ArrayList<Control> controlResult = null;
     @SerializedName("fItemLocResult")//03
@@ -128,6 +130,10 @@ public class ReadJsonList {
     private ArrayList<SalesPrice> salesPriceResult = null ;
     @SerializedName("CusProductDisResult")//39
     private ArrayList<SalesPrice> discountResult = null ;
+
+    public ArrayList<SalRep> getSalRepNewResult() {
+        return salRepNewResult;
+    }
 
     public ArrayList<DbNames> getDbResult() {
         return dbResult;

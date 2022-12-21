@@ -102,7 +102,38 @@ public class SalRepController {
 
     }
 
-	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+    public int deleteAll() {
+
+        int count = 0;
+
+        if (dB == null) {
+            open();
+        } else if (!dB.isOpen()) {
+            open();
+        }
+        Cursor cursor = null;
+        try {
+
+            cursor = dB.rawQuery("SELECT * FROM " + TABLE_FSALREP, null);
+            count = cursor.getCount();
+            if (count > 0) {
+                int success = dB.delete(TABLE_FSALREP, null, null);
+                Log.v("Success", success + "");
+            }
+        } catch (Exception e) {
+            Log.v(TAG + " Exception", e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            dB.close();
+        }
+
+        return count;
+
+    }
+
+    /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 
     public String getCurrentRepCode() {
 
