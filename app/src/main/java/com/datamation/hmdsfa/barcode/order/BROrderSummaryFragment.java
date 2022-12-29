@@ -288,7 +288,7 @@ public class BROrderSummaryFragment extends Fragment {
             itemCode = ordDet.getFORDERDET_ITEMCODE();
 
 //            if (ordDet.getFORDERDET_TYPE().equals("SA"))
-            ftotQty += Double.parseDouble(ordDet.getFORDERDET_QTY());
+            ftotQty += Double.valueOf(ordDet.getFORDERDET_QTY());
             //else
             //fTotFree += Integer.parseInt(ordDet.getFORDERDET_QTY());
 
@@ -305,7 +305,8 @@ public class BROrderSummaryFragment extends Fragment {
         }
 
         iTotFreeQty = fTotFree;
-        lblQty.setText(String.valueOf(ftotQty + fTotFree));
+  //      lblQty.setText(String.valueOf(ftotQty + fTotFree));
+        lblQty.setText(String.format("%.2f", ftotQty + fTotFree ));
 //        lblGross.setText(String.format("%.2f", ftotAmt + fTotSchDisc + fTotLineDisc));
 //        lblReturn.setText(String.format("%.2f", totalReturn));
 //        lblNetVal.setText(String.format("%.2f", ftotAmt-totalReturn));

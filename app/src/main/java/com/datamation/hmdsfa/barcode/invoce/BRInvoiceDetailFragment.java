@@ -21,6 +21,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -48,7 +50,9 @@ import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.adapter.BundleAdapter;
 import com.datamation.hmdsfa.adapter.FabricItemsAdapter;
 import com.datamation.hmdsfa.adapter.FreeIssueAdapterNew;
+import com.datamation.hmdsfa.adapter.InvDetAdapter;
 import com.datamation.hmdsfa.adapter.InvDetAdapterNew;
+import com.datamation.hmdsfa.adapter.InvoiceAddedItemViewAdapter;
 import com.datamation.hmdsfa.adapter.InvoiceFreeItemAdapter;
 import com.datamation.hmdsfa.adapter.MainStockAdapter;
 import com.datamation.hmdsfa.adapter.NewProduct_Adapter;
@@ -111,7 +115,8 @@ public class BRInvoiceDetailFragment extends Fragment{
     View view;
     int totPieces = 0;
     int seqno = 0;
-    ListView lv_order_det, lvFree;
+    ListView lv_order_det;
+    ListView lvFree;
     Spinner spnScanType;
     ImageView btninquiry;
     FloatingActionButton btnDiscount;
@@ -236,7 +241,7 @@ public class BRInvoiceDetailFragment extends Fragment{
 
                 }else if(spnScanType.getSelectedItemPosition() == 2){//fabric items 2020-09-08
                     ArrayList<ItemBundle> fabricitems = new BarcodeVarientController(getActivity())
-                            .getFabricItems(etSearchField.getText().toString());
+                            .getFabricItems(etSearchField.getText().toString().trim());
                     if(fabricitems.size()>0){
                         FabricItemsDialogBox(fabricitems);
                     }else{
@@ -341,16 +346,17 @@ public class BRInvoiceDetailFragment extends Fragment{
 
         //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*//
 
-        lv_order_det.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                mSharedPref.setDiscountClicked("0");
-                new InvDetController(getActivity()).restFreeIssueData(RefNo);
-                //new OrdFreeIssueDS(getActivity()).ClearFreeIssues(RefNo);
-                newDeleteOrderDialog(position);
-                return true;
-            }
-        });
+//        lv_order_det.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                mSharedPref.setDiscountClicked("0");
+//                new InvDetController(getActivity()).restFreeIssueData(RefNo);
+//                //new OrdFreeIssueDS(getActivity()).ClearFreeIssues(RefNo);
+//                newDeleteOrderDialog(position);
+//                return true;
+//            }
+//        });
+
 
         //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*//*
         if(!new BluetoothConnectionHelper(getActivity()).isSupportBluetooth()){
@@ -832,8 +838,8 @@ public class BRInvoiceDetailFragment extends Fragment{
             orderList = new InvDetController(getActivity()).getAllInvDet(selectedInvHed.getFINVHED_REFNO());
             txtQtyCount.setText( new InvDetController(getActivity()).getAllQtyCount(selectedInvHed.getFINVHED_REFNO()));
 //            ArrayList<InvDet> freeList = new InvDetController(getActivity()).getAllFreeIssue(selectedInvHed.getFINVHED_REFNO());
-           // lv_order_det.setAdapter(new InvDetAdapter(getActivity(), orderList));
             lv_order_det.setAdapter(new InvDetAdapterNew(getActivity(), orderList));
+          //  lv_order_det.setAdapter(new InvoiceAddedItemViewAdapter(getActivity(), orderList));
            // lvFree.setAdapter(new FreeItemsAdapter(getActivity(), freeList));
         } catch (NullPointerException e) {
             Log.v("SA Error", e.toString());
@@ -1047,9 +1053,11 @@ public class BRInvoiceDetailFragment extends Fragment{
 //                    }
                    // Log.d("QOH>>>","before scnd for loop listsize>>>"+list.size()+"count>>>"+count);
 //     by menaka on 25-01-2022               if(count == list.size()) {
+        int seqno = 0;
                         for (Product product : list) {
+                            seqno++;
                            // String barcode, String itemCode, String Qty, String price, String variantcode, String qoh, String aricleno, String documentNo
-                            mUpdateInvoice(product.getFPRODUCT_Barcode(),product.getFPRODUCT_ITEMCODE(),product.getFPRODUCT_QTY(),product.getFPRODUCT_Price(),product.getFPRODUCT_VariantCode(),product.getFPRODUCT_QOH(),product.getFPRODUCT_ArticleNo(),product.getFPRODUCT_DocumentNo());
+                            new BarcodeVarientController(getActivity()).mUpdateInvoice(product.getFPRODUCT_Barcode(),product.getFPRODUCT_ITEMCODE(),product.getFPRODUCT_QTY(),product.getFPRODUCT_Price(),product.getFPRODUCT_VariantCode(),product.getFPRODUCT_QOH(),product.getFPRODUCT_ArticleNo(),product.getFPRODUCT_DocumentNo(),seqno);
                           //  mUpdateInvoice(list);
                         }
 //     by menaka on 25-01-2022               }else{
@@ -1110,67 +1118,6 @@ public class BRInvoiceDetailFragment extends Fragment{
     }
 
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
-    public void mUpdateInvoice(String barcode, String itemCode, String Qty, String price, String variantcode, String qoh, String aricleno, String documentNo) {
-
-        ArrayList<InvDet> arrList = new ArrayList<>();
-        InvDet invDet = new InvDet();
-        double unitprice = 0.0;
-       // String taxamt = new VATController(getActivity()).calculateTax(mSharedPref.getGlobalVal("KeyVat"),new BigDecimal(amt));
-        String taxRevValue = new VATController(getActivity()).calculateReverse(mSharedPref.getGlobalVal("KeyVat"),new BigDecimal(price));
-       // unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
-
-
-//by rashmi 2020/06/22 according to meeting minute(2020/06/17) point 02
-        if(new CustomerController(getActivity()).getCustomerVatStatus(mSharedPref.getSelectedDebCode()).trim().equals("VAT")){
-            unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
-            //by rashmi 2020/06/23
-            //BSell price get for tax forward, if customer vat, set b sell price reversing tax
-            invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", unitprice));
-        }else if(new CustomerController(getActivity()).getCustomerVatStatus(mSharedPref.getSelectedDebCode()).trim().equals("NOVAT")){
-            unitprice = Double.parseDouble(price);
-            //by rashmi 2020/06/23
-            //if customer novat, pass unit price without reversing tax, but b sell price set reversing tax for use to forward tax
-            invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", (unitprice- Double.parseDouble(taxRevValue))));
-        }else{
-            Toast.makeText(getActivity(),"This customer doesn't have VAT status(VAT?/NOVAT?)",Toast.LENGTH_SHORT).show();
-        }
-        double amt = unitprice * Double.parseDouble(Qty);
-        invDet.setFINVDET_B_AMT(String.format("%.2f", amt));
-        invDet.setFINVDET_SELL_PRICE(String.format("%.2f", unitprice));
-
-        invDet.setFINVDET_BT_SELL_PRICE(String.format("%.2f", unitprice));
-        invDet.setFINVDET_DIS_AMT("0");
-        invDet.setFINVDET_DIS_PER("0");
-        invDet.setFINVDET_ITEM_CODE(itemCode);
-       // invDet.setFINVDET_PRIL_CODE(SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
-        invDet.setFINVDET_QTY(Qty);
-        invDet.setFINVDET_PICE_QTY(Qty);
-        invDet.setFINVDET_TYPE("Invoice");
-        invDet.setFINVDET_BT_TAX_AMT("0");
-        invDet.setFINVDET_TAX_AMT("0");
-        invDet.setFINVDET_RECORD_ID("");
-        invDet.setFINVDET_SEQNO(seqno + "");
-        invDet.setFINVDET_T_SELL_PRICE(price);
-        invDet.setFINVDET_REFNO(new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.VanNumVal)));
-        invDet.setFINVDET_BRAND_DISCPER("0");
-        invDet.setFINVDET_BRAND_DISC("0");
-        invDet.setFINVDET_COMDISC("0");
-        invDet.setFINVDET_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        invDet.setFINVDET_TXN_TYPE("22");
-        invDet.setFINVDET_IS_ACTIVE("1");
-        invDet.setFINVDET_QOH(qoh);
-        invDet.setFINVDET_DISVALAMT("0");
-        invDet.setFINVDET_PRICE(price);
-        invDet.setFINVDET_CHANGED_PRICE("0");
-        invDet.setFINVDET_AMT(String.format("%.2f", amt));
-        invDet.setFINVDET_BAL_QTY(Qty);
-        invDet.setFINVDET_BARCODE(barcode);
-        invDet.setFINVDET_ARTICLENO(aricleno);
-        invDet.setFINVDET_VARIANTCODE(variantcode);
-        invDet.setFINVDET_PRIL_CODE(documentNo);
-        arrList.add(invDet);
-        new InvDetController(getActivity()).createOrUpdateBCInvDet(arrList);
-    }
     public void mUpdateInvoice(ArrayList<Product> list) {
      //   , , , , , , ,
         ArrayList<InvDet> arrList = new ArrayList<>();

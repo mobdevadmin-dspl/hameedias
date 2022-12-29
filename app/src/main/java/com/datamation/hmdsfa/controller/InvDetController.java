@@ -230,7 +230,9 @@ public class InvDetController {
 
                 int cn = cursor.getCount();
                 if (cn > 0) {
-                    String updateQuery = "UPDATE finvdet SET Qty= Qty+'" + invDet.getFINVDET_QTY() + "', amt= amt+'" + invDet.getFINVDET_AMT() + "' where RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
+                    //2022-12-27 commented due to manual adding items
+                  //  String updateQuery = "UPDATE finvdet SET Qty= Qty+'" + invDet.getFINVDET_QTY() + "', amt= amt+'" + invDet.getFINVDET_AMT() + "' where RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
+                    String updateQuery = "UPDATE finvdet SET Qty= '" + invDet.getFINVDET_QTY() + "', amt= '" + invDet.getFINVDET_AMT() + "' where RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
                     dB.execSQL(updateQuery);
                     count = 1;
                   //  count = dB.update(TABLE_FINVDET, values, FINVDET_BARCODE + " = '"+invDet.getFINVDET_BARCODE()+"' and "+ ValueHolder.REFNO+ " = '"+invDet.getFINVDET_REFNO()+"'", new String[]{String.valueOf(invDet.getFINVDET_ID())});

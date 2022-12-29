@@ -6,13 +6,21 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.datamation.hmdsfa.R;
 import com.datamation.hmdsfa.helpers.DatabaseHelper;
+import com.datamation.hmdsfa.helpers.SharedPref;
 import com.datamation.hmdsfa.model.BarcodeVariant;
+import com.datamation.hmdsfa.model.InvDet;
 import com.datamation.hmdsfa.model.ItemBundle;
 import com.datamation.hmdsfa.model.Product;
+import com.datamation.hmdsfa.settings.ReferenceNum;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BarcodeVarientController {
 
@@ -20,6 +28,7 @@ public class BarcodeVarientController {
     Context context;
     private SQLiteDatabase dB;
     private DatabaseHelper dbeHelper;
+    private SharedPref mSharedPref;
     private String TAG = "ItemBundleController";
     private String TAG_1 = "BarCodeVarientController";
 
@@ -55,6 +64,7 @@ public class BarcodeVarientController {
     public BarcodeVarientController(Context context) {
         this.context = context;
         dbeHelper = new DatabaseHelper(context);
+        mSharedPref = SharedPref.getInstance(context);
     }
 
     public void open() throws SQLException {
@@ -194,6 +204,68 @@ public class BarcodeVarientController {
 
         return list;
     }
+    public void mUpdateInvoice(String barcode, String itemCode, String Qty, String price, String variantcode, String qoh, String aricleno, String documentNo,int seqno) {
+
+        ArrayList<InvDet> arrList = new ArrayList<>();
+        InvDet invDet = new InvDet();
+        double unitprice = 0.0;
+        // String taxamt = new VATController(getActivity()).calculateTax(mSharedPref.getGlobalVal("KeyVat"),new BigDecimal(amt));
+        String taxRevValue = new VATController(context).calculateReverse(mSharedPref.getGlobalVal("KeyVat"),new BigDecimal(price));
+        // unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
+
+
+//by rashmi 2020/06/22 according to meeting minute(2020/06/17) point 02
+        if(new CustomerController(context).getCustomerVatStatus(mSharedPref.getSelectedDebCode()).trim().equals("VAT")){
+            unitprice = Double.parseDouble(price) - Double.parseDouble(taxRevValue);
+            //by rashmi 2020/06/23
+            //BSell price get for tax forward, if customer vat, set b sell price reversing tax
+            invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", unitprice));
+        }else if(new CustomerController(context).getCustomerVatStatus(mSharedPref.getSelectedDebCode()).trim().equals("NOVAT")){
+            unitprice = Double.parseDouble(price);
+            //by rashmi 2020/06/23
+            //if customer novat, pass unit price without reversing tax, but b sell price set reversing tax for use to forward tax
+            invDet.setFINVDET_B_SELL_PRICE(String.format("%.2f", (unitprice- Double.parseDouble(taxRevValue))));
+        }else{
+            Toast.makeText(context,"This customer doesn't have VAT status(VAT?/NOVAT?)",Toast.LENGTH_SHORT).show();
+        }
+        double amt = unitprice * Double.parseDouble(Qty);
+        invDet.setFINVDET_B_AMT(String.format("%.2f", amt));
+        invDet.setFINVDET_SELL_PRICE(String.format("%.2f", unitprice));
+
+        invDet.setFINVDET_BT_SELL_PRICE(String.format("%.2f", unitprice));
+        invDet.setFINVDET_DIS_AMT("0");
+        invDet.setFINVDET_DIS_PER("0");
+        invDet.setFINVDET_ITEM_CODE(itemCode);
+        // invDet.setFINVDET_PRIL_CODE(SharedPref.getInstance(getActivity()).getSelectedDebtorPrilCode());
+        invDet.setFINVDET_QTY(Qty);
+        invDet.setFINVDET_PICE_QTY(Qty);
+        invDet.setFINVDET_TYPE("Invoice");
+        invDet.setFINVDET_BT_TAX_AMT("0");
+        invDet.setFINVDET_TAX_AMT("0");
+        invDet.setFINVDET_RECORD_ID("");
+        invDet.setFINVDET_SEQNO(seqno + "");
+        invDet.setFINVDET_T_SELL_PRICE(price);
+        invDet.setFINVDET_REFNO(new ReferenceNum(context).getCurrentRefNo(context.getResources().getString(R.string.VanNumVal)));
+        invDet.setFINVDET_BRAND_DISCPER("0");
+        invDet.setFINVDET_BRAND_DISC("0");
+        invDet.setFINVDET_COMDISC("0");
+        invDet.setFINVDET_TXN_DATE(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        invDet.setFINVDET_TXN_TYPE("22");
+        invDet.setFINVDET_IS_ACTIVE("1");
+        invDet.setFINVDET_QOH(qoh);
+        invDet.setFINVDET_DISVALAMT("0");
+        invDet.setFINVDET_PRICE(price);
+        invDet.setFINVDET_CHANGED_PRICE("0");
+        invDet.setFINVDET_AMT(String.format("%.2f", amt));
+        invDet.setFINVDET_BAL_QTY(Qty);
+        invDet.setFINVDET_BARCODE(barcode);
+        invDet.setFINVDET_ARTICLENO(aricleno);
+        invDet.setFINVDET_VARIANTCODE(variantcode);
+        invDet.setFINVDET_PRIL_CODE(documentNo);
+        arrList.add(invDet);
+        new InvDetController(context).createOrUpdateBCInvDet(arrList);
+    }
+
     public ArrayList<ItemBundle> getFabricItems(String itemCode) {
         if (dB == null) {
             open();
@@ -205,7 +277,8 @@ public class BarcodeVarientController {
         try {
 
             //  String selectQuery = "SELECT *  FROM fItem WHERE ItemCode LIKE '%"+itemCode+"%'";
-            String selectQuery =  "SELECT * FROM BarCodeVarient WHERE  Barcode_No = '" + itemCode + "' and Item_No in (select itemcode from fitem where substr(GroupCode,1,2)=='FB')";
+            String selectQuery =  "SELECT * FROM BarCodeVarient WHERE  trim(Barcode_No) = '" + itemCode + "' and trim(Item_No) in (select trim(itemcode) from fitem where substr(trim(GroupCode),1,2)=='FB')";
+          //  String selectQuery =  "SELECT * FROM BarCodeVarient WHERE  Barcode_No = '3191200165' and Item_No in (select itemcode from fitem where substr(GroupCode,1,2)=='FB')";
 
 
             cursor = dB.rawQuery(selectQuery, null);
