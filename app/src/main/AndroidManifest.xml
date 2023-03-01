@@ -45,6 +45,7 @@
         <activity
             android:name="com.datamation.hmdsfa.view.ActivitySplash"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -110,7 +111,8 @@
         </service>
 
         <service
-            android:name="com.datamation.hmdsfa.Service.MyInstance">
+            android:name="com.datamation.hmdsfa.Service.MyInstance"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

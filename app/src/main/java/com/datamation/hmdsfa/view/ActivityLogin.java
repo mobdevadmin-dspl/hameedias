@@ -368,17 +368,20 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
                         JSONArray repArray = validateJSON.getJSONArray("fSalRepNewResult");
                         ArrayList<SalRep> UserList = new ArrayList<>();
-                        for (int i = 0; i < repArray.length(); i++) {
-                            JSONObject userJSON = repArray.getJSONObject(i);
-                            pref.storeLoginUser(SalRep.parseSalRep(userJSON));
-                            pref.setUserPw(password.trim());
-                            UserList.add(SalRep.parseSalRep(userJSON));
+                        if(repArray.length()>0) {
+                            for (int i = 0; i < repArray.length(); i++) {
+                                JSONObject userJSON = repArray.getJSONObject(i);
+                                pref.storeLoginUser(SalRep.parseSalRep(userJSON));
+                                pref.setUserPw(password.trim());
+                                UserList.add(SalRep.parseSalRep(userJSON));
+                            }
+
+                            salRepController.createOrUpdateSalRep(UserList);
+                            Log.d("CreateOrUpdateSalRep ->>", "success -> ");
+
+                        }else{
+                            pref.setUserPw("Error");
                         }
-
-                        salRepController.createOrUpdateSalRep(UserList);
-                        Log.d("CreateOrUpdateSalRep ->>", "success -> " );
-
-
 
                         runOnUiThread(new Runnable() {
                             @Override
@@ -415,35 +418,37 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             if (pdialog.isShowing())
                 pdialog.cancel();
 
-            if (result) {
                 if (result) {
-                    Log.d(">>>username", ">>>" + pref.getLoginUser().getRepCode().trim());
-                    if (pref.getLoginUser().getRepCode().trim().equalsIgnoreCase(username.trim())) {
-                        //when password is incorrect fpass array is empty
-                      //  Log.d(">>>Response ok1", pref.getUserId() + ">>>" + pref.getUserPwd());
+                    if(!pref.getUserPw().equals("Error")) {
+                        Log.d(">>>username", ">>>" + pref.getLoginUser().getRepCode().trim());
+                        if (pref.getLoginUser().getRepCode().trim().equalsIgnoreCase(username.trim())) {
+                            //when password is incorrect fpass array is empty
+                            //  Log.d(">>>Response ok1", pref.getUserId() + ">>>" + pref.getUserPwd());
 //                    if (pref.getUserId().trim().equals(username.trim()) && pref.getUserPwd().trim().equals(md5(password.trim()))) {
 //                        Log.d(">>>Response ok2",pref.getUserId()+">>>"+pref.getUserPwd());
 
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
 
-                       // if (pref.getGlobalVal("SyncDate").equalsIgnoreCase(dateFormat.format(new Date(timeInMillis))) || pref.getGlobalVal("FirstTimeSyncDate").equalsIgnoreCase(dateFormat.format(new Date(timeInMillis)))) {
+                            // if (pref.getGlobalVal("SyncDate").equalsIgnoreCase(dateFormat.format(new Date(timeInMillis))) || pref.getGlobalVal("FirstTimeSyncDate").equalsIgnoreCase(dateFormat.format(new Date(timeInMillis)))) {
                             pref.setLoginStatus(true);
                             Intent intent = new Intent(ActivityLogin.this, ActivityHome.class);
                             startActivity(intent);
                             finish();
-                      //  } else {
-                       //     new Authenticate(SharedPref.getInstance(ActivityLogin.this).getLoginUser().getRepCode(),SharedPref.getInstance(ActivityLogin.this).getLoginUser().getRepType()).execute();
-                       // }
+                            //  } else {
+                            //     new Authenticate(SharedPref.getInstance(ActivityLogin.this).getLoginUser().getRepCode(),SharedPref.getInstance(ActivityLogin.this).getLoginUser().getRepType()).execute();
+                            // }
 
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Invalid Credentials.....", Toast.LENGTH_SHORT).show();
+                            reCallActivity();
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "Invalid Credentials.....", Toast.LENGTH_SHORT).show();
                         reCallActivity();
                     }
-
                 } else {
                     Toast.makeText(getApplicationContext(), "Invalid response from server", Toast.LENGTH_LONG).show();
                     reCallActivity();
-                }
             }
         }
     }

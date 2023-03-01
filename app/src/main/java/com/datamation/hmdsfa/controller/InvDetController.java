@@ -172,6 +172,7 @@ public class InvDetController {
 
     }
     public int createOrUpdateBCInvDet(ArrayList<InvDet> list) {
+       // Log.d(">>>updateissue",">>>list.size()"+list.size());
 
         int count = 0;
 
@@ -190,7 +191,7 @@ public class InvDetController {
                 String selectQuery = "SELECT * FROM " + TABLE_FINVDET + " WHERE " + FINVDET_BARCODE
                         + " = '" + invDet.getFINVDET_BARCODE() + "' and "+ValueHolder.REFNO+" = '"+invDet.getFINVDET_REFNO()+"'";
                 cursor = dB.rawQuery(selectQuery, null);
-
+               // Log.d(">>>updateissue",">>>selectQuery"+selectQuery);
                 //  values.put(FINVDET_ID, invDet.getFINVDET_ID());
                 values.put(FINVDET_AMT, invDet.getFINVDET_AMT());
                 values.put(FINVDET_BAL_QTY, invDet.getFINVDET_BAL_QTY());
@@ -232,19 +233,21 @@ public class InvDetController {
                 if (cn > 0) {
                     //2022-12-27 commented due to manual adding items
                   //  String updateQuery = "UPDATE finvdet SET Qty= Qty+'" + invDet.getFINVDET_QTY() + "', amt= amt+'" + invDet.getFINVDET_AMT() + "' where RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
-                    String updateQuery = "UPDATE finvdet SET Qty= '" + invDet.getFINVDET_QTY() + "', amt= '" + invDet.getFINVDET_AMT() + "' where RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
+                    String updateQuery = "UPDATE finvdet SET Qty= Qty+'" + invDet.getFINVDET_QTY() + "', amt= amt+'" + invDet.getFINVDET_AMT() + "' where RefNo = '"+ invDet.getFINVDET_REFNO()+"' and BarCode = '"+invDet.getFINVDET_BARCODE()+"'";
                     dB.execSQL(updateQuery);
                     count = 1;
+                   //Log.d(">>>updateissue",">>>inupdate count"+count);
                   //  count = dB.update(TABLE_FINVDET, values, FINVDET_BARCODE + " = '"+invDet.getFINVDET_BARCODE()+"' and "+ ValueHolder.REFNO+ " = '"+invDet.getFINVDET_REFNO()+"'", new String[]{String.valueOf(invDet.getFINVDET_ID())});
 
                 } else {
                     count = (int) dB.insert(TABLE_FINVDET, null, values);
+                  //  Log.d(">>>updateissue",">>>in insert count"+count);
                 }
 
             }
 
         } catch (Exception e) {
-
+          //  Log.d(">>>updateissue",">>>e.toString()"+e.toString());
             Log.v(TAG + " Exception", e.toString());
 
         } finally {
